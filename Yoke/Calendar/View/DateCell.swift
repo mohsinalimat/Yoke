@@ -22,8 +22,8 @@ class DateCell: JTAppleCell {
     
     let selectedView: UIImageView = {
         let view = UIImageView()
-        view.backgroundColor = UIColor.mainColor()
-        view.layer.borderColor = UIColor.mainColor().cgColor
+        view.backgroundColor = UIColor.orangeColor()
+        view.layer.borderColor = UIColor.orangeColor()?.cgColor
         view.layer.borderWidth = 3
         view.layer.cornerRadius = 5
         return view
@@ -42,14 +42,14 @@ class DateCell: JTAppleCell {
     let eventView: UIView = {
         let view = UIView()
         view.layer.cornerRadius = 4
-        view.backgroundColor = UIColor.mainColor()
+        view.backgroundColor = UIColor.orangeColor()
         return view
     }()
     
     let todayView: UIImageView = {
         let view = UIImageView()
-        view.layer.borderColor = UIColor.secondaryColor().cgColor
-        view.backgroundColor = UIColor.secondaryColor()
+        view.layer.borderColor = UIColor.yellowColor()?.cgColor
+        view.backgroundColor = UIColor.yellowColor()
         view.layer.borderWidth = 3
         view.layer.cornerRadius = 2
         return view

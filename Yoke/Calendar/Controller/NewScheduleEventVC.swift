@@ -114,7 +114,7 @@ class NewScheduleEventVC: UIViewController {
         let button = UIButton(type: .custom)
         button.setTitle("Save", for: .normal)
         button.titleLabel?.font = UIFont.systemFont(ofSize: 18)
-        button.backgroundColor = UIColor.mainColor().withAlphaComponent(0.8)
+        button.backgroundColor = UIColor.orangeColor()?.withAlphaComponent(0.8)
         button.setTitleColor(UIColor.white, for: .normal)
         button.layer.cornerRadius = 2
         button.addTarget(self, action: #selector(handleSave), for: .touchUpInside)
@@ -124,7 +124,7 @@ class NewScheduleEventVC: UIViewController {
     let requiredLabel: UILabel = {
         let label = UILabel()
         label.text = "* required"
-        label.textColor = UIColor.mainColor()
+        label.textColor = UIColor.orangeColor()
         label.textAlignment = .center
         label.font = UIFont.boldSystemFont(ofSize: 13)
         return label
@@ -178,7 +178,7 @@ class NewScheduleEventVC: UIViewController {
         
         toolbar.barStyle = UIBarStyle.default
         toolbar.tintColor = UIColor.white
-        toolbar.barTintColor = UIColor.mainColor()
+        toolbar.barTintColor = UIColor.orangeColor()
         
         let todayButton = UIBarButtonItem(title: "Today", style: UIBarButtonItem.Style.plain, target: self, action: #selector(todayPressed(sender:)))
         
@@ -205,7 +205,7 @@ class NewScheduleEventVC: UIViewController {
         
         toolbar.barStyle = UIBarStyle.default
         toolbar.tintColor = UIColor.white
-        toolbar.barTintColor = UIColor.mainColor()
+        toolbar.barTintColor = UIColor.orangeColor()
         
         let timeButton = UIBarButtonItem(title: "Current", style: UIBarButtonItem.Style.plain, target: self, action: #selector(startPressed(sender:)))
         
@@ -231,7 +231,7 @@ class NewScheduleEventVC: UIViewController {
         
         toolbar.barStyle = UIBarStyle.default
         toolbar.tintColor = UIColor.white
-        toolbar.barTintColor = UIColor.mainColor()
+        toolbar.barTintColor = UIColor.orangeColor()
         
         let timeButton = UIBarButtonItem(title: "Current", style: UIBarButtonItem.Style.plain, target: self, action: #selector(endPressed(sender:)))
         

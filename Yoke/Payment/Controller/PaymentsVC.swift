@@ -55,7 +55,7 @@ class PaymentsVC: UICollectionViewController, UICollectionViewDelegateFlowLayout
     let segmentedControl: UISegmentedControl = {
         let seg = UISegmentedControl(items: ["Earnings", "Pay"])
         seg.selectedSegmentIndex = 0
-        seg.backgroundColor = UIColor.mainColor()
+        seg.backgroundColor = UIColor.orangeColor()
         seg.tintColor = UIColor.white
         seg.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor.white], for: UIControl.State.normal)
         seg.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor.white], for: UIControl.State.selected)

@@ -17,7 +17,7 @@ class StripeSignupVC: UIViewController {
     }
     
     func setupViews() {
-        view.backgroundColor = UIColor.mainColor().withAlphaComponent(0.3)
+        view.backgroundColor = UIColor.orangeColor()?.withAlphaComponent(0.3)
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Dismiss", style: .plain, target: self, action: #selector(handleDismiss))
         
         let blurEffect = UIBlurEffect(style: UIBlurEffect.Style.light)
@@ -68,7 +68,7 @@ class StripeSignupVC: UIViewController {
     let label: UILabel = {
         let label = UILabel()
         label.font = UIFont.systemFont(ofSize: 16)
-        label.textColor = UIColor.mainColor()
+        label.textColor = UIColor.orangeColor()
         label.backgroundColor = .white
         label.lineBreakMode = NSLineBreakMode.byWordWrapping
         label.numberOfLines = 0

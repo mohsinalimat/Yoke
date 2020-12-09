@@ -30,7 +30,7 @@ class PrivacyVC: UIViewController {
     
     let navView: UIView = {
         let view = UIView()
-        view.backgroundColor = UIColor.mainColor()
+        view.backgroundColor = UIColor.orangeColor()
         return view
     }()
     

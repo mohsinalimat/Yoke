@@ -43,7 +43,7 @@ class EventDetailVC: UICollectionViewController, UICollectionViewDelegateFlowLay
         collectionView?.register(EventDetailCell.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: cellId)
 //        fetchUser()
         self.navigationController?.navigationBar.isTranslucent = false
-        self.navigationController?.view.backgroundColor = UIColor.mainColor()
+        self.navigationController?.view.backgroundColor = UIColor.orangeColor()
         
         collectionView?.anchor(top: view.topAnchor, left: view.leftAnchor, bottom: view.bottomAnchor, right: view.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
     }

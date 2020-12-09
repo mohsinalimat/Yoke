@@ -63,7 +63,7 @@ class BookmarkedVC: UICollectionViewController, UICollectionViewDelegateFlowLayo
     let segmentedControl: UISegmentedControl = {
         let seg = UISegmentedControl(items: ["Users","Events"])
         seg.selectedSegmentIndex = 0
-        seg.backgroundColor = UIColor.mainColor()
+        seg.backgroundColor = UIColor.orangeColor()
         seg.tintColor = UIColor.white
         seg.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor.white], for: UIControl.State.normal)
         seg.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor.white], for: UIControl.State.selected)

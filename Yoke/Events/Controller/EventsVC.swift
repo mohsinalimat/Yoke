@@ -258,7 +258,7 @@ class EventsVC: UICollectionViewController, UICollectionViewDelegateFlowLayout, 
     var searchFilterButton: UIButton = {
         let button = UIButton()
         button.setImage(UIImage(named: "filter.png"), for: .normal)
-        button.backgroundColor = UIColor.mainColor()
+        button.backgroundColor = UIColor.orangeColor()
         button.frame = CGRect(x: 0, y: 0, width: 45, height: 45)
         button.addTarget(self, action: #selector(handleFilter), for: .touchUpInside)
         return button
@@ -286,7 +286,7 @@ class EventsVC: UICollectionViewController, UICollectionViewDelegateFlowLayout, 
         search.setTextFieldColor(color: UIColor.white)
         search.setPlaceholderTextColor(color: UIColor.lightGray)
         search.setSearchImageColor(color: UIColor.white)
-        search.setTextFieldClearButtonColor(color: UIColor.mainColor())
+//        search.setTextFieldClearButtonColor(color: UIColor.orangeColor()?
         search.delegate = self
         return search
     }()

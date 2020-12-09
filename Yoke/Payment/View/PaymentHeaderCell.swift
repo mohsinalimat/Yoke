@@ -24,7 +24,7 @@ class PaymentHeaderCell: UICollectionViewCell {
         button.backgroundColor = UIColor.white
         button.layer.cornerRadius = 5
         button.layer.borderWidth = 1
-        button.layer.borderColor = UIColor.mainColor().cgColor
+        button.layer.borderColor = UIColor.orangeColor()?.cgColor
         button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 14)
         button.contentHorizontalAlignment = .center
         button.addTarget(self, action: #selector(handleStripe), for: .touchUpInside)
@@ -43,7 +43,7 @@ class PaymentHeaderCell: UICollectionViewCell {
         button.backgroundColor = UIColor.white
         button.layer.cornerRadius = 5
         button.layer.borderWidth = 1
-        button.layer.borderColor = UIColor.mainColor().cgColor
+        button.layer.borderColor = UIColor.orangeColor()?.cgColor
         button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 14)
         button.contentHorizontalAlignment = .center
         button.addTarget(self, action: #selector(handleInvoice), for: .touchUpInside)

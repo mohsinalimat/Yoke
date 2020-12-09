@@ -78,7 +78,7 @@ class CreateInvoiceVC: UIViewController, UICollectionViewDataSource, UICollectio
     let requiredLabel: UILabel = {
         let label = UILabel()
         label.text = "* required"
-        label.textColor = UIColor.mainColor()
+        label.textColor = UIColor.orangeColor()
         label.textAlignment = .center
         label.font = UIFont.boldSystemFont(ofSize: 13)
         return label
@@ -168,7 +168,7 @@ class CreateInvoiceVC: UIViewController, UICollectionViewDataSource, UICollectio
         button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 17)
         button.setTitleColor(UIColor.white, for: .normal)
         button.layer.cornerRadius = 2
-        button.backgroundColor = UIColor.mainColor()
+        button.backgroundColor = UIColor.orangeColor()
         button.layer.cornerRadius = 5
         button.translatesAutoresizingMaskIntoConstraints = false
         button.addTarget(self, action: #selector(handlePhotoButton1), for: .touchUpInside)
@@ -182,7 +182,7 @@ class CreateInvoiceVC: UIViewController, UICollectionViewDataSource, UICollectio
             button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 17)
             button.setTitleColor(UIColor.white, for: .normal)
             button.layer.cornerRadius = 2
-            button.backgroundColor = UIColor.mainColor()
+            button.backgroundColor = UIColor.orangeColor()
             button.layer.cornerRadius = 5
             button.translatesAutoresizingMaskIntoConstraints = false
             button.addTarget(self, action: #selector(handlePhotoButton2), for: .touchUpInside)
@@ -204,7 +204,7 @@ class CreateInvoiceVC: UIViewController, UICollectionViewDataSource, UICollectio
         let button = UIButton(type: .custom)
         button.setTitle("Send Payment Request", for: .normal)
         button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 17)
-        button.backgroundColor = UIColor.mainColor().withAlphaComponent(0.8)
+        button.backgroundColor = UIColor.orangeColor()?.withAlphaComponent(0.8)
         button.setTitleColor(UIColor.white, for: .normal)
         button.layer.cornerRadius = 2
         button.addTarget(self, action: #selector(handleSend), for: .touchUpInside)
@@ -326,7 +326,7 @@ class CreateInvoiceVC: UIViewController, UICollectionViewDataSource, UICollectio
     var segmentedControl: UISegmentedControl = {
         let seg = UISegmentedControl(items: ["All Users","Saved Users"])
         seg.selectedSegmentIndex = 0
-        seg.backgroundColor = UIColor.mainColor()
+        seg.backgroundColor = UIColor.orangeColor()
         seg.tintColor = UIColor.white
         seg.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor.white], for: UIControl.State.normal)
         seg.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor.white], for: UIControl.State.selected)
@@ -561,7 +561,7 @@ class CreateInvoiceVC: UIViewController, UICollectionViewDataSource, UICollectio
         
         toolbar.barStyle = UIBarStyle.default
         toolbar.tintColor = UIColor.white
-        toolbar.barTintColor = UIColor.mainColor()
+        toolbar.barTintColor = UIColor.orangeColor()
         
         let todayButton = UIBarButtonItem(title: "Today", style: UIBarButtonItem.Style.plain, target: self, action: #selector(todayPressed(sender:)))
         
@@ -588,7 +588,7 @@ class CreateInvoiceVC: UIViewController, UICollectionViewDataSource, UICollectio
         
         toolbar.barStyle = UIBarStyle.default
         toolbar.tintColor = UIColor.white
-        toolbar.barTintColor = UIColor.mainColor()
+        toolbar.barTintColor = UIColor.orangeColor()
         
         let timeButton = UIBarButtonItem(title: "Current", style: UIBarButtonItem.Style.plain, target: self, action: #selector(startPressed(sender:)))
         
@@ -614,7 +614,7 @@ class CreateInvoiceVC: UIViewController, UICollectionViewDataSource, UICollectio
         
         toolbar.barStyle = UIBarStyle.default
         toolbar.tintColor = UIColor.white
-        toolbar.barTintColor = UIColor.mainColor()
+        toolbar.barTintColor = UIColor.orangeColor()
         
         let timeButton = UIBarButtonItem(title: "Current", style: UIBarButtonItem.Style.plain, target: self, action: #selector(endPressed(sender:)))
         
@@ -892,10 +892,10 @@ class CreateInvoiceVC: UIViewController, UICollectionViewDataSource, UICollectio
             
             if isFormValid {
                 sendInvoiceButton.isEnabled = true
-                sendInvoiceButton.backgroundColor = UIColor.mainColor()
+                sendInvoiceButton.backgroundColor = UIColor.orangeColor()
             } else {
                 sendInvoiceButton.isEnabled = false
-                sendInvoiceButton.backgroundColor = UIColor.mainColor().withAlphaComponent(0.8)
+                sendInvoiceButton.backgroundColor = UIColor.orangeColor()?.withAlphaComponent(0.8)
             }
         }
         

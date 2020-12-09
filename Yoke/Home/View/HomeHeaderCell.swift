@@ -213,7 +213,7 @@ class HomeHeaderCell: UICollectionViewCell {
 //        button.semanticContentAttribute = UIApplication.shared.userInterfaceLayoutDirection == .rightToLeft ? .forceLeftToRight : .forceRightToLeft
         button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 13)
         button.setTitleColor(UIColor.white, for: .normal)
-        button.backgroundColor = UIColor.mainColor()
+        button.backgroundColor = UIColor.orangeColor()
         button.layer.cornerRadius = 2
         button.addTarget(self, action: #selector(handleViewProfile), for: .touchUpInside)
         return button
@@ -235,7 +235,7 @@ class HomeHeaderCell: UICollectionViewCell {
     let galleryLabel: UILabel = {
         let label = UILabel()
         label.text = "GALLERY"
-        label.backgroundColor = UIColor.mainColor()
+        label.backgroundColor = UIColor.orangeColor()
         label.font = UIFont.boldSystemFont(ofSize: 20)
         label.textAlignment = .center
         label.textColor = UIColor.white

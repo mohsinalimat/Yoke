@@ -1,5 +1,5 @@
 //
-//  MainTabBarVC.swift
+//  MainTabBarController.swift
 //  FooD
 //
 //  Created by LAURA JELENICH on 2/26/19.
@@ -18,17 +18,16 @@ class MainTabBarController: UITabBarController, UITabBarControllerDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        print("mainTabBar")
         self.delegate = self
         tabBar.isTranslucent = false
-        
+        view.backgroundColor = UIColor.orangeColor()
         if Auth.auth().currentUser == nil {
             DispatchQueue.main.async {
                 let loginController = LoginVC()
                 let navController = UINavigationController(rootViewController: loginController)
-                self.present(navController, animated: true, completion: nil)
+                self.navigationController?.present(navController, animated: true)
             }
-            
+
             return
         }
         setupViewControllers()
@@ -42,7 +41,7 @@ class MainTabBarController: UITabBarController, UITabBarControllerDelegate {
             if count > 0 {
               self.tabBar.items![1].badgeValue = "\(Int(count))"
               self.tabBar.items![1].badgeColor = UIColor.white
-              self.tabBar.items![1].setBadgeTextAttributes([NSAttributedString.Key.foregroundColor: UIColor.mainColor(), NSAttributedString.Key.font: UIFont(name: "Helvetica-Bold", size: 10)!
+              self.tabBar.items![1].setBadgeTextAttributes([NSAttributedString.Key.foregroundColor: UIColor.orangeColor(), NSAttributedString.Key.font: UIFont(name: "Helvetica-Bold", size: 10)!
                 ], for: .normal)
             }
         })
@@ -50,7 +49,7 @@ class MainTabBarController: UITabBarController, UITabBarControllerDelegate {
     
     func setupViewControllers() {
         
-        let homeNavController = templateNavController(unselectedImage: #imageLiteral(resourceName: "home_unselected"), selectedImage: #imageLiteral(resourceName: "home_selected"), rootViewController: HomeVC())
+        let homeNavController = templateNavController(unselectedImage: #imageLiteral(resourceName: "home_unselected"), selectedImage: #imageLiteral(resourceName: "home_selected"), rootViewController: HomeVC(collectionViewLayout: UICollectionViewFlowLayout()))
         homeNavController.title = "Home"
         
         let messageNavController = templateNavController(unselectedImage: #imageLiteral(resourceName: "message_unselected"), selectedImage: #imageLiteral(resourceName: "message_selected"), rootViewController: MessageVC())
@@ -69,15 +68,6 @@ class MainTabBarController: UITabBarController, UITabBarControllerDelegate {
         tabBar.tintColor = .white
         
         self.viewControllers = [homeNavController, messageNavController, searchNavController, eventsNavController, paymentController]
-        //        let uid = FIRAuth.auth()?.currentUser?.uid
-        //        FIRDatabase.userIsChef(userKey: uid!) { (isChef) in
-        //            if isChef == true {
-        //                self.viewControllers = [homeNavController, messageNavController, searchNavController, gigsNavController, calendarNavController]
-        //            } else {
-        //                self.viewControllers = [homeNavController, messageNavController, searchNavController, eventsNavController]
-        //            }
-        //        }
-        
         guard let items = tabBar.items else { return }
         
         for item in items {

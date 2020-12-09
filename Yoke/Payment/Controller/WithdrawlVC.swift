@@ -32,7 +32,7 @@ class WithdrawlVC: UIViewController, WKNavigationDelegate  {
         activityIndicator.transform = CGAffineTransform(scaleX: 2, y: 2)
         activityIndicator.center = self.webView.center
         activityIndicator.hidesWhenStopped = true
-        activityIndicator.color = UIColor.mainColor()
+        activityIndicator.color = UIColor.orangeColor()
 
         webView.addSubview(activityIndicator)
         activityIndicator.anchor(top: view.topAnchor, left: view.leftAnchor, bottom: view.bottomAnchor, right: view.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)

@@ -153,7 +153,7 @@ class GalleryDetailVC: UICollectionViewController, UICollectionViewDelegateFlowL
     lazy var taggedButton: UIButton = {
         let button = UIButton()
         button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 15)
-        button.setTitleColor(UIColor.mainColor(), for: .normal)
+        button.setTitleColor(UIColor.orangeColor(), for: .normal)
         button.addTarget(self, action: #selector(handleGetBookmarkedUser), for: .touchUpInside)
         return button
     }()

@@ -374,7 +374,7 @@ class EventDetailCell: UICollectionViewCell {
         button.setImage(UIImage(named: "messageWhite"), for: .normal)
         button.setTitle(" Message", for: .normal)
         button.setTitleColor(UIColor.white, for: .normal)
-        button.backgroundColor = UIColor.mainColor()
+        button.backgroundColor = UIColor.orangeColor()
         button.titleLabel?.font = UIFont.systemFont(ofSize: 14)
         return button
     }()

@@ -27,7 +27,7 @@ class AddPhotoVC: UIViewController, UIImagePickerControllerDelegate, UINavigatio
         text.text = "Upload a high quality image for better results!"
         text.font = UIFont.systemFont(ofSize: 14)
         text.textAlignment = .center
-        text.textColor = UIColor.mainColor()
+        text.textColor = UIColor.orangeColor()
         text.backgroundColor = UIColor.white
         return text
     }()
@@ -46,7 +46,7 @@ class AddPhotoVC: UIViewController, UIImagePickerControllerDelegate, UINavigatio
         button.layer.cornerRadius = 2
         button.setTitle("Choose photo from Library", for: .normal)
         button.setTitleColor(UIColor.white, for: .normal)
-        button.backgroundColor = UIColor.mainColor()
+        button.backgroundColor = UIColor.orangeColor()
         button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 17)
         button.layer.cornerRadius = 2
         button.addTarget(self, action: #selector(handleChange), for: .touchUpInside)
@@ -55,7 +55,7 @@ class AddPhotoVC: UIViewController, UIImagePickerControllerDelegate, UINavigatio
     
     let navView: UIView = {
         let view = UIView()
-        view.backgroundColor = UIColor.mainColor()
+        view.backgroundColor = UIColor.orangeColor()
         return view
     }()
     

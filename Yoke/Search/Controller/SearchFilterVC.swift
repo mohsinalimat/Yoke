@@ -42,14 +42,13 @@ class SearchFilterVC: UIViewController, FloatRatingViewDelegate {
         ratingView.type = .wholeRatings
         
         setupViews()
-        setupCalendarViews()
         setupNavTitleAndBarButtonItems()
     }
     
     func setupNavTitleAndBarButtonItems() {
         navigationItem.title = "Filter"
         navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Save", style: .plain, target: self, action: #selector(handleSave))
-        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Dismiss", style: .plain, target: self, action: #selector(handleDismiss))
+//        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Dismiss", style: .plain, target: self, action: #selector(handleDismiss))
 //        self.navigationItem.rightBarButtonItem?.isEnabled = false
     }
     
@@ -188,7 +187,7 @@ class SearchFilterVC: UIViewController, FloatRatingViewDelegate {
         button.setImage(UIImage(named: "Delete"), for: .normal)
         button.frame = CGRect(x: 0, y: 0, width: 20, height: 20)
         button.contentHorizontalAlignment = UIControl.ContentHorizontalAlignment.left
-        button.addTarget(self, action: #selector(handleDismiss), for: .touchUpInside)
+//        button.addTarget(self, action: #selector(handleDismiss), for: .touchUpInside)
         return button
     }()
     
@@ -255,194 +254,15 @@ class SearchFilterVC: UIViewController, FloatRatingViewDelegate {
             }
             
             if professionalSwitch.isOn {
-                proChef = Constants.Professional
-                del.searchFilterController(self, didSaveSearch: ratingCount!, location: locationName!, cusine: cusineType!, date: filteredDate, chefType: proChef!)
+//                proChef = Constants.Professional
+//                del.searchFilterController(self, didSaveSearch: ratingCount!, location: locationName!, cusine: cusineType!, date: filteredDate, chefType: proChef!)
 //            } else if homeSwitch.isOn {
 //                homeChef = Constants.Home
 //                del.searchFilterController(self, didSaveSearch: ratingCount!, location: locationName!, cusine: cusineType!, date: filteredDate, chefType: homeChef!)
 //            } else {
 //                del.searchFilterController(self, didSaveSearch: ratingCount!, location: locationName!, cusine: cusineType!, date: filteredDate, chefType: "")
-//            }
-            
-        dismiss(animated: true, completion: nil)
-        }
-    }
-    
-    @objc func handleDismiss() {
-        dismiss(animated: true, completion: nil)
-    }
-    
-    let monthLabel: UILabel = {
-        let label = UILabel()
-        label.textColor = UIColor.black
-        label.textAlignment = .center
-        label.font = UIFont.boldSystemFont(ofSize: 20)
-        label.textAlignment = .left
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
-    }()
-    let yearLabel: UILabel = {
-        let label = UILabel()
-        label.textColor = UIColor.black
-        label.textAlignment = .center
-        label.font=UIFont.systemFont(ofSize: 20)
-        label.textAlignment = .left
-        label.translatesAutoresizingMaskIntoConstraints=false
-        return label
-    }()
-    
-    let weekdayView: WeekdaysView = {
-        let view = WeekdaysView()
-        view.translatesAutoresizingMaskIntoConstraints = false
-        return view
-    }()
-    
-    func setupCalendarViews() {
-        
-        guard let uid = Auth.auth().currentUser?.uid else {return}
-        Database.userIsChef(userKey: uid) { (isChef) in
-            if isChef == true {
-                return
-            } else {
-                self.view.addSubview(self.monthLabel)
-                self.monthLabel.anchor(top: self.dateLabel.bottomAnchor, left: self.view.leftAnchor, bottom: nil, right: nil, paddingTop: 15, paddingLeft: 15, paddingBottom: 0, paddingRight: 0, width: 0, height: 25)
-                
-                self.view.addSubview(self.yearLabel)
-                self.yearLabel.anchor(top: self.monthLabel.topAnchor, left: self.monthLabel.rightAnchor, bottom: nil, right: nil, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 25)
-                
-                self.view.addSubview(self.weekdayView)
-                self.weekdayView.anchor(top: self.monthLabel.bottomAnchor, left: self.view.leftAnchor, bottom: nil, right: self.view.rightAnchor, paddingTop: 10, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 25)
-                
-                self.calendarView.calendarDataSource = self
-                self.calendarView.calendarDelegate = self
-                self.calendarView.translatesAutoresizingMaskIntoConstraints = false
-                self.calendarView.scrollDirection = .horizontal
-                self.calendarView.allowsMultipleSelection = false
-                self.calendarView.allowsSelection = true
-                self.calendarView.scrollingMode = .stopAtEachCalendarFrame
-                
-                self.calendarView.backgroundColor = UIColor.white
-                
-                self.view.addSubview(self.calendarView)
-                self.calendarView.anchor(top: self.weekdayView.bottomAnchor, left: self.view.leftAnchor, bottom: nil, right: self.view.rightAnchor, paddingTop: 10, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 300)
-                
-                self.calendarView.minimumLineSpacing = -1
-                self.calendarView.minimumInteritemSpacing = -1
-                
-                
-                self.calendarView.scrollToDate(Date())
-                self.calendarView.register(DateCell.self, forCellWithReuseIdentifier: self.cellId)
-            }
-        }
-
-    }
-    
-    func setupViewsOfCalendar( from visibleDates: DateSegmentInfo) {
-        guard let startDate = visibleDates.monthDates.first?.date else {return}
-        self.formatter.dateFormat = "yyyy"
-        self.yearLabel.text = formatter.string(from: startDate)
-        
-        self.formatter.dateFormat = "MMMM"
-        self.monthLabel.text = formatter.string(from: startDate)
-    }
-    
-    func configureCell(view: JTAppleCell?, cellState: CellState) {
-        guard let myCustomCell = view as? DateCell else { return }
-        
-        myCustomCell.layer.borderWidth = 1
-        myCustomCell.layer.borderColor = UIColor.white.cgColor
-        
-        myCustomCell.dayLabel.text = cellState.text
-        
-        handleCellTextColor(view: myCustomCell, cellState: cellState)
-        handleCellSelection(view: myCustomCell, cellState: cellState)
-    }
-    
-    func handleCellSelection(view: DateCell, cellState: CellState) {
-        view.selectedView.isHidden = !cellState.isSelected
-    }
-    
-    func handleCellTextColor(view: JTAppleCell?, cellState: CellState) {
-        guard let myCustomCell = view as? DateCell  else {return}
-        
-        if cellState.isSelected {
-            myCustomCell.dayLabel.textColor = UIColor.white
-            myCustomCell.backgroundColor = UIColor.clear
-            //            myCustomCell.todayView.isHidden = true
-            myCustomCell.eventView.backgroundColor = UIColor.white
-        }
-        else {
-            myCustomCell.dayLabel.textColor = UIColor.black
-            myCustomCell.eventView.backgroundColor = UIColor.black
-        }
-        
-        if cellState.dateBelongsTo != .thisMonth {
-            myCustomCell.dayLabel.textColor = UIColor.lightGray
-        }
-        
-        if Calendar.current.isDateInToday(cellState.date) {
-            if cellState.isSelected {
-                myCustomCell.dayLabel.textColor = UIColor.white
-                myCustomCell.selectedView.isHidden = false
-            }
-            else {
-                myCustomCell.dayLabel.textColor = UIColor.mainColor()
-                myCustomCell.selectedView.isHidden = true
             }
         }
     }
-    
+
 }
-
-extension SearchFilterVC: JTAppleCalendarViewDataSource {
-    
-    func configureCalendar(_ calendar: JTAppleCalendarView) -> ConfigurationParameters {
-        
-        formatter.dateFormat = "yyyy MM dd"
-        formatter.timeZone = Calendar.current.timeZone
-        formatter.locale = Calendar.current.locale
-        
-        let startDate = formatter.date(from: "2018 01 01")!
-        let endDate = formatter.date(from: "2025 01 01")!
-        let parameters = ConfigurationParameters(startDate: startDate, endDate: endDate, numberOfRows: 6, calendar: testCalendar, generateInDates: .forAllMonths, generateOutDates: .tillEndOfGrid, firstDayOfWeek: .sunday)
-        return parameters
-    }
-    
-}
-
-extension SearchFilterVC: JTAppleCalendarViewDelegate {
-    
-    func calendar(_ calendar: JTAppleCalendarView, willDisplay cell: JTAppleCell, forItemAt date: Date, cellState: CellState, indexPath: IndexPath) {
-        let cell = cell as! DateCell
-        configureCell(view: cell, cellState: cellState)
-    }
-    
-    func calendar(_ calendar: JTAppleCalendarView, cellForItemAt date: Date, cellState: CellState, indexPath: IndexPath) -> JTAppleCell {
-        let cell = calendar.dequeueReusableJTAppleCell(withReuseIdentifier: cellId, for: indexPath) as! DateCell
-        cell.dayLabel.text = cellState.text
-        configureCell(view: cell, cellState: cellState)
-        return cell
-    }
-    
-    func calendar(_ calendar: JTAppleCalendarView, didScrollToDateSegmentWith visibleDates: DateSegmentInfo) {
-        setupViewsOfCalendar(from: visibleDates)
-        calendarView.reloadData()
-    }
-    
-    func calendar(_ calendar: JTAppleCalendarView, didSelectDate date: Date, cell: JTAppleCell?, cellState: CellState) {
-        selectedDate = date
-        getSelectedDate(date: date)
-        configureCell(view: cell, cellState: cellState)
-    }
-    
-    func calendar(_ calendar: JTAppleCalendarView, didDeselectDate date: Date, cell: JTAppleCell?, cellState: CellState) {
-        configureCell(view: cell, cellState: cellState)
-    }
-    
-}
-
-
-
-
-
-

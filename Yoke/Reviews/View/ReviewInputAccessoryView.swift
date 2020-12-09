@@ -46,7 +46,7 @@ class ReviewInputAccessoryView: UIView {
         super.init(frame: frame)
         autoresizingMask = .flexibleHeight
         
-        backgroundColor = UIColor.mainColor()
+        backgroundColor = UIColor.orangeColor()
         
         addSubview(submitButton)
         addSubview(reviewTextView)

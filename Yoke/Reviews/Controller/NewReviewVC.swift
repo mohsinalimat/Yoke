@@ -96,7 +96,7 @@ class NewReviewVC: UIViewController, FloatRatingViewDelegate {
         let button = UIButton(type: .custom)
         button.setTitle("Submit", for: .normal)
         button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 17)
-        button.backgroundColor = UIColor.mainColor()
+        button.backgroundColor = UIColor.orangeColor()
         button.setTitleColor(UIColor.white, for: .normal)
         button.layer.cornerRadius = 2
         button.addTarget(self, action: #selector(didSubmit), for: .touchUpInside)

@@ -29,7 +29,7 @@ class ScheduleCell: UICollectionViewCell {
     func getTime() {
         if self.schedule?.startTime == "" && self.schedule?.endTime == "" {
             self.startTimeLabel.text = "All Day"
-            self.startTimeLabel.textColor = UIColor.mainColor()
+            self.startTimeLabel.textColor = UIColor.orangeColor()
             self.startTimeLabel.textAlignment = .center
             self.endTimeLabel.isHidden = true
             self.slashLabel.isHidden = true
@@ -118,7 +118,7 @@ class ScheduleCell: UICollectionViewCell {
         let view = UIView()
         view.frame.size.height = 10
         view.frame.size.width = 10
-        view.backgroundColor = UIColor.mainColor()
+        view.backgroundColor = UIColor.orangeColor()
         view.layer.cornerRadius = 5
         return view
     }()

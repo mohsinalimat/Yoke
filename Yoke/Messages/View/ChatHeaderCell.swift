@@ -48,7 +48,7 @@ class ChatHeaderCell: UICollectionViewCell {
         let button = UIButton(type: .custom)
         button.setTitle("Details", for: .normal)
         button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 13)
-        button.setTitleColor(UIColor.mainColor(), for: .normal)
+        button.setTitleColor(UIColor.orangeColor(), for: .normal)
         button.addTarget(self, action: #selector(handleDetails), for: .touchUpInside)
         return button
     }()

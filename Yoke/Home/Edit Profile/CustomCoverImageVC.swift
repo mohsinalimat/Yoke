@@ -40,7 +40,7 @@ class CustomCoverImageVC: UIViewController, UIImagePickerControllerDelegate, UIN
         text.text = "Upload a high quality image for better results!"
         text.font = UIFont.systemFont(ofSize: 14)
         text.textAlignment = .center
-        text.textColor = UIColor.mainColor()
+        text.textColor = UIColor.orangeColor()
         text.backgroundColor = UIColor.white
         return text
     }()
@@ -58,7 +58,7 @@ class CustomCoverImageVC: UIViewController, UIImagePickerControllerDelegate, UIN
         button.layer.cornerRadius = 2
         button.setTitle("Choose photo from Library", for: .normal)
         button.setTitleColor(UIColor.white, for: .normal)
-        button.backgroundColor = UIColor.mainColor()
+        button.backgroundColor = UIColor.orangeColor()
         button.titleLabel?.font = UIFont.systemFont(ofSize: 14)
         button.addTarget(self, action: #selector(handleChange), for: .touchUpInside)
         return button
@@ -66,7 +66,7 @@ class CustomCoverImageVC: UIViewController, UIImagePickerControllerDelegate, UIN
     
     let navView: UIView = {
         let view = UIView()
-        view.backgroundColor = UIColor.mainColor()
+        view.backgroundColor = UIColor.orangeColor()
         return view
     }()
     

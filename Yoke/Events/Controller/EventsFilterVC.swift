@@ -54,7 +54,7 @@ class EventsFilterVC: UIViewController, FloatRatingViewDelegate {
     
     let navView: UIView = {
         let view = UIView()
-        view.backgroundColor = UIColor.mainColor()
+        view.backgroundColor = UIColor.orangeColor()
         return view
     }()
     
@@ -327,7 +327,7 @@ class EventsFilterVC: UIViewController, FloatRatingViewDelegate {
         
         myCustomCell.layer.borderWidth = 1
         myCustomCell.layer.borderColor = UIColor.white.cgColor
-        myCustomCell.backgroundColor = UIColor.mainColor()
+        myCustomCell.backgroundColor = UIColor.orangeColor()
         
         myCustomCell.dayLabel.text = cellState.text
         let cellHidden = cellState.dateBelongsTo != .thisMonth
@@ -362,7 +362,7 @@ class EventsFilterVC: UIViewController, FloatRatingViewDelegate {
                 myCustomCell.todayView.isHidden = true
             }
             else {
-                myCustomCell.dayLabel.textColor = UIColor.mainColor()
+                myCustomCell.dayLabel.textColor = UIColor.orangeColor()
                 myCustomCell.selectedView.isHidden = true
                 myCustomCell.todayView.isHidden = false
             }

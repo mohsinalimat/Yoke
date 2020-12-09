@@ -14,22 +14,22 @@ import IQKeyboardManagerSwift
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
-    var window: UIWindow?
+//    var window: UIWindow?
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-        
         FirebaseApp.configure()
+        Database.database().isPersistenceEnabled = true
         IQKeyboardManager.shared.enable = true
         STPPaymentConfiguration.shared().publishableKey = "pk_test_pX3V6XXnlsluthlhaKXHrW5U00WHz0znIt"
         
-        window = UIWindow()
-        window?.rootViewController = MainTabBarController()
-        
-        UINavigationBar.appearance().barTintColor = UIColor.mainColor()
+//        window = UIWindow()
+//        window?.rootViewController = MainTabBarController()
+
+        UINavigationBar.appearance().barTintColor = UIColor.orangeColor()
         UINavigationBar.appearance().tintColor = UIColor.white
         UINavigationBar.appearance().titleTextAttributes = [NSAttributedString.Key.foregroundColor:UIColor.white]
         UINavigationBar.appearance().isTranslucent = false
-        UITabBar.appearance().barTintColor = UIColor.mainColor()
+        UITabBar.appearance().barTintColor = UIColor.orangeColor()
         if #available(iOS 10.0, *) {
             UITabBar.appearance().unselectedItemTintColor = UIColor.white
         } else {

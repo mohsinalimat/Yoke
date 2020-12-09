@@ -52,7 +52,7 @@ class ChatVC: UICollectionViewController, UITextFieldDelegate, UICollectionViewD
     
     let navView: UIView = {
         let view = UIView()
-        view.backgroundColor = UIColor.mainColor()
+        view.backgroundColor = UIColor.orangeColor()
         return view
     }()
     
@@ -204,7 +204,7 @@ class ChatVC: UICollectionViewController, UITextFieldDelegate, UICollectionViewD
         }
         
         if message.fromId == Auth.auth().currentUser?.uid {
-            cell.bubbleView.backgroundColor = UIColor.mainColor()
+            cell.bubbleView.backgroundColor = UIColor.orangeColor()
             cell.textView.textColor = UIColor.white
             cell.bubbleViewRightAnchor?.isActive = true
             cell.bubbleViewLeftAnchor?.isActive = false
@@ -212,7 +212,7 @@ class ChatVC: UICollectionViewController, UITextFieldDelegate, UICollectionViewD
             cell.rightTimeLabel.isHidden = false
             cell.leftTimeLabel.isHidden = true
         } else {
-            cell.bubbleView.backgroundColor = UIColor.secondaryColor()
+            cell.bubbleView.backgroundColor = UIColor.yellowColor()
             cell.textView.textColor = UIColor.white
             cell.bubbleViewRightAnchor?.isActive = false
             cell.bubbleViewLeftAnchor?.isActive = true

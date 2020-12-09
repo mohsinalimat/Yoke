@@ -8,8 +8,9 @@
 
 import UIKit
 import Firebase
+import FirebaseDatabase
 
-class EditProfileVC: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UIPickerViewDelegate, UIPickerViewDataSource, UITextViewDelegate {
+class EditProfileVC: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextViewDelegate {
     
     var uid = Auth.auth().currentUser?.uid
     var pickerData = ["Manhattan, NY" , "Brooklyn, NY" , "The Bronx, NY" , "Queens, NY", "Staten Island, NY", "Jersey City, NJ", "Hoboken, NJ", "Harrison, NJ", "Newark, NJ"]
@@ -27,55 +28,15 @@ class EditProfileVC: UIViewController, UIImagePickerControllerDelegate, UINaviga
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        view.backgroundColor = UIColor.white
-        
+        view.backgroundColor = UIColor.green
         aboutTextView.delegate = self
-        
         let emailTap = UITapGestureRecognizer(target: self, action: #selector(self.changeEmailButton(_:)))
         emailTextLabel.addGestureRecognizer(emailTap)
-
         setupNavTitleAndBarButtonItems()
-        setupProfileImageButtons()
-        setupInputFieldsAndButtons()
         handleImageUpdates()
         getUserProfile()
-//        setupKeyboard()
     }
-    
-    func setupKeyboard() {
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
-        
-        let toolbar:UIToolbar = UIToolbar(frame: CGRect(x: 0, y: 0,  width: self.view.frame.size.width, height: 30))
-        let flexSpace = UIBarButtonItem(barButtonSystemItem:    .flexibleSpace, target: nil, action: nil)
-        let doneBtn: UIBarButtonItem = UIBarButtonItem(title: "Done", style: .done, target: self, action: #selector(doneButtonAction))
-        
-        toolbar.setItems([flexSpace, doneBtn], animated: false)
-        toolbar.sizeToFit()
-        
-        self.aboutTextView.inputAccessoryView = toolbar
-        self.usernameTextField.inputAccessoryView = toolbar
-    }
-    
-    @objc func doneButtonAction() {
-        self.view.endEditing(true)
-    }
-    
-    @objc func keyboardWillShow(notification: NSNotification) {
-        if let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
-            if self.view.frame.origin.y == 0 {
-                self.view.frame.origin.y -= keyboardSize.height
-            }
-        }
-    }
-    
-    @objc func keyboardWillHide(notification: NSNotification) {
-        if self.view.frame.origin.y != 0 {
-            self.view.frame.origin.y = 0
-        }
-    }
-    
+ 
     func handleImageUpdates() {
         NotificationCenter.default.addObserver(self, selector: #selector(handleUpdate), name: CustomCoverImageVC.updateNotificationName, object: nil)
     }
@@ -122,7 +83,6 @@ class EditProfileVC: UIViewController, UIImagePickerControllerDelegate, UINaviga
     }
     
     //MARK: Views
-    
     let changePhotoButton: UIButton = {
         let button = UIButton(type: .system)
         button.setTitle("EDIT +", for: .normal)
@@ -143,7 +103,7 @@ class EditProfileVC: UIViewController, UIImagePickerControllerDelegate, UINaviga
     
     let coverImageView: CustomImageView = {
         let image = CustomImageView()
-        image.backgroundColor = UIColor.mainColor()
+        image.backgroundColor = UIColor.orangeColor()
         image.clipsToBounds = true
         image.contentMode = .scaleAspectFill
         image.layer.opacity = 0.3
@@ -345,168 +305,8 @@ class EditProfileVC: UIViewController, UIImagePickerControllerDelegate, UINaviga
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
-    
-    fileprivate func setupProfileImageButtons() {
-        
-        view.addSubview(editBannerButton)
-        view.addSubview(coverImageView)
-        view.addSubview(profileImageView)
-        view.addSubview(changePhotoButton)
-        
-        editBannerButton.anchor(top: view.topAnchor, left: view.leftAnchor, bottom: nil, right: view.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 160)
-        
-        coverImageView.anchor(top: view.topAnchor, left: view.leftAnchor, bottom: nil, right: view.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 160)
-        
-        
-        profileImageView.anchor(top: view.topAnchor, left: nil, bottom: nil, right: nil, paddingTop: 95, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 100, height: 100)
-        //        profileImageView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        profileImageView.layer.cornerRadius = 50
-        
-        changePhotoButton.anchor(top: view.topAnchor, left: nil, bottom: nil, right: nil, paddingTop: 95, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 100, height: 100)
-        //        changePhotoButton.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        
-        view.addSubview(self.scrollView)
-        self.scrollView.contentSize = CGSize(width: view.frame.width, height: 750)
-        
-        self.scrollView.anchor(top: changePhotoButton.bottomAnchor, left: view.leftAnchor, bottom: view.bottomAnchor, right: view.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
-    }
-    
-    fileprivate func setupInputFieldsAndButtons() {
-        
-        let changeEmailView = UIStackView(arrangedSubviews: [emailLabel, emailTextLabel])
-        changeEmailView.distribution = .fill
-        changeEmailView.axis = .horizontal
-        changeEmailView.spacing = 0
-        self.scrollView.addSubview(changeEmailView)
-        changeEmailView.anchor(top: self.scrollView.topAnchor, left: view.leftAnchor, bottom: nil, right: view.rightAnchor, paddingTop: 20, paddingLeft: 25, paddingBottom: 20, paddingRight: 25, width: 0, height: 40)
-        changeEmailView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        
-        let changePasswordView = UIStackView(arrangedSubviews: [passwordLabel, changePasswordButton])
-        changePasswordView.distribution = .fill
-        changePasswordView.axis = .horizontal
-        changePasswordView.spacing = 0
-        self.scrollView.addSubview(changePasswordView)
-        changePasswordView.anchor(top: changeEmailView.bottomAnchor, left: view.leftAnchor, bottom: nil, right: view.rightAnchor, paddingTop: 20, paddingLeft: 25, paddingBottom: 20, paddingRight: 25, width: 0, height: 40)
-        changePasswordView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        
-        let usernameView = UIStackView(arrangedSubviews: [usernameLabel, usernameTextField])
-        usernameView.distribution = .fill
-        usernameView.axis = .horizontal
-        usernameView.spacing = 0
-        self.scrollView.addSubview(usernameView)
-        usernameView.anchor(top: changePasswordView.bottomAnchor, left: view.leftAnchor, bottom: nil, right: view.rightAnchor, paddingTop: 20, paddingLeft: 25, paddingBottom: 20, paddingRight: 25, width: 0, height: 50)
-        usernameView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        
-        let locationView = UIStackView(arrangedSubviews: [locationLabel, locationTextLabel])
-        locationView.distribution = .fill
-        locationView.axis = .horizontal
-        locationView.spacing = 0
-        self.scrollView.addSubview(locationView)
-        locationView.anchor(top: usernameView.bottomAnchor, left: view.leftAnchor, bottom: nil, right: view.rightAnchor, paddingTop: 20, paddingLeft: 25, paddingBottom: 20, paddingRight: 25, width: 0, height: 40)
-        locationView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
 
-        let cusineView = UIStackView(arrangedSubviews: [chefLabel, searchTypeButton])
-        cusineView.distribution = .fill
-        cusineView.axis = .horizontal
-        cusineView.spacing = 0
-       self.scrollView.addSubview(cusineView)
-        cusineView.anchor(top: locationView.bottomAnchor, left: view.leftAnchor, bottom: nil, right: view.rightAnchor, paddingTop: 20, paddingLeft: 25, paddingBottom: 20, paddingRight: 25, width: 0, height: 40)
-        cusineView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-
-//        let aboutView = UIStackView(arrangedSubviews: [aboutLabel, aboutTextView])
-//        aboutView.distribution = .fill
-//        aboutView.axis = .vertical
-//        aboutView.spacing = 0
-        self.scrollView.addSubview(aboutLabel)
-        aboutLabel.anchor(top: cusineView.bottomAnchor, left: view.leftAnchor, bottom: nil, right: view.rightAnchor, paddingTop: 20, paddingLeft: 25, paddingBottom: 20, paddingRight: 25, width: 0, height: 40)
-//        aboutLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        
-        self.scrollView.addSubview(aboutTextView)
-        aboutTextView.anchor(top: aboutLabel.bottomAnchor, left: view.leftAnchor, bottom: nil, right: view.rightAnchor, paddingTop: 0, paddingLeft: 20, paddingBottom: 20, paddingRight: 25, width: 0, height: 100)
-
-        self.scrollView.addSubview(countLabel)
-        countLabel.anchor(top: aboutTextView.bottomAnchor, left: nil, bottom: nil, right: aboutTextView.rightAnchor, paddingTop: 5, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
-
-        let privacyView = UIStackView(arrangedSubviews: [privacyLabel, privacyButton])
-        privacyView.distribution = .fill
-        privacyView.axis = .horizontal
-        privacyView.spacing = 0
-        self.scrollView.addSubview(privacyView)
-        privacyView.anchor(top: countLabel.bottomAnchor, left: view.leftAnchor, bottom: nil, right: view.rightAnchor, paddingTop: 20, paddingLeft: 25, paddingBottom: 20, paddingRight: 25, width: 0, height: 40)
-        privacyView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-
-        let helpView = UIStackView(arrangedSubviews: [helpLabel, helpButton])
-        helpView.distribution = .fill
-        helpView.axis = .horizontal
-        helpView.spacing = 0
-        self.scrollView.addSubview(helpView)
-        helpView.anchor(top: privacyView.bottomAnchor, left: view.leftAnchor, bottom: nil, right: view.rightAnchor, paddingTop: 20, paddingLeft: 25, paddingBottom: 20, paddingRight: 25, width: 0, height: 40)
-        helpView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        
-        self.scrollView.addSubview(logoutButton)
-        logoutButton.anchor(top: helpView.bottomAnchor, left: view.leftAnchor, bottom: nil, right: view.rightAnchor, paddingTop: 25, paddingLeft: 25, paddingBottom: 0, paddingRight: 25, width: 0, height: 50)
-
-        self.scrollView.addSubview(deleteProfileButton)
-        deleteProfileButton.anchor(top: logoutButton.bottomAnchor, left: view.leftAnchor, bottom: nil, right: view.rightAnchor, paddingTop: 25, paddingLeft: 25, paddingBottom: 0, paddingRight: 25, width: 0, height: 50)
-        
-        setupPickerView()
-        
-    }
-    
-    // picker view and setup
-    func setupPickerView(){
-        self.locationPicker.delegate = self
-        self.locationPicker.dataSource = self
-        locationTextLabel.inputView = self.locationPicker
-        
-        // ToolBar
-        let toolBar = UIToolbar(frame: CGRect(x: 0, y: 0, width: self.view.frame.size.width, height: 40))
-        toolBar.barStyle = .default
-        toolBar.isTranslucent = true
-        toolBar.tintColor = UIColor.white
-        toolBar.barTintColor = UIColor.mainColor()
-        toolBar.sizeToFit()
-        
-
-        let label = UILabel(frame: CGRect(x: 0, y: 0, width: self.view.frame.size.width/3, height: 40))
-        label.font = UIFont.systemFont(ofSize: 17)
-        label.textColor = UIColor.white
-        label.textAlignment = NSTextAlignment.center
-        label.text = "Select your location"
-        let labelButton = UIBarButtonItem(customView: label)
-        
-        locationPicker.setValue(UIColor.darkGray, forKeyPath: "textColor")
-        
-        let doneButton = UIBarButtonItem(title: "Done", style: .plain, target: self, action: #selector(EditProfileVC.doneClick))
-        let spaceButton = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
-        let cancelButton = UIBarButtonItem(title: "Cancel", style: .plain, target: self, action: #selector(EditProfileVC.cancelClick))
-        toolBar.setItems([cancelButton, spaceButton, labelButton, spaceButton, doneButton], animated: false)
-        toolBar.isUserInteractionEnabled = true
-        locationTextLabel.inputAccessoryView = toolBar
-        
-    }
-    
-    func numberOfComponents(in pickerView: UIPickerView) -> Int {
-        return 1
-    }
-    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        return pickerData.count
-    }
-    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-        return pickerData[row]
-    }
-    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-        self.locationTextLabel.text = pickerData[row]
-    }
-
-    @objc func doneClick() {
-        locationTextLabel.resignFirstResponder()
-    }
-    @objc func cancelClick() {
-        locationTextLabel.resignFirstResponder()
-    }
-    
-    //MARK: Functions
+    //MARK: - Helper Functions
     
     func textViewDidChange(_ textView: UITextView) {
         countLabel.text = "\(200 - aboutTextView.text.count) characters left"
@@ -550,8 +350,6 @@ class EditProfileVC: UIViewController, UIImagePickerControllerDelegate, UINaviga
         imagePickerController.allowsEditing = true
         
         present(imagePickerController, animated: true, completion: nil)
-//        let changeProfilePhoto = ChangeProfileImageVC(collectionViewLayout: UICollectionViewFlowLayout())
-//        navigationController?.pushViewController(changeProfilePhoto, animated: true)
     }
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
@@ -580,11 +378,6 @@ class EditProfileVC: UIViewController, UIImagePickerControllerDelegate, UINaviga
         let changePassword = ChangePasswordVC()
         navigationController?.pushViewController(changePassword, animated: true)
     }
-    
-//    @objc func handleAbout() {
-//        let about = ChangeAboutVC()
-//        navigationController?.pushViewController(about, animated: true)
-//    }
     
     @objc func handleTextInputChange() {
         let isFormValid = usernameTextField.text?.count ?? 0 > 0
@@ -647,7 +440,7 @@ class EditProfileVC: UIViewController, UIImagePickerControllerDelegate, UINaviga
         let button = UIButton(type: .system)
         button.setTitle("Logout", for: .normal)
         //        button.backgroundColor = UIColor.rgb(red: 149, green: 204, blue: 244)
-        button.backgroundColor = UIColor.mainColor()
+        button.backgroundColor = UIColor.orangeColor()
         button.layer.cornerRadius = 5
         button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 14)
         button.setTitleColor(.white, for: .normal)

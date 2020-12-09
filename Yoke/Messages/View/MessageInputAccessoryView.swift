@@ -57,7 +57,7 @@ class MessageInputAccessoryView: UIView {
         
         autoresizingMask = .flexibleHeight
         
-        backgroundColor = UIColor.mainColor()
+        backgroundColor = UIColor.orangeColor()
         
         addSubview(messageTextView)
         addSubview(submitButton)

@@ -1,5 +1,5 @@
 //
-//  Extentions.swift
+//  CustomViews.swift
 //  FooD
 //
 //  Created by LAURA JELENICH on 2/26/19.
@@ -11,30 +11,21 @@ import Firebase
 
 extension UIColor {
     
+    static func yellowColor() -> UIColor? {
+       return UIColor(named: "PrimaryYellow")
+    }
+    
+    static func orangeColor() -> UIColor? {
+       return UIColor(named: "PrimaryOrange")
+    }
+    
     static func rgb(red: CGFloat, green: CGFloat, blue: CGFloat) -> UIColor {
         return UIColor(red: red/255, green: green/255, blue: blue/255, alpha: 1)
     }
-    
-    static func mainColor() -> UIColor {
-        return UIColor.rgb(red: 255, green: 91, blue: 57 )
-    }
-    
-    static func secondaryColor() -> UIColor {
-        UIColor.rgb(red: 251, green: 213, blue: 14)
-//        return UIColor.rgb(red: 255, green: 142, blue: 0)
-    }
-    
-//    static func mainColor() -> UIColor {
-//        return UIColor.rgb(red: 94, green: 174, blue: 151)
-//    }
-//
-//    static func secondaryColor() -> UIColor {
-//        return UIColor.rgb(red: 232, green: 108, blue: 106)
-//    }
 }
 
 extension UIView {
-    func anchor(top: NSLayoutYAxisAnchor?, left: NSLayoutXAxisAnchor?, bottom: NSLayoutYAxisAnchor?, right: NSLayoutXAxisAnchor?,  paddingTop: CGFloat, paddingLeft: CGFloat, paddingBottom: CGFloat, paddingRight: CGFloat, width: CGFloat, height: CGFloat) {
+    func anchor(top: NSLayoutYAxisAnchor?, left: NSLayoutXAxisAnchor?, bottom: NSLayoutYAxisAnchor?, right: NSLayoutXAxisAnchor?,  paddingTop: CGFloat, paddingLeft: CGFloat, paddingBottom: CGFloat, paddingRight: CGFloat, width: CGFloat? = nil, height: CGFloat? = nil) {
         
         translatesAutoresizingMaskIntoConstraints = false
         
@@ -54,12 +45,12 @@ extension UIView {
             rightAnchor.constraint(equalTo: right, constant: -paddingRight).isActive = true
         }
         
-        if width != 0 {
-            widthAnchor.constraint(equalToConstant: width).isActive = true
+        if let width = width {
+            self.widthAnchor.constraint(equalToConstant: width).isActive = true
         }
         
-        if height != 0 {
-            heightAnchor.constraint(equalToConstant: height).isActive = true
+        if let height = height {
+            self.heightAnchor.constraint(equalToConstant: height).isActive = true
         }
         
     }

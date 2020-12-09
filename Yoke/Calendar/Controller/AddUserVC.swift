@@ -47,7 +47,7 @@ class AddUserVC: UICollectionViewController, UICollectionViewDelegateFlowLayout,
     let segmentedControl: UISegmentedControl = {
         let seg = UISegmentedControl(items: ["All Users","Saved Users"])
         seg.selectedSegmentIndex = 0
-        seg.backgroundColor = UIColor.mainColor()
+        seg.backgroundColor = UIColor.orangeColor()
         seg.tintColor = UIColor.white
         seg.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor.white], for: UIControl.State.normal)
         seg.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor.white], for: UIControl.State.selected)
@@ -204,7 +204,7 @@ class AddUserVC: UICollectionViewController, UICollectionViewDelegateFlowLayout,
     lazy var searchBar: UISearchBar = {
         let search = UISearchBar()
         search.placeholder = "Search by name"
-        search.backgroundColor = UIColor.mainColor()
+        search.backgroundColor = UIColor.orangeColor()
         search.barTintColor = UIColor.black
         search.searchBarStyle = .minimal
         search.setTextColor(color: UIColor.black)

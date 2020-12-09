@@ -8,6 +8,7 @@
 
 import UIKit
 import Firebase
+import FirebaseDatabase
 
 class HomeVC: UICollectionViewController, UICollectionViewDelegateFlowLayout, HomeProfileHeaderDelegate {
 
@@ -30,7 +31,6 @@ class HomeVC: UICollectionViewController, UICollectionViewDelegateFlowLayout, Ho
     
     fileprivate func fetchUserPhotos() {
         let uid = userId ?? (Auth.auth().currentUser?.uid ?? "")
-        
         Database.fetchUserWithUID(uid: uid) { (user) in
             self.user = user
             self.fetchGallery()
@@ -85,8 +85,21 @@ class HomeVC: UICollectionViewController, UICollectionViewDelegateFlowLayout, Ho
         imageView.image = icon
         navigationItem.rightBarButtonItem = UIBarButtonItem(image: icon, style: .plain, target: self, action: #selector(handleSettings))
 //        navigationItem.rightBarButtonItem = UIBarButtonItem(image: icon?.withRenderingMode(.alwaysOriginal), style: .plain, target: self, action: #selector(handleSettings))
-//        navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Logout", style: .plain, target: self, action: #selector(handleLogOut))
+        navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Logout", style: .plain, target: self, action: #selector(handleLogOut))
         
+    }
+    
+    @objc func handleLogOut() {
+        do {
+            try Auth.auth().signOut()
+            UIView.animate(withDuration: 0.5) { [weak self] in
+                let loginVC = LoginVC()
+                self?.view.window?.rootViewController = loginVC
+                self?.view.window?.makeKeyAndVisible()
+            }
+        } catch let signOutErr {
+            print("Failed to sign out:", signOutErr)
+        }
     }
     
     @objc func handleUpdates() {

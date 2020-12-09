@@ -50,7 +50,7 @@ class CommentInputAccessoryView: UIView {
         super.init(frame: frame)
         autoresizingMask = .flexibleHeight
         
-        backgroundColor = UIColor.mainColor()
+        backgroundColor = UIColor.orangeColor()
         
         addSubview(submitButton)
         addSubview(commentTextView)

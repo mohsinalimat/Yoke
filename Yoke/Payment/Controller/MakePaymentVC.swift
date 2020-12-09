@@ -52,7 +52,7 @@ class MakePaymentVC: UIViewController, STPPaymentContextDelegate {
         activityIndicator.transform = CGAffineTransform(scaleX: 2, y: 2)
         activityIndicator.center = self.view.center
         activityIndicator.hidesWhenStopped = true
-        activityIndicator.color = UIColor.mainColor()
+        activityIndicator.color = UIColor.orangeColor()
 
         view.addSubview(activityIndicator)
         activityIndicator.anchor(top: view.topAnchor, left: view.leftAnchor, bottom: view.bottomAnchor, right: view.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
@@ -255,7 +255,7 @@ class MakePaymentVC: UIViewController, STPPaymentContextDelegate {
     var paymentMethodButton: UIButton = {
         let button = UIButton(type: .custom)
         button.setTitle("Choose Payment Method", for: .normal)
-        button.setTitleColor(UIColor.secondaryColor(), for: .normal)
+        button.setTitleColor(UIColor.yellowColor(), for: .normal)
         button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 16)
         button.addTarget(self, action: #selector(handlePaymentMethod), for: .touchUpInside)
         return button
@@ -266,7 +266,7 @@ class MakePaymentVC: UIViewController, STPPaymentContextDelegate {
         let button = UIButton(type: .custom)
         button.setTitle("Choose Payment", for: .normal)
         button.setTitleColor(.white, for: .normal)
-        button.backgroundColor = UIColor.secondaryColor().withAlphaComponent(0.5)
+        button.backgroundColor = UIColor.yellowColor()?.withAlphaComponent(0.5)
         button.layer.cornerRadius = 2
         button.addTarget(self, action: #selector(handleMakePayment), for: .touchUpInside)
         return button
@@ -363,9 +363,9 @@ class MakePaymentVC: UIViewController, STPPaymentContextDelegate {
     func paymentContextDidChange(_ paymentContext: STPPaymentContext) {
         if let paymentMethod = paymentContext.selectedPaymentOption {
             paymentMethodButton.setTitle(paymentMethod.label, for: .normal)
-            paymentMethodButton.setTitleColor(UIColor.mainColor(), for: .normal)
+            paymentMethodButton.setTitleColor(UIColor.orangeColor(), for: .normal)
             payButton.setTitle("Pay \(self.total.penniesToFormattedCurrency())", for: .normal)
-            payButton.backgroundColor = UIColor.secondaryColor().withAlphaComponent(1.0)
+            payButton.backgroundColor = UIColor.yellowColor()?.withAlphaComponent(1.0)
         } else {
 //            paymentMethodButton.setTitle("Select Method test", for: .normal)
         }

@@ -109,7 +109,7 @@ class EditEventCell: UICollectionViewCell {
         let button = UIButton(type: .system)
         button.setTitle("Edit", for: .normal)
         button.setTitleColor(UIColor.white, for: .normal)
-        button.backgroundColor = UIColor.mainColor()
+        button.backgroundColor = UIColor.orangeColor()
         button.layer.cornerRadius = 2
         return button
     }()

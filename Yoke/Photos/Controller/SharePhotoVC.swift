@@ -168,7 +168,7 @@ class SharePhotoVC: UIViewController, UITextViewDelegate, UICollectionViewDataSo
         let button = UIButton()
         button.setTitle("X", for: .normal)
         button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 20)
-        button.backgroundColor = UIColor.mainColor()
+        button.backgroundColor = UIColor.orangeColor()
         button.setTitleColor(UIColor.white, for: .normal)
         button.addTarget(self, action: #selector(handleDismiss), for: .touchUpInside)
         button.isHidden = true
@@ -183,7 +183,7 @@ class SharePhotoVC: UIViewController, UITextViewDelegate, UICollectionViewDataSo
     let segmentedControl: UISegmentedControl = {
         let seg = UISegmentedControl(items: ["All Users","Saved Users"])
         seg.selectedSegmentIndex = 0
-        seg.backgroundColor = UIColor.mainColor()
+        seg.backgroundColor = UIColor.orangeColor()
         seg.tintColor = UIColor.white
         seg.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor.white], for: UIControl.State.normal)
         seg.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor.white], for: UIControl.State.selected)

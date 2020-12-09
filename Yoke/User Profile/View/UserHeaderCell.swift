@@ -422,7 +422,7 @@ class UserHeaderCell: UICollectionViewCell {
     let galleryLabel: UILabel = {
         let label = UILabel()
         label.text = "GALLERY"
-        label.backgroundColor = UIColor.mainColor()
+        label.backgroundColor = UIColor.orangeColor()
         label.font = UIFont.systemFont(ofSize: 20)
         label.textAlignment = .center
         label.textColor = UIColor.white

@@ -66,7 +66,7 @@ class SignupVC: UIViewController, UIImagePickerControllerDelegate, UINavigationC
 //        let image: UIImage = UIGraphicsGetImageFromCurrentImageContext()!
 //        UIGraphicsEndImageContext()
 //        self.view.backgroundColor = UIColor(patternImage: image)
-        self.view.backgroundColor = UIColor.mainColor()
+        self.view.backgroundColor = UIColor.orangeColor()
     }
 
     let plusPhotoButton: UIButton = {
@@ -134,10 +134,10 @@ class SignupVC: UIViewController, UIImagePickerControllerDelegate, UINavigationC
         
         if isFormValid {
             signUpButton.isEnabled = true
-            signUpButton.backgroundColor = UIColor.secondaryColor()
+            signUpButton.backgroundColor = UIColor.yellowColor()
         } else {
             signUpButton.isEnabled = false
-            signUpButton.backgroundColor = UIColor.secondaryColor().withAlphaComponent(0.8)
+            signUpButton.backgroundColor = UIColor.yellowColor()?.withAlphaComponent(0.8)
         }
         
         if passwordTextField.text == confirmPasswordTextField.text {
@@ -162,7 +162,7 @@ class SignupVC: UIViewController, UIImagePickerControllerDelegate, UINavigationC
     let usernameTextField: UITextField = {
         let textField = UITextField()
         let placeholderText = NSAttributedString(string: "Name",
-        attributes: [NSAttributedString.Key.foregroundColor: UIColor.mainColor()])
+        attributes: [NSAttributedString.Key.foregroundColor: UIColor.orangeColor()])
         textField.attributedPlaceholder = placeholderText
         textField.backgroundColor = UIColor.white
         textField.borderStyle = .roundedRect
@@ -175,7 +175,7 @@ class SignupVC: UIViewController, UIImagePickerControllerDelegate, UINavigationC
     let emailTextField: UITextField = {
         let textField = UITextField()
         let placeholderText = NSAttributedString(string: "Email",
-        attributes: [NSAttributedString.Key.foregroundColor: UIColor.mainColor()])
+        attributes: [NSAttributedString.Key.foregroundColor: UIColor.orangeColor()])
         textField.attributedPlaceholder = placeholderText
         textField.backgroundColor = UIColor.white
         textField.borderStyle = .roundedRect
@@ -189,7 +189,7 @@ class SignupVC: UIViewController, UIImagePickerControllerDelegate, UINavigationC
     let passwordTextField: UITextField = {
         let textField = UITextField()
         let placeholderText = NSAttributedString(string: "Password",
-        attributes: [NSAttributedString.Key.foregroundColor: UIColor.mainColor()])
+        attributes: [NSAttributedString.Key.foregroundColor: UIColor.orangeColor()])
         textField.attributedPlaceholder = placeholderText
         textField.isSecureTextEntry = true
         textField.backgroundColor = UIColor.white
@@ -203,7 +203,7 @@ class SignupVC: UIViewController, UIImagePickerControllerDelegate, UINavigationC
     let confirmPasswordTextField: UITextField = {
         let textField = UITextField()
         let placeholderText = NSAttributedString(string: "Confirm Password",
-        attributes: [NSAttributedString.Key.foregroundColor: UIColor.mainColor()])
+        attributes: [NSAttributedString.Key.foregroundColor: UIColor.orangeColor()])
         textField.attributedPlaceholder = placeholderText
         textField.isSecureTextEntry = true
         textField.backgroundColor = UIColor.white
@@ -277,7 +277,7 @@ class SignupVC: UIViewController, UIImagePickerControllerDelegate, UINavigationC
     let signUpButton: UIButton = {
         let button = UIButton(type: .system)
         button.setTitle("Sign Up", for: .normal)
-        button.backgroundColor = UIColor.secondaryColor().withAlphaComponent(0.8)
+        button.backgroundColor = UIColor.yellowColor()?.withAlphaComponent(0.8)
         button.layer.cornerRadius = 5
         button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 16)
         button.setTitleColor(.white, for: .normal)
@@ -375,8 +375,11 @@ class SignupVC: UIViewController, UIImagePickerControllerDelegate, UINavigationC
     }()
         
     @objc func handleAlreadyHaveAccount() {
-        let loginVC = LoginVC()
-        navigationController?.pushViewController(loginVC, animated: true)
+        UIView.animate(withDuration: 1) { [weak self] in
+            let loginVC = LoginVC()
+            self?.view.window?.rootViewController = loginVC
+            self?.view.window?.makeKeyAndVisible()
+        }
     }
     
     var spinner = UIActivityIndicatorView(style: .whiteLarge)

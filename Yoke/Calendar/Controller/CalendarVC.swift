@@ -60,8 +60,8 @@ class CalendarVC: UIViewController, UICollectionViewDataSource, UICollectionView
         schedules.removeAll()
         scheduleView?.reloadData()
         calendarView.reloadData()
-        self.todayButton.backgroundColor = UIColor.mainColor()
-        self.allButton.backgroundColor = UIColor.secondaryColor()
+        self.todayButton.backgroundColor = UIColor.orangeColor()
+        self.allButton.backgroundColor = UIColor.yellowColor()
 //        self.upcommingButton.backgroundColor = UIColor.mainColor()
     }
     
@@ -70,8 +70,8 @@ class CalendarVC: UIViewController, UICollectionViewDataSource, UICollectionView
         schedules.removeAll()
         scheduleView?.reloadData()
         calendarView.reloadData()
-        self.todayButton.backgroundColor = UIColor.mainColor()
-        self.allButton.backgroundColor = UIColor.mainColor()
+        self.todayButton.backgroundColor = UIColor.orangeColor()
+        self.allButton.backgroundColor = UIColor.orangeColor()
 //        self.upcommingButton.backgroundColor = UIColor.secondaryColor()
     }
 
@@ -86,8 +86,8 @@ class CalendarVC: UIViewController, UICollectionViewDataSource, UICollectionView
                 self.setupViewsOfCalendar(from: visibleDates)
             }
             
-            self.todayButton.backgroundColor = UIColor.secondaryColor()
-            self.allButton.backgroundColor = UIColor.mainColor()
+            self.todayButton.backgroundColor = UIColor.yellowColor()
+            self.allButton.backgroundColor = UIColor.orangeColor()
 //            self.upcommingButton.backgroundColor = UIColor.mainColor()
             
             
@@ -115,8 +115,8 @@ class CalendarVC: UIViewController, UICollectionViewDataSource, UICollectionView
         button.setTitle("Please select date to set Availability", for: .normal)
         button.backgroundColor = UIColor.white
         button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 14)
-        button.setTitleColor(UIColor.mainColor(), for: .normal)
-        button.layer.borderColor = UIColor.mainColor().cgColor
+        button.setTitleColor(UIColor.orangeColor(), for: .normal)
+        button.layer.borderColor = UIColor.orangeColor()?.cgColor
         button.layer.borderWidth = 1
         button.layer.cornerRadius = 5
         button.addTarget(self, action: #selector(dateButtonPressed), for: .touchUpInside)
@@ -165,7 +165,7 @@ class CalendarVC: UIViewController, UICollectionViewDataSource, UICollectionView
     let todayButton: UIButton = {
         let button = UIButton()
         button.setTitle("Today", for: .normal)
-        button.backgroundColor = UIColor.mainColor()
+        button.backgroundColor = UIColor.orangeColor()
         button.titleLabel?.font = UIFont.systemFont(ofSize: 14)
         button.setTitleColor(UIColor.white, for: .normal)
         button.layer.borderColor = UIColor.white.cgColor
@@ -178,7 +178,7 @@ class CalendarVC: UIViewController, UICollectionViewDataSource, UICollectionView
     let allButton: UIButton = {
         let button = UIButton()
         button.setTitle("All", for: .normal)
-        button.backgroundColor = UIColor.mainColor()
+        button.backgroundColor = UIColor.orangeColor()
         button.titleLabel?.font = UIFont.systemFont(ofSize: 14)
         button.setTitleColor(UIColor.white, for: .normal)
         button.layer.borderColor = UIColor.white.cgColor
@@ -454,7 +454,7 @@ class CalendarVC: UIViewController, UICollectionViewDataSource, UICollectionView
     
     let monthLabel: UILabel = {
         let label = UILabel()
-        label.textColor = UIColor.mainColor()
+        label.textColor = UIColor.orangeColor()
         label.textAlignment = .center
         label.font = UIFont.boldSystemFont(ofSize: 32)
         label.textAlignment = .left
@@ -515,7 +515,7 @@ class CalendarVC: UIViewController, UICollectionViewDataSource, UICollectionView
         }
         else {
             myCustomCell.dayLabel.textColor = UIColor.darkGray
-            myCustomCell.eventView.backgroundColor = UIColor.secondaryColor()
+            myCustomCell.eventView.backgroundColor = UIColor.yellowColor()
         }
         
         if cellState.dateBelongsTo != .thisMonth {
@@ -528,7 +528,7 @@ class CalendarVC: UIViewController, UICollectionViewDataSource, UICollectionView
                 myCustomCell.selectedView.isHidden = false
             }
             else {
-                myCustomCell.dayLabel.textColor = UIColor.secondaryColor()
+                myCustomCell.dayLabel.textColor = UIColor.yellowColor()
                 myCustomCell.selectedView.isHidden = true
             }
         }
@@ -553,13 +553,13 @@ class CalendarVC: UIViewController, UICollectionViewDataSource, UICollectionView
                     if self.myBlackDates.contains(selectedDates) && cellState.dateBelongsTo == .thisMonth {
                         myCustomCell.blackoutView.isHidden = false
                         self.selectDateButton.setTitle("Make as Available", for: .normal)
-                        self.selectDateButton.backgroundColor = UIColor.mainColor()
+                        self.selectDateButton.backgroundColor = UIColor.orangeColor()
                         self.selectDateButton.setTitleColor(UIColor.white, for: .normal)
                     } else {
                         myCustomCell.blackoutView.isHidden = true
                         self.selectDateButton.setTitle("Mark as Unavailable", for: .normal)
                         self.selectDateButton.backgroundColor = UIColor.white
-                        self.selectDateButton.setTitleColor(UIColor.mainColor(), for: .normal)
+                        self.selectDateButton.setTitleColor(UIColor.orangeColor(), for: .normal)
                     }
                     
                 })

@@ -43,7 +43,7 @@ class ChefPreferencesVC: UIViewController {
     
     let navView: UIView = {
         let view = UIView()
-        view.backgroundColor = UIColor.mainColor()
+        view.backgroundColor = UIColor.orangeColor()
         return view
     }()
     
@@ -69,8 +69,8 @@ class ChefPreferencesVC: UIViewController {
     
     var chefSwitch: UISwitch = {
         let switchBool = UISwitch()
-        switchBool.tintColor = UIColor.secondaryColor()
-        switchBool.onTintColor = UIColor.secondaryColor()
+        switchBool.tintColor = UIColor.yellowColor()
+        switchBool.onTintColor = UIColor.yellowColor()
         switchBool.setOn(false, animated: true)
         switchBool.addTarget(self, action: #selector(chefSwitch(chefSwitchChanged:)), for: UIControl.Event.valueChanged)
         return switchBool
@@ -101,8 +101,8 @@ class ChefPreferencesVC: UIViewController {
     
     var nutritionistSwitch: UISwitch = {
         let switchBool = UISwitch()
-        switchBool.tintColor = UIColor.secondaryColor()
-        switchBool.onTintColor = UIColor.secondaryColor()
+        switchBool.tintColor = UIColor.yellowColor()
+        switchBool.onTintColor = UIColor.yellowColor()
         switchBool.setOn(false, animated: true)
                 switchBool.addTarget(self, action: #selector(nutritionistSwitch(nutritionistSwitchChanged:)), for: UIControl.Event.valueChanged)
         return switchBool
@@ -133,8 +133,8 @@ class ChefPreferencesVC: UIViewController {
     
     var pastrySwitch: UISwitch = {
         let switchBool = UISwitch()
-        switchBool.tintColor = UIColor.secondaryColor()
-        switchBool.onTintColor = UIColor.secondaryColor()
+        switchBool.tintColor = UIColor.yellowColor()
+        switchBool.onTintColor = UIColor.yellowColor()
         switchBool.setOn(false, animated: true)
                 switchBool.addTarget(self, action: #selector(pastrySwitch(pastrySwitchChanged:)), for: UIControl.Event.valueChanged)
         return switchBool
@@ -165,8 +165,8 @@ class ChefPreferencesVC: UIViewController {
     
     var vegetarianSwitch: UISwitch = {
         let switchBool = UISwitch()
-        switchBool.tintColor = UIColor.secondaryColor()
-        switchBool.onTintColor = UIColor.secondaryColor()
+        switchBool.tintColor = UIColor.yellowColor()
+        switchBool.onTintColor = UIColor.yellowColor()
         switchBool.setOn(false, animated: true)
                 switchBool.addTarget(self, action: #selector(vegetarianSwitch(vegetarianSwitchChanged:)), for: UIControl.Event.valueChanged)
         return switchBool
@@ -197,8 +197,8 @@ class ChefPreferencesVC: UIViewController {
     
     var veganSwitch: UISwitch = {
         let switchBool = UISwitch()
-        switchBool.tintColor = UIColor.secondaryColor()
-        switchBool.onTintColor = UIColor.secondaryColor()
+        switchBool.tintColor = UIColor.yellow
+        switchBool.onTintColor = UIColor.yellowColor()
         switchBool.setOn(false, animated: true)
         switchBool.addTarget(self, action: #selector(veganSwitch(veganSwitchChanged:)), for: UIControl.Event.valueChanged)
         return switchBool
@@ -229,8 +229,8 @@ class ChefPreferencesVC: UIViewController {
     
     var rateSwitch: UISwitch = {
         let switchBool = UISwitch()
-        switchBool.tintColor = UIColor.secondaryColor()
-        switchBool.onTintColor = UIColor.secondaryColor()
+        switchBool.tintColor = UIColor.yellowColor()
+        switchBool.onTintColor = UIColor.yellowColor()
         switchBool.setOn(false, animated: true)
         switchBool.addTarget(self, action: #selector(rateSwitch(rateSwitchChanged:)), for: UIControl.Event.valueChanged)
         return switchBool
@@ -256,7 +256,7 @@ class ChefPreferencesVC: UIViewController {
 
     var rangeSlider: UISlider = {
         let slider = UISlider()
-        slider.tintColor = UIColor.secondaryColor()
+        slider.tintColor = UIColor.yellowColor()
         slider.maximumValue = 500
         slider.minimumValue = 1
         slider.setValue(25, animated: true)
