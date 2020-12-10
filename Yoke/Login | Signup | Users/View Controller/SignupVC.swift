@@ -73,6 +73,20 @@ class SignupVC: UIViewController {
         imagePicker.delegate = self
     }
     
+    func confirmPasswordsMatch() {
+        let alertController = UIAlertController(title: "Error", message: "Passwords don't Match", preferredStyle: .alert)
+        let defaultAction = UIAlertAction(title: "OK", style: .cancel, handler: nil)
+        alertController.addAction(defaultAction)
+        self.present(alertController, animated: true, completion: nil)
+    }
+    
+    func confirmAllTextFields() {
+        let alertController = UIAlertController(title: "Error", message: "Please fill out all the fields", preferredStyle: .alert)
+        let defaultAction = UIAlertAction(title: "OK", style: .cancel, handler: nil)
+        alertController.addAction(defaultAction)
+        self.present(alertController, animated: true, completion: nil)
+    }
+    
     @objc func handleAddProfileImageViewTapped(_ sender: UITapGestureRecognizer? = nil) {
         let alertVC = UIAlertController(title: "Add a Photo", message: nil, preferredStyle: .alert)
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel) { (_) in
@@ -91,10 +105,12 @@ class SignupVC: UIViewController {
     }
     
     @objc func handleSignUp() {
-        guard let email = emailTextField.text, !email.isEmpty else { return }
-        guard let username = usernameTextField.text, !username.isEmpty else { return }
-        guard let password = passwordTextField.text, !password.isEmpty else { return }
-
+        guard let email = emailTextField.text, !email.isEmpty,
+              let username = usernameTextField.text, !username.isEmpty,
+              let password = passwordTextField.text, !password.isEmpty,
+              let confirmPassword = confirmPasswordTextField.text, !confirmPassword.isEmpty else { return confirmAllTextFields()}
+        guard password == confirmPassword else { return confirmPasswordsMatch()}
+        
         Auth.auth().createUser(withEmail: email, password: password, completion: { (user, error: Error?) in
             
             if let err = error {
@@ -272,11 +288,7 @@ class SignupVC: UIViewController {
         button.layer.cornerRadius = 5
         button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 18)
         button.setTitleColor(.white, for: .normal)
-        
         button.addTarget(self, action: #selector(handleSignUp), for: .touchUpInside)
-        
-        button.isEnabled = false
-        
         return button
     }()
     
