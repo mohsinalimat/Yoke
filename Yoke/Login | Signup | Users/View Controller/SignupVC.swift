@@ -49,7 +49,7 @@ class SignupVC: UIViewController {
         addImageButton.anchor(top: safeArea.topAnchor, left: nil, bottom: nil, right: nil, paddingTop: 75, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 200, height: 200)
         addImageButton.layer.cornerRadius = 100
         addImageButton.centerXAnchor.constraint(equalTo: safeArea.centerXAnchor).isActive = true
-        stackView.anchor(top: addImageButton.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 40, paddingLeft: 20, paddingBottom: 0, paddingRight: 20, height: 300)
+        stackView.anchor(top: addImageButton.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 20, paddingLeft: 40, paddingBottom: 0, paddingRight: 40, height: 300)
         alreadyHaveAccountButton.anchor(top: stackView.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 5, paddingLeft: 0, paddingBottom: 0, paddingRight: 0)
     }
     
@@ -346,9 +346,10 @@ fileprivate func convertFromUIImagePickerControllerInfoKeyDictionary(_ input: [U
 
 extension SignupVC: UITextFieldDelegate {
     func setupKeyboard() {
-        
+        usernameTextField.delegate = self
         emailTextField.delegate = self
         passwordTextField.delegate = self
+        confirmPasswordTextField.delegate = self
     }
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
@@ -358,8 +359,12 @@ extension SignupVC: UITextFieldDelegate {
     
     private func switchBasedNextTextField(_ textField: UITextField) {
         switch textField {
+        case self.usernameTextField:
+            self.emailTextField.becomeFirstResponder()
         case self.emailTextField:
             self.passwordTextField.becomeFirstResponder()
+        case self.passwordTextField:
+            self.confirmPasswordTextField.becomeFirstResponder()
         case self.passwordTextField:
             self.view.endEditing(true)
         default:
