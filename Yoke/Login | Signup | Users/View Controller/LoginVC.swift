@@ -95,24 +95,23 @@ class LoginVC: UIViewController {
                 Auth.auth().handleFirebaseErrors(error: err, vc: self)
                 return
             }
-            UIView.animate(withDuration: 0.5) { [weak self] in
-                guard let mainTabBarController = self?.view.window!.rootViewController as? MainTabBarController else {return}
-                mainTabBarController.setupViewControllers()
-                self?.dismiss(animated: true, completion: nil)
-            }
-//            guard let mainTabBarController = self.view.window!.rootViewController as? MainTabBarController else {return}
-//            mainTabBarController.setupViewControllers()
-//            self.dismiss(animated: true, completion: nil)
+            self.handleLoginToHome()
         })
+    }
+    
+    func handleLoginToHome() {
+        UIView.animate(withDuration: 0.5) { [weak self] in
+            guard let mainTabBarController = self?.view.window!.rootViewController as? MainTabBarController else {return}
+            mainTabBarController.setupViewControllers()
+            self?.dismiss(animated: true, completion: nil)
+        }
     }
 
     
     @objc func handleShowSignUp() {
-        UIView.animate(withDuration: 1) { [weak self] in
-            let signupVC = SignupVC()
-            self?.view.window?.rootViewController = signupVC
-            self?.view.window?.makeKeyAndVisible()
-        }
+        let signupVC = SignupVC()
+        self.view.window?.rootViewController = signupVC
+        self.view.window?.makeKeyAndVisible()
     }
     
     //MARK: - Views
@@ -122,8 +121,6 @@ class LoginVC: UIViewController {
         imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.contentMode = .scaleAspectFit
         imageView.layer.cornerRadius = 30
-//        imageView.layer.borderWidth = 5
-//        imageView.layer.borderColor = UIColor.white.cgColor
         return imageView
     }()
     
@@ -140,10 +137,12 @@ class LoginVC: UIViewController {
     
     let emailTextField: UITextField = {
         let textField = UITextField()
-        textField.placeholder = "Email"
+        let placeholderText = NSAttributedString(string: "Email",
+                                                 attributes: [NSAttributedString.Key.foregroundColor: UIColor.orangeColor() as Any])
+        textField.attributedPlaceholder = placeholderText
         textField.backgroundColor = UIColor.white.withAlphaComponent(0.9)
         textField.borderStyle = .roundedRect
-        textField.font = UIFont.systemFont(ofSize: 14)
+        textField.font = UIFont.systemFont(ofSize: 18)
         textField.textColor = UIColor.darkGray
         textField.keyboardType = UIKeyboardType.emailAddress
         return textField
@@ -151,11 +150,13 @@ class LoginVC: UIViewController {
     
     let passwordTextField: UITextField = {
         let textField = UITextField()
-        textField.placeholder = "Password"
+        let placeholderText = NSAttributedString(string: "Password",
+                                                 attributes: [NSAttributedString.Key.foregroundColor: UIColor.orangeColor() as Any])
+        textField.attributedPlaceholder = placeholderText
         textField.isSecureTextEntry = true
         textField.backgroundColor = UIColor.white.withAlphaComponent(0.9)
         textField.borderStyle = .roundedRect
-        textField.font = UIFont.systemFont(ofSize: 14)
+        textField.font = UIFont.systemFont(ofSize: 18)
         textField.textColor = UIColor.darkGray
         return textField
     }()
@@ -185,7 +186,7 @@ class LoginVC: UIViewController {
         button.setTitle("Login", for: .normal)
         button.backgroundColor = UIColor.yellowColor()?.withAlphaComponent(0.8)
         button.layer.cornerRadius = 5
-        button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 16)
+        button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 18)
         button.setTitleColor(.white, for: .normal)
         button.addTarget(self, action: #selector(handleLogin), for: .touchUpInside)
         return button

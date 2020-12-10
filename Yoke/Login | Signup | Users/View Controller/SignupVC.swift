@@ -10,113 +10,53 @@ import UIKit
 import Firebase
 import FirebaseFirestore
 
-class SignupVC: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UIPickerViewDelegate, UIPickerViewDataSource, UITextViewDelegate {
+class SignupVC: UIViewController {
     
-    var pickerData = ["Manhattan, NY" , "Brooklyn, NY" , "The Bronx, NY" , "Queens, NY", "Staten Island, NY", "Jersey City, NJ", "Hoboken, NJ", "Harrison, NJ", "Newark, NJ"]
+    //MARK: - Properties
+    var safeArea: UILayoutGuide {
+        return self.view.safeAreaLayoutGuide
+    }
+    let imagePicker = UIImagePickerController()
     
-    var salmonCheckImage: UIImage = UIImage(named: "checkmark_salmon")!
-    var mossCheckImage: UIImage = UIImage(named: "checkmark_moss")!
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
+    //MARK: - Lifecycle Methods
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
         setupViews()
         setupBackground()
     }
     
-    func setupKeyboard() {
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
-        
-        let toolbar:UIToolbar = UIToolbar(frame: CGRect(x: 0, y: 0,  width: self.view.frame.size.width, height: 30))
-        let flexSpace = UIBarButtonItem(barButtonSystemItem:    .flexibleSpace, target: nil, action: nil)
-        let doneBtn: UIBarButtonItem = UIBarButtonItem(title: "Done", style: .done, target: self, action: #selector(doneButtonAction))
-        
-        toolbar.setItems([flexSpace, doneBtn], animated: false)
-        toolbar.sizeToFit()
-        
-        self.emailTextField.inputAccessoryView = toolbar
-        self.passwordTextField.inputAccessoryView = toolbar
-        self.usernameTextField.inputAccessoryView = toolbar
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        setupAddProfileImageView()
+        setupKeyboard()
+        dismissKeyboardOnTap()
+    }
+
+    //MARK: - Helper Functions
+    fileprivate func setupViews() {
+        view.addSubview(addImageButton)
+        view.addSubview(stackView)
+        view.addSubview(alreadyHaveAccountButton)
+        stackView.addArrangedSubview(usernameTextField)
+        stackView.addArrangedSubview(emailTextField)
+        stackView.addArrangedSubview(passwordTextField)
+        stackView.addArrangedSubview(confirmPasswordTextField)
+        stackView.addArrangedSubview(signUpButton)
+        constrainViews()
     }
     
-    @objc func doneButtonAction() {
-        self.view.endEditing(true)
-    }
-    
-    @objc func keyboardWillShow(notification: NSNotification) {
-        if let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
-            if self.view.frame.origin.y == 0 {
-                self.view.frame.origin.y -= keyboardSize.height
-            }
-        }
-    }
-    
-    @objc func keyboardWillHide(notification: NSNotification) {
-        if self.view.frame.origin.y != 0 {
-            self.view.frame.origin.y = 0
-        }
+    func constrainViews() {
+        addImageButton.anchor(top: safeArea.topAnchor, left: nil, bottom: nil, right: nil, paddingTop: 75, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 200, height: 200)
+        addImageButton.layer.cornerRadius = 100
+        addImageButton.centerXAnchor.constraint(equalTo: safeArea.centerXAnchor).isActive = true
+        stackView.anchor(top: addImageButton.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 40, paddingLeft: 20, paddingBottom: 0, paddingRight: 20, height: 300)
+        alreadyHaveAccountButton.anchor(top: stackView.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 5, paddingLeft: 0, paddingBottom: 0, paddingRight: 0)
     }
     
     func setupBackground() {
         navigationController?.isNavigationBarHidden = true
-        
-//        UIGraphicsBeginImageContext(self.view.frame.size)
-//        UIImage(named: "loginBackground")?.draw(in: self.view.bounds)
-//        let image: UIImage = UIGraphicsGetImageFromCurrentImageContext()!
-//        UIGraphicsEndImageContext()
-//        self.view.backgroundColor = UIColor(patternImage: image)
         self.view.backgroundColor = UIColor.orangeColor()
     }
-
-    let plusPhotoButton: UIButton = {
-        let button = UIButton(type: .custom)
-        button.setTitle("Add Photo", for: .normal)
-        button.setTitleColor(.black, for: .normal)
-        button.titleLabel?.font = UIFont.systemFont(ofSize: 20)
-        button.addTarget(self, action: #selector(handlePlusPhoto), for: .touchUpInside)
-        button.backgroundColor = UIColor.white.withAlphaComponent(0.8)
-        return button
-    }()
-    
-    @objc func handlePlusPhoto() {
-        let imagePickerController = UIImagePickerController()
-        imagePickerController.delegate = self
-        imagePickerController.allowsEditing = true
-        
-        present(imagePickerController, animated: true, completion: nil)
-    }
-    
-    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
-
-        let info = convertFromUIImagePickerControllerInfoKeyDictionary(info)
-        
-        if let editedImage = info["UIImagePickerControllerEditedImage"] as? UIImage {
-            plusPhotoButton.setImage(editedImage.withRenderingMode(.alwaysOriginal), for: .normal)
-        } else if let originalImage =
-            info["UIImagePickerControllerOriginalImage"] as? UIImage {
-            plusPhotoButton.setImage(originalImage.withRenderingMode(.alwaysOriginal), for: .normal)
-        }
-        
-        plusPhotoButton.layer.cornerRadius = plusPhotoButton.frame.width/2
-        plusPhotoButton.layer.masksToBounds = true
-        plusPhotoButton.layer.borderColor = UIColor.white.cgColor
-        plusPhotoButton.layer.borderWidth = 3
-        plusPhotoButton.contentMode = .scaleAspectFill
-        
-        dismiss(animated: true, completion: nil)
-    }
-    
-    let segmentedControl: UISegmentedControl = {
-        let seg = UISegmentedControl(items: ["Member","Chef"])
-        seg.layer.borderColor = UIColor.black.cgColor
-        seg.layer.borderWidth = 1
-        seg.layer.cornerRadius = 5.0
-        seg.backgroundColor = .white
-        seg.tintColor = .black
-//        seg.addTarget(self, action: "changeColor", for: .valueChanged)
-        return seg
-    }()
     
     func changeColor(sender: UISegmentedControl) {
         switch sender.selectedSegmentIndex {
@@ -129,172 +69,31 @@ class SignupVC: UIViewController, UIImagePickerControllerDelegate, UINavigationC
         }
     }
     
-    @objc func handleTextInputChange() {
-        let isFormValid = emailTextField.text?.count ?? 0 > 0 && usernameTextField.text?.count ?? 0 > 0 && passwordTextField.text?.count ?? 0 > 0 && confirmPasswordTextField.text?.count ?? 0 > 0
-        
-        if isFormValid {
-            signUpButton.isEnabled = true
-            signUpButton.backgroundColor = UIColor.yellowColor()
-        } else {
-            signUpButton.isEnabled = false
-            signUpButton.backgroundColor = UIColor.yellowColor()?.withAlphaComponent(0.8)
+    func setupAddProfileImageView() {
+        imagePicker.delegate = self
+    }
+    
+    @objc func handleAddProfileImageViewTapped(_ sender: UITapGestureRecognizer? = nil) {
+        let alertVC = UIAlertController(title: "Add a Photo", message: nil, preferredStyle: .alert)
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel) { (_) in
+            self.imagePicker.dismiss(animated: true)
         }
-        
-        if passwordTextField.text == confirmPasswordTextField.text {
-            passwordTextField.rightView = UIImageView(image: mossCheckImage)
-            passwordTextField.rightView?.frame = CGRect(x: 5, y: 5, width: 20, height: 20)
-            passwordTextField.rightViewMode = .always
-            
-            confirmPasswordTextField.rightView = UIImageView(image: mossCheckImage)
-            confirmPasswordTextField.rightView?.frame = CGRect(x: 5, y: 5, width: 20, height: 20)
-            confirmPasswordTextField.rightViewMode = .always
-        } else {
-            passwordTextField.rightView = UIImageView(image: salmonCheckImage)
-            passwordTextField.rightView?.frame = CGRect(x: 5, y: 5, width: 20, height: 20)
-            passwordTextField.rightViewMode = .always
-            
-            confirmPasswordTextField.rightView = UIImageView(image: salmonCheckImage)
-            confirmPasswordTextField.rightView?.frame = CGRect(x: 5, y: 5, width: 20, height: 20)
-            confirmPasswordTextField.rightViewMode = .always
+        let cameraAction = UIAlertAction(title: "Camera", style: .default) { (_) in
+            self.openCamera()
         }
+        let photoLibraryAction = UIAlertAction(title: "Photo Library", style: .default) { (_) in
+            self.openPhotoLibrary()
+        }
+        alertVC.addAction(cancelAction)
+        alertVC.addAction(cameraAction)
+        alertVC.addAction(photoLibraryAction)
+        present(alertVC, animated: true)
     }
-    
-    let usernameTextField: UITextField = {
-        let textField = UITextField()
-        let placeholderText = NSAttributedString(string: "Name",
-        attributes: [NSAttributedString.Key.foregroundColor: UIColor.orangeColor()])
-        textField.attributedPlaceholder = placeholderText
-        textField.backgroundColor = UIColor.white
-        textField.borderStyle = .roundedRect
-        textField.font = UIFont.systemFont(ofSize: 14)
-        textField.textColor = UIColor.darkGray
-        textField.addTarget(self, action: #selector(handleTextInputChange), for: .editingChanged)
-        return textField
-    }()
-    
-    let emailTextField: UITextField = {
-        let textField = UITextField()
-        let placeholderText = NSAttributedString(string: "Email",
-        attributes: [NSAttributedString.Key.foregroundColor: UIColor.orangeColor()])
-        textField.attributedPlaceholder = placeholderText
-        textField.backgroundColor = UIColor.white
-        textField.borderStyle = .roundedRect
-        textField.font = UIFont.systemFont(ofSize: 14)
-        textField.textColor = UIColor.darkGray
-        textField.addTarget(self, action: #selector(handleTextInputChange), for: .editingChanged)
-        textField.keyboardType = UIKeyboardType.emailAddress
-        return textField
-    }()
-    
-    let passwordTextField: UITextField = {
-        let textField = UITextField()
-        let placeholderText = NSAttributedString(string: "Password",
-        attributes: [NSAttributedString.Key.foregroundColor: UIColor.orangeColor()])
-        textField.attributedPlaceholder = placeholderText
-        textField.isSecureTextEntry = true
-        textField.backgroundColor = UIColor.white
-        textField.borderStyle = .roundedRect
-        textField.font = UIFont.systemFont(ofSize: 14)
-        textField.textColor = UIColor.darkGray
-        textField.addTarget(self, action: #selector(handleTextInputChange), for: .editingChanged)
-        return textField
-    }()
-
-    let confirmPasswordTextField: UITextField = {
-        let textField = UITextField()
-        let placeholderText = NSAttributedString(string: "Confirm Password",
-        attributes: [NSAttributedString.Key.foregroundColor: UIColor.orangeColor()])
-        textField.attributedPlaceholder = placeholderText
-        textField.isSecureTextEntry = true
-        textField.backgroundColor = UIColor.white
-        textField.borderStyle = .roundedRect
-        textField.font = UIFont.systemFont(ofSize: 14)
-        textField.textColor = UIColor.darkGray
-        textField.addTarget(self, action: #selector(handleTextInputChange), for: .editingChanged)
-        return textField
-    }()
-    
-    
-    
-    let locationTextField: UITextView = {
-        let textField = UITextView()
-        textField.placeholder = "Location"
-        textField.isSecureTextEntry = true
-        textField.backgroundColor = UIColor.white
-        textField.layer.cornerRadius = 2
-        textField.font = UIFont.systemFont(ofSize: 14)
-        textField.textColor = UIColor.darkGray
-        textField.isEditable = false
-        return textField
-    }()
-    
-    let locationPicker: UIPickerView = {
-        let picker = UIPickerView()
-        return picker
-    }()
-    
-    func setupPickerView(){
-        
-        self.locationPicker.delegate = self
-        self.locationPicker.dataSource = self
-        locationTextField.inputView = self.locationPicker
-        
-        let toolBar = UIToolbar(frame: CGRect(x: 0, y: 0, width: self.view.frame.size.width, height: 40))
-        toolBar.barStyle = .default
-        toolBar.isTranslucent = true
-        toolBar.tintColor = UIColor.black
-        toolBar.sizeToFit()
-        
-        let doneButton = UIBarButtonItem(title: "Done", style: .plain, target: self, action: #selector(SignupVC.doneClick))
-        let spaceButton = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
-        let cancelButton = UIBarButtonItem(title: "Cancel", style: .plain, target: self, action: #selector(SignupVC.cancelClick))
-        toolBar.setItems([cancelButton, spaceButton, doneButton], animated: false)
-        toolBar.isUserInteractionEnabled = true
-        locationTextField.inputAccessoryView = toolBar
-        
-    }
-    
-    func numberOfComponents(in pickerView: UIPickerView) -> Int {
-        return 1
-    }
-    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        return pickerData.count
-    }
-    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-        return pickerData[row]
-    }
-    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-        self.locationTextField.text = pickerData[row]
-    }
-    
-    @objc func doneClick() {
-        locationTextField.resignFirstResponder()
-    }
-    @objc func cancelClick() {
-        locationTextField.resignFirstResponder()
-    }
-    
-    let signUpButton: UIButton = {
-        let button = UIButton(type: .system)
-        button.setTitle("Sign Up", for: .normal)
-        button.backgroundColor = UIColor.yellowColor()?.withAlphaComponent(0.8)
-        button.layer.cornerRadius = 5
-        button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 16)
-        button.setTitleColor(.white, for: .normal)
-        
-        button.addTarget(self, action: #selector(handleSignUp), for: .touchUpInside)
-        
-        button.isEnabled = false
-        
-        return button
-    }()
     
     @objc func handleSignUp() {
         guard let email = emailTextField.text, !email.isEmpty else { return }
         guard let username = usernameTextField.text, !username.isEmpty else { return }
         guard let password = passwordTextField.text, !password.isEmpty else { return }
-
-        spinner.startAnimating()
 
         Auth.auth().createUser(withEmail: email, password: password, completion: { (user, error: Error?) in
             
@@ -303,7 +102,7 @@ class SignupVC: UIViewController, UIImagePickerControllerDelegate, UINavigationC
                 return
             }
             
-            guard let image = self.plusPhotoButton.imageView?.image else { return }
+            guard let image = self.addImageButton.imageView?.image else { return }
             
             guard let uploadData = image.jpegData(compressionQuality: 0.3) else { return }
             
@@ -314,11 +113,10 @@ class SignupVC: UIViewController, UIImagePickerControllerDelegate, UINavigationC
                 
                 if let err = err {
                     Auth.auth().handleFirebaseErrors(error: err, vc: self)
-                    self.spinner.stopAnimating()
                     return
                 }
   
-                storageRef.downloadURL(completion: { (downloadURL, err) in
+                storageRef.downloadURL(completion: { [self] (downloadURL, err) in
                     guard let profileImageUrl = downloadURL?.absoluteString else { return }
                     guard let uid = user?.user.uid else { return }
  
@@ -329,13 +127,12 @@ class SignupVC: UIViewController, UIImagePickerControllerDelegate, UINavigationC
                     
                     let getUser = StripeUser.init(id: uid, customer_id: "", email: email)
                     self.createFirestoreUser(stripeUser: getUser)
-                    
-                    guard let mainTabBarController = UIApplication.shared.windows.first { $0.isKeyWindow } as? MainTabBarController else { return }
-
-                    mainTabBarController.setupViewControllers()
-                    self.spinner.stopAnimating()
-
-                    self.dismiss(animated: true, completion: nil)
+                    self.handleLoginToHome()
+//                    guard let mainTabBarController = UIApplication.shared.windows.first { $0.isKeyWindow } as? MainTabBarController else { return }
+//
+//                    mainTabBarController.setupViewControllers()
+//
+//                    self.dismiss(animated: true, completion: nil)
                 })
             })
             
@@ -354,11 +151,134 @@ class SignupVC: UIViewController, UIImagePickerControllerDelegate, UINavigationC
         
     }
     
-    func handleLoginSeg() {
-        guard let mainTabBarController = UIApplication.shared.keyWindow?.rootViewController as? MainTabBarController else {return}
-        mainTabBarController.setupViewControllers()
-        self.dismiss(animated: true, completion: nil)
+    func handleLoginToHome() {
+        UIView.animate(withDuration: 0.5) { [weak self] in
+            guard let mainTabBarController = self?.view.window!.rootViewController as? MainTabBarController else {return}
+            mainTabBarController.setupViewControllers()
+            self?.dismiss(animated: true, completion: nil)
+        }
     }
+    
+    @objc func handleAlreadyHaveAccount() {
+        let loginVC = LoginVC()
+        self.view.window?.rootViewController = loginVC
+        self.view.window?.makeKeyAndVisible()
+    }
+    
+    
+    //MARK: - Views
+    let addImageButton: UIButton = {
+        let button = UIButton(type: .custom)
+        button.setTitle("Add Photo", for: .normal)
+        button.setTitleColor(UIColor.orangeColor(), for: .normal)
+        button.titleLabel?.font = UIFont.systemFont(ofSize: 20)
+        button.addTarget(self, action: #selector(handleAddProfileImageViewTapped), for: .touchUpInside)
+        button.backgroundColor = UIColor.white.withAlphaComponent(0.8)
+        button.layer.masksToBounds = true
+        button.layer.borderColor = UIColor.white.cgColor
+        button.layer.borderWidth = 3
+        button.contentMode = .scaleAspectFill
+        return button
+    }()
+    
+    let segmentedControl: UISegmentedControl = {
+        let seg = UISegmentedControl(items: ["Member","Chef"])
+        seg.layer.borderColor = UIColor.black.cgColor
+        seg.layer.borderWidth = 1
+        seg.layer.cornerRadius = 5.0
+        seg.backgroundColor = .white
+        seg.tintColor = .black
+//        seg.addTarget(self, action: "changeColor", for: .valueChanged)
+        return seg
+    }()
+    
+    let stackView: UIStackView = {
+        let view = UIStackView()
+        view.axis = .vertical
+        view.alignment = .fill
+        view.distribution = .fillEqually
+        view.spacing = 5
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
+    
+    let usernameTextField: UITextField = {
+        let textField = UITextField()
+        let placeholderText = NSAttributedString(string: "Name",
+                                                 attributes: [NSAttributedString.Key.foregroundColor: UIColor.orangeColor() as Any])
+        textField.attributedPlaceholder = placeholderText
+        textField.backgroundColor = UIColor.white
+        textField.borderStyle = .roundedRect
+        textField.font = UIFont.systemFont(ofSize: 16)
+        textField.textColor = UIColor.darkGray
+        return textField
+    }()
+    
+    let emailTextField: UITextField = {
+        let textField = UITextField()
+        let placeholderText = NSAttributedString(string: "Email",
+                                                 attributes: [NSAttributedString.Key.foregroundColor: UIColor.orangeColor() as Any])
+        textField.attributedPlaceholder = placeholderText
+        textField.backgroundColor = UIColor.white
+        textField.borderStyle = .roundedRect
+        textField.font = UIFont.systemFont(ofSize: 16)
+        textField.textColor = UIColor.darkGray
+        textField.keyboardType = UIKeyboardType.emailAddress
+        return textField
+    }()
+    
+    let passwordTextField: UITextField = {
+        let textField = UITextField()
+        let placeholderText = NSAttributedString(string: "Password",
+                                                 attributes: [NSAttributedString.Key.foregroundColor: UIColor.orangeColor() as Any])
+        textField.attributedPlaceholder = placeholderText
+        textField.isSecureTextEntry = true
+        textField.backgroundColor = UIColor.white
+        textField.borderStyle = .roundedRect
+        textField.font = UIFont.systemFont(ofSize: 16)
+        textField.textColor = UIColor.darkGray
+        return textField
+    }()
+
+    let confirmPasswordTextField: UITextField = {
+        let textField = UITextField()
+        let placeholderText = NSAttributedString(string: "Confirm Password",
+                                                 attributes: [NSAttributedString.Key.foregroundColor: UIColor.orangeColor() as Any])
+        textField.attributedPlaceholder = placeholderText
+        textField.isSecureTextEntry = true
+        textField.backgroundColor = UIColor.white
+        textField.borderStyle = .roundedRect
+        textField.font = UIFont.systemFont(ofSize: 16)
+        textField.textColor = UIColor.darkGray
+        return textField
+    }()
+
+    let locationTextField: UITextView = {
+        let textField = UITextView()
+        textField.placeholder = "Location"
+        textField.isSecureTextEntry = true
+        textField.backgroundColor = UIColor.white
+        textField.layer.cornerRadius = 2
+        textField.font = UIFont.systemFont(ofSize: 16)
+        textField.textColor = UIColor.darkGray
+        textField.isEditable = false
+        return textField
+    }()
+
+    let signUpButton: UIButton = {
+        let button = UIButton(type: .system)
+        button.setTitle("Sign Up", for: .normal)
+        button.backgroundColor = UIColor.yellowColor()?.withAlphaComponent(0.8)
+        button.layer.cornerRadius = 5
+        button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 18)
+        button.setTitleColor(.white, for: .normal)
+        
+        button.addTarget(self, action: #selector(handleSignUp), for: .touchUpInside)
+        
+        button.isEnabled = false
+        
+        return button
+    }()
     
     let alreadyHaveAccountButton: UIButton = {
         let button = UIButton(type: .system)
@@ -374,44 +294,92 @@ class SignupVC: UIViewController, UIImagePickerControllerDelegate, UINavigationC
         return button
     }()
         
-    @objc func handleAlreadyHaveAccount() {
-        UIView.animate(withDuration: 1) { [weak self] in
-            let loginVC = LoginVC()
-            self?.view.window?.rootViewController = loginVC
-            self?.view.window?.makeKeyAndVisible()
+}
+
+extension SignupVC: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+    
+    func openCamera() {
+        if UIImagePickerController.isSourceTypeAvailable(.camera) {
+            imagePicker.sourceType = .camera
+            imagePicker.allowsEditing = false
+            self.present(imagePicker, animated: true)
+        } else {
+            let alertVC = UIAlertController(title: "No Camera Acccess", message: "Please allow access to the camera to use this feature", preferredStyle: .alert)
+            let okAction = UIAlertAction(title: "Okay", style: .default, handler: nil)
+            alertVC.addAction(okAction)
+            self.present(alertVC, animated: true)
         }
     }
-    
-    var spinner = UIActivityIndicatorView(style: .whiteLarge)
-    
-    fileprivate func setupViews() {
-        view.addSubview(plusPhotoButton)
-        plusPhotoButton.alignImageTextVertical()
-        plusPhotoButton.anchor(top: view.topAnchor, left: nil, bottom: nil, right: nil, paddingTop: 75, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 150, height: 150)
-        plusPhotoButton.layer.cornerRadius = 150 / 2
-        plusPhotoButton.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        
-        let stackView = UIStackView(arrangedSubviews: [usernameTextField, emailTextField, passwordTextField, confirmPasswordTextField, locationTextField, signUpButton, alreadyHaveAccountButton])
-        stackView.distribution = .fillEqually
-        stackView.axis = .vertical
-        stackView.spacing = 5
-            
-        view.addSubview(stackView)
-            
-        stackView.anchor(top: plusPhotoButton.bottomAnchor, left: view.leftAnchor, bottom: nil, right: view.rightAnchor, paddingTop: 20, paddingLeft: 40, paddingBottom: 0, paddingRight: 40, width: 0, height: 350)
-        
-        spinner.translatesAutoresizingMaskIntoConstraints = false
-        view.addSubview(spinner)
-        spinner.anchor(top: stackView.bottomAnchor, left: nil, bottom: nil, right: nil, paddingTop: 10, paddingLeft: 10, paddingBottom: 0, paddingRight: 0, width: 50, height: 50)
-        
-        spinner.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-//        spinner.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
+
+    func openPhotoLibrary() {
+        if UIImagePickerController.isSourceTypeAvailable(.photoLibrary) {
+            imagePicker.sourceType = .photoLibrary
+            imagePicker.allowsEditing = true
+            self.present(imagePicker, animated: true)
+        } else {
+            let alertVC = UIAlertController(title: "No Photo Acccess", message: "Please allow access to Photos to use this feature.", preferredStyle: .alert)
+            let okAction = UIAlertAction(title: "Okay", style: .default, handler: nil)
+            alertVC.addAction(okAction)
+            self.present(alertVC, animated: true)
+        }
     }
+
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+
+        let info = convertFromUIImagePickerControllerInfoKeyDictionary(info)
         
+        if let editedImage = info["UIImagePickerControllerEditedImage"] as? UIImage {
+            addImageButton.setImage(editedImage.withRenderingMode(.alwaysOriginal), for: .normal)
+        } else if let originalImage =
+            info["UIImagePickerControllerOriginalImage"] as? UIImage {
+            addImageButton.setImage(originalImage.withRenderingMode(.alwaysOriginal), for: .normal)
+        }
+        
+        dismiss(animated: true, completion: nil)
+    }
 }
     
 // Helper function inserted by Swift 4.2 migrator.
 fileprivate func convertFromUIImagePickerControllerInfoKeyDictionary(_ input: [UIImagePickerController.InfoKey: Any]) -> [String: Any] {
         return Dictionary(uniqueKeysWithValues: input.map {key, value in (key.rawValue, value)})
+}
+
+extension SignupVC: UITextFieldDelegate {
+    func setupKeyboard() {
+        
+        emailTextField.delegate = self
+        passwordTextField.delegate = self
+    }
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        self.switchBasedNextTextField(textField)
+        return true
+    }
+    
+    private func switchBasedNextTextField(_ textField: UITextField) {
+        switch textField {
+        case self.emailTextField:
+            self.passwordTextField.becomeFirstResponder()
+        case self.passwordTextField:
+            self.view.endEditing(true)
+        default:
+            self.view.endEditing(true)
+        }
+    }
+    
+    func dismissKeyboardOnTap() {
+        let tap = UITapGestureRecognizer(target: self.view, action: #selector(UIView.endEditing(_:)))
+        view.addGestureRecognizer(tap)
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        self.addKeyboardObserver()
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        self.removeKeyboardObserver()
+    }
 }
 
