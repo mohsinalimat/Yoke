@@ -110,48 +110,60 @@ class SignupVC: UIViewController {
               let password = passwordTextField.text, !password.isEmpty,
               let confirmPassword = confirmPasswordTextField.text, !confirmPassword.isEmpty else { return confirmAllTextFields()}
         guard password == confirmPassword else { return confirmPasswordsMatch()}
-        Auth.auth().createUser(withEmail: email, password: password, completion: { (user, error: Error?) in
-            
-            if let err = error {
-                Auth.auth().handleFirebaseErrors(error: err, vc: self)
-                return
+        guard let image = self.addImageButton.imageView?.image else { return }
+        
+        UserController.shared.createUser(email: email, username: username, password: password, image: image) { (result) in
+            switch result {
+            case true:
+                self.handleLoginToHome()
+                print("success")
+            case false:
+                print("error in signup: \(Error.self)")
             }
-            
-            guard let image = self.addImageButton.imageView?.image else { return }
-            
-            guard let uploadData = image.jpegData(compressionQuality: 0.3) else { return }
-            
-            let filename = NSUUID().uuidString
-            
-            let storageRef = Storage.storage().reference().child(Constants.ProfileImages).child(filename)
-            storageRef.putData(uploadData, metadata: nil, completion: { (metadata, err) in
-                
-                if let err = err {
-                    Auth.auth().handleFirebaseErrors(error: err, vc: self)
-                    return
-                }
-  
-                storageRef.downloadURL(completion: { [self] (downloadURL, err) in
-                    guard let profileImageUrl = downloadURL?.absoluteString else { return }
-                    guard let uid = user?.user.uid else { return }
- 
-                    let dictionaryValues = [Constants.Email: email, Constants.Username: username, Constants.ProfileImageUrl: profileImageUrl, Constants.ProfileCoverUrl: "", Constants.UserRate: 0] as [String : Any]
-                    let values = [uid: dictionaryValues]
-
-                    DataService.instance.registerUserIntoDatabaseWithUID(uid: uid, values: values)
-                    
-                    let getUser = StripeUser.init(id: uid, customer_id: "", email: email)
-                    self.createFirestoreUser(stripeUser: getUser)
-                    self.handleLoginToHome()
+        }
+        
+//        Auth.auth().createUser(withEmail: email, password: password, completion: { (user, error: Error?) in
+//
+//            if let err = error {
+//                Auth.auth().handleFirebaseErrors(error: err, vc: self)
+//                return
+//            }
+//
+//            guard let image = self.addImageButton.imageView?.image else { return }
+//
+//            guard let uploadData = image.jpegData(compressionQuality: 0.3) else { return }
+//
+//            let filename = NSUUID().uuidString
+//
+//            let storageRef = Storage.storage().reference().child(Constants.ProfileImages).child(filename)
+//            storageRef.putData(uploadData, metadata: nil, completion: { (metadata, err) in
+//
+//                if let err = err {
+//                    Auth.auth().handleFirebaseErrors(error: err, vc: self)
+//                    return
+//                }
+//
+//                storageRef.downloadURL(completion: { [self] (downloadURL, err) in
+//                    guard let profileImageUrl = downloadURL?.absoluteString else { return }
+//                    guard let uid = user?.user.uid else { return }
+//
+//                    let dictionaryValues = [Constants.Email: email, Constants.Username: username, Constants.ProfileImageUrl: profileImageUrl, Constants.ProfileCoverUrl: "", Constants.UserRate: 0] as [String : Any]
+//                    let values = [uid: dictionaryValues]
+//
+//                    DataService.instance.registerUserIntoDatabaseWithUID(uid: uid, values: values)
+//
+//                    let getUser = StripeUser.init(id: uid, customer_id: "", email: email)
+//                    self.createFirestoreUser(stripeUser: getUser)
+//                    self.handleLoginToHome()
 //                    guard let mainTabBarController = UIApplication.shared.windows.first { $0.isKeyWindow } as? MainTabBarController else { return }
 //
 //                    mainTabBarController.setupViewControllers()
 //
 //                    self.dismiss(animated: true, completion: nil)
-                })
-            })
-            
-        })
+//                })
+//            })
+//
+//        })
     }
     
     func createFirestoreUser(stripeUser: StripeUser) {

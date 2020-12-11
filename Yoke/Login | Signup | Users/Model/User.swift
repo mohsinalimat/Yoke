@@ -32,6 +32,9 @@ class User {
     let bookmarkCount: Int?
     let userRate: Int?
     
+//    init(uid: String, id: String, customer_id: String, email: String, username: String, profileImageUrl: String, )
+    
+    
     init(uid: String, dictionary: [String: Any]) {
         self.uid = uid
         self.id = dictionary[Constants.Id] as? String ?? ""
@@ -57,10 +60,4 @@ class User {
         }
         
     }
-    
-//    static func modelToData(user: User) -> [String: Any] {
-//        let data : [String: Any] = [Constants.Uid: user.uid, Constants.Email: user.email, Constants.StripeId: user.stripeId]
-//        return data
-//    }
-    
 }
