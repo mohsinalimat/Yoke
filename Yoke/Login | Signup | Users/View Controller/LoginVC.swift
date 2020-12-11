@@ -101,9 +101,9 @@ class LoginVC: UIViewController {
     
     func handleLoginToHome() {
         UIView.animate(withDuration: 0.5) { [weak self] in
-            guard let mainTabBarController = self?.view.window!.rootViewController as? MainTabBarController else {return}
-            mainTabBarController.setupViewControllers()
-            self?.dismiss(animated: true, completion: nil)
+            let homeVC = MainTabBarController()
+            self?.view.window?.rootViewController = homeVC
+            self?.view.window?.makeKeyAndVisible()
         }
     }
 

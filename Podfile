@@ -16,6 +16,7 @@ target 'Yoke' do
   pod 'IQKeyboardManagerSwift'
   pod 'Kingfisher', '~> 5.0'
   pod 'Stripe' , '~> 19.0.1'
+  pod 'GoogleSignIn'
 
   target 'YokeTests' do
     inherit! :search_paths
