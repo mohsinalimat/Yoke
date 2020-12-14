@@ -29,7 +29,9 @@
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSLocationAlwaysUsageDescription</key>
-	<string>Change this later</string>
+	<string>Will you allow yoke to use your location?</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>Do you allow Yoke to konw your current location?</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>This app wants to use your photos.</string>
 	<key>NSCameraUsageDescription</key>

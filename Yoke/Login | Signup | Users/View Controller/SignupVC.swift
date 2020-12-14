@@ -9,6 +9,7 @@
 import UIKit
 import Firebase
 import FirebaseFirestore
+import MapKit
 
 class SignupVC: UIViewController {
     
@@ -17,6 +18,8 @@ class SignupVC: UIViewController {
         return self.view.safeAreaLayoutGuide
     }
     let imagePicker = UIImagePickerController()
+    private let locationManager = LocationManager()
+    var location: String = ""
     
     //MARK: - Lifecycle Methods
     override func viewDidLayoutSubviews() {
@@ -112,72 +115,30 @@ class SignupVC: UIViewController {
         guard password == confirmPassword else { return confirmPasswordsMatch()}
         guard let image = self.addImageButton.imageView?.image else { return }
         
-        UserController.shared.createUser(email: email, username: username, password: password, image: image) { (result) in
-            switch result {
-            case true:
-                self.handleLoginToHome()
-                print("success")
-            case false:
-                print("error in signup: \(Error.self)")
+        guard let exposedLocation = self.locationManager.exposedLocation else { return }
+        self.locationManager.getPlace(for: exposedLocation) { placemark in
+            guard let placemark = placemark else { return }
+            var output = ""
+            if let town = placemark.locality {
+                output = output + "\n\(town)"
             }
-        }
-        
-//        Auth.auth().createUser(withEmail: email, password: password, completion: { (user, error: Error?) in
-//
-//            if let err = error {
-//                Auth.auth().handleFirebaseErrors(error: err, vc: self)
-//                return
-//            }
-//
-//            guard let image = self.addImageButton.imageView?.image else { return }
-//
-//            guard let uploadData = image.jpegData(compressionQuality: 0.3) else { return }
-//
-//            let filename = NSUUID().uuidString
-//
-//            let storageRef = Storage.storage().reference().child(Constants.ProfileImages).child(filename)
-//            storageRef.putData(uploadData, metadata: nil, completion: { (metadata, err) in
-//
-//                if let err = err {
-//                    Auth.auth().handleFirebaseErrors(error: err, vc: self)
-//                    return
-//                }
-//
-//                storageRef.downloadURL(completion: { [self] (downloadURL, err) in
-//                    guard let profileImageUrl = downloadURL?.absoluteString else { return }
-//                    guard let uid = user?.user.uid else { return }
-//
-//                    let dictionaryValues = [Constants.Email: email, Constants.Username: username, Constants.ProfileImageUrl: profileImageUrl, Constants.ProfileCoverUrl: "", Constants.UserRate: 0] as [String : Any]
-//                    let values = [uid: dictionaryValues]
-//
-//                    DataService.instance.registerUserIntoDatabaseWithUID(uid: uid, values: values)
-//
-//                    let getUser = StripeUser.init(id: uid, customer_id: "", email: email)
-//                    self.createFirestoreUser(stripeUser: getUser)
-//                    self.handleLoginToHome()
-//                    guard let mainTabBarController = UIApplication.shared.windows.first { $0.isKeyWindow } as? MainTabBarController else { return }
-//
-//                    mainTabBarController.setupViewControllers()
-//
-//                    self.dismiss(animated: true, completion: nil)
-//                })
-//            })
-//
-//        })
-    }
-    
-    func createFirestoreUser(stripeUser: StripeUser) {
-        let ref = Firestore.firestore().collection("stripe_customers").document(stripeUser.id)
-        let data = StripeUser.modelToData(customer_id: stripeUser)
-        
-        ref.setData(data) { (error) in
-            if let error = error {
-                Auth.auth().handleFirebaseErrors(error: error, vc: self)
+            if let state = placemark.administrativeArea {
+                output = output + "\n\(state)"
             }
+            UserController.shared.createUser(email: email, username: username, password: password, image: image, location: output) { (result) in
+                switch result {
+                case true:
+                    self.handleLoginToHome()
+                    print("success")
+                case false:
+                    print("error in signup: \(Error.self)")
+                }
+            }
+            self.location = output
+            print(self.location)
         }
-        
     }
-    
+  
     func handleLoginToHome() {
         UIView.animate(withDuration: 0.5) { [weak self] in
             let homeVC = MainTabBarController()

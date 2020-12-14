@@ -22,7 +22,7 @@ class UserController {
     var user: User?
     
     //MARK: - CRUD Functions
-    func createUser(email: String, username: String, password: String, image: UIImage?, completion: @escaping (Bool) -> Void) {
+    func createUser(email: String, username: String, password: String, image: UIImage?, location: String, completion: @escaping (Bool) -> Void) {
         Auth.auth().createUser(withEmail: email, password: password, completion: { (user, error) in
             if let error = error {
                 print("There was an error authorizing user: \(error.localizedDescription)")
@@ -43,51 +43,13 @@ class UserController {
                     return
                 }
                 guard let uid = user?.user.uid else { return }
-                self.firestoreDB.collection(Constants.Users).document(uid).setData([Constants.Email: email, Constants.Username: username, Constants.Uid: uid])
+                self.firestoreDB.collection(Constants.Users).document(uid).setData([Constants.Email: email, Constants.Username: username, Constants.Uid: uid, Constants.Location: location])
                 let getUser = StripeUser.init(id: uid, customer_id: "", email: email)
                 self.createFirestoreUser(stripeUser: getUser)
                 completion(true)
-//                storageRef.downloadURL(completion: { (downloadURL, err) in
-//                    guard let uid = user?.user.uid, let imageUrl = downloadURL else { return }
-//                    self.firestoreDB.collection(Constants.Users).document(uid).setData([Constants.Email: email, Constants.Username: username, Constants.Uid: uid])
-//                    let getUser = StripeUser.init(id: uid, customer_id: "", email: email)
-//                    self.createFirestoreUser(stripeUser: getUser)
-////                    completion(.success(true))
-//                })
             })
         })
     }
-//    func createUser(email: String, username: String, password: String, image: UIImage?, completion: @escaping (Result<Bool, UserError>) -> Void) {
-//        Auth.auth().createUser(withEmail: email, password: password, completion: { (user, error) in
-//            if let error = error {
-//                print("There was an error authorizing user: \(error.localizedDescription)")
-//                completion(.failure(.fbUserError(error)))
-//            }
-//
-//            guard let image = image else { return }
-//            guard let uploadData = image.jpegData(compressionQuality: 0.3) else { return }
-//
-//            let filename = Auth.auth().currentUser?.uid ?? ""
-//
-//            let storageRef = Storage.storage().reference().child(Constants.ProfileImageUrl).child(filename)
-//            storageRef.putData(uploadData, metadata: nil, completion: { (metadata, error) in
-//
-//                if let error = error {
-//                    print("There was an error uploading image data: \(error.localizedDescription)")
-//                    completion(.failure(.fbUserError(error)))
-//                    return
-//                }
-//
-//                storageRef.downloadURL(completion: { (downloadURL, err) in
-//                    guard let uid = user?.user.uid else { return }
-//                    self.firestoreDB.collection(Constants.users).document(uid).setData([Constants.email: email, Constants.username: username, Constants.uid: uid, Constants.location: "", Constants.bio: "", Constants.bannerImageUrl: ""])
-//                    let getUser = StripeUser.init(id: uid, customer_id: "", email: email)
-//                    self.createFirestoreUser(stripeUser: getUser)
-//                    completion(.success(true))
-//                })
-//            })
-//        })
-//    }
     
     func createFirestoreUser(stripeUser: StripeUser) {
         let ref = Firestore.firestore().collection("stripe_customers").document(stripeUser.id)
