@@ -138,7 +138,7 @@ class SignupVC: UIViewController {
             print(self.location)
         }
     }
-  
+
     func handleLoginToHome() {
         UIView.animate(withDuration: 0.5) { [weak self] in
             let homeVC = MainTabBarController()

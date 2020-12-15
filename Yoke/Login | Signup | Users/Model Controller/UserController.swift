@@ -22,7 +22,7 @@ class UserController {
     var user: User?
     
     //MARK: - CRUD Functions
-    func createUser(email: String, username: String, password: String, image: UIImage?, location: String, completion: @escaping (Bool) -> Void) {
+    func createUser(email: String, username: String, password: String = "", image: UIImage?, location: String, completion: @escaping (Bool) -> Void) {
         Auth.auth().createUser(withEmail: email, password: password, completion: { (user, error) in
             if let error = error {
                 print("There was an error authorizing user: \(error.localizedDescription)")

@@ -8,8 +8,10 @@
 
 import UIKit
 import Firebase
+import GoogleSignIn
 import Stripe
 import IQKeyboardManagerSwift
+
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -18,6 +20,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         FirebaseApp.configure()
+        GIDSignIn.sharedInstance().clientID = FirebaseApp.app()?.options.clientID
         Database.database().isPersistenceEnabled = true
         IQKeyboardManager.shared.enable = true
         STPPaymentConfiguration.shared().publishableKey = "pk_test_pX3V6XXnlsluthlhaKXHrW5U00WHz0znIt"
@@ -38,6 +41,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         UITabBar.appearance().tintColor = UIColor.white
         
         return true
+    }
+    
+    @available(iOS 9.0, *)func application(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey : Any] = [:]) -> Bool {let handled = GIDSignIn.sharedInstance().handle(url)
+        return handled
+        // return GIDSignIn.sharedInstance().handle(url,// sourceApplication:options[UIApplication.OpenURLOptionsKey.sourceApplication] as? String,// annotation: [:])
+        
     }
 
 

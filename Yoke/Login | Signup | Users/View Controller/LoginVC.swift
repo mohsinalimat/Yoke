@@ -8,9 +8,10 @@
 
 import UIKit
 import Firebase
+import FirebaseAuth
+import GoogleSignIn
 
-
-class LoginVC: UIViewController {
+class LoginVC: UIViewController, GIDSignInDelegate {
     
     //MARK: - Properties
     var safeArea: UILayoutGuide {
@@ -28,6 +29,7 @@ class LoginVC: UIViewController {
         super.viewDidLoad()
         setupKeyboard()
         dismissKeyboardOnTap()
+        setupGoogle()
     }
     
     //MARK: - Helper Functions
@@ -38,6 +40,9 @@ class LoginVC: UIViewController {
         stackView.addArrangedSubview(emailTextField)
         stackView.addArrangedSubview(passwordTextField)
         stackView.addArrangedSubview(loginButton)
+        stackView.addArrangedSubview(signInOptionLabel)
+        stackView.addArrangedSubview(googleSignUpButton)
+        stackView.addArrangedSubview(appleSignUpButton)
         view.addSubview(dontHaveAccountButton)
         view.addSubview(forgotPasswordButton)
         constrainViews()
@@ -47,7 +52,7 @@ class LoginVC: UIViewController {
         logoView.anchor(top: safeArea.topAnchor, left: nil, bottom: nil, right: nil, paddingTop: 75, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 200, height: 200)
         logoView.centerXAnchor.constraint(equalTo: safeArea.centerXAnchor).isActive = true
         introductionLabel.anchor(top: logoView.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 20, paddingLeft: 20, paddingBottom: 0, paddingRight: 20)
-        stackView.anchor(top: introductionLabel.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 20, paddingLeft: 40, paddingBottom: 0, paddingRight: 40, height: 170)
+        stackView.anchor(top: introductionLabel.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 10, paddingLeft: 40, paddingBottom: 0, paddingRight: 40, height: 295)
         dontHaveAccountButton.anchor(top: stackView.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 5, paddingLeft: 0, paddingBottom: 0, paddingRight: 0)
         forgotPasswordButton.anchor(top: dontHaveAccountButton.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 5, paddingLeft: 0, paddingBottom: 0, paddingRight: 0)
     }
@@ -99,6 +104,32 @@ class LoginVC: UIViewController {
         })
     }
     
+    @objc func handleGoogleLogin() {
+        GIDSignIn.sharedInstance().signIn()
+    }
+    
+    func sign(_ signIn: GIDSignIn!, didSignInFor user: GIDGoogleUser!, withError error: Error!) {
+        if let error = error {
+            print(error.localizedDescription)
+            return
+        }
+        guard let auth = user.authentication else { return }
+        let credentials = GoogleAuthProvider.credential(withIDToken: auth.idToken, accessToken: auth.accessToken)
+        Auth.auth().signIn(with: credentials) {
+            (authResult, error) in
+            if let error = error {print(error.localizedDescription)
+                
+            } else {
+                self.handleLoginToHome()
+            }//This is where you should add the functionality of successful login//i.e. dismissing this view or push the home view controller etc
+        }
+    }
+    
+    func setupGoogle() {
+        GIDSignIn.sharedInstance()?.presentingViewController = self
+        GIDSignIn.sharedInstance().delegate = self
+    }
+    
     func handleLoginToHome() {
         UIView.animate(withDuration: 0.5) { [weak self] in
             let homeVC = MainTabBarController()
@@ -126,7 +157,18 @@ class LoginVC: UIViewController {
     
     let introductionLabel: UILabel = {
         let label = UILabel()
-        label.text = "In need of a chef? Looking for gigs as a chef? You came to the right place"
+        label.text = "Login with email"
+        label.lineBreakMode = NSLineBreakMode.byWordWrapping
+        label.numberOfLines = 0
+        label.font = UIFont.systemFont(ofSize: 13)
+        label.textColor = UIColor.white
+        label.textAlignment = .center
+        return label
+    }()
+    
+    let signInOptionLabel: UILabel = {
+        let label = UILabel()
+        label.text = "Login up via google or apple"
         label.lineBreakMode = NSLineBreakMode.byWordWrapping
         label.numberOfLines = 0
         label.font = UIFont.systemFont(ofSize: 13)
@@ -174,7 +216,7 @@ class LoginVC: UIViewController {
     let dontHaveAccountButton: UIButton = {
         let button = UIButton(type: .system)
         let attributedTitle = NSMutableAttributedString(string: "Don't have an account?  ", attributes: [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 16), NSAttributedString.Key.foregroundColor: UIColor.white])
-        attributedTitle.append(NSAttributedString(string: "Sign Up", attributes: [NSAttributedString.Key.font: UIFont.boldSystemFont(ofSize: 16), NSAttributedString.Key.foregroundColor: UIColor.white
+        attributedTitle.append(NSAttributedString(string: "Sign Up with Email", attributes: [NSAttributedString.Key.font: UIFont.boldSystemFont(ofSize: 16), NSAttributedString.Key.foregroundColor: UIColor.white
             ]))
         button.setAttributedTitle(attributedTitle, for: .normal)
         button.addTarget(self, action: #selector(handleShowSignUp), for: .touchUpInside)
@@ -189,6 +231,28 @@ class LoginVC: UIViewController {
         button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 18)
         button.setTitleColor(.white, for: .normal)
         button.addTarget(self, action: #selector(handleLogin), for: .touchUpInside)
+        return button
+    }()
+    
+    let googleSignUpButton: UIButton = {
+        let button = UIButton(type: .system)
+        button.setTitle("Sign Up with google", for: .normal)
+        button.backgroundColor = UIColor.yellowColor()?.withAlphaComponent(0.8)
+        button.layer.cornerRadius = 5
+        button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 18)
+        button.setTitleColor(.white, for: .normal)
+        button.addTarget(self, action: #selector(handleGoogleLogin), for: .touchUpInside)
+        return button
+    }()
+    
+    let appleSignUpButton: UIButton = {
+        let button = UIButton(type: .system)
+        button.setTitle("Sign Up with apple", for: .normal)
+        button.backgroundColor = UIColor.yellowColor()?.withAlphaComponent(0.8)
+        button.layer.cornerRadius = 5
+        button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 18)
+        button.setTitleColor(.white, for: .normal)
+//        button.addTarget(self, action: #selector(handleSignUp), for: .touchUpInside)
         return button
     }()
     
