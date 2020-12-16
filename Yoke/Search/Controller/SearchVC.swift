@@ -185,38 +185,38 @@ class SearchVC: UIViewController, UICollectionViewDataSource, UICollectionViewDe
     var users = [User]()
     fileprivate func fetchUsers() {
         let ref = Database.database().reference().child(Constants.Users)
-        ref.observeSingleEvent(of: .value, with: { (snapshot) in
-            guard let dictionaries = snapshot.value as? [String: Any] else { return }
-            dictionaries.forEach({ (key, value) in
-                
-                if key == Auth.auth().currentUser?.uid {return}
-                guard let userDictionary = value as? [String: Any] else { return }
-                let user = User(uid: key, dictionary: userDictionary)
-                
-                Database.database().reference().child(Constants.Ratings).child(key).observe( .value, with: { (snapshot) in
-                    let count = snapshot.childrenCount
-                    var total: Double = 0.0
-                    for child in snapshot.children {
-                        let snap = child as! DataSnapshot
-                        let val = snap.value as! Double
-                        total += val
-                    }
-                    let average = total/Double(count)
-                    user.ratings = average
-                })
-                //don't need dates here for chef search
-                self.users.append(user)
-                self.users.sort(by: { (u1, u2) -> Bool in
-                    return u1.username.compare(u2.username) == .orderedAscending
-                })
-                
-                self.filteredUsers = self.users
-                self.collectionView?.reloadData()
-            })
-            
-        }) { (err) in
-            print("Failed to fetch users for search:", err)
-        }
+//        ref.observeSingleEvent(of: .value, with: { (snapshot) in
+//            guard let dictionaries = snapshot.value as? [String: Any] else { return }
+//            dictionaries.forEach({ (key, value) in
+//
+//                if key == Auth.auth().currentUser?.uid {return}
+//                guard let userDictionary = value as? [String: Any] else { return }
+//                let user = User(uid: key, dictionary: userDictionary)
+//
+//                Database.database().reference().child(Constants.Ratings).child(key).observe( .value, with: { (snapshot) in
+//                    let count = snapshot.childrenCount
+//                    var total: Double = 0.0
+//                    for child in snapshot.children {
+//                        let snap = child as! DataSnapshot
+//                        let val = snap.value as! Double
+//                        total += val
+//                    }
+//                    let average = total/Double(count)
+//                    user.ratings = average
+//                })
+//                //don't need dates here for chef search
+//                self.users.append(user)
+//                self.users.sort(by: { (u1, u2) -> Bool in
+//                    return u1.username.compare(u2.username) == .orderedAscending
+//                })
+//
+//                self.filteredUsers = self.users
+//                self.collectionView?.reloadData()
+//            })
+//
+//        }) { (err) in
+//            print("Failed to fetch users for search:", err)
+//        }
     }
     
     //MARK: Handle search and filter
@@ -251,9 +251,9 @@ class SearchVC: UIViewController, UICollectionViewDataSource, UICollectionViewDe
     
     func filterUsersView(text: String) {
         
-        filteredUsers = self.users.filter { (user) -> Bool in
-            user.username.lowercased().contains(text.lowercased()) || user.location.lowercased().contains(text.lowercased()) || user.cusine.lowercased().contains(text.lowercased())
-        }
+//        filteredUsers = self.users.filter { (user) -> Bool in
+//            user.username.lowercased().contains(text.lowercased()) || user.location.lowercased().contains(text.lowercased())
+//        }
         self.collectionView?.reloadData()
     }
     
@@ -265,11 +265,10 @@ class SearchVC: UIViewController, UICollectionViewDataSource, UICollectionViewDe
         getDate = date
         getChefType = chefType
         
-        filteredUsers = self.users.filter({ user -> Bool in
-            print("user blackout \(user.availableDate)")
-            return user.location.hasPrefix(location) && user.cusine.hasPrefix(cusine) && user.ratings >= rating && user.availableDate.contains(blackoutDate)
-//            return user.location.hasPrefix(location) && user.cusine.hasPrefix(cusine) && user.chefType.hasPrefix(chefType) && user.ratings >= rating && user.availableDate.contains(blackoutDate)
-        })
+//        filteredUsers = self.users.filter({ user -> Bool in
+//            print("user blackout \(user.availableDate)")
+//            return user.location.hasPrefix(location) && user.cusine.hasPrefix(cusine) && user.ratings >= rating && user.availableDate.contains(blackoutDate)
+//        })
 
         
         collectionView.reloadData()

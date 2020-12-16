@@ -400,19 +400,19 @@ class CreateInvoiceVC: UIViewController, UICollectionViewDataSource, UICollectio
                 guard let userDictionary = value as? [String: Any] else { return }
                 Database.database().reference().child(Constants.BookmarkedUsers).child(self.uid!).child(key).observeSingleEvent(of: .value, with: { (snapshot) in
                     
-                    let user = User(uid: key, dictionary: userDictionary)
-                    
-                    if let value = snapshot.value as? Int, value == 1 {
-                        user.isSaved = true
-                        self.users.append(user)
-                        self.users.sort(by: { (u1, u2) -> Bool in
-                            return u1.username.compare(u2.username) == .orderedAscending
-                        })
-                    } else {
-                        user.isSaved = false
-                    }
-                    self.filterSearch = self.users
-                    self.collectionView?.reloadData()
+//                    let user = User(uid: key, dictionary: userDictionary)
+//
+//                    if let value = snapshot.value as? Int, value == 1 {
+//                        user.isSaved = true
+//                        self.users.append(user)
+//                        self.users.sort(by: { (u1, u2) -> Bool in
+//                            return u1.username.compare(u2.username) == .orderedAscending
+//                        })
+//                    } else {
+//                        user.isSaved = false
+//                    }
+//                    self.filterSearch = self.users
+//                    self.collectionView?.reloadData()
                 })
                 
             })
@@ -430,20 +430,20 @@ class CreateInvoiceVC: UIViewController, UICollectionViewDataSource, UICollectio
             
             dictionaries.forEach({ (key, value) in
                 
-                if key == Auth.auth().currentUser?.uid {
-                    return
-                }
-                
-                guard let userDictionary = value as? [String: Any] else { return }
-                
-                let user = User(uid: key, dictionary: userDictionary)
-                
-                self.searchUsers.append(user)
+//                if key == Auth.auth().currentUser?.uid {
+//                    return
+//                }
+//                
+//                guard let userDictionary = value as? [String: Any] else { return }
+//                
+//                let user = User(uid: key, dictionary: userDictionary)
+//                
+//                self.searchUsers.append(user)
             })
             
-            self.searchUsers.sort(by: { (u1, u2) -> Bool in
-                return u1.username.compare(u2.username) == .orderedAscending
-            })
+//            self.searchUsers.sort(by: { (u1, u2) -> Bool in
+//                return u1.username.compare(u2.username) == .orderedAscending
+//            })
             
             self.filteredUsers = self.searchUsers
             self.collectionView?.reloadData()
@@ -471,12 +471,12 @@ class CreateInvoiceVC: UIViewController, UICollectionViewDataSource, UICollectio
     }
     
     func filterUsersView(index: Int, text: String) {
-        filteredUsers = self.searchUsers.filter { (user) -> Bool in
-            return user.username.lowercased().contains(text.lowercased())
-        }
-        filterSearch = self.users.filter { (user) -> Bool in
-            return user.username.lowercased().contains(text.lowercased())
-        }
+//        filteredUsers = self.searchUsers.filter { (user) -> Bool in
+//            return user.username.lowercased().contains(text.lowercased())
+//        }
+//        filterSearch = self.users.filter { (user) -> Bool in
+//            return user.username.lowercased().contains(text.lowercased())
+//        }
         
         self.collectionView?.reloadData()
     }
@@ -508,21 +508,21 @@ class CreateInvoiceVC: UIViewController, UICollectionViewDataSource, UICollectio
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         searchBar.resignFirstResponder()
         if segmentedControl.selectedSegmentIndex == 0 {
-            let user = filteredUsers[indexPath.row]
-            selectedUser = user.uid
-            isHiddenTrue()
-            self.addUserButton.isHidden = true
-            Database.fetchUserWithUID(uid: user.uid) { (user) in
-                self.user = user
-                self.addUserLabel.text = "* Send invoice to: \(user.username)"
-            }
+//            let user = filteredUsers[indexPath.row]
+//            selectedUser = user.uid
+//            isHiddenTrue()
+//            self.addUserButton.isHidden = true
+//            Database.fetchUserWithUID(uid: user.uid) { (user) in
+//                self.user = user
+//                self.addUserLabel.text = "* Send invoice to: \(user.username)"
+//            }
             
         } else if segmentedControl.selectedSegmentIndex == 1 {
             let user = filterSearch[indexPath.row]
-            selectedUser = user.uid
+            guard let selectedUser = user.uid else { return }
             isHiddenTrue()
             self.addUserButton.isHidden = true
-            Database.fetchUserWithUID(uid: user.uid) { (user) in
+            Database.fetchUserWithUID(uid: selectedUser) { (user) in
                 self.user = user
                 self.addUserLabel.text = "* Send invoice to: \(user.username)"
             }

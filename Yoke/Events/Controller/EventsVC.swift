@@ -161,9 +161,9 @@ class EventsVC: UICollectionViewController, UICollectionViewDelegateFlowLayout, 
         if searchText.isEmpty {
             filteredEvents = self.events
         } else {
-            filteredEvents = self.events.filter({ (event) -> Bool in
-                return (event.postText?.lowercased().contains(searchText.lowercased()))! || (event.user.username.lowercased().contains(searchText.lowercased()))
-            })
+//            filteredEvents = self.events.filter({ (event) -> Bool in
+//                return (event.postText?.lowercased().contains(searchText.lowercased()))! || (event.user.username.lowercased().contains(searchText.lowercased()))
+//            })
         }
 
         print("there are no users based on your search")

@@ -21,13 +21,13 @@ class ChatHeaderCell: UICollectionViewCell {
     var user: User? {
         didSet {
             guard let user = user else {return}
-            let profileImageUrl = user.profileImageUrl
-            if let url = URL(string: profileImageUrl) {
-                let placeholder = UIImage(named: "image_background")
-                profileImageView.kf.indicatorType = .activity
-                let options : KingfisherOptionsInfo = [KingfisherOptionsInfoItem.transition(.fade(0.2))]
-                profileImageView.kf.setImage(with: url, placeholder: placeholder, options: options)
-            }
+//            let profileImageUrl = user.profileImageUrl
+//            if let url = URL(string: profileImageUrl) {
+//                let placeholder = UIImage(named: "image_background")
+//                profileImageView.kf.indicatorType = .activity
+//                let options : KingfisherOptionsInfo = [KingfisherOptionsInfoItem.transition(.fade(0.2))]
+//                profileImageView.kf.setImage(with: url, placeholder: placeholder, options: options)
+//            }
             usernameLabel.text = user.username
             
         }

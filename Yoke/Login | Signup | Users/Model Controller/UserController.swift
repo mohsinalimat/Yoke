@@ -87,20 +87,21 @@ class UserController {
         }
     }
     
-//    func fetchUserWithUID(uid: String, completion: @escaping (User) -> ()) {
-//        firestoreDB.collection(Constants.Users).document(uid).getDocument { (document, error) in
-//            if let document = document, document.exists {
-//                guard let dictionary = document.data() else { return }
-//                guard let username = dictionary[Constants.Username] as? String,
-//                      let location = dictionary[Constants.Location] as? String else { return }
-//                let user = User(username: username, location: location, bio: bio)
-//                completion(user)
-//            } else {
-//                completion(error as! User)
-//                print("Document does not exist")
-//            }
-//        }
-//    }
+    func fetchUserWithUID(uid: String, completion: @escaping (User) -> ()) {
+        firestoreDB.collection(Constants.Users).document(uid).getDocument { (document, error) in
+            if let document = document, document.exists {
+                guard let dictionary = document.data() else { return }
+                let uid = dictionary["uid"] as? String ?? ""
+                let username = dictionary["username"] as? String ?? ""
+                let location = dictionary["location"] as? String ?? ""
+                let user = User(uid: uid, username: username, location: location)
+                completion(user)
+            } else {
+                completion(error as! User)
+                print("Document does not exist")
+            }
+        }
+    }
 //
 //    func fetchUsers(userUid: String, completion: @escaping (Bool) -> Void) {
 //        guard let userUid = Auth.auth().currentUser?.uid else { return }

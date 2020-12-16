@@ -24,12 +24,12 @@ class EventCell: UICollectionViewCell {
             captionLabel.text = event.caption
             usernameLabel.text = event.user.username
             let profileImageUrl = event.user.profileImageUrl
-            if let url = URL(string: profileImageUrl) {
-                let placeholder = UIImage(named: "placeholder")
-                profileImageView.kf.indicatorType = .activity
-                let options : KingfisherOptionsInfo = [KingfisherOptionsInfoItem.transition(.fade(0.2))]
-                profileImageView.kf.setImage(with: url, placeholder: placeholder, options: options)
-            }
+//            if let url = URL(string: profileImageUrl) {
+//                let placeholder = UIImage(named: "placeholder")
+//                profileImageView.kf.indicatorType = .activity
+//                let options : KingfisherOptionsInfo = [KingfisherOptionsInfoItem.transition(.fade(0.2))]
+//                profileImageView.kf.setImage(with: url, placeholder: placeholder, options: options)
+//            }
             
             let attributedText = NSMutableAttributedString(string: event.postText ?? "", attributes: [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 15), NSAttributedString.Key.foregroundColor: UIColor.darkGray])
             attributedText.append(NSAttributedString(string: " ", attributes: [NSAttributedString.Key.font: UIFont(name: "Avenir-BlackOblique", size: 15)!, NSAttributedString.Key.foregroundColor: UIColor.darkGray]))

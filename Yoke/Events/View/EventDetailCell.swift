@@ -22,12 +22,12 @@ class EventDetailCell: UICollectionViewCell {
 //            profileImageView.loadImage(urlString: event.user.profileImageUrl)
             
             let imageUrl = event.user.profileImageUrl
-            if let url = URL(string: imageUrl) {
-                let placeholder = UIImage(named: "image_background")
-                profileImageView.kf.indicatorType = .activity
-                let options : KingfisherOptionsInfo = [KingfisherOptionsInfoItem.transition(.fade(0.2))]
-                profileImageView.kf.setImage(with: url, placeholder: placeholder, options: options)
-            }
+//            if let url = URL(string: imageUrl) {
+//                let placeholder = UIImage(named: "image_background")
+//                profileImageView.kf.indicatorType = .activity
+//                let options : KingfisherOptionsInfo = [KingfisherOptionsInfoItem.transition(.fade(0.2))]
+//                profileImageView.kf.setImage(with: url, placeholder: placeholder, options: options)
+//            }
             
 //            photoImageView.loadImage(urlString: event.eventImageUrl!)
             guard let eventImageUrl = event.eventImageUrl else {return}

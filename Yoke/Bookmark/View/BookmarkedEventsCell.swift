@@ -15,7 +15,7 @@ class BookmarkedEventsCell: UICollectionViewCell {
     var event: Event? {
         didSet {
             guard let event = event else { return }
-            profileImageView.loadImage(urlString: event.user.profileImageUrl)
+//            profileImageView.loadImage(urlString: event.user.profileImageUrl)
             usernameLabel.text = event.user.username
             captionLabel.text = event.caption
             usernameLabel.text = "Posted by: \(event.user.username)"

@@ -21,12 +21,12 @@ class NewScheduleEventVC: UIViewController {
                 userProfileImageView.isHidden = true
                 usernameField.text = ""
             } else {
-                guard let profileImageUrl = user?.profileImageUrl else { return }
-                userProfileImageView.loadImage(urlString: profileImageUrl)
-                let attributedText = NSMutableAttributedString(string: user!.username, attributes: [NSAttributedString.Key.font: UIFont.boldSystemFont(ofSize: 15), NSAttributedString.Key.foregroundColor: UIColor.darkGray])
-                attributedText.append(NSAttributedString(string: " " + "This is for your reference only. The user will not have access to your notes.", attributes: [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 13), NSAttributedString.Key.foregroundColor: UIColor.lightGray]))
-                
-                usernameField.attributedText = attributedText
+//                guard let profileImageUrl = user?.profileImageUrl else { return }
+//                userProfileImageView.loadImage(urlString: profileImageUrl)
+//                let attributedText = NSMutableAttributedString(string: user!.username, attributes: [NSAttributedString.Key.font: UIFont.boldSystemFont(ofSize: 15), NSAttributedString.Key.foregroundColor: UIColor.darkGray])
+//                attributedText.append(NSAttributedString(string: " " + "This is for your reference only. The user will not have access to your notes.", attributes: [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 13), NSAttributedString.Key.foregroundColor: UIColor.lightGray]))
+//                
+//                usernameField.attributedText = attributedText
             }
             
         }

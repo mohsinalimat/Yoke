@@ -147,16 +147,16 @@ class BookmarkedVC: UICollectionViewController, UICollectionViewDelegateFlowLayo
                 guard let userDictionary = value as? [String: Any] else { return }
                 Database.database().reference().child(Constants.BookmarkedUsers).child(self.uid!).child(key).observeSingleEvent(of: .value, with: { (snapshot) in
                     
-                    if let value = snapshot.value as? Int, value == 1 {
-                         let user = User(uid: key, dictionary: userDictionary)
-                        self.users.append(user)
-                        self.users.sort(by: { (u1, u2) -> Bool in
-                            return u1.username.compare(u2.username) == .orderedAscending
-                        })
-                        DispatchQueue.main.async {
-                            self.collectionView?.reloadData()
-                        }
-                    }
+//                    if let value = snapshot.value as? Int, value == 1 {
+//                         let user = User(uid: key, dictionary: userDictionary)
+//                        self.users.append(user)
+//                        self.users.sort(by: { (u1, u2) -> Bool in
+//                            return u1.username.compare(u2.username) == .orderedAscending
+//                        })
+//                        DispatchQueue.main.async {
+//                            self.collectionView?.reloadData()
+//                        }
+//                    }
     
                 })
                 

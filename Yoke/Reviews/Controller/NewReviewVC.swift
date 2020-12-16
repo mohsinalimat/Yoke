@@ -16,12 +16,12 @@ class NewReviewVC: UIViewController, FloatRatingViewDelegate {
     var review: Review?
     var user: User? {
         didSet {
-            guard let uid = self.user?.uid else { return }
-            Database.fetchUserWithUID(uid: uid) { (user) in
-                self.user = user
-                self.usernameLabel.text = "Review for \(user.username)"
-                self.userProfileImageView.loadImage(urlString: user.profileImageUrl)
-            }
+//            guard let uid = self.user?.uid else { return }
+//            Database.fetchUserWithUID(uid: uid) { (user) in
+//                self.user = user
+//                self.usernameLabel.text = "Review for \(user.username)"
+//                self.userProfileImageView.loadImage(urlString: user.profileImageUrl)
+//            }
         }
     }
 

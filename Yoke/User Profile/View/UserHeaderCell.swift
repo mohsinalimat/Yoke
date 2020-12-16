@@ -28,29 +28,29 @@ class UserHeaderCell: UICollectionViewCell {
             guard let user = user else {return}
             let profileImageUrl = user.profileImageUrl
 //            guard let profileImageUrl = user.profileImageUrl else {return}
-            if let url = URL(string: profileImageUrl) {
-                let placeholder = UIImage(named: "image_background")
-                profileImageView.kf.indicatorType = .activity
-                let options : KingfisherOptionsInfo = [KingfisherOptionsInfoItem.transition(.fade(0.2))]
-                profileImageView.kf.setImage(with: url, placeholder: placeholder, options: options)
-            }
+//            if let url = URL(string: profileImageUrl) {
+//                let placeholder = UIImage(named: "image_background")
+//                profileImageView.kf.indicatorType = .activity
+//                let options : KingfisherOptionsInfo = [KingfisherOptionsInfoItem.transition(.fade(0.2))]
+//                profileImageView.kf.setImage(with: url, placeholder: placeholder, options: options)
+//            }
             
 //            profileImageView.loadImage(urlString: profileImageUrl)
-            let coverImageUrl = user.ProfileCoverUrl
-            if coverImageUrl == "" {
-                coverImageView.image = UIImage(named: "image_background")!
-            } else {
-                coverImageView.loadImage(urlString: coverImageUrl)
-            }
+//            let coverImageUrl = user.ProfileCoverUrl
+//            if coverImageUrl == "" {
+//                coverImageView.image = UIImage(named: "image_background")!
+//            } else {
+//                coverImageView.loadImage(urlString: coverImageUrl)
+//            }
             
             locationLabel.text = user.location
-            if user.userRate! > 0 {
-                rateLabel.text = "$\(user.userRate!)/hr"
-            } else {
-                rateLabel.text = ""
-            }
+//            if user.userRate! > 0 {
+//                rateLabel.text = "$\(user.userRate!)/hr"
+//            } else {
+//                rateLabel.text = ""
+//            }
             usernameLabel.text = user.username
-            aboutLabel.text = user.aboutUser
+//            aboutLabel.text = user.aboutUser
             
             if user.uid == Auth.auth().currentUser?.uid {
                 bookmarkButton.isHidden = true

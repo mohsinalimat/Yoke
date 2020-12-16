@@ -271,12 +271,12 @@ class MessageVC: UITableViewController {
             
             let ref = Database.database().reference().child(Constants.Users).child(chatPartnerId)
             ref.observeSingleEvent(of: .value, with: { (snapshot) in
-                guard let dictionary = snapshot.value as? [String: AnyObject] else {
-                    return
-                }
-                
-                let user = User(uid: chatPartnerId, dictionary: dictionary)
-                self.showChatVCforUser(user)
+//                guard let dictionary = snapshot.value as? [String: AnyObject] else {
+//                    return
+//                }
+//                
+//                let user = User(uid: chatPartnerId, dictionary: dictionary)
+//                self.showChatVCforUser(user)
                 
             }, withCancel: nil)
             
@@ -303,23 +303,23 @@ class MessageVC: UITableViewController {
         
         Database.database().reference().child(Constants.Users).child(uid).observeSingleEvent(of: .value, with: { (snapshot) in
             
-            if let dictionary = snapshot.value as? [String: AnyObject] {
-                
-                let user = User(uid: uid, dictionary: dictionary)
-                
-                self.setupNavBarWithUser(user)
-            }
+//            if let dictionary = snapshot.value as? [String: AnyObject] {
+//
+//                let user = User(uid: uid, dictionary: dictionary)
+//
+//                self.setupNavBarWithUser(user)
+//            }
             
         }, withCancel: nil)
         
         Database.database().reference().child(Constants.Chefs).child(uid).observeSingleEvent(of: .value, with: { (snapshot) in
             
-            if let dictionary = snapshot.value as? [String: AnyObject] {
-                
-                let user = User(uid: uid, dictionary: dictionary)
-                
-                self.setupNavBarWithUser(user)
-            }
+//            if let dictionary = snapshot.value as? [String: AnyObject] {
+//                
+//                let user = User(uid: uid, dictionary: dictionary)
+//                
+//                self.setupNavBarWithUser(user)
+//            }
             
         }, withCancel: nil)
     }

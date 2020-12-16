@@ -13,8 +13,8 @@ class CustomCoverImageVC: UIViewController, UIImagePickerControllerDelegate, UIN
 
     var user: User? {
         didSet {
-            guard let coverImageUrl = user?.ProfileCoverUrl else {return}
-            coverImageView.loadImage(urlString: coverImageUrl)
+//            guard let coverImageUrl = user?.ProfileCoverUrl else {return}
+//            coverImageView.loadImage(urlString: coverImageUrl)
         }
     }
     

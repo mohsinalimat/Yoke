@@ -35,9 +35,9 @@ class UserProfileVC: UICollectionViewController, UICollectionViewDelegateFlowLay
         Database.database().reference().child(Constants.Users).child(uid).observeSingleEvent(of: .value, with: { (snapshot) in
             
             guard let userDictionary = snapshot.value as? [String: Any] else { return }
-            let user = User(uid: uid, dictionary: userDictionary)
-            print("get username \(user.username)")
-            self.users.append(user)
+//            let user = User(uid: uid, dictionary: userDictionary)
+//            print("get username \(user.username)")
+//            self.users.append(user)
             self.collectionView.reloadData()
         }) { (err) in
             print("Failed to fetch user:", err)
@@ -182,21 +182,21 @@ class UserProfileVC: UICollectionViewController, UICollectionViewDelegateFlowLay
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
-        if let statusText = user?.aboutUser {
-            
-            let rect = NSString(string: statusText).boundingRect(with: CGSize(width: view.frame.width, height: 1000), options: NSStringDrawingOptions.usesFontLeading.union(NSStringDrawingOptions.usesLineFragmentOrigin), attributes: [kCTFontAttributeName as NSAttributedString.Key: UIFont.systemFont(ofSize: 14)], context: nil)
-            
-            if user?.aboutUser == "" && user?.isChef == true {
-                let knownHeight: CGFloat = 335 + 120
-                return CGSize(width: view.frame.width, height: knownHeight)
-            } else if user?.isChef == false && user?.aboutUser == "" {
-                let knownHeight: CGFloat = 380
-                return CGSize(width: view.frame.width, height: knownHeight)
-            }
-
-            let knownHeight: CGFloat = 335
-            return CGSize(width: view.frame.width, height: knownHeight + rect.height + 120)
-        }
+//        if let statusText = user?.aboutUser {
+//            
+//            let rect = NSString(string: statusText).boundingRect(with: CGSize(width: view.frame.width, height: 1000), options: NSStringDrawingOptions.usesFontLeading.union(NSStringDrawingOptions.usesLineFragmentOrigin), attributes: [kCTFontAttributeName as NSAttributedString.Key: UIFont.systemFont(ofSize: 14)], context: nil)
+//            
+//            if user?.aboutUser == "" && user?.isChef == true {
+//                let knownHeight: CGFloat = 335 + 120
+//                return CGSize(width: view.frame.width, height: knownHeight)
+//            } else if user?.isChef == false && user?.aboutUser == "" {
+//                let knownHeight: CGFloat = 380
+//                return CGSize(width: view.frame.width, height: knownHeight)
+//            }
+//
+//            let knownHeight: CGFloat = 335
+//            return CGSize(width: view.frame.width, height: knownHeight + rect.height + 120)
+//        }
         
         return CGSize(width: view.frame.width, height: 500)
     }

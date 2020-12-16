@@ -12,19 +12,37 @@ import FirebaseDatabase
 
 class HomeVC: UICollectionViewController, UICollectionViewDelegateFlowLayout, HomeProfileHeaderDelegate {
 
+    //MARK: - Properties
     let noCellId = "noCellId"
     let cellId = "cellId"
     let headerId = "headerId"
     let homePostCellId = "homePostCellId"
-    
     var userId: String?
     var user: User?
     var gallery: Gallery?
     
+    //MARK: - Lifecycle Methods
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        self.navigationController?.navigationBar.isTranslucent = true
+        handleLoad()
+    }
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        setupCollectionView()
+        setupNavTitleAndBarButtonItems()
+        fetchUser()
+        fetchUserPhotos()
+        handleUpdatesForProfile()
+    }
+    
+    //MARK: - Helper Functions
     fileprivate func fetchUser() {
         let uid = userId ?? (Auth.auth().currentUser?.uid ?? "")
-        Database.fetchUserWithUID(uid: uid) { (user) in
+        UserController.shared.fetchUserWithUID(uid: uid) { (user) in
             self.user = user
+            print(user.username)
             print(user.uid)
         }
     }
@@ -36,35 +54,6 @@ class HomeVC: UICollectionViewController, UICollectionViewDelegateFlowLayout, Ho
             self.fetchGallery()
             self.collectionView.reloadData()
         }
-    }
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        collectionView?.backgroundColor = UIColor.white
-        collectionView?.register(HomeHeaderCell.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: headerId)
-        collectionView?.register(GalleryCell.self, forCellWithReuseIdentifier: cellId)
-        collectionView?.register(EmptyCell.self, forCellWithReuseIdentifier: noCellId)
-        
-        collectionView?.contentInset = UIEdgeInsets(top: -65, left: 0, bottom: 0, right: 0)
-        
-        let refreshControl = UIRefreshControl()
-        refreshControl.addTarget(self, action: #selector(handleRefresh), for: .valueChanged)
-        if #available(iOS 10.0, *) {
-            collectionView?.refreshControl = refreshControl
-        } else {
-            // Fallback on earlier versions
-        }
-        setupNavTitleAndBarButtonItems()
-        fetchUser()
-        fetchUserPhotos()
-        handleUpdatesForProfile()
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        self.navigationController?.navigationBar.isTranslucent = true
-        handleLoad()
-        
     }
     
     func handleUpdatesForProfile() {
@@ -86,6 +75,49 @@ class HomeVC: UICollectionViewController, UICollectionViewDelegateFlowLayout, Ho
         navigationItem.rightBarButtonItem = UIBarButtonItem(image: icon, style: .plain, target: self, action: #selector(handleSettings))
 //        navigationItem.rightBarButtonItem = UIBarButtonItem(image: icon?.withRenderingMode(.alwaysOriginal), style: .plain, target: self, action: #selector(handleSettings))
         navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Logout", style: .plain, target: self, action: #selector(handleLogOut))
+        
+    }
+    
+    func setupCollectionView() {
+        collectionView?.backgroundColor = UIColor.white
+        collectionView?.register(HomeHeaderCell.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: headerId)
+        collectionView?.register(GalleryCell.self, forCellWithReuseIdentifier: cellId)
+        collectionView?.register(EmptyCell.self, forCellWithReuseIdentifier: noCellId)
+        collectionView?.contentInset = UIEdgeInsets(top: -65, left: 0, bottom: 0, right: 0)
+        let refreshControl = UIRefreshControl()
+        refreshControl.addTarget(self, action: #selector(handleRefresh), for: .valueChanged)
+        if #available(iOS 10.0, *) {
+            collectionView?.refreshControl = refreshControl
+        } else {
+            // Fallback on earlier versions
+        }
+    }
+    
+    var galleries = [Gallery]()
+    fileprivate func fetchGallery() {
+        guard let uid = Auth.auth().currentUser?.uid else { return }
+        Database.fetchUserWithUID(uid: uid) { (user) in
+            self.fetchPostsWithUser(user: user)
+        }
+    }
+    
+    fileprivate func fetchPostsWithUser(user: User) {
+        guard let uid = self.user?.uid else { return }
+        let ref = Database.database().reference().child(Constants.Gallery).child(uid)
+        
+        ref.queryOrdered(byChild: "creationDate").observe(.childAdded, with: { (snapshot) in
+            guard let dictionary = snapshot.value as? [String: Any] else { return }
+            
+            guard let user = self.user else { return }
+            
+            let gallery = Gallery(user: user, dictionary: dictionary)
+            
+            self.galleries.insert(gallery, at: 0)
+            self.collectionView?.reloadData()
+            
+        }) { (err) in
+            print("Failed to fetch ordered posts:", err)
+        }
         
     }
     
@@ -120,106 +152,7 @@ class HomeVC: UICollectionViewController, UICollectionViewDelegateFlowLayout, Ho
             
         }
     }
-    
-    var galleries = [Gallery]()
-    fileprivate func fetchGallery() {
-        guard let uid = Auth.auth().currentUser?.uid else { return }
-        Database.fetchUserWithUID(uid: uid) { (user) in
-            self.fetchPostsWithUser(user: user)
-        }
-    }
-    
-    
-    fileprivate func fetchPostsWithUser(user: User) {
-        guard let uid = self.user?.uid else { return }
-        let ref = Database.database().reference().child(Constants.Gallery).child(uid)
-        
-        ref.queryOrdered(byChild: "creationDate").observe(.childAdded, with: { (snapshot) in
-            guard let dictionary = snapshot.value as? [String: Any] else { return }
-            
-            guard let user = self.user else { return }
-            
-            let gallery = Gallery(user: user, dictionary: dictionary)
-            
-            self.galleries.insert(gallery, at: 0)
-            self.collectionView?.reloadData()
-            
-        }) { (err) in
-            print("Failed to fetch ordered posts:", err)
-        }
-        
-    }
-    
-    
-    
-    override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        if galleries.count == 0 {
-            return 1
-        } else {
-            return galleries.count
-        }
-    }
-    
-    override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        
-        if galleries.count == 0 {
-            let noCell = collectionView.dequeueReusableCell(withReuseIdentifier: noCellId, for: indexPath) as! EmptyCell
-            noCell.photoImageView.image = UIImage(named: "no_post_background")!
-            noCell.noPostLabel.text = "No Posts Yet"
-            return noCell
-        }
-        
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath) as! GalleryCell
-        cell.gallery = galleries[indexPath.item]
-        
-        return cell
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        
-        if galleries.count == 0 {
-            return CGSize(width: view.frame.width, height: 200)
-        } else {
-            let width = (view.frame.width - 2) / 2
-            return CGSize(width: width, height: width)
-        }
-    }
-    
-    override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        if galleries.count == 0 {
-            return
-        } else {
-            let gallery = galleries[indexPath.row]
-            let galleryDetail = GalleryDetailVC(collectionViewLayout: UICollectionViewFlowLayout())
-            galleryDetail.gallery = gallery
-            navigationController?.pushViewController(galleryDetail, animated: true)
-        }
-    }
-    
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
-        return 1
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-        return 1
-    }
-    
-    override func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
-        let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: headerId, for: indexPath) as! HomeHeaderCell
-        
-        header.user = self.user
-        header.delegate = self
-        
-        return header
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
-        return CGSize(width: view.frame.width, height: 380)
-    }
-    
-    //MARK: functions
-    
+
     func viewReviews(user: User) {
         let reviewsVC = ReviewsVC(collectionViewLayout: UICollectionViewFlowLayout())
         reviewsVC.user = user
@@ -319,4 +252,73 @@ class HomeVC: UICollectionViewController, UICollectionViewDelegateFlowLayout, Ho
         return newImage!
     }
     
+}
+
+extension HomeVC {
+    //MARK: - Collection View
+    override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        if galleries.count == 0 {
+            return 1
+        } else {
+            return galleries.count
+        }
+    }
+    
+    override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        
+        if galleries.count == 0 {
+            let noCell = collectionView.dequeueReusableCell(withReuseIdentifier: noCellId, for: indexPath) as! EmptyCell
+            noCell.photoImageView.image = UIImage(named: "no_post_background")!
+            noCell.noPostLabel.text = "No Posts Yet"
+            return noCell
+        }
+        
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath) as! GalleryCell
+        cell.gallery = galleries[indexPath.item]
+        
+        return cell
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        
+        if galleries.count == 0 {
+            return CGSize(width: view.frame.width, height: 200)
+        } else {
+            let width = (view.frame.width - 2) / 2
+            return CGSize(width: width, height: width)
+        }
+    }
+    
+    override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        if galleries.count == 0 {
+            return
+        } else {
+            let gallery = galleries[indexPath.row]
+            let galleryDetail = GalleryDetailVC(collectionViewLayout: UICollectionViewFlowLayout())
+            galleryDetail.gallery = gallery
+            navigationController?.pushViewController(galleryDetail, animated: true)
+        }
+    }
+    
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
+        return 1
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+        return 1
+    }
+    
+    override func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+        let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: headerId, for: indexPath) as! HomeHeaderCell
+        
+        header.user = self.user
+        header.delegate = self
+        
+        return header
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
+        return CGSize(width: view.frame.width, height: 380)
+    }
 }

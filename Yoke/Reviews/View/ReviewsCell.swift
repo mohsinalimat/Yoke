@@ -16,18 +16,18 @@ class ReviewsCell: UICollectionViewCell {
         didSet {
             guard let review = review else { return }
             
-            if case review.text = "" {
-                let attributedText = NSMutableAttributedString(string: review.user.username, attributes: [NSAttributedString.Key.font: UIFont.boldSystemFont(ofSize: 15), NSAttributedString.Key.foregroundColor: UIColor.black])
-                attributedText.append(NSAttributedString(string: " " + "There is no review to accompany this rating.", attributes: [NSAttributedString.Key.font: UIFont(name: "Avenir-BookOblique", size: 14)!, NSAttributedString.Key.foregroundColor: UIColor.black]))
-                textView.attributedText = attributedText
-            } else {
-                let attributedText = NSMutableAttributedString(string: review.user.username, attributes: [NSAttributedString.Key.font: UIFont.boldSystemFont(ofSize: 15), NSAttributedString.Key.foregroundColor: UIColor.black])
-                attributedText.append(NSAttributedString(string: " " + review.text, attributes: [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 15), NSAttributedString.Key.foregroundColor: UIColor.black]))
-                textView.attributedText = attributedText
-            }
+//            if case review.text = "" {
+//                let attributedText = NSMutableAttributedString(string: review.user.username?, attributes: [NSAttributedString.Key.font: UIFont.boldSystemFont(ofSize: 15), NSAttributedString.Key.foregroundColor: UIColor.black])
+//                attributedText.append(NSAttributedString(string: " " + "There is no review to accompany this rating.", attributes: [NSAttributedString.Key.font: UIFont(name: "Avenir-BookOblique", size: 14)!, NSAttributedString.Key.foregroundColor: UIColor.black]))
+//                textView.attributedText = attributedText
+//            } else {
+//                let attributedText = NSMutableAttributedString(string: review.user.username?, attributes: [NSAttributedString.Key.font: UIFont.boldSystemFont(ofSize: 15), NSAttributedString.Key.foregroundColor: UIColor.black])
+//                attributedText.append(NSAttributedString(string: " " + review.text, attributes: [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 15), NSAttributedString.Key.foregroundColor: UIColor.black]))
+//                textView.attributedText = attributedText
+//            }
             
             timeLabel.text = review.creationDate?.timeAgoDisplay()
-            profileImageView.loadImage(urlString: review.user.profileImageUrl)
+//            profileImageView.loadImage(urlString: review.user.profileImageUrl?)
             
             self.ratingView.rating = review.ratings
         }

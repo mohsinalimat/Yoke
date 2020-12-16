@@ -29,14 +29,14 @@ class EditScheduleVC: UIViewController, UITextViewDelegate {
             if schedule.BookmarkedUser == "" {
                 
             } else {
-                Database.fetchUserWithUID(uid: uid!) { (user) in
-                    let profileImageUrl = user.profileImageUrl
-                    self.userProfileImageView.loadImage(urlString: profileImageUrl)
-                    let attributedText = NSMutableAttributedString(string: "Saved with ", attributes: [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 14), NSAttributedString.Key.foregroundColor: UIColor.black])
-                    attributedText.append(NSAttributedString(string: user.username, attributes: [NSAttributedString.Key.font: UIFont.boldSystemFont(ofSize: 14), NSAttributedString.Key.foregroundColor: UIColor.black]))
-                    
-                    self.usernameLabel.attributedText = attributedText
-                }
+//                Database.fetchUserWithUID(uid: uid!) { (user) in
+//                    let profileImageUrl = user.profileImageUrl
+//                    self.userProfileImageView.loadImage(urlString: profileImageUrl)
+//                    let attributedText = NSMutableAttributedString(string: "Saved with ", attributes: [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 14), NSAttributedString.Key.foregroundColor: UIColor.black])
+//                    attributedText.append(NSAttributedString(string: user.username, attributes: [NSAttributedString.Key.font: UIFont.boldSystemFont(ofSize: 14), NSAttributedString.Key.foregroundColor: UIColor.black]))
+//                    
+//                    self.usernameLabel.attributedText = attributedText
+//                }
             }
             
 

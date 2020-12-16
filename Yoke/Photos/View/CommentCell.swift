@@ -21,13 +21,13 @@ class CommentCell: UICollectionViewCell {
         didSet {
             guard let comment = comment else { return }
             
-            let attributedText = NSMutableAttributedString(string: comment.user.username, attributes: [NSAttributedString.Key.font: UIFont.boldSystemFont(ofSize: 15), NSAttributedString.Key.foregroundColor: UIColor.darkGray])
-            attributedText.append(NSAttributedString(string: " " + comment.text, attributes: [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 15), NSAttributedString.Key.foregroundColor: UIColor.darkGray]))
-            textView.attributedText = attributedText
-            print("text \(comment.text)")
-            
-            timeLabel.text = comment.creationDate?.timeAgoDisplay()
-            profileImageView.loadImage(urlString: comment.user.profileImageUrl)
+//            let attributedText = NSMutableAttributedString(string: comment.user.username, attributes: [NSAttributedString.Key.font: UIFont.boldSystemFont(ofSize: 15), NSAttributedString.Key.foregroundColor: UIColor.darkGray])
+//            attributedText.append(NSAttributedString(string: " " + comment.text, attributes: [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 15), NSAttributedString.Key.foregroundColor: UIColor.darkGray]))
+//            textView.attributedText = attributedText
+//            print("text \(comment.text)")
+//            
+//            timeLabel.text = comment.creationDate?.timeAgoDisplay()
+//            profileImageView.loadImage(urlString: comment.user.profileImageUrl)
         
         }
     }

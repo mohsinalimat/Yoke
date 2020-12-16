@@ -462,19 +462,19 @@ class ChatVC: UICollectionViewController, UITextFieldDelegate, UICollectionViewD
         properties.forEach({values[$0] = $1})
         
         childRef.updateChildValues(values) { (error, ref) in
-            if error != nil {
-                print(error!)
-                return
-            }
-            
-            let messageId = childRef.key
-            
-            let userMessagesRef = Database.database().reference().child(Constants.UserMessages).child(fromId).child(toId).child(messageId!)
-            
-            userMessagesRef.setValue(1)
-            
-            let recipientUserMessagesRef = Database.database().reference().child(Constants.UserMessages).child(toId).child(fromId).child(messageId!)
-            recipientUserMessagesRef.setValue(1)
+//            if error != nil {
+//                print(error!)
+//                return
+//            }
+//            
+//            let messageId = childRef.key
+//            
+//            let userMessagesRef = Database.database().reference().child(Constants.UserMessages).child(fromId).child(toId).child(messageId!)
+//            
+//            userMessagesRef.setValue(1)
+//            
+//            let recipientUserMessagesRef = Database.database().reference().child(Constants.UserMessages).child(toId).child(fromId).child(messageId!)
+//            recipientUserMessagesRef.setValue(1)
         }
     }
     

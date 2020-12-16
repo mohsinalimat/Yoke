@@ -117,22 +117,22 @@ class AddUserVC: UICollectionViewController, UICollectionViewDelegateFlowLayout,
             dictionaries.forEach({ (key, value) in
                 
                 guard let userDictionary = value as? [String: Any] else { return }
-                Database.database().reference().child(Constants.BookmarkedUsers).child(self.uid!).child(key).observeSingleEvent(of: .value, with: { (snapshot) in
-                    
-                    let user = User(uid: key, dictionary: userDictionary)
-                    
-                    if let value = snapshot.value as? Int, value == 1 {
-                        user.isSaved = true
-                        self.users.append(user)
-                        self.users.sort(by: { (u1, u2) -> Bool in
-                            return u1.username.compare(u2.username) == .orderedAscending
-                        })
-                    } else {
-                        user.isSaved = false
-                    }
-                    self.filterSearch = self.users
-                    self.collectionView?.reloadData()
-                })
+//                Database.database().reference().child(Constants.BookmarkedUsers).child(self.uid!).child(key).observeSingleEvent(of: .value, with: { (snapshot) in
+//                    
+//                    let user = User(uid: key, dictionary: userDictionary)
+//                    
+//                    if let value = snapshot.value as? Int, value == 1 {
+//                        user.isSaved = true
+//                        self.users.append(user)
+//                        self.users.sort(by: { (u1, u2) -> Bool in
+//                            return u1.username.compare(u2.username) == .orderedAscending
+//                        })
+//                    } else {
+//                        user.isSaved = false
+//                    }
+//                    self.filterSearch = self.users
+//                    self.collectionView?.reloadData()
+//                })
                 
             })
             
@@ -145,32 +145,32 @@ class AddUserVC: UICollectionViewController, UICollectionViewDelegateFlowLayout,
     var searchUsers = [User]()
     fileprivate func fetchUsers() {
         let ref = Database.database().reference().child(Constants.Users)
-        ref.observeSingleEvent(of: .value, with: { (snapshot) in
-            guard let dictionaries = snapshot.value as? [String: Any] else { return }
-            
-            dictionaries.forEach({ (key, value) in
-                
-                if key == Auth.auth().currentUser?.uid {
-                    return
-                }
-                
-                guard let userDictionary = value as? [String: Any] else { return }
-                
-                let user = User(uid: key, dictionary: userDictionary)
-                
-                self.searchUsers.append(user)
-            })
-            
-            self.searchUsers.sort(by: { (u1, u2) -> Bool in
-                return u1.username.compare(u2.username) == .orderedAscending
-            })
-            
-            self.filteredUsers = self.searchUsers
-            self.collectionView?.reloadData()
-            
-        }) { (err) in
-            print("Failed to fetch users for search:", err)
-        }
+//        ref.observeSingleEvent(of: .value, with: { (snapshot) in
+//            guard let dictionaries = snapshot.value as? [String: Any] else { return }
+//            
+//            dictionaries.forEach({ (key, value) in
+//                
+//                if key == Auth.auth().currentUser?.uid {
+//                    return
+//                }
+//                
+//                guard let userDictionary = value as? [String: Any] else { return }
+//                
+//                let user = User(uid: key, dictionary: userDictionary)
+//                
+//                self.searchUsers.append(user)
+//            })
+//            
+//            self.searchUsers.sort(by: { (u1, u2) -> Bool in
+//                return u1.username.compare(u2.username) == .orderedAscending
+//            })
+//            
+//            self.filteredUsers = self.searchUsers
+//            self.collectionView?.reloadData()
+//            
+//        }) { (err) in
+//            print("Failed to fetch users for search:", err)
+//        }
         
     }
     
@@ -191,12 +191,12 @@ class AddUserVC: UICollectionViewController, UICollectionViewDelegateFlowLayout,
     }
     
     func filterUsersView(index: Int, text: String) {
-        filteredUsers = self.searchUsers.filter { (user) -> Bool in
-            return user.username.lowercased().contains(text.lowercased())
-        }
-        filterSearch = self.users.filter { (user) -> Bool in
-            return user.username.lowercased().contains(text.lowercased())
-        }
+//        filteredUsers = self.searchUsers.filter { (user) -> Bool in
+//            return user.username?.lowercased().contains(text.lowercased())
+//        }
+//        filterSearch = self.users.filter { (user) -> Bool in
+//            return user.username?.lowercased().contains(text.lowercased())
+//        }
         
         self.collectionView?.reloadData()
     }

@@ -583,19 +583,19 @@
 		6C8DB5F924B3C1B8003D06FF /* Home */ = {
 			isa = PBXGroup;
 			children = (
-				6C8DB5FA24B3C1B8003D06FF /* Controller */,
+				6C8DB5FA24B3C1B8003D06FF /* View Controller */,
 				6C8DB5FC24B3C1B8003D06FF /* Edit Profile */,
 				6C8DB60424B3C1B8003D06FF /* View */,
 			);
 			path = Home;
 			sourceTree = "<group>";
 		};
-		6C8DB5FA24B3C1B8003D06FF /* Controller */ = {
+		6C8DB5FA24B3C1B8003D06FF /* View Controller */ = {
 			isa = PBXGroup;
 			children = (
 				6C8DB5FB24B3C1B8003D06FF /* HomeVC.swift */,
 			);
-			path = Controller;
+			path = "View Controller";
 			sourceTree = "<group>";
 		};
 		6C8DB5FC24B3C1B8003D06FF /* Edit Profile */ = {

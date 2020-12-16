@@ -18,11 +18,11 @@ class EditProfileVC: UIViewController, UIImagePickerControllerDelegate, UINaviga
     
     var user: User? {
         didSet {
-            guard let profileImageUrl = user?.profileImageUrl else { return }
-            profileImageView.loadImage(urlString: profileImageUrl)
-            
-            guard let coverImageUrl = user?.ProfileCoverUrl else {return}
-            coverImageView.loadImage(urlString: coverImageUrl)
+//            guard let profileImageUrl = user?.profileImageUrl else { return }
+//            profileImageView.loadImage(urlString: profileImageUrl)
+//
+//            guard let coverImageUrl = user?.ProfileCoverUrl else {return}
+//            coverImageView.loadImage(urlString: coverImageUrl)
         }
     }
     
@@ -59,24 +59,24 @@ class EditProfileVC: UIViewController, UIImagePickerControllerDelegate, UINaviga
     func getUserProfile() {
         Database.database().reference().child(Constants.Users).child(self.uid!).observe(.value, with: { (snapshot) in
             if let dictionary = snapshot.value as? [String: AnyObject] {
-                let uid = Auth.auth().currentUser?.uid
-                let user = User(uid: uid!, dictionary: dictionary)
-                self.usernameTextField.text = user.username
-                self.emailTextLabel.text = user.email
-//                self.locationTextLabel.text = user.location
-                self.aboutTextView.text = user.aboutUser
-                self.profileImageView.loadImage(urlString: user.profileImageUrl)
-                self.coverImageView.loadImage(urlString: user.ProfileCoverUrl)
-                
-                if user.location == "" {
-                    self.locationTextLabel.text = "Choose Location"
-                } else {
-                   self.locationTextLabel.text = user.location
-                }
-                
-                if user.aboutUser == "" {
-                    self.aboutTextView.placeholder = "Tell us a litte about yourself"
-                }
+//                let uid = Auth.auth().currentUser?.uid
+//                let user = User(uid: uid!, dictionary: dictionary)
+//                self.usernameTextField.text = user.username
+//                self.emailTextLabel.text = user.email
+////                self.locationTextLabel.text = user.location
+//                self.aboutTextView.text = user.aboutUser
+//                self.profileImageView.loadImage(urlString: user.profileImageUrl)
+//                self.coverImageView.loadImage(urlString: user.ProfileCoverUrl)
+//                
+//                if user.location == "" {
+//                    self.locationTextLabel.text = "Choose Location"
+//                } else {
+//                   self.locationTextLabel.text = user.location
+//                }
+//                
+//                if user.aboutUser == "" {
+//                    self.aboutTextView.placeholder = "Tell us a litte about yourself"
+//                }
             }
             
         })
