@@ -238,6 +238,7 @@
 		6CBDDE5724B3DC0C0099A04C /* MakePaymentVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MakePaymentVC.swift; sourceTree = "<group>"; };
 		6CBDDE5824B3DC0C0099A04C /* PaymentDetailVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PaymentDetailVC.swift; sourceTree = "<group>"; };
 		6CBDDE5B24B3DC130099A04C /* Payment.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Payment.swift; sourceTree = "<group>"; };
+		6CC123032589583A0038B9E3 /* Yoke.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Yoke.entitlements; sourceTree = "<group>"; };
 		6CD9383E2587E07D00F741F5 /* LocationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
 		6CDCD7D0258157FA002CE767 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		6CDCD7DD258159BB002CE767 /* UserController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserController.swift; sourceTree = "<group>"; };
@@ -292,6 +293,7 @@
 		6C296DD024B3BE6A008E33ED /* Yoke */ = {
 			isa = PBXGroup;
 			children = (
+				6CC123032589583A0038B9E3 /* Yoke.entitlements */,
 				6C8DB60624B3C1B8003D06FF /* Login | Signup | Users */,
 				6C8DB5F924B3C1B8003D06FF /* Home */,
 				6C8DB62B24B3C1B9003D06FF /* Bookmark */,
@@ -1282,6 +1284,7 @@
 			baseConfigurationReference = 2C13EEA210C159A145BD5C6A /* Pods-Yoke.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = Yoke/Yoke.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_ASSET_PATHS = "\"Yoke/Preview Content\"";
@@ -1304,6 +1307,7 @@
 			baseConfigurationReference = 9F3E54B699EE8256F9CE2164 /* Pods-Yoke.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = Yoke/Yoke.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_ASSET_PATHS = "\"Yoke/Preview Content\"";

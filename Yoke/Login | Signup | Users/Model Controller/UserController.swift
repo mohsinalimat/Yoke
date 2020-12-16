@@ -22,7 +22,7 @@ class UserController {
     var user: User?
     
     //MARK: - CRUD Functions
-    func createUser(email: String, username: String, password: String = "", image: UIImage?, location: String, completion: @escaping (Bool) -> Void) {
+    func createUserWith(email: String, username: String, password: String = "", image: UIImage?, location: String, completion: @escaping (Bool) -> Void) {
         Auth.auth().createUser(withEmail: email, password: password, completion: { (user, error) in
             if let error = error {
                 print("There was an error authorizing user: \(error.localizedDescription)")
@@ -49,6 +49,19 @@ class UserController {
                 completion(true)
             })
         })
+    }
+    
+    func createUserWithProvider(uid: String, email: String, username: String, location: String, completion: @escaping (Bool) -> Void) {
+        
+        self.firestoreDB.collection(Constants.Users).document(uid).setData([Constants.Email: email, Constants.Username: username, Constants.Uid: uid, Constants.Location: location]) { (error) in
+            if let error = error {
+                print(error.localizedDescription)
+                completion(false)
+            }
+        }
+        let getUser = StripeUser.init(id: uid, customer_id: "", email: email)
+        self.createFirestoreUser(stripeUser: getUser)
+        completion(true)
     }
     
     func createFirestoreUser(stripeUser: StripeUser) {

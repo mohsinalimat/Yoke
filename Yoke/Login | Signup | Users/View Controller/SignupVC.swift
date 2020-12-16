@@ -125,7 +125,7 @@ class SignupVC: UIViewController {
             if let state = placemark.administrativeArea {
                 output = output + "\n\(state)"
             }
-            UserController.shared.createUser(email: email, username: username, password: password, image: image, location: output) { (result) in
+            UserController.shared.createUserWith(email: email, username: username, password: password, image: image, location: output) { (result) in
                 switch result {
                 case true:
                     self.handleLoginToHome()

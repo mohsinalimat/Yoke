@@ -10,13 +10,19 @@ import UIKit
 import Firebase
 import FirebaseAuth
 import GoogleSignIn
+import AuthenticationServices
+import CryptoKit
 
-class LoginVC: UIViewController, GIDSignInDelegate {
+class LoginVC: UIViewController {
     
     //MARK: - Properties
     var safeArea: UILayoutGuide {
         return self.view.safeAreaLayoutGuide
     }
+    let appleButton = ASAuthorizationAppleIDButton(type: .continue, style: .black)
+    fileprivate var currentNonce: String?
+    private let locationManager = LocationManager()
+    var location: String = ""
     
     //MARK: - Lifecycle Methods
     override func viewDidLayoutSubviews() {
@@ -37,14 +43,15 @@ class LoginVC: UIViewController, GIDSignInDelegate {
         view.addSubview(logoView)
         view.addSubview(stackView)
         view.addSubview(introductionLabel)
+        view.addSubview(dontHaveAccountButton)
+        view.addSubview(forgotPasswordButton)
+        view.addSubview(signInButtonsStackView)
+        view.addSubview(signInOptionLabel)
         stackView.addArrangedSubview(emailTextField)
         stackView.addArrangedSubview(passwordTextField)
         stackView.addArrangedSubview(loginButton)
-        stackView.addArrangedSubview(signInOptionLabel)
-        stackView.addArrangedSubview(googleSignUpButton)
-        stackView.addArrangedSubview(appleSignUpButton)
-        view.addSubview(dontHaveAccountButton)
-        view.addSubview(forgotPasswordButton)
+        signInButtonsStackView.addArrangedSubview(googleSignUpButton)
+        signInButtonsStackView.addArrangedSubview(appleSignUpButton)
         constrainViews()
     }
     
@@ -52,9 +59,12 @@ class LoginVC: UIViewController, GIDSignInDelegate {
         logoView.anchor(top: safeArea.topAnchor, left: nil, bottom: nil, right: nil, paddingTop: 75, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 200, height: 200)
         logoView.centerXAnchor.constraint(equalTo: safeArea.centerXAnchor).isActive = true
         introductionLabel.anchor(top: logoView.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 20, paddingLeft: 20, paddingBottom: 0, paddingRight: 20)
-        stackView.anchor(top: introductionLabel.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 10, paddingLeft: 40, paddingBottom: 0, paddingRight: 40, height: 295)
+        stackView.anchor(top: introductionLabel.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 10, paddingLeft: 40, paddingBottom: 0, paddingRight: 40, height: 180)
         dontHaveAccountButton.anchor(top: stackView.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 5, paddingLeft: 0, paddingBottom: 0, paddingRight: 0)
         forgotPasswordButton.anchor(top: dontHaveAccountButton.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 5, paddingLeft: 0, paddingBottom: 0, paddingRight: 0)
+        signInOptionLabel.anchor(top: forgotPasswordButton.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 20, paddingLeft: 0, paddingBottom: 0, paddingRight: 0)
+        signInButtonsStackView.anchor(top: signInOptionLabel.bottomAnchor, left: nil, bottom: nil, right: nil, paddingTop: 10, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 195, height: 75)
+        signInButtonsStackView.centerXAnchor.constraint(equalTo: safeArea.centerXAnchor).isActive = true
     }
     
     func setupBackground() {
@@ -104,32 +114,6 @@ class LoginVC: UIViewController, GIDSignInDelegate {
         })
     }
     
-    @objc func handleGoogleLogin() {
-        GIDSignIn.sharedInstance().signIn()
-    }
-    
-    func sign(_ signIn: GIDSignIn!, didSignInFor user: GIDGoogleUser!, withError error: Error!) {
-        if let error = error {
-            print(error.localizedDescription)
-            return
-        }
-        guard let auth = user.authentication else { return }
-        let credentials = GoogleAuthProvider.credential(withIDToken: auth.idToken, accessToken: auth.accessToken)
-        Auth.auth().signIn(with: credentials) {
-            (authResult, error) in
-            if let error = error {print(error.localizedDescription)
-                
-            } else {
-                self.handleLoginToHome()
-            }//This is where you should add the functionality of successful login//i.e. dismissing this view or push the home view controller etc
-        }
-    }
-    
-    func setupGoogle() {
-        GIDSignIn.sharedInstance()?.presentingViewController = self
-        GIDSignIn.sharedInstance().delegate = self
-    }
-    
     func handleLoginToHome() {
         UIView.animate(withDuration: 0.5) { [weak self] in
             let homeVC = MainTabBarController()
@@ -157,10 +141,10 @@ class LoginVC: UIViewController, GIDSignInDelegate {
     
     let introductionLabel: UILabel = {
         let label = UILabel()
-        label.text = "Login with email"
+        label.text = "Sign in with email:"
         label.lineBreakMode = NSLineBreakMode.byWordWrapping
         label.numberOfLines = 0
-        label.font = UIFont.systemFont(ofSize: 13)
+        label.font = UIFont.boldSystemFont(ofSize: 15)
         label.textColor = UIColor.white
         label.textAlignment = .center
         return label
@@ -168,10 +152,10 @@ class LoginVC: UIViewController, GIDSignInDelegate {
     
     let signInOptionLabel: UILabel = {
         let label = UILabel()
-        label.text = "Login up via google or apple"
+        label.text = "Or sign in with:"
         label.lineBreakMode = NSLineBreakMode.byWordWrapping
         label.numberOfLines = 0
-        label.font = UIFont.systemFont(ofSize: 13)
+        label.font = UIFont.boldSystemFont(ofSize: 15)
         label.textColor = UIColor.white
         label.textAlignment = .center
         return label
@@ -184,7 +168,7 @@ class LoginVC: UIViewController, GIDSignInDelegate {
         textField.attributedPlaceholder = placeholderText
         textField.backgroundColor = UIColor.white.withAlphaComponent(0.9)
         textField.borderStyle = .roundedRect
-        textField.font = UIFont.systemFont(ofSize: 18)
+        textField.font = UIFont.systemFont(ofSize: 17)
         textField.textColor = UIColor.darkGray
         textField.keyboardType = UIKeyboardType.emailAddress
         return textField
@@ -198,7 +182,7 @@ class LoginVC: UIViewController, GIDSignInDelegate {
         textField.isSecureTextEntry = true
         textField.backgroundColor = UIColor.white.withAlphaComponent(0.9)
         textField.borderStyle = .roundedRect
-        textField.font = UIFont.systemFont(ofSize: 18)
+        textField.font = UIFont.systemFont(ofSize: 17)
         textField.textColor = UIColor.darkGray
         return textField
     }()
@@ -213,10 +197,20 @@ class LoginVC: UIViewController, GIDSignInDelegate {
         return view
     }()
     
+    let signInButtonsStackView: UIStackView = {
+        let view = UIStackView()
+        view.axis = .horizontal
+        view.alignment = .fill
+        view.distribution = .fillEqually
+        view.spacing = 20
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
+    
     let dontHaveAccountButton: UIButton = {
         let button = UIButton(type: .system)
-        let attributedTitle = NSMutableAttributedString(string: "Don't have an account?  ", attributes: [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 16), NSAttributedString.Key.foregroundColor: UIColor.white])
-        attributedTitle.append(NSAttributedString(string: "Sign Up with Email", attributes: [NSAttributedString.Key.font: UIFont.boldSystemFont(ofSize: 16), NSAttributedString.Key.foregroundColor: UIColor.white
+        let attributedTitle = NSMutableAttributedString(string: "Don't have an account?  ", attributes: [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 15), NSAttributedString.Key.foregroundColor: UIColor.white])
+        attributedTitle.append(NSAttributedString(string: "Sign up with Email", attributes: [NSAttributedString.Key.font: UIFont.boldSystemFont(ofSize: 15), NSAttributedString.Key.foregroundColor: UIColor.white
             ]))
         button.setAttributedTitle(attributedTitle, for: .normal)
         button.addTarget(self, action: #selector(handleShowSignUp), for: .touchUpInside)
@@ -224,42 +218,42 @@ class LoginVC: UIViewController, GIDSignInDelegate {
     }()
     
     let loginButton: UIButton = {
-        let button = UIButton(type: .system)
-        button.setTitle("Login", for: .normal)
+        let button = UIButton(type: .custom)
+        button.setTitle("Sign in", for: .normal)
         button.backgroundColor = UIColor.yellowColor()?.withAlphaComponent(0.8)
         button.layer.cornerRadius = 5
-        button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 18)
+        button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 17)
         button.setTitleColor(.white, for: .normal)
         button.addTarget(self, action: #selector(handleLogin), for: .touchUpInside)
         return button
     }()
     
     let googleSignUpButton: UIButton = {
-        let button = UIButton(type: .system)
-        button.setTitle("Sign Up with google", for: .normal)
-        button.backgroundColor = UIColor.yellowColor()?.withAlphaComponent(0.8)
+        let button = UIButton(type: .custom)
+        button.setImage(UIImage(named: "btn_google_light_normal_ios"), for: .normal)
+        button.imageView?.contentMode = .scaleAspectFit
+        button.backgroundColor = UIColor.white
         button.layer.cornerRadius = 5
-        button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 18)
-        button.setTitleColor(.white, for: .normal)
-        button.addTarget(self, action: #selector(handleGoogleLogin), for: .touchUpInside)
+        button.layer.masksToBounds = true
+        button.addTarget(self, action: #selector(handleGoogleSignIn), for: .touchUpInside)
         return button
     }()
     
     let appleSignUpButton: UIButton = {
-        let button = UIButton(type: .system)
-        button.setTitle("Sign Up with apple", for: .normal)
-        button.backgroundColor = UIColor.yellowColor()?.withAlphaComponent(0.8)
+        let button = UIButton(type: .custom)
+        button.setImage(UIImage(named: "iTunesArtwork"), for: .normal)
+        button.imageView?.contentMode = .scaleAspectFit
+        button.backgroundColor = UIColor.black
         button.layer.cornerRadius = 5
-        button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 18)
-        button.setTitleColor(.white, for: .normal)
-//        button.addTarget(self, action: #selector(handleSignUp), for: .touchUpInside)
+        button.layer.masksToBounds = true
+        button.addTarget(self, action: #selector(handleAppleSignIn), for: .touchUpInside)
         return button
     }()
     
     let forgotPasswordButton: UIButton = {
         let button = UIButton(type: .system)
         button.setTitle("Forgot Password?", for: .normal)
-        button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 16)
+        button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 17)
         button.setTitleColor(UIColor.white, for: .normal)
         button.addTarget(self, action: #selector(handleForgotPassword), for: .touchUpInside)
         return button
@@ -301,6 +295,177 @@ extension LoginVC: UITextFieldDelegate {
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         self.removeKeyboardObserver()
+    }
+}
+
+@available(iOS 13.0, *)
+extension LoginVC: ASAuthorizationControllerDelegate {
+    
+    @objc func handleAppleSignIn() {
+        let nonce = randomNonceString()
+        currentNonce = nonce
+        let appleIDProvider = ASAuthorizationAppleIDProvider()
+        let request = appleIDProvider.createRequest()
+        request.requestedScopes = [.fullName, .email]
+        request.nonce = sha256(nonce)
+                
+        let authorizationController = ASAuthorizationController(authorizationRequests: [request])
+        authorizationController.delegate = self
+        authorizationController.presentationContextProvider = self
+        authorizationController.performRequests()
+    }
+            
+    @available(iOS 13, *)
+    private func sha256(_ input: String) -> String {
+        let inputData = Data(input.utf8)
+        let hashedData = SHA256.hash(data: inputData)
+        let hashString = hashedData.compactMap {
+            return String(format: "%02x", $0)
+        }.joined()
+        return hashString
+    }
+    
+    private func randomNonceString(length: Int = 32) -> String {
+      precondition(length > 0)
+      let charset: Array<Character> =
+          Array("0123456789ABCDEFGHIJKLMNOPQRSTUVXYZabcdefghijklmnopqrstuvwxyz-._")
+      var result = ""
+      var remainingLength = length
+
+      while remainingLength > 0 {
+        let randoms: [UInt8] = (0 ..< 16).map { _ in
+          var random: UInt8 = 0
+          let errorCode = SecRandomCopyBytes(kSecRandomDefault, 1, &random)
+          if errorCode != errSecSuccess {
+            fatalError("Unable to generate nonce. SecRandomCopyBytes failed with OSStatus \(errorCode)")
+          }
+          return random
+        }
+
+        randoms.forEach { random in
+          if remainingLength == 0 {
+            return
+          }
+
+          if random < charset.count {
+            result.append(charset[Int(random)])
+            remainingLength -= 1
+          }
+        }
+      }
+
+      return result
+    }
+    
+    func authorizationController(controller: ASAuthorizationController, didCompleteWithAuthorization authorization: ASAuthorization) {
+        if let appleIDCredential = authorization.credential as? ASAuthorizationAppleIDCredential {
+            guard let nonce = currentNonce else {
+                fatalError("Invalid state: A login callback was received, but no login request was sent.")
+            }
+            guard let appleIDToken = appleIDCredential.identityToken else {
+                print("Unable to fetch identity token")
+                return
+            }
+            guard let idTokenString = String(data: appleIDToken, encoding: .utf8) else {
+                print("Unable to serialize token string from data: \(appleIDToken.debugDescription)")
+                return
+            }
+            let credential = OAuthProvider.credential(withProviderID: "apple.com",
+                                                      idToken: idTokenString,
+                                                      rawNonce: nonce)
+            Auth.auth().signIn(with: credential) { (authResult, error) in
+                if (error != nil) {
+                    print(error?.localizedDescription ?? "")
+                    return
+                }
+                guard let user = authResult?.user else { return }
+                let email = user.email ?? ""
+                let username = user.displayName ?? ""
+                guard let uid = Auth.auth().currentUser?.uid else { return }
+                guard let exposedLocation = self.locationManager.exposedLocation else { return }
+                self.locationManager.getPlace(for: exposedLocation) { placemark in
+                    guard let placemark = placemark else { return }
+                    var output = ""
+                    if let town = placemark.locality {
+                        output = output + "\n\(town)"
+                    }
+                    if let state = placemark.administrativeArea {
+                        output = output + "\n\(state)"
+                    }
+                    UserController.shared.createUserWithProvider(uid: uid, email: email, username: username, location: output) { (result) in
+                        switch result {
+                        case true:
+                            self.handleLoginToHome()
+                        case false:
+                            print("apple sign in problem")
+                        }
+                    }
+                }
+            }
+        }
+    }
+    
+    func authorizationController(controller: ASAuthorizationController, didCompleteWithError error: Error) {
+        // Handle error.
+        print("Sign in with Apple errored: \(error)")
+    }
+}
+
+extension LoginVC: ASAuthorizationControllerPresentationContextProviding {
+    func presentationAnchor(for controller: ASAuthorizationController) -> ASPresentationAnchor {
+        return self.view.window!
+    }
+}
+
+extension LoginVC: GIDSignInDelegate {
+
+    @objc func handleGoogleSignIn() {
+        GIDSignIn.sharedInstance().signIn()
+    }
+    
+    func sign(_ signIn: GIDSignIn!, didSignInFor user: GIDGoogleUser!, withError error: Error!) {
+        if let error = error {
+            print(error.localizedDescription)
+            return
+        }
+        guard let auth = user.authentication else { return }
+        let credentials = GoogleAuthProvider.credential(withIDToken: auth.idToken, accessToken: auth.accessToken)
+        Auth.auth().signIn(with: credentials) {
+            (authResult, error) in
+            if let error = error {print(error.localizedDescription)
+                
+            } else {
+                //Check if user exist in firebase, if not create an account else sign in
+                guard let uid = Auth.auth().currentUser?.uid,
+                      let email = user.profile.email,
+                      let username = user.profile.name
+                      else { return }
+                guard let exposedLocation = self.locationManager.exposedLocation else { return }
+                self.locationManager.getPlace(for: exposedLocation) { placemark in
+                    guard let placemark = placemark else { return }
+                    var output = ""
+                    if let town = placemark.locality {
+                        output = output + "\n\(town)"
+                    }
+                    if let state = placemark.administrativeArea {
+                        output = output + "\n\(state)"
+                    }
+                    UserController.shared.createUserWithProvider(uid: uid, email: email, username: username, location: output) { (result) in
+                        switch result {
+                        case true:
+                            self.handleLoginToHome()
+                        case false:
+                            print("apple sign in problem")
+                        }
+                    }
+                }
+            }
+        }
+    }
+    
+    func setupGoogle() {
+        GIDSignIn.sharedInstance()?.presentingViewController = self
+        GIDSignIn.sharedInstance().delegate = self
     }
 }
 
