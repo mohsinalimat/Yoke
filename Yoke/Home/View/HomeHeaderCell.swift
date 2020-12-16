@@ -43,8 +43,8 @@ class HomeHeaderCell: UICollectionViewCell {
 //                coverImageView.loadImage(urlString: coverImageUrl)
 //            }
             
-            
-            usernameLabel.text = "Welcome Back \(user.username)"
+            guard let username = user.username else { return }
+            usernameLabel.text = "Welcome Back \(username)"
             handleRatingView()
             checkIfChef()
         }
@@ -60,24 +60,21 @@ class HomeHeaderCell: UICollectionViewCell {
         addSubview(viewProfileButton)
         addSubview(usernameLabel)
         
-        bannerImageCover.anchor(top: topAnchor, left: leftAnchor, bottom: nil, right: rightAnchor, paddingTop: -50, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 250)
-        
-        coverImageView.anchor(top: bannerImageCover.topAnchor, left: bannerImageCover.leftAnchor, bottom: bannerImageCover.bottomAnchor, right: bannerImageCover.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
-        
-        profileImageView.anchor(top: coverImageView.bottomAnchor, left: leftAnchor, bottom: nil, right: nil, paddingTop: -60, paddingLeft: 15, paddingBottom: 0, paddingRight: 0, width: 120, height: 120)
-        profileImageView.layer.cornerRadius = 60
+//        bannerImageCover.anchor(top: topAnchor, left: leftAnchor, bottom: nil, right: rightAnchor, paddingTop: -50, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 250)
+//
+//        coverImageView.anchor(top: bannerImageCover.topAnchor, left: bannerImageCover.leftAnchor, bottom: bannerImageCover.bottomAnchor, right: bannerImageCover.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
+//
+//        profileImageView.anchor(top: coverImageView.bottomAnchor, left: leftAnchor, bottom: nil, right: nil, paddingTop: -60, paddingLeft: 15, paddingBottom: 0, paddingRight: 0, width: 120, height: 120)
+//        profileImageView.layer.cornerRadius = 60
 
-        usernameLabel.anchor(top: coverImageView.bottomAnchor, left: profileImageView.rightAnchor, bottom: nil, right: nil, paddingTop: -25, paddingLeft: 5, paddingBottom: 0, paddingRight: 0, width: 0, height: 25)
+        usernameLabel.anchor(top: topAnchor, left: leftAnchor, bottom: nil, right: rightAnchor, paddingTop: 100, paddingLeft: 5, paddingBottom: 0, paddingRight: -10, height: 45)
         
-        viewProfileButton.anchor(top: usernameLabel.bottomAnchor, left: profileImageView.rightAnchor, bottom: nil, right: rightAnchor, paddingTop: 10, paddingLeft: 5, paddingBottom: 5, paddingRight: 15, width: 0, height: 30)
+        viewProfileButton.anchor(top: usernameLabel.bottomAnchor, left: profileImageView.rightAnchor, bottom: nil, right: rightAnchor, paddingTop: 10, paddingLeft: 5, paddingBottom: 5, paddingRight: 15, width: 0, height: 45)
         
         setupBottomToolbar()
     }
     
     fileprivate func setupBottomToolbar() {
-        
-
-        
         reviewsButton.alignImageTextVertical()
         EventButton.alignImageTextVertical()
         bookmarkButton.alignImageTextVertical()
@@ -90,7 +87,7 @@ class HomeHeaderCell: UICollectionViewCell {
         stackView.distribution = .fillEqually
         stackView.spacing = 0
         addSubview(stackView)
-        stackView.anchor(top: profileImageView.bottomAnchor, left: leftAnchor, bottom: nil, right: rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 75)
+        stackView.anchor(top: viewProfileButton.bottomAnchor, left: leftAnchor, bottom: nil, right: rightAnchor, paddingTop: 20, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 75)
         
         addSubview(galleryLabel)
         galleryLabel.anchor(top: stackView.bottomAnchor, left: nil, bottom: bottomAnchor, right: nil, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: frame.width, height: 30)
@@ -235,6 +232,7 @@ class HomeHeaderCell: UICollectionViewCell {
         let label = UILabel()
         label.font = UIFont.boldSystemFont(ofSize: 20)
         label.textColor = UIColor.black
+        label.text = "username"
         label.textAlignment = .center
         return label
     }()
