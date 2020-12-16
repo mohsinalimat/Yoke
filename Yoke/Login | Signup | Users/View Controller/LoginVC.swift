@@ -48,7 +48,7 @@ class LoginVC: UIViewController {
         view.addSubview(signInOptionLabel)
         stackView.addArrangedSubview(emailTextField)
         stackView.addArrangedSubview(passwordTextField)
-        stackView.addArrangedSubview(loginButton)
+        stackView.addArrangedSubview(signInButton)
         signInButtonsStackView.addArrangedSubview(googleSignUpButton)
         signInButtonsStackView.addArrangedSubview(appleSignUpButton)
         constrainViews()
@@ -99,7 +99,7 @@ class LoginVC: UIViewController {
         self.present(forgotPasswordAlert, animated: true, completion: nil)
     }
     
-    @objc func handleLogin() {
+    @objc func handleSignIn() {
         guard let email = emailTextField.text, !email.isEmpty,
               let password = passwordTextField.text,
               !password.isEmpty else { return }
@@ -216,14 +216,14 @@ class LoginVC: UIViewController {
         return button
     }()
     
-    let loginButton: UIButton = {
+    let signInButton: UIButton = {
         let button = UIButton(type: .custom)
         button.setTitle("Sign in", for: .normal)
         button.backgroundColor = UIColor.yellowColor()?.withAlphaComponent(0.8)
         button.layer.cornerRadius = 5
         button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 17)
         button.setTitleColor(.white, for: .normal)
-        button.addTarget(self, action: #selector(handleLogin), for: .touchUpInside)
+        button.addTarget(self, action: #selector(handleSignIn), for: .touchUpInside)
         return button
     }()
     
