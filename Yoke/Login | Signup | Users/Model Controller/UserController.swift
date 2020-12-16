@@ -74,6 +74,19 @@ class UserController {
         }
     }
     
+    func checkIfUserExist(uid: String, completion: @escaping (Bool) -> Void) {
+        self.firestoreDB.collection(Constants.Users).document(uid).getDocument { (document, error) in
+            if let document = document, document.exists {
+                let dataDescription = document.data().map(String.init(describing:)) ?? "nil"
+                print("Document data: \(dataDescription)")
+                completion(true)
+            } else {
+                print("Document does not exist")
+                completion(false)
+            }
+        }
+    }
+    
 //    func fetchUserWithUID(uid: String, completion: @escaping (User) -> ()) {
 //        firestoreDB.collection(Constants.Users).document(uid).getDocument { (document, error) in
 //            if let document = document, document.exists {
