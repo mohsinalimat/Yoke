@@ -381,22 +381,29 @@ extension LoginVC: ASAuthorizationControllerDelegate {
                 let email = user.email ?? ""
                 let username = user.displayName ?? ""
                 guard let uid = Auth.auth().currentUser?.uid else { return }
-                guard let exposedLocation = self.locationManager.exposedLocation else { return }
-                self.locationManager.getPlace(for: exposedLocation) { placemark in
-                    guard let placemark = placemark else { return }
-                    var output = ""
-                    if let town = placemark.locality {
-                        output = output + "\n\(town)"
-                    }
-                    if let state = placemark.administrativeArea {
-                        output = output + "\n\(state)"
-                    }
-                    UserController.shared.createUserWithProvider(uid: uid, email: email, username: username, location: output) { (result) in
-                        switch result {
-                        case true:
-                            self.handleLoginToHome()
-                        case false:
-                            print("apple sign in problem")
+                UserController.shared.checkIfUserExist(uid: uid) { (result) in
+                    switch result {
+                    case true:
+                        self.handleLoginToHome()
+                    case false:
+                        guard let exposedLocation = self.locationManager.exposedLocation else { return }
+                        self.locationManager.getPlace(for: exposedLocation) { placemark in
+                            guard let placemark = placemark else { return }
+                            var output = ""
+                            if let town = placemark.locality {
+                                output = output + "\n\(town)"
+                            }
+                            if let state = placemark.administrativeArea {
+                                output = output + "\n\(state)"
+                            }
+                            UserController.shared.createUserWithProvider(uid: uid, email: email, username: username, location: output) { (result) in
+                                switch result {
+                                case true:
+                                    self.handleLoginToHome()
+                                case false:
+                                    print("google sign in problem")
+                                }
+                            }
                         }
                     }
                 }

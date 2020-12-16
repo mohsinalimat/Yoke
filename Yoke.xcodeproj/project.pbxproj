@@ -96,7 +96,7 @@
 		6C8DB6A824B3C1B9003D06FF /* BookmarkedEventsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C8DB62F24B3C1B9003D06FF /* BookmarkedEventsCell.swift */; };
 		6C8DB6A924B3C1B9003D06FF /* BookmarkedUsersCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C8DB63024B3C1B9003D06FF /* BookmarkedUsersCell.swift */; };
 		6C8DB6AB24B3C1CD003D06FF /* MainTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C8DB6AA24B3C1CD003D06FF /* MainTabBarController.swift */; };
-		6C8DB6AE24B3C44A003D06FF /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 6C8DB6AC24B3C44A003D06FF /* GoogleService-Info.plist */; };
+		6CAB0F85258AA85200E17B39 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 6CAB0F84258AA85200E17B39 /* GoogleService-Info.plist */; };
 		6CBDDE4224B3DBE70099A04C /* CreateInvoiceVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CBDDE4024B3DBE70099A04C /* CreateInvoiceVC.swift */; };
 		6CBDDE4324B3DBE70099A04C /* InvoiceCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CBDDE4124B3DBE70099A04C /* InvoiceCell.swift */; };
 		6CBDDE4724B3DBF30099A04C /* StripeApi.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CBDDE4524B3DBF30099A04C /* StripeApi.swift */; };
@@ -223,8 +223,8 @@
 		6C8DB62F24B3C1B9003D06FF /* BookmarkedEventsCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BookmarkedEventsCell.swift; sourceTree = "<group>"; };
 		6C8DB63024B3C1B9003D06FF /* BookmarkedUsersCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BookmarkedUsersCell.swift; sourceTree = "<group>"; };
 		6C8DB6AA24B3C1CD003D06FF /* MainTabBarController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainTabBarController.swift; sourceTree = "<group>"; };
-		6C8DB6AC24B3C44A003D06FF /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		6C8DB6AD24B3C44A003D06FF /* FooD.entitlements */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.entitlements; path = FooD.entitlements; sourceTree = "<group>"; };
+		6CAB0F84258AA85200E17B39 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		6CBDDE4024B3DBE70099A04C /* CreateInvoiceVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreateInvoiceVC.swift; sourceTree = "<group>"; };
 		6CBDDE4124B3DBE70099A04C /* InvoiceCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InvoiceCell.swift; sourceTree = "<group>"; };
 		6CBDDE4524B3DBF30099A04C /* StripeApi.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StripeApi.swift; sourceTree = "<group>"; };
@@ -809,7 +809,7 @@
 				6CDCD7E92581649E002CE767 /* Colors.xcassets */,
 				6C296DDC24B3BE6F008E33ED /* LaunchScreen.storyboard */,
 				6C8DB6AD24B3C44A003D06FF /* FooD.entitlements */,
-				6C8DB6AC24B3C44A003D06FF /* GoogleService-Info.plist */,
+				6CAB0F84258AA85200E17B39 /* GoogleService-Info.plist */,
 				6C296DDF24B3BE6F008E33ED /* Info.plist */,
 			);
 			path = Resources;
@@ -930,7 +930,7 @@
 			files = (
 				6CDCD7EA2581649E002CE767 /* Colors.xcassets in Resources */,
 				6C296DDE24B3BE6F008E33ED /* LaunchScreen.storyboard in Resources */,
-				6C8DB6AE24B3C44A003D06FF /* GoogleService-Info.plist in Resources */,
+				6CAB0F85258AA85200E17B39 /* GoogleService-Info.plist in Resources */,
 				6C296DDB24B3BE6F008E33ED /* Preview Assets.xcassets in Resources */,
 				6C296DD824B3BE6F008E33ED /* Assets.xcassets in Resources */,
 			);
@@ -1295,7 +1295,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.yoketheapp.Yoke;
+				PRODUCT_BUNDLE_IDENTIFIER = com.foodtheapp.FooD;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -1318,7 +1318,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.yoketheapp.Yoke;
+				PRODUCT_BUNDLE_IDENTIFIER = com.foodtheapp.FooD;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
