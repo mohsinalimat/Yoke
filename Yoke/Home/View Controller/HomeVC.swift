@@ -26,6 +26,9 @@ class HomeVC: UICollectionViewController, UICollectionViewDelegateFlowLayout, Ho
         super.viewWillAppear(animated)
         self.navigationController?.navigationBar.isTranslucent = true
         handleLoad()
+//        DispatchQueue.main.async {
+//            self.collectionView.reloadData()
+//        }
     }
     
     override func viewDidLoad() {
@@ -33,8 +36,9 @@ class HomeVC: UICollectionViewController, UICollectionViewDelegateFlowLayout, Ho
         setupCollectionView()
         setupNavTitleAndBarButtonItems()
         fetchUser()
-        fetchUserPhotos()
-        handleUpdatesForProfile()
+//        fetchUserPhotos()
+//        handleLoad()
+//        handleUpdatesForProfile()
     }
     
     //MARK: - Helper Functions
@@ -42,14 +46,14 @@ class HomeVC: UICollectionViewController, UICollectionViewDelegateFlowLayout, Ho
         let uid = userId ?? (Auth.auth().currentUser?.uid ?? "")
         UserController.shared.fetchUserWithUID(uid: uid) { (user) in
             self.user = user
-            print(user.username)
-            print(user.uid)
+            self.fetchGallery()
+            self.handleLoad()
         }
     }
     
     fileprivate func fetchUserPhotos() {
         let uid = userId ?? (Auth.auth().currentUser?.uid ?? "")
-        Database.fetchUserWithUID(uid: uid) { (user) in
+        UserController.shared.fetchUserWithUID(uid: uid) { (user) in
             self.user = user
             self.fetchGallery()
             self.collectionView.reloadData()
@@ -96,7 +100,7 @@ class HomeVC: UICollectionViewController, UICollectionViewDelegateFlowLayout, Ho
     var galleries = [Gallery]()
     fileprivate func fetchGallery() {
         guard let uid = Auth.auth().currentUser?.uid else { return }
-        Database.fetchUserWithUID(uid: uid) { (user) in
+        UserController.shared.fetchUserWithUID(uid: uid) { (user) in
             self.fetchPostsWithUser(user: user)
         }
     }
@@ -139,7 +143,9 @@ class HomeVC: UICollectionViewController, UICollectionViewDelegateFlowLayout, Ho
     }
     
     @objc func handleLoad() {
-        collectionView?.reloadData()
+        DispatchQueue.main.async {
+            self.collectionView.reloadData()
+        }
     }
     
     @objc func handleRefresh() {
@@ -311,10 +317,8 @@ extension HomeVC {
     
     override func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: headerId, for: indexPath) as! HomeHeaderCell
-        
         header.user = self.user
         header.delegate = self
-        
         return header
     }
     

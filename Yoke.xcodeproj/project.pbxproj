@@ -307,7 +307,6 @@
 				6C8DB61424B3C1B8003D06FF /* Services */,
 				6C8DB5E224B3C1B7003D06FF /* User Profile */,
 				6C8DB60D24B3C1B8003D06FF /* Helpers and Extensions */,
-				6C8DB5C024B3C1B7003D06FF /* Utilities */,
 				6CDCD7D42581590F002CE767 /* Resources */,
 				6C296DD924B3BE6F008E33ED /* Preview Content */,
 			);
@@ -643,6 +642,7 @@
 		6C8DB60D24B3C1B8003D06FF /* Helpers and Extensions */ = {
 			isa = PBXGroup;
 			children = (
+				6C8DB5C024B3C1B7003D06FF /* Utilities */,
 				6C8DB60E24B3C1B8003D06FF /* CustomViews.swift */,
 				6C8DB60F24B3C1B8003D06FF /* EmptyCell.swift */,
 				6C8DB61024B3C1B8003D06FF /* Currency.swift */,

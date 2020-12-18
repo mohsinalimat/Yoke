@@ -27,7 +27,7 @@ class HomeHeaderCell: UICollectionViewCell {
         didSet {
             guard let user = user else {return}
             
-            let profileImageUrl = user.profileImageUrl
+//            let profileImageUrl = user.profileImageUrl
 //            if let url = URL(string: profileImageUrl) {
 //                let placeholder = UIImage(named: "image_background")
 //                profileImageView.kf.indicatorType = .activity
@@ -44,7 +44,7 @@ class HomeHeaderCell: UICollectionViewCell {
 //            }
             
             guard let username = user.username else { return }
-            usernameLabel.text = "Welcome Back \(username)"
+            usernameLabel.text = "Hi \(username)"
             handleRatingView()
             checkIfChef()
         }
@@ -52,25 +52,31 @@ class HomeHeaderCell: UICollectionViewCell {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        
+        setupViews()
+        setupConstraints()
+    }
+    
+    func setupViews(){
         addSubview(coverImageView)
         addSubview(bannerImageCover)
         addSubview(profileImageView)
         addSubview(ratingView)
         addSubview(viewProfileButton)
         addSubview(usernameLabel)
+    }
+    
+    func setupConstraints() {
+        bannerImageCover.anchor(top: topAnchor, left: leftAnchor, bottom: nil, right: rightAnchor, paddingTop: -50, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 260)
         
-//        bannerImageCover.anchor(top: topAnchor, left: leftAnchor, bottom: nil, right: rightAnchor, paddingTop: -50, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 250)
-//
-//        coverImageView.anchor(top: bannerImageCover.topAnchor, left: bannerImageCover.leftAnchor, bottom: bannerImageCover.bottomAnchor, right: bannerImageCover.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
-//
-//        profileImageView.anchor(top: coverImageView.bottomAnchor, left: leftAnchor, bottom: nil, right: nil, paddingTop: -60, paddingLeft: 15, paddingBottom: 0, paddingRight: 0, width: 120, height: 120)
-//        profileImageView.layer.cornerRadius = 60
+        coverImageView.anchor(top: bannerImageCover.topAnchor, left: bannerImageCover.leftAnchor, bottom: bannerImageCover.bottomAnchor, right: bannerImageCover.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0)
+        
+        profileImageView.anchor(top: topAnchor, left: leftAnchor, bottom: nil, right: nil, paddingTop: 90, paddingLeft: 15, paddingBottom: 0, paddingRight: 0, width: 100, height: 100)
+        profileImageView.layer.cornerRadius = 50
 
-        usernameLabel.anchor(top: topAnchor, left: leftAnchor, bottom: nil, right: rightAnchor, paddingTop: 100, paddingLeft: 5, paddingBottom: 0, paddingRight: -10, height: 45)
-        
-        viewProfileButton.anchor(top: usernameLabel.bottomAnchor, left: profileImageView.rightAnchor, bottom: nil, right: rightAnchor, paddingTop: 10, paddingLeft: 5, paddingBottom: 5, paddingRight: 15, width: 0, height: 45)
-        
+        usernameLabel.anchor(top: profileImageView.topAnchor, left: profileImageView.rightAnchor, bottom: nil, right: nil, paddingTop: 25, paddingLeft: 10, paddingBottom: 0, paddingRight: -10, height: 45)
+
+        viewProfileButton.anchor(top: bannerImageCover.bottomAnchor, left: leftAnchor, bottom: nil, right: rightAnchor, paddingTop: 10, paddingLeft: 5, paddingBottom: 5, paddingRight: 15, width: 0, height: 45)
+//
         setupBottomToolbar()
     }
     
@@ -164,7 +170,7 @@ class HomeHeaderCell: UICollectionViewCell {
         let image = CustomImageView()
         image.clipsToBounds = true
         image.contentMode = .scaleAspectFill
-        //        image.layer.opacity = 0.2
+        image.image = UIImage(named: "image_background")
         return image
     }()
     
@@ -181,6 +187,7 @@ class HomeHeaderCell: UICollectionViewCell {
         image.contentMode = .scaleAspectFill
         image.layer.borderColor = UIColor.white.cgColor
         image.layer.borderWidth = 2
+        image.backgroundColor = .green
         return image
     }()
     
@@ -230,10 +237,9 @@ class HomeHeaderCell: UICollectionViewCell {
 
     let usernameLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont.boldSystemFont(ofSize: 20)
-        label.textColor = UIColor.black
-        label.text = "username"
-        label.textAlignment = .center
+        label.font = UIFont.boldSystemFont(ofSize: 18)
+        label.textColor = UIColor.white
+//        label.textAlignment = .center
         return label
     }()
     
