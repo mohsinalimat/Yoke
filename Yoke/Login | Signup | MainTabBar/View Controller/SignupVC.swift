@@ -20,6 +20,7 @@ class SignupVC: UIViewController {
     let imagePicker = UIImagePickerController()
     private let locationManager = LocationManager()
     var location: String = ""
+    var isChef: Bool = false
     
     //MARK: - Lifecycle Methods
     override func viewDidLayoutSubviews() {
@@ -40,6 +41,10 @@ class SignupVC: UIViewController {
         view.addSubview(addImageButton)
         view.addSubview(stackView)
         view.addSubview(alreadyHaveAccountButton)
+        view.addSubview(isChefView)
+        isChefView.addArrangedSubview(chefLabel)
+        isChefView.addArrangedSubview(chefSwitch)
+        stackView.addArrangedSubview(isChefView)
         stackView.addArrangedSubview(usernameTextField)
         stackView.addArrangedSubview(emailTextField)
         stackView.addArrangedSubview(passwordTextField)
@@ -116,7 +121,7 @@ class SignupVC: UIViewController {
         guard let image = self.addImageButton.imageView?.image else { return }
         
         guard let exposedLocation = self.locationManager.exposedLocation else { return }
-        self.locationManager.getPlace(for: exposedLocation) { placemark in
+        self.locationManager.getPlace(for: exposedLocation) { [self] placemark in
             guard let placemark = placemark else { return }
             var output = ""
             if let town = placemark.locality {
@@ -125,7 +130,7 @@ class SignupVC: UIViewController {
             if let state = placemark.administrativeArea {
                 output = output + "\n\(state)"
             }
-            UserController.shared.createUserWith(email: email, username: username, password: password, image: image, location: output) { (result) in
+            UserController.shared.createUserWith(email: email, username: username, password: password, image: image, location: output, isChef: self.isChef) { (result) in
                 switch result {
                 case true:
                     self.handleLoginToHome()
@@ -153,6 +158,15 @@ class SignupVC: UIViewController {
         self.view.window?.makeKeyAndVisible()
     }
     
+    @objc func chefSwitch(chefSwitchChanged: UISwitch) {
+        if chefSwitch.isOn {
+            isChef = true
+            print("true")
+        } else {
+            isChef = false
+            print("false")
+        }
+    }
     
     //MARK: - Views
     let addImageButton: UIButton = {
@@ -169,15 +183,32 @@ class SignupVC: UIViewController {
         return button
     }()
     
-    let segmentedControl: UISegmentedControl = {
-        let seg = UISegmentedControl(items: ["Member","Chef"])
-        seg.layer.borderColor = UIColor.black.cgColor
-        seg.layer.borderWidth = 1
-        seg.layer.cornerRadius = 5.0
-        seg.backgroundColor = .white
-        seg.tintColor = .black
-//        seg.addTarget(self, action: "changeColor", for: .valueChanged)
-        return seg
+    let chefLabel: UILabel = {
+        let label = UILabel()
+        label.text = "Sign up as a chef?"
+        label.textColor = UIColor.white
+        label.textAlignment = .left
+        label.font = UIFont.boldSystemFont(ofSize: 18)
+        return label
+    }()
+    
+    var chefSwitch: UISwitch = {
+        let switchBool = UISwitch()
+        switchBool.tintColor = UIColor.yellowColor()
+        switchBool.onTintColor = UIColor.yellowColor()
+        switchBool.setOn(false, animated: true)
+        switchBool.addTarget(self, action: #selector(chefSwitch(chefSwitchChanged:)), for: UIControl.Event.valueChanged)
+        return switchBool
+    }()
+    
+    let isChefView: UIStackView = {
+        let view = UIStackView()
+        view.axis = .horizontal
+        view.alignment = .center
+        view.distribution = .fillProportionally
+        view.spacing = 5
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
     }()
     
     let stackView: UIStackView = {

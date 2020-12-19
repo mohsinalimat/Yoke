@@ -27,12 +27,12 @@ class User {
 //    var ratings: Double
 //    var availableDate = [String]()
 //    var hasRated: Bool?
-//    var isChef: Bool?
+    var isChef: Bool?
 //    var isSaved = false
 //    let bookmarkCount: Int?
 //    let userRate: Int?
     
-    init(uid: String = "", id: String = "", customer_id: String = "", email: String = "", username: String = "", profileImageUrl: String = "", profileCoverUrl: String = "", location: String = "") {
+    init(uid: String = "", id: String = "", customer_id: String = "", email: String = "", username: String = "", profileImageUrl: String = "", profileCoverUrl: String = "", location: String = "", isChef: Bool = false) {
         self.uid = uid
         self.id = id
         self.customer_id = customer_id
@@ -41,6 +41,7 @@ class User {
         self.profileImageUrl = profileImageUrl
         self.profileCoverUrl = profileCoverUrl
         self.location = location
+        self.isChef = isChef
     }
     
 //    init(uid: String, id: String, customer_id: String, email: String, username: String, profileImageUrl: String, dictionary: [String: Any]) {

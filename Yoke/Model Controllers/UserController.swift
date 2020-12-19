@@ -22,7 +22,7 @@ class UserController {
     var user: User?
     
     //MARK: - CRUD Functions
-    func createUserWith(email: String, username: String, password: String = "", image: UIImage?, location: String, completion: @escaping (Bool) -> Void) {
+    func createUserWith(email: String, username: String, password: String = "", image: UIImage?, location: String, isChef: Bool, completion: @escaping (Bool) -> Void) {
         Auth.auth().createUser(withEmail: email, password: password, completion: { (user, error) in
             if let error = error {
                 print("There was an error authorizing user: \(error.localizedDescription)")
@@ -43,7 +43,7 @@ class UserController {
                     return
                 }
                 guard let uid = user?.user.uid else { return }
-                self.firestoreDB.collection(Constants.Users).document(uid).setData([Constants.Email: email, Constants.Username: username, Constants.Uid: uid, Constants.Location: location])
+                self.firestoreDB.collection(Constants.Users).document(uid).setData([Constants.Email: email, Constants.Username: username, Constants.Uid: uid, Constants.Location: location, Constants.IsChef: isChef])
                 let getUser = StripeUser.init(id: uid, customer_id: "", email: email)
                 self.createFirestoreUser(stripeUser: getUser)
                 completion(true)
@@ -51,9 +51,9 @@ class UserController {
         })
     }
     
-    func createUserWithProvider(uid: String, email: String, username: String, location: String, completion: @escaping (Bool) -> Void) {
+    func createUserWithProvider(uid: String, email: String, username: String, location: String, isChef: Bool, completion: @escaping (Bool) -> Void) {
         
-        self.firestoreDB.collection(Constants.Users).document(uid).setData([Constants.Email: email, Constants.Username: username, Constants.Uid: uid, Constants.Location: location]) { (error) in
+        self.firestoreDB.collection(Constants.Users).document(uid).setData([Constants.Email: email, Constants.Username: username, Constants.Uid: uid, Constants.Location: location, Constants.IsChef: isChef]) { (error) in
             if let error = error {
                 print(error.localizedDescription)
                 completion(false)
@@ -121,8 +121,8 @@ class UserController {
 //        }
 //    }
 //
-//    func updateUser(_ uid: String, username: String, location: String, bio: String, completion: @escaping (Result<User?, UserError>) -> Void) {
-//        firestoreDB.collection(Constants.users).document(uid).setData([Constants.username: username, Constants.location: location, Constants.bio: bio], merge: true) { error in
+//    func updateUser(_ uid: String, username: String, location: String, bio: String, isChef: Bool, completion: @escaping (Result<User?, UserError>) -> Void) {
+//        firestoreDB.collection(Constants.users).document(uid).setData([Constants.username: username, Constants.location: location, Constants.bio: bio, Constants.IsChef: isChef], merge: true) { error in
 //            if let error = error {
 //                print("There was an error updating data: \(error.localizedDescription)")
 //                completion(.failure(.fbUserError(error)))

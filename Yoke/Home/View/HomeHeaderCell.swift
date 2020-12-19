@@ -66,11 +66,11 @@ class HomeHeaderCell: UICollectionViewCell {
     }
     
     func setupConstraints() {
-        bannerImageCover.anchor(top: topAnchor, left: leftAnchor, bottom: nil, right: rightAnchor, paddingTop: -50, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 260)
+        bannerImageCover.anchor(top: topAnchor, left: leftAnchor, bottom: nil, right: rightAnchor, paddingTop: -50, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 330)
         
         coverImageView.anchor(top: bannerImageCover.topAnchor, left: bannerImageCover.leftAnchor, bottom: bannerImageCover.bottomAnchor, right: bannerImageCover.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0)
         
-        profileImageView.anchor(top: topAnchor, left: leftAnchor, bottom: nil, right: nil, paddingTop: 90, paddingLeft: 15, paddingBottom: 0, paddingRight: 0, width: 100, height: 100)
+        profileImageView.anchor(top: topAnchor, left: leftAnchor, bottom: nil, right: nil, paddingTop: 115, paddingLeft: 15, paddingBottom: 0, paddingRight: 0, width: 100, height: 100)
         profileImageView.layer.cornerRadius = 50
 
         usernameLabel.anchor(top: profileImageView.topAnchor, left: profileImageView.rightAnchor, bottom: nil, right: nil, paddingTop: 25, paddingLeft: 10, paddingBottom: 0, paddingRight: -10, height: 45)
@@ -170,7 +170,7 @@ class HomeHeaderCell: UICollectionViewCell {
         let image = CustomImageView()
         image.clipsToBounds = true
         image.contentMode = .scaleAspectFill
-        image.image = UIImage(named: "image_background")
+        image.image = UIImage(named: "foodBackground")
         return image
     }()
     

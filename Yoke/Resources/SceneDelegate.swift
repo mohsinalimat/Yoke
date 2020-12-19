@@ -17,7 +17,6 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         if #available(iOS 13.0, *) {
             window?.overrideUserInterfaceStyle = .light
         }
-        
         if Auth.auth().currentUser == nil {
             if let scene = (scene as? UIWindowScene) {
                 let window = UIWindow(windowScene: scene)

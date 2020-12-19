@@ -115,9 +115,12 @@ class LoginVC: UIViewController {
 
     func handleLoginToHome() {
         UIView.animate(withDuration: 0.5) { [weak self] in
-            let homeVC = MainTabBarController()
+            let homeVC = WelcomeVC()
             self?.view.window?.rootViewController = homeVC
             self?.view.window?.makeKeyAndVisible()
+//            let homeVC = MainTabBarController()
+//            self?.view.window?.rootViewController = homeVC
+//            self?.view.window?.makeKeyAndVisible()
         }
     }
 
@@ -396,7 +399,7 @@ extension LoginVC: ASAuthorizationControllerDelegate {
                             if let state = placemark.administrativeArea {
                                 output = output + "\n\(state)"
                             }
-                            UserController.shared.createUserWithProvider(uid: uid, email: email, username: username, location: output) { (result) in
+                            UserController.shared.createUserWithProvider(uid: uid, email: email, username: username, location: output, isChef: false) { (result) in
                                 switch result {
                                 case true:
                                     self.handleLoginToHome()
@@ -460,7 +463,7 @@ extension LoginVC: GIDSignInDelegate {
                             if let state = placemark.administrativeArea {
                                 output = output + "\n\(state)"
                             }
-                            UserController.shared.createUserWithProvider(uid: uid, email: email, username: username, location: output) { (result) in
+                            UserController.shared.createUserWithProvider(uid: uid, email: email, username: username, location: output, isChef: false) { (result) in
                                 switch result {
                                 case true:
                                     self.handleLoginToHome()

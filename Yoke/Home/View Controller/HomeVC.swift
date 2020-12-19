@@ -24,11 +24,7 @@ class HomeVC: UICollectionViewController, UICollectionViewDelegateFlowLayout, Ho
     //MARK: - Lifecycle Methods
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        self.navigationController?.navigationBar.isTranslucent = true
         handleLoad()
-//        DispatchQueue.main.async {
-//            self.collectionView.reloadData()
-//        }
     }
     
     override func viewDidLoad() {
@@ -36,9 +32,6 @@ class HomeVC: UICollectionViewController, UICollectionViewDelegateFlowLayout, Ho
         setupCollectionView()
         setupNavTitleAndBarButtonItems()
         fetchUser()
-//        fetchUserPhotos()
-//        handleLoad()
-//        handleUpdatesForProfile()
     }
     
     //MARK: - Helper Functions
@@ -68,9 +61,10 @@ class HomeVC: UICollectionViewController, UICollectionViewDelegateFlowLayout, Ho
     }
     
     func setupNavTitleAndBarButtonItems() {
+//        self.navigationController?.navigationBar.isTranslucent = true
         self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for: UIBarMetrics.default)
         self.navigationController?.navigationBar.shadowImage = UIImage()
-        self.navigationController?.navigationBar.isTranslucent = true
+//        self.navigationController?.navigationBar.isTranslucent = true
         
         self.navigationController?.view.backgroundColor = UIColor.black
         let icon = UIImage(named: "menu")
@@ -323,6 +317,6 @@ extension HomeVC {
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
-        return CGSize(width: view.frame.width, height: 380)
+        return CGSize(width: view.frame.width, height: 450)
     }
 }
