@@ -48,8 +48,10 @@ class HomeVC: UICollectionViewController, UICollectionViewDelegateFlowLayout, Ho
         let uid = userId ?? (Auth.auth().currentUser?.uid ?? "")
         UserController.shared.fetchUserWithUID(uid: uid) { (user) in
             self.user = user
-            self.fetchGallery()
-            self.collectionView.reloadData()
+            DispatchQueue.main.async {
+                self.fetchGallery()
+                self.collectionView.reloadData()
+            }
         }
     }
     
@@ -61,10 +63,9 @@ class HomeVC: UICollectionViewController, UICollectionViewDelegateFlowLayout, Ho
     }
     
     func setupNavTitleAndBarButtonItems() {
-//        self.navigationController?.navigationBar.isTranslucent = true
+        self.navigationController?.navigationBar.isTranslucent = true
         self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for: UIBarMetrics.default)
         self.navigationController?.navigationBar.shadowImage = UIImage()
-//        self.navigationController?.navigationBar.isTranslucent = true
         
         self.navigationController?.view.backgroundColor = UIColor.black
         let icon = UIImage(named: "menu")
@@ -138,6 +139,7 @@ class HomeVC: UICollectionViewController, UICollectionViewDelegateFlowLayout, Ho
     
     @objc func handleLoad() {
         DispatchQueue.main.async {
+            self.fetchGallery()
             self.collectionView.reloadData()
         }
     }
@@ -282,9 +284,10 @@ extension HomeVC {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         
         if galleries.count == 0 {
-            return CGSize(width: view.frame.width, height: 200)
+            return CGSize(width: view.frame.width, height: 400)
         } else {
-            let width = (view.frame.width - 2) / 2
+//            let width = (view.frame.width - 2) / 2
+            let width = view.frame.width
             return CGSize(width: width, height: width)
         }
     }
@@ -302,21 +305,22 @@ extension HomeVC {
     
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
-        return 1
+        return 5
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-        return 1
+        return 15
     }
     
     override func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: headerId, for: indexPath) as! HomeHeaderCell
+        header.backgroundColor = UIColor.lightGray.withAlphaComponent(0.2)
         header.user = self.user
         header.delegate = self
         return header
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
-        return CGSize(width: view.frame.width, height: 450)
+        return CGSize(width: view.frame.width, height: 420)
     }
 }

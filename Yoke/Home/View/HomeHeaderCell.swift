@@ -60,7 +60,6 @@ class HomeHeaderCell: UICollectionViewCell {
         addSubview(coverImageView)
         addSubview(bannerImageCover)
         addSubview(profileImageView)
-        addSubview(ratingView)
         addSubview(viewProfileButton)
         addSubview(usernameLabel)
     }
@@ -70,12 +69,13 @@ class HomeHeaderCell: UICollectionViewCell {
         
         coverImageView.anchor(top: bannerImageCover.topAnchor, left: bannerImageCover.leftAnchor, bottom: bannerImageCover.bottomAnchor, right: bannerImageCover.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0)
         
-        profileImageView.anchor(top: topAnchor, left: leftAnchor, bottom: nil, right: nil, paddingTop: 115, paddingLeft: 15, paddingBottom: 0, paddingRight: 0, width: 100, height: 100)
+        profileImageView.anchor(top: coverImageView.topAnchor, left: nil, bottom: nil, right: nil, paddingTop: 140, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 100, height: 100)
         profileImageView.layer.cornerRadius = 50
+        profileImageView.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
 
-        usernameLabel.anchor(top: profileImageView.topAnchor, left: profileImageView.rightAnchor, bottom: nil, right: nil, paddingTop: 25, paddingLeft: 10, paddingBottom: 0, paddingRight: -10, height: 45)
+        usernameLabel.anchor(top: profileImageView.bottomAnchor, left: leftAnchor, bottom: nil, right: rightAnchor, paddingTop: 5, paddingLeft: 40, paddingBottom: 0, paddingRight: 40, height: 45)
 
-        viewProfileButton.anchor(top: bannerImageCover.bottomAnchor, left: leftAnchor, bottom: nil, right: rightAnchor, paddingTop: 10, paddingLeft: 5, paddingBottom: 5, paddingRight: 15, width: 0, height: 45)
+        viewProfileButton.anchor(top: usernameLabel.bottomAnchor, left: leftAnchor, bottom: nil, right: rightAnchor, paddingTop: 5, paddingLeft: 40, paddingBottom: 0, paddingRight: 40, width: 0, height: 45)
 //
         setupBottomToolbar()
     }
@@ -91,12 +91,12 @@ class HomeHeaderCell: UICollectionViewCell {
         
         stackView.axis = .horizontal
         stackView.distribution = .fillEqually
-        stackView.spacing = 0
+        stackView.spacing = 5
         addSubview(stackView)
-        stackView.anchor(top: viewProfileButton.bottomAnchor, left: leftAnchor, bottom: nil, right: rightAnchor, paddingTop: 20, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 75)
+        stackView.anchor(top: viewProfileButton.bottomAnchor, left: leftAnchor, bottom: nil, right: rightAnchor, paddingTop: 5, paddingLeft: 5, paddingBottom: 0, paddingRight: 5, width: 0, height: 75)
         
         addSubview(galleryLabel)
-        galleryLabel.anchor(top: stackView.bottomAnchor, left: nil, bottom: bottomAnchor, right: nil, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: frame.width, height: 30)
+        galleryLabel.anchor(top: stackView.bottomAnchor, left: nil, bottom: bottomAnchor, right: nil, paddingTop: 5, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: frame.width, height:45)
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -190,56 +190,12 @@ class HomeHeaderCell: UICollectionViewCell {
         image.backgroundColor = .green
         return image
     }()
-    
-    lazy var reviewsButton: UIButton = {
-        let button = UIButton(type: .custom)
-        button.setImage(UIImage(named: "reviews"), for: .normal)
-        button.setTitle("Reviews", for: .normal)
-        button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 10)
-        button.setTitleColor(UIColor.darkGray, for: .normal)
-        button.imageEdgeInsets = UIEdgeInsets.init(top: 0,left: 45,bottom: 20,right: 0)
-        button.titleEdgeInsets = UIEdgeInsets.init(top: 20,left: -25,bottom: 0,right: 0)
-        button.addTarget(self, action: #selector(handleReviews), for: .touchUpInside)
-        return button
-    }()
-    
-    lazy var EventButton: UIButton = {
-        let button = UIButton(type: .custom)
-        button.setImage(UIImage(named: "event_full"), for: .normal)
-        button.setTitle("Events", for: .normal)
-        button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 10)
-        button.setTitleColor(UIColor.darkGray, for: .normal)
-        button.addTarget(self, action: #selector(handleEvents), for: .touchUpInside)
-        return button
-    }()
-    
-    lazy var calendarButton: UIButton = {
-        let button = UIButton(type: .custom)
-        button.setImage(UIImage(named: "calendar"), for: .normal)
-        button.setTitle("Calendar", for: .normal)
-        button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 10)
-        button.setTitleColor(UIColor.darkGray, for: .normal)
-        button.addTarget(self, action: #selector(handleCalendar), for: .touchUpInside)
-        return button
-    }()
-    
-    lazy var bookmarkButton: UIButton = {
-        let button = UIButton(type: .custom)
-        button.setImage(UIImage(named: "bookmark_selected"), for: .normal)
-        button.setTitle("Bookmarked", for: .normal)
-        button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 10)
-        button.setTitleColor(UIColor.darkGray, for: .normal)
-//        button.imageEdgeInsets = UIEdgeInsets.init(top: 0,left: 25,bottom: 20,right: 0)
-//        button.titleEdgeInsets = UIEdgeInsets.init(top: 20,left: -25,bottom: 0,right: 5)
-        button.addTarget(self, action: #selector(handleBookmarked), for: .touchUpInside)
-        return button
-    }()
 
     let usernameLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.boldSystemFont(ofSize: 18)
         label.textColor = UIColor.white
-//        label.textAlignment = .center
+        label.textAlignment = .center
         return label
     }()
     
@@ -254,7 +210,64 @@ class HomeHeaderCell: UICollectionViewCell {
         view.fullImage = UIImage(named: "star_selected_color")
         return view
     }()
-
+    
+    lazy var viewProfileButton: UIButton = {
+        let button = UIButton(type: .custom)
+        button.setTitle("View Profile", for: .normal)
+        button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 17)
+        button.setTitleColor(UIColor.white, for: .normal)
+        button.backgroundColor = UIColor.orangeColor()
+        button.layer.cornerRadius = 5
+        button.addTarget(self, action: #selector(handleViewProfile), for: .touchUpInside)
+        return button
+    }()
+    
+    lazy var reviewsButton: UIButton = {
+        let button = UIButton(type: .custom)
+        button.setImage(UIImage(named: "reviews"), for: .normal)
+        button.setTitle("Reviews", for: .normal)
+        button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 10)
+        button.setTitleColor(UIColor.darkGray, for: .normal)
+        button.imageEdgeInsets = UIEdgeInsets.init(top: 0,left: 45,bottom: 20,right: 0)
+        button.titleEdgeInsets = UIEdgeInsets.init(top: 20,left: -25,bottom: 0,right: 0)
+        button.addTarget(self, action: #selector(handleReviews), for: .touchUpInside)
+        button.backgroundColor = .white
+        return button
+    }()
+    
+    lazy var EventButton: UIButton = {
+        let button = UIButton(type: .custom)
+        button.setImage(UIImage(named: "event_full"), for: .normal)
+        button.setTitle("Events", for: .normal)
+        button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 10)
+        button.setTitleColor(UIColor.darkGray, for: .normal)
+        button.addTarget(self, action: #selector(handleEvents), for: .touchUpInside)
+        button.backgroundColor = .white
+        return button
+    }()
+    
+    lazy var calendarButton: UIButton = {
+        let button = UIButton(type: .custom)
+        button.setImage(UIImage(named: "calendar"), for: .normal)
+        button.setTitle("Calendar", for: .normal)
+        button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 10)
+        button.setTitleColor(UIColor.darkGray, for: .normal)
+        button.addTarget(self, action: #selector(handleCalendar), for: .touchUpInside)
+        button.backgroundColor = .white
+        return button
+    }()
+    
+    lazy var bookmarkButton: UIButton = {
+        let button = UIButton(type: .custom)
+        button.setImage(UIImage(named: "bookmark_selected"), for: .normal)
+        button.setTitle("Bookmarked", for: .normal)
+        button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 10)
+        button.setTitleColor(UIColor.darkGray, for: .normal)
+        button.addTarget(self, action: #selector(handleBookmarked), for: .touchUpInside)
+        button.backgroundColor = .white
+        return button
+    }()
+    
     lazy var addPhotosButton: UIButton = {
         let button = UIButton(type: .custom)
         button.setImage(UIImage(named: "add_image"), for: .normal)
@@ -262,39 +275,18 @@ class HomeHeaderCell: UICollectionViewCell {
         button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 10)
         button.setTitleColor(UIColor.darkGray, for: .normal)
         button.addTarget(self, action: #selector(handleAddPhotos), for: .touchUpInside)
+        button.backgroundColor = .white
         return button
-    }()
-    
-    lazy var viewProfileButton: UIButton = {
-        let button = UIButton(type: .custom)
-        button.setTitle("View Profile", for: .normal)
-//        button.setImage(UIImage(named: "indicator"), for: .normal)
-//        button.semanticContentAttribute = UIApplication.shared.userInterfaceLayoutDirection == .rightToLeft ? .forceLeftToRight : .forceRightToLeft
-        button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 13)
-        button.setTitleColor(UIColor.white, for: .normal)
-        button.backgroundColor = UIColor.orangeColor()
-        button.layer.cornerRadius = 2
-        button.addTarget(self, action: #selector(handleViewProfile), for: .touchUpInside)
-        return button
-    }()
-    
-    let aboutTitleLabel: UILabel = {
-        let label = UILabel()
-        label.font = UIFont.boldSystemFont(ofSize: 20)
-        label.textAlignment = .left
-        label.textColor = UIColor.darkGray
-        return label
     }()
     
     let galleryLabel: UILabel = {
         let label = UILabel()
         label.text = "GALLERY"
-        label.backgroundColor = UIColor.orangeColor()
+//        label.backgroundColor = UIColor.orangeColor()
         label.font = UIFont.boldSystemFont(ofSize: 20)
         label.textAlignment = .center
-        label.textColor = UIColor.white
-        label.layer.borderColor = UIColor.white.cgColor
-        label.layer.borderWidth = 0.5
+        label.textColor = UIColor.orangeColor()
+        label.backgroundColor = .white
         return label
     }()
 }

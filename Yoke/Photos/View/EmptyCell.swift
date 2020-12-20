@@ -20,7 +20,7 @@ class EmptyCell: UICollectionViewCell {
         let label = UILabel()
         label.font = UIFont.boldSystemFont(ofSize: 16)
         label.textAlignment = .center
-        label.textColor = UIColor.darkGray
+        label.textColor = UIColor.lightGray
         return label
     }()
     
@@ -36,14 +36,14 @@ class EmptyCell: UICollectionViewCell {
         super.init(frame: frame)
         
         addSubview(photoImageView)
-        photoImageView.anchor(top: topAnchor, left: nil, bottom: nil, right: nil, paddingTop: 50, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 100, height: 100)
+        photoImageView.anchor(top: topAnchor, left: nil, bottom: nil, right: nil, paddingTop: 25, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 100, height: 100)
         photoImageView.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
         
         addSubview(noPostLabel)
-        noPostLabel.anchor(top: photoImageView.bottomAnchor, left: leftAnchor, bottom: nil, right: rightAnchor, paddingTop: 10, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
+        noPostLabel.anchor(top: photoImageView.bottomAnchor, left: leftAnchor, bottom: nil, right: rightAnchor, paddingTop: 10, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, height: 45)
         
         addSubview(noPostSub)
-        noPostSub.anchor(top: noPostLabel.bottomAnchor, left: leftAnchor, bottom: nil, right: rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
+        noPostSub.anchor(top: noPostLabel.bottomAnchor, left: leftAnchor, bottom: nil, right: rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, height: 45)
     }
     
     required init?(coder aDecoder: NSCoder) {
