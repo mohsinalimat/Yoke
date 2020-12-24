@@ -109,10 +109,10 @@ class HomeVC: UICollectionViewController, UICollectionViewDelegateFlowLayout, Ho
             
             guard let user = self.user else { return }
             
-            let gallery = Gallery(user: user, dictionary: dictionary)
-            
-            self.galleries.insert(gallery, at: 0)
-            self.collectionView?.reloadData()
+//            let gallery = Gallery(user: user, dictionary: dictionary)
+//            
+//            self.galleries.insert(gallery, at: 0)
+//            self.collectionView?.reloadData()
             
         }) { (err) in
             print("Failed to fetch ordered posts:", err)

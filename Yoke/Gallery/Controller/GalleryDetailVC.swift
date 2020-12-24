@@ -298,14 +298,14 @@ class GalleryDetailVC: UICollectionViewController, UICollectionViewDelegateFlowL
     }
     
     @objc func handleGetBookmarkedUser() {
-        let user = gallery?.BookmarkedUser
+        let user = gallery?.bookmarkedUser
         let userProfileVC = UserProfileVC(collectionViewLayout: UICollectionViewFlowLayout())
         userProfileVC.userId = user
         self.navigationController?.pushViewController(userProfileVC, animated: true)
     }
     
     func getBookmarkedUser() {
-        let uid = gallery?.BookmarkedUser
+        let uid = gallery?.bookmarkedUser
         if uid != "" {
             Database.fetchUserWithUID(uid: uid!) { (user) in
                 self.user = user

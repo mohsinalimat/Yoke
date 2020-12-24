@@ -107,10 +107,9 @@ class UserProfileVC: UICollectionViewController, UICollectionViewDelegateFlowLay
             
             guard let user = self.user else { return }
             
-            let gallery = Gallery(user: user, dictionary: dictionary)
-            
-            self.galleries.insert(gallery, at: 0)
-            //            self.posts.append(post)
+//            let gallery = Gallery(user: user, dictionary: dictionary)
+//            
+//            self.galleries.insert(gallery, at: 0)
             self.collectionView?.reloadData()
             
         }) { (err) in

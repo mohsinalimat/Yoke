@@ -23,7 +23,7 @@ class CreateInvoiceVC: UIViewController, UICollectionViewDataSource, UICollectio
     var gallery: Gallery?
     
     fileprivate func fetchSelectedUser() {
-        selectedUser = (gallery?.BookmarkedUser)!
+        selectedUser = (gallery?.bookmarkedUser)!
         let uid = selectedUser
         
         Database.fetchUserWithUID(uid: uid) { (user) in

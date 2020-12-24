@@ -305,7 +305,7 @@
 				6C8DB5E724B3C1B8003D06FF /* Events */,
 				6C8DB5B224B3C1B7003D06FF /* Messages */,
 				6CBDDE3E24B3DBD30099A04C /* Payment */,
-				6C8DB5C324B3C1B7003D06FF /* Photos */,
+				6C8DB5C324B3C1B7003D06FF /* Gallery */,
 				6C8DB61924B3C1B8003D06FF /* Reviews */,
 				6C8DB62324B3C1B9003D06FF /* Search */,
 				6C8DB61424B3C1B8003D06FF /* Services */,
@@ -415,14 +415,14 @@
 			path = Utilities;
 			sourceTree = "<group>";
 		};
-		6C8DB5C324B3C1B7003D06FF /* Photos */ = {
+		6C8DB5C324B3C1B7003D06FF /* Gallery */ = {
 			isa = PBXGroup;
 			children = (
 				6C8DB5C424B3C1B7003D06FF /* Controller */,
 				6C8DB5C924B3C1B7003D06FF /* Model */,
 				6C8DB5CC24B3C1B7003D06FF /* View */,
 			);
-			path = Photos;
+			path = Gallery;
 			sourceTree = "<group>";
 		};
 		6C8DB5C424B3C1B7003D06FF /* Controller */ = {
@@ -439,8 +439,6 @@
 		6C8DB5C924B3C1B7003D06FF /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				6C8DB5CA24B3C1B7003D06FF /* Comment.swift */,
-				6C8DB5CB24B3C1B7003D06FF /* Gallery.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -672,6 +670,8 @@
 			children = (
 				6C8DB61724B3C1B8003D06FF /* User.swift */,
 				6C8DB61824B3C1B8003D06FF /* StripeUser.swift */,
+				6C8DB5CA24B3C1B7003D06FF /* Comment.swift */,
+				6C8DB5CB24B3C1B7003D06FF /* Gallery.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
