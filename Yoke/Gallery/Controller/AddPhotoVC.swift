@@ -26,7 +26,10 @@ class AddPhotoVC: UIViewController {
         view.addSubview(photoImageView)
         view.addSubview(tipView)
         view.addSubview(photosButton)
-        
+        constrainViews()
+    }
+    
+    func constrainViews() {
         photoImageView.anchor(top: navView.bottomAnchor, left: view.leftAnchor, bottom: nil, right: view.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: view.frame.width, height: view.frame.width)
         
         tipView.anchor(top: photoImageView.bottomAnchor, left: view.leftAnchor, bottom: nil, right: view.rightAnchor, paddingTop: 20, paddingLeft: 15, paddingBottom: 0, paddingRight: 15, width: 0, height: 50)
