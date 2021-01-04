@@ -52,15 +52,17 @@ class GalleryController {
             } else {
                 for document in snapshot!.documents {
                     let dictionary = document.data()
+                    print("fetchGallery: \(dictionary)")
                     guard let imageUrl = dictionary[Constants.ImageUrl] as? String,
                           let caption = dictionary[Constants.Caption] as? String,
                           let location = dictionary[Constants.Location] as? String,
                           let timestamp = dictionary[Constants.Timestamp] as? String else { return }
                     let gallery = Gallery(user: user, imageUrl: imageUrl, caption: caption, location: location, likeCount: 0, isLiked: false, timestamp: timestamp)
-//                    self.galleries.insert(gallery, at: 0)
-                    self.galleries.append(gallery)
-                    completion(true)
+                    self.galleries.insert(gallery, at: 0)
+//                    self.galleries.append(gallery)
+//                    completion(true)
                 }
+                completion(true)
             }
         }
     }
