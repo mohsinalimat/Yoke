@@ -22,10 +22,26 @@ protocol HomeProfileHeaderDelegate {
 class HomeHeaderCell: UICollectionViewCell {
     
     var delegate: HomeProfileHeaderDelegate?
+    let imageStorageRef = Storage.storage().reference()
     
     var user: User? {
         didSet {
             guard let user = user else {return}
+            
+            if let uid = user.uid {
+                self.imageStorageRef.child("profileImageUrl/\(uid)").downloadURL { (url, error) in
+                    if let error = error {
+                        print(error.localizedDescription)
+                    }
+                    guard let imageUrl = url?.absoluteString else { return }
+                    if let url = URL(string: imageUrl) {
+                        let placeholder = UIImage(named: "image_background")
+                        self.profileImageView.kf.indicatorType = .activity
+                        let options : KingfisherOptionsInfo = [KingfisherOptionsInfoItem.transition(.fade(0.2))]
+                        self.profileImageView.kf.setImage(with: url, placeholder: placeholder, options: options)
+                    }
+                }
+            }
             
 //            let profileImageUrl = user.profileImageUrl
 //            if let url = URL(string: profileImageUrl) {
@@ -104,6 +120,7 @@ class HomeHeaderCell: UICollectionViewCell {
     }
     
     //MARK: - Helper Functions
+
     func checkIfChef() {
         let uid = Auth.auth().currentUser?.uid
         let ref = Database.database().reference().child(Constants.Users).child(uid!)

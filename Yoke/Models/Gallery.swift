@@ -11,18 +11,19 @@ import Firebase
 
 class Gallery {
     let user: User
+//    let uid: String
     var id: String?
     var bookmarkedUser: String?
     var imageUrl: String?
     var caption: String?
     var location: String?
-    var likes: Dictionary<String, Any>?
+//    var likes: Dictionary<String, Any>?
     var likeCount: Int?
     var isLiked: Bool?
-    var creationDate: Date
+    var timestamp: String
     var hasLiked = false
     
-    init(user: User, id: String, bookmarkedUser: String = "", imageUrl: String = "", caption: String = "", location: String = "", likes: Dictionary<String, Any>, likeCount: Int = 0, isLiked: Bool = false, creationDate: Date) {
+    init(user: User, id: String = "", bookmarkedUser: String = "", imageUrl: String = "", caption: String = "", location: String = "", likeCount: Int = 0, isLiked: Bool = false, timestamp: String) {
         self.user = user
         self.id = id
         self.bookmarkedUser = bookmarkedUser
@@ -31,12 +32,12 @@ class Gallery {
         self.location = location
         self.likeCount = likeCount
         self.isLiked = isLiked
-        self.creationDate = creationDate
-        if let currentUserId = Auth.auth().currentUser?.uid {
-            if self.likes != nil {
-                self.isLiked = self.likes![currentUserId] != nil
-            }
-        }
+        self.timestamp = timestamp
+//        if let currentUserId = Auth.auth().currentUser?.uid {
+//            if self.likes != nil {
+//                self.isLiked = self.likes![currentUserId] != nil
+//            }
+//        }
     }
     
 //    init(user: User, dictionary: [String: Any]) {

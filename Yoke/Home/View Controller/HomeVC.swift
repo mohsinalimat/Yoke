@@ -32,6 +32,7 @@ class HomeVC: UICollectionViewController, UICollectionViewDelegateFlowLayout, Ho
         setupCollectionView()
         setupNavTitleAndBarButtonItems()
         fetchUser()
+        fetchGallery()
     }
     
     //MARK: - Helper Functions
@@ -39,21 +40,19 @@ class HomeVC: UICollectionViewController, UICollectionViewDelegateFlowLayout, Ho
         let uid = userId ?? (Auth.auth().currentUser?.uid ?? "")
         UserController.shared.fetchUserWithUID(uid: uid) { (user) in
             self.user = user
-            self.fetchGallery()
-            self.handleLoad()
         }
     }
     
-    fileprivate func fetchUserPhotos() {
-        let uid = userId ?? (Auth.auth().currentUser?.uid ?? "")
-        UserController.shared.fetchUserWithUID(uid: uid) { (user) in
-            self.user = user
-            DispatchQueue.main.async {
-                self.fetchGallery()
-                self.collectionView.reloadData()
-            }
-        }
-    }
+//    fileprivate func fetchUserPhotos() {
+//        let uid = userId ?? (Auth.auth().currentUser?.uid ?? "")
+//        UserController.shared.fetchUserWithUID(uid: uid) { (user) in
+//            self.user = user
+//            DispatchQueue.main.async {
+//                self.fetchGallery()
+//                self.collectionView.reloadData()
+//            }
+//        }
+//    }
     
     func handleUpdatesForProfile() {
         NotificationCenter.default.addObserver(self, selector: #selector(handleUpdates), name: SharePhotoVC.updateNotificationName, object: nil)
@@ -109,8 +108,8 @@ class HomeVC: UICollectionViewController, UICollectionViewDelegateFlowLayout, Ho
             
             guard let user = self.user else { return }
             
-//            let gallery = Gallery(user: user, dictionary: dictionary)
-//            
+//            let gallery = Gallery(imageUrl: <#T##String#>, caption: <#T##String#>, location: <#T##String#>, likes: <#T##Dictionary<String, Any>#>, likeCount: <#T##Int#>, isLiked: <#T##Bool#>, creationDate: <#T##Date#>)
+            
 //            self.galleries.insert(gallery, at: 0)
 //            self.collectionView?.reloadData()
             

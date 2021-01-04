@@ -20,8 +20,8 @@ class GalleryController {
     let storageRef = Storage.storage().reference().child(Constants.SharedPhotos)
     
     //MARK: - Source of truth
-    var notification: Notification?
-    var notifications: [Notification] = []
+    var gallery: Gallery?
+    var galleries: [Gallery] = []
     
     //MARK: - CRUD Functions
     func createPostWith(image: UIImage?, uid: String, caption: String, location: String, timestamp: String, completion: @escaping (Bool) -> Void) {
@@ -45,6 +45,25 @@ class GalleryController {
                 self.firestoreDB.document(uid).setData([Constants.ImageUrl: imageUrl, Constants.Caption: caption, Constants.Timestamp: timestamp, Constants.Location: location])
                 completion(true)
             })
+        }
+    }
+    
+    func fetchGalleryWith(user: User, completion: @escaping (Bool) -> ()) {
+        firestoreDB.whereField(Constants.Uid, isEqualTo: user.uid).getDocuments() { (snapshot, error) in
+            if (error != nil) == true {
+                print("error")
+                completion(false)
+            } else {
+                for document in snapshot!.documents {
+                    let dictionary = document.data()
+                    guard let imageUrl = dictionary[Constants.ImageUrl] as? String,
+                          let caption = dictionary[Constants.Caption] as? String,
+                          let location = dictionary[Constants.Location] as? String,
+                          let timestamp = dictionary[Constants.Timestamp] as? String else { return }
+                    let gallery = Gallery(user: user, imageUrl: imageUrl, caption: caption, location: location, likeCount: 0, isLiked: false, timestamp: timestamp)
+                    self.galleries.insert(gallery, at: 0)
+                }
+            }
         }
     }
     

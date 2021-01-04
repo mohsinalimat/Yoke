@@ -19,7 +19,6 @@ class GalleryDetailVC: UICollectionViewController, UICollectionViewDelegateFlowL
     var user: User?
     var gallery: Gallery? {
         didSet {
-            
             userId = gallery?.user.uid
             likeButton.setImage(gallery?.hasLiked == true ? UIImage(named: "like_selected") : UIImage(named: "like_unselected"), for: .normal)
             getBookmarkedUser()
