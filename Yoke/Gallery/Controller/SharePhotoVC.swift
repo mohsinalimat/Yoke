@@ -19,6 +19,7 @@ class SharePhotoVC: UIViewController, UITextViewDelegate, UICollectionViewDataSo
     let cellId = "cellId"
     var searchController : UISearchController!
     var tapGesture = UITapGestureRecognizer()
+    var date = Date()
     
     var selectedImage: UIImage? {
         didSet {
@@ -293,54 +294,86 @@ class SharePhotoVC: UIViewController, UITextViewDelegate, UICollectionViewDataSo
     }
     
     @objc func handleShare() {
-        guard let image = selectedImage else {return}
-        guard let uploadData = image.jpegData(compressionQuality: 0.5) else {return}
-        let filename = NSUUID().uuidString
-
-        let storageRef = Storage.storage().reference().child(Constants.SharedPhotos).child(filename)
-
-        storageRef.putData(uploadData, metadata: nil) { (metadata, err) in
-            if let err = err {
-                print(err)
-                return
+//        guard let currentUserUid = Auth.auth().currentUser?.uid,
+//              let sharedImage = selectedImage,
+//              let caption = textView.text,
+//              let location = locationTextField.text else {return}
+//        let getSelectedUser = selectedUser
+        let formatter = DateFormatter()
+        formatter.dateStyle = .medium
+        formatter.timeStyle = .medium
+        let timestamp = formatter.string(from: date)
+        
+        GalleryController.shared.createPostWith(image: selectedImage, uid: Auth.auth().currentUser?.uid ?? "", caption: textView.text, location: locationTextField.text, timestamp: timestamp) { (result) in
+            switch result {
+            case true:
+                print("Result: true")
+            case false:
+                print("Result: false")
             }
-            
-            storageRef.downloadURL(completion: { (downloadURL, err) in
-                if let err = err {
-                    print("Failed to retrieve downloadURL:", err)
-                    return
-                }
-                guard let imageUrl = downloadURL?.absoluteString else { return }
-                
-                print("Successfully uploaded post image:", imageUrl)
-                
-                self.saveToDatabase(imageUrl: imageUrl)
-            })
         }
+//        guard let image = selectedImage else {return}
+//        guard let uploadData = image.jpegData(compressionQuality: 0.5) else {return}
+//        let filename = NSUUID().uuidString
+//
+//        let storageRef = Storage.storage().reference().child(Constants.SharedPhotos).child(filename)
+//
+//        storageRef.putData(uploadData, metadata: nil) { (metadata, err) in
+//            if let err = err {
+//                print(err)
+//                return
+//            }
+//
+//            storageRef.downloadURL(completion: { (downloadURL, err) in
+//                if let err = err {
+//                    print("Failed to retrieve downloadURL:", err)
+//                    return
+//                }
+//                guard let imageUrl = downloadURL?.absoluteString else { return }
+//
+//                print("Successfully uploaded post image:", imageUrl)
+//
+//                self.saveToDatabase(imageUrl: imageUrl)
+//            })
+//        }
     }
     
     static let updateNotificationName = NSNotification.Name(rawValue: "Update")
     
     fileprivate func saveToDatabase(imageUrl: String) {
-        guard let currentUserUid = Auth.auth().currentUser?.uid else {return}
-        guard let sharedImage = selectedImage else {return}
-        guard let caption = textView.text else {return}
-        let getSelectedUser = selectedUser
+//        guard let currentUserUid = Auth.auth().currentUser?.uid,
+//              let sharedImage = selectedImage,
+//              let caption = textView.text,
+//              let location = locationTextField.text else {return}
+//        let getSelectedUser = selectedUser
+//        let formatter = DateFormatter()
+//        formatter.dateStyle = .medium
+//        formatter.timeStyle = .medium
+//        let timestamp = formatter.string(from: date)
+//
+//        GalleryController.shared.createPostWith(image: sharedImage, uid: currentUserUid, caption: caption, location: location, timestamp: timestamp) { (result) in
+//            switch result {
+//            case true:
+//                print("Result: true")
+//            case false:
+//                print("Result: false")
+//            }
+//        }
 
-        let postRef = Database.database().reference().child(Constants.Gallery).child(currentUserUid)
-        let key = postRef.childByAutoId().key
-        let values = [Constants.ImageUrl: imageUrl, Constants.Caption: caption, Constants.Width: sharedImage.size.width, Constants.Height: sharedImage.size.height, Constants.CreationDate: Date().timeIntervalSince1970, Constants.LikeCount: 0, Constants.Location: locationTextField.text ?? "", Constants.BookmarkedUser: getSelectedUser, Constants.Id: key ?? ""] as [String : Any]
-        
-        postRef.child(key!).updateChildValues(values) { (err, ref) in
-            if let err = err {
-                print("there was an error", err )
-                return
-            }
-            print("saved photo to database")
+//        let postRef = Database.database().reference().child(Constants.Gallery).child(currentUserUid)
+//        let key = postRef.childByAutoId().key
+//        let values = [Constants.ImageUrl: imageUrl, Constants.Caption: caption, Constants.Width: sharedImage.size.width, Constants.Height: sharedImage.size.height, Constants.CreationDate: Date().timeIntervalSince1970, Constants.LikeCount: 0, Constants.Location: locationTextField.text ?? "", Constants.BookmarkedUser: getSelectedUser, Constants.Id: key ?? ""] as [String : Any]
+//
+//        postRef.child(key!).updateChildValues(values) { (err, ref) in
+//            if let err = err {
+//                print("there was an error", err )
+//                return
+//            }
+//            print("saved photo to database")
 //            let homeVC = HomeVC(collectionViewLayout: UICollectionViewFlowLayout())
 //            self.navigationController?.pushViewController(homeVC, animated: true)
 //            NotificationCenter.default.post(name: SharePhotoVC.updateNotificationName, object: nil)
-        }
+//        }
 
     }
     

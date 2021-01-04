@@ -40,6 +40,7 @@ class HomeVC: UICollectionViewController, UICollectionViewDelegateFlowLayout, Ho
         let uid = userId ?? (Auth.auth().currentUser?.uid ?? "")
         UserController.shared.fetchUserWithUID(uid: uid) { (user) in
             self.user = user
+            self.fetchPostsWithUser(user: user)
         }
     }
     
@@ -100,22 +101,29 @@ class HomeVC: UICollectionViewController, UICollectionViewDelegateFlowLayout, Ho
     }
     
     fileprivate func fetchPostsWithUser(user: User) {
-        guard let uid = self.user?.uid else { return }
-        let ref = Database.database().reference().child(Constants.Gallery).child(uid)
-        
-        ref.queryOrdered(byChild: "creationDate").observe(.childAdded, with: { (snapshot) in
-            guard let dictionary = snapshot.value as? [String: Any] else { return }
-            
-            guard let user = self.user else { return }
+        GalleryController.shared.fetchGalleryWith(user: user) { (result) in
+            switch result {
+            case true:
+                print("Result: fetched")
+            case false:
+                print("Result: not fetched")
+            }
+        }
+//        let ref = Database.database().reference().child(Constants.Gallery).child(uid)
+//
+//        ref.queryOrdered(byChild: "creationDate").observe(.childAdded, with: { (snapshot) in
+//            guard let dictionary = snapshot.value as? [String: Any] else { return }
+//
+//            guard let user = self.user else { return }
             
 //            let gallery = Gallery(imageUrl: <#T##String#>, caption: <#T##String#>, location: <#T##String#>, likes: <#T##Dictionary<String, Any>#>, likeCount: <#T##Int#>, isLiked: <#T##Bool#>, creationDate: <#T##Date#>)
             
 //            self.galleries.insert(gallery, at: 0)
 //            self.collectionView?.reloadData()
             
-        }) { (err) in
-            print("Failed to fetch ordered posts:", err)
-        }
+//        }) { (err) in
+//            print("Failed to fetch ordered posts:", err)
+//        }
         
     }
     

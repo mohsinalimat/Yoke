@@ -28,28 +28,24 @@ class GalleryController {
         guard let sharedImage = image else { return }
         guard let uploadData = sharedImage.jpegData(compressionQuality: 0.5) else {return}
         let filename = NSUUID().uuidString
-        storageRef.child(filename).putData(uploadData, metadata: nil) { (metadata, err) in
-            if let err = err {
-                print(err)
+        storageRef.child(filename).putData(uploadData, metadata: nil, completion: { (metadata, error) in
+            if let error = error {
+                print("There was an error uploading image data: \(error.localizedDescription)")
+                completion(false)
                 return
             }
-            self.storageRef.downloadURL(completion: { (downloadURL, err) in
-                if let err = err {
-                    print("Failed to retrieve downloadURL:", err)
-                    completion(false)
-                    return
-                }
+            self.storageRef.child(filename).downloadURL(completion: { (downloadURL, err) in
                 guard let imageUrl = downloadURL?.absoluteString else { return }
-                
-                print("Successfully uploaded post image:", imageUrl)
-                self.firestoreDB.document(uid).setData([Constants.ImageUrl: imageUrl, Constants.Caption: caption, Constants.Timestamp: timestamp, Constants.Location: location])
+                print("file image url\(imageUrl)")
+                self.firestoreDB.document(uid).setData([Constants.ImageUrl: imageUrl, Constants.Caption: caption, Constants.Timestamp: timestamp, Constants.Location: location], merge: true)
                 completion(true)
             })
-        }
+        })
     }
     
     func fetchGalleryWith(user: User, completion: @escaping (Bool) -> ()) {
-        firestoreDB.whereField(Constants.Uid, isEqualTo: user.uid).getDocuments() { (snapshot, error) in
+        guard let userUid = user.uid else { return }
+        firestoreDB.whereField(Constants.Uid, isEqualTo: userUid).getDocuments() { (snapshot, error) in
             if (error != nil) == true {
                 print("error")
                 completion(false)
@@ -61,7 +57,9 @@ class GalleryController {
                           let location = dictionary[Constants.Location] as? String,
                           let timestamp = dictionary[Constants.Timestamp] as? String else { return }
                     let gallery = Gallery(user: user, imageUrl: imageUrl, caption: caption, location: location, likeCount: 0, isLiked: false, timestamp: timestamp)
-                    self.galleries.insert(gallery, at: 0)
+//                    self.galleries.insert(gallery, at: 0)
+                    self.galleries.append(gallery)
+                    completion(true)
                 }
             }
         }
