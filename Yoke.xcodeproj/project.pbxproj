@@ -14,6 +14,7 @@
 		6C296DDE24B3BE6F008E33ED /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6C296DDC24B3BE6F008E33ED /* LaunchScreen.storyboard */; };
 		6C296DE924B3BE70008E33ED /* YokeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C296DE824B3BE70008E33ED /* YokeTests.swift */; };
 		6C3132B92583F3E0005D0544 /* UserError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C3132B82583F3E0005D0544 /* UserError.swift */; };
+		6C718B7725A4D85D005EDC93 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C718B7625A4D85D005EDC93 /* HomeViewController.swift */; };
 		6C8DB65624B3C1B9003D06FF /* RequestFormVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C8DB5B424B3C1B7003D06FF /* RequestFormVC.swift */; };
 		6C8DB65724B3C1B9003D06FF /* MessageVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C8DB5B524B3C1B7003D06FF /* MessageVC.swift */; };
 		6C8DB65824B3C1B9003D06FF /* ChatVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C8DB5B624B3C1B7003D06FF /* ChatVC.swift */; };
@@ -143,6 +144,7 @@
 		6C296DE824B3BE70008E33ED /* YokeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YokeTests.swift; sourceTree = "<group>"; };
 		6C296DEA24B3BE70008E33ED /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		6C3132B82583F3E0005D0544 /* UserError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserError.swift; sourceTree = "<group>"; };
+		6C718B7625A4D85D005EDC93 /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		6C8DB5B424B3C1B7003D06FF /* RequestFormVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RequestFormVC.swift; sourceTree = "<group>"; };
 		6C8DB5B524B3C1B7003D06FF /* MessageVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessageVC.swift; sourceTree = "<group>"; };
 		6C8DB5B624B3C1B7003D06FF /* ChatVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatVC.swift; sourceTree = "<group>"; };
@@ -599,6 +601,7 @@
 			isa = PBXGroup;
 			children = (
 				6C8DB5FB24B3C1B8003D06FF /* HomeVC.swift */,
+				6C718B7625A4D85D005EDC93 /* HomeViewController.swift */,
 			);
 			path = "View Controller";
 			sourceTree = "<group>";
@@ -1048,6 +1051,7 @@
 				6C8DB67524B3C1B9003D06FF /* AddSavedUserCell.swift in Sources */,
 				6C8DB67E24B3C1B9003D06FF /* EventsVC.swift in Sources */,
 				6CBDDE5324B3DC000099A04C /* PaymentCell.swift in Sources */,
+				6C718B7725A4D85D005EDC93 /* HomeViewController.swift in Sources */,
 				6C8DB67C24B3C1B9003D06FF /* UserEventVC.swift in Sources */,
 				6C8DB67924B3C1B9003D06FF /* UserProfileVC.swift in Sources */,
 				6C8DB68424B3C1B9003D06FF /* Event.swift in Sources */,
@@ -1299,7 +1303,7 @@
 				DEVELOPMENT_TEAM = FK22X67JSW;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = Yoke/Resources/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.2;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1323,7 +1327,7 @@
 				DEVELOPMENT_TEAM = FK22X67JSW;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = Yoke/Resources/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.2;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

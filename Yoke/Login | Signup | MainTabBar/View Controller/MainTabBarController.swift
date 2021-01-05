@@ -49,7 +49,7 @@ class MainTabBarController: UITabBarController, UITabBarControllerDelegate {
     
     func setupViewControllers() {
         
-        let homeNavController = templateNavController(unselectedImage: #imageLiteral(resourceName: "home_unselected"), selectedImage: #imageLiteral(resourceName: "home_selected"), rootViewController: HomeVC(collectionViewLayout: UICollectionViewFlowLayout()))
+        let homeNavController = templateNavController(unselectedImage: #imageLiteral(resourceName: "home_unselected"), selectedImage: #imageLiteral(resourceName: "home_selected"), rootViewController: HomeViewController())
         homeNavController.title = "Home"
         
         let messageNavController = templateNavController(unselectedImage: #imageLiteral(resourceName: "message_unselected"), selectedImage: #imageLiteral(resourceName: "message_selected"), rootViewController: MessageVC())
