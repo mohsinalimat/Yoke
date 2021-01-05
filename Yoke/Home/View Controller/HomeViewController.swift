@@ -79,7 +79,7 @@ class HomeViewController: UIViewController, HomeProfileHeaderDelegate {
         
         galleryLabel.anchor(top: stackView.bottomAnchor, left: nil, bottom: nil, right: nil, paddingTop: 5, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: view.frame.width, height:45)
         
-        collectionView.anchor(top: galleryLabel.bottomAnchor, left: safeArea.leftAnchor, bottom: safeArea.bottomAnchor, right: safeArea.rightAnchor, paddingTop: 10, paddingLeft: 0, paddingBottom: 0, paddingRight: 0)
+        collectionView.anchor(top: galleryLabel.bottomAnchor, left: safeArea.leftAnchor, bottom: safeArea.bottomAnchor, right: safeArea.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0)
         
         
     }
@@ -89,8 +89,6 @@ class HomeViewController: UIViewController, HomeProfileHeaderDelegate {
         collectionView.delegate = self
         collectionView.dataSource = self
         collectionView.translatesAutoresizingMaskIntoConstraints = false
-        collectionView.backgroundColor = UIColor.white
-//        collectionView.register(HomeHeaderCell.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: headerId)
         collectionView.register(GalleryCell.self, forCellWithReuseIdentifier: cellId)
         collectionView.register(EmptyCell.self, forCellWithReuseIdentifier: noCellId)
     }
@@ -353,15 +351,16 @@ class HomeViewController: UIViewController, HomeProfileHeaderDelegate {
         button.setTitleColor(UIColor.darkGray, for: .normal)
 //        button.addTarget(self, action: #selector(handleAddPhotos), for: .touchUpInside)
         button.backgroundColor = .white
+        button.layer.cornerRadius = 8
         return button
     }()
     
     let galleryLabel: UILabel = {
         let label = UILabel()
-        label.text = "GALLERY"
+        label.text = "Menus"
 //        label.backgroundColor = UIColor.orangeColor()
         label.font = UIFont.boldSystemFont(ofSize: 20)
-        label.textAlignment = .center
+        label.textAlignment = .left
         label.textColor = UIColor.orangeColor()
         label.backgroundColor = .white
         return label
@@ -391,23 +390,22 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
         if galleries.count == 0 {
             let noCell = collectionView.dequeueReusableCell(withReuseIdentifier: noCellId, for: indexPath) as! EmptyCell
             noCell.photoImageView.image = UIImage(named: "no_post_background")!
-            noCell.noPostLabel.text = "No Posts Yet"
+            noCell.noPostLabel.text = "Menu Coming Soon"
             return noCell
         }
         
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath) as! GalleryCell
         cell.gallery = galleries[indexPath.item]
-        
         return cell
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         
         if galleries.count == 0 {
-            return CGSize(width: view.frame.width, height: 400)
+            return CGSize(width: view.frame.width, height: view.frame.width + -75)
         } else {
-//            let width = (view.frame.width - 2) / 2
-            let width = view.frame.width
+            let width = (view.frame.width - 2) / 2
+//            let width = view.frame.width
             return CGSize(width: width, height: width)
         }
     }
@@ -425,23 +423,10 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
     
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
-        return 5
+        return 1
     }
-    
+
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-        return 15
+        return 1
     }
-    
-//    func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
-//        let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: headerId, for: indexPath) as! HomeHeaderCell
-//        header.backgroundColor = UIColor.lightGray.withAlphaComponent(0.2)
-////        let user = users[indexPath.item]
-////        header.user = user
-//        header.delegate = self
-//        return header
-//    }
-//
-//    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
-//        return CGSize(width: view.frame.width, height: 420)
-//    }
 }

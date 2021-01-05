@@ -25,7 +25,29 @@ class GalleryCell: UICollectionViewCell {
             }
             
         }
-        
+    }
+    
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        setupViews()
+        setupConstraints()
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    func setupViews() {
+        addSubview(shadowView)
+        addSubview(cellBackgroundView)
+        addSubview(photoImageView)
+    }
+    
+    func setupConstraints() {
+        shadowView.anchor(top: topAnchor, left: leftAnchor, bottom: bottomAnchor, right: rightAnchor, paddingTop: 5, paddingLeft: 5, paddingBottom: -15, paddingRight: 10)
+        cellBackgroundView.anchor(top: topAnchor, left: leftAnchor, bottom: bottomAnchor, right: rightAnchor, paddingTop: 5, paddingLeft: 5, paddingBottom: -15, paddingRight: 10)
+        photoImageView.anchor(top: topAnchor, left: leftAnchor, bottom: nil, right: rightAnchor, paddingTop: 0, paddingLeft: 5, paddingBottom: 5, paddingRight: 5)
+        photoImageView.heightAnchor.constraint(equalTo: widthAnchor, multiplier: 1).isActive = true
     }
 
     let photoImageView: UIImageView = {
@@ -38,16 +60,17 @@ class GalleryCell: UICollectionViewCell {
         return image
     }()
     
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-        
-        addSubview(photoImageView)
-        photoImageView.anchor(top: topAnchor, left: leftAnchor, bottom: nil, right: rightAnchor, paddingTop: 0, paddingLeft: 5, paddingBottom: 5, paddingRight: 5)
-        photoImageView.heightAnchor.constraint(equalTo: widthAnchor, multiplier: 1).isActive = true
-    }
+    let cellBackgroundView: UIView = {
+        let view = UIView()
+        view.layer.cornerRadius = 8
+        view.layer.masksToBounds = true
+        view.backgroundColor = UIColor.white
+        return view
+    }()
     
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-
+    let shadowView: ShadowView = {
+        let view = ShadowView()
+        view.backgroundColor = .white
+        return view
+    }()
 }
