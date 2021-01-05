@@ -35,7 +35,7 @@ class HomeViewController: UIViewController, HomeProfileHeaderDelegate {
     
     //MARK: Helper Functions
     func setupViews() {
-        view.backgroundColor = UIColor.lightGray
+        view.backgroundColor = UIColor.LightGrayBg()
         view.addSubview(coverImageView)
         view.addSubview(bannerImageCover)
         view.addSubview(profileImageView)
