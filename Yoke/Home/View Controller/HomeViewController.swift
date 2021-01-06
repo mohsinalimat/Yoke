@@ -41,7 +41,7 @@ class HomeViewController: UIViewController, HomeProfileHeaderDelegate {
         view.addSubview(profileImageView)
         view.addSubview(usernameLabel)
         view.addSubview(viewProfileButton)
-        view.addSubview(galleryLabel)
+        view.addSubview(menuLabel)
         view.addSubview(collectionView)
         constrainViews()
     }
@@ -75,17 +75,16 @@ class HomeViewController: UIViewController, HomeProfileHeaderDelegate {
         stackView.distribution = .fillEqually
         stackView.spacing = 1
         view.addSubview(stackView)
-        stackView.anchor(top: viewProfileButton.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 5, paddingLeft: 5, paddingBottom: 0, paddingRight: 5, width: 0, height: 75)
+        stackView.anchor(top: viewProfileButton.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 5, paddingLeft: 5, paddingBottom: 0, paddingRight: 5, width: 0, height: 60)
         
-        galleryLabel.anchor(top: stackView.bottomAnchor, left: nil, bottom: nil, right: nil, paddingTop: 5, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: view.frame.width, height:45)
+        menuLabel.anchor(top: stackView.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 5, paddingLeft: 5, paddingBottom: 0, paddingRight: 0, width: view.frame.width, height: 45)
         
-        collectionView.anchor(top: galleryLabel.bottomAnchor, left: safeArea.leftAnchor, bottom: safeArea.bottomAnchor, right: safeArea.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0)
-        
-        
+        collectionView.anchor(top: menuLabel.bottomAnchor, left: safeArea.leftAnchor, bottom: safeArea.bottomAnchor, right: safeArea.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0)
+        collectionView.contentInset = UIEdgeInsets(top: -80, left: 0, bottom: 0, right: 0)
     }
     
     func setupCollectionView() {
-        collectionView.backgroundColor = .white
+        collectionView.backgroundColor = UIColor.LightGrayBg()
         collectionView.delegate = self
         collectionView.dataSource = self
         collectionView.translatesAutoresizingMaskIntoConstraints = false
@@ -111,12 +110,13 @@ class HomeViewController: UIViewController, HomeProfileHeaderDelegate {
     fileprivate func fetchUser() {
         let uid = userId ?? (Auth.auth().currentUser?.uid ?? "")
         UserController.shared.fetchUserWithUID(uid: uid) { (user) in
-            self.fetchPostsWithUser(user: user)
+            guard let username = user.username else { return }
+            self.usernameLabel.text = "Welcome back \(username)"
+//            self.fetchPostsWithUser(user: user)
         }
     }
 
     fileprivate func fetchPostsWithUser(user: User) {
-        print("fetch with: \(user.uid)")
         GalleryController.shared.fetchGalleryWith(user: user) { (result) in
             switch result {
             case true:
@@ -170,7 +170,7 @@ class HomeViewController: UIViewController, HomeProfileHeaderDelegate {
     }
     
     @objc func handleSettings() {
-        let editProfile = EditProfileVC()
+        let editProfile = SettingsViewController()
         navigationController?.pushViewController(editProfile, animated: true)
     }
     
@@ -257,8 +257,10 @@ class HomeViewController: UIViewController, HomeProfileHeaderDelegate {
         image.clipsToBounds = true
         image.contentMode = .scaleAspectFill
         image.layer.borderColor = UIColor.white.cgColor
+        image.image = UIImage(named: "person.crop.circle.fill")
+        image.tintColor = UIColor.orangeColor()
+        image.backgroundColor = .white
         image.layer.borderWidth = 2
-        image.backgroundColor = .green
         return image
     }()
 
@@ -355,14 +357,14 @@ class HomeViewController: UIViewController, HomeProfileHeaderDelegate {
         return button
     }()
     
-    let galleryLabel: UILabel = {
+    let menuLabel: UILabel = {
         let label = UILabel()
         label.text = "Menus"
 //        label.backgroundColor = UIColor.orangeColor()
         label.font = UIFont.boldSystemFont(ofSize: 20)
         label.textAlignment = .left
         label.textColor = UIColor.orangeColor()
-        label.backgroundColor = .white
+//        label.backgroundColor = .white
         return label
     }()
     
@@ -379,7 +381,7 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         print(galleries.count)
         if galleries.count == 0 {
-            return 5
+            return 1
         } else {
             return galleries.count
         }
@@ -402,7 +404,7 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         
         if galleries.count == 0 {
-            return CGSize(width: view.frame.width, height: view.frame.width + -75)
+            return CGSize(width: view.frame.width, height: 200)
         } else {
             let width = (view.frame.width - 2) / 2
 //            let width = view.frame.width
@@ -420,8 +422,7 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
             navigationController?.pushViewController(galleryDetail, animated: true)
         }
     }
-    
-    
+
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
         return 1
     }
