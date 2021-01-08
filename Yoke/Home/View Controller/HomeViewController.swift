@@ -75,7 +75,7 @@ class HomeViewController: UIViewController, HomeProfileHeaderDelegate {
         stackView.distribution = .fillEqually
         stackView.spacing = 1
         view.addSubview(stackView)
-        stackView.anchor(top: viewProfileButton.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 5, paddingLeft: 5, paddingBottom: 0, paddingRight: 5, width: 0, height: 60)
+        stackView.anchor(top: viewProfileButton.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 20, paddingLeft: 5, paddingBottom: 0, paddingRight: 5, width: 0, height: 60)
         
         menuLabel.anchor(top: stackView.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 5, paddingLeft: 5, paddingBottom: 0, paddingRight: 0, width: view.frame.width, height: 45)
         
@@ -171,7 +171,8 @@ class HomeViewController: UIViewController, HomeProfileHeaderDelegate {
     
     @objc func handleSettings() {
         let editProfile = SettingsViewController()
-        navigationController?.pushViewController(editProfile, animated: true)
+        present(editProfile, animated: true)
+//        navigationController?.pushViewController(editProfile, animated: true)
     }
     
     func viewBookmarked(user: User) {
@@ -297,62 +298,77 @@ class HomeViewController: UIViewController, HomeProfileHeaderDelegate {
     
     lazy var reviewsButton: UIButton = {
         let button = UIButton(type: .custom)
-        button.setImage(UIImage(named: "reviews"), for: .normal)
+//        button.setImage(UIImage(named: "reviews"), for: .normal)
+        let image = UIImage(named: "reviews")?.withRenderingMode(.alwaysTemplate)
+        button.setImage(image, for: .normal)
+        button.tintColor = UIColor.white
         button.setTitle("Reviews", for: .normal)
         button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 10)
-        button.setTitleColor(UIColor.darkGray, for: .normal)
+        button.setTitleColor(UIColor.white, for: .normal)
         button.imageEdgeInsets = UIEdgeInsets.init(top: 0,left: 45,bottom: 20,right: 0)
         button.titleEdgeInsets = UIEdgeInsets.init(top: 20,left: -25,bottom: 0,right: 0)
 //        button.addTarget(self, action: #selector(handleReviews), for: .touchUpInside)
-        button.backgroundColor = .white
+        button.backgroundColor = UIColor.orangeColor()
         button.layer.cornerRadius = 8
         return button
     }()
     
     lazy var EventButton: UIButton = {
         let button = UIButton(type: .custom)
-        button.setImage(UIImage(named: "event_full"), for: .normal)
+//        button.setImage(UIImage(named: "event_full"), for: .normal)
+        let image = UIImage(named: "event_full")?.withRenderingMode(.alwaysTemplate)
+        button.setImage(image, for: .normal)
+        button.tintColor = UIColor.white
         button.setTitle("Events", for: .normal)
         button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 10)
-        button.setTitleColor(UIColor.darkGray, for: .normal)
+        button.setTitleColor(UIColor.white, for: .normal)
 //        button.addTarget(self, action: #selector(handleEvents), for: .touchUpInside)
-        button.backgroundColor = .white
+        button.backgroundColor = UIColor.orangeColor()
         button.layer.cornerRadius = 8
         return button
     }()
     
     lazy var calendarButton: UIButton = {
         let button = UIButton(type: .custom)
-        button.setImage(UIImage(named: "calendar"), for: .normal)
+//        button.setImage(UIImage(named: "calendar"), for: .normal)
+        let image = UIImage(named: "calendar")?.withRenderingMode(.alwaysTemplate)
+        button.setImage(image, for: .normal)
+        button.tintColor = UIColor.white
         button.setTitle("Calendar", for: .normal)
         button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 10)
-        button.setTitleColor(UIColor.darkGray, for: .normal)
+        button.setTitleColor(UIColor.white, for: .normal)
 //        button.addTarget(self, action: #selector(handleCalendar), for: .touchUpInside)
-        button.backgroundColor = .white
+        button.backgroundColor = UIColor.orangeColor()
         button.layer.cornerRadius = 8
         return button
     }()
     
     lazy var bookmarkButton: UIButton = {
         let button = UIButton(type: .custom)
-        button.setImage(UIImage(named: "bookmark_selected"), for: .normal)
+//        button.setImage(UIImage(named: "bookmark_selected"), for: .normal)
+        let image = UIImage(named: "bookmark_selected")?.withRenderingMode(.alwaysTemplate)
+        button.setImage(image, for: .normal)
+        button.tintColor = UIColor.white
         button.setTitle("Bookmarked", for: .normal)
         button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 10)
-        button.setTitleColor(UIColor.darkGray, for: .normal)
+        button.setTitleColor(UIColor.white, for: .normal)
 //        button.addTarget(self, action: #selector(handleBookmarked), for: .touchUpInside)
-        button.backgroundColor = .white
+        button.backgroundColor = UIColor.orangeColor()
         button.layer.cornerRadius = 8
         return button
     }()
     
     lazy var addPhotosButton: UIButton = {
         let button = UIButton(type: .custom)
-        button.setImage(UIImage(named: "add_image"), for: .normal)
+//        button.setImage(UIImage(named: "add_image"), for: .normal)
+        let image = UIImage(named: "add_image")?.withRenderingMode(.alwaysTemplate)
+        button.setImage(image, for: .normal)
+        button.tintColor = UIColor.white
         button.setTitle("Add Photo", for: .normal)
         button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 10)
-        button.setTitleColor(UIColor.darkGray, for: .normal)
+        button.setTitleColor(UIColor.white, for: .normal)
 //        button.addTarget(self, action: #selector(handleAddPhotos), for: .touchUpInside)
-        button.backgroundColor = .white
+        button.backgroundColor = UIColor.orangeColor()
         button.layer.cornerRadius = 8
         return button
     }()

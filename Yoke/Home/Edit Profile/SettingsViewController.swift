@@ -11,6 +11,8 @@ import Firebase
 import FirebaseFirestore
 import Kingfisher
 
+//https://medium.com/@mattkopacz/handling-text-fields-in-table-view-7d50f051368b
+
 class SettingsViewController: UIViewController {
 
     //MARK: - Properties
@@ -71,7 +73,7 @@ class SettingsViewController: UIViewController {
     }
     
     func setupViews() {
-        view.backgroundColor = .gray
+        view.backgroundColor = UIColor.LightGrayBg()
         view.addSubview(scrollView)
         view.addSubview(bannerImageView)
         view.addSubview(editBannerImageButton)
@@ -79,6 +81,8 @@ class SettingsViewController: UIViewController {
         view.addSubview(editProfileImageButton)
         scrollView.addSubview(usernameLabel)
         scrollView.addSubview(usernameTextField)
+//        usernameView.addArrangedSubview(usernameLabel)
+//        usernameView.addArrangedSubview(usernameTextField)
         scrollView.addSubview(locationLabel)
         scrollView.addSubview(locationTextField)
         scrollView.addSubview(bioLabel)
@@ -97,9 +101,9 @@ class SettingsViewController: UIViewController {
         editProfileImageButton.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         scrollView.contentSize = CGSize(width: view.frame.width, height: view.frame.height)
         scrollView.anchor(top: editProfileImageButton.bottomAnchor, left: safeArea.leftAnchor, bottom: safeArea.bottomAnchor, right: safeArea.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0)
-        usernameLabel.anchor(top: scrollView.topAnchor, left: scrollView.leftAnchor, bottom: nil, right: nil, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 200, height: 45)
-        usernameTextField.anchor(top: scrollView.topAnchor, left: nil, bottom: nil, right: scrollView.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 200, height: 45)
         
+        usernameLabel.anchor(top: scrollView.topAnchor, left: scrollView.leftAnchor, bottom: nil, right: nil, paddingTop: 10, paddingLeft: 5, paddingBottom: 0, paddingRight: 5, height: 45)
+        usernameTextField.anchor(top: scrollView.topAnchor, left: nil, bottom: nil, right: scrollView.rightAnchor, paddingTop: 10, paddingLeft: 0, paddingBottom: 0, paddingRight: 5, width: 400, height: 45)
     }
     
     func setupImagePicker() {
@@ -240,7 +244,7 @@ class SettingsViewController: UIViewController {
         let image = CustomImageView()
         image.clipsToBounds = true
         image.contentMode = .scaleAspectFill
-        image.image = UIImage(named: "backgroundPlaceholder")
+        image.image = UIImage(named: "image_background")
         return image
     }()
     
@@ -277,16 +281,27 @@ class SettingsViewController: UIViewController {
         label.text = "Username"
         label.textColor = .darkGray
         label.font = UIFont.boldSystemFont(ofSize: 17)
+        label.backgroundColor = .white
         return label
     }()
     
     let usernameTextField: UITextField = {
         let text = UITextField()
         text.textColor = .darkGray
-        text.layer.borderColor = UIColor.white.cgColor
-        text.layer.borderWidth = 0.5
-        text.layer.cornerRadius = 5
+        text.placeholder = "Name here"
+        text.textAlignment = .right
+        text.backgroundColor = .white
         return text
+    }()
+    
+    let usernameView: UIStackView = {
+        let view = UIStackView()
+        view.axis = .horizontal
+        view.alignment = .fill
+        view.distribution = .fillEqually
+        view.spacing = 0
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
     }()
     
     let locationLabel: UILabel = {
@@ -301,7 +316,7 @@ class SettingsViewController: UIViewController {
         let text = UITextField()
         text.placeholder = "Location"
         text.textColor = .darkGray
-//        text.layer.borderColor = UIColor.blueColor()?.cgColor
+        text.layer.borderColor = UIColor.LightGrayBg()?.cgColor
         text.layer.borderWidth = 0.5
         text.layer.cornerRadius = 5
         return text
