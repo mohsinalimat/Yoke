@@ -28,12 +28,18 @@ class HomeViewController: UIViewController, HomeProfileHeaderDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupNavTitleAndBarButtonItems()
+        setupBannerView()
         setupCollectionView()
         setupViews()
         fetchUser()
     }
     
     //MARK: Helper Functions
+    
+    func setupBannerView() {
+        //check if user has a banner image. If no then hide the cover image view
+    }
+    
     func setupViews() {
         view.backgroundColor = UIColor.LightGrayBg()
         view.addSubview(coverImageView)
@@ -242,7 +248,7 @@ class HomeViewController: UIViewController, HomeProfileHeaderDelegate {
         let image = CustomImageView()
         image.clipsToBounds = true
         image.contentMode = .scaleAspectFill
-        image.image = UIImage(named: "foodBackground")
+        image.image = UIImage(named: "image_background")
         return image
     }()
     

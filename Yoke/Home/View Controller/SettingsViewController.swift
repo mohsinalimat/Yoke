@@ -73,12 +73,13 @@ class SettingsViewController: UIViewController  {
     }
 
     func setupViews() {
-        view.backgroundColor = UIColor.LightGrayBg()
-        view.addSubview(scrollView)
+        view.backgroundColor = UIColor.white
         view.addSubview(bannerImageView)
         view.addSubview(editBannerImageButton)
         view.addSubview(profileImageView)
         view.addSubview(editProfileImageButton)
+        view.addSubview(settingsLabel)
+        view.addSubview(scrollView)
         scrollView.addSubview(usernameView)
         scrollView.addSubview(usernameLabel)
         scrollView.addSubview(usernameTextField)
@@ -104,22 +105,25 @@ class SettingsViewController: UIViewController  {
         profileImageView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         editProfileImageButton.anchor(top: bannerImageView.bottomAnchor, left: nil, bottom: nil, right: nil, paddingTop: -40, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 120, height: 120)
         editProfileImageButton.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        scrollView.contentSize = CGSize(width: view.frame.width, height: view.frame.height)
-        scrollView.anchor(top: editProfileImageButton.bottomAnchor, left: safeArea.leftAnchor, bottom: safeArea.bottomAnchor, right: safeArea.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0)
+    
+        settingsLabel.anchor(top: editProfileImageButton.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: nil, paddingTop: 5, paddingLeft: 10, paddingBottom: 0, paddingRight: 0)
         
-        usernameView.anchor(top: scrollView.topAnchor, left: scrollView.leftAnchor, bottom: nil, right: scrollView.rightAnchor, paddingTop: 10, paddingLeft: 10, paddingBottom: 0, paddingRight: 0, width: view.frame.width - 20, height: 67)
-        usernameLabel.anchor(top: usernameView.topAnchor, left: usernameView.leftAnchor, bottom: nil, right: usernameView.rightAnchor, paddingTop: 8, paddingLeft: 8, paddingBottom: 8, paddingRight: 8, width: view.frame.width, height: 15)
-        usernameTextField.anchor(top: usernameLabel.bottomAnchor, left: usernameView.leftAnchor, bottom: nil, right: usernameView.rightAnchor, paddingTop: 8, paddingLeft: 8, paddingBottom: 0, paddingRight: 8, width: view.frame.width)
+        scrollView.contentSize = CGSize(width: view.frame.width - 20, height: view.frame.height)
+        scrollView.anchor(top: settingsLabel.bottomAnchor, left: safeArea.leftAnchor, bottom: safeArea.bottomAnchor, right: safeArea.rightAnchor, paddingTop: 10, paddingLeft: 8, paddingBottom: 8, paddingRight: 8)
         
-        locationView.anchor(top: usernameView.bottomAnchor, left: scrollView.leftAnchor, bottom: nil, right: scrollView.rightAnchor, paddingTop: 5, paddingLeft: 10, paddingBottom: 0, paddingRight: 0, width: view.frame.width - 20, height: 67)
+        usernameView.anchor(top: scrollView.topAnchor, left: scrollView.leftAnchor, bottom: nil, right: scrollView.rightAnchor, paddingTop: 10, paddingLeft: 8, paddingBottom: 0, paddingRight: 8, width: scrollView.frame.width - 20, height: 67)
+        usernameLabel.anchor(top: usernameView.topAnchor, left: usernameView.leftAnchor, bottom: nil, right: usernameView.rightAnchor, paddingTop: 8, paddingLeft: 8, paddingBottom: 8, paddingRight: 8, height: 15)
+        usernameTextField.anchor(top: usernameLabel.bottomAnchor, left: usernameView.leftAnchor, bottom: nil, right: usernameView.rightAnchor, paddingTop: 8, paddingLeft: 8, paddingBottom: 0, paddingRight: 8)
+        
+        locationView.anchor(top: usernameView.bottomAnchor, left: scrollView.leftAnchor, bottom: nil, right: scrollView.rightAnchor, paddingTop: 5, paddingLeft: 8, paddingBottom: 0, paddingRight: 8, width: scrollView.frame.width - 20, height: 67)
         locationLabel.anchor(top: locationView.topAnchor, left: locationView.leftAnchor, bottom: nil, right: locationView.rightAnchor, paddingTop: 8, paddingLeft: 8, paddingBottom: 8, paddingRight: 8, width: view.frame.width, height: 15)
-        locationTextField.anchor(top: locationLabel.bottomAnchor, left: locationView.leftAnchor, bottom: nil, right: locationView.rightAnchor, paddingTop: 8, paddingLeft: 8, paddingBottom: 0, paddingRight: 8, width: view.frame.width)
-        
-        bioView.anchor(top: locationView.bottomAnchor, left: scrollView.leftAnchor, bottom: nil, right: scrollView.rightAnchor, paddingTop: 5, paddingLeft: 10, paddingBottom: 0, paddingRight: 0, width: view.frame.width - 20, height: 202)
-        bioLabel.anchor(top: bioView.topAnchor, left: bioView.leftAnchor, bottom: nil, right: bioView.rightAnchor, paddingTop: 5, paddingLeft: 8, paddingBottom: 5, paddingRight: 8, width: view.frame.width, height: 20)
+        locationTextField.anchor(top: locationLabel.bottomAnchor, left: usernameView.leftAnchor, bottom: nil, right: usernameView.rightAnchor, paddingTop: 8, paddingLeft: 8, paddingBottom: 0, paddingRight: 8)
+
+        bioView.anchor(top: locationView.bottomAnchor, left: scrollView.leftAnchor, bottom: nil, right: scrollView.rightAnchor, paddingTop: 5, paddingLeft: 8, paddingBottom: 0, paddingRight: 8, width: view.frame.width - 20, height: 202)
+        bioLabel.anchor(top: bioView.topAnchor, left: bioView.leftAnchor, bottom: nil, right: bioView.rightAnchor, paddingTop: 5, paddingLeft: 8, paddingBottom: 5, paddingRight: 8, width: view.frame.width, height: 15)
         bioTextView.anchor(top: bioLabel.bottomAnchor, left: bioView.leftAnchor, bottom: nil, right: bioView.rightAnchor, paddingTop: 0, paddingLeft: 8, paddingBottom: 8, paddingRight: 8, width: view.frame.width, height: 150)
-        
-        chefView.anchor(top: bioView.bottomAnchor, left: scrollView.leftAnchor, bottom: nil, right: scrollView.rightAnchor, paddingTop: 5, paddingLeft: 10, paddingBottom: 0, paddingRight: 0, width: view.frame.width - 20, height: 40)
+
+        chefView.anchor(top: bioView.bottomAnchor, left: scrollView.leftAnchor, bottom: nil, right: scrollView.rightAnchor, paddingTop: 5, paddingLeft: 8, paddingBottom: 0, paddingRight: 8, width: view.frame.width - 20, height: 40)
         chefLabel.anchor(top: chefView.topAnchor, left: chefView.leftAnchor, bottom: nil, right: nil, paddingTop: 8, paddingLeft: 8, paddingBottom: 8, paddingRight: 8, width: 200, height: 20)
         chefSwitch.anchor(top: chefView.topAnchor, left: nil, bottom: chefView.bottomAnchor, right: chefView.rightAnchor, paddingTop: 4, paddingLeft: 0, paddingBottom: 0, paddingRight: 8)
         chefInfoLabel.anchor(top: chefView.bottomAnchor, left: scrollView.leftAnchor, bottom: nil, right: nil, paddingTop: 0, paddingLeft: 8, paddingBottom: 0, paddingRight: 0, height: 20)
@@ -255,6 +259,10 @@ class SettingsViewController: UIViewController  {
     //MARK: - Views
     lazy var scrollView: UIScrollView = {
         let view = UIScrollView()
+        view.backgroundColor = UIColor.LightGrayBg()
+        view.layer.cornerRadius = 5
+        view.layer.borderColor = UIColor.LightGrayBg()?.cgColor
+        view.layer.borderWidth = 5
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
@@ -293,6 +301,14 @@ class SettingsViewController: UIViewController  {
         button.setTitleColor(.white, for: .normal)
         button.addTarget(self, action: #selector(handleEditProfileImage), for: .touchUpInside)
         return button
+    }()
+    
+    let settingsLabel: UILabel = {
+        let label = UILabel()
+        label.text = "Settings"
+        label.textColor = .gray
+        label.font = UIFont.boldSystemFont(ofSize: 20)
+        return label
     }()
 
     let usernameView: UIView = {
@@ -355,7 +371,7 @@ class SettingsViewController: UIViewController  {
     let bioLabel: UILabel = {
         let label = UILabel()
         label.text = "Bio"
-        label.textColor = .darkGray
+        label.textColor = .gray
         label.font = UIFont.boldSystemFont(ofSize: 17)
         return label
     }()
