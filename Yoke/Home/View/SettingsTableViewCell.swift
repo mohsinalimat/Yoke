@@ -32,13 +32,14 @@ class SettingsTableViewCell: UITableViewCell {
     }
     
     func constrainViews() {
-        dataTextField.anchor(top: topAnchor, left: leftAnchor, bottom: nil, right: rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 100, height: 45)
+        dataTextField.anchor(top: topAnchor, left: leftAnchor, bottom: bottomAnchor, right: rightAnchor, paddingTop: 8, paddingLeft: 8, paddingBottom: 8, paddingRight: 8, height: 45)
     }
     
     let dataTextField: UITextField = {
         let textField = UITextField()
         textField.translatesAutoresizingMaskIntoConstraints = false
         textField.font = UIFont.systemFont(ofSize: 20)
+        textField.backgroundColor = .yellow
         return textField
     }()
 

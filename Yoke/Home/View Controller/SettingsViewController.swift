@@ -13,16 +13,7 @@ import Kingfisher
 
 //https://medium.com/@mattkopacz/handling-text-fields-in-table-view-7d50f051368b
 
-enum TextFieldData: Int {
-    case nameTextField = 0
-    case surnameTextField
-    case emailTextField
-    case phoneTextField
-    case passwordTextField
-    case repeatPasswordTextField
-}
-
-class SettingsViewController: UIViewController, UITextFieldDelegate {
+class SettingsViewController: UIViewController  {
 
     //MARK: - Properties
     var safeArea: UILayoutGuide {
@@ -32,8 +23,6 @@ class SettingsViewController: UIViewController, UITextFieldDelegate {
     let bannerImagePicker = UIImagePickerController()
     var isProfileImagePicker: Bool = true
     let uid = Auth.auth().currentUser?.uid ?? ""
-    let placeholderData = ["Name", "Surname", "Email", "Phone number", "Password", "Repeat password"]
-    var user = [User]()
     
     //MARK: - Lifecycle Methods
     override func viewDidLayoutSubviews() {
@@ -47,7 +36,6 @@ class SettingsViewController: UIViewController, UITextFieldDelegate {
         super.viewDidLoad()
         fetchUser()
         setupImagePicker()
-        setupTableView()
     }
     
     //MARK: - Helper Functions
@@ -83,13 +71,7 @@ class SettingsViewController: UIViewController, UITextFieldDelegate {
             }
         }
     }
-    
-    func setupTableView(){
-        tableView.dataSource = self
-        tableView.separatorStyle = .none
-        tableView.register(SettingsTableViewCell.self, forCellReuseIdentifier: "cell")
-    }
-    
+
     func setupViews() {
         view.backgroundColor = UIColor.LightGrayBg()
         view.addSubview(scrollView)
@@ -97,17 +79,20 @@ class SettingsViewController: UIViewController, UITextFieldDelegate {
         view.addSubview(editBannerImageButton)
         view.addSubview(profileImageView)
         view.addSubview(editProfileImageButton)
-        view.addSubview(tableView)
-//        scrollView.addSubview(usernameLabel)
-//        scrollView.addSubview(usernameTextField)
-//        usernameView.addArrangedSubview(usernameLabel)
-//        usernameView.addArrangedSubview(usernameTextField)
-//        scrollView.addSubview(locationLabel)
-//        scrollView.addSubview(locationTextField)
-//        scrollView.addSubview(bioLabel)
-//        scrollView.addSubview(bioTextView)
-//        scrollView.addSubview(logoutButton)
-//        scrollView.addSubview(deleteButton)
+        scrollView.addSubview(usernameView)
+        scrollView.addSubview(usernameLabel)
+        scrollView.addSubview(usernameTextField)
+        scrollView.addSubview(locationView)
+        scrollView.addSubview(locationLabel)
+        scrollView.addSubview(locationTextField)
+        scrollView.addSubview(bioView)
+        scrollView.addSubview(bioLabel)
+        scrollView.addSubview(bioTextView)
+        scrollView.addSubview(chefView)
+        scrollView.addSubview(chefLabel)
+        scrollView.addSubview(chefSwitch)
+        scrollView.addSubview(logoutButton)
+        scrollView.addSubview(deleteButton)
     }
     
     func constrainViews() {
@@ -118,16 +103,24 @@ class SettingsViewController: UIViewController, UITextFieldDelegate {
         profileImageView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         editProfileImageButton.anchor(top: bannerImageView.bottomAnchor, left: nil, bottom: nil, right: nil, paddingTop: -40, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 120, height: 120)
         editProfileImageButton.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        tableView.anchor(top: editBannerImageButton.bottomAnchor, left: view.leftAnchor, bottom: view.bottomAnchor, right: view.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0)
-//        scrollView.contentSize = CGSize(width: view.frame.width, height: view.frame.height)
-//        scrollView.anchor(top: editProfileImageButton.bottomAnchor, left: safeArea.leftAnchor, bottom: safeArea.bottomAnchor, right: safeArea.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0)
-//
-//        usernameLabel.anchor(top: scrollView.topAnchor, left: scrollView.leftAnchor, bottom: nil, right: nil, paddingTop: 10, paddingLeft: 5, paddingBottom: 0, paddingRight: 5, height: 45)
-//        usernameTextField.anchor(top: scrollView.topAnchor, left: nil, bottom: nil, right: scrollView.rightAnchor, paddingTop: 10, paddingLeft: 0, paddingBottom: 0, paddingRight: 5, width: 400, height: 45)
-    }
-    
-    func textFieldDidBeginEditing(_ textField: UITextField) {
-        textField.addTarget(self, action: #selector(valueChanged), for: .editingChanged)
+        scrollView.contentSize = CGSize(width: view.frame.width, height: view.frame.height)
+        scrollView.anchor(top: editProfileImageButton.bottomAnchor, left: safeArea.leftAnchor, bottom: safeArea.bottomAnchor, right: safeArea.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0)
+        
+        usernameView.anchor(top: scrollView.topAnchor, left: scrollView.leftAnchor, bottom: nil, right: scrollView.rightAnchor, paddingTop: 20, paddingLeft: 10, paddingBottom: 0, paddingRight: 0, width: view.frame.width - 20, height: 72)
+        usernameLabel.anchor(top: usernameView.topAnchor, left: usernameView.leftAnchor, bottom: nil, right: usernameView.rightAnchor, paddingTop: 8, paddingLeft: 8, paddingBottom: 8, paddingRight: 8, width: view.frame.width, height: 20)
+        usernameTextField.anchor(top: usernameLabel.bottomAnchor, left: usernameView.leftAnchor, bottom: nil, right: usernameView.rightAnchor, paddingTop: 8, paddingLeft: 8, paddingBottom: 8, paddingRight: 8, width: view.frame.width, height: 20)
+        
+        locationView.anchor(top: usernameView.bottomAnchor, left: scrollView.leftAnchor, bottom: nil, right: scrollView.rightAnchor, paddingTop: 5, paddingLeft: 10, paddingBottom: 0, paddingRight: 0, width: view.frame.width - 20, height: 72)
+        locationLabel.anchor(top: locationView.topAnchor, left: locationView.leftAnchor, bottom: nil, right: locationView.rightAnchor, paddingTop: 8, paddingLeft: 8, paddingBottom: 8, paddingRight: 8, width: view.frame.width, height: 20)
+        locationTextField.anchor(top: locationLabel.bottomAnchor, left: locationView.leftAnchor, bottom: nil, right: locationView.rightAnchor, paddingTop: 8, paddingLeft: 8, paddingBottom: 8, paddingRight: 8, width: view.frame.width, height: 20)
+        
+        bioView.anchor(top: locationView.bottomAnchor, left: scrollView.leftAnchor, bottom: nil, right: scrollView.rightAnchor, paddingTop: 5, paddingLeft: 10, paddingBottom: 0, paddingRight: 0, width: view.frame.width - 20, height: 202)
+        bioLabel.anchor(top: bioView.topAnchor, left: bioView.leftAnchor, bottom: nil, right: bioView.rightAnchor, paddingTop: 8, paddingLeft: 8, paddingBottom: 8, paddingRight: 8, width: view.frame.width, height: 20)
+        bioTextView.anchor(top: bioLabel.bottomAnchor, left: bioView.leftAnchor, bottom: nil, right: bioView.rightAnchor, paddingTop: 8, paddingLeft: 8, paddingBottom: 8, paddingRight: 8, width: view.frame.width, height: 150)
+        
+        chefView.anchor(top: bioView.bottomAnchor, left: scrollView.leftAnchor, bottom: nil, right: scrollView.rightAnchor, paddingTop: 5, paddingLeft: 10, paddingBottom: 0, paddingRight: 0, width: view.frame.width - 20, height: 40)
+        chefLabel.anchor(top: chefView.topAnchor, left: chefView.leftAnchor, bottom: nil, right: nil, paddingTop: 8, paddingLeft: 8, paddingBottom: 8, paddingRight: 8, width: 200, height: 20)
+        chefSwitch.anchor(top: chefView.topAnchor, left: nil, bottom: chefView.bottomAnchor, right: chefView.rightAnchor, paddingTop: 4, paddingLeft: 0, paddingBottom: 0, paddingRight: 8)
     }
     
     func setupImagePicker() {
@@ -137,37 +130,11 @@ class SettingsViewController: UIViewController, UITextFieldDelegate {
     
     func backToLoginVC() {
         UIView.animate(withDuration: 0.5) { [weak self] in
-//            let loginVC = LoginSignupViewController()
-//            self?.view.window?.rootViewController = loginVC
-//            self?.view.window?.makeKeyAndVisible()
+            let loginVC = LoginVC()
+            self?.view.window?.rootViewController = loginVC
+            self?.view.window?.makeKeyAndVisible()
         }
     }
-    
-    @objc func valueChanged(_ textField: UITextField){
-            switch textField.tag {
-            case TextFieldData.nameTextField.rawValue:
-//                user.username = textField.text
-            break
-            case TextFieldData.surnameTextField.rawValue:
-//            user.surname = textField.text
-                break
-            case TextFieldData.emailTextField.rawValue:
-//            user.email = textField.text
-                break
-            case TextFieldData.phoneTextField.rawValue:
-//            user.phoneNumber = textField.text
-                break
-            case TextFieldData.passwordTextField.rawValue:
-//            user.password = textField.text
-            textField.isSecureTextEntry = true
-                
-            case TextFieldData.repeatPasswordTextField.rawValue:
-//            user.repeatPassword = textField.text
-            textField.isSecureTextEntry = true
-            default:
-                break
-            }
-        }
 
     @objc func handleSaveUserInfo() {
         guard let uid = Auth.auth().currentUser?.uid,
@@ -290,13 +257,6 @@ class SettingsViewController: UIViewController, UITextFieldDelegate {
         return view
     }()
     
-    let tableView: UITableView = {
-        let table = UITableView()
-        table.translatesAutoresizingMaskIntoConstraints = false
-        table.backgroundColor = UIColor.LightGrayBg()
-        return table
-    }()
-    
     let bannerImageView: CustomImageView = {
         let image = CustomImageView()
         image.clipsToBounds = true
@@ -332,11 +292,18 @@ class SettingsViewController: UIViewController, UITextFieldDelegate {
         button.addTarget(self, action: #selector(handleEditProfileImage), for: .touchUpInside)
         return button
     }()
+
+    let usernameView: UIView = {
+        let view = UIView()
+        view.backgroundColor = .white
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
     
     let usernameLabel: UILabel = {
         let label = UILabel()
         label.text = "Username"
-        label.textColor = .darkGray
+        label.textColor = .gray
         label.font = UIFont.boldSystemFont(ofSize: 17)
         label.backgroundColor = .white
         return label
@@ -346,17 +313,14 @@ class SettingsViewController: UIViewController, UITextFieldDelegate {
         let text = UITextField()
         text.textColor = .darkGray
         text.placeholder = "Name here"
-        text.textAlignment = .right
+        text.textAlignment = .left
         text.backgroundColor = .white
         return text
     }()
     
-    let usernameView: UIStackView = {
-        let view = UIStackView()
-        view.axis = .horizontal
-        view.alignment = .fill
-        view.distribution = .fillEqually
-        view.spacing = 0
+    let locationView: UIView = {
+        let view = UIView()
+        view.backgroundColor = .white
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
@@ -364,7 +328,7 @@ class SettingsViewController: UIViewController, UITextFieldDelegate {
     let locationLabel: UILabel = {
         let label = UILabel()
         label.text = "Location"
-        label.textColor = .darkGray
+        label.textColor = .gray
         label.font = UIFont.boldSystemFont(ofSize: 17)
         return label
     }()
@@ -373,10 +337,14 @@ class SettingsViewController: UIViewController, UITextFieldDelegate {
         let text = UITextField()
         text.placeholder = "Location"
         text.textColor = .darkGray
-        text.layer.borderColor = UIColor.LightGrayBg()?.cgColor
-        text.layer.borderWidth = 0.5
-        text.layer.cornerRadius = 5
         return text
+    }()
+    
+    let bioView: UIView = {
+        let view = UIView()
+        view.backgroundColor = .white
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
     }()
     
     let bioLabel: UILabel = {
@@ -396,10 +364,31 @@ class SettingsViewController: UIViewController, UITextFieldDelegate {
         text.isScrollEnabled = true
         text.textContainer.lineBreakMode = .byWordWrapping
         text.font = UIFont.systemFont(ofSize: 17)
-//        text.layer.borderColor = UIColor.blueColor()?.cgColor
-        text.layer.borderWidth = 0.5
-        text.layer.cornerRadius = 5
         return text
+    }()
+    
+    let chefView: UIView = {
+        let view = UIView()
+        view.backgroundColor = .white
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
+    
+    let chefLabel: UILabel = {
+        let label = UILabel()
+        label.text = "Turn on chef view?"
+        label.textColor = .darkGray
+        label.font = UIFont.boldSystemFont(ofSize: 17)
+        return label
+    }()
+    
+    var chefSwitch: UISwitch = {
+        let switchBool = UISwitch()
+        switchBool.tintColor = UIColor.yellowColor()
+        switchBool.onTintColor = UIColor.yellowColor()
+        switchBool.setOn(false, animated: true)
+//        switchBool.addTarget(self, action: #selector(chefSwitch(chefSwitchChanged:)), for: UIControl.Event.valueChanged)
+        return switchBool
     }()
     
     let logoutButton: UIButton = {
@@ -425,25 +414,6 @@ class SettingsViewController: UIViewController, UITextFieldDelegate {
         button.addTarget(self, action: #selector(handleDelete), for: .touchUpInside)
         return button
     }()
-}
-
-//MARK: - Table View
-extension SettingsViewController: UITableViewDataSource {
-    
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return placeholderData.count
-    }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        if let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as? SettingsTableViewCell {
-            cell.selectionStyle = .none
-            cell.placeholder = placeholderData[indexPath.row]
-            cell.dataTextField.tag = indexPath.row
-            cell.dataTextField.delegate = self
-            return cell
-        }
-        return UITableViewCell()
-    }
 }
 
 //MARK: - Image Picker
