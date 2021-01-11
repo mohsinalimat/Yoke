@@ -13,7 +13,16 @@ import Kingfisher
 
 //https://medium.com/@mattkopacz/handling-text-fields-in-table-view-7d50f051368b
 
-class SettingsViewController: UIViewController {
+enum TextFieldData: Int {
+    case nameTextField = 0
+    case surnameTextField
+    case emailTextField
+    case phoneTextField
+    case passwordTextField
+    case repeatPasswordTextField
+}
+
+class SettingsViewController: UIViewController, UITextFieldDelegate {
 
     //MARK: - Properties
     var safeArea: UILayoutGuide {
@@ -23,6 +32,8 @@ class SettingsViewController: UIViewController {
     let bannerImagePicker = UIImagePickerController()
     var isProfileImagePicker: Bool = true
     let uid = Auth.auth().currentUser?.uid ?? ""
+    let placeholderData = ["Name", "Surname", "Email", "Phone number", "Password", "Repeat password"]
+    var user = [User]()
     
     //MARK: - Lifecycle Methods
     override func viewDidLayoutSubviews() {
@@ -36,6 +47,7 @@ class SettingsViewController: UIViewController {
         super.viewDidLoad()
         fetchUser()
         setupImagePicker()
+        setupTableView()
     }
     
     //MARK: - Helper Functions
@@ -72,6 +84,12 @@ class SettingsViewController: UIViewController {
         }
     }
     
+    func setupTableView(){
+        tableView.dataSource = self
+        tableView.separatorStyle = .none
+        tableView.register(SettingsTableViewCell.self, forCellReuseIdentifier: "cell")
+    }
+    
     func setupViews() {
         view.backgroundColor = UIColor.LightGrayBg()
         view.addSubview(scrollView)
@@ -79,16 +97,17 @@ class SettingsViewController: UIViewController {
         view.addSubview(editBannerImageButton)
         view.addSubview(profileImageView)
         view.addSubview(editProfileImageButton)
-        scrollView.addSubview(usernameLabel)
-        scrollView.addSubview(usernameTextField)
+        view.addSubview(tableView)
+//        scrollView.addSubview(usernameLabel)
+//        scrollView.addSubview(usernameTextField)
 //        usernameView.addArrangedSubview(usernameLabel)
 //        usernameView.addArrangedSubview(usernameTextField)
-        scrollView.addSubview(locationLabel)
-        scrollView.addSubview(locationTextField)
-        scrollView.addSubview(bioLabel)
-        scrollView.addSubview(bioTextView)
-        scrollView.addSubview(logoutButton)
-        scrollView.addSubview(deleteButton)
+//        scrollView.addSubview(locationLabel)
+//        scrollView.addSubview(locationTextField)
+//        scrollView.addSubview(bioLabel)
+//        scrollView.addSubview(bioTextView)
+//        scrollView.addSubview(logoutButton)
+//        scrollView.addSubview(deleteButton)
     }
     
     func constrainViews() {
@@ -99,11 +118,16 @@ class SettingsViewController: UIViewController {
         profileImageView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         editProfileImageButton.anchor(top: bannerImageView.bottomAnchor, left: nil, bottom: nil, right: nil, paddingTop: -40, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 120, height: 120)
         editProfileImageButton.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        scrollView.contentSize = CGSize(width: view.frame.width, height: view.frame.height)
-        scrollView.anchor(top: editProfileImageButton.bottomAnchor, left: safeArea.leftAnchor, bottom: safeArea.bottomAnchor, right: safeArea.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0)
-        
-        usernameLabel.anchor(top: scrollView.topAnchor, left: scrollView.leftAnchor, bottom: nil, right: nil, paddingTop: 10, paddingLeft: 5, paddingBottom: 0, paddingRight: 5, height: 45)
-        usernameTextField.anchor(top: scrollView.topAnchor, left: nil, bottom: nil, right: scrollView.rightAnchor, paddingTop: 10, paddingLeft: 0, paddingBottom: 0, paddingRight: 5, width: 400, height: 45)
+        tableView.anchor(top: editBannerImageButton.bottomAnchor, left: view.leftAnchor, bottom: view.bottomAnchor, right: view.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0)
+//        scrollView.contentSize = CGSize(width: view.frame.width, height: view.frame.height)
+//        scrollView.anchor(top: editProfileImageButton.bottomAnchor, left: safeArea.leftAnchor, bottom: safeArea.bottomAnchor, right: safeArea.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0)
+//
+//        usernameLabel.anchor(top: scrollView.topAnchor, left: scrollView.leftAnchor, bottom: nil, right: nil, paddingTop: 10, paddingLeft: 5, paddingBottom: 0, paddingRight: 5, height: 45)
+//        usernameTextField.anchor(top: scrollView.topAnchor, left: nil, bottom: nil, right: scrollView.rightAnchor, paddingTop: 10, paddingLeft: 0, paddingBottom: 0, paddingRight: 5, width: 400, height: 45)
+    }
+    
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+        textField.addTarget(self, action: #selector(valueChanged), for: .editingChanged)
     }
     
     func setupImagePicker() {
@@ -118,6 +142,32 @@ class SettingsViewController: UIViewController {
 //            self?.view.window?.makeKeyAndVisible()
         }
     }
+    
+    @objc func valueChanged(_ textField: UITextField){
+            switch textField.tag {
+            case TextFieldData.nameTextField.rawValue:
+//                user.username = textField.text
+            break
+            case TextFieldData.surnameTextField.rawValue:
+//            user.surname = textField.text
+                break
+            case TextFieldData.emailTextField.rawValue:
+//            user.email = textField.text
+                break
+            case TextFieldData.phoneTextField.rawValue:
+//            user.phoneNumber = textField.text
+                break
+            case TextFieldData.passwordTextField.rawValue:
+//            user.password = textField.text
+            textField.isSecureTextEntry = true
+                
+            case TextFieldData.repeatPasswordTextField.rawValue:
+//            user.repeatPassword = textField.text
+            textField.isSecureTextEntry = true
+            default:
+                break
+            }
+        }
 
     @objc func handleSaveUserInfo() {
         guard let uid = Auth.auth().currentUser?.uid,
@@ -238,6 +288,13 @@ class SettingsViewController: UIViewController {
         let view = UIScrollView()
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
+    }()
+    
+    let tableView: UITableView = {
+        let table = UITableView()
+        table.translatesAutoresizingMaskIntoConstraints = false
+        table.backgroundColor = UIColor.LightGrayBg()
+        return table
     }()
     
     let bannerImageView: CustomImageView = {
@@ -368,9 +425,28 @@ class SettingsViewController: UIViewController {
         button.addTarget(self, action: #selector(handleDelete), for: .touchUpInside)
         return button
     }()
-    
 }
 
+//MARK: - Table View
+extension SettingsViewController: UITableViewDataSource {
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return placeholderData.count
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        if let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as? SettingsTableViewCell {
+            cell.selectionStyle = .none
+            cell.placeholder = placeholderData[indexPath.row]
+            cell.dataTextField.tag = indexPath.row
+            cell.dataTextField.delegate = self
+            return cell
+        }
+        return UITableViewCell()
+    }
+}
+
+//MARK: - Image Picker
 extension SettingsViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
 
     func openCamera() {
