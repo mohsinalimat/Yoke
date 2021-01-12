@@ -102,7 +102,6 @@
 		6CA9D91725950AEB009B2BDF /* GalleryController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CA9D91625950AEB009B2BDF /* GalleryController.swift */; };
 		6CAB0F85258AA85200E17B39 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 6CAB0F84258AA85200E17B39 /* GoogleService-Info.plist */; };
 		6CB2AA30258D62140062BDBE /* WelcomeVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CB2AA2F258D62140062BDBE /* WelcomeVC.swift */; };
-		6CB5C3E225ACC17300648631 /* SettingsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CB5C3E125ACC17300648631 /* SettingsTableViewCell.swift */; };
 		6CBDDE4224B3DBE70099A04C /* CreateInvoiceVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CBDDE4024B3DBE70099A04C /* CreateInvoiceVC.swift */; };
 		6CBDDE4324B3DBE70099A04C /* InvoiceCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CBDDE4124B3DBE70099A04C /* InvoiceCell.swift */; };
 		6CBDDE4724B3DBF30099A04C /* StripeApi.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CBDDE4524B3DBF30099A04C /* StripeApi.swift */; };
@@ -236,7 +235,6 @@
 		6CA9D91625950AEB009B2BDF /* GalleryController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GalleryController.swift; sourceTree = "<group>"; };
 		6CAB0F84258AA85200E17B39 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		6CB2AA2F258D62140062BDBE /* WelcomeVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeVC.swift; sourceTree = "<group>"; };
-		6CB5C3E125ACC17300648631 /* SettingsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsTableViewCell.swift; sourceTree = "<group>"; };
 		6CBDDE4024B3DBE70099A04C /* CreateInvoiceVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreateInvoiceVC.swift; sourceTree = "<group>"; };
 		6CBDDE4124B3DBE70099A04C /* InvoiceCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InvoiceCell.swift; sourceTree = "<group>"; };
 		6CBDDE4524B3DBF30099A04C /* StripeApi.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StripeApi.swift; sourceTree = "<group>"; };
@@ -631,7 +629,6 @@
 			isa = PBXGroup;
 			children = (
 				6C8DB60524B3C1B8003D06FF /* HomeHeaderCell.swift */,
-				6CB5C3E125ACC17300648631 /* SettingsTableViewCell.swift */,
 				6C5D5F3525AE030700ACF451 /* MenuHeaderCollectionViewCell.swift */,
 			);
 			path = View;
@@ -1053,7 +1050,6 @@
 				6C8DB69924B3C1B9003D06FF /* CustomImageView.swift in Sources */,
 				6C8DB65B24B3C1B9003D06FF /* NotificationCell.swift in Sources */,
 				6C8DB65E24B3C1B9003D06FF /* ChatCell.swift in Sources */,
-				6CB5C3E225ACC17300648631 /* SettingsTableViewCell.swift in Sources */,
 				6C8DB65724B3C1B9003D06FF /* MessageVC.swift in Sources */,
 				6C8DB68224B3C1B9003D06FF /* EditEventDetailVC.swift in Sources */,
 				6C8DB68824B3C1B9003D06FF /* ChefPreferencesVC.swift in Sources */,
