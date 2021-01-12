@@ -424,12 +424,12 @@ class SettingsViewController: UIViewController  {
     let changePasswordButton: UIButton = {
         let button = UIButton()
         button.setTitle("Change Password", for: .normal)
-        button.setTitleColor(.white, for: .normal)
-        button.backgroundColor = UIColor.orangeColor()
+        button.setTitleColor(UIColor.orangeColor(), for: .normal)
+        button.backgroundColor = .white
         button.layer.cornerRadius = 5
         button.layer.borderWidth = 2
         button.layer.borderColor = UIColor.white.cgColor
-        button.addTarget(self, action: #selector(handleLogout), for: .touchUpInside)
+//        button.addTarget(self, action: #selector(handleLogout), for: .touchUpInside)
         return button
     }()
     

@@ -47,17 +47,16 @@ class HomeViewController: UIViewController, HomeProfileHeaderDelegate {
         view.addSubview(profileImageView)
         view.addSubview(usernameLabel)
         view.addSubview(viewProfileButton)
-        view.addSubview(menuLabel)
         view.addSubview(collectionView)
         constrainViews()
     }
     
     func constrainViews() {
-        bannerImageCover.anchor(top: safeArea.topAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: -100, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 330)
+        bannerImageCover.anchor(top: safeArea.topAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: -100, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 300)
 
         coverImageView.anchor(top: bannerImageCover.topAnchor, left: bannerImageCover.leftAnchor, bottom: bannerImageCover.bottomAnchor, right: bannerImageCover.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0)
         
-        profileImageView.anchor(top: safeArea.topAnchor, left: nil, bottom: nil, right: nil, paddingTop: 50, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 100, height: 100)
+        profileImageView.anchor(top: safeArea.topAnchor, left: nil, bottom: nil, right: nil, paddingTop: 20, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 100, height: 100)
         profileImageView.layer.cornerRadius = 50
         profileImageView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
 
@@ -82,11 +81,8 @@ class HomeViewController: UIViewController, HomeProfileHeaderDelegate {
         stackView.spacing = 1
         view.addSubview(stackView)
         stackView.anchor(top: viewProfileButton.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 20, paddingLeft: 5, paddingBottom: 0, paddingRight: 5, width: 0, height: 60)
-        
-        menuLabel.anchor(top: stackView.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 5, paddingLeft: 5, paddingBottom: 0, paddingRight: 0, width: view.frame.width, height: 45)
-        
-        collectionView.anchor(top: menuLabel.bottomAnchor, left: safeArea.leftAnchor, bottom: safeArea.bottomAnchor, right: safeArea.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0)
-        collectionView.contentInset = UIEdgeInsets(top: -80, left: 0, bottom: 0, right: 0)
+
+        collectionView.anchor(top: stackView.bottomAnchor, left: safeArea.leftAnchor, bottom: safeArea.bottomAnchor, right: safeArea.rightAnchor, paddingTop: 20, paddingLeft: 0, paddingBottom: 0, paddingRight: 0)
     }
     
     func setupCollectionView() {
@@ -94,8 +90,10 @@ class HomeViewController: UIViewController, HomeProfileHeaderDelegate {
         collectionView.delegate = self
         collectionView.dataSource = self
         collectionView.translatesAutoresizingMaskIntoConstraints = false
+        collectionView.register(MenuHeaderCollectionViewCell.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: headerId)
         collectionView.register(GalleryCell.self, forCellWithReuseIdentifier: cellId)
         collectionView.register(EmptyCell.self, forCellWithReuseIdentifier: noCellId)
+        
     }
     
     func setupNavTitleAndBarButtonItems() {
@@ -378,18 +376,7 @@ class HomeViewController: UIViewController, HomeProfileHeaderDelegate {
         button.layer.cornerRadius = 8
         return button
     }()
-    
-    let menuLabel: UILabel = {
-        let label = UILabel()
-        label.text = "Menus"
-//        label.backgroundColor = UIColor.orangeColor()
-        label.font = UIFont.boldSystemFont(ofSize: 20)
-        label.textAlignment = .left
-        label.textColor = UIColor.orangeColor()
-//        label.backgroundColor = .white
-        return label
-    }()
-    
+
     let collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal
@@ -426,10 +413,9 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         
         if galleries.count == 0 {
-            return CGSize(width: view.frame.width, height: 200)
+            return CGSize(width: view.frame.width / 2, height: view.frame.width / 2)
         } else {
             let width = (view.frame.width - 2) / 2
-//            let width = view.frame.width
             return CGSize(width: width, height: width)
         }
     }
@@ -451,5 +437,16 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
         return 1
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+        let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: headerId, for: indexPath) as! MenuHeaderCollectionViewCell
+        header.frame = CGRect(x: 0, y: 0, width: collectionView.frame.width, height: 20)
+        header.menuLabel.text = "Menu"
+        return header
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
+        return CGSize(width: 100, height: 20)
     }
 }
