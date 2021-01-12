@@ -41,7 +41,7 @@ class HomeViewController: UIViewController, HomeProfileHeaderDelegate {
     }
     
     func setupViews() {
-        view.backgroundColor = UIColor.LightGrayBg()
+        view.backgroundColor = UIColor.white
         view.addSubview(coverImageView)
         view.addSubview(bannerImageCover)
         view.addSubview(profileImageView)
@@ -82,7 +82,7 @@ class HomeViewController: UIViewController, HomeProfileHeaderDelegate {
         view.addSubview(stackView)
         stackView.anchor(top: viewProfileButton.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 20, paddingLeft: 5, paddingBottom: 0, paddingRight: 5, width: 0, height: 60)
 
-        collectionView.anchor(top: stackView.bottomAnchor, left: safeArea.leftAnchor, bottom: safeArea.bottomAnchor, right: safeArea.rightAnchor, paddingTop: 20, paddingLeft: 0, paddingBottom: 0, paddingRight: 0)
+        collectionView.anchor(top: stackView.bottomAnchor, left: safeArea.leftAnchor, bottom: safeArea.bottomAnchor, right: safeArea.rightAnchor, paddingTop: 20, paddingLeft: 8, paddingBottom: 8, paddingRight: 8)
     }
     
     func setupCollectionView() {
@@ -431,22 +431,23 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
         }
     }
 
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
-        return 1
-    }
-
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-        return 1
-    }
+//    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
+//        return 1
+//    }
+//
+//    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+//        return 1
+//    }
     
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: headerId, for: indexPath) as! MenuHeaderCollectionViewCell
-        header.frame = CGRect(x: 0, y: 0, width: collectionView.frame.width, height: 20)
+        header.frame = CGRect(x: 0, y: 0, width: collectionView.frame.width, height: 45)
         header.menuLabel.text = "Menu"
+        header.backgroundColor = .white
         return header
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
-        return CGSize(width: 100, height: 20)
+        return CGSize(width: 100, height: 45)
     }
 }

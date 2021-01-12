@@ -24,13 +24,14 @@ class MenuHeaderCollectionViewCell: UICollectionViewCell {
     }
     
     func setupConstraints() {
-        menuLabel.anchor(top: topAnchor, left: leftAnchor, bottom: bottomAnchor, right: rightAnchor, paddingTop: 0, paddingLeft: 8, paddingBottom: 0, paddingRight: 0)
+        menuLabel.anchor(top: topAnchor, left: leftAnchor, bottom: bottomAnchor, right: rightAnchor, paddingTop: 0, paddingLeft: 8, paddingBottom: 0, paddingRight: 0, height: 45)
     }
     
     let menuLabel: UILabel = {
         let label = UILabel()
         label.textColor = UIColor.orangeColor()
         label.font = UIFont.boldSystemFont(ofSize: 20)
+//        label.backgroundColor = .white
         return label
     }()
 }
