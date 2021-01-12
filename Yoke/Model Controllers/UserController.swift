@@ -134,35 +134,35 @@ class UserController {
 //        }
 //    }
 //
-//    func updateUserProfileImage(_ uid: String, profileImage: UIImage?, completion: @escaping (Result<Bool, UserError>) -> Void) {
-//        guard let profileImage = profileImage else { return }
-//        guard let uploadProfileData = profileImage.jpegData(compressionQuality: 0.3) else { return }
-//        let filename = Auth.auth().currentUser?.uid ?? ""
-//        let storageRef = Storage.storage().reference()
-//        storageRef.child(Constants.profileImage).child(filename).putData(uploadProfileData, metadata: nil, completion: { (metadata, error) in
-//            if let error = error {
-//                print("There was an error uploading image data: \(error.localizedDescription)")
-//                completion(.failure(.fbUserError(error)))
-//                return
-//            }
-//            completion(.success(true))
-//        })
-//    }
-//
-//    func updateUserBannerImage(_ uid: String, bannerImage: UIImage?, completion: @escaping (Result<Bool, UserError>) -> Void) {
-//        guard let bannerImage = bannerImage else { return }
-//        guard let uploadBannerData = bannerImage.jpegData(compressionQuality: 0.3) else { return }
-//        let filename = Auth.auth().currentUser?.uid ?? ""
-//        let storageRef = Storage.storage().reference()
-//        storageRef.child(Constants.bannerImage).child(filename).putData(uploadBannerData, metadata: nil, completion: { (metadata, error) in
-//            if let error = error {
-//                print("There was an error uploading image data: \(error.localizedDescription)")
-//                completion(.failure(.fbUserError(error)))
-//                return
-//            }
-//            completion(.success(true))
-//        })
-//    }
+    func updateUserProfileImage(_ uid: String, profileImage: UIImage?, completion: @escaping (Bool) -> Void) {
+        guard let profileImage = profileImage else { return }
+        guard let uploadProfileData = profileImage.jpegData(compressionQuality: 0.3) else { return }
+        let filename = Auth.auth().currentUser?.uid ?? ""
+        let storageRef = Storage.storage().reference()
+        storageRef.child(Constants.ProfileImageUrl).child(filename).putData(uploadProfileData, metadata: nil, completion: { (metadata, error) in
+            if let error = error {
+                print("There was an error uploading image data: \(error.localizedDescription)")
+                completion(false)
+                return
+            }
+            completion(true)
+        })
+    }
+
+    func updateUserBannerImage(_ uid: String, bannerImage: UIImage?, completion: @escaping (Bool) -> Void) {
+        guard let bannerImage = bannerImage else { return }
+        guard let uploadBannerData = bannerImage.jpegData(compressionQuality: 0.3) else { return }
+        let filename = Auth.auth().currentUser?.uid ?? ""
+        let storageRef = Storage.storage().reference()
+        storageRef.child(Constants.ProfileBannerUrl).child(filename).putData(uploadBannerData, metadata: nil, completion: { (metadata, error) in
+            if let error = error {
+                print("There was an error uploading image data: \(error.localizedDescription)")
+                completion(false)
+                return
+            }
+            completion(true)
+        })
+    }
 //
 //    func deleteUserData(_ uid: String, completion: @escaping (Result<Bool, UserError>) -> Void) {
 //        firestoreDB.collection(Constants.users).document(uid).delete() { error in

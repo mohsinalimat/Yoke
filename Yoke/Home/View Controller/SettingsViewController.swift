@@ -79,6 +79,7 @@ class SettingsViewController: UIViewController  {
         view.addSubview(profileImageView)
         view.addSubview(editProfileImageButton)
         view.addSubview(settingsLabel)
+        view.addSubview(updateButton)
         view.addSubview(scrollView)
         scrollView.addSubview(usernameView)
         scrollView.addSubview(usernameLabel)
@@ -95,6 +96,9 @@ class SettingsViewController: UIViewController  {
         scrollView.addSubview(chefInfoLabel)
         scrollView.addSubview(logoutButton)
         scrollView.addSubview(deleteButton)
+        scrollView.addSubview(changePasswordButton)
+        scrollView.addSubview(logoutButton)
+        scrollView.addSubview(deleteButton)
     }
     
     func constrainViews() {
@@ -107,6 +111,7 @@ class SettingsViewController: UIViewController  {
         editProfileImageButton.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
     
         settingsLabel.anchor(top: editProfileImageButton.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: nil, paddingTop: 5, paddingLeft: 10, paddingBottom: 0, paddingRight: 0)
+        updateButton.anchor(top: editProfileImageButton.bottomAnchor, left: nil, bottom: nil, right: safeArea.rightAnchor, paddingTop: 5, paddingLeft: 0, paddingBottom: 0, paddingRight: 10)
         
         scrollView.contentSize = CGSize(width: view.frame.width - 20, height: view.frame.height)
         scrollView.anchor(top: settingsLabel.bottomAnchor, left: safeArea.leftAnchor, bottom: safeArea.bottomAnchor, right: safeArea.rightAnchor, paddingTop: 10, paddingLeft: 8, paddingBottom: 8, paddingRight: 8)
@@ -127,6 +132,9 @@ class SettingsViewController: UIViewController  {
         chefLabel.anchor(top: chefView.topAnchor, left: chefView.leftAnchor, bottom: nil, right: nil, paddingTop: 8, paddingLeft: 8, paddingBottom: 8, paddingRight: 8, width: 200, height: 20)
         chefSwitch.anchor(top: chefView.topAnchor, left: nil, bottom: chefView.bottomAnchor, right: chefView.rightAnchor, paddingTop: 4, paddingLeft: 0, paddingBottom: 0, paddingRight: 8)
         chefInfoLabel.anchor(top: chefView.bottomAnchor, left: scrollView.leftAnchor, bottom: nil, right: nil, paddingTop: 0, paddingLeft: 8, paddingBottom: 0, paddingRight: 0, height: 20)
+        changePasswordButton.anchor(top: chefInfoLabel.bottomAnchor, left: scrollView.leftAnchor, bottom: nil, right: scrollView.rightAnchor, paddingTop: 5, paddingLeft: 8, paddingBottom: 0, paddingRight: 8, height: 45)
+        logoutButton.anchor(top: changePasswordButton.bottomAnchor, left: scrollView.leftAnchor, bottom: nil, right: scrollView.rightAnchor, paddingTop: 5, paddingLeft: 8, paddingBottom: 0, paddingRight: 8, height: 45)
+        deleteButton.anchor(top: logoutButton.bottomAnchor, left: scrollView.leftAnchor, bottom: nil, right: scrollView.rightAnchor, paddingTop: 5, paddingLeft: 8, paddingBottom: 0, paddingRight: 8, height: 45)
     }
     
     func setupImagePicker() {
@@ -310,6 +318,16 @@ class SettingsViewController: UIViewController  {
         label.font = UIFont.boldSystemFont(ofSize: 20)
         return label
     }()
+    
+    let updateButton: UIButton = {
+        let button = UIButton()
+        button.setTitle("Update", for: .normal)
+        button.setTitleColor(UIColor.orangeColor(), for: .normal)
+        button.backgroundColor = .white
+        button.layer.cornerRadius = 5
+//        button.addTarget(self, action: #selector(handleLogout), for: .touchUpInside)
+        return button
+    }()
 
     let usernameView: UIView = {
         let view = UIView()
@@ -427,8 +445,6 @@ class SettingsViewController: UIViewController  {
         button.setTitleColor(UIColor.orangeColor(), for: .normal)
         button.backgroundColor = .white
         button.layer.cornerRadius = 5
-        button.layer.borderWidth = 2
-        button.layer.borderColor = UIColor.white.cgColor
 //        button.addTarget(self, action: #selector(handleLogout), for: .touchUpInside)
         return button
     }()
@@ -436,11 +452,9 @@ class SettingsViewController: UIViewController  {
     let logoutButton: UIButton = {
         let button = UIButton()
         button.setTitle("Logout", for: .normal)
-        button.setTitleColor(.white, for: .normal)
-        button.backgroundColor = UIColor.orangeColor()
+        button.setTitleColor(UIColor.orangeColor(), for: .normal)
+        button.backgroundColor = UIColor.white
         button.layer.cornerRadius = 5
-        button.layer.borderWidth = 2
-        button.layer.borderColor = UIColor.white.cgColor
         button.addTarget(self, action: #selector(handleLogout), for: .touchUpInside)
         return button
     }()
@@ -451,8 +465,6 @@ class SettingsViewController: UIViewController  {
         button.setTitleColor(.white, for: .normal)
         button.backgroundColor = .red
         button.layer.cornerRadius = 5
-        button.layer.borderWidth = 2
-        button.layer.borderColor = UIColor.white.cgColor
         button.addTarget(self, action: #selector(handleDelete), for: .touchUpInside)
         return button
     }()
@@ -518,26 +530,26 @@ extension SettingsViewController: UIImagePickerControllerDelegate, UINavigationC
         if isProfileImagePicker {
             if let pickedImage = info[.editedImage] as? UIImage {
                 self.profileImageView.image = pickedImage
-//                UserController.shared.updateUserProfileImage(uid, profileImage: pickedImage) { (result) in
-//                    switch result {
-//                    case .success(_):
-//                    print("photo was success")
-//                    case .failure(let error):
-//                        print(error.localizedDescription)
-//                    }
-//                }
+                UserController.shared.updateUserProfileImage(uid, profileImage: pickedImage) { (result) in
+                    switch result {
+                    case true:
+                        print("success")
+                    case false:
+                        print("error in uploading image")
+                    }
+                }
             }
         } else {
             if let pickedImage = info[.editedImage] as? UIImage {
                 self.bannerImageView.image = pickedImage
-//                UserController.shared.updateUserBannerImage(uid, bannerImage: pickedImage) { (result) in
-//                    switch result {
-//                    case .success(_):
-//                        print("photo was success")
-//                    case .failure(let error):
-//                        print(error.localizedDescription)
-//                    }
-//                }
+                UserController.shared.updateUserBannerImage(uid, bannerImage: pickedImage) { (result) in
+                    switch result {
+                    case true:
+                        print("success")
+                    case false:
+                        print("error in uploading banner")
+                    }
+                }
             }
         }
         

@@ -19,11 +19,10 @@ class Constants {
     static let Email = "email"
     static let Username = "username"
     static let ProfileImageUrl = "profileImageUrl"
-    static let ProfileCoverUrl = "profileCoverUrl"
+    static let ProfileBannerUrl = "profileBannerUrl"
     static let Location = "location"
     static let About = "about"
     static let Experience = "experience"
-    static let ProfileImages = "Profile_Images"
     static let CoverImages = "Cover_Images"
     static let Cusine = "cusine"
     

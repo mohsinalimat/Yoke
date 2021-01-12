@@ -153,23 +153,23 @@ class ChangeProfileImageVC: UICollectionViewController, UICollectionViewDelegate
         navigationItem.rightBarButtonItem?.isEnabled = false
         guard let uid = Auth.auth().currentUser?.uid else {return}
         guard let profileImage = selectedImage else {return}
-        let StorageRef = Storage.storage().reference().child(Constants.ProfileImages).child("\(profileImage).jpg")
-        if let uploadData = profileImage.jpegData(compressionQuality: 0.5) {
-            StorageRef.putData(uploadData, metadata: nil, completion: { (metadata, error) in
-                if error != nil {
-                    print("print error")
-                }
-                
-                StorageRef.downloadURL(completion: { (downloadURL, err) in
-                    if let err = err {
-                        print("Failed to retrieve downloadURL:", err)
-                        return
-                    }
-                    guard let profileImageUrl = downloadURL?.absoluteString else { return }
-                    let values = [Constants.ProfileImageUrl: profileImageUrl]
-                    DataService.instance.updateUserValues(uid: uid, values: values as [String : AnyObject])
-                    NotificationCenter.default.post(name: ChangeProfileImageVC.updateNotificationName, object: nil)
-                })
+//        let StorageRef = Storage.storage().reference().child(Constants.ProfileImages).child("\(profileImage).jpg")
+//        if let uploadData = profileImage.jpegData(compressionQuality: 0.5) {
+//            StorageRef.putData(uploadData, metadata: nil, completion: { (metadata, error) in
+//                if error != nil {
+//                    print("print error")
+//                }
+//
+//                StorageRef.downloadURL(completion: { (downloadURL, err) in
+//                    if let err = err {
+//                        print("Failed to retrieve downloadURL:", err)
+//                        return
+//                    }
+//                    guard let profileImageUrl = downloadURL?.absoluteString else { return }
+//                    let values = [Constants.ProfileImageUrl: profileImageUrl]
+//                    DataService.instance.updateUserValues(uid: uid, values: values as [String : AnyObject])
+//                    NotificationCenter.default.post(name: ChangeProfileImageVC.updateNotificationName, object: nil)
+//                })
 //
 //                if let profileImageUrl = metadata?.downloadURL()?.absoluteString {
 //                    let values = [Constants.ProfileImageUrl: profileImageUrl]
@@ -193,7 +193,7 @@ class ChangeProfileImageVC: UICollectionViewController, UICollectionViewDelegate
 //                    }
 //                }
             
-            })
+//            })
         }
 //        FIRDatabase.userIsChef(userKey: uid) { (isChef) in
 //            if isChef == true {
@@ -202,8 +202,8 @@ class ChangeProfileImageVC: UICollectionViewController, UICollectionViewDelegate
 //                self.saveUser()
 //            }
 //        }
-        let homeVC = HomeVC(collectionViewLayout: UICollectionViewFlowLayout())
-        navigationController?.pushViewController(homeVC, animated: true)
+//        let homeVC = HomeVC(collectionViewLayout: UICollectionViewFlowLayout())
+//        navigationController?.pushViewController(homeVC, animated: true)
         
     }
     
@@ -226,31 +226,31 @@ class ChangeProfileImageVC: UICollectionViewController, UICollectionViewDelegate
 //    }
     
     func saveUser() {
-        guard let uid = Auth.auth().currentUser?.uid else {return}
-        guard let profileImage = selectedImage else {return}
-        let StorageRef = Storage.storage().reference().child(Constants.ProfileImages).child("\(profileImage).jpg")
-        if let uploadData = profileImage.jpegData(compressionQuality: 0.5) {
-            StorageRef.putData(uploadData, metadata: nil, completion: { (metadata, error) in
-                if error != nil {
-                    print("print error")
-                }
-                StorageRef.downloadURL(completion: { (downloadURL, err) in
-                    if let err = err {
-                        print("Failed to retrieve downloadURL:", err)
-                        return
-                    }
-                    guard let profileImageUrl = downloadURL?.absoluteString else { return }
-                    
-                    let values = [Constants.ProfileImageUrl: profileImageUrl]
-                    DataService.instance.updateUserValues(uid: uid, values: values as [String : AnyObject])
-                })
-                
+//        guard let uid = Auth.auth().currentUser?.uid else {return}
+//        guard let profileImage = selectedImage else {return}
+//        let StorageRef = Storage.storage().reference().child(Constants.ProfileImages).child("\(profileImage).jpg")
+//        if let uploadData = profileImage.jpegData(compressionQuality: 0.5) {
+//            StorageRef.putData(uploadData, metadata: nil, completion: { (metadata, error) in
+//                if error != nil {
+//                    print("print error")
+//                }
+//                StorageRef.downloadURL(completion: { (downloadURL, err) in
+//                    if let err = err {
+//                        print("Failed to retrieve downloadURL:", err)
+//                        return
+//                    }
+//                    guard let profileImageUrl = downloadURL?.absoluteString else { return }
+//                    
+//                    let values = [Constants.ProfileImageUrl: profileImageUrl]
+//                    DataService.instance.updateUserValues(uid: uid, values: values as [String : AnyObject])
+//                })
+//                
 //                if let profileImageUrl = metadata?.downloadURL()?.absoluteString {
 //                    let values = [Constants.ProfileImageUrl: profileImageUrl]
 //                    DataService.instance.updateUserValues(uid: uid, values: values as [String : AnyObject])
 //                }
-            })
-        }
+//            })
+//        }
     }
     
-}
+

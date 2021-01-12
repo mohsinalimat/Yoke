@@ -411,28 +411,28 @@ class EditProfileVC: UIViewController, UIImagePickerControllerDelegate, UINaviga
     }
     
     func saveUser() {
-        DataService.instance.updateUserValues(uid: self.uid!, values: [Constants.Username: self.usernameTextField.text as AnyObject, Constants.Location: locationTextLabel.text as AnyObject, Constants.About: aboutTextView.text as AnyObject])
-        guard let image = self.changePhotoButton.imageView?.image else { return }
-        let imageName = NSUUID().uuidString
-        let storageRef = Storage.storage().reference().child(Constants.ProfileImages).child("\(imageName).jpg")
-        if let uploadData = image.jpegData(compressionQuality: 0.5) {
-            storageRef.putData(uploadData, metadata: nil, completion: { (metadata, error) in
-                if error != nil {
-                    print("print error")
-                }
-                storageRef.downloadURL(completion: { (downloadURL, err) in
-                    if let err = err {
-                        print("Failed to retrieve downloadURL:", err)
-                        return
-                    }
-                    guard let profileImageUrl = downloadURL?.absoluteString else { return }
-
-                    let values = [Constants.ProfileImageUrl: profileImageUrl]
-                    DataService.instance.updateUserValues(uid: self.uid!, values: values as [String : AnyObject])
-                })
-
-            })
-        }
+//        DataService.instance.updateUserValues(uid: self.uid!, values: [Constants.Username: self.usernameTextField.text as AnyObject, Constants.Location: locationTextLabel.text as AnyObject, Constants.About: aboutTextView.text as AnyObject])
+//        guard let image = self.changePhotoButton.imageView?.image else { return }
+//        let imageName = NSUUID().uuidString
+//        let storageRef = Storage.storage().reference().child(Constants.ProfileImages).child("\(imageName).jpg")
+//        if let uploadData = image.jpegData(compressionQuality: 0.5) {
+//            storageRef.putData(uploadData, metadata: nil, completion: { (metadata, error) in
+//                if error != nil {
+//                    print("print error")
+//                }
+//                storageRef.downloadURL(completion: { (downloadURL, err) in
+//                    if let err = err {
+//                        print("Failed to retrieve downloadURL:", err)
+//                        return
+//                    }
+//                    guard let profileImageUrl = downloadURL?.absoluteString else { return }
+//
+//                    let values = [Constants.ProfileImageUrl: profileImageUrl]
+//                    DataService.instance.updateUserValues(uid: self.uid!, values: values as [String : AnyObject])
+//                })
+//
+//            })
+//        }
     }
     
     //MARK: logout

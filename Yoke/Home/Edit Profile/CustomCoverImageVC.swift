@@ -28,9 +28,9 @@ class CustomCoverImageVC: UIViewController, UIImagePickerControllerDelegate, UIN
     
     func getUserCover() {
         Database.database().reference().child(Constants.Users).child(Auth.auth().currentUser?.uid ?? "").observe(.value) { (snapshot) in
-            let value = snapshot.value as? NSDictionary
-            let coverImageUrl = value?[Constants.ProfileCoverUrl] as? String
-            self.coverImageView.loadImage(urlString: coverImageUrl!)
+//            let value = snapshot.value as? NSDictionary
+//            let coverImageUrl = value?[Constants.ProfileCoverUrl] as? String
+//            self.coverImageView.loadImage(urlString: coverImageUrl!)
             
         }
     }
@@ -126,31 +126,31 @@ class CustomCoverImageVC: UIViewController, UIImagePickerControllerDelegate, UIN
     
     static let updateNotificationName = NSNotification.Name(rawValue: "Update")
     @objc func handleUpdate() {
-        navigationItem.rightBarButtonItem?.isEnabled = false
-        guard let uid = Auth.auth().currentUser?.uid else {return}
-        guard let coverImage = coverImageView.image else {return}
-        let bannerStorageRef = Storage.storage().reference().child(Constants.ProfileCoverUrl).child("\(coverImage).jpg")
-        if let uploadData = coverImage.jpegData(compressionQuality: 0.5) {
-            bannerStorageRef.putData(uploadData, metadata: nil, completion: { (metadata, error) in
-                if error != nil {
-                    print("print error")
-                }
-                
-                bannerStorageRef.downloadURL(completion: { (downloadURL, err) in
-                    if let err = err {
-                        print("Failed to retrieve downloadURL:", err)
-                        return
-                    }
-                    guard let coverImageUrl = downloadURL?.absoluteString else { return }
-                    let values = [Constants.ProfileCoverUrl: coverImageUrl]
-                    DataService.instance.updateUserValues(uid: uid, values: values as [String : AnyObject])
-                    NotificationCenter.default.post(name: CustomCoverImageVC.updateNotificationName, object: nil)
-                })
-                
-            })
-        }
-        let homeVC = HomeVC(collectionViewLayout: UICollectionViewFlowLayout())
-        navigationController?.pushViewController(homeVC, animated: true)
+//        navigationItem.rightBarButtonItem?.isEnabled = false
+//        guard let uid = Auth.auth().currentUser?.uid else {return}
+//        guard let coverImage = coverImageView.image else {return}
+//        let bannerStorageRef = Storage.storage().reference().child(Constants.ProfileCoverUrl).child("\(coverImage).jpg")
+//        if let uploadData = coverImage.jpegData(compressionQuality: 0.5) {
+//            bannerStorageRef.putData(uploadData, metadata: nil, completion: { (metadata, error) in
+//                if error != nil {
+//                    print("print error")
+//                }
+//                
+//                bannerStorageRef.downloadURL(completion: { (downloadURL, err) in
+//                    if let err = err {
+//                        print("Failed to retrieve downloadURL:", err)
+//                        return
+//                    }
+//                    guard let coverImageUrl = downloadURL?.absoluteString else { return }
+//                    let values = [Constants.ProfileCoverUrl: coverImageUrl]
+//                    DataService.instance.updateUserValues(uid: uid, values: values as [String : AnyObject])
+//                    NotificationCenter.default.post(name: CustomCoverImageVC.updateNotificationName, object: nil)
+//                })
+//                
+//            })
+//        }
+//        let homeVC = HomeVC(collectionViewLayout: UICollectionViewFlowLayout())
+//        navigationController?.pushViewController(homeVC, animated: true)
         
     }
     
