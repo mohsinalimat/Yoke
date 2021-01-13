@@ -23,6 +23,7 @@ class SettingsViewController: UIViewController  {
     let bannerImagePicker = UIImagePickerController()
     var isProfileImagePicker: Bool = true
     let uid = Auth.auth().currentUser?.uid ?? ""
+    var isUserChef: Bool = false
     
     //MARK: - Lifecycle Methods
     override func viewDidLayoutSubviews() {
@@ -56,6 +57,13 @@ class SettingsViewController: UIViewController  {
         usernameTextField.text = user.username
         locationTextField.text = user.location
         bioTextView.text = user.bio
+        guard let isChef = user.isChef else { return }
+        self.chefSwitch.setOn(isChef, animated: true)
+        if chefSwitch.isOn {
+            self.chefPreferenceButton.isHidden = false
+        } else {
+            self.chefPreferenceButton.isHidden = true
+        }
         let uid = Auth.auth().currentUser?.uid ?? ""
         let imageStorageRef = Storage.storage().reference().child("profileImageUrl/\(uid)")
         imageStorageRef.getData(maxSize: 2 * 1024 * 1024) { data, error in
@@ -158,15 +166,20 @@ class SettingsViewController: UIViewController  {
     @objc func handleSaveUserInfo() {
         guard let uid = Auth.auth().currentUser?.uid,
               let username = usernameTextField.text, !username.isEmpty,
-              let location = locationTextField.text, !location.isEmpty, let bio = bioTextView.text else { return emptyFieldWarning() }
-//        UserController.shared.updateUser(uid, username: username, location: location, bio: bio) { (result) in
-//            switch result {
-//            case .success(_):
-//                self.saveSuccessful()
-//            case .failure(let error):
-//                print(error.localizedDescription)
-//            }
-//        }
+              let bio = bioTextView.text else { return emptyFieldWarning() }
+        if chefSwitch.isOn {
+            isUserChef = true
+        } else {
+            isUserChef = false
+        }
+        UserController.shared.updateUser(uid, username: username, bio: bio, isChef: isUserChef) { (result) in
+            switch result {
+            case true:
+                self.saveSuccessful()
+            case false:
+                print("error updating user")
+            }
+        }
     }
     
     func emptyFieldWarning() {
@@ -187,6 +200,24 @@ class SettingsViewController: UIViewController  {
     
     @objc func handleDismiss() {
         dismiss(animated: true)
+    }
+    
+    @objc func chefSwitch(chefSwitchChanged: UISwitch) {
+        if chefSwitch.isOn {
+            isUserChef = true
+            chefPreferenceButton.isHidden = false
+        } else {
+            isUserChef = false
+            chefPreferenceButton.isHidden = true
+        }
+        UserController.shared.updateUser(uid, isChef: isUserChef) { (result) in
+            switch result {
+            case true:
+                print("updated")
+            case false:
+                print("error updating user")
+            }
+        }
     }
     
     @objc func handleEditBannerImage() {
@@ -330,7 +361,7 @@ class SettingsViewController: UIViewController  {
         button.setTitleColor(UIColor.orangeColor(), for: .normal)
         button.backgroundColor = .white
         button.layer.cornerRadius = 5
-//        button.addTarget(self, action: #selector(handleLogout), for: .touchUpInside)
+        button.addTarget(self, action: #selector(handleSaveUserInfo), for: .touchUpInside)
         return button
     }()
 
@@ -448,8 +479,7 @@ class SettingsViewController: UIViewController  {
         let switchBool = UISwitch()
         switchBool.tintColor = UIColor.orangeColor()
         switchBool.onTintColor = UIColor.orangeColor()
-        switchBool.setOn(false, animated: true)
-//        switchBool.addTarget(self, action: #selector(chefSwitch(chefSwitchChanged:)), for: UIControl.Event.valueChanged)
+        switchBool.addTarget(self, action: #selector(chefSwitch(chefSwitchChanged:)), for: UIControl.Event.valueChanged)
         return switchBool
     }()
     

@@ -94,7 +94,8 @@ class UserController {
                 let uid = dictionary["uid"] as? String ?? ""
                 let username = dictionary["username"] as? String ?? ""
                 let location = dictionary["location"] as? String ?? ""
-                let user = User(uid: uid, username: username, location: location)
+                guard let isChef = dictionary["isChef"] as? Bool else { return }
+                let user = User(uid: uid, username: username, location: location, isChef: isChef)
                 completion(user)
             } else {
                 completion(error as! User)
@@ -120,20 +121,20 @@ class UserController {
 //            }
 //        }
 //    }
-//
-//    func updateUser(_ uid: String, username: String, location: String, bio: String, isChef: Bool, completion: @escaping (Result<User?, UserError>) -> Void) {
-//        firestoreDB.collection(Constants.users).document(uid).setData([Constants.username: username, Constants.location: location, Constants.bio: bio, Constants.IsChef: isChef], merge: true) { error in
-//            if let error = error {
-//                print("There was an error updating data: \(error.localizedDescription)")
-//                completion(.failure(.fbUserError(error)))
-//                return
-//            } else {
-//                completion(.success(self.user))
-//                print("Document successfully updated")
-//            }
-//        }
-//    }
-//
+
+    func updateUser(_ uid: String, username: String = "", bio: String = "", isChef: Bool, completion: @escaping (Bool) -> Void) {
+        firestoreDB.collection(Constants.Users).document(uid).setData([Constants.Username: username, Constants.Bio: bio, Constants.IsChef: isChef], merge: true) { error in
+            if let error = error {
+                print("There was an error updating data: \(error.localizedDescription)")
+                completion(false)
+                return
+            } else {
+                completion(true)
+                print("Document successfully updated")
+            }
+        }
+    }
+
     func updateUserProfileImage(_ uid: String, profileImage: UIImage?, completion: @escaping (Bool) -> Void) {
         guard let profileImage = profileImage else { return }
         guard let uploadProfileData = profileImage.jpegData(compressionQuality: 0.3) else { return }
