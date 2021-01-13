@@ -20,6 +20,7 @@ class User {
     let profileImageUrl: String?
     let profileCoverUrl: String?
     let location: String?
+    let bio: String?
 //    let aboutUser: String
 //    let chefExperience: String
 //    let cusine: String
@@ -32,7 +33,7 @@ class User {
 //    let bookmarkCount: Int?
 //    let userRate: Int?
     
-    init(uid: String = "", id: String = "", customer_id: String = "", email: String = "", username: String = "", profileImageUrl: String = "", profileCoverUrl: String = "", location: String = "", isChef: Bool = false) {
+    init(uid: String = "", id: String = "", customer_id: String = "", email: String = "", username: String = "", profileImageUrl: String = "", profileCoverUrl: String = "", location: String = "", bio: String = "", isChef: Bool = false) {
         self.uid = uid
         self.id = id
         self.customer_id = customer_id
@@ -41,6 +42,7 @@ class User {
         self.profileImageUrl = profileImageUrl
         self.profileCoverUrl = profileCoverUrl
         self.location = location
+        self.bio = bio
         self.isChef = isChef
     }
     

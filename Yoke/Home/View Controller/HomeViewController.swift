@@ -42,19 +42,20 @@ class HomeViewController: UIViewController, HomeProfileHeaderDelegate {
     
     func setupViews() {
         view.backgroundColor = UIColor.white
-        view.addSubview(coverImageView)
-        view.addSubview(bannerImageCover)
+        view.addSubview(bannerImageView)
+        view.addSubview(bannerLayerImageView)
         view.addSubview(profileImageView)
         view.addSubview(usernameLabel)
         view.addSubview(viewProfileButton)
+        view.addSubview(collectionViewBG)
         view.addSubview(collectionView)
         constrainViews()
     }
     
     func constrainViews() {
-        bannerImageCover.anchor(top: safeArea.topAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: -100, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 300)
+        bannerLayerImageView.anchor(top: safeArea.topAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: -100, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, height: 300)
 
-        coverImageView.anchor(top: bannerImageCover.topAnchor, left: bannerImageCover.leftAnchor, bottom: bannerImageCover.bottomAnchor, right: bannerImageCover.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0)
+        bannerImageView.anchor(top: safeArea.topAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: -100, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, height: 300)
         
         profileImageView.anchor(top: safeArea.topAnchor, left: nil, bottom: nil, right: nil, paddingTop: 20, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 100, height: 100)
         profileImageView.layer.cornerRadius = 50
@@ -81,11 +82,14 @@ class HomeViewController: UIViewController, HomeProfileHeaderDelegate {
         stackView.spacing = 1
         view.addSubview(stackView)
         stackView.anchor(top: viewProfileButton.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 20, paddingLeft: 5, paddingBottom: 0, paddingRight: 5, width: 0, height: 60)
+        
+        collectionViewBG.anchor(top: stackView.bottomAnchor, left: safeArea.leftAnchor, bottom: safeArea.bottomAnchor, right: safeArea.rightAnchor, paddingTop: 20, paddingLeft: 8, paddingBottom: 8, paddingRight: 8)
 
-        collectionView.anchor(top: stackView.bottomAnchor, left: safeArea.leftAnchor, bottom: safeArea.bottomAnchor, right: safeArea.rightAnchor, paddingTop: 20, paddingLeft: 8, paddingBottom: 8, paddingRight: 8)
+        collectionView.anchor(top: collectionViewBG.topAnchor, left: collectionViewBG.leftAnchor, bottom: collectionViewBG.bottomAnchor, right: collectionViewBG.rightAnchor, paddingTop: 5, paddingLeft: 5, paddingBottom: 5, paddingRight: 5)
     }
     
     func setupCollectionView() {
+//        collectionView.roundCorners([.topLeft,.topRight], radius: 5)
         collectionView.backgroundColor = UIColor.LightGrayBg()
         collectionView.delegate = self
         collectionView.dataSource = self
@@ -116,7 +120,19 @@ class HomeViewController: UIViewController, HomeProfileHeaderDelegate {
         UserController.shared.fetchUserWithUID(uid: uid) { (user) in
             guard let username = user.username else { return }
             self.usernameLabel.text = "Welcome back \(username)"
-//            self.fetchPostsWithUser(user: user)
+            let imageStorageRef = Storage.storage().reference().child("profileImageUrl/\(uid)")
+            imageStorageRef.getData(maxSize: 2 * 1024 * 1024) { data, error in
+                if error == nil, let data = data {
+                    self.profileImageView.image = UIImage(data: data)
+                }
+            }
+            
+            let bannerStorageRef = Storage.storage().reference().child("profileBannerUrl/\(uid)")
+            bannerStorageRef.getData(maxSize: 2 * 1024 * 1024) { data, error in
+                if error == nil, let data = data {
+                    self.bannerImageView.image = UIImage(data: data)
+                }
+            }
         }
     }
 
@@ -242,18 +258,19 @@ class HomeViewController: UIViewController, HomeProfileHeaderDelegate {
     }
     
     //MARK: - Views
-    let coverImageView: CustomImageView = {
+    let bannerImageView: CustomImageView = {
         let image = CustomImageView()
         image.clipsToBounds = true
         image.contentMode = .scaleAspectFill
+        image.backgroundColor = .white
         image.image = UIImage(named: "image_background")
         return image
     }()
     
-    let bannerImageCover: UIView = {
+    let bannerLayerImageView: UIView = {
         let view = UIView()
         view.backgroundColor = UIColor.black
-        view.layer.opacity = 0.4
+        view.layer.opacity = 0.1
         return view
     }()
     
@@ -376,6 +393,13 @@ class HomeViewController: UIViewController, HomeProfileHeaderDelegate {
         button.layer.cornerRadius = 8
         return button
     }()
+    
+    let collectionViewBG: UIView = {
+        let view = UIView()
+        view.backgroundColor = UIColor.LightGrayBg()
+        view.layer.cornerRadius = 5
+        return view
+    }()
 
     let collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
@@ -442,8 +466,9 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: headerId, for: indexPath) as! MenuHeaderCollectionViewCell
         header.frame = CGRect(x: 0, y: 0, width: collectionView.frame.width, height: 45)
-        header.menuLabel.text = "Menu"
+        header.menuLabel.text = "Menus"
         header.backgroundColor = .white
+        header.layer.cornerRadius = 5
         return header
     }
     
@@ -451,3 +476,4 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
         return CGSize(width: 100, height: 45)
     }
 }
+

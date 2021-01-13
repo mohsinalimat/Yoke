@@ -33,7 +33,6 @@ class MenuHeaderCollectionViewCell: UICollectionViewCell {
         let label = UILabel()
         label.textColor = UIColor.orangeColor()
         label.font = UIFont.boldSystemFont(ofSize: 20)
-//        label.backgroundColor = .white
         return label
     }()
     
