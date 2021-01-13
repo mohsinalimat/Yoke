@@ -28,7 +28,6 @@ class SettingsViewController: UIViewController  {
     //MARK: - Lifecycle Methods
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        setupNavigationBar()
         setupViews()
         constrainViews()
     }
@@ -40,12 +39,6 @@ class SettingsViewController: UIViewController  {
     }
     
     //MARK: - Helper Functions
-    func setupNavigationBar() {
-        self.navigationItem.title = "Edit Profile"
-        navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .close, target: self, action: #selector(handleDismiss))
-        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .save, target: self, action: #selector(handleSaveUserInfo))
-    }
-    
     fileprivate func fetchUser() {
         let uid = Auth.auth().currentUser?.uid ?? ""
         UserController.shared.fetchUserWithUID(uid: uid) { (user) in
@@ -60,9 +53,11 @@ class SettingsViewController: UIViewController  {
         guard let isChef = user.isChef else { return }
         self.chefSwitch.setOn(isChef, animated: true)
         if chefSwitch.isOn {
-            self.chefPreferenceButton.isHidden = false
+            chefPreferenceButton.isEnabled = false
+            chefPreferenceButton.setTitleColor(UIColor.orangeColor(), for: .normal)
         } else {
-            self.chefPreferenceButton.isHidden = true
+            chefPreferenceButton.isEnabled = true
+            chefPreferenceButton.setTitleColor(UIColor.orangeColor()?.withAlphaComponent(0.4), for: .normal)
         }
         let uid = Auth.auth().currentUser?.uid ?? ""
         let imageStorageRef = Storage.storage().reference().child("profileImageUrl/\(uid)")
@@ -189,26 +184,15 @@ class SettingsViewController: UIViewController  {
         present(alertVC, animated: true)
     }
     
-    func saveSuccessful() {
-        let alertVC = UIAlertController(title: "Success", message: "Your profile has been updated", preferredStyle: .alert)
-        let okAction = UIAlertAction(title: "Cool", style: .default) { (_) in
-            self.handleDismiss()
-        }
-        alertVC.addAction(okAction)
-        present(alertVC, animated: true)
-    }
-    
-    @objc func handleDismiss() {
-        dismiss(animated: true)
-    }
-    
     @objc func chefSwitch(chefSwitchChanged: UISwitch) {
         if chefSwitch.isOn {
             isUserChef = true
-            chefPreferenceButton.isHidden = false
+            chefPreferenceButton.isEnabled = false
+            chefPreferenceButton.setTitleColor(UIColor.orangeColor(), for: .normal)
         } else {
             isUserChef = false
-            chefPreferenceButton.isHidden = true
+            chefPreferenceButton.isEnabled = true
+            chefPreferenceButton.setTitleColor(UIColor.orangeColor()?.withAlphaComponent(0.4), for: .normal)
         }
         UserController.shared.updateUser(uid, isChef: isUserChef) { (result) in
             switch result {
@@ -218,6 +202,19 @@ class SettingsViewController: UIViewController  {
                 print("error updating user")
             }
         }
+    }
+    
+    func saveSuccessful() {
+        let alertVC = UIAlertController(title: "Success", message: "Your profile has been updated", preferredStyle: .alert)
+        let okAction = UIAlertAction(title: "Cool Beans", style: .default) { (_) in
+            self.handleDismiss()
+        }
+        alertVC.addAction(okAction)
+        present(alertVC, animated: true)
+    }
+    
+    @objc func handleDismiss() {
+        dismiss(animated: true)
     }
     
     @objc func handleEditBannerImage() {
