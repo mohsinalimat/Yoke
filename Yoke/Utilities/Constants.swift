@@ -74,6 +74,10 @@ class Constants {
     static let Schedule = "schedule"
     static let BlackoutDate = "blackoutDate"
     static let Address = "address"
+    static let Street = "street"
+    static let Apartment = "apartment"
+    static let City = "city"
+    static let State = "state"
     
     static let Width = "width"
     static let Height = "height"

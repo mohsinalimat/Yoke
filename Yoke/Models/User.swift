@@ -21,6 +21,10 @@ class User {
     let profileCoverUrl: String?
     let location: String?
     let bio: String?
+    let street: String?
+    let apartment: String?
+    let city: String?
+    let state: String?
 //    let aboutUser: String
 //    let chefExperience: String
 //    let cusine: String
@@ -33,7 +37,7 @@ class User {
 //    let bookmarkCount: Int?
 //    let userRate: Int?
     
-    init(uid: String = "", id: String = "", customer_id: String = "", email: String = "", username: String = "", profileImageUrl: String = "", profileCoverUrl: String = "", location: String = "", bio: String = "", isChef: Bool = false) {
+    init(uid: String = "", id: String = "", customer_id: String = "", email: String = "", username: String = "", profileImageUrl: String = "", profileCoverUrl: String = "", location: String = "", bio: String = "", isChef: Bool = false, street: String = "", apartment: String = "", city: String = "", state: String = "") {
         self.uid = uid
         self.id = id
         self.customer_id = customer_id
@@ -44,6 +48,10 @@ class User {
         self.location = location
         self.bio = bio
         self.isChef = isChef
+        self.street = street
+        self.apartment = apartment
+        self.city = city
+        self.state = state
     }
     
 //    init(uid: String, id: String, customer_id: String, email: String, username: String, profileImageUrl: String, dictionary: [String: Any]) {

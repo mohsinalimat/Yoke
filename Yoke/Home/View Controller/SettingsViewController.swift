@@ -40,7 +40,7 @@ class SettingsViewController: UIViewController  {
     
     //MARK: - Helper Functions
     fileprivate func fetchUser() {
-        let uid = Auth.auth().currentUser?.uid ?? ""
+//        let uid = Auth.auth().currentUser?.uid ?? ""
         UserController.shared.fetchUserWithUID(uid: uid) { (user) in
             self.setupUserProfile(user: user)
         }
@@ -59,7 +59,7 @@ class SettingsViewController: UIViewController  {
             chefPreferenceButton.isEnabled = true
             chefPreferenceButton.setTitleColor(UIColor.orangeColor()?.withAlphaComponent(0.4), for: .normal)
         }
-        let uid = Auth.auth().currentUser?.uid ?? ""
+//        let uid = Auth.auth().currentUser?.uid ?? ""
         let imageStorageRef = Storage.storage().reference().child("profileImageUrl/\(uid)")
         imageStorageRef.getData(maxSize: 2 * 1024 * 1024) { data, error in
             if error == nil, let data = data {
@@ -144,7 +144,7 @@ class SettingsViewController: UIViewController  {
         logoutButton.anchor(top: privacyButton.bottomAnchor, left: scrollView.leftAnchor, bottom: nil, right: scrollView.rightAnchor, paddingTop: 5, paddingLeft: 8, paddingBottom: 0, paddingRight: 8, height: 45)
         deleteButton.anchor(top: logoutButton.bottomAnchor, left: scrollView.leftAnchor, bottom: nil, right: scrollView.rightAnchor, paddingTop: 5, paddingLeft: 8, paddingBottom: 0, paddingRight: 8, height: 45)
     }
-    
+
     func setupImagePicker() {
         profileImagePicker.delegate = self
         bannerImagePicker.delegate = self
@@ -159,8 +159,7 @@ class SettingsViewController: UIViewController  {
     }
 
     @objc func handleSaveUserInfo() {
-        guard let uid = Auth.auth().currentUser?.uid,
-              let username = usernameTextField.text, !username.isEmpty,
+        guard let username = usernameTextField.text, !username.isEmpty,
               let bio = bioTextView.text else { return emptyFieldWarning() }
         if chefSwitch.isOn {
             isUserChef = true
@@ -193,14 +192,6 @@ class SettingsViewController: UIViewController  {
             isUserChef = false
             chefPreferenceButton.isEnabled = true
             chefPreferenceButton.setTitleColor(UIColor.orangeColor()?.withAlphaComponent(0.4), for: .normal)
-        }
-        UserController.shared.updateUser(uid, isChef: isUserChef) { (result) in
-            switch result {
-            case true:
-                print("updated")
-            case false:
-                print("error updating user")
-            }
         }
     }
     
@@ -264,6 +255,12 @@ class SettingsViewController: UIViewController  {
     
     @objc func handleDelete() {
         deleteAction()
+    }
+    
+    @objc func handleLocation() {
+        let locationSettings = LocationSettingsViewController()
+        present(locationSettings, animated: true)
+//        navigationController?.pushViewController(locationSettings, animated: true)
     }
     
     func deleteAction() {
@@ -357,7 +354,6 @@ class SettingsViewController: UIViewController  {
         button.setTitle("Update", for: .normal)
         button.setTitleColor(UIColor.orangeColor(), for: .normal)
         button.backgroundColor = .white
-        button.layer.cornerRadius = 5
         button.addTarget(self, action: #selector(handleSaveUserInfo), for: .touchUpInside)
         return button
     }()
@@ -416,7 +412,7 @@ class SettingsViewController: UIViewController  {
         button.setTitle("Change location", for: .normal)
         button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 13)
         button.setTitleColor(UIColor.orangeColor(), for: .normal)
-//        button.addTarget(self, action: #selector(handleAddPhotos), for: .touchUpInside)
+        button.addTarget(self, action: #selector(handleLocation), for: .touchUpInside)
         return button
     }()
     
