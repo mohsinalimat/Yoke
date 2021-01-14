@@ -47,8 +47,10 @@ class SettingsViewController: UIViewController  {
     }
     
     func setupUserProfile(user: User) {
+        guard let city = user.city,
+              let state = user.state else { return }
         usernameTextField.text = user.username
-        locationTextField.text = user.location
+        locationTextField.text = "\(city), \(state)"
         bioTextView.text = user.bio
         guard let isChef = user.isChef else { return }
         self.chefSwitch.setOn(isChef, animated: true)
@@ -79,6 +81,7 @@ class SettingsViewController: UIViewController  {
         view.backgroundColor = UIColor.white
         view.addSubview(bannerImageView)
         view.addSubview(editBannerImageButton)
+        view.addSubview(swipeIndicator)
         view.addSubview(profileImageView)
         view.addSubview(editProfileImageButton)
         view.addSubview(settingsLabel)
@@ -108,10 +111,13 @@ class SettingsViewController: UIViewController  {
     func constrainViews() {
         bannerImageView.anchor(top: safeArea.topAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, height: view.frame.width / 3)
         editBannerImageButton.anchor(top: safeArea.topAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, height: view.frame.width / 3)
+        swipeIndicator.anchor(top: safeArea.topAnchor, left: nil, bottom: nil, right: nil, paddingTop: 20, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 100, height: 5)
+        swipeIndicator.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         profileImageView.anchor(top: bannerImageView.bottomAnchor, left: nil, bottom: nil, right: nil, paddingTop: -40, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 120, height: 120)
         profileImageView.layer.cornerRadius = 60
         profileImageView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         editProfileImageButton.anchor(top: bannerImageView.bottomAnchor, left: nil, bottom: nil, right: nil, paddingTop: -40, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 120, height: 120)
+        editProfileImageButton.layer.cornerRadius = 60
         editProfileImageButton.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
     
         settingsLabel.anchor(top: editProfileImageButton.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: nil, paddingTop: 5, paddingLeft: 10, paddingBottom: 0, paddingRight: 0)
@@ -295,6 +301,15 @@ class SettingsViewController: UIViewController  {
     }
     
     //MARK: - Views
+    let swipeIndicator: UIView = {
+        let view = UIView()
+        view.backgroundColor = UIColor.gray
+        view.layer.cornerRadius = 5
+        view.layer.borderWidth = 0.5
+        view.layer.borderColor = UIColor.white.cgColor
+        return view
+    }()
+    
     lazy var scrollView: UIScrollView = {
         let view = UIScrollView()
         view.backgroundColor = UIColor.LightGrayBg()
@@ -317,7 +332,8 @@ class SettingsViewController: UIViewController  {
         let button = UIButton(type: .system)
         button.setTitle("Change Banner Image", for: .normal)
         button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 17)
-        button.setTitleColor(.white, for: .normal)
+        button.setTitleColor(UIColor.white, for: .normal)
+        button.backgroundColor = UIColor.black.withAlphaComponent(0.3)
         button.addTarget(self, action: #selector(handleEditBannerImage), for: .touchUpInside)
         return button
     }()
@@ -336,7 +352,8 @@ class SettingsViewController: UIViewController  {
         let button = UIButton(type: .system)
         button.setTitle("Edit", for: .normal)
         button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 17)
-        button.setTitleColor(.white, for: .normal)
+        button.setTitleColor(UIColor.white, for: .normal)
+        button.backgroundColor = UIColor.black.withAlphaComponent(0.3)
         button.addTarget(self, action: #selector(handleEditProfileImage), for: .touchUpInside)
         return button
     }()
@@ -488,7 +505,7 @@ class SettingsViewController: UIViewController  {
     
     let changePasswordButton: UIButton = {
         let button = UIButton()
-        button.setTitle("Change Password", for: .normal)
+        button.setTitle("Change Password | Email", for: .normal)
         button.setTitleColor(UIColor.orangeColor(), for: .normal)
         button.backgroundColor = .white
         button.layer.cornerRadius = 5
