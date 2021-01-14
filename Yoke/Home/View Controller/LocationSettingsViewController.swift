@@ -83,7 +83,7 @@ class LocationSettingsViewController: UIViewController, UISearchBarDelegate, UIS
         apartmentTextField.anchor(top: streetTextField.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 5, paddingLeft: 8, paddingBottom: 0, paddingRight: 8, height: 40)
         cityTextField.anchor(top: apartmentTextField.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 5, paddingLeft: 8, paddingBottom: 0, paddingRight: 8, height: 40)
         stateTextField.anchor(top: cityTextField.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 5, paddingLeft: 8, paddingBottom: 0, paddingRight: 8, height: 40)
-        searchButton.anchor(top: stateTextField.bottomAnchor, left: nil, bottom: nil, right: safeArea.rightAnchor, paddingTop: 5, paddingLeft: 0, paddingBottom: 0, paddingRight: 8, width: 150, height: 45)
+        searchButton.anchor(top: stateTextField.bottomAnchor, left: nil, bottom: nil, right: safeArea.rightAnchor, paddingTop: 5, paddingLeft: 0, paddingBottom: 0, paddingRight: 8, width: 100, height: 35)
         locationView.anchor(top: searchButton.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 10, paddingLeft: 8, paddingBottom: 0, paddingRight: -10)
         mapView.anchor(top: locationView.bottomAnchor, left: safeArea.leftAnchor, bottom: safeArea.bottomAnchor, right: safeArea.rightAnchor, paddingTop: 20, paddingLeft: 0, paddingBottom: 0, paddingRight: 0)
     }
@@ -93,15 +93,13 @@ class LocationSettingsViewController: UIViewController, UISearchBarDelegate, UIS
               let city = cityTextField.text,
               let state = stateTextField.text else { return }
         let address = "\(street) \(state), \(city)"
-        print("address b \(address)")
-
         let geoCoder = CLGeocoder()
         geoCoder.geocodeAddressString(address) { (placemarks, error) in
             guard
                 let placemarks = placemarks,
                 let location = placemarks.first?.location
             else {
-                // handle no location found
+                self.handleNoLocationFound()
                 return
             }
             let center = CLLocationCoordinate2D(latitude: location.coordinate.latitude, longitude: location.coordinate.longitude)
@@ -110,6 +108,13 @@ class LocationSettingsViewController: UIViewController, UISearchBarDelegate, UIS
             self.mapView.addAnnotation(self.pin)
             self.mapView.setRegion(region, animated: true)
         }
+    }
+    
+    func handleNoLocationFound() {
+        let alertController = UIAlertController(title: "We could not find that location", message: "Please check the address entered and try again", preferredStyle: .alert)
+        let defaultAction = UIAlertAction(title: "Got it", style: .cancel, handler: nil)
+        alertController.addAction(defaultAction)
+        self.present(alertController, animated: true, completion: nil)
     }
     
     
@@ -222,7 +227,7 @@ class LocationSettingsViewController: UIViewController, UISearchBarDelegate, UIS
         let label = UILabel()
         label.text = "Set Location"
         label.font = UIFont.boldSystemFont(ofSize: 17)
-        label.textColor = .darkGray
+        label.textColor = .gray
         return label
     }()
     
@@ -230,7 +235,7 @@ class LocationSettingsViewController: UIViewController, UISearchBarDelegate, UIS
         let label = UILabel()
         label.text = "Use my current location"
         label.font = UIFont.boldSystemFont(ofSize: 17)
-        label.textColor = .darkGray
+        label.textColor = .gray
         return label
     }()
     

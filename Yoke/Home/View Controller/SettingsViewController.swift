@@ -79,9 +79,9 @@ class SettingsViewController: UIViewController  {
 
     func setupViews() {
         view.backgroundColor = UIColor.white
+        view.addSubview(swipeIndicator)
         view.addSubview(bannerImageView)
         view.addSubview(editBannerImageButton)
-        view.addSubview(swipeIndicator)
         view.addSubview(profileImageView)
         view.addSubview(editProfileImageButton)
         view.addSubview(settingsLabel)
@@ -109,10 +109,10 @@ class SettingsViewController: UIViewController  {
     }
     
     func constrainViews() {
-        bannerImageView.anchor(top: safeArea.topAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, height: view.frame.width / 3)
-        editBannerImageButton.anchor(top: safeArea.topAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, height: view.frame.width / 3)
         swipeIndicator.anchor(top: safeArea.topAnchor, left: nil, bottom: nil, right: nil, paddingTop: 20, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 100, height: 5)
         swipeIndicator.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        bannerImageView.anchor(top: swipeIndicator.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 20, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, height: view.frame.width / 3)
+        editBannerImageButton.anchor(top: swipeIndicator.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 20, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, height: view.frame.width / 3)
         profileImageView.anchor(top: bannerImageView.bottomAnchor, left: nil, bottom: nil, right: nil, paddingTop: -40, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 120, height: 120)
         profileImageView.layer.cornerRadius = 60
         profileImageView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
@@ -192,11 +192,11 @@ class SettingsViewController: UIViewController  {
     @objc func chefSwitch(chefSwitchChanged: UISwitch) {
         if chefSwitch.isOn {
             isUserChef = true
-            chefPreferenceButton.isEnabled = false
+            chefPreferenceButton.isEnabled = true
             chefPreferenceButton.setTitleColor(UIColor.orangeColor(), for: .normal)
         } else {
             isUserChef = false
-            chefPreferenceButton.isEnabled = true
+            chefPreferenceButton.isEnabled = false
             chefPreferenceButton.setTitleColor(UIColor.orangeColor()?.withAlphaComponent(0.4), for: .normal)
         }
     }
@@ -269,6 +269,18 @@ class SettingsViewController: UIViewController  {
 //        navigationController?.pushViewController(locationSettings, animated: true)
     }
     
+    @objc func handleEmailPassword() {
+        let emailPassword = EmailPasswordChangeViewController()
+        present(emailPassword , animated: true)
+//        navigationController?.pushViewController(locationSettings, animated: true)
+    }
+    
+    @objc func handleChefPreference() {
+        let chefPreference = ChefSettingsViewController()
+        present(chefPreference , animated: true)
+//        navigationController?.pushViewController(locationSettings, animated: true)
+    }
+    
     func deleteAction() {
         let alertVC = UIAlertController(title: "Are your sure you want to delete your account?", message: "You will loose all your data if you choose to delete", preferredStyle: .alert)
         let yesAction = UIAlertAction(title: "Yes, let's delete", style: .default) { (_) in
@@ -305,8 +317,6 @@ class SettingsViewController: UIViewController  {
         let view = UIView()
         view.backgroundColor = UIColor.gray
         view.layer.cornerRadius = 5
-        view.layer.borderWidth = 0.5
-        view.layer.borderColor = UIColor.white.cgColor
         return view
     }()
     
@@ -499,17 +509,17 @@ class SettingsViewController: UIViewController  {
         button.setTitleColor(UIColor.orangeColor(), for: .normal)
         button.backgroundColor = .white
         button.layer.cornerRadius = 5
-//        button.addTarget(self, action: #selector(handleLogout), for: .touchUpInside)
+        button.addTarget(self, action: #selector(handleChefPreference), for: .touchUpInside)
         return button
     }()
     
     let changePasswordButton: UIButton = {
         let button = UIButton()
-        button.setTitle("Change Password | Email", for: .normal)
+        button.setTitle("Change Email | Password", for: .normal)
         button.setTitleColor(UIColor.orangeColor(), for: .normal)
         button.backgroundColor = .white
         button.layer.cornerRadius = 5
-//        button.addTarget(self, action: #selector(handleLogout), for: .touchUpInside)
+        button.addTarget(self, action: #selector(handleEmailPassword), for: .touchUpInside)
         return button
     }()
     
