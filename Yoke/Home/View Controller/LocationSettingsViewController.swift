@@ -33,7 +33,7 @@ class LocationSettingsViewController: UIViewController, UISearchBarDelegate, UIS
         super.viewWillAppear(animated)
         setupViews()
         constrainViews()
-        setCurrentLocation()
+        setCurrentLocationOnLoad()
     }
     
     override func viewDidLoad() {
@@ -46,7 +46,7 @@ class LocationSettingsViewController: UIViewController, UISearchBarDelegate, UIS
     fileprivate func fetchUser() {
         UserController.shared.fetchUserWithUID(uid: uid) { (user) in
             guard let username = user.username else { return }
-            self.pin.title = "\(username)'s current location"
+            self.pin.title = "\(username)"
 //            self.pin.subtitle = "The best chef in the world."
             self.streetTextField.text = user.street
             self.apartmentTextField.text = user.apartment
@@ -64,6 +64,7 @@ class LocationSettingsViewController: UIViewController, UISearchBarDelegate, UIS
         view.addSubview(apartmentTextField)
         view.addSubview(cityTextField)
         view.addSubview(stateTextField)
+        view.addSubview(searchButton)
         view.addSubview(locationView)
         locationView.addArrangedSubview(locationLabel)
         locationView.addArrangedSubview(locationSwitch)
@@ -82,11 +83,37 @@ class LocationSettingsViewController: UIViewController, UISearchBarDelegate, UIS
         apartmentTextField.anchor(top: streetTextField.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 5, paddingLeft: 8, paddingBottom: 0, paddingRight: 8, height: 40)
         cityTextField.anchor(top: apartmentTextField.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 5, paddingLeft: 8, paddingBottom: 0, paddingRight: 8, height: 40)
         stateTextField.anchor(top: cityTextField.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 5, paddingLeft: 8, paddingBottom: 0, paddingRight: 8, height: 40)
-        locationView.anchor(top: stateTextField.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 10, paddingLeft: 8, paddingBottom: 0, paddingRight: -10)
+        searchButton.anchor(top: stateTextField.bottomAnchor, left: nil, bottom: nil, right: safeArea.rightAnchor, paddingTop: 5, paddingLeft: 0, paddingBottom: 0, paddingRight: 8, width: 150, height: 45)
+        locationView.anchor(top: searchButton.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 10, paddingLeft: 8, paddingBottom: 0, paddingRight: -10)
         mapView.anchor(top: locationView.bottomAnchor, left: safeArea.leftAnchor, bottom: safeArea.bottomAnchor, right: safeArea.rightAnchor, paddingTop: 20, paddingLeft: 0, paddingBottom: 0, paddingRight: 0)
     }
     
-    private func setUserLocation() {
+    private func fetchUserLocationFromSearch() {
+        guard let street = streetTextField.text,
+              let city = cityTextField.text,
+              let state = stateTextField.text else { return }
+        let address = "\(street) \(state), \(city)"
+        print("address b \(address)")
+
+        let geoCoder = CLGeocoder()
+        geoCoder.geocodeAddressString(address) { (placemarks, error) in
+            guard
+                let placemarks = placemarks,
+                let location = placemarks.first?.location
+            else {
+                // handle no location found
+                return
+            }
+            let center = CLLocationCoordinate2D(latitude: location.coordinate.latitude, longitude: location.coordinate.longitude)
+            let region = MKCoordinateRegion(center: center, span: MKCoordinateSpan(latitudeDelta: 0.005, longitudeDelta: 0.005))
+            self.pin.coordinate = CLLocationCoordinate2D(latitude: location.coordinate.latitude, longitude: location.coordinate.longitude)
+            self.mapView.addAnnotation(self.pin)
+            self.mapView.setRegion(region, animated: true)
+        }
+    }
+    
+    
+    private func setUserLocationFromSwitch() {
         guard let exposedLocation = self.locationManager.exposedLocation else { return }
         self.locationManager.getPlace(for: exposedLocation) { placemark in
             guard let placemark = placemark else { return }
@@ -113,7 +140,7 @@ class LocationSettingsViewController: UIViewController, UISearchBarDelegate, UIS
         }
     }
     
-    private func setCurrentLocation() {
+    private func setCurrentLocationOnLoad() {
         guard let exposedLocation = self.locationManager.exposedLocation else { return }
         self.locationManager.getPlace(for: exposedLocation) { placemark in
             guard let placemark = placemark else { return }
@@ -142,13 +169,17 @@ class LocationSettingsViewController: UIViewController, UISearchBarDelegate, UIS
     
     @objc func locationSwitch(locationSwitchChanged: UISwitch) {
         if locationSwitch.isOn {
-            setUserLocation()
+            setUserLocationFromSwitch()
         } else {
             streetTextField.text = ""
             apartmentTextField.text = ""
             cityTextField.text = ""
             stateTextField.text = ""
         }
+    }
+    
+    @objc func handleSetUserLocation() {
+        fetchUserLocationFromSearch()
     }
     
     @objc func handleSave() {
@@ -241,6 +272,17 @@ class LocationSettingsViewController: UIViewController, UISearchBarDelegate, UIS
         text.backgroundColor = UIColor.LightGrayBg()
         text.layer.cornerRadius = 5
         return text
+    }()
+    
+    let searchButton: UIButton = {
+        let button = UIButton(type: .custom)
+        button.setTitle("Search", for: .normal)
+        button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 17)
+        button.setTitleColor(UIColor.white, for: .normal)
+        button.backgroundColor = UIColor.orangeColor()
+        button.layer.cornerRadius = 5
+        button.addTarget(self, action: #selector(handleSetUserLocation), for: .touchUpInside)
+        return button
     }()
     
     var locationSwitch: UISwitch = {
