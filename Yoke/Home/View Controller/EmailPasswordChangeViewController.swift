@@ -16,6 +16,9 @@ class EmailPasswordChangeViewController: UIViewController {
     }
     
     //MARK: - Helper Functions
+    func setupViews() {
+        
+    }
  
     //MARK: - Views
     let passwordTextField: UITextField = {

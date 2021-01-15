@@ -39,44 +39,6 @@ class SettingsViewController: UIViewController  {
     }
     
     //MARK: - Helper Functions
-    fileprivate func fetchUser() {
-//        let uid = Auth.auth().currentUser?.uid ?? ""
-        UserController.shared.fetchUserWithUID(uid: uid) { (user) in
-            self.setupUserProfile(user: user)
-        }
-    }
-    
-    func setupUserProfile(user: User) {
-        guard let city = user.city,
-              let state = user.state else { return }
-        usernameTextField.text = user.username
-        locationTextField.text = "\(city), \(state)"
-        bioTextView.text = user.bio
-        guard let isChef = user.isChef else { return }
-        self.chefSwitch.setOn(isChef, animated: true)
-        if chefSwitch.isOn {
-            chefPreferenceButton.isEnabled = false
-            chefPreferenceButton.setTitleColor(UIColor.orangeColor(), for: .normal)
-        } else {
-            chefPreferenceButton.isEnabled = true
-            chefPreferenceButton.setTitleColor(UIColor.orangeColor()?.withAlphaComponent(0.4), for: .normal)
-        }
-//        let uid = Auth.auth().currentUser?.uid ?? ""
-        let imageStorageRef = Storage.storage().reference().child("profileImageUrl/\(uid)")
-        imageStorageRef.getData(maxSize: 2 * 1024 * 1024) { data, error in
-            if error == nil, let data = data {
-                self.profileImageView.image = UIImage(data: data)
-            }
-        }
-        
-        let bannerStorageRef = Storage.storage().reference().child("profileBannerUrl/\(uid)")
-        bannerStorageRef.getData(maxSize: 2 * 1024 * 1024) { data, error in
-            if error == nil, let data = data {
-                self.bannerImageView.image = UIImage(data: data)
-            }
-        }
-    }
-
     func setupViews() {
         view.backgroundColor = UIColor.white
         view.addSubview(swipeIndicator)
@@ -149,6 +111,44 @@ class SettingsViewController: UIViewController  {
         privacyButton.anchor(top: changePasswordButton.bottomAnchor, left: scrollView.leftAnchor, bottom: nil, right: scrollView.rightAnchor, paddingTop: 5, paddingLeft: 8, paddingBottom: 0, paddingRight: 8, height: 45)
         logoutButton.anchor(top: privacyButton.bottomAnchor, left: scrollView.leftAnchor, bottom: nil, right: scrollView.rightAnchor, paddingTop: 5, paddingLeft: 8, paddingBottom: 0, paddingRight: 8, height: 45)
         deleteButton.anchor(top: logoutButton.bottomAnchor, left: scrollView.leftAnchor, bottom: nil, right: scrollView.rightAnchor, paddingTop: 5, paddingLeft: 8, paddingBottom: 0, paddingRight: 8, height: 45)
+    }
+    
+    fileprivate func fetchUser() {
+//        let uid = Auth.auth().currentUser?.uid ?? ""
+        UserController.shared.fetchUserWithUID(uid: uid) { (user) in
+            self.setupUserProfile(user: user)
+        }
+    }
+    
+    func setupUserProfile(user: User) {
+        guard let city = user.city,
+              let state = user.state else { return }
+        usernameTextField.text = user.username
+        locationTextField.text = "\(city), \(state)"
+        bioTextView.text = user.bio
+        guard let isChef = user.isChef else { return }
+        self.chefSwitch.setOn(isChef, animated: true)
+        if chefSwitch.isOn {
+            chefPreferenceButton.isEnabled = false
+            chefPreferenceButton.setTitleColor(UIColor.orangeColor(), for: .normal)
+        } else {
+            chefPreferenceButton.isEnabled = true
+            chefPreferenceButton.setTitleColor(UIColor.orangeColor()?.withAlphaComponent(0.4), for: .normal)
+        }
+//        let uid = Auth.auth().currentUser?.uid ?? ""
+        let imageStorageRef = Storage.storage().reference().child("profileImageUrl/\(uid)")
+        imageStorageRef.getData(maxSize: 2 * 1024 * 1024) { data, error in
+            if error == nil, let data = data {
+                self.profileImageView.image = UIImage(data: data)
+            }
+        }
+        
+        let bannerStorageRef = Storage.storage().reference().child("profileBannerUrl/\(uid)")
+        bannerStorageRef.getData(maxSize: 2 * 1024 * 1024) { data, error in
+            if error == nil, let data = data {
+                self.bannerImageView.image = UIImage(data: data)
+            }
+        }
     }
 
     func setupImagePicker() {
