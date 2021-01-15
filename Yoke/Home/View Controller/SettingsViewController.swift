@@ -270,9 +270,8 @@ class SettingsViewController: UIViewController  {
     }
     
     @objc func handleEmailPassword() {
-        let emailPassword = EmailPasswordChangeViewController()
-        present(emailPassword , animated: true)
-//        navigationController?.pushViewController(locationSettings, animated: true)
+        let Password = PasswordChangeViewController()
+        present(Password , animated: true)
     }
     
     @objc func handleChefPreference() {
@@ -515,7 +514,7 @@ class SettingsViewController: UIViewController  {
     
     let changePasswordButton: UIButton = {
         let button = UIButton()
-        button.setTitle("Change Email | Password", for: .normal)
+        button.setTitle("Change Password", for: .normal)
         button.setTitleColor(UIColor.orangeColor(), for: .normal)
         button.backgroundColor = .white
         button.layer.cornerRadius = 5
@@ -547,7 +546,7 @@ class SettingsViewController: UIViewController  {
         let button = UIButton()
         button.setTitle("Delete Account", for: .normal)
         button.setTitleColor(.white, for: .normal)
-        button.backgroundColor = .red
+        button.backgroundColor = UIColor.orangeColor()
         button.layer.cornerRadius = 5
         button.addTarget(self, action: #selector(handleDelete), for: .touchUpInside)
         return button
