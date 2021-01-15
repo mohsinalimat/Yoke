@@ -504,7 +504,7 @@ class SettingsViewController: UIViewController  {
     
     let chefPreferenceButton: UIButton = {
         let button = UIButton()
-        button.setTitle("Chef Preference", for: .normal)
+        button.setTitle("Chef Settings", for: .normal)
         button.setTitleColor(UIColor.orangeColor(), for: .normal)
         button.backgroundColor = .white
         button.layer.cornerRadius = 5

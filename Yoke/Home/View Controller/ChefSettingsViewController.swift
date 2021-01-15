@@ -33,10 +33,16 @@ class ChefSettingsViewController: UIViewController, TTGTextTagCollectionViewDele
     func setupViews() {
         view.backgroundColor = .white
         view.addSubview(collectionView)
+        view.addSubview(swipeIndicator)
+        view.addSubview(chefLabel)
     }
     
     func constrainViews() {
-        collectionView.anchor(top: safeArea.topAnchor, left: safeArea.leftAnchor, bottom: safeArea.bottomAnchor, right: safeArea.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0)
+        swipeIndicator.anchor(top: safeArea.topAnchor, left: nil, bottom: nil, right: nil, paddingTop: 20, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 100, height: 5)
+        swipeIndicator.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        chefLabel.anchor(top: swipeIndicator.bottomAnchor, left: nil, bottom: nil, right: nil, paddingTop: 20, paddingLeft: 0, paddingBottom: 0, paddingRight: 0)
+        chefLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        collectionView.anchor(top: chefLabel.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 20, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, height: 600)
     }
     
     func setupCollectionView() {
@@ -51,7 +57,23 @@ class ChefSettingsViewController: UIViewController, TTGTextTagCollectionViewDele
     
     func textTagCollectionView(_ textTagCollectionView: TTGTextTagCollectionView!, didTapTag tagText: String!, at index: UInt, selected: Bool, tagConfig config: TTGTextTagConfig!) {
         selections.append(tagText)
-        print("/(selections)")
+        print("\(selections)")
     }
+    
+    //MARK: - Views
+    let swipeIndicator: UIView = {
+        let view = UIView()
+        view.backgroundColor = UIColor.gray
+        view.layer.cornerRadius = 5
+        return view
+    }()
+    
+    var chefLabel: UILabel = {
+        let label = UILabel()
+        label.text = "Chef Settings"
+        label.font = UIFont.boldSystemFont(ofSize: 17)
+        label.textColor = .gray
+        return label
+    }()
 }
 
