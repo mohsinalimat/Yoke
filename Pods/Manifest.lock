@@ -317,6 +317,7 @@ PODS:
   - nanopb/encode (0.3.9011)
   - PromisesObjC (1.2.8)
   - Stripe (19.0.1)
+  - TTGTagCollectionView (1.11.1)
 
 DEPENDENCIES:
   - Firebase/Auth
@@ -330,6 +331,7 @@ DEPENDENCIES:
   - JTAppleCalendar (~> 7.0)
   - Kingfisher (~> 5.0)
   - Stripe (~> 19.0.1)
+  - TTGTagCollectionView
 
 SPEC REPOS:
   trunk:
@@ -364,6 +366,7 @@ SPEC REPOS:
     - nanopb
     - PromisesObjC
     - Stripe
+    - TTGTagCollectionView
 
 SPEC CHECKSUMS:
   abseil: 18063d773f5366ff8736a050fe035a28f635fd27
@@ -397,7 +400,8 @@ SPEC CHECKSUMS:
   nanopb: 18003b5e52dab79db540fe93fe9579f399bd1ccd
   PromisesObjC: c119f3cd559f50b7ae681fa59dc1acd19173b7e6
   Stripe: 03313f9520a0786e2c00d9a7a2672c11e08821af
+  TTGTagCollectionView: 86fcbfa6a7493c9e860b01c2e693cffc8acf6de1
 
-PODFILE CHECKSUM: 69ee3d206e28b4cb134256ea7e6e6d49ed590548
+PODFILE CHECKSUM: 5fbdbfa9a70abda1552df6a1538889a6244652c0
 
 COCOAPODS: 1.10.0

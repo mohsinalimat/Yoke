@@ -129,10 +129,10 @@ class SettingsViewController: UIViewController  {
         guard let isChef = user.isChef else { return }
         self.chefSwitch.setOn(isChef, animated: true)
         if chefSwitch.isOn {
-            chefPreferenceButton.isEnabled = false
+            chefPreferenceButton.isEnabled = true
             chefPreferenceButton.setTitleColor(UIColor.orangeColor(), for: .normal)
         } else {
-            chefPreferenceButton.isEnabled = true
+            chefPreferenceButton.isEnabled = false
             chefPreferenceButton.setTitleColor(UIColor.orangeColor()?.withAlphaComponent(0.4), for: .normal)
         }
 //        let uid = Auth.auth().currentUser?.uid ?? ""

@@ -25,12 +25,17 @@ class HomeViewController: UIViewController, HomeProfileHeaderDelegate {
     var users = [User]()
     
     //MARK: Lifecycle Methods
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        setupViews()
+        constrainViews()
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setupNavTitleAndBarButtonItems()
         setupBannerView()
         setupCollectionView()
-        setupViews()
         fetchUser()
     }
     

@@ -29,8 +29,8 @@ class LocationSettingsViewController: UIViewController, UISearchBarDelegate, UIS
     
     
     //MARK: - Lifecycle Methods
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
         setupViews()
         constrainViews()
         setCurrentLocationOnLoad()

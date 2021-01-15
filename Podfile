@@ -17,6 +17,7 @@ target 'Yoke' do
   pod 'Kingfisher', '~> 5.0'
   pod 'Stripe' , '~> 19.0.1'
   pod 'GoogleSignIn'
+  pod 'TTGTagCollectionView'
 
   target 'YokeTests' do
     inherit! :search_paths

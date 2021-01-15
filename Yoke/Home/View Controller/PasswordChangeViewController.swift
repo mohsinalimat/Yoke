@@ -17,8 +17,8 @@ class PasswordChangeViewController: UIViewController {
     }
     
     //MARK: - Lifecycle Methods
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
         setupViews()
         constrainViews()
     }
