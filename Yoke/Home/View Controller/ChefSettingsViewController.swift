@@ -8,9 +8,11 @@
 
 import UIKit
 import TTGTagCollectionView
+import FirebaseFirestore
 import FirebaseAuth
 
 class ChefSettingsViewController: UIViewController, TTGTextTagCollectionViewDelegate {
+    
     //MARK: - Properties
     var safeArea: UILayoutGuide {
         return self.view.safeAreaLayoutGuide
@@ -18,6 +20,7 @@ class ChefSettingsViewController: UIViewController, TTGTextTagCollectionViewDele
     let collectionView = TTGTextTagCollectionView()
     private var selections = [String]()
     let uid = Auth.auth().currentUser?.uid ?? ""
+    let firestoreDB = Firestore.firestore()
     
     //MARK: - Lifecycle Methods
     override func viewDidLayoutSubviews() {
@@ -34,9 +37,10 @@ class ChefSettingsViewController: UIViewController, TTGTextTagCollectionViewDele
     // MARK: - Helper Functions
     func setupViews() {
         view.backgroundColor = .white
-        view.addSubview(collectionView)
         view.addSubview(swipeIndicator)
         view.addSubview(chefLabel)
+        view.addSubview(cusineTypeTextField)
+        view.addSubview(collectionView)
     }
     
     func constrainViews() {
@@ -44,7 +48,10 @@ class ChefSettingsViewController: UIViewController, TTGTextTagCollectionViewDele
         swipeIndicator.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         chefLabel.anchor(top: swipeIndicator.bottomAnchor, left: nil, bottom: nil, right: nil, paddingTop: 20, paddingLeft: 0, paddingBottom: 0, paddingRight: 0)
         chefLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        collectionView.anchor(top: chefLabel.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 20, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, height: 600)
+        
+        cusineTypeTextField.anchor(top: chefLabel.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: nil, paddingTop: 20, paddingLeft: 8, paddingBottom: 0, paddingRight: 0, width: 200, height: 45)
+        
+        collectionView.anchor(top: cusineTypeTextField.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 20, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, height: 200)
     }
     
     func setupCollectionView() {
@@ -55,17 +62,16 @@ class ChefSettingsViewController: UIViewController, TTGTextTagCollectionViewDele
         config.backgroundColor = UIColor.orangeColor()
         config.textColor = .white
         
-        
         collectionView.addTags(["Mexican", "Italian", "Spanish", "American", "Thai", "Japanese", "Chinese", "Indian", "Cuban", "Greek", "Korean", "Cajun", "Portuguese", "Serbian", "Irish", "Peruvian", "French", "Jewish", "Swedish", "Latvian"], with: config)
     }
-    
+
     func textTagCollectionView(_ textTagCollectionView: TTGTextTagCollectionView!, didTapTag tagText: String!, at index: UInt, selected: Bool, tagConfig config: TTGTextTagConfig!) {
-        selections.append(tagText)
+        
         if selected == true {
             CusineController.shared.addCusineWith(uid: uid, type: tagText) { (result) in
                 switch result {
                 case true:
-                    print("\(self.selections)")
+                    self.selections.append(tagText)
                 case false:
                     print("error in adding cusines")
                 }
@@ -96,6 +102,17 @@ class ChefSettingsViewController: UIViewController, TTGTextTagCollectionViewDele
         label.font = UIFont.boldSystemFont(ofSize: 17)
         label.textColor = .gray
         return label
+    }()
+    
+    var cusineTypeTextField: UITextField = {
+        let text = UITextField()
+        text.placeholder = "Enter a cusine here"
+        text.font = UIFont.systemFont(ofSize: 17)
+        text.textColor = UIColor.orangeColor()
+        text.backgroundColor = UIColor.LightGrayBg()
+        text.layer.cornerRadius = 5
+//        text.addTarget(self, action: #selector(handleTextInputChange), for: .editingChanged)
+        return text
     }()
 }
 

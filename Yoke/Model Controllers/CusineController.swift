@@ -19,7 +19,7 @@ class CusineController {
     let firestoreDB = Firestore.firestore()
     
     //MARK: - Source of truth
-    var cusine: [Cusine] = []
+    var cusines: [Cusine] = []
     
     //MARK: - CRUD Functions
     func addCusineWith(uid: String, type: String, completion: @escaping (Bool) -> Void) {
@@ -50,12 +50,27 @@ class CusineController {
     }
     
     func deleteCusineWith(uid: String, type: String, completion: @escaping (Bool) -> Void) {
-        self.firestoreDB.collection(Constants.Cusine).document(uid).updateData([Constants.Cusine: FieldValue.arrayRemove([type])]) { error in
+        firestoreDB.collection(Constants.Cusine).document(uid).updateData([Constants.Cusine: FieldValue.arrayRemove([type])]) { error in
             if let error = error {
                 completion(false)
                 print("error in add cusine: \(error.localizedDescription)")
             } else {
                 completion(true)
+            }
+        }
+    }
+    
+    func fetchCusineWith(uid: String, completion: @escaping (Bool) -> Void) {
+        firestoreDB.collection(Constants.Cusine).document(uid).getDocument { (document, error) in
+            if let document = document, document.exists {
+                guard let dictionary = document.data() else { return }
+                let cusine = Cusine(dictionary: dictionary)
+                self.cusines.append(cusine)
+                print("from controller \(dictionary)")
+                completion(true)
+            } else {
+                completion(false)
+                print("Document does not exist")
             }
         }
     }
