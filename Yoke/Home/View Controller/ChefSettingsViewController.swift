@@ -8,6 +8,7 @@
 
 import UIKit
 import TTGTagCollectionView
+import FirebaseAuth
 
 class ChefSettingsViewController: UIViewController, TTGTextTagCollectionViewDelegate {
     //MARK: - Properties
@@ -16,6 +17,7 @@ class ChefSettingsViewController: UIViewController, TTGTextTagCollectionViewDele
     }
     let collectionView = TTGTextTagCollectionView()
     private var selections = [String]()
+    let uid = Auth.auth().currentUser?.uid ?? ""
     
     //MARK: - Lifecycle Methods
     override func viewDidLayoutSubviews() {
@@ -59,7 +61,25 @@ class ChefSettingsViewController: UIViewController, TTGTextTagCollectionViewDele
     
     func textTagCollectionView(_ textTagCollectionView: TTGTextTagCollectionView!, didTapTag tagText: String!, at index: UInt, selected: Bool, tagConfig config: TTGTextTagConfig!) {
         selections.append(tagText)
-        print("\(selections)")
+        if selected == true {
+            CusineController.shared.addCusineWith(uid: uid, type: tagText) { (result) in
+                switch result {
+                case true:
+                    print("\(self.selections)")
+                case false:
+                    print("error in adding cusines")
+                }
+            }
+        } else {
+            CusineController.shared.deleteCusineWith(uid: uid, type: tagText) { (result) in
+                switch result {
+                case true:
+                    print("\(self.selections)")
+                case false:
+                    print("error in adding cusines")
+                }
+            }
+        }
     }
     
     //MARK: - Views
