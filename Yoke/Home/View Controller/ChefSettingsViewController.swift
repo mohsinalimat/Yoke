@@ -47,10 +47,12 @@ class ChefSettingsViewController: UIViewController, TTGTextTagCollectionViewDele
     
     func setupCollectionView() {
         collectionView.alignment = .center
+        
         collectionView.delegate = self
         let config = TTGTextTagConfig()
         config.backgroundColor = UIColor.orangeColor()
         config.textColor = .white
+        
         
         collectionView.addTags(["Mexican", "Italian", "Spanish", "American", "Thai", "Japanese", "Chinese", "Indian", "Cuban", "Greek", "Korean", "Cajun", "Portuguese", "Serbian", "Irish", "Peruvian", "French", "Jewish", "Swedish", "Latvian"], with: config)
     }
