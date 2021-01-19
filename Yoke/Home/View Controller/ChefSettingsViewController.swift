@@ -40,6 +40,8 @@ class ChefSettingsViewController: UIViewController, TTGTextTagCollectionViewDele
         view.addSubview(swipeIndicator)
         view.addSubview(chefLabel)
         view.addSubview(cusineTypeTextField)
+        view.addSubview(addButton)
+        view.addSubview(selectionLabel)
         view.addSubview(collectionView)
     }
     
@@ -49,8 +51,9 @@ class ChefSettingsViewController: UIViewController, TTGTextTagCollectionViewDele
         chefLabel.anchor(top: swipeIndicator.bottomAnchor, left: nil, bottom: nil, right: nil, paddingTop: 20, paddingLeft: 0, paddingBottom: 0, paddingRight: 0)
         chefLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         
-        cusineTypeTextField.anchor(top: chefLabel.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: nil, paddingTop: 20, paddingLeft: 8, paddingBottom: 0, paddingRight: 0, width: 200, height: 45)
-        
+        cusineTypeTextField.anchor(top: chefLabel.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: nil, paddingTop: 20, paddingLeft: 8, paddingBottom: 0, paddingRight: 0, height: 45)
+        addButton.anchor(top: chefLabel.bottomAnchor, left: cusineTypeTextField.rightAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 28, paddingLeft: 8, paddingBottom: 0, paddingRight: 8, width: 50, height: 30)
+        selectionLabel.anchor(top: cusineTypeTextField.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: nil, paddingTop: 5, paddingLeft: 0, paddingBottom: 0, paddingRight: 0)
         collectionView.anchor(top: cusineTypeTextField.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 20, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, height: 200)
     }
     
@@ -59,8 +62,10 @@ class ChefSettingsViewController: UIViewController, TTGTextTagCollectionViewDele
         
         collectionView.delegate = self
         let config = TTGTextTagConfig()
-        config.backgroundColor = UIColor.orangeColor()
-        config.textColor = .white
+        config.backgroundColor = .white
+        config.textColor = UIColor.orangeColor()
+        config.selectedTextColor = .white
+        config.selectedBackgroundColor = UIColor.orangeColor()
         
         collectionView.addTags(["Mexican", "Italian", "Spanish", "American", "Thai", "Japanese", "Chinese", "Indian", "Cuban", "Greek", "Korean", "Cajun", "Portuguese", "Serbian", "Irish", "Peruvian", "French", "Jewish", "Swedish", "Latvian"], with: config)
     }
@@ -113,6 +118,24 @@ class ChefSettingsViewController: UIViewController, TTGTextTagCollectionViewDele
         text.layer.cornerRadius = 5
 //        text.addTarget(self, action: #selector(handleTextInputChange), for: .editingChanged)
         return text
+    }()
+    
+    let addButton: UIButton = {
+        let button = UIButton()
+        button.setTitle("Add", for: .normal)
+        button.setTitleColor(.white, for: .normal)
+        button.backgroundColor = UIColor.orangeColor()
+        button.layer.cornerRadius = 5
+//        button.addTarget(self, action: #selector(handleChangePassword), for: .touchUpInside)
+        return button
+    }()
+    
+    var selectionLabel: UILabel = {
+        let label = UILabel()
+        label.text = "Choose as many that apply"
+        label.font = UIFont.boldSystemFont(ofSize: 17)
+        label.textColor = .gray
+        return label
     }()
 }
 
