@@ -10,10 +10,8 @@ import Foundation
 
 class Cusine {
     var type: String
-    var dictionary:[String:Any] {
-        return ["type": type]
-    }
-    init(dictionary: [String:Any]) {
-        self.type = dictionary["type"] as? String ?? "No Value"
+    
+    init(type: String) {
+        self.type = type
     }
 }

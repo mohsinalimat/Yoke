@@ -430,7 +430,8 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
         if galleries.count == 0 {
             let noCell = collectionView.dequeueReusableCell(withReuseIdentifier: noCellId, for: indexPath) as! EmptyCell
             noCell.photoImageView.image = UIImage(named: "no_post_background")!
-            noCell.noPostLabel.text = "Menu Coming Soon"
+            noCell.noPostLabel.text = "Coming Soon"
+            noCell.noPostLabel.font = UIFont.boldSystemFont(ofSize: 13)
             return noCell
         }
         
@@ -442,7 +443,7 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         
         if galleries.count == 0 {
-            return CGSize(width: view.frame.width / 2, height: view.frame.width / 2)
+            return CGSize(width: collectionView.frame.width - 200, height: 150)
         } else {
             let width = (view.frame.width - 2) / 2
             return CGSize(width: width, height: width)

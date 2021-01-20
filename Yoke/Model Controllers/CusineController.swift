@@ -64,9 +64,10 @@ class CusineController {
         firestoreDB.collection(Constants.Cusine).document(uid).getDocument { (document, error) in
             if let document = document, document.exists {
                 guard let dictionary = document.data() else { return }
-                let cusine = Cusine(dictionary: dictionary)
+                let type = dictionary["type"] as? String ?? ""
+                print("dict \(dictionary)")
+                let cusine = Cusine(type: type)
                 self.cusines.append(cusine)
-                print("from controller \(dictionary)")
                 completion(true)
             } else {
                 completion(false)

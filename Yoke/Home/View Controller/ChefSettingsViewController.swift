@@ -23,7 +23,6 @@ class ChefSettingsViewController: UIViewController, TTGTextTagCollectionViewDele
     let firestoreDB = Firestore.firestore()
     let noCellId = "noCellId"
     let cellId = "cellId"
-    var cusines = [Cusine]()
     
     //MARK: - Lifecycle Methods
     override func viewDidLayoutSubviews() {
@@ -179,31 +178,31 @@ class ChefSettingsViewController: UIViewController, TTGTextTagCollectionViewDele
 extension ChefSettingsViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        if cusines.count == 0 {
+        print(CusineController.shared.cusines.count)
+        if CusineController.shared.cusines.count == 0 {
             return 1
         } else {
-            return cusines.count
+            return CusineController.shared.cusines.count
         }
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
-        if cusines.count == 0 {
+        if CusineController.shared.cusines.count == 0 {
             let noCell = collectionView.dequeueReusableCell(withReuseIdentifier: noCellId, for: indexPath) as! EmptyCell
-            noCell.photoImageView.image = UIImage(named: "no_post_background")!
             noCell.noPostLabel.text = "Add cusines"
             return noCell
         }
         
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath) as! CusineCollectionViewCell
-        cell.cusine = cusines[indexPath.item]
+        cell.cusine = CusineController.shared.cusines[indexPath.item]
         return cell
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         
-        if cusines.count == 0 {
-            return CGSize(width: view.frame.width / 2, height: view.frame.width / 2)
+        if CusineController.shared.cusines.count == 0 {
+            return CGSize(width: view.frame.width, height: view.frame.width / 4)
         } else {
             let width = (view.frame.width - 2) / 2
             return CGSize(width: width, height: width)

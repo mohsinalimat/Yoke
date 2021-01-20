@@ -318,6 +318,7 @@
 				6CC123032589583A0038B9E3 /* Yoke.entitlements */,
 				6CDCD7E1258159CA002CE767 /* Model Controllers */,
 				6C8DB61624B3C1B8003D06FF /* Models */,
+				6CFDB3AB25B89D35007261D1 /* Views */,
 				6C8DB60624B3C1B8003D06FF /* Login | Signup | MainTabBar */,
 				6C8DB5F924B3C1B8003D06FF /* Home */,
 				6C8DB62B24B3C1B9003D06FF /* Bookmark */,
@@ -472,7 +473,6 @@
 				6C8DB5D024B3C1B7003D06FF /* CommentInputAccessoryView.swift */,
 				6C8DB5D124B3C1B7003D06FF /* CommentCell.swift */,
 				6C8DB5D224B3C1B7003D06FF /* GalleryCell.swift */,
-				6C8DB60F24B3C1B8003D06FF /* EmptyCell.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -854,6 +854,14 @@
 				6CFDB39A25B7425A007261D1 /* CusineController.swift */,
 			);
 			path = "Model Controllers";
+			sourceTree = "<group>";
+		};
+		6CFDB3AB25B89D35007261D1 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				6C8DB60F24B3C1B8003D06FF /* EmptyCell.swift */,
+			);
+			path = Views;
 			sourceTree = "<group>";
 		};
 		7363C3C684F1BE27EC27CDA8 /* Pods */ = {
