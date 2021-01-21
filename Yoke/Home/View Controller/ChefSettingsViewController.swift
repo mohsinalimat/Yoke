@@ -72,7 +72,7 @@ class ChefSettingsViewController: UIViewController, TTGTextTagCollectionViewDele
     
     func setupTagCollectionView() {
         tagCollectionView.alignment = .center
-        
+        tagCollectionView.scrollDirection = .vertical
         tagCollectionView.delegate = self
         let config = TTGTextTagConfig()
         config.backgroundColor = .white
@@ -113,6 +113,7 @@ class ChefSettingsViewController: UIViewController, TTGTextTagCollectionViewDele
                 switch result {
                 case true:
                     self.tagCollectionView.removeTag(at: index)
+                    self.tagCollectionView.reload()
                 case false:
                     print("error in adding cusines")
                 }
@@ -123,37 +124,30 @@ class ChefSettingsViewController: UIViewController, TTGTextTagCollectionViewDele
         self.present(alertController, animated: true, completion: nil)
     }
     
+    func handleEmptyText() {
+        let alertController = UIAlertController(title: "Empty field", message: "Please enter a cusine to add", preferredStyle: .alert)
+        let cancelAction = UIAlertAction(title: "Got it!", style: .cancel, handler: nil)
+        alertController.addAction(cancelAction)
+        self.present(alertController, animated: true, completion: nil)
+    }
+    
     @objc func handleAdd() {
-        guard let text = cusineTypeTextField.text else { return }
+        guard let text = cusineTypeTextField.text, !text.isEmpty else { return handleEmptyText()}
+        let config = TTGTextTagConfig()
+        config.backgroundColor = .white
+        config.textColor = UIColor.orangeColor()
         CusineController.shared.addCusineWith(uid: uid, type: text) { (result) in
             switch result {
             case true:
-                self.tagCollectionView.addTag(text)
+                self.tagCollectionView.addTag(text, with: config)
                 self.cusineTypeTextField.text = ""
+                self.tagCollectionView.reload()
             case false:
                 print("error in adding cusines")
             }
         }
     }
-    
-    func handleDeleteAlert(text: String) {
-        let alertController = UIAlertController(title: "Delete", message: "Would you like to delete this cusine?", preferredStyle: .alert)
-        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
-        let deleteAction = UIAlertAction(title: "Yes", style: .default) { (_) in
-            CusineController.shared.deleteCusineWith(uid: self.uid, type: text) { (result) in
-                switch result {
-                case true:
-                    print("\(self.selections)")
-                case false:
-                    print("error in adding cusines")
-                }
-            }
-        }
-        alertController.addAction(cancelAction)
-        alertController.addAction(deleteAction)
-        self.present(alertController, animated: true, completion: nil)
-    }
-    
+  
     //MARK: - Views
     let swipeIndicator: UIView = {
         let view = UIView()
@@ -172,7 +166,7 @@ class ChefSettingsViewController: UIViewController, TTGTextTagCollectionViewDele
     
     var cusineTypeTextField: UITextField = {
         let text = UITextField()
-        text.placeholder = "Enter a cusine here"
+        text.placeholder = "Enter a cusine. Example: Cuban, American, French..."
         text.font = UIFont.systemFont(ofSize: 17)
         text.textColor = UIColor.orangeColor()
         text.backgroundColor = UIColor.LightGrayBg()
@@ -192,7 +186,7 @@ class ChefSettingsViewController: UIViewController, TTGTextTagCollectionViewDele
     
     var selectionLabel: UILabel = {
         let label = UILabel()
-        label.text = "Your selection"
+        label.text = "Your selection's"
         label.font = UIFont.systemFont(ofSize: 17)
         label.textColor = .gray
         return label
