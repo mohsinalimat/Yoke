@@ -33,11 +33,15 @@ class CusineCollectionViewCell: UICollectionViewCell {
     }
     
     func setupConstraints() {
-        label.anchor(top: topAnchor, left: leftAnchor, bottom: bottomAnchor, right: rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0)
+        label.anchor(top: topAnchor, left: leftAnchor, bottom: nil, right: rightAnchor, paddingTop: 5, paddingLeft: 5, paddingBottom: 5, paddingRight: 5, height: 30)
     }
     
     var label: UILabel = {
         let label = UILabel()
+        label.textColor = UIColor.white
+        label.backgroundColor = UIColor.orangeColor()
+        label.layer.cornerRadius = 2
+        label.textAlignment = .center
         return label
     }()
 }
