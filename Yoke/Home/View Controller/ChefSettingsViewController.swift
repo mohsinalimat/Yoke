@@ -18,6 +18,7 @@ class ChefSettingsViewController: UIViewController, TTGTextTagCollectionViewDele
         return self.view.safeAreaLayoutGuide
     }
     let cusineCollectionView = TTGTextTagCollectionView()
+    let cusineListCollectionView = TTGTextTagCollectionView()
     private var selections = [String]()
     let uid = Auth.auth().currentUser?.uid ?? ""
     let firestoreDB = Firestore.firestore()
@@ -33,9 +34,8 @@ class ChefSettingsViewController: UIViewController, TTGTextTagCollectionViewDele
     
     override func viewDidLoad() {
         super.viewDidLoad()
-//        setupCollectionView()
-        setupTagCollectionView()
-//        fetchCusines()
+        setupCusineCollectionView()
+        setupSelectCusineCollectionView()
     }
  
     // MARK: - Helper Functions
@@ -45,6 +45,7 @@ class ChefSettingsViewController: UIViewController, TTGTextTagCollectionViewDele
         view.addSubview(chefLabel)
         view.addSubview(cusineTypeTextField)
         view.addSubview(addButton)
+        view.addSubview(moreButton)
         view.addSubview(selectionLabel)
         view.addSubview(cusineCollectionView)
     }
@@ -57,11 +58,28 @@ class ChefSettingsViewController: UIViewController, TTGTextTagCollectionViewDele
         
         cusineTypeTextField.anchor(top: chefLabel.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: nil, paddingTop: 20, paddingLeft: 8, paddingBottom: 0, paddingRight: 0, height: 45)
         addButton.anchor(top: chefLabel.bottomAnchor, left: cusineTypeTextField.rightAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 28, paddingLeft: 8, paddingBottom: 0, paddingRight: 8, width: 50, height: 30)
-        selectionLabel.anchor(top: cusineTypeTextField.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: nil, paddingTop: 20, paddingLeft: 8, paddingBottom: 0, paddingRight: 0)
+        moreButton.anchor(top: cusineTypeTextField.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: nil, paddingTop: 8, paddingLeft: 8, paddingBottom: 0, paddingRight: 0, height: 25)
+        selectionLabel.anchor(top: moreButton.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: nil, paddingTop: 20, paddingLeft: 8, paddingBottom: 0, paddingRight: 0)
         cusineCollectionView.anchor(top: selectionLabel.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 5, paddingLeft: 5, paddingBottom: 5, paddingRight: 5, height: 50)
     }
     
-    func setupTagCollectionView() {
+    func setupSelectCusineCollectionView() {
+        cusineListCollectionView.alignment = .center
+        cusineListCollectionView.scrollDirection = .horizontal
+        cusineListCollectionView.alignment = .fillByExpandingWidthExceptLastLine
+        cusineListCollectionView.delegate = self
+        
+        let config = TTGTextTagConfig()
+        config.backgroundColor = .white
+        config.textColor = UIColor.orangeColor()
+        config.selectedTextColor = .white
+        config.selectedBackgroundColor = UIColor.orangeColor()
+        let array = ["Italian","Indian","Mexican","Greek","Chinese","Mediterranean","Thai","Japanese","Seafood","Spanish","Moroccan","Turkish","Middle Eastern","Korean BBQ","Korean","Cajun","Southern American","American","Caribbean","Lebanese","Brazilian BBQ","Brazilian","Georgian","Vietnamese","German","Ukrainian","Canadian","Argentinian","Soul Food","British","South Korea","Vegetarian","Sigaporean","French","Austrian","Brazilian","Russian","Shanghaninese","South Indian","Sichuan","Portuguese","South African","Jamaican","Shanghai","Chilean","Cuban","Afghan","Malaysian","Saudi Arabia","Puerto Rican","Jewish","Balkan","Sicilian","Hungarian","Welsh","Swiss","Irish","Colombian","Taiwanese","Macau","Papua New Guinean","Iranian","Egyptian","Filipino","Texas","Scottish","Buddhist","Ghanaian","Tunisian","Azerbaijan","Mongolian","Somali","Belgian","Oaxacan","Swidish","Nepalese","Algerian","South African","Ethiopian","Indonesian","Mughlai","Guatemalan","Laotian","Cambodian","Sri Lankan","Vegan","Salvadoran","Icelandic","Continental","Midwestern","Chadian","Tex-Mex","BBQ"]
+        let sortedArray = array.sorted(by: { $0 < $1 })
+        cusineListCollectionView.addTags(sortedArray, with: config)
+    }
+    
+    func setupCusineCollectionView() {
         cusineCollectionView.alignment = .center
         cusineCollectionView.scrollDirection = .horizontal
         cusineCollectionView.alignment = .fillByExpandingWidthExceptLastLine
@@ -159,6 +177,14 @@ class ChefSettingsViewController: UIViewController, TTGTextTagCollectionViewDele
         button.setTitleColor(.white, for: .normal)
         button.backgroundColor = UIColor.orangeColor()
         button.layer.cornerRadius = 5
+        button.addTarget(self, action: #selector(handleAdd), for: .touchUpInside)
+        return button
+    }()
+    
+    let moreButton: UIButton = {
+        let button = UIButton()
+        button.setTitle("Or choose from our list", for: .normal)
+        button.setTitleColor(UIColor.orangeColor(), for: .normal)
         button.addTarget(self, action: #selector(handleAdd), for: .touchUpInside)
         return button
     }()
