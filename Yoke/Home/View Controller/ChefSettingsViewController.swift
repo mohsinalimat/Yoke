@@ -91,7 +91,9 @@ class ChefSettingsViewController: UIViewController, TTGTextTagCollectionViewDele
         CusineController.shared.fetchCusineWith(uid: uid) { (result) in
             switch result {
             case true:
-                self.collectionView.reloadData()
+                DispatchQueue.main.async {
+                    self.collectionView.reloadData()
+                }
             case false:
                 print("error in adding cusines")
             }

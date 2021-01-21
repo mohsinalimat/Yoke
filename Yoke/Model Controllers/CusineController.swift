@@ -23,10 +23,8 @@ class CusineController {
     
     //MARK: - CRUD Functions
     func addCusineWith(uid: String, type: String, completion: @escaping (Bool) -> Void) {
-        self.firestoreDB.collection(Constants.Cusine).document(uid).getDocument { (document, error) in
+        firestoreDB.collection(Constants.Cusine).document(uid).getDocument { (document, error) in
             if let document = document, document.exists {
-                let dataDescription = document.data().map(String.init(describing:)) ?? "nil"
-                print("Document data: \(dataDescription)")
                 self.firestoreDB.collection(Constants.Cusine).document(uid).updateData([Constants.Cusine: FieldValue.arrayUnion([type])]) { error in
                     if let error = error {
                         completion(false)
@@ -63,11 +61,12 @@ class CusineController {
     func fetchCusineWith(uid: String, completion: @escaping (Bool) -> Void) {
         firestoreDB.collection(Constants.Cusine).document(uid).getDocument { (document, error) in
             if let document = document, document.exists {
-                guard let dictionary = document.data() else { return }
-                let type = dictionary["type"] as? String ?? ""
-                print("dict \(dictionary)")
-                let cusine = Cusine(type: type)
-                self.cusines.append(cusine)
+                guard let array = document.data()?["cusine"] as? [String] else { return }
+                for name in array {
+//                    print(name)
+                    let cusine = Cusine(type: [name])
+                    self.cusines.append(cusine)
+                }
                 completion(true)
             } else {
                 completion(false)

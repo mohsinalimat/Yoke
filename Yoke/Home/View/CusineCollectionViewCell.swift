@@ -12,7 +12,9 @@ class CusineCollectionViewCell: UICollectionViewCell {
     var cusine: Cusine? {
         didSet {
             guard let cusine = cusine?.type else { return }
-            label.text = cusine
+            for c in cusine {
+              label.text = "\(c)"
+            }
         }
     }
     
@@ -36,7 +38,6 @@ class CusineCollectionViewCell: UICollectionViewCell {
     
     var label: UILabel = {
         let label = UILabel()
-        label.text = "bla"
         return label
     }()
 }
