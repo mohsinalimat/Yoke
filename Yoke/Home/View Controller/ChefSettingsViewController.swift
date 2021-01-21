@@ -134,8 +134,8 @@ class ChefSettingsViewController: UIViewController, TTGTextTagCollectionViewDele
     @objc func handleAdd() {
         guard let text = cusineTypeTextField.text, !text.isEmpty else { return handleEmptyText()}
         let config = TTGTextTagConfig()
-        config.backgroundColor = .white
-        config.textColor = UIColor.orangeColor()
+        config.backgroundColor = UIColor.orangeColor()
+        config.textColor = UIColor.white
         CusineController.shared.addCusineWith(uid: uid, type: text) { (result) in
             switch result {
             case true:
