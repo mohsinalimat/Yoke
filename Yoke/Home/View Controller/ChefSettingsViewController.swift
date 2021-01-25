@@ -70,10 +70,10 @@ class ChefSettingsViewController: UIViewController, TTGTextTagCollectionViewDele
         listView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         listView.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
         listView.layer.cornerRadius = 5
-        cusineListCollectionView.anchor(top: nil, left: nil, bottom: nil, right: nil, paddingTop: 20, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 300, height: 250)
+        cusineListCollectionView.anchor(top: nil, left: nil, bottom: nil, right: nil, paddingTop: 20, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 345, height: 250)
         cusineListCollectionView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         cusineListCollectionView.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
-        doneButton.anchor(top: listView.topAnchor, left: nil, bottom: nil, right: listView.rightAnchor, paddingTop: 5, paddingLeft: 5, paddingBottom: 0, paddingRight: 5, width: 50)
+        doneButton.anchor(top: listView.topAnchor, left: nil, bottom: nil, right: cusineListCollectionView.rightAnchor, paddingTop: 5, paddingLeft: 5, paddingBottom: 0, paddingRight: 0, width: 50)
     }
     
     func setupSelectCusineCollectionView() {
@@ -122,23 +122,6 @@ class ChefSettingsViewController: UIViewController, TTGTextTagCollectionViewDele
         }
     }
     
-    @objc func handleAddTextField() {
-        guard let text = cusineTypeTextField.text, !text.isEmpty else { return handleEmptyText()}
-        let config = TTGTextTagConfig()
-        config.backgroundColor = UIColor.orangeColor()
-        config.textColor = UIColor.white
-        CusineController.shared.addCusineWith(uid: uid, type: text) { (result) in
-            switch result {
-            case true:
-                self.cusineCollectionView.addTag(text, with: config)
-                self.cusineTypeTextField.text = ""
-                self.cusineCollectionView.reload()
-            case false:
-                print("error in adding cusines")
-            }
-        }
-    }
-    
     @objc func handleShowCusineList() {
         cusineListCollectionView.isHidden = false
         listView.isHidden = false
@@ -156,12 +139,32 @@ class ChefSettingsViewController: UIViewController, TTGTextTagCollectionViewDele
     }
     
     func handleAddFromCusineList(uid: String, text: String, index: UInt) {
+        let config = TTGTextTagConfig()
+        config.backgroundColor = UIColor.orangeColor()
+        config.textColor = UIColor.white
         CusineController.shared.addCusineWith(uid: uid, type: text) { (result) in
             switch result {
             case true:
-                self.cusineCollectionView.addTag(text)
+                self.cusineCollectionView.addTag(text, with: config)
                 self.cusineCollectionView.reload()
                 self.cusineListCollectionView.reload()
+            case false:
+                print("error in adding cusines")
+            }
+        }
+    }
+    
+    @objc func handleAddTextField() {
+        guard let text = cusineTypeTextField.text, !text.isEmpty else { return handleEmptyText()}
+        let config = TTGTextTagConfig()
+        config.backgroundColor = UIColor.orangeColor()
+        config.textColor = UIColor.white
+        CusineController.shared.addCusineWith(uid: uid, type: text) { (result) in
+            switch result {
+            case true:
+                self.cusineCollectionView.addTag(text, with: config)
+                self.cusineTypeTextField.text = ""
+                self.cusineCollectionView.reload()
             case false:
                 print("error in adding cusines")
             }
@@ -202,6 +205,8 @@ class ChefSettingsViewController: UIViewController, TTGTextTagCollectionViewDele
         }
     }
     
+    
+    
     //MARK: - Views
     let swipeIndicator: UIView = {
         let view = UIView()
@@ -240,7 +245,7 @@ class ChefSettingsViewController: UIViewController, TTGTextTagCollectionViewDele
     
     let moreButton: UIButton = {
         let button = UIButton()
-        button.setTitle("Or choose from our list", for: .normal)
+        button.setTitle("Or choose from our list of cusines", for: .normal)
         button.setTitleColor(UIColor.orangeColor(), for: .normal)
         button.titleLabel?.font = UIFont(name: "", size: 15)
         button.addTarget(self, action: #selector(handleShowCusineList), for: .touchUpInside)
@@ -256,7 +261,7 @@ class ChefSettingsViewController: UIViewController, TTGTextTagCollectionViewDele
     }()
     var listViewBackground: UIView = {
         let view = UIView()
-        view.backgroundColor = UIColor.black.withAlphaComponent(0.5)
+        view.backgroundColor = UIColor.black.withAlphaComponent(0.8)
         return view
     }()
     
