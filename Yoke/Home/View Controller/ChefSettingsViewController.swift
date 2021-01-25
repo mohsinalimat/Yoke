@@ -41,6 +41,8 @@ class ChefSettingsViewController: UIViewController, TTGTextTagCollectionViewDele
     // MARK: - Helper Functions
     func setupViews() {
         view.backgroundColor = .white
+//        view.addSubview(listViewBackground)
+//        view.addSubview(listView)
         view.addSubview(swipeIndicator)
         view.addSubview(chefLabel)
         view.addSubview(cusineTypeTextField)
@@ -48,19 +50,28 @@ class ChefSettingsViewController: UIViewController, TTGTextTagCollectionViewDele
         view.addSubview(moreButton)
         view.addSubview(selectionLabel)
         view.addSubview(cusineCollectionView)
+        view.addSubview(listViewBackground)
+        view.addSubview(listView)
     }
     
     func constrainViews() {
+//        listViewBackground.anchor(top: safeArea.topAnchor, left: safeArea.leftAnchor, bottom: safeArea.bottomAnchor, right: safeArea.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0)
+//        listView.anchor(top: nil, left: nil, bottom: nil, right: nil, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 300, height: 300)
+//        listView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+//        listView.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
         swipeIndicator.anchor(top: safeArea.topAnchor, left: nil, bottom: nil, right: nil, paddingTop: 20, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 100, height: 5)
         swipeIndicator.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         chefLabel.anchor(top: swipeIndicator.bottomAnchor, left: nil, bottom: nil, right: nil, paddingTop: 20, paddingLeft: 0, paddingBottom: 0, paddingRight: 0)
         chefLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        
         cusineTypeTextField.anchor(top: chefLabel.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: nil, paddingTop: 20, paddingLeft: 8, paddingBottom: 0, paddingRight: 0, height: 45)
         addButton.anchor(top: chefLabel.bottomAnchor, left: cusineTypeTextField.rightAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 28, paddingLeft: 8, paddingBottom: 0, paddingRight: 8, width: 50, height: 30)
         moreButton.anchor(top: cusineTypeTextField.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: nil, paddingTop: 8, paddingLeft: 8, paddingBottom: 0, paddingRight: 0, height: 25)
         selectionLabel.anchor(top: moreButton.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: nil, paddingTop: 20, paddingLeft: 8, paddingBottom: 0, paddingRight: 0)
         cusineCollectionView.anchor(top: selectionLabel.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 5, paddingLeft: 5, paddingBottom: 5, paddingRight: 5, height: 50)
+        listViewBackground.anchor(top: safeArea.topAnchor, left: safeArea.leftAnchor, bottom: safeArea.bottomAnchor, right: safeArea.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0)
+        listView.anchor(top: nil, left: nil, bottom: nil, right: nil, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 300, height: 300)
+        listView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        listView.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
     }
     
     func setupSelectCusineCollectionView() {
@@ -200,6 +211,17 @@ class ChefSettingsViewController: UIViewController, TTGTextTagCollectionViewDele
         label.font = UIFont.systemFont(ofSize: 17)
         label.textColor = .gray
         return label
+    }()
+    var listViewBackground: UIView = {
+        let view = UIView()
+        view.backgroundColor = UIColor.black.withAlphaComponent(0.9)
+        return view
+    }()
+    
+    var listView: UIView = {
+        let view = UIView()
+        view.backgroundColor = .white
+        return view
     }()
 }
 
