@@ -240,7 +240,7 @@ class ChefSettingsViewController: UIViewController, TTGTextTagCollectionViewDele
     
     let moreButton: UIButton = {
         let button = UIButton()
-        button.setTitle("Choose from our list", for: .normal)
+        button.setTitle("Or choose from our list", for: .normal)
         button.setTitleColor(UIColor.orangeColor(), for: .normal)
         button.titleLabel?.font = UIFont(name: "", size: 15)
         button.addTarget(self, action: #selector(handleShowCusineList), for: .touchUpInside)
