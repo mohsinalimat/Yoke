@@ -144,6 +144,10 @@ class ChefSettingsViewController: UIViewController, TTGTextTagCollectionViewDele
             }
         }
     }
+    
+    @objc func handleShowCusineList() {
+        
+    }
   
     //MARK: - Views
     let swipeIndicator: UIView = {
@@ -163,7 +167,7 @@ class ChefSettingsViewController: UIViewController, TTGTextTagCollectionViewDele
     
     var cusineTypeTextField: UITextField = {
         let text = UITextField()
-        text.placeholder = "Enter a cusine. Example: Cuban, American, French..."
+        text.placeholder = "Enter a cusine"
         text.font = UIFont.systemFont(ofSize: 17)
         text.textColor = UIColor.orangeColor()
         text.backgroundColor = UIColor.LightGrayBg()
@@ -183,9 +187,10 @@ class ChefSettingsViewController: UIViewController, TTGTextTagCollectionViewDele
     
     let moreButton: UIButton = {
         let button = UIButton()
-        button.setTitle("Or choose from our list", for: .normal)
+        button.setTitle("Choose from our list", for: .normal)
         button.setTitleColor(UIColor.orangeColor(), for: .normal)
-        button.addTarget(self, action: #selector(handleAdd), for: .touchUpInside)
+        button.titleLabel?.font = UIFont(name: "", size: 15)
+        button.addTarget(self, action: #selector(handleShowCusineList), for: .touchUpInside)
         return button
     }()
     
