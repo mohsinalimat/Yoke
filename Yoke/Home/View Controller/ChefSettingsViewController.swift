@@ -24,6 +24,7 @@ class ChefSettingsViewController: UIViewController, TTGTextTagCollectionViewDele
     let firestoreDB = Firestore.firestore()
     let noCellId = "noCellId"
     let cellId = "cellId"
+    var isCusineList: Bool = false
     
     //MARK: - Lifecycle Methods
     override func viewDidLayoutSubviews() {
@@ -51,7 +52,7 @@ class ChefSettingsViewController: UIViewController, TTGTextTagCollectionViewDele
         view.addSubview(listViewBackground)
         view.addSubview(listView)
         view.addSubview(cusineListCollectionView)
-        view.addSubview(cancelButton)
+        view.addSubview(doneButton)
     }
     
     func constrainViews() {
@@ -63,7 +64,7 @@ class ChefSettingsViewController: UIViewController, TTGTextTagCollectionViewDele
         addButton.anchor(top: chefLabel.bottomAnchor, left: cusineTypeTextField.rightAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 28, paddingLeft: 8, paddingBottom: 0, paddingRight: 8, width: 50, height: 30)
         moreButton.anchor(top: cusineTypeTextField.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: nil, paddingTop: 8, paddingLeft: 8, paddingBottom: 0, paddingRight: 0, height: 25)
         selectionLabel.anchor(top: moreButton.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: nil, paddingTop: 20, paddingLeft: 8, paddingBottom: 0, paddingRight: 0)
-        cusineCollectionView.anchor(top: selectionLabel.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 5, paddingLeft: 5, paddingBottom: 5, paddingRight: 5, height: 50)
+        cusineCollectionView.anchor(top: selectionLabel.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 5, paddingLeft: 5, paddingBottom: 5, paddingRight: 5, height: 200)
         listViewBackground.anchor(top: safeArea.topAnchor, left: safeArea.leftAnchor, bottom: safeArea.bottomAnchor, right: safeArea.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0)
         listView.anchor(top: nil, left: nil, bottom: nil, right: nil, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 350, height: 375)
         listView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
@@ -72,7 +73,7 @@ class ChefSettingsViewController: UIViewController, TTGTextTagCollectionViewDele
         cusineListCollectionView.anchor(top: nil, left: nil, bottom: nil, right: nil, paddingTop: 20, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 300, height: 250)
         cusineListCollectionView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         cusineListCollectionView.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
-        cancelButton.anchor(top: listView.topAnchor, left: nil, bottom: nil, right: listView.rightAnchor, paddingTop: 5, paddingLeft: 5, paddingBottom: 0, paddingRight: 5, width: 50, height: 50)
+        doneButton.anchor(top: listView.topAnchor, left: nil, bottom: nil, right: listView.rightAnchor, paddingTop: 5, paddingLeft: 5, paddingBottom: 0, paddingRight: 5, width: 50)
     }
     
     func setupSelectCusineCollectionView() {
@@ -85,7 +86,7 @@ class ChefSettingsViewController: UIViewController, TTGTextTagCollectionViewDele
         cusineListCollectionView.isHidden = true
         listView.isHidden = true
         listViewBackground.isHidden = true
-        cancelButton.isHidden = true
+        doneButton.isHidden = true
         
         let config = TTGTextTagConfig()
         config.backgroundColor = .white
@@ -99,7 +100,7 @@ class ChefSettingsViewController: UIViewController, TTGTextTagCollectionViewDele
     
     func setupCusineCollectionView() {
         cusineCollectionView.alignment = .center
-        cusineCollectionView.scrollDirection = .horizontal
+        cusineCollectionView.scrollDirection = .vertical
         cusineCollectionView.alignment = .fillByExpandingWidthExceptLastLine
         cusineCollectionView.delegate = self
         let config = TTGTextTagConfig()
@@ -111,11 +112,58 @@ class ChefSettingsViewController: UIViewController, TTGTextTagCollectionViewDele
         firestoreDB.collection(Constants.Cusine).document(uid).getDocument { (document, error) in
             if let document = document, document.exists {
                 guard let array = document.data()?["cusine"] as? [String] else { return }
-                for name in array {
+                let sortedArray = array.sorted(by: { $0 < $1 })
+                for name in sortedArray {
                     self.cusineCollectionView.addTags([name], with: config)
                 }
             } else {
                 print("Document does not exist")
+            }
+        }
+    }
+    
+    @objc func handleAddTextField() {
+        guard let text = cusineTypeTextField.text, !text.isEmpty else { return handleEmptyText()}
+        let config = TTGTextTagConfig()
+        config.backgroundColor = UIColor.orangeColor()
+        config.textColor = UIColor.white
+        CusineController.shared.addCusineWith(uid: uid, type: text) { (result) in
+            switch result {
+            case true:
+                self.cusineCollectionView.addTag(text, with: config)
+                self.cusineTypeTextField.text = ""
+                self.cusineCollectionView.reload()
+            case false:
+                print("error in adding cusines")
+            }
+        }
+    }
+    
+    @objc func handleShowCusineList() {
+        cusineListCollectionView.isHidden = false
+        listView.isHidden = false
+        listViewBackground.isHidden = false
+        doneButton.isHidden = false
+        isCusineList = true
+    }
+    
+    @objc func handleHideCusineList() {
+        cusineListCollectionView.isHidden = true
+        listView.isHidden = true
+        listViewBackground.isHidden = true
+        doneButton.isHidden = true
+        isCusineList = false
+    }
+    
+    func handleAddFromCusineList(uid: String, text: String, index: UInt) {
+        CusineController.shared.addCusineWith(uid: uid, type: text) { (result) in
+            switch result {
+            case true:
+                self.cusineCollectionView.addTag(text)
+                self.cusineCollectionView.reload()
+                self.cusineListCollectionView.reload()
+            case false:
+                print("error in adding cusines")
             }
         }
     }
@@ -146,51 +194,12 @@ class ChefSettingsViewController: UIViewController, TTGTextTagCollectionViewDele
         self.present(alertController, animated: true, completion: nil)
     }
     
-    @objc func handleAdd() {
-        guard let text = cusineTypeTextField.text, !text.isEmpty else { return handleEmptyText()}
-        let config = TTGTextTagConfig()
-        config.backgroundColor = UIColor.orangeColor()
-        config.textColor = UIColor.white
-        CusineController.shared.addCusineWith(uid: uid, type: text) { (result) in
-            switch result {
-            case true:
-                self.cusineCollectionView.addTag(text, with: config)
-                self.cusineTypeTextField.text = ""
-                self.cusineCollectionView.reload()
-            case false:
-                print("error in adding cusines")
-            }
-        }
-    }
-    
-    @objc func handleShowCusineList() {
-        
-    }
-    
-    @objc func handleHideCusineList() {
-        
-    }
-    
     func textTagCollectionView(_ textTagCollectionView: TTGTextTagCollectionView!, didTapTag tagText: String!, at index: UInt, selected: Bool, tagConfig config: TTGTextTagConfig!) {
-        
-        handleDelete(uid: uid, text: tagText, index: index)
-        
-//        let alertController = UIAlertController(title: "Delete", message: "Would you like to delete this cusine?", preferredStyle: .alert)
-//        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
-//        let deleteAction = UIAlertAction(title: "Yes", style: .default) { (_) in
-//            CusineController.shared.deleteCusineWith(uid: self.uid, type: tagText) { (result) in
-//                switch result {
-//                case true:
-//                    self.cusineCollectionView.removeTag(at: index)
-//                    self.cusineCollectionView.reload()
-//                case false:
-//                    print("error in adding cusines")
-//                }
-//            }
-//        }
-//        alertController.addAction(cancelAction)
-//        alertController.addAction(deleteAction)
-//        self.present(alertController, animated: true, completion: nil)
+        if isCusineList == true {
+            handleAddFromCusineList(uid: uid, text: tagText, index: index)
+        } else {
+            handleDelete(uid: uid, text: tagText, index: index)
+        }
     }
     
     //MARK: - Views
@@ -225,7 +234,7 @@ class ChefSettingsViewController: UIViewController, TTGTextTagCollectionViewDele
         button.setTitleColor(.white, for: .normal)
         button.backgroundColor = UIColor.orangeColor()
         button.layer.cornerRadius = 5
-        button.addTarget(self, action: #selector(handleAdd), for: .touchUpInside)
+        button.addTarget(self, action: #selector(handleAddTextField), for: .touchUpInside)
         return button
     }()
     
@@ -257,9 +266,9 @@ class ChefSettingsViewController: UIViewController, TTGTextTagCollectionViewDele
         return view
     }()
     
-    let cancelButton: UIButton = {
+    let doneButton: UIButton = {
         let button = UIButton()
-        button.setTitle("X", for: .normal)
+        button.setTitle("Done", for: .normal)
         button.setTitleColor(.white, for: .normal)
         button.backgroundColor = UIColor.orangeColor()
         button.layer.cornerRadius = 5
