@@ -41,8 +41,6 @@ class ChefSettingsViewController: UIViewController, TTGTextTagCollectionViewDele
     // MARK: - Helper Functions
     func setupViews() {
         view.backgroundColor = .white
-//        view.addSubview(listViewBackground)
-//        view.addSubview(listView)
         view.addSubview(swipeIndicator)
         view.addSubview(chefLabel)
         view.addSubview(cusineTypeTextField)
@@ -52,13 +50,11 @@ class ChefSettingsViewController: UIViewController, TTGTextTagCollectionViewDele
         view.addSubview(cusineCollectionView)
         view.addSubview(listViewBackground)
         view.addSubview(listView)
+        view.addSubview(cusineListCollectionView)
+        view.addSubview(cancelButton)
     }
     
     func constrainViews() {
-//        listViewBackground.anchor(top: safeArea.topAnchor, left: safeArea.leftAnchor, bottom: safeArea.bottomAnchor, right: safeArea.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0)
-//        listView.anchor(top: nil, left: nil, bottom: nil, right: nil, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 300, height: 300)
-//        listView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-//        listView.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
         swipeIndicator.anchor(top: safeArea.topAnchor, left: nil, bottom: nil, right: nil, paddingTop: 20, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 100, height: 5)
         swipeIndicator.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         chefLabel.anchor(top: swipeIndicator.bottomAnchor, left: nil, bottom: nil, right: nil, paddingTop: 20, paddingLeft: 0, paddingBottom: 0, paddingRight: 0)
@@ -69,16 +65,27 @@ class ChefSettingsViewController: UIViewController, TTGTextTagCollectionViewDele
         selectionLabel.anchor(top: moreButton.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: nil, paddingTop: 20, paddingLeft: 8, paddingBottom: 0, paddingRight: 0)
         cusineCollectionView.anchor(top: selectionLabel.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 5, paddingLeft: 5, paddingBottom: 5, paddingRight: 5, height: 50)
         listViewBackground.anchor(top: safeArea.topAnchor, left: safeArea.leftAnchor, bottom: safeArea.bottomAnchor, right: safeArea.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0)
-        listView.anchor(top: nil, left: nil, bottom: nil, right: nil, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 300, height: 300)
+        listView.anchor(top: nil, left: nil, bottom: nil, right: nil, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 350, height: 375)
         listView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         listView.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
+        listView.layer.cornerRadius = 5
+        cusineListCollectionView.anchor(top: nil, left: nil, bottom: nil, right: nil, paddingTop: 20, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 300, height: 250)
+        cusineListCollectionView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        cusineListCollectionView.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
+        cancelButton.anchor(top: listView.topAnchor, left: nil, bottom: nil, right: listView.rightAnchor, paddingTop: 5, paddingLeft: 5, paddingBottom: 0, paddingRight: 5, width: 50, height: 50)
     }
     
     func setupSelectCusineCollectionView() {
+        cusineListCollectionView.backgroundColor = .white
         cusineListCollectionView.alignment = .center
-        cusineListCollectionView.scrollDirection = .horizontal
+        cusineListCollectionView.scrollDirection = .vertical
         cusineListCollectionView.alignment = .fillByExpandingWidthExceptLastLine
         cusineListCollectionView.delegate = self
+        
+        cusineListCollectionView.isHidden = true
+        listView.isHidden = true
+        listViewBackground.isHidden = true
+        cancelButton.isHidden = true
         
         let config = TTGTextTagConfig()
         config.backgroundColor = .white
@@ -112,12 +119,12 @@ class ChefSettingsViewController: UIViewController, TTGTextTagCollectionViewDele
             }
         }
     }
-
-    func textTagCollectionView(_ textTagCollectionView: TTGTextTagCollectionView!, didTapTag tagText: String!, at index: UInt, selected: Bool, tagConfig config: TTGTextTagConfig!) {
+    
+    func handleDelete(uid: String, text: String, index: UInt) {
         let alertController = UIAlertController(title: "Delete", message: "Would you like to delete this cusine?", preferredStyle: .alert)
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
         let deleteAction = UIAlertAction(title: "Yes", style: .default) { (_) in
-            CusineController.shared.deleteCusineWith(uid: self.uid, type: tagText) { (result) in
+            CusineController.shared.deleteCusineWith(uid: self.uid, type: text) { (result) in
                 switch result {
                 case true:
                     self.cusineCollectionView.removeTag(at: index)
@@ -159,7 +166,33 @@ class ChefSettingsViewController: UIViewController, TTGTextTagCollectionViewDele
     @objc func handleShowCusineList() {
         
     }
-  
+    
+    @objc func handleHideCusineList() {
+        
+    }
+    
+    func textTagCollectionView(_ textTagCollectionView: TTGTextTagCollectionView!, didTapTag tagText: String!, at index: UInt, selected: Bool, tagConfig config: TTGTextTagConfig!) {
+        
+        handleDelete(uid: uid, text: tagText, index: index)
+        
+//        let alertController = UIAlertController(title: "Delete", message: "Would you like to delete this cusine?", preferredStyle: .alert)
+//        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+//        let deleteAction = UIAlertAction(title: "Yes", style: .default) { (_) in
+//            CusineController.shared.deleteCusineWith(uid: self.uid, type: tagText) { (result) in
+//                switch result {
+//                case true:
+//                    self.cusineCollectionView.removeTag(at: index)
+//                    self.cusineCollectionView.reload()
+//                case false:
+//                    print("error in adding cusines")
+//                }
+//            }
+//        }
+//        alertController.addAction(cancelAction)
+//        alertController.addAction(deleteAction)
+//        self.present(alertController, animated: true, completion: nil)
+    }
+    
     //MARK: - Views
     let swipeIndicator: UIView = {
         let view = UIView()
@@ -214,7 +247,7 @@ class ChefSettingsViewController: UIViewController, TTGTextTagCollectionViewDele
     }()
     var listViewBackground: UIView = {
         let view = UIView()
-        view.backgroundColor = UIColor.black.withAlphaComponent(0.9)
+        view.backgroundColor = UIColor.black.withAlphaComponent(0.5)
         return view
     }()
     
@@ -222,6 +255,17 @@ class ChefSettingsViewController: UIViewController, TTGTextTagCollectionViewDele
         let view = UIView()
         view.backgroundColor = .white
         return view
+    }()
+    
+    let cancelButton: UIButton = {
+        let button = UIButton()
+        button.setTitle("X", for: .normal)
+        button.setTitleColor(.white, for: .normal)
+        button.backgroundColor = UIColor.orangeColor()
+        button.layer.cornerRadius = 5
+        button.titleLabel?.font = UIFont(name: "", size: 18)
+        button.addTarget(self, action: #selector(handleHideCusineList), for: .touchUpInside)
+        return button
     }()
 }
 
