@@ -47,17 +47,6 @@ class CusineController {
         }
     }
     
-    func deleteCusineWith(uid: String, type: String, completion: @escaping (Bool) -> Void) {
-        firestoreDB.collection(Constants.Cusine).document(uid).updateData([Constants.Cusine: FieldValue.arrayRemove([type])]) { error in
-            if let error = error {
-                completion(false)
-                print("error in add cusine: \(error.localizedDescription)")
-            } else {
-                completion(true)
-            }
-        }
-    }
-    
     func fetchCusineWith(uid: String, completion: @escaping (Bool) -> Void) {
         firestoreDB.collection(Constants.Cusine).document(uid).getDocument { (document, error) in
             if let document = document, document.exists {
@@ -71,6 +60,17 @@ class CusineController {
             } else {
                 completion(false)
                 print("Document does not exist")
+            }
+        }
+    }
+    
+    func deleteCusineWith(uid: String, type: String, completion: @escaping (Bool) -> Void) {
+        firestoreDB.collection(Constants.Cusine).document(uid).updateData([Constants.Cusine: FieldValue.arrayRemove([type])]) { error in
+            if let error = error {
+                completion(false)
+                print("error in add cusine: \(error.localizedDescription)")
+            } else {
+                completion(true)
             }
         }
     }

@@ -23,8 +23,8 @@ class Cusine {
     }
 }
 
-//extension Cusine: Equatable {
-//    static func == (lhs: Cusine, rhs: Cusine) -> Bool {
-//        return lhs.type == rhs.type
-//    }
-//}
+extension Cusine: Equatable {
+    static func == (lhs: Cusine, rhs: Cusine) -> Bool {
+        return lhs.type == rhs.type
+    }
+}
