@@ -47,6 +47,9 @@ class AddMenuViewController: UIViewController {
         scrollView.addSubview(courseView)
         scrollView.addSubview(courseLabel)
         scrollView.addSubview(courseSegmentedControl)
+        scrollView.addSubview(fixedView)
+        scrollView.addSubview(fixedLabel)
+        scrollView.addSubview(fixedSegmentedControl)
     }
     
     func constrainViews() {
@@ -60,9 +63,12 @@ class AddMenuViewController: UIViewController {
         menuAddImageButton.anchor(top: menuLabel.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 20, paddingLeft: 8, paddingBottom: 0, paddingRight: 8, width: view.frame.width / 2, height: view.frame.width / 2)
         dishNameTextField.anchor(top: menuImageView.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 20, paddingLeft: 8, paddingBottom: 8, paddingRight: 8, height: 45)
         dishDetailTextField.anchor(top: dishNameTextField.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 5, paddingLeft: 8, paddingBottom: 8, paddingRight: 8, height: 150)
-        courseView.anchor(top: dishDetailTextField.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 5, paddingLeft: 8, paddingBottom: 8, paddingRight: 8, height: 95)
+        courseView.anchor(top: dishDetailTextField.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 5, paddingLeft: 8, paddingBottom: 8, paddingRight: 8, height: 80)
         courseLabel.anchor(top: courseView.topAnchor, left: courseView.leftAnchor, bottom: nil, right: courseView.rightAnchor, paddingTop: 0, paddingLeft: 8, paddingBottom: 0, paddingRight: 8, height: 45)
-        courseSegmentedControl.anchor(top: courseLabel.bottomAnchor, left: courseView.leftAnchor, bottom: nil, right: courseView.rightAnchor, paddingTop: 0, paddingLeft: 5, paddingBottom: 5, paddingRight: 5, height: 45)
+        courseSegmentedControl.anchor(top: courseLabel.bottomAnchor, left: courseView.leftAnchor, bottom: nil, right: courseView.rightAnchor, paddingTop: 0, paddingLeft: 5, paddingBottom: 5, paddingRight: 5, height: 30)
+        fixedView.anchor(top: courseView.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 5, paddingLeft: 8, paddingBottom: 8, paddingRight: 8, height: 80)
+        fixedLabel.anchor(top: fixedView.topAnchor, left: fixedView.leftAnchor, bottom: nil, right: fixedView.rightAnchor, paddingTop: 0, paddingLeft: 8, paddingBottom: 0, paddingRight: 8, height: 45)
+        fixedSegmentedControl.anchor(top: fixedLabel.bottomAnchor, left: fixedView.leftAnchor, bottom: nil, right: fixedView.rightAnchor, paddingTop: 0, paddingLeft: 5, paddingBottom: 5, paddingRight: 5, height: 30)
     }
  
     @objc func handleAddImage() {
@@ -164,7 +170,34 @@ class AddMenuViewController: UIViewController {
     }()
     
     let courseSegmentedControl: UISegmentedControl = {
-        let seg = UISegmentedControl(items: ["Appetizer,", "Main", "Dessert"])
+        let seg = UISegmentedControl(items: ["Appetizer", "Main", "Dessert"])
+        seg.selectedSegmentIndex = 0
+        seg.backgroundColor = UIColor.orangeColor()
+        seg.tintColor = UIColor.white
+        seg.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor.white], for: UIControl.State.normal)
+        seg.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor.white], for: UIControl.State.selected)
+        seg.addTarget(self, action: #selector(handleCourseType), for: .valueChanged)
+        return seg
+    }()
+    
+    let fixedView: UIView = {
+        let view = UIView()
+        view.backgroundColor = .white
+        view.layer.cornerRadius = 5
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
+    
+    let fixedLabel: UILabel = {
+        let label = UILabel()
+        label.text = "Is this a fixed menu?"
+        label.textColor = .gray
+        label.font = UIFont.boldSystemFont(ofSize: 17)
+        return label
+    }()
+    
+    let fixedSegmentedControl: UISegmentedControl = {
+        let seg = UISegmentedControl(items: ["Fixed Menu", "Example Menu"])
         seg.selectedSegmentIndex = 0
         seg.backgroundColor = UIColor.orangeColor()
         seg.tintColor = UIColor.white
