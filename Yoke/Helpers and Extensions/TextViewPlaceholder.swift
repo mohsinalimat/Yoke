@@ -63,7 +63,7 @@ extension UITextView: UITextViewDelegate {
         placeholderLbl.sizeToFit()
         
         placeholderLbl.font = self.font
-        placeholderLbl.textColor = UIColor.darkGray
+        placeholderLbl.textColor = UIColor.lightGray
         placeholderLbl.tag = 50
         
         placeholderLbl.isHidden = self.text.count > 0
