@@ -39,11 +39,14 @@ class AddMenuViewController: UIViewController {
         view.backgroundColor = UIColor.LightGrayBg()
         view.addSubview(swipeIndicator)
         view.addSubview(menuLabel)
-        view.addSubview(menuImageView)
-        view.addSubview(menuAddImageButton)
-        view.addSubview(dishNameTextField)
-        view.addSubview(dishDetailTextField)
-        view.addSubview(courseLabel)
+        view.addSubview(scrollView)
+        scrollView.addSubview(menuImageView)
+        scrollView.addSubview(menuAddImageButton)
+        scrollView.addSubview(dishNameTextField)
+        scrollView.addSubview(dishDetailTextField)
+        scrollView.addSubview(courseView)
+        scrollView.addSubview(courseLabel)
+        scrollView.addSubview(courseSegmentedControl)
     }
     
     func constrainViews() {
@@ -51,15 +54,29 @@ class AddMenuViewController: UIViewController {
         swipeIndicator.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         menuLabel.anchor(top: swipeIndicator.bottomAnchor, left: nil, bottom: nil, right: nil, paddingTop: 20, paddingLeft: 0, paddingBottom: 0, paddingRight: 0)
         menuLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        scrollView.contentSize = CGSize(width: view.frame.width, height: view.frame.height)
+        scrollView.anchor(top: menuLabel.bottomAnchor, left: safeArea.leftAnchor, bottom: safeArea.bottomAnchor, right: safeArea.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0)
         menuImageView.anchor(top: menuLabel.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 20, paddingLeft: 8, paddingBottom: 0, paddingRight: 8, width: view.frame.width / 2, height: view.frame.width / 2)
         menuAddImageButton.anchor(top: menuLabel.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 20, paddingLeft: 8, paddingBottom: 0, paddingRight: 8, width: view.frame.width / 2, height: view.frame.width / 2)
         dishNameTextField.anchor(top: menuImageView.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 20, paddingLeft: 8, paddingBottom: 8, paddingRight: 8, height: 45)
         dishDetailTextField.anchor(top: dishNameTextField.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 5, paddingLeft: 8, paddingBottom: 8, paddingRight: 8, height: 150)
-        courseLabel.anchor(top: dishDetailTextField.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 20, paddingLeft: 8, paddingBottom: 8, paddingRight: 8, height: 45)
+        courseView.anchor(top: dishDetailTextField.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 5, paddingLeft: 8, paddingBottom: 8, paddingRight: 8, height: 95)
+        courseLabel.anchor(top: courseView.topAnchor, left: courseView.leftAnchor, bottom: nil, right: courseView.rightAnchor, paddingTop: 0, paddingLeft: 8, paddingBottom: 0, paddingRight: 8, height: 45)
+        courseSegmentedControl.anchor(top: courseLabel.bottomAnchor, left: courseView.leftAnchor, bottom: nil, right: courseView.rightAnchor, paddingTop: 0, paddingLeft: 5, paddingBottom: 5, paddingRight: 5, height: 45)
     }
-    
+ 
     @objc func handleAddImage() {
         print("tapped")
+    }
+    
+    @objc func handleCourseType(index: Int) {
+        if courseSegmentedControl.selectedSegmentIndex == 0 {
+            print("app")
+        } else if courseSegmentedControl.selectedSegmentIndex == 1 {
+            print("main")
+        } else if courseSegmentedControl.selectedSegmentIndex == 2 {
+            print("dessert")
+        }
     }
     
     //MARK: - Views
@@ -76,6 +93,16 @@ class AddMenuViewController: UIViewController {
         label.font = UIFont.boldSystemFont(ofSize: 15)
         label.textColor = .gray
         return label
+    }()
+    
+    lazy var scrollView: UIScrollView = {
+        let view = UIScrollView()
+        view.backgroundColor = UIColor.LightGrayBg()
+        view.layer.cornerRadius = 5
+        view.layer.borderColor = UIColor.LightGrayBg()?.cgColor
+        view.layer.borderWidth = 5
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
     }()
     
     let menuImageView: CustomImageView = {
@@ -120,12 +147,31 @@ class AddMenuViewController: UIViewController {
         return text
     }()
     
+    let courseView: UIView = {
+        let view = UIView()
+        view.backgroundColor = .white
+        view.layer.cornerRadius = 5
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
+    
     let courseLabel: UILabel = {
         let label = UILabel()
         label.text = "Choose a course"
         label.textColor = .gray
         label.font = UIFont.boldSystemFont(ofSize: 17)
         return label
+    }()
+    
+    let courseSegmentedControl: UISegmentedControl = {
+        let seg = UISegmentedControl(items: ["Appetizer,", "Main", "Dessert"])
+        seg.selectedSegmentIndex = 0
+        seg.backgroundColor = UIColor.orangeColor()
+        seg.tintColor = UIColor.white
+        seg.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor.white], for: UIControl.State.normal)
+        seg.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor.white], for: UIControl.State.selected)
+        seg.addTarget(self, action: #selector(handleCourseType), for: .valueChanged)
+        return seg
     }()
 
 }
