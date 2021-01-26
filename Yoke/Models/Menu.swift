@@ -8,15 +8,27 @@
 
 import Foundation
 class Menu {
-    var type: [String]
+    var user: User
+    var id: String?
+    var uid: String?
+    var name: String?
+    var detail: String?
+    var courseType: String?
+    var menuType: String?
 
-    init(type: [String]) {
-        self.type = type
+    init(user: User, dictionary: [String: Any]) {
+        self.user = user
+        self.id = dictionary[Constants.Id] as? String ?? ""
+        self.uid = dictionary[Constants.Uid] as? String ?? ""
+        self.name = dictionary[Constants.Name] as? String ?? ""
+        self.detail = dictionary[Constants.Detail] as? String ?? ""
+        self.courseType = dictionary[Constants.CourseType] as? String ?? ""
+        self.menuType = dictionary[Constants.MenuType] as? String ?? ""
     }
 }
 
 extension Menu: Equatable {
     static func == (lhs: Menu, rhs: Menu) -> Bool {
-        return lhs.type == rhs.type
+        return lhs.id == rhs.id
     }
 }
