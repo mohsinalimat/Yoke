@@ -10,7 +10,7 @@ import UIKit
 import Firebase
 import FirebaseDatabase
 
-class HomeViewController: UIViewController, HomeProfileHeaderDelegate {
+class HomeViewController: UIViewController {
 
     //MARK: Properties
     var safeArea: UILayoutGuide {
@@ -475,6 +475,7 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
         header.menuLabel.text = "Menus"
         header.backgroundColor = .white
         header.layer.cornerRadius = 5
+        header.delegate = self
         return header
     }
     
@@ -482,4 +483,12 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
         return CGSize(width: 100, height: 45)
     }
 }
+
+extension HomeViewController: MenuHeaderDelegate {
+    func addMenu(_ sender: MenuHeaderCollectionViewCell) {
+        let addMenu = AddMenuViewController()
+        present(addMenu, animated: true)
+    }
+}
+
 

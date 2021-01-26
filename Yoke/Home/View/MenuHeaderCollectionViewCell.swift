@@ -8,7 +8,22 @@
 
 import UIKit
 
+protocol MenuHeaderDelegate: class {
+    func addMenu(_ sender: MenuHeaderCollectionViewCell)
+//    func addMenu(user: User)
+}
+
 class MenuHeaderCollectionViewCell: UICollectionViewCell {
+    
+    // MARK: - Properties
+    var delegate: MenuHeaderDelegate?
+    
+    var user: User? {
+        didSet {
+            
+        }
+    }
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupViews()
@@ -19,6 +34,7 @@ class MenuHeaderCollectionViewCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
+    //MARK: - Helper Functions
     func setupViews(){
         addSubview(menuLabel)
         addSubview(addMenuButton)
@@ -29,6 +45,12 @@ class MenuHeaderCollectionViewCell: UICollectionViewCell {
         addMenuButton.anchor(top: topAnchor, left: nil, bottom: bottomAnchor, right: rightAnchor, paddingTop: 0, paddingLeft: 8, paddingBottom: 0, paddingRight: 0, width: 75, height: 45)
     }
     
+    @objc func handleAddMenu(_ sender: Any) {
+        print("tapped in cell")
+        delegate?.addMenu(self)
+    }
+
+    //MARK: - Views
     let menuLabel: UILabel = {
         let label = UILabel()
         label.textColor = UIColor.orangeColor()
@@ -41,7 +63,7 @@ class MenuHeaderCollectionViewCell: UICollectionViewCell {
         button.setTitle("Add Menu", for: .normal)
         button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 13)
         button.setTitleColor(UIColor.orangeColor(), for: .normal)
-//        button.addTarget(self, action: #selector(handleAddPhotos), for: .touchUpInside) 
+        button.addTarget(self, action: #selector(handleAddMenu), for: .touchUpInside)
         return button
     }()
 }
