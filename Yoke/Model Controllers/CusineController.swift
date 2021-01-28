@@ -16,16 +16,16 @@ class CusineController {
     static let shared = CusineController()
     
     //MARK: - Firebase Firestore Database
-    let firestoreDB = Firestore.firestore()
+    let firestoreDB = Firestore.firestore().collection(Constants.Chefs)
     
     //MARK: - Source of truth
     var cusines: [Cusine] = []
     
     //MARK: - CRUD Functions
     func addCusineWith(uid: String, type: String, completion: @escaping (Bool) -> Void) {
-        firestoreDB.collection(Constants.Cusine).document(uid).getDocument { (document, error) in
+        firestoreDB.document(uid).getDocument { (document, error) in
             if let document = document, document.exists {
-                self.firestoreDB.collection(Constants.Cusine).document(uid).updateData([Constants.Cusine: FieldValue.arrayUnion([type])]) { error in
+                self.firestoreDB.document(uid).updateData([Constants.Cusine: FieldValue.arrayUnion([type])]) { error in
                     if let error = error {
                         completion(false)
                         print("error in add cusine: \(error.localizedDescription)")
@@ -34,7 +34,7 @@ class CusineController {
                     }
                 }
             } else {
-                self.firestoreDB.collection(Constants.Cusine).document(uid).setData([Constants.Cusine: FieldValue.arrayUnion([type])]) { error in
+                self.firestoreDB.document(uid).setData([Constants.Cusine: FieldValue.arrayUnion([type])]) { error in
                     if let error = error {
                         completion(false)
                         print("error in add cusine: \(error.localizedDescription)")
@@ -48,7 +48,7 @@ class CusineController {
     }
     
     func fetchCusineWith(uid: String, completion: @escaping (Bool) -> Void) {
-        firestoreDB.collection(Constants.Cusine).document(uid).getDocument { (document, error) in
+        firestoreDB.document(uid).getDocument { (document, error) in
             if let document = document, document.exists {
                 guard let array = document.data()?["cusine"] as? [String] else { return }
                 for name in array {
@@ -65,7 +65,7 @@ class CusineController {
     }
     
     func deleteCusineWith(uid: String, type: String, completion: @escaping (Bool) -> Void) {
-        firestoreDB.collection(Constants.Cusine).document(uid).updateData([Constants.Cusine: FieldValue.arrayRemove([type])]) { error in
+        firestoreDB.document(uid).updateData([Constants.Cusine: FieldValue.arrayRemove([type])]) { error in
             if let error = error {
                 completion(false)
                 print("error in add cusine: \(error.localizedDescription)")
