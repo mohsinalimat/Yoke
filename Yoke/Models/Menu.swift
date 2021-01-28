@@ -8,22 +8,24 @@
 
 import Foundation
 class Menu {
-    var user: User
+//    var user: User
     var id: String?
     var uid: String?
     var name: String?
     var detail: String?
     var courseType: String?
     var menuType: String?
+    var imageUrl: String?
 
-    init(user: User, dictionary: [String: Any]) {
-        self.user = user
+    init(dictionary: [String: Any]) {
+//        self.user = user
         self.id = dictionary[Constants.Id] as? String ?? ""
         self.uid = dictionary[Constants.Uid] as? String ?? ""
         self.name = dictionary[Constants.Name] as? String ?? ""
         self.detail = dictionary[Constants.Detail] as? String ?? ""
         self.courseType = dictionary[Constants.CourseType] as? String ?? ""
         self.menuType = dictionary[Constants.MenuType] as? String ?? ""
+        self.imageUrl = dictionary[Constants.ImageUrl] as? String ?? ""
     }
 }
 

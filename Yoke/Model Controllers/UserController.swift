@@ -116,11 +116,11 @@ class UserController {
 //                completion(false)
 //            } else {
 ////                for document in snapshot!.documents {
-////                    let dictionary = document.data()
-////                    let userUid = dictionary["userUid"] as? String ?? ""
-////                    let getNotifications = Notification(userUid: userUid, alertUid: alertUid, title: title, dateTime: dateTime)
-////                    self.notifications.append(getNotifications)
-////                }
+//                    let dictionary = document.data()
+//                    let userUid = dictionary["userUid"] as? String ?? ""
+//                    let getNotifications = Notification(userUid: userUid, alertUid: alertUid, title: title, dateTime: dateTime)
+//                    self.notifications.append(getNotifications)
+//                }
 //                completion(true)
 //            }
 //        }

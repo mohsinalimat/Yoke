@@ -120,6 +120,7 @@
 		6CBDDE5C24B3DC130099A04C /* Payment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CBDDE5B24B3DC130099A04C /* Payment.swift */; };
 		6CC8CBAB25C0D09700C3F24D /* MenuController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CC8CBAA25C0D09700C3F24D /* MenuController.swift */; };
 		6CC8CBAF25C0D0A100C3F24D /* Menu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CC8CBAE25C0D0A100C3F24D /* Menu.swift */; };
+		6CC8CBB325C33BD900C3F24D /* MenuCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CC8CBB225C33BD900C3F24D /* MenuCollectionViewCell.swift */; };
 		6CD9383F2587E07D00F741F5 /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CD9383E2587E07D00F741F5 /* LocationManager.swift */; };
 		6CDCD7D1258157FA002CE767 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CDCD7D0258157FA002CE767 /* SceneDelegate.swift */; };
 		6CDCD7DE258159BB002CE767 /* UserController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CDCD7DD258159BB002CE767 /* UserController.swift */; };
@@ -263,6 +264,7 @@
 		6CC123032589583A0038B9E3 /* Yoke.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Yoke.entitlements; sourceTree = "<group>"; };
 		6CC8CBAA25C0D09700C3F24D /* MenuController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuController.swift; sourceTree = "<group>"; };
 		6CC8CBAE25C0D0A100C3F24D /* Menu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Menu.swift; sourceTree = "<group>"; };
+		6CC8CBB225C33BD900C3F24D /* MenuCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuCollectionViewCell.swift; sourceTree = "<group>"; };
 		6CD9383E2587E07D00F741F5 /* LocationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
 		6CDCD7D0258157FA002CE767 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		6CDCD7DD258159BB002CE767 /* UserController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserController.swift; sourceTree = "<group>"; };
@@ -653,6 +655,7 @@
 				6C8DB60524B3C1B8003D06FF /* HomeHeaderCell.swift */,
 				6C5D5F3525AE030700ACF451 /* MenuHeaderCollectionViewCell.swift */,
 				6CFDB3A725B79114007261D1 /* CusineCollectionViewCell.swift */,
+				6CC8CBB225C33BD900C3F24D /* MenuCollectionViewCell.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -1128,6 +1131,7 @@
 				6C8DB6A024B3C1B9003D06FF /* ReviewInputAccessoryView.swift in Sources */,
 				6C8DB6A724B3C1B9003D06FF /* BookmarkedVC.swift in Sources */,
 				6CBDDE4324B3DBE70099A04C /* InvoiceCell.swift in Sources */,
+				6CC8CBB325C33BD900C3F24D /* MenuCollectionViewCell.swift in Sources */,
 				6CB2AA30258D62140062BDBE /* WelcomeVC.swift in Sources */,
 				6C8DB66124B3C1B9003D06FF /* FirebaseUtil.swift in Sources */,
 				6C8DB68124B3C1B9003D06FF /* EditEventCell.swift in Sources */,

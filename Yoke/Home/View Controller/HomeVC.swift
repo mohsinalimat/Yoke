@@ -10,6 +10,7 @@ import UIKit
 import Firebase
 import FirebaseDatabase
 
+
 class HomeVC: UICollectionViewController, UICollectionViewDelegateFlowLayout, HomeProfileHeaderDelegate {
 
     //MARK: - Properties
@@ -33,6 +34,7 @@ class HomeVC: UICollectionViewController, UICollectionViewDelegateFlowLayout, Ho
         setupNavTitleAndBarButtonItems()
         fetchUser()
         fetchGallery()
+        fetchMenus()
     }
     
     //MARK: - Helper Functions
@@ -97,6 +99,18 @@ class HomeVC: UICollectionViewController, UICollectionViewDelegateFlowLayout, Ho
         guard let uid = Auth.auth().currentUser?.uid else { return }
         UserController.shared.fetchUserWithUID(uid: uid) { (user) in
             self.fetchPostsWithUser(user: user)
+        }
+    }
+    
+    func fetchMenus() {
+        MenuController.shared.fetchMenuWith(uid: Auth.auth().currentUser?.uid ?? "") { (result) in
+            switch result {
+            case true:
+                print("got em")
+                self.collectionView.reloadData()
+            case false:
+                print("nope")
+            }
         }
     }
     
@@ -247,7 +261,7 @@ class HomeVC: UICollectionViewController, UICollectionViewDelegateFlowLayout, Ho
 extension HomeVC {
     //MARK: - Collection View
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        print(galleries.count)
+        print("menu count: \(MenuController.shared.menus.count)")
         if galleries.count == 0 {
             return 1
         } else {

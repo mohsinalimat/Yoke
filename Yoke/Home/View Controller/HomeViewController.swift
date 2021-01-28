@@ -37,6 +37,7 @@ class HomeViewController: UIViewController {
         setupBannerView()
         setupCollectionView()
         fetchUser()
+        fetchMenus()
     }
     
     //MARK: Helper Functions
@@ -53,6 +54,9 @@ class HomeViewController: UIViewController {
         view.addSubview(usernameLabel)
         view.addSubview(viewProfileButton)
         view.addSubview(collectionViewBG)
+        view.addSubview(menuViewBG)
+        view.addSubview(menuLabel)
+        view.addSubview(addMenuButton)
         view.addSubview(collectionView)
         constrainViews()
     }
@@ -88,9 +92,15 @@ class HomeViewController: UIViewController {
         view.addSubview(stackView)
         stackView.anchor(top: viewProfileButton.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 20, paddingLeft: 5, paddingBottom: 0, paddingRight: 5, width: 0, height: 60)
         
-        collectionViewBG.anchor(top: stackView.bottomAnchor, left: safeArea.leftAnchor, bottom: safeArea.bottomAnchor, right: safeArea.rightAnchor, paddingTop: 20, paddingLeft: 8, paddingBottom: 8, paddingRight: 8)
+        collectionViewBG.anchor(top: stackView.bottomAnchor, left: safeArea.leftAnchor, bottom: safeArea.bottomAnchor, right: safeArea.rightAnchor, paddingTop: 10, paddingLeft: 8, paddingBottom: 8, paddingRight: 8)
+        
+        menuViewBG.anchor(top: collectionViewBG.topAnchor, left: collectionViewBG.leftAnchor, bottom: nil, right: collectionViewBG.rightAnchor, paddingTop: 5, paddingLeft: 5, paddingBottom: 0, paddingRight: 5, height: 50)
+        
+        menuLabel.anchor(top: menuViewBG.topAnchor, left: menuViewBG.leftAnchor, bottom: menuViewBG.bottomAnchor, right: nil, paddingTop: 5, paddingLeft: 5, paddingBottom: 5, paddingRight: 5)
+        
+        addMenuButton.anchor(top: menuViewBG.topAnchor, left: nil, bottom: menuViewBG.bottomAnchor, right: menuViewBG.rightAnchor, paddingTop: 5, paddingLeft: 5, paddingBottom: 5, paddingRight: 5)
 
-        collectionView.anchor(top: collectionViewBG.topAnchor, left: collectionViewBG.leftAnchor, bottom: collectionViewBG.bottomAnchor, right: collectionViewBG.rightAnchor, paddingTop: 5, paddingLeft: 5, paddingBottom: 5, paddingRight: 5)
+        collectionView.anchor(top: menuLabel.bottomAnchor, left: collectionViewBG.leftAnchor, bottom: collectionViewBG.bottomAnchor, right: collectionViewBG.rightAnchor, paddingTop: 10, paddingLeft: 5, paddingBottom: 5, paddingRight: 5)
     }
     
     func setupCollectionView() {
@@ -100,7 +110,7 @@ class HomeViewController: UIViewController {
         collectionView.dataSource = self
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         collectionView.register(MenuHeaderCollectionViewCell.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: headerId)
-        collectionView.register(GalleryCell.self, forCellWithReuseIdentifier: cellId)
+        collectionView.register(MenuCollectionViewCell.self, forCellWithReuseIdentifier: cellId)
         collectionView.register(EmptyCell.self, forCellWithReuseIdentifier: noCellId)
         
     }
@@ -137,6 +147,18 @@ class HomeViewController: UIViewController {
                 if error == nil, let data = data {
                     self.bannerImageView.image = UIImage(data: data)
                 }
+            }
+        }
+    }
+    
+    fileprivate func fetchMenus() {
+        MenuController.shared.fetchMenuWith(uid: Auth.auth().currentUser?.uid ?? "") { (result) in
+            switch result {
+            case true:
+                print("got em")
+                self.collectionView.reloadData()
+            case false:
+                print("nope")
             }
         }
     }
@@ -405,6 +427,30 @@ class HomeViewController: UIViewController {
         view.layer.cornerRadius = 5
         return view
     }()
+    
+    let menuViewBG: UIView = {
+        let view = UIView()
+        view.backgroundColor = UIColor.white
+        view.layer.cornerRadius = 5
+        return view
+    }()
+    
+    let menuLabel: UILabel = {
+        let label = UILabel()
+        label.text = "Menus"
+        label.textColor = UIColor.orangeColor()
+        label.font = UIFont.boldSystemFont(ofSize: 20)
+        return label
+    }()
+    
+    lazy var addMenuButton: UIButton = {
+        let button = UIButton(type: .custom)
+        button.setTitle("Add Menu", for: .normal)
+        button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 13)
+        button.setTitleColor(UIColor.orangeColor(), for: .normal)
+//        button.addTarget(self, action: #selector(handleAddMenu), for: .touchUpInside)
+        return button
+    }()
 
     let collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
@@ -417,17 +463,17 @@ class HomeViewController: UIViewController {
 // MARK: - CollectionView
 extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        print(galleries.count)
-        if galleries.count == 0 {
+        print("menu count \(MenuController.shared.menus.count)")
+        if MenuController.shared.menus.count == 0 {
             return 1
         } else {
-            return galleries.count
+            return MenuController.shared.menus.count
         }
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
-        if galleries.count == 0 {
+        if MenuController.shared.menus.count == 0 {
             let noCell = collectionView.dequeueReusableCell(withReuseIdentifier: noCellId, for: indexPath) as! EmptyCell
             noCell.photoImageView.image = UIImage(named: "no_post_background")!
             noCell.noPostLabel.text = "Coming Soon"
@@ -435,60 +481,61 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
             return noCell
         }
         
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath) as! GalleryCell
-        cell.gallery = galleries[indexPath.item]
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath) as! MenuCollectionViewCell
+        cell.menu = MenuController.shared.menus[indexPath.item]
+        cell.backgroundColor = .white
         return cell
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         
-        if galleries.count == 0 {
+        if MenuController.shared.menus.count == 0 {
             return CGSize(width: collectionView.frame.width - 200, height: 150)
         } else {
-            let width = (view.frame.width - 2) / 2
+            let width = view.frame.width - 100
             return CGSize(width: width, height: width)
         }
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        if galleries.count == 0 {
-            return
-        } else {
-            let gallery = galleries[indexPath.row]
-            let galleryDetail = GalleryDetailVC(collectionViewLayout: UICollectionViewFlowLayout())
-            galleryDetail.gallery = gallery
-            navigationController?.pushViewController(galleryDetail, animated: true)
-        }
+//        if MenuController.shared.menus.count == 0 {
+//            return
+//        } else {
+//            let menu = MenuController.shared.menus[indexPath.row]
+//            let galleryDetail = GalleryDetailVC(collectionViewLayout: UICollectionViewFlowLayout())
+//            galleryDetail.gallery = gallery
+//            navigationController?.pushViewController(galleryDetail, animated: true)
+//        }
     }
 
-//    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
-//        return 1
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
+        return 5
+    }
+
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+        return 5
+    }
+    
+//    func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+//        let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: headerId, for: indexPath) as! MenuHeaderCollectionViewCell
+//        header.frame = CGRect(x: 0, y: 0, width: collectionView.frame.width, height: 45)
+//        header.menuLabel.text = "Menus"
+//        header.backgroundColor = .white
+//        header.layer.cornerRadius = 5
+//        header.delegate = self
+//        return header
 //    }
 //
-//    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-//        return 1
+//    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
+//        return CGSize(width: 100, height: 45)
 //    }
-    
-    func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
-        let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: headerId, for: indexPath) as! MenuHeaderCollectionViewCell
-        header.frame = CGRect(x: 0, y: 0, width: collectionView.frame.width, height: 45)
-        header.menuLabel.text = "Menus"
-        header.backgroundColor = .white
-        header.layer.cornerRadius = 5
-        header.delegate = self
-        return header
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
-        return CGSize(width: 100, height: 45)
-    }
 }
 
-extension HomeViewController: MenuHeaderDelegate {
-    func addMenu(_ sender: MenuHeaderCollectionViewCell) {
-        let addMenu = AddMenuViewController()
-        present(addMenu, animated: true)
-    }
-}
+//extension HomeViewController: MenuHeaderDelegate {
+//    func addMenu(_ sender: MenuHeaderCollectionViewCell) {
+//        let addMenu = AddMenuViewController()
+//        present(addMenu, animated: true)
+//    }
+//}
 
 
