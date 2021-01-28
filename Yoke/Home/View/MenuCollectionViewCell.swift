@@ -37,17 +37,22 @@ class MenuCollectionViewCell: UICollectionViewCell {
     }
     
     func setupViews() {
+        addSubview(shadowView)
+        addSubview(cellBackgroundView)
         addSubview(menuImage)
         addSubview(nameLabel)
         addSubview(courseTypeLabel)
-        addSubview(detailLabel)
+//        addSubview(detailLabel)
     }
     
     func setupConstraints() {
-        menuImage.anchor(top: topAnchor, left: leftAnchor, bottom: nil, right: rightAnchor, paddingTop: 5, paddingLeft: 5, paddingBottom: 0, paddingRight: 5, width: frame.width, height: 150)
-        nameLabel.anchor(top: menuImage.bottomAnchor, left: leftAnchor, bottom: nil, right: rightAnchor, paddingTop: 5, paddingLeft: 5, paddingBottom: 0, paddingRight: 5)
-        courseTypeLabel.anchor(top: nameLabel.bottomAnchor, left: leftAnchor, bottom: nil, right: rightAnchor, paddingTop: 5, paddingLeft: 5, paddingBottom: 0, paddingRight: 5)
-        detailLabel.anchor(top: courseTypeLabel.bottomAnchor, left: leftAnchor, bottom: nil, right: rightAnchor, paddingTop: 5, paddingLeft: 5, paddingBottom: 0, paddingRight: 5)
+        shadowView.anchor(top: topAnchor, left: leftAnchor, bottom: bottomAnchor, right: rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0)
+        cellBackgroundView.anchor(top: topAnchor, left: leftAnchor, bottom: bottomAnchor, right: rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0)
+        menuImage.anchor(top: topAnchor, left: leftAnchor, bottom: nil, right: rightAnchor, paddingTop: 5, paddingLeft: 5, paddingBottom: 0, paddingRight: 5, width: frame.width, height: frame.width - 20)
+//        menuImage.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
+        nameLabel.anchor(top: menuImage.bottomAnchor, left: menuImage.leftAnchor, bottom: nil, right: menuImage.rightAnchor, paddingTop: 5, paddingLeft: 0, paddingBottom: 0, paddingRight: 0)
+        courseTypeLabel.anchor(top: nameLabel.bottomAnchor, left: menuImage.leftAnchor, bottom: nil, right: menuImage.rightAnchor, paddingTop: 5, paddingLeft: 0, paddingBottom: 0, paddingRight: 0)
+//        detailLabel.anchor(top: courseTypeLabel.bottomAnchor, left: menuImage.leftAnchor, bottom: nil, right: menuImage.rightAnchor, paddingTop: 5, paddingLeft: 0, paddingBottom: 0, paddingRight: 0)
     }
     
     var menuImage: CustomImageView = {
@@ -56,13 +61,16 @@ class MenuCollectionViewCell: UICollectionViewCell {
         image.translatesAutoresizingMaskIntoConstraints = false
         image.clipsToBounds = true
         image.backgroundColor = .yellow
+        image.layer.cornerRadius = 5
         return image
     }()
     
     var nameLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont.boldSystemFont(ofSize: 20)
+        label.font = UIFont.boldSystemFont(ofSize: 17)
         label.textColor = .gray
+        label.lineBreakMode = .byWordWrapping
+        label.numberOfLines = 0
         return label
     }()
     
@@ -80,5 +88,19 @@ class MenuCollectionViewCell: UICollectionViewCell {
         label.lineBreakMode = .byWordWrapping
         label.numberOfLines = 0
         return label
+    }()
+    
+    let cellBackgroundView: UIView = {
+        let view = UIView()
+        view.layer.cornerRadius = 8
+        view.layer.masksToBounds = true
+        view.backgroundColor = UIColor.white
+        return view
+    }()
+    
+    let shadowView: ShadowView = {
+        let view = ShadowView()
+        view.backgroundColor = .white
+        return view
     }()
 }

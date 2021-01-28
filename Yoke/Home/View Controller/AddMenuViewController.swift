@@ -19,6 +19,13 @@ class AddMenuViewController: UIViewController {
     var courseType: String = "Appetizer"
     var menuType: String = "Fixed"
     var uid = Auth.auth().currentUser?.uid ?? ""
+    var menuId: String = ""
+    var menu: Menu? {
+        didSet {
+            guard let menu = menu else { return }
+            
+        }
+    }
     
     //MARK: - Lifecycle Methods
     override func viewDidLayoutSubviews() {
@@ -71,9 +78,14 @@ class AddMenuViewController: UIViewController {
         fixedSegmentedControl.anchor(top: fixedLabel.bottomAnchor, left: fixedView.leftAnchor, bottom: nil, right: fixedView.rightAnchor, paddingTop: 0, paddingLeft: 5, paddingBottom: 5, paddingRight: 5, height: 30)
     }
     
+    func fetchMenu() {
+        
+    }
+    
     func setupImagePicker() {
         menuImagePicker.delegate = self
     }
+
  
     @objc func handleAddImage() {
         print("tapped")

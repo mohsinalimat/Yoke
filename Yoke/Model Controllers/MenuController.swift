@@ -37,7 +37,7 @@ class MenuController {
             self.storageRef.child(filename).downloadURL(completion: { (downloadURL, err) in
                 guard let imageUrl = downloadURL?.absoluteString else { return }
                 print("file image url\(imageUrl)")
-                self.firestoreDB.document(uid).collection(Constants.Menu).document(menuId).setData([Constants.ImageUrl: imageUrl, Constants.Name: name, Constants.Detail: detail, Constants.CourseType: courseType, Constants.MenuType: menuType], merge: true)
+                self.firestoreDB.document(uid).collection(Constants.Menu).document(menuId).setData([Constants.ImageUrl: imageUrl, Constants.Name: name, Constants.Detail: detail, Constants.CourseType: courseType, Constants.MenuType: menuType, Constants.Id: menuId], merge: true)
                 completion(true)
             })
         })
@@ -61,5 +61,9 @@ class MenuController {
                 completion(true)
             }
         }
+    }
+    
+    func fetchMenuDetailWith(uid: String, completion: @escaping (Bool) -> Void) {
+        
     }
 }

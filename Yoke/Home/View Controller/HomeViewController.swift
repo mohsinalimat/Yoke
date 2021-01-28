@@ -100,7 +100,7 @@ class HomeViewController: UIViewController {
         
         addMenuButton.anchor(top: menuViewBG.topAnchor, left: nil, bottom: menuViewBG.bottomAnchor, right: menuViewBG.rightAnchor, paddingTop: 5, paddingLeft: 5, paddingBottom: 5, paddingRight: 5)
 
-        collectionView.anchor(top: menuLabel.bottomAnchor, left: collectionViewBG.leftAnchor, bottom: collectionViewBG.bottomAnchor, right: collectionViewBG.rightAnchor, paddingTop: 10, paddingLeft: 5, paddingBottom: 5, paddingRight: 5)
+        collectionView.anchor(top: menuViewBG.bottomAnchor, left: collectionViewBG.leftAnchor, bottom: collectionViewBG.bottomAnchor, right: collectionViewBG.rightAnchor, paddingTop: 5, paddingLeft: 5, paddingBottom: 5, paddingRight: 5)
     }
     
     func setupCollectionView() {
@@ -448,7 +448,7 @@ class HomeViewController: UIViewController {
         return label
     }()
     
-    lazy var addMenuButton: UIButton = {
+    var addMenuButton: UIButton = {
         let button = UIButton(type: .custom)
         button.setTitle("Add Menu", for: .normal)
         button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 13)
@@ -488,7 +488,6 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
         
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath) as! MenuCollectionViewCell
         cell.menu = MenuController.shared.menus[indexPath.item]
-        cell.backgroundColor = .white
         return cell
     }
     
@@ -497,28 +496,28 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
         if MenuController.shared.menus.count == 0 {
             return CGSize(width: collectionView.frame.width - 200, height: 150)
         } else {
-            let width = view.frame.width - 100
-            return CGSize(width: width, height: width)
+            return CGSize(width: view.frame.width / 2, height: 250)
         }
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-//        if MenuController.shared.menus.count == 0 {
-//            return
-//        } else {
-//            let menu = MenuController.shared.menus[indexPath.row]
+        if MenuController.shared.menus.count == 0 {
+            return
+        } else {
+            let menu = MenuController.shared.menus[indexPath.row].id
+            print(menu)
 //            let galleryDetail = GalleryDetailVC(collectionViewLayout: UICollectionViewFlowLayout())
 //            galleryDetail.gallery = gallery
 //            navigationController?.pushViewController(galleryDetail, animated: true)
-//        }
+        }
     }
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
-        return 5
+        return 15
     }
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-        return 5
+        return 15
     }
     
 //    func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
