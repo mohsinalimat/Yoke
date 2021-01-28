@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import FirebaseAuth
 
 class AddMenuViewController: UIViewController {
     
@@ -15,12 +16,9 @@ class AddMenuViewController: UIViewController {
         return self.view.safeAreaLayoutGuide
     }
     let menuImagePicker = UIImagePickerController()
-    var user: User? {
-        didSet {
-            
-            
-        }
-    }
+    var courseType: String = "Appetizer"
+    var menuType: String = "Fixed"
+    var uid = Auth.auth().currentUser?.uid ?? ""
     
     //MARK: - Lifecycle Methods
     override func viewDidLayoutSubviews() {
@@ -97,16 +95,35 @@ class AddMenuViewController: UIViewController {
     
     @objc func handleCourseType(index: Int) {
         if courseSegmentedControl.selectedSegmentIndex == 0 {
-            print("app")
+            courseType = "Appetizer"
         } else if courseSegmentedControl.selectedSegmentIndex == 1 {
-            print("main")
+            courseType = "Main"
         } else if courseSegmentedControl.selectedSegmentIndex == 2 {
-            print("dessert")
+            courseType = "Dessert"
+        }
+    }
+    
+    @objc func handleMenuType(index: Int) {
+        if fixedSegmentedControl.selectedSegmentIndex == 0 {
+            menuType = "Fixed"
+        } else if fixedSegmentedControl.selectedSegmentIndex == 1 {
+            menuType = "Sample"
         }
     }
     
     @objc func handleSave() {
         print("saved")
+        guard let name = dishNameTextField.text, !name.isEmpty,
+              let detail = dishDetailTextField.text else { return }
+        let image = menuImageView.image
+        MenuController.shared.createMenuWith(uid: uid, name: name, detail: detail, courseType: courseType, menuType: menuType, image: image) { (result) in
+            switch result {
+            case true:
+                print("saved")
+            case false:
+                print("failed to save")
+            }
+        }
     }
     
     //MARK: - Views
@@ -236,7 +253,7 @@ class AddMenuViewController: UIViewController {
         seg.tintColor = UIColor.white
         seg.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor.white], for: UIControl.State.normal)
         seg.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor.white], for: UIControl.State.selected)
-        seg.addTarget(self, action: #selector(handleCourseType), for: .valueChanged)
+        seg.addTarget(self, action: #selector(handleMenuType), for: .valueChanged)
         return seg
     }()
 }

@@ -25,6 +25,7 @@ class Constants {
     static let Bio = "bio"
     static let CoverImages = "Cover_Images"
     
+    static let Menu = "menu"
     static let Cusine = "cusine"
     static let CusineList = "cusineList"
     static let Detail = "detail"

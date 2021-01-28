@@ -16,7 +16,7 @@ class MenuController {
     static let shared = MenuController()
     
     //MARK: - Firebase Firestore Database
-    let firestoreDB = Firestore.firestore()
+    let firestoreDB = Firestore.firestore().collection(Constants.Menu)
     let storageRef = Storage.storage().reference().child(Constants.MenuImage)
     
     //MARK: - Source of truth
