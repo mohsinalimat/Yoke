@@ -105,7 +105,7 @@ class HomeViewController: UIViewController {
     
     func setupCollectionView() {
 //        collectionView.roundCorners([.topLeft,.topRight], radius: 5)
-        collectionView.backgroundColor = UIColor.LightGrayBg()
+        collectionView.backgroundColor = UIColor.orangeColor()
         collectionView.delegate = self
         collectionView.dataSource = self
         collectionView.translatesAutoresizingMaskIntoConstraints = false
