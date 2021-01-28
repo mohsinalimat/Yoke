@@ -234,41 +234,46 @@ class HomeViewController: UIViewController {
         navigationController?.pushViewController(profileView, animated: true)
     }
     
-    @objc func editDeleteGallery(sender: UIButton){
-        
-        let alertController = UIAlertController(title: "Please Choose an Action", message: "Delete Event or Edit Event", preferredStyle: .actionSheet)
-        
-        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel) { action in
-        }
-        
-        alertController.addAction(cancelAction)
-        
-        let destroyAction = UIAlertAction(title: "Delete", style: .destructive) { action in
-            let item = sender.tag
-            let indexPath = IndexPath(item: item, section: 0)
-            let uid = Auth.auth().currentUser?.uid
-            Database.database().reference().child(Constants.Gallery).child(uid!).child(self.galleries[indexPath.item].id!).removeValue()
-            self.galleries.remove(at: item)
-            DispatchQueue.main.async {
-                self.collectionView.deleteItems(at: [indexPath])
-                self.collectionView.reloadData()
-            }
-        }
-        alertController.addAction(destroyAction)
-        
-        let editAction = UIAlertAction(title: "Edit", style: .default) { action in
-            let item = sender.tag
-            let indexPath = IndexPath(item: item, section: 0)
-            let gallery = self.galleries[indexPath.row]
-            let editPhotoVC = EditPhotoVC()
-            editPhotoVC.gallery = gallery
-            self.navigationController?.pushViewController(editPhotoVC, animated: true)
-            
-        }
-        alertController.addAction(editAction)
-        
-        self.present(alertController, animated: true) {
-        }
+//    @objc func editDeleteGallery(sender: UIButton){
+//
+//        let alertController = UIAlertController(title: "Please Choose an Action", message: "Delete Event or Edit Event", preferredStyle: .actionSheet)
+//
+//        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel) { action in
+//        }
+//
+//        alertController.addAction(cancelAction)
+//
+//        let destroyAction = UIAlertAction(title: "Delete", style: .destructive) { action in
+//            let item = sender.tag
+//            let indexPath = IndexPath(item: item, section: 0)
+//            let uid = Auth.auth().currentUser?.uid
+//            Database.database().reference().child(Constants.Gallery).child(uid!).child(self.galleries[indexPath.item].id!).removeValue()
+//            self.galleries.remove(at: item)
+//            DispatchQueue.main.async {
+//                self.collectionView.deleteItems(at: [indexPath])
+//                self.collectionView.reloadData()
+//            }
+//        }
+//        alertController.addAction(destroyAction)
+//
+//        let editAction = UIAlertAction(title: "Edit", style: .default) { action in
+//            let item = sender.tag
+//            let indexPath = IndexPath(item: item, section: 0)
+//            let gallery = self.galleries[indexPath.row]
+//            let editPhotoVC = EditPhotoVC()
+//            editPhotoVC.gallery = gallery
+//            self.navigationController?.pushViewController(editPhotoVC, animated: true)
+//
+//        }
+//        alertController.addAction(editAction)
+//
+//        self.present(alertController, animated: true) {
+//        }
+//    }
+    
+    @objc func handleAddMenu() {
+        let addMenu = AddMenuViewController()
+        present(addMenu, animated: true)
     }
     
     @objc func handleLogOut() {
@@ -448,7 +453,7 @@ class HomeViewController: UIViewController {
         button.setTitle("Add Menu", for: .normal)
         button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 13)
         button.setTitleColor(UIColor.orangeColor(), for: .normal)
-//        button.addTarget(self, action: #selector(handleAddMenu), for: .touchUpInside)
+        button.addTarget(self, action: #selector(handleAddMenu), for: .touchUpInside)
         return button
     }()
 
