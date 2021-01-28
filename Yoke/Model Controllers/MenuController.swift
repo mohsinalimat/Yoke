@@ -17,10 +17,28 @@ class MenuController {
     
     //MARK: - Firebase Firestore Database
     let firestoreDB = Firestore.firestore()
+    let storageRef = Storage.storage().reference().child(Constants.MenuImage)
     
     //MARK: - Source of truth
     var menus: [Menu] = []
     
     //MARK: - CRUD Functions
-
+    func createMenuWith(uid: String, name: String, detail: String, courseType: String, menuType: String, image: UIImage?, completion: @escaping (Bool) -> Void) {
+        guard let menuImage = image else { return }
+        guard let uploadData = menuImage.jpegData(compressionQuality: 0.5) else {return}
+        let filename = NSUUID().uuidString
+        storageRef.child(filename).putData(uploadData, metadata: nil, completion: { (metadata, error) in
+            if let error = error {
+                print("There was an error uploading image data: \(error.localizedDescription)")
+                completion(false)
+                return
+            }
+            self.storageRef.child(filename).downloadURL(completion: { (downloadURL, err) in
+                guard let imageUrl = downloadURL?.absoluteString else { return }
+                print("file image url\(imageUrl)")
+                self.firestoreDB.document(uid).setData([Constants.ImageUrl: imageUrl, Constants.Name: name, Constants.Detail: detail, Constants.CourseType: courseType, Constants.MenuType: menuType], merge: true)
+                completion(true)
+            })
+        })
+    }
 }

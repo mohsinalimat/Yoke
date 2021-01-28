@@ -38,6 +38,7 @@ class AddMenuViewController: UIViewController {
     func setupViews() {
         view.backgroundColor = UIColor.LightGrayBg()
         view.addSubview(swipeIndicator)
+        view.addSubview(saveButton)
         view.addSubview(menuLabel)
         view.addSubview(scrollView)
         scrollView.addSubview(menuImageView)
@@ -55,6 +56,7 @@ class AddMenuViewController: UIViewController {
     func constrainViews() {
         swipeIndicator.anchor(top: safeArea.topAnchor, left: nil, bottom: nil, right: nil, paddingTop: 20, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 100, height: 5)
         swipeIndicator.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        saveButton.anchor(top: swipeIndicator.bottomAnchor, left: nil, bottom: nil, right: safeArea.rightAnchor, paddingTop: 12, paddingLeft: 0, paddingBottom: 0, paddingRight: 20)
         menuLabel.anchor(top: swipeIndicator.bottomAnchor, left: nil, bottom: nil, right: nil, paddingTop: 20, paddingLeft: 0, paddingBottom: 0, paddingRight: 0)
         menuLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         scrollView.contentSize = CGSize(width: view.frame.width, height: view.frame.height)
@@ -103,6 +105,10 @@ class AddMenuViewController: UIViewController {
         }
     }
     
+    @objc func handleSave() {
+        print("saved")
+    }
+    
     //MARK: - Views
     let swipeIndicator: UIView = {
         let view = UIView()
@@ -117,6 +123,15 @@ class AddMenuViewController: UIViewController {
         label.font = UIFont.boldSystemFont(ofSize: 15)
         label.textColor = .gray
         return label
+    }()
+    
+    let saveButton: UIButton = {
+        let button = UIButton(type: .custom)
+        button.setTitle("Save", for: .normal)
+        button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 17)
+        button.setTitleColor(UIColor.orangeColor(), for: .normal)
+        button.addTarget(self, action: #selector(handleSave), for: .touchUpInside)
+        return button
     }()
     
     lazy var scrollView: UIScrollView = {
