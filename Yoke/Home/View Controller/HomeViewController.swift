@@ -53,66 +53,67 @@ class HomeViewController: UIViewController {
         view.addSubview(profileImageView)
         view.addSubview(usernameLabel)
         view.addSubview(viewProfileButton)
-        view.addSubview(collectionViewBG)
-        view.addSubview(menuViewBG)
-        view.addSubview(menuLabel)
-        view.addSubview(addMenuButton)
-        view.addSubview(collectionView)
-        constrainViews()
+        view.addSubview(buttonStackView)
+        buttonStackView.addArrangedSubview(reviewsButton)
+        buttonStackView.addArrangedSubview(eventButton)
+        buttonStackView.addArrangedSubview(addPhotosButton)
+        buttonStackView.addArrangedSubview(bookmarkButton)
+        buttonStackView.addArrangedSubview(bookmarkButton)
+        view.addSubview(scrollView)
+        scrollView.addSubview(collectionViewBG)
+        scrollView.addSubview(menuViewBG)
+        scrollView.addSubview(menuLabel)
+        scrollView.addSubview(addMenuButton)
+        scrollView.addSubview(collectionView)
     }
     
     func constrainViews() {
+        
         bannerLayerImageView.anchor(top: safeArea.topAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: -100, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, height: 300)
 
         bannerImageView.anchor(top: safeArea.topAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: -100, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, height: 300)
         
-        profileImageView.anchor(top: safeArea.topAnchor, left: nil, bottom: nil, right: nil, paddingTop: 20, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 100, height: 100)
+        profileImageView.anchor(top: safeArea.topAnchor, left: nil, bottom: nil, right: nil, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 100, height: 100)
         profileImageView.layer.cornerRadius = 50
         profileImageView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
 
         usernameLabel.anchor(top: profileImageView.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 5, paddingLeft: 40, paddingBottom: 0, paddingRight: 40, height: 45)
 
-        viewProfileButton.anchor(top: usernameLabel.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 5, paddingLeft: 40, paddingBottom: 0, paddingRight: 40, width: 0, height: 45)
-//
+        viewProfileButton.anchor(top: usernameLabel.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 0, paddingLeft: 40, paddingBottom: 0, paddingRight: 40, width: 0, height: 40)
         setupBottomToolbar()
     }
     
     fileprivate func setupBottomToolbar() {
         reviewsButton.alignImageTextVertical()
-        EventButton.alignImageTextVertical()
+        eventButton.alignImageTextVertical()
         bookmarkButton.alignImageTextVertical()
         addPhotosButton.alignImageTextVertical()
         calendarButton.alignImageTextVertical()
 
-        let stackView = UIStackView(arrangedSubviews: [reviewsButton, EventButton, addPhotosButton, bookmarkButton, calendarButton])
+        buttonStackView.anchor(top: viewProfileButton.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 20, paddingLeft: 5, paddingBottom: 0, paddingRight: 5, width: 0, height: 60)
         
-        stackView.axis = .horizontal
-        stackView.distribution = .fillEqually
-        stackView.spacing = 1
-        view.addSubview(stackView)
-        stackView.anchor(top: viewProfileButton.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 20, paddingLeft: 5, paddingBottom: 0, paddingRight: 5, width: 0, height: 60)
+        scrollView.contentSize = CGSize(width: view.frame.width, height: view.frame.height - 200)
+        scrollView.anchor(top: buttonStackView.bottomAnchor, left: safeArea.leftAnchor, bottom: safeArea.bottomAnchor, right: safeArea.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0)
         
-        collectionViewBG.anchor(top: stackView.bottomAnchor, left: safeArea.leftAnchor, bottom: safeArea.bottomAnchor, right: safeArea.rightAnchor, paddingTop: 10, paddingLeft: 8, paddingBottom: 8, paddingRight: 8)
+        collectionViewBG.anchor(top: scrollView.topAnchor, left: safeArea.leftAnchor, bottom: scrollView.bottomAnchor, right: safeArea.rightAnchor, paddingTop: 10, paddingLeft: 5, paddingBottom: 8, paddingRight: 5, height: view.frame.width - 25)
         
         menuViewBG.anchor(top: collectionViewBG.topAnchor, left: collectionViewBG.leftAnchor, bottom: nil, right: collectionViewBG.rightAnchor, paddingTop: 5, paddingLeft: 5, paddingBottom: 0, paddingRight: 5, height: 50)
-        
+
         menuLabel.anchor(top: menuViewBG.topAnchor, left: menuViewBG.leftAnchor, bottom: menuViewBG.bottomAnchor, right: nil, paddingTop: 5, paddingLeft: 5, paddingBottom: 5, paddingRight: 5)
-        
+
         addMenuButton.anchor(top: menuViewBG.topAnchor, left: nil, bottom: menuViewBG.bottomAnchor, right: menuViewBG.rightAnchor, paddingTop: 5, paddingLeft: 5, paddingBottom: 5, paddingRight: 5)
 
         collectionView.anchor(top: menuViewBG.bottomAnchor, left: collectionViewBG.leftAnchor, bottom: collectionViewBG.bottomAnchor, right: collectionViewBG.rightAnchor, paddingTop: 5, paddingLeft: 5, paddingBottom: 5, paddingRight: 5)
     }
     
     func setupCollectionView() {
-//        collectionView.roundCorners([.topLeft,.topRight], radius: 5)
-        collectionView.backgroundColor = UIColor.orangeColor()
+        collectionView.backgroundColor = UIColor.LightGrayBg()
         collectionView.delegate = self
         collectionView.dataSource = self
         collectionView.translatesAutoresizingMaskIntoConstraints = false
-        collectionView.register(MenuHeaderCollectionViewCell.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: headerId)
+//        collectionView.register(MenuHeaderCollectionViewCell.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: headerId)
         collectionView.register(MenuCollectionViewCell.self, forCellWithReuseIdentifier: cellId)
         collectionView.register(EmptyCell.self, forCellWithReuseIdentifier: noCellId)
-        
     }
     
     func setupNavTitleAndBarButtonItems() {
@@ -290,6 +291,13 @@ class HomeViewController: UIViewController {
     }
     
     //MARK: - Views
+    lazy var scrollView: UIScrollView = {
+        let view = UIScrollView()
+        view.backgroundColor = UIColor.white
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
+    
     let bannerImageView: CustomImageView = {
         let image = CustomImageView()
         image.clipsToBounds = true
@@ -366,7 +374,7 @@ class HomeViewController: UIViewController {
         return button
     }()
     
-    lazy var EventButton: UIButton = {
+    lazy var eventButton: UIButton = {
         let button = UIButton(type: .custom)
 //        button.setImage(UIImage(named: "event_full"), for: .normal)
         let image = UIImage(named: "event_full")?.withRenderingMode(.alwaysTemplate)
@@ -424,6 +432,14 @@ class HomeViewController: UIViewController {
         button.backgroundColor = UIColor.orangeColor()
         button.layer.cornerRadius = 8
         return button
+    }()
+    
+    let buttonStackView: UIStackView = {
+        let stackView = UIStackView()
+        stackView.axis = .horizontal
+        stackView.distribution = .fillEqually
+        stackView.spacing = 1
+        return stackView
     }()
     
     let collectionViewBG: UIView = {

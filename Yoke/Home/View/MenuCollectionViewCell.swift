@@ -58,9 +58,9 @@ class MenuCollectionViewCell: UICollectionViewCell {
     var menuImage: CustomImageView = {
         let image = CustomImageView()
         image.contentMode = .scaleAspectFill
+        image.image = UIImage(named: "image_background")
         image.translatesAutoresizingMaskIntoConstraints = false
         image.clipsToBounds = true
-        image.backgroundColor = .yellow
         image.layer.cornerRadius = 5
         return image
     }()
