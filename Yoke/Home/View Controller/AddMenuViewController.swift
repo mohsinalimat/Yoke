@@ -19,9 +19,9 @@ class AddMenuViewController: UIViewController {
     var courseType: String = "Appetizer"
     var menuType: String = "Fixed"
     var uid = Auth.auth().currentUser?.uid ?? ""
+    var menuExist: Bool = false
     var menu: Menu? {
         didSet {
-            guard let menu = menu else { return }
             fetchMenu()
 //            guard let id = menu.id else { return }
 //            menuImageView.loadImage(urlString: image)
@@ -83,6 +83,7 @@ class AddMenuViewController: UIViewController {
     }
     
     func fetchMenu() {
+        print("menu id \(menu?.imageId)")
         guard let image = menu?.imageUrl else { return }
         menuImageView.loadImage(urlString: image)
         dishNameTextField.text = menu?.name
@@ -144,31 +145,29 @@ class AddMenuViewController: UIViewController {
     
     @objc func handleSave() {
         guard let name = dishNameTextField.text, !name.isEmpty,
-              let detail = dishDetailTextField.text,
-              let menuId = menu?.id,
-              let imageId = menu?.imageId else { return }
+              let detail = dishDetailTextField.text else { return }
         let image = menuImageView.image
-        MenuController.shared.checkIfMenuExist(uid: uid, menuId: menuId) { (result) in
-            switch result {
-            case true:
-                MenuController.shared.updateMenuWith(uid: self.uid, menuId: menuId, imageId: imageId, name: name, detail: detail, courseType: self.courseType, menuType: self.menuType, image: image) { (result) in
-                    switch result {
-                    case true:
-                        print("updated")
-                        self.handleDismiss()
-                    case false:
-                        print("false")
-                    }
+        
+        if menuExist == true {
+            guard let  menuId = menu?.id,
+                  let imageId = menu?.imageId else { return }
+            MenuController.shared.updateMenuWith(uid: self.uid, menuId: menuId, imageId: imageId, name: name, detail: detail, courseType: self.courseType, menuType: self.menuType, image: image) { (result) in
+                switch result {
+                case true:
+                    print("updated")
+                    self.handleDismiss()
+                case false:
+                    print("false")
                 }
-            case false:
-                MenuController.shared.createMenuWith(uid: self.uid, name: name, detail: detail, courseType: self.courseType, menuType: self.menuType, image: image) { (result) in
-                    switch result {
-                    case true:
-                        print("saved")
-                        self.handleDismiss()
-                    case false:
-                        print("failed to save")
-                    }
+            }
+        } else {
+            MenuController.shared.createMenuWith(uid: self.uid, name: name, detail: detail, courseType: self.courseType, menuType: self.menuType, image: image) { (result) in
+                switch result {
+                case true:
+                    print("saved")
+                    self.handleDismiss()
+                case false:
+                    print("failed to save")
                 }
             }
         }

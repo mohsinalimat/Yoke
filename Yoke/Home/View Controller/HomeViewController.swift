@@ -525,6 +525,8 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
             menuVC.menuLabel.text = "Edit Menu"
             menuVC.dishDetailTextField.placeholder = ""
             menuVC.deleteButton.isHidden = false
+            menuVC.menuExist = true
+            menuVC.saveButton.setTitle("Update", for: .normal)
             present(menuVC, animated: true)
 //            let galleryDetail = GalleryDetailVC(collectionViewLayout: UICollectionViewFlowLayout())
 //            galleryDetail.gallery = gallery

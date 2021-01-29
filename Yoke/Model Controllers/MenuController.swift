@@ -42,18 +42,6 @@ class MenuController {
         })
     }
     
-    func checkIfMenuExist(uid: String, menuId: String, completion: @escaping (Bool) -> Void) {
-        firestoreDB.document(uid).collection(Constants.Menu).document(menuId).getDocument { (document, error) in
-            if let error = error {
-                print("Error in checkIfMenuExist in MenuController: \(error.localizedDescription)")
-                completion(false)
-            }
-            if let document = document, document.exists {
-                completion(true)
-            }
-        }
-    }
-    
     func fetchMenuWith(uid: String, completion: @escaping (Bool) -> Void) {
         firestoreDB.document(uid).collection(Constants.Menu).getDocuments { (snap, error) in
             if let error = error {
@@ -74,7 +62,6 @@ class MenuController {
         guard let menuImage = image else { return }
         guard let uploadData = menuImage.jpegData(compressionQuality: 0.5) else {return}
         let filename = NSUUID().uuidString
-//        let menuId = NSUUID().uuidString
         storageRef.child(imageId).delete { (error) in
             if let error = error {
                 print("error in deleting image from updateMenuWith in MenuController: \(error.localizedDescription)")
