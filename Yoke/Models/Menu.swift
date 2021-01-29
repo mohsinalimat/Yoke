@@ -16,6 +16,7 @@ class Menu {
     var courseType: String?
     var menuType: String?
     var imageUrl: String?
+    var imageId: String?
 
     init(dictionary: [String: Any]) {
 //        self.user = user
@@ -26,6 +27,7 @@ class Menu {
         self.courseType = dictionary[Constants.CourseType] as? String ?? ""
         self.menuType = dictionary[Constants.MenuType] as? String ?? ""
         self.imageUrl = dictionary[Constants.ImageUrl] as? String ?? ""
+        self.imageId = dictionary[Constants.ImageId] as? String ?? ""
     }
 }
 

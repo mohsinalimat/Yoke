@@ -36,11 +36,22 @@ class MenuController {
             }
             self.storageRef.child(filename).downloadURL(completion: { (downloadURL, err) in
                 guard let imageUrl = downloadURL?.absoluteString else { return }
-                print("file image url\(imageUrl)")
-                self.firestoreDB.document(uid).collection(Constants.Menu).document(menuId).setData([Constants.ImageUrl: imageUrl, Constants.Name: name, Constants.Detail: detail, Constants.CourseType: courseType, Constants.MenuType: menuType, Constants.Id: menuId], merge: true)
+                self.firestoreDB.document(uid).collection(Constants.Menu).document(menuId).setData([Constants.ImageUrl: imageUrl, Constants.Name: name, Constants.Detail: detail, Constants.CourseType: courseType, Constants.MenuType: menuType, Constants.Id: menuId, Constants.ImageId: filename], merge: true)
                 completion(true)
             })
         })
+    }
+    
+    func checkIfMenuExist(uid: String, menuId: String, completion: @escaping (Bool) -> Void) {
+        firestoreDB.document(uid).collection(Constants.Menu).document(menuId).getDocument { (document, error) in
+            if let error = error {
+                print("Error in checkIfMenuExist in MenuController: \(error.localizedDescription)")
+                completion(false)
+            }
+            if let document = document, document.exists {
+                completion(true)
+            }
+        }
     }
     
     func fetchMenuWith(uid: String, completion: @escaping (Bool) -> Void) {
@@ -53,17 +64,51 @@ class MenuController {
                     let dictionary = document.data()
                     let menu = Menu(dictionary: dictionary)
                     self.menus.append(menu)
-                    print("dic an\(dictionary)")
-//                    let userUid = dictionary["userUid"] as? String ?? ""
-//                    let getNotifications = Notification(userUid: userUid, alertUid: alertUid, title: title, dateTime: dateTime)
-//                    self.notifications.append(getNotifications)
                 }
                 completion(true)
             }
         }
     }
     
-    func fetchMenuDetailWith(uid: String, completion: @escaping (Bool) -> Void) {
+    func updateMenuWith(uid: String, menuId: String, imageId: String, name: String, detail: String, courseType: String, menuType: String, image: UIImage?, completion: @escaping (Bool) -> Void) {
+        guard let menuImage = image else { return }
+        guard let uploadData = menuImage.jpegData(compressionQuality: 0.5) else {return}
+        let filename = NSUUID().uuidString
+//        let menuId = NSUUID().uuidString
+        storageRef.child(imageId).delete { (error) in
+            if let error = error {
+                print("error in deleting image from updateMenuWith in MenuController: \(error.localizedDescription)")
+            }
+        }
+        storageRef.child(filename).putData(uploadData, metadata: nil, completion: { (metadata, error) in
+            if let error = error {
+                print("There was an error uploading image data: \(error.localizedDescription)")
+                completion(false)
+                return
+            }
+            self.storageRef.child(filename).downloadURL(completion: { (downloadURL, err) in
+                guard let imageUrl = downloadURL?.absoluteString else { return }
+                self.firestoreDB.document(uid).collection(Constants.Menu).document(menuId).setData([Constants.ImageUrl: imageUrl, Constants.Name: name, Constants.Detail: detail, Constants.CourseType: courseType, Constants.MenuType: menuType, Constants.Id: menuId, Constants.ImageId: filename], merge: true)
+                completion(true)
+            })
+        })
+    }
+    
+    func deleteMenuWith(uid: String, menuId: String, imageId: String, completion: @escaping (Bool) -> Void) {
+        firestoreDB.document(uid).collection(Constants.Menu).document(menuId).delete { (error) in
+            if let error = error {
+                print("There was an error deleting the menu from deleteMenuWith in MenuController: \(error.localizedDescription)")
+                completion(false)
+                return
+            }
+            self.storageRef.child(imageId).delete { (error) in
+                if let error = error {
+                    print("error in deleting image from deleteMenuWith in MenuController: \(error.localizedDescription)")
+                }
+                completion(true)
+            }
+        }
         
     }
+
 }

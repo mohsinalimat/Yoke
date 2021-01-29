@@ -46,6 +46,7 @@ class AddMenuViewController: UIViewController {
         view.backgroundColor = UIColor.LightGrayBg()
         view.addSubview(swipeIndicator)
         view.addSubview(saveButton)
+        view.addSubview(deleteButton)
         view.addSubview(menuLabel)
         view.addSubview(scrollView)
         scrollView.addSubview(menuImageView)
@@ -64,6 +65,7 @@ class AddMenuViewController: UIViewController {
         swipeIndicator.anchor(top: safeArea.topAnchor, left: nil, bottom: nil, right: nil, paddingTop: 20, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 100, height: 5)
         swipeIndicator.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         saveButton.anchor(top: swipeIndicator.bottomAnchor, left: nil, bottom: nil, right: safeArea.rightAnchor, paddingTop: 15, paddingLeft: 0, paddingBottom: 0, paddingRight: 20)
+        deleteButton.anchor(top: swipeIndicator.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: nil, paddingTop: 15, paddingLeft: 20, paddingBottom: 0, paddingRight: 0)
         menuLabel.anchor(top: swipeIndicator.bottomAnchor, left: nil, bottom: nil, right: nil, paddingTop: 20, paddingLeft: 0, paddingBottom: 0, paddingRight: 0)
         menuLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         scrollView.contentSize = CGSize(width: view.frame.width, height: view.frame.height)
@@ -106,7 +108,6 @@ class AddMenuViewController: UIViewController {
 
  
     @objc func handleAddImage() {
-        print("tapped")
         let alertVC = UIAlertController(title: "Add a Photo", message: nil, preferredStyle: .alert)
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel) { (_) in
             self.menuImagePicker.dismiss(animated: true)
@@ -142,17 +143,47 @@ class AddMenuViewController: UIViewController {
     }
     
     @objc func handleSave() {
-        print("saved")
         guard let name = dishNameTextField.text, !name.isEmpty,
-              let detail = dishDetailTextField.text else { return }
+              let detail = dishDetailTextField.text,
+              let menuId = menu?.id,
+              let imageId = menu?.imageId else { return }
         let image = menuImageView.image
-        MenuController.shared.createMenuWith(uid: uid, name: name, detail: detail, courseType: courseType, menuType: menuType, image: image) { (result) in
+        MenuController.shared.checkIfMenuExist(uid: uid, menuId: menuId) { (result) in
             switch result {
             case true:
-                print("saved")
+                MenuController.shared.updateMenuWith(uid: self.uid, menuId: menuId, imageId: imageId, name: name, detail: detail, courseType: self.courseType, menuType: self.menuType, image: image) { (result) in
+                    switch result {
+                    case true:
+                        print("updated")
+                        self.handleDismiss()
+                    case false:
+                        print("false")
+                    }
+                }
+            case false:
+                MenuController.shared.createMenuWith(uid: self.uid, name: name, detail: detail, courseType: self.courseType, menuType: self.menuType, image: image) { (result) in
+                    switch result {
+                    case true:
+                        print("saved")
+                        self.handleDismiss()
+                    case false:
+                        print("failed to save")
+                    }
+                }
+            }
+        }
+    }
+    
+    @objc func handleDeleteMenu() {
+        guard let menuId = menu?.id,
+        let imageId = menu?.imageId else { return }
+        MenuController.shared.deleteMenuWith(uid: uid, menuId: menuId, imageId: imageId) { (result) in
+            switch result {
+            case true:
+                print("deleted")
                 self.handleDismiss()
             case false:
-                print("failed to save")
+                print("error in delete menu")
             }
         }
     }
@@ -183,6 +214,16 @@ class AddMenuViewController: UIViewController {
         button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 17)
         button.setTitleColor(UIColor.orangeColor(), for: .normal)
         button.addTarget(self, action: #selector(handleSave), for: .touchUpInside)
+        return button
+    }()
+    
+    let deleteButton: UIButton = {
+        let button = UIButton(type: .custom)
+        button.setTitle("Delete", for: .normal)
+        button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 17)
+        button.setTitleColor(UIColor.orangeColor(), for: .normal)
+        button.isHidden = true
+        button.addTarget(self, action: #selector(handleDeleteMenu), for: .touchUpInside)
         return button
     }()
     

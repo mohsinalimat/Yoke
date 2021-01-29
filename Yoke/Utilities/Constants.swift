@@ -32,6 +32,7 @@ class Constants {
     static let CourseType = "courseType"
     static let MenuType = "menuType"
     static let MenuImage = "menuImage"
+    static let ImageId = "imageId"
     
     static let SharedPhotos = "shared_photos"
     static let MessageMovies = "message_movies"
