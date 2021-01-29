@@ -58,7 +58,7 @@ class HomeViewController: UIViewController {
         buttonStackView.addArrangedSubview(eventButton)
         buttonStackView.addArrangedSubview(addPhotosButton)
         buttonStackView.addArrangedSubview(bookmarkButton)
-        buttonStackView.addArrangedSubview(bookmarkButton)
+        buttonStackView.addArrangedSubview(calendarButton)
         view.addSubview(scrollView)
         scrollView.addSubview(collectionViewBG)
         scrollView.addSubview(menuViewBG)
@@ -484,7 +484,6 @@ class HomeViewController: UIViewController {
 // MARK: - CollectionView
 extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        print("menu count \(MenuController.shared.menus.count)")
         if MenuController.shared.menus.count == 0 {
             return 1
         } else {
@@ -510,7 +509,7 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         
         if MenuController.shared.menus.count == 0 {
-            return CGSize(width: collectionView.frame.width - 200, height: 150)
+            return CGSize(width: collectionView.frame.width, height: collectionView.frame.width)
         } else {
             return CGSize(width: view.frame.width / 2, height: 250)
         }
@@ -520,8 +519,12 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
         if MenuController.shared.menus.count == 0 {
             return
         } else {
-            let menu = MenuController.shared.menus[indexPath.row].id
-            print(menu)
+            let menu = MenuController.shared.menus[indexPath.row]
+            let menuVC = AddMenuViewController()
+            menuVC.menu = menu
+            menuVC.menuLabel.text = "Edit Menu"
+            menuVC.dishDetailTextField.placeholder = ""
+            present(menuVC, animated: true)
 //            let galleryDetail = GalleryDetailVC(collectionViewLayout: UICollectionViewFlowLayout())
 //            galleryDetail.gallery = gallery
 //            navigationController?.pushViewController(galleryDetail, animated: true)

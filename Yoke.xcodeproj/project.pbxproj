@@ -341,6 +341,7 @@
 				6C8DB5E224B3C1B7003D06FF /* User Profile */,
 				6C8DB5C024B3C1B7003D06FF /* Utilities */,
 				6C8DB60D24B3C1B8003D06FF /* Helpers and Extensions */,
+				6CC8CBDC25C47BF100C3F24D /* Unused files for ref */,
 				6CDCD7D42581590F002CE767 /* Resources */,
 				6C296DD924B3BE6F008E33ED /* Preview Content */,
 			);
@@ -624,7 +625,6 @@
 		6C8DB5FA24B3C1B8003D06FF /* View Controller */ = {
 			isa = PBXGroup;
 			children = (
-				6C8DB5FB24B3C1B8003D06FF /* HomeVC.swift */,
 				6C718B7625A4D85D005EDC93 /* HomeViewController.swift */,
 				6C50F2EC25A6568C000BCDAB /* SettingsViewController.swift */,
 				6C5D5F8525AF8B1500ACF451 /* LocationSettingsViewController.swift */,
@@ -652,7 +652,6 @@
 		6C8DB60424B3C1B8003D06FF /* View */ = {
 			isa = PBXGroup;
 			children = (
-				6C8DB60524B3C1B8003D06FF /* HomeHeaderCell.swift */,
 				6C5D5F3525AE030700ACF451 /* MenuHeaderCollectionViewCell.swift */,
 				6CFDB3A725B79114007261D1 /* CusineCollectionViewCell.swift */,
 				6CC8CBB225C33BD900C3F24D /* MenuCollectionViewCell.swift */,
@@ -840,6 +839,15 @@
 				6CBDDE4624B3DBF30099A04C /* _StripeCheckout.swift */,
 			);
 			path = Stripe;
+			sourceTree = "<group>";
+		};
+		6CC8CBDC25C47BF100C3F24D /* Unused files for ref */ = {
+			isa = PBXGroup;
+			children = (
+				6C8DB60524B3C1B8003D06FF /* HomeHeaderCell.swift */,
+				6C8DB5FB24B3C1B8003D06FF /* HomeVC.swift */,
+			);
+			path = "Unused files for ref";
 			sourceTree = "<group>";
 		};
 		6CDCD7D42581590F002CE767 /* Resources */ = {

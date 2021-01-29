@@ -19,11 +19,13 @@ class AddMenuViewController: UIViewController {
     var courseType: String = "Appetizer"
     var menuType: String = "Fixed"
     var uid = Auth.auth().currentUser?.uid ?? ""
-    var menuId: String = ""
     var menu: Menu? {
         didSet {
             guard let menu = menu else { return }
-            
+            fetchMenu()
+//            guard let id = menu.id else { return }
+//            menuImageView.loadImage(urlString: image)
+//            dishNameTextField.text = menu.name
         }
     }
     
@@ -79,7 +81,23 @@ class AddMenuViewController: UIViewController {
     }
     
     func fetchMenu() {
+        guard let image = menu?.imageUrl else { return }
+        menuImageView.loadImage(urlString: image)
+        dishNameTextField.text = menu?.name
+        dishDetailTextField.text = menu?.detail
+        if menu?.courseType == "Appetizer" {
+            courseSegmentedControl.selectedSegmentIndex = 0
+        } else if menu?.courseType == "Main" {
+            courseSegmentedControl.selectedSegmentIndex = 1
+        } else if menu?.courseType == "Dessert" {
+            courseSegmentedControl.selectedSegmentIndex = 2
+        }
         
+        if menu?.menuType == "Fixed" {
+            fixedSegmentedControl.selectedSegmentIndex = 0
+        } else {
+            fixedSegmentedControl.selectedSegmentIndex = 1
+        }
     }
     
     func setupImagePicker() {
