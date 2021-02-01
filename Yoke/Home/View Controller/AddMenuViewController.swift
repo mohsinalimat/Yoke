@@ -20,6 +20,7 @@ class AddMenuViewController: UIViewController {
     var menuType: String = "Fixed"
     var uid = Auth.auth().currentUser?.uid ?? ""
     var menuExist: Bool = false
+    static let updateNotificationName = NSNotification.Name(rawValue: "load")
     var menu: Menu? {
         didSet {
             fetchMenu()
@@ -83,7 +84,6 @@ class AddMenuViewController: UIViewController {
     }
     
     func fetchMenu() {
-        print("menu id \(menu?.imageId)")
         guard let image = menu?.imageUrl else { return }
         menuImageView.loadImage(urlString: image)
         dishNameTextField.text = menu?.name
@@ -155,6 +155,7 @@ class AddMenuViewController: UIViewController {
                 switch result {
                 case true:
                     print("updated")
+                    NotificationCenter.default.post(name: AddMenuViewController.updateNotificationName, object: nil)
                     self.handleDismiss()
                 case false:
                     print("false")
@@ -165,6 +166,7 @@ class AddMenuViewController: UIViewController {
                 switch result {
                 case true:
                     print("saved")
+                    NotificationCenter.default.post(name: AddMenuViewController.updateNotificationName, object: nil)
                     self.handleDismiss()
                 case false:
                     print("failed to save")
@@ -180,6 +182,7 @@ class AddMenuViewController: UIViewController {
             switch result {
             case true:
                 print("deleted")
+                NotificationCenter.default.post(name: AddMenuViewController.updateNotificationName, object: nil)
                 self.handleDismiss()
             case false:
                 print("error in delete menu")

@@ -24,6 +24,7 @@ class SettingsViewController: UIViewController  {
     var isProfileImagePicker: Bool = true
     let uid = Auth.auth().currentUser?.uid ?? ""
     var isUserChef: Bool = false
+    static let updateNotificationName = NSNotification.Name(rawValue: "Update")
     
     //MARK: - Lifecycle Methods
     override func viewDidLayoutSubviews() {
@@ -180,6 +181,7 @@ class SettingsViewController: UIViewController  {
                 print("error updating user")
             }
         }
+        NotificationCenter.default.post(name: SettingsViewController.updateNotificationName, object: nil)
     }
     
     func emptyFieldWarning() {
@@ -617,6 +619,7 @@ extension SettingsViewController: UIImagePickerControllerDelegate, UINavigationC
                     switch result {
                     case true:
                         print("success")
+                        NotificationCenter.default.post(name: SettingsViewController.updateNotificationName, object: nil)
                     case false:
                         print("error in uploading image")
                     }
@@ -629,6 +632,7 @@ extension SettingsViewController: UIImagePickerControllerDelegate, UINavigationC
                     switch result {
                     case true:
                         print("success")
+                        NotificationCenter.default.post(name: SettingsViewController.updateNotificationName, object: nil)
                     case false:
                         print("error in uploading banner")
                     }

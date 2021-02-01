@@ -20,9 +20,13 @@ class HomeViewController: UIViewController {
     let cellId = "cellId"
     let headerId = "headerId"
     var userId: String?
-    var galleries = [Gallery]()
-    var user = [User]()
-    var users = [User]()
+    private let refreshControl = UIRefreshControl()
+    var isChef: Bool = false
+
+//    var galleries = [Gallery]()
+//    var user = [User]()
+//    var users = [User]()
+
     
     //MARK: Lifecycle Methods
     override func viewDidLayoutSubviews() {
@@ -38,6 +42,7 @@ class HomeViewController: UIViewController {
         setupCollectionView()
         fetchUser()
         fetchMenus()
+        handleUpdatesObserverAndRefresh()
     }
     
     //MARK: Helper Functions
@@ -60,15 +65,22 @@ class HomeViewController: UIViewController {
         buttonStackView.addArrangedSubview(bookmarkButton)
         buttonStackView.addArrangedSubview(calendarButton)
         view.addSubview(scrollView)
+        scrollView.alwaysBounceHorizontal = false
+        scrollView.bounces = false
         scrollView.addSubview(collectionViewBG)
         scrollView.addSubview(menuViewBG)
         scrollView.addSubview(menuLabel)
         scrollView.addSubview(addMenuButton)
         scrollView.addSubview(collectionView)
+        if #available(iOS 10.0, *) {
+            scrollView.refreshControl = refreshControl
+        } else {
+            scrollView.addSubview(refreshControl)
+        }
+
     }
     
     func constrainViews() {
-        
         bannerLayerImageView.anchor(top: safeArea.topAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: -100, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, height: 300)
 
         bannerImageView.anchor(top: safeArea.topAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: -100, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, height: 300)
@@ -131,9 +143,25 @@ class HomeViewController: UIViewController {
         
     }
     
+    func handleUpdatesObserverAndRefresh() {
+        NotificationCenter.default.addObserver(self, selector: #selector(handleUpdate), name: SettingsViewController.updateNotificationName, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(loadList(notification:)), name: AddMenuViewController.updateNotificationName, object: nil)
+    }
+    
+    @objc func loadList(notification: NSNotification) {
+        print("loaded")
+      self.collectionView.reloadData()
+    }
+    
+    @objc func handleUpdate() {
+        fetchUser()
+    }
+    
     fileprivate func fetchUser() {
         let uid = userId ?? (Auth.auth().currentUser?.uid ?? "")
         UserController.shared.fetchUserWithUID(uid: uid) { (user) in
+            guard let chef = user.isChef else { return }
+            self.isChef = chef
             guard let username = user.username else { return }
             self.usernameLabel.text = "Welcome back \(username)"
             let imageStorageRef = Storage.storage().reference().child("profileImageUrl/\(uid)")
@@ -153,15 +181,30 @@ class HomeViewController: UIViewController {
     }
     
     fileprivate func fetchMenus() {
-        MenuController.shared.fetchMenuWith(uid: Auth.auth().currentUser?.uid ?? "") { (result) in
-            switch result {
-            case true:
-                print("got em")
-                self.collectionView.reloadData()
-            case false:
-                print("nope")
+        if isChef == true {
+            MenuController.shared.fetchMenuWith(uid: Auth.auth().currentUser?.uid ?? "") { (result) in
+                switch result {
+                case true:
+                    DispatchQueue.main.async {
+                        self.collectionView.reloadData()
+                    }
+                case false:
+                    print("nope")
+                }
             }
+        } else {
+            print("no chef")
         }
+//        MenuController.shared.fetchMenuWith(uid: Auth.auth().currentUser?.uid ?? "") { (result) in
+//            switch result {
+//            case true:
+//                DispatchQueue.main.async {
+//                    self.collectionView.reloadData()
+//                }
+//            case false:
+//                print("nope")
+//            }
+//        }
     }
 
     fileprivate func fetchPostsWithUser(user: User) {
@@ -507,9 +550,8 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        
         if MenuController.shared.menus.count == 0 {
-            return CGSize(width: collectionView.frame.width, height: collectionView.frame.width)
+            return CGSize(width: collectionView.frame.width, height: 200)
         } else {
             return CGSize(width: view.frame.width / 2, height: 250)
         }
