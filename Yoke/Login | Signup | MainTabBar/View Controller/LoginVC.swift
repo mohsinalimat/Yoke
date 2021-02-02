@@ -374,8 +374,8 @@ extension LoginVC: ASAuthorizationControllerDelegate {
             }
             let credential = OAuthProvider.credential(withProviderID: "apple.com",
                                                       idToken: idTokenString,
-                                                      rawNonce: nonce)
-            Auth.auth().signIn(with: credential) { (authResult, error) in
+                                                      accessToken: nonce)
+            Auth.auth().signInAndRetrieveData(with: credential) { (authResult, error) in
                 if (error != nil) {
                     print(error?.localizedDescription ?? "")
                     return

@@ -55,15 +55,23 @@ class PasswordChangeViewController: UIViewController {
     @objc func handleChangePassword() {
         let user = Auth.auth().currentUser
         let credential = EmailAuthProvider.credential(withEmail: (user?.email)!, password: oldPasswordTextField.text!)
-        user?.reauthenticate(with: credential, completion: {(authResult, error) in
-            if error != nil {
-                self.handleAlert()
-                print("\(String(describing: error?.localizedDescription))")
-            } else {
-                user?.updatePassword(to: self.newPasswordTextField.text!, completion: nil)
-                self.dismiss(animated: true, completion: nil)
-            }
-        })
+//        user?.reauthenticate(with: credential) { error in
+//          if let error = error {
+//            // An error happened.
+//          } else {
+//            // User re-authenticated.
+//          }
+//        }
+//        user?.reauthenticate(with: credential, completion: {(authResult, error) in
+//            if let error = error {
+//                self.handleAlert()
+//                print("\(String(describing: error?.localizedDescription))")
+//            } else {
+//                user?.updatePassword(to: self.newPasswordTextField.text!, completion: nil)
+//                self.dismiss(animated: true, completion: nil)
+//                return authResult
+//            }
+//        })
     }
     
     func handleAlert() {

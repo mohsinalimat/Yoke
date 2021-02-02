@@ -9,7 +9,9 @@
 import UIKit
 import Firebase
 import FirebaseAuth
-import GeoFire
+import Geofirestore
+
+//https://github.com/imperiumlabs/GeoFirestore-iOS
 
 class UserController {
     
@@ -23,8 +25,11 @@ class UserController {
     //MARK: - Source of truth
     var user: User?
     
+    //MARK: - Properties
+    private let locationManager = LocationManager()
+    
     //MARK: - CRUD Functions
-    func createUserWith(email: String, username: String, password: String = "", image: UIImage?, location: String, isChef: Bool, completion: @escaping (Bool) -> Void) {
+    func createUserWith(email: String, username: String, password: String = "", image: UIImage?, city: String, state: String, isChef: Bool, completion: @escaping (Bool) -> Void) {
         Auth.auth().createUser(withEmail: email, password: password, completion: { (user, error) in
             if let error = error {
                 print("There was an error authorizing user: \(error.localizedDescription)")
@@ -45,7 +50,7 @@ class UserController {
                     return
                 }
                 guard let uid = user?.user.uid else { return }
-                self.firestoreDB.collection(Constants.Users).document(uid).setData([Constants.Email: email, Constants.Username: username, Constants.Uid: uid, Constants.Location: location, Constants.IsChef: isChef])
+                self.firestoreDB.collection(Constants.Users).document(uid).setData([Constants.Email: email, Constants.Username: username, Constants.Uid: uid, Constants.City: city, Constants.State: state, Constants.IsChef: isChef])
                 let getUser = StripeUser.init(id: uid, customer_id: "", email: email)
                 self.createFirestoreUser(stripeUser: getUser)
                 completion(true)
@@ -141,9 +146,16 @@ class UserController {
         }
     }
     
-    func setUserLocation(_ uid: String, stpod 'GeoFire', '~> 4.0'reet: String, apartment: String, city: String, state: String, latitude: Double, longitude: Double, completion: @escaping (Bool) -> Void) {
-        let geoRefData = geoRef.document(uid)
-        let geoFire = GeoFire
+    func setUserLocation(_ uid: String, street: String, apartment: String, city: String, state: String, latitude: Double, longitude: Double, completion: @escaping (Bool) -> Void) {
+        let geoRefData = geoRef.document(uid).collection("GeoFireLocation")
+        let geoFirestore = GeoFirestore(collectionRef: geoRefData)
+        geoFirestore.setLocation(geopoint: GeoPoint(latitude: latitude, longitude: longitude), forDocumentWithID: uid) { (error) in
+            if let error = error {
+                print("An error occured: \(error)")
+            } else {
+                print("Saved location successfully!")
+            }
+        }
         firestoreDB.collection(Constants.Users).document(uid).setData([Constants.Street: street, Constants.Apartment: apartment, Constants.City: city, Constants.State: state, Constants.Latitude: latitude, Constants.Longitude: longitude], merge: true) { error in
             if let error = error {
                 print("There was an error updating data: \(error.localizedDescription)")

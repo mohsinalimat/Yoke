@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 Google LLC
+ * Copyright 2018 Google
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -31,15 +31,11 @@
 #include "Firestore/core/src/firebase/firestore/remote/grpc_streaming_reader.h"
 #include "Firestore/core/src/firebase/firestore/remote/grpc_unary_call.h"
 #include "Firestore/core/src/firebase/firestore/util/path.h"
-#include "Firestore/core/src/firebase/firestore/util/warnings.h"
 #include "absl/strings/string_view.h"
 #include "grpcpp/channel.h"
 #include "grpcpp/client_context.h"
 #include "grpcpp/completion_queue.h"
-
-SUPPRESS_DOCUMENTATION_WARNINGS_BEGIN()
 #include "grpcpp/generic/generic_stub.h"
-SUPPRESS_END()
 
 namespace firebase {
 namespace firestore {
@@ -56,7 +52,7 @@ namespace remote {
 class GrpcConnection {
  public:
   GrpcConnection(const core::DatabaseInfo& database_info,
-                 const std::shared_ptr<util::AsyncQueue>& worker_queue,
+                 util::AsyncQueue* worker_queue,
                  grpc::CompletionQueue* grpc_queue,
                  ConnectivityMonitor* connectivity_monitor);
 
@@ -108,7 +104,7 @@ class GrpcConnection {
   void RegisterConnectivityMonitor();
 
   const core::DatabaseInfo* database_info_ = nullptr;
-  std::shared_ptr<util::AsyncQueue> worker_queue_;
+  util::AsyncQueue* worker_queue_ = nullptr;
   grpc::CompletionQueue* grpc_queue_ = nullptr;
 
   std::shared_ptr<grpc::Channel> grpc_channel_;

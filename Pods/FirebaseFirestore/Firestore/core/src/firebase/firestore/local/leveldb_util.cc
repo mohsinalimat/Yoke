@@ -17,7 +17,6 @@
 #include "Firestore/core/src/firebase/firestore/local/leveldb_util.h"
 
 #include "Firestore/core/include/firebase/firestore/firestore_errors.h"
-#include "Firestore/core/src/firebase/firestore/util/status.h"
 #include "absl/strings/str_cat.h"
 
 namespace firebase {
@@ -26,14 +25,14 @@ namespace local {
 
 namespace {
 
-Error ConvertStatusCode(const leveldb::Status& status) {
-  if (status.ok()) return Error::kOk;
-  if (status.IsNotFound()) return Error::kNotFound;
-  if (status.IsCorruption()) return Error::kDataLoss;
-  if (status.IsIOError()) return Error::kUnavailable;
-  if (status.IsNotSupportedError()) return Error::kUnimplemented;
-  if (status.IsInvalidArgument()) return Error::kInvalidArgument;
-  return Error::kUnknown;
+FirestoreErrorCode ConvertStatusCode(const leveldb::Status& status) {
+  if (status.ok()) return FirestoreErrorCode::Ok;
+  if (status.IsNotFound()) return FirestoreErrorCode::NotFound;
+  if (status.IsCorruption()) return FirestoreErrorCode::DataLoss;
+  if (status.IsIOError()) return FirestoreErrorCode::Unavailable;
+  if (status.IsNotSupportedError()) return FirestoreErrorCode::Unimplemented;
+  if (status.IsInvalidArgument()) return FirestoreErrorCode::InvalidArgument;
+  return FirestoreErrorCode::Unknown;
 }
 
 }  // namespace
@@ -41,7 +40,7 @@ Error ConvertStatusCode(const leveldb::Status& status) {
 util::Status ConvertStatus(const leveldb::Status& status) {
   if (status.ok()) return util::Status::OK();
 
-  Error code = ConvertStatusCode(status);
+  FirestoreErrorCode code = ConvertStatusCode(status);
   return util::Status{code, absl::StrCat("LevelDB error: ", status.ToString())};
 }
 

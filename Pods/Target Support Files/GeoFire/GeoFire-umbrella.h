@@ -21,11 +21,6 @@
 #import "GFGeoHashQuery.h"
 #import "GFGeoQueryBounds.h"
 #import "GFQuery+Private.h"
-#import "GFUtils.h"
-#import "GFGeoQueryBounds.h"
-#import "GFGeoHashQuery.h"
-#import "GFGeoHash.h"
-#import "GFBase32Utils.h"
 
 FOUNDATION_EXPORT double GeoFireVersionNumber;
 FOUNDATION_EXPORT const unsigned char GeoFireVersionString[];

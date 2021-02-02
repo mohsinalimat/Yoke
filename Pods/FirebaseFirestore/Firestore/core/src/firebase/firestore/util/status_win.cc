@@ -29,39 +29,39 @@ namespace util {
  * Returns the Canonical error code for the given Windows API error code as
  * obtained from GetLastError().
  */
-static Error CodeForLastError(DWORD error) {
+static FirestoreErrorCode CodeForLastError(DWORD error) {
   switch (error) {
     case ERROR_SUCCESS:
-      return Error::kOk;
+      return FirestoreErrorCode::Ok;
 
-      // return Error::kInternal;
+      // return FirestoreErrorCode::Internal;
 
     case ERROR_INVALID_FUNCTION:
     case ERROR_INVALID_HANDLE:
     case ERROR_INVALID_NAME:
-      return Error::kInvalidArgument;
+      return FirestoreErrorCode::InvalidArgument;
 
-      // return Error::kDeadlineExceeded;
+      // return FirestoreErrorCode::DeadlineExceeded;
 
     case ERROR_FILE_NOT_FOUND:
     case ERROR_PATH_NOT_FOUND:
     case ERROR_INVALID_DRIVE:
     case ERROR_BAD_NETPATH:
     case ERROR_DEV_NOT_EXIST:
-      return Error::kNotFound;
+      return FirestoreErrorCode::NotFound;
 
     case ERROR_FILE_EXISTS:
     case ERROR_ALREADY_EXISTS:
-      return Error::kAlreadyExists;
+      return FirestoreErrorCode::AlreadyExists;
 
     case ERROR_ACCESS_DENIED:
     case ERROR_INVALID_ACCESS:
     case ERROR_SHARING_VIOLATION:
     case ERROR_WRITE_PROTECT:
     case ERROR_LOCK_VIOLATION:
-      return Error::kPermissionDenied;
+      return FirestoreErrorCode::PermissionDenied;
 
-      // return Error::kFailedPrecondition;
+      // return FirestoreErrorCode::FailedPrecondition;
 
     case ERROR_TOO_MANY_OPEN_FILES:
     case ERROR_NOT_ENOUGH_MEMORY:
@@ -69,22 +69,22 @@ static Error CodeForLastError(DWORD error) {
     case ERROR_NO_MORE_FILES:
     case ERROR_DISK_FULL:
     case ERROR_HANDLE_DISK_FULL:
-      return Error::kResourceExhausted;
+      return FirestoreErrorCode::ResourceExhausted;
 
-      // return Error::kOutOfRange;
+      // return FirestoreErrorCode::OutOfRange;
 
     case ERROR_CALL_NOT_IMPLEMENTED:
-      return Error::kUnimplemented;
+      return FirestoreErrorCode::Unimplemented;
 
     case ERROR_NOT_READY:
-      return Error::kUnavailable;
+      return FirestoreErrorCode::Unavailable;
 
-      // return Error::kAborted;
+      // return FirestoreErrorCode::Aborted;
 
-      // return Error::kCancelled;
+      // return FirestoreErrorCode::Cancelled;
 
     default:
-      return Error::kUnknown;
+      return FirestoreErrorCode::Unknown;
   }
 }
 
@@ -93,7 +93,7 @@ Status Status::FromLastError(DWORD error, absl::string_view msg) {
     return Status::OK();
   }
 
-  Error canonical_code = CodeForLastError(error);
+  FirestoreErrorCode canonical_code = CodeForLastError(error);
   std::string error_text = LastErrorMessage(error);
   return Status{canonical_code, util::StringFormat("%s (error %s: %s)", msg,
                                                    error, error_text)};

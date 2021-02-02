@@ -107,6 +107,7 @@ class LocationSettingsViewController: UIViewController, UISearchBarDelegate, UIS
             let center = CLLocationCoordinate2D(latitude: location.coordinate.latitude, longitude: location.coordinate.longitude)
             self.latitude = center.latitude
             self.longitude = center.longitude
+//            print("attat \(self.latitude), \(self.longitude)")
             let region = MKCoordinateRegion(center: center, span: MKCoordinateSpan(latitudeDelta: 0.005, longitudeDelta: 0.005))
             self.pin.coordinate = CLLocationCoordinate2D(latitude: location.coordinate.latitude, longitude: location.coordinate.longitude)
             self.mapView.addAnnotation(self.pin)
@@ -198,7 +199,7 @@ class LocationSettingsViewController: UIViewController, UISearchBarDelegate, UIS
               let apartment = apartmentTextField.text,
               let city = cityTextField.text,
               let state = stateTextField.text else { return }
-        UserController.shared.setUserLocation(uid, street: street, apartment: apartment, city: city, state: state) { (result) in
+        UserController.shared.setUserLocation(uid, street: street, apartment: apartment, city: city, state: state, latitude: latitude, longitude: longitude) { (result) in
             switch result {
             case true:
                 self.handleDismiss()

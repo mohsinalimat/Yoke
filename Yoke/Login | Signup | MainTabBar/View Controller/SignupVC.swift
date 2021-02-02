@@ -124,23 +124,30 @@ class SignupVC: UIViewController {
         self.locationManager.getPlace(for: exposedLocation) { [self] placemark in
             guard let placemark = placemark else { return }
             var output = ""
-            if let town = placemark.locality {
-                output = output + "\n\(town)"
+//            if let town = placemark.locality {
+//                output = output + "\n\(town)"
+//            }
+//            if let state = placemark.administrativeArea {
+//                output = output + "\n\(state)"
+//            }
+            if let locationName = placemark.location {
+                output = output + "\n\(locationName)"
+                // pulls to physical address on mapkit
             }
-            if let state = placemark.administrativeArea {
-                output = output + "\n\(state)"
-            }
-            UserController.shared.createUserWith(email: email, username: username, password: password, image: image, location: output, isChef: self.isChef) { (result) in
-                switch result {
-                case true:
-                    self.handleLoginToHome()
-                    print("success")
-                case false:
-                    print("error in signup: \(Error.self)")
+            if let postal = placemark.postalAddress {
+                UserController.shared.createUserWith(email: email, username: username, password: password, image: image, city:postal.city, state:postal.state, isChef: self.isChef) { (result) in
+                    switch result {
+                    case true:
+                        self.handleLoginToHome()
+                        print("success")
+                    case false:
+                        print("error in signup: \(Error.self)")
+                    }
                 }
+                self.location = output
+                print(self.location)
             }
-            self.location = output
-            print(self.location)
+            
         }
     }
 

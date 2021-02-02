@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 Google LLC
+ * Copyright 2018 Google
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -24,14 +24,11 @@
 
 #include "Firestore/core/src/firebase/firestore/remote/grpc_stream.h"
 #include "Firestore/core/src/firebase/firestore/remote/grpc_stream_observer.h"
-#include "Firestore/core/src/firebase/firestore/util/status_fwd.h"
-#include "Firestore/core/src/firebase/firestore/util/warnings.h"
+#include "Firestore/core/src/firebase/firestore/util/status.h"
+#include "Firestore/core/src/firebase/firestore/util/statusor.h"
 #include "grpcpp/client_context.h"
-#include "grpcpp/support/byte_buffer.h"
-
-SUPPRESS_DOCUMENTATION_WARNINGS_BEGIN()
 #include "grpcpp/generic/generic_stub.h"
-SUPPRESS_END()
+#include "grpcpp/support/byte_buffer.h"
 
 namespace firebase {
 namespace firestore {
@@ -51,7 +48,7 @@ class GrpcStreamingReader : public GrpcCall, public GrpcStreamObserver {
   GrpcStreamingReader(
       std::unique_ptr<grpc::ClientContext> context,
       std::unique_ptr<grpc::GenericClientAsyncReaderWriter> call,
-      const std::shared_ptr<util::AsyncQueue>& worker_queue,
+      util::AsyncQueue* worker_queue,
       GrpcConnection* grpc_connection,
       const grpc::ByteBuffer& request);
 

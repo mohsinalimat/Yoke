@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		2C5C69BD86EB6C3B3BA2B9D9 /* Pods_YokeTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D0C35E5FBFDB7D8D0E194168 /* Pods_YokeTests.framework */; };
+		2F6CBC4B9CA2F859DCAE6A2D /* Pods_YokeTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6A8E36B9FA1B6F243ABB5524 /* Pods_YokeTests.framework */; };
 		6C296DD224B3BE6A008E33ED /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C296DD124B3BE6A008E33ED /* AppDelegate.swift */; };
 		6C296DD824B3BE6F008E33ED /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6C296DD724B3BE6F008E33ED /* Assets.xcassets */; };
 		6C296DDB24B3BE6F008E33ED /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6C296DDA24B3BE6F008E33ED /* Preview Assets.xcassets */; };
@@ -132,7 +132,7 @@
 		6CFDB39525B738FA007261D1 /* Cusine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CFDB39425B738FA007261D1 /* Cusine.swift */; };
 		6CFDB39B25B7425A007261D1 /* CusineController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CFDB39A25B7425A007261D1 /* CusineController.swift */; };
 		6CFDB3A825B79114007261D1 /* CusineCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CFDB3A725B79114007261D1 /* CusineCollectionViewCell.swift */; };
-		DE69D915DA471A856CC5B526 /* Pods_Yoke.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9982176457FC91E6F7A48B24 /* Pods_Yoke.framework */; };
+		D337EDD6E6FF20B9F47A3ACA /* Pods_Yoke.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AB82B7404016C0A2550045A8 /* Pods_Yoke.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -146,8 +146,10 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		2C13EEA210C159A145BD5C6A /* Pods-Yoke.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Yoke.debug.xcconfig"; path = "Target Support Files/Pods-Yoke/Pods-Yoke.debug.xcconfig"; sourceTree = "<group>"; };
-		3117BBF14938A4C4696250B9 /* Pods-YokeTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-YokeTests.release.xcconfig"; path = "Target Support Files/Pods-YokeTests/Pods-YokeTests.release.xcconfig"; sourceTree = "<group>"; };
+		1E63BD2A2E112D2DFFB00C99 /* Pods-Yoke.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Yoke.release.xcconfig"; path = "Target Support Files/Pods-Yoke/Pods-Yoke.release.xcconfig"; sourceTree = "<group>"; };
+		49D4C337C2052ABFA7730F3C /* Pods-YokeTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-YokeTests.debug.xcconfig"; path = "Target Support Files/Pods-YokeTests/Pods-YokeTests.debug.xcconfig"; sourceTree = "<group>"; };
+		53539C89D75D851E965CA038 /* Pods-YokeTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-YokeTests.release.xcconfig"; path = "Target Support Files/Pods-YokeTests/Pods-YokeTests.release.xcconfig"; sourceTree = "<group>"; };
+		6A8E36B9FA1B6F243ABB5524 /* Pods_YokeTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_YokeTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		6C296DCE24B3BE6A008E33ED /* Yoke.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Yoke.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6C296DD124B3BE6A008E33ED /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		6C296DD724B3BE6F008E33ED /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -278,10 +280,8 @@
 		6CFDB39425B738FA007261D1 /* Cusine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Cusine.swift; sourceTree = "<group>"; };
 		6CFDB39A25B7425A007261D1 /* CusineController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CusineController.swift; sourceTree = "<group>"; };
 		6CFDB3A725B79114007261D1 /* CusineCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CusineCollectionViewCell.swift; sourceTree = "<group>"; };
-		9982176457FC91E6F7A48B24 /* Pods_Yoke.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Yoke.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		9F3E54B699EE8256F9CE2164 /* Pods-Yoke.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Yoke.release.xcconfig"; path = "Target Support Files/Pods-Yoke/Pods-Yoke.release.xcconfig"; sourceTree = "<group>"; };
-		C49BC8A3885E1E6E06FED2E6 /* Pods-YokeTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-YokeTests.debug.xcconfig"; path = "Target Support Files/Pods-YokeTests/Pods-YokeTests.debug.xcconfig"; sourceTree = "<group>"; };
-		D0C35E5FBFDB7D8D0E194168 /* Pods_YokeTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_YokeTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		AB82B7404016C0A2550045A8 /* Pods_Yoke.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Yoke.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		F1337BDE1E46DC98CF590181 /* Pods-Yoke.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Yoke.debug.xcconfig"; path = "Target Support Files/Pods-Yoke/Pods-Yoke.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -289,7 +289,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				DE69D915DA471A856CC5B526 /* Pods_Yoke.framework in Frameworks */,
+				D337EDD6E6FF20B9F47A3ACA /* Pods_Yoke.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -297,7 +297,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2C5C69BD86EB6C3B3BA2B9D9 /* Pods_YokeTests.framework in Frameworks */,
+				2F6CBC4B9CA2F859DCAE6A2D /* Pods_YokeTests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -311,7 +311,7 @@
 				6C296DE724B3BE70008E33ED /* YokeTests */,
 				6C296DCF24B3BE6A008E33ED /* Products */,
 				7363C3C684F1BE27EC27CDA8 /* Pods */,
-				BA0CE536EB5733BB8F730038 /* Frameworks */,
+				9A2E590A032EBB8BE6D2D680 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -893,19 +893,19 @@
 		7363C3C684F1BE27EC27CDA8 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				2C13EEA210C159A145BD5C6A /* Pods-Yoke.debug.xcconfig */,
-				9F3E54B699EE8256F9CE2164 /* Pods-Yoke.release.xcconfig */,
-				C49BC8A3885E1E6E06FED2E6 /* Pods-YokeTests.debug.xcconfig */,
-				3117BBF14938A4C4696250B9 /* Pods-YokeTests.release.xcconfig */,
+				F1337BDE1E46DC98CF590181 /* Pods-Yoke.debug.xcconfig */,
+				1E63BD2A2E112D2DFFB00C99 /* Pods-Yoke.release.xcconfig */,
+				49D4C337C2052ABFA7730F3C /* Pods-YokeTests.debug.xcconfig */,
+				53539C89D75D851E965CA038 /* Pods-YokeTests.release.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
 		};
-		BA0CE536EB5733BB8F730038 /* Frameworks */ = {
+		9A2E590A032EBB8BE6D2D680 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				9982176457FC91E6F7A48B24 /* Pods_Yoke.framework */,
-				D0C35E5FBFDB7D8D0E194168 /* Pods_YokeTests.framework */,
+				AB82B7404016C0A2550045A8 /* Pods_Yoke.framework */,
+				6A8E36B9FA1B6F243ABB5524 /* Pods_YokeTests.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -917,12 +917,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 6C296DED24B3BE70008E33ED /* Build configuration list for PBXNativeTarget "Yoke" */;
 			buildPhases = (
-				0E4D486060EA8CBAFB5D94F7 /* [CP] Check Pods Manifest.lock */,
+				DCD17318280D887755C7E692 /* [CP] Check Pods Manifest.lock */,
 				6C296DCA24B3BE6A008E33ED /* Sources */,
 				6C296DCB24B3BE6A008E33ED /* Frameworks */,
 				6C296DCC24B3BE6A008E33ED /* Resources */,
-				C2D056849172DB8DA769EE2C /* [CP] Embed Pods Frameworks */,
-				AED2FFD1E4F3F2BA8D7C633F /* [CP] Copy Pods Resources */,
+				E5A65A3B861288D9453EFA23 /* [CP] Embed Pods Frameworks */,
+				F1A41BB96E7DCFD12F1CFE4B /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -937,7 +937,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 6C296DF024B3BE70008E33ED /* Build configuration list for PBXNativeTarget "YokeTests" */;
 			buildPhases = (
-				6C675EA0762905F36B393750 /* [CP] Check Pods Manifest.lock */,
+				DDB355E8364C821C0DA5B6AD /* [CP] Check Pods Manifest.lock */,
 				6C296DE024B3BE6F008E33ED /* Sources */,
 				6C296DE124B3BE6F008E33ED /* Frameworks */,
 				6C296DE224B3BE6F008E33ED /* Resources */,
@@ -1013,7 +1013,7 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		0E4D486060EA8CBAFB5D94F7 /* [CP] Check Pods Manifest.lock */ = {
+		DCD17318280D887755C7E692 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -1035,7 +1035,7 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		6C675EA0762905F36B393750 /* [CP] Check Pods Manifest.lock */ = {
+		DDB355E8364C821C0DA5B6AD /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -1057,24 +1057,7 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		AED2FFD1E4F3F2BA8D7C633F /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-Yoke/Pods-Yoke-resources-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Copy Pods Resources";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-Yoke/Pods-Yoke-resources-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Yoke/Pods-Yoke-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		C2D056849172DB8DA769EE2C /* [CP] Embed Pods Frameworks */ = {
+		E5A65A3B861288D9453EFA23 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -1089,6 +1072,23 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Yoke/Pods-Yoke-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		F1A41BB96E7DCFD12F1CFE4B /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Yoke/Pods-Yoke-resources-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Yoke/Pods-Yoke-resources-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Yoke/Pods-Yoke-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -1365,7 +1365,7 @@
 		};
 		6C296DEE24B3BE70008E33ED /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 2C13EEA210C159A145BD5C6A /* Pods-Yoke.debug.xcconfig */;
+			baseConfigurationReference = F1337BDE1E46DC98CF590181 /* Pods-Yoke.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = Yoke/Yoke.entitlements;
@@ -1389,7 +1389,7 @@
 		};
 		6C296DEF24B3BE70008E33ED /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 9F3E54B699EE8256F9CE2164 /* Pods-Yoke.release.xcconfig */;
+			baseConfigurationReference = 1E63BD2A2E112D2DFFB00C99 /* Pods-Yoke.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = Yoke/Yoke.entitlements;
@@ -1413,7 +1413,7 @@
 		};
 		6C296DF124B3BE70008E33ED /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = C49BC8A3885E1E6E06FED2E6 /* Pods-YokeTests.debug.xcconfig */;
+			baseConfigurationReference = 49D4C337C2052ABFA7730F3C /* Pods-YokeTests.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
@@ -1435,7 +1435,7 @@
 		};
 		6C296DF224B3BE70008E33ED /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 3117BBF14938A4C4696250B9 /* Pods-YokeTests.release.xcconfig */;
+			baseConfigurationReference = 53539C89D75D851E965CA038 /* Pods-YokeTests.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";

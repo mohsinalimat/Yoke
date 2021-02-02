@@ -110,13 +110,12 @@ static const int kNanosPerSecond = 1000000000;
 }
 
 - (NSString *)description {
-  return [NSString stringWithFormat:@"<FIRTimestamp: seconds=%lld nanoseconds=%d>", self.seconds,
+  return [NSString stringWithFormat:@"FIRTimestamp: seconds=%lld nanoseconds=%d>", self.seconds,
                                     self.nanoseconds];
 }
 
 /** Implements NSCopying without actually copying because timestamps are immutable. */
 - (id)copyWithZone:(NSZone *_Nullable)zone {
-  (void)zone;
   return self;
 }
 
