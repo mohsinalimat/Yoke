@@ -12,6 +12,7 @@ import FirebaseAuth
 
 //https://medium.com/@pravinbendre772/search-for-places-and-display-results-using-mapkit-a987bd6504df
 //https://www.thorntech.com/2016/01/how-to-search-for-location-using-apples-mapkit/
+//https://stackoverflow.com/questions/42091994/how-to-query-nearest-users-in-firebase-with-swift
 
 class LocationSettingsViewController: UIViewController, UISearchBarDelegate, UISearchControllerDelegate {
 
@@ -23,10 +24,11 @@ class LocationSettingsViewController: UIViewController, UISearchBarDelegate, UIS
     private let locationManager = LocationManager()
     let pin = MKPointAnnotation()
     var currentLocationStr = "Current location"
-    var location: String = ""
+//    var location: String = ""
+    var latitude: Double = 0.0
+    var longitude: Double = 0.0
     var activities: String = ""
     let uid = Auth.auth().currentUser?.uid ?? ""
-    
     
     //MARK: - Lifecycle Methods
     override func viewDidLayoutSubviews() {
@@ -103,6 +105,8 @@ class LocationSettingsViewController: UIViewController, UISearchBarDelegate, UIS
                 return
             }
             let center = CLLocationCoordinate2D(latitude: location.coordinate.latitude, longitude: location.coordinate.longitude)
+            self.latitude = center.latitude
+            self.longitude = center.longitude
             let region = MKCoordinateRegion(center: center, span: MKCoordinateSpan(latitudeDelta: 0.005, longitudeDelta: 0.005))
             self.pin.coordinate = CLLocationCoordinate2D(latitude: location.coordinate.latitude, longitude: location.coordinate.longitude)
             self.mapView.addAnnotation(self.pin)
@@ -137,6 +141,8 @@ class LocationSettingsViewController: UIViewController, UISearchBarDelegate, UIS
             self.locationManager.getLocation(forPlaceCalled: output) { location in
                 guard let location = location else { return }
                 let center = CLLocationCoordinate2D(latitude: location.coordinate.latitude, longitude: location.coordinate.longitude)
+                self.latitude = center.latitude
+                self.longitude = center.longitude
                 let region = MKCoordinateRegion(center: center, span: MKCoordinateSpan(latitudeDelta: 0.005, longitudeDelta: 0.005))
                 self.pin.coordinate = CLLocationCoordinate2D(latitude: location.coordinate.latitude, longitude: location.coordinate.longitude)
                 self.mapView.addAnnotation(self.pin)

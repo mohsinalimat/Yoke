@@ -87,6 +87,8 @@ class Constants {
     static let Apartment = "apartment"
     static let City = "city"
     static let State = "state"
+    static let Latitude = "latitude"
+    static let Longitude = "longitude"
     
     static let Width = "width"
     static let Height = "height"

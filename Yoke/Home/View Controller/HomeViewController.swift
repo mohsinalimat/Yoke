@@ -22,11 +22,6 @@ class HomeViewController: UIViewController {
     var userId: String?
     private let refreshControl = UIRefreshControl()
     var isChef: Bool = false
-
-//    var galleries = [Gallery]()
-//    var user = [User]()
-//    var users = [User]()
-
     
     //MARK: Lifecycle Methods
     override func viewDidLayoutSubviews() {
@@ -42,6 +37,7 @@ class HomeViewController: UIViewController {
         setupCollectionView()
         fetchUser()
         fetchMenus()
+        fetchSuggestedChefs()
         handleUpdatesObserverAndRefresh()
     }
     
@@ -71,13 +67,13 @@ class HomeViewController: UIViewController {
         scrollView.addSubview(menuViewBG)
         scrollView.addSubview(menuLabel)
         scrollView.addSubview(addMenuButton)
-        scrollView.addSubview(collectionView)
+        scrollView.addSubview(menuCollectionView)
+        scrollView.addSubview(suggestedChefCollectionView)
         if #available(iOS 10.0, *) {
             scrollView.refreshControl = refreshControl
         } else {
             scrollView.addSubview(refreshControl)
         }
-
     }
     
     func constrainViews() {
@@ -115,17 +111,65 @@ class HomeViewController: UIViewController {
 
         addMenuButton.anchor(top: menuViewBG.topAnchor, left: nil, bottom: menuViewBG.bottomAnchor, right: menuViewBG.rightAnchor, paddingTop: 5, paddingLeft: 5, paddingBottom: 5, paddingRight: 5)
 
-        collectionView.anchor(top: menuViewBG.bottomAnchor, left: collectionViewBG.leftAnchor, bottom: collectionViewBG.bottomAnchor, right: collectionViewBG.rightAnchor, paddingTop: 5, paddingLeft: 5, paddingBottom: 5, paddingRight: 5)
+        menuCollectionView.anchor(top: menuViewBG.bottomAnchor, left: collectionViewBG.leftAnchor, bottom: collectionViewBG.bottomAnchor, right: collectionViewBG.rightAnchor, paddingTop: 5, paddingLeft: 5, paddingBottom: 5, paddingRight: 5)
+        
+        suggestedChefCollectionView.anchor(top: menuViewBG.bottomAnchor, left: collectionViewBG.leftAnchor, bottom: collectionViewBG.bottomAnchor, right: collectionViewBG.rightAnchor, paddingTop: 5, paddingLeft: 5, paddingBottom: 5, paddingRight: 5)
+    }
+    
+    fileprivate func fetchUser() {
+        let uid = userId ?? (Auth.auth().currentUser?.uid ?? "")
+        UserController.shared.fetchUserWithUID(uid: uid) { (user) in
+            guard let username = user.username else { return }
+            self.usernameLabel.text = "Welcome back \(username)"
+            let imageStorageRef = Storage.storage().reference().child("profileImageUrl/\(uid)")
+            imageStorageRef.getData(maxSize: 2 * 1024 * 1024) { data, error in
+                if error == nil, let data = data {
+                    self.profileImageView.image = UIImage(data: data)
+                }
+            }
+            
+            let bannerStorageRef = Storage.storage().reference().child("profileBannerUrl/\(uid)")
+            bannerStorageRef.getData(maxSize: 2 * 1024 * 1024) { data, error in
+                if error == nil, let data = data {
+                    self.bannerImageView.image = UIImage(data: data)
+                }
+            }
+        }
     }
     
     func setupCollectionView() {
-        collectionView.backgroundColor = UIColor.LightGrayBg()
-        collectionView.delegate = self
-        collectionView.dataSource = self
-        collectionView.translatesAutoresizingMaskIntoConstraints = false
+        let uid = userId ?? (Auth.auth().currentUser?.uid ?? "")
+        UserController.shared.fetchUserWithUID(uid: uid) { (user) in
+            guard let chef = user.isChef else { return }
+            self.isChef = chef
+            if self.isChef == true {
+                self.suggestedChefCollectionView.isHidden = true
+                self.menuCollectionView.isHidden = false
+                self.addMenuButton.isHidden = false
+                self.menuLabel.text = "Menus"
+            } else {
+                self.suggestedChefCollectionView.isHidden = false
+                self.menuCollectionView.isHidden = true
+                self.addMenuButton.isHidden = true
+                self.menuLabel.text = "Chef's near you"
+            }
+        }
+        
+        menuCollectionView.backgroundColor = UIColor.LightGrayBg()
+        menuCollectionView.delegate = self
+        menuCollectionView.dataSource = self
+        menuCollectionView.translatesAutoresizingMaskIntoConstraints = false
 //        collectionView.register(MenuHeaderCollectionViewCell.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: headerId)
-        collectionView.register(MenuCollectionViewCell.self, forCellWithReuseIdentifier: cellId)
-        collectionView.register(EmptyCell.self, forCellWithReuseIdentifier: noCellId)
+        menuCollectionView.register(MenuCollectionViewCell.self, forCellWithReuseIdentifier: cellId)
+        menuCollectionView.register(EmptyCell.self, forCellWithReuseIdentifier: noCellId)
+        
+        suggestedChefCollectionView.backgroundColor = UIColor.LightGrayBg()
+        suggestedChefCollectionView.delegate = self
+        suggestedChefCollectionView.dataSource = self
+        suggestedChefCollectionView.translatesAutoresizingMaskIntoConstraints = false
+//        collectionView.register(MenuHeaderCollectionViewCell.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: headerId)
+        suggestedChefCollectionView.register(SuggestedChefsCollectionViewCell.self, forCellWithReuseIdentifier: cellId)
+        suggestedChefCollectionView.register(EmptyCell.self, forCellWithReuseIdentifier: noCellId)
     }
     
     func setupNavTitleAndBarButtonItems() {
@@ -150,61 +194,29 @@ class HomeViewController: UIViewController {
     
     @objc func loadList(notification: NSNotification) {
         print("loaded")
-      self.collectionView.reloadData()
+      self.menuCollectionView.reloadData()
     }
     
     @objc func handleUpdate() {
         fetchUser()
-    }
-    
-    fileprivate func fetchUser() {
-        let uid = userId ?? (Auth.auth().currentUser?.uid ?? "")
-        UserController.shared.fetchUserWithUID(uid: uid) { (user) in
-            guard let chef = user.isChef else { return }
-            self.isChef = chef
-            guard let username = user.username else { return }
-            self.usernameLabel.text = "Welcome back \(username)"
-            let imageStorageRef = Storage.storage().reference().child("profileImageUrl/\(uid)")
-            imageStorageRef.getData(maxSize: 2 * 1024 * 1024) { data, error in
-                if error == nil, let data = data {
-                    self.profileImageView.image = UIImage(data: data)
-                }
-            }
-            
-            let bannerStorageRef = Storage.storage().reference().child("profileBannerUrl/\(uid)")
-            bannerStorageRef.getData(maxSize: 2 * 1024 * 1024) { data, error in
-                if error == nil, let data = data {
-                    self.bannerImageView.image = UIImage(data: data)
-                }
-            }
-        }
+        setupCollectionView()
     }
     
     fileprivate func fetchMenus() {
-        if isChef == true {
-            MenuController.shared.fetchMenuWith(uid: Auth.auth().currentUser?.uid ?? "") { (result) in
-                switch result {
-                case true:
-                    DispatchQueue.main.async {
-                        self.collectionView.reloadData()
-                    }
-                case false:
-                    print("nope")
+        MenuController.shared.fetchMenuWith(uid: Auth.auth().currentUser?.uid ?? "") { (result) in
+            switch result {
+            case true:
+                DispatchQueue.main.async {
+                    self.menuCollectionView.reloadData()
                 }
+            case false:
+                print("Problem Loading Menus")
             }
-        } else {
-            print("no chef")
         }
-//        MenuController.shared.fetchMenuWith(uid: Auth.auth().currentUser?.uid ?? "") { (result) in
-//            switch result {
-//            case true:
-//                DispatchQueue.main.async {
-//                    self.collectionView.reloadData()
-//                }
-//            case false:
-//                print("nope")
-//            }
-//        }
+    }
+    
+    fileprivate func fetchSuggestedChefs() {
+        
     }
 
     fileprivate func fetchPostsWithUser(user: User) {
@@ -212,7 +224,7 @@ class HomeViewController: UIViewController {
             switch result {
             case true:
                 print("Result: fetched")
-                self.collectionView.reloadData()
+                self.menuCollectionView.reloadData()
             case false:
                 print("Result: not fetched")
             }
@@ -516,7 +528,14 @@ class HomeViewController: UIViewController {
         return button
     }()
 
-    let collectionView: UICollectionView = {
+    let menuCollectionView: UICollectionView = {
+        let layout = UICollectionViewFlowLayout()
+        layout.scrollDirection = .horizontal
+        let cv = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        return cv
+    }()
+    
+    let suggestedChefCollectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal
         let cv = UICollectionView(frame: .zero, collectionViewLayout: layout)
@@ -527,52 +546,73 @@ class HomeViewController: UIViewController {
 // MARK: - CollectionView
 extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        if MenuController.shared.menus.count == 0 {
-            return 1
-        } else {
-            return MenuController.shared.menus.count
+        if collectionView == self.menuCollectionView {
+            print("count \(MenuController.shared.menus.count)")
+            if MenuController.shared.menus.count == 0 {
+                return 1
+            } else {
+                return MenuController.shared.menus.count
+            }
         }
+//        if SuggestedChefController.shared.users.count == 0 {
+//            return 1
+//        } else {
+//            return MenuController.shared.menus.count
+//        }
+//        print("count \(MenuController.shared.menus.count)")
+        return 1
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        
-        if MenuController.shared.menus.count == 0 {
-            let noCell = collectionView.dequeueReusableCell(withReuseIdentifier: noCellId, for: indexPath) as! EmptyCell
-            noCell.photoImageView.image = UIImage(named: "no_post_background")!
-            noCell.noPostLabel.text = "Coming Soon"
-            noCell.noPostLabel.font = UIFont.boldSystemFont(ofSize: 13)
-            return noCell
+        if collectionView == self.menuCollectionView {
+            if MenuController.shared.menus.count == 0 {
+                let noCell = collectionView.dequeueReusableCell(withReuseIdentifier: noCellId, for: indexPath) as! EmptyCell
+                noCell.photoImageView.image = UIImage(named: "no_post_background")!
+                noCell.noPostLabel.text = "Coming Soon"
+                noCell.noPostLabel.font = UIFont.boldSystemFont(ofSize: 13)
+                return noCell
+            }
+            
+            let cellA = collectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath) as! MenuCollectionViewCell
+            cellA.menu = MenuController.shared.menus[indexPath.item]
+            return cellA
         }
-        
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath) as! MenuCollectionViewCell
-        cell.menu = MenuController.shared.menus[indexPath.item]
-        return cell
+
+        let cellB = collectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath) as! SuggestedChefsCollectionViewCell
+//        cell.menu = MenuController.shared.menus[indexPath.item]
+        return cellB
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        if MenuController.shared.menus.count == 0 {
-            return CGSize(width: collectionView.frame.width, height: 200)
-        } else {
-            return CGSize(width: view.frame.width / 2, height: 250)
+        if collectionView == self.menuCollectionView {
+            if MenuController.shared.menus.count == 0 {
+                return CGSize(width: collectionView.frame.width, height: 150)
+            } else {
+                return CGSize(width: view.frame.width / 2, height: 250)
+            }
         }
+        return CGSize(width: view.frame.width / 2, height: 250)
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        if MenuController.shared.menus.count == 0 {
-            return
-        } else {
-            let menu = MenuController.shared.menus[indexPath.row]
-            let menuVC = AddMenuViewController()
-            menuVC.menu = menu
-            menuVC.menuLabel.text = "Edit Menu"
-            menuVC.dishDetailTextField.placeholder = ""
-            menuVC.deleteButton.isHidden = false
-            menuVC.menuExist = true
-            menuVC.saveButton.setTitle("Update", for: .normal)
-            present(menuVC, animated: true)
-//            let galleryDetail = GalleryDetailVC(collectionViewLayout: UICollectionViewFlowLayout())
-//            galleryDetail.gallery = gallery
-//            navigationController?.pushViewController(galleryDetail, animated: true)
+        
+        if collectionView == self.menuCollectionView {
+            if MenuController.shared.menus.count == 0 {
+                return
+            } else {
+                let menu = MenuController.shared.menus[indexPath.row]
+                let menuVC = AddMenuViewController()
+                menuVC.menu = menu
+                menuVC.menuLabel.text = "Edit Menu"
+                menuVC.dishDetailTextField.placeholder = ""
+                menuVC.deleteButton.isHidden = false
+                menuVC.menuExist = true
+                menuVC.saveButton.setTitle("Update", for: .normal)
+                present(menuVC, animated: true)
+    //            let galleryDetail = GalleryDetailVC(collectionViewLayout: UICollectionViewFlowLayout())
+    //            galleryDetail.gallery = gallery
+    //            navigationController?.pushViewController(galleryDetail, animated: true)
+            }
         }
     }
 

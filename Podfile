@@ -12,6 +12,7 @@ target 'Yoke' do
   pod 'Firebase/Storage'
   pod 'Firebase/Firestore'
   pod 'Firebase/Functions'
+  pod 'GeoFire', '~> 4.0'
   pod 'JTAppleCalendar', '~> 7.0'
   pod 'IQKeyboardManagerSwift'
   pod 'Kingfisher', '~> 5.0'

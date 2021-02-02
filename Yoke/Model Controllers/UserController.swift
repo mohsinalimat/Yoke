@@ -17,6 +17,7 @@ class UserController {
     
     //MARK: - Firebase Firestore Database
     let firestoreDB = Firestore.firestore()
+    let geoRef = Firestore.firestore().collection(Constants.Users)
     
     //MARK: - Source of truth
     var user: User?
@@ -139,8 +140,10 @@ class UserController {
         }
     }
     
-    func setUserLocation(_ uid: String, street: String, apartment: String, city: String, state: String, completion: @escaping (Bool) -> Void) {
-        firestoreDB.collection(Constants.Users).document(uid).setData([Constants.Street: street, Constants.Apartment: apartment, Constants.City: city, Constants.State: state ], merge: true) { error in
+    func setUserLocation(_ uid: String, stpod 'GeoFire', '~> 4.0'reet: String, apartment: String, city: String, state: String, latitude: Double, longitude: Double, completion: @escaping (Bool) -> Void) {
+        let geoRefData = geoRef.document(uid)
+        let geoFire = GeoFire
+        firestoreDB.collection(Constants.Users).document(uid).setData([Constants.Street: street, Constants.Apartment: apartment, Constants.City: city, Constants.State: state, Constants.Latitude: latitude, Constants.Longitude: longitude], merge: true) { error in
             if let error = error {
                 print("There was an error updating data: \(error.localizedDescription)")
                 completion(false)
