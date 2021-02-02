@@ -107,7 +107,6 @@ class LocationSettingsViewController: UIViewController, UISearchBarDelegate, UIS
             let center = CLLocationCoordinate2D(latitude: location.coordinate.latitude, longitude: location.coordinate.longitude)
             self.latitude = center.latitude
             self.longitude = center.longitude
-//            print("attat \(self.latitude), \(self.longitude)")
             let region = MKCoordinateRegion(center: center, span: MKCoordinateSpan(latitudeDelta: 0.005, longitudeDelta: 0.005))
             self.pin.coordinate = CLLocationCoordinate2D(latitude: location.coordinate.latitude, longitude: location.coordinate.longitude)
             self.mapView.addAnnotation(self.pin)
@@ -165,10 +164,13 @@ class LocationSettingsViewController: UIViewController, UISearchBarDelegate, UIS
             self.locationManager.getLocation(forPlaceCalled: output) { location in
                 guard let location = location else { return }
                 let center = CLLocationCoordinate2D(latitude: location.coordinate.latitude, longitude: location.coordinate.longitude)
+                self.latitude = center.latitude
+                self.longitude = center.longitude
                 let region = MKCoordinateRegion(center: center, span: MKCoordinateSpan(latitudeDelta: 0.005, longitudeDelta: 0.005))
                 self.pin.coordinate = CLLocationCoordinate2D(latitude: location.coordinate.latitude, longitude: location.coordinate.longitude)
                 self.mapView.addAnnotation(self.pin)
                 self.mapView.setRegion(region, animated: true)
+                SuggestedChefController.shared.getChefs(latitude: self.latitude, longitude: self.longitude)
             }
         }
     }

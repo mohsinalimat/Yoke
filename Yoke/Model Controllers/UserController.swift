@@ -20,13 +20,14 @@ class UserController {
     
     //MARK: - Firebase Firestore Database
     let firestoreDB = Firestore.firestore()
-    let geoRef = Firestore.firestore().collection(Constants.Users)
+    let geoRef = Firestore.firestore().collection("geoFireLocation")
     
     //MARK: - Source of truth
     var user: User?
+    var users: [User] = []
     
     //MARK: - Properties
-    private let locationManager = LocationManager()
+//    private let locationManager = LocationManager()
     
     //MARK: - CRUD Functions
     func createUserWith(email: String, username: String, password: String = "", image: UIImage?, city: String, state: String, isChef: Bool, completion: @escaping (Bool) -> Void) {
@@ -76,6 +77,7 @@ class UserController {
         let data = StripeUser.modelToData(customer_id: stripeUser)
         ref.setData(data) { (error) in
             if let error = error {
+                print(error.localizedDescription)
 //                Auth.auth().handleFirebaseErrors(error: error, vc: self)
             }
         }
@@ -147,8 +149,7 @@ class UserController {
     }
     
     func setUserLocation(_ uid: String, street: String, apartment: String, city: String, state: String, latitude: Double, longitude: Double, completion: @escaping (Bool) -> Void) {
-        let geoRefData = geoRef.document(uid).collection("GeoFireLocation")
-        let geoFirestore = GeoFirestore(collectionRef: geoRefData)
+        let geoFirestore = GeoFirestore(collectionRef: geoRef)
         geoFirestore.setLocation(geopoint: GeoPoint(latitude: latitude, longitude: longitude), forDocumentWithID: uid) { (error) in
             if let error = error {
                 print("An error occured: \(error)")
