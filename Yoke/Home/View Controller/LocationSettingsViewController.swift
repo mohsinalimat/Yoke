@@ -29,6 +29,7 @@ class LocationSettingsViewController: UIViewController, UISearchBarDelegate, UIS
     var longitude: Double = 0.0
     var activities: String = ""
     let uid = Auth.auth().currentUser?.uid ?? ""
+    static let updateNotificationName = NSNotification.Name(rawValue: "Update")
     
     //MARK: - Lifecycle Methods
     override func viewDidLayoutSubviews() {
@@ -222,6 +223,7 @@ class LocationSettingsViewController: UIViewController, UISearchBarDelegate, UIS
             switch result {
             case true:
                 self.handleDismiss()
+                NotificationCenter.default.post(name: LocationSettingsViewController.updateNotificationName, object: nil)
             case false:
                 print("failed to save")
             }

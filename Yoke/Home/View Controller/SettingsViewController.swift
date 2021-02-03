@@ -37,6 +37,7 @@ class SettingsViewController: UIViewController  {
         super.viewDidLoad()
         fetchUser()
         setupImagePicker()
+        handleUpdatesObserverAndRefresh()
     }
     
     //MARK: - Helper Functions
@@ -119,6 +120,14 @@ class SettingsViewController: UIViewController  {
         UserController.shared.fetchUserWithUID(uid: uid) { (user) in
             self.setupUserProfile(user: user)
         }
+    }
+    
+    func handleUpdatesObserverAndRefresh() {
+        NotificationCenter.default.addObserver(self, selector: #selector(handleUpdate), name: LocationSettingsViewController.updateNotificationName, object: nil)
+    }
+    
+    @objc func handleUpdate() {
+        fetchUser()
     }
     
     func setupUserProfile(user: User) {
