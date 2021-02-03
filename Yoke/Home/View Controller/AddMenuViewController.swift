@@ -21,6 +21,7 @@ class AddMenuViewController: UIViewController {
     var uid = Auth.auth().currentUser?.uid ?? ""
     var menuExist: Bool = false
     static let updateNotificationName = NSNotification.Name(rawValue: "load")
+    static let updateNotificationDelete = NSNotification.Name(rawValue: "delete")
     var menu: Menu? {
         didSet {
             fetchMenu()
@@ -182,7 +183,8 @@ class AddMenuViewController: UIViewController {
             switch result {
             case true:
                 print("deleted")
-                NotificationCenter.default.post(name: AddMenuViewController.updateNotificationName, object: nil)
+                //update here
+                NotificationCenter.default.post(name: AddMenuViewController.updateNotificationDelete, object: nil)
                 self.handleDismiss()
             case false:
                 print("error in delete menu")

@@ -43,7 +43,7 @@ class MenuController {
     }
     
     func fetchMenuWith(uid: String, completion: @escaping (Bool) -> Void) {
-        firestoreDB.document(uid).collection(Constants.Menu).getDocuments { (snap, error) in
+        firestoreDB.document(uid).collection(Constants.Menu).addSnapshotListener { (snap, error) in
             if let error = error {
                 print(error.localizedDescription)
                 completion(false)

@@ -30,15 +30,21 @@ class HomeViewController: UIViewController {
         constrainViews()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        fetchMenus()
+        handleUpdateObserverAndRefresh()
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setupNavTitleAndBarButtonItems()
         setupBannerView()
         setupCollectionView()
         fetchUser()
-        fetchMenus()
+//        fetchMenus()
         fetchSuggestedChefs()
-        handleUpdatesObserverAndRefresh()
+//        handleUpdatesObserverAndRefresh()
     }
     
     //MARK: Helper Functions
@@ -186,18 +192,25 @@ class HomeViewController: UIViewController {
         
     }
     
-    func handleUpdatesObserverAndRefresh() {
+    func handleUpdateObserverAndRefresh() {
         NotificationCenter.default.addObserver(self, selector: #selector(handleUpdate), name: SettingsViewController.updateNotificationName, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(loadList(notification:)), name: AddMenuViewController.updateNotificationName, object: nil)
-    }
-    
-    @objc func loadList(notification: NSNotification) {
-      self.menuCollectionView.reloadData()
+        NotificationCenter.default.addObserver(self, selector: #selector(handleUpdate), name: AddMenuViewController.updateNotificationName, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(handleDelete), name: AddMenuViewController.updateNotificationDelete, object: nil)
     }
     
     @objc func handleUpdate() {
-        fetchUser()
-        setupCollectionView()
+        DispatchQueue.main.async {
+            self.fetchUser()
+            self.setupCollectionView()
+            MenuController.shared.menus.removeAll()
+            self.menuCollectionView.reloadData()
+        }
+    }
+    
+    @objc func handleDelete() {
+        DispatchQueue.main.async {
+            self.menuCollectionView.reloadData()
+        }
     }
     
     fileprivate func fetchSuggestedChefs() {
