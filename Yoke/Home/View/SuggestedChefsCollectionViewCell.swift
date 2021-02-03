@@ -8,6 +8,7 @@
 
 import UIKit
 import FirebaseStorage
+import Kingfisher
 
 class SuggestedChefsCollectionViewCell: UICollectionViewCell {
 
@@ -15,11 +16,21 @@ class SuggestedChefsCollectionViewCell: UICollectionViewCell {
         didSet {
             guard let chef = chef else { return }
             nameLabel.text = chef.username
-            guard let uid = chef.uid else { return }
-            let imageStorageRef = Storage.storage().reference().child("profileImageUrl/\(uid)")
-            imageStorageRef.getData(maxSize: 2 * 1024 * 1024) { data, error in
-                if error == nil, let data = data {
-                    self.profileImage.image = UIImage(data: data)
+            guard let city = chef.city, let state = chef.state else { return }
+            locationLabel.text = "\(city), \(state)"
+            profileImage.image = nil
+            if let uid = chef.uid {
+                Storage.storage().reference().child("profileImageUrl/\(uid)").downloadURL { (url, error) in
+                    if let error = error {
+                        print(error.localizedDescription)
+                    }
+                    guard let imageUrl = url?.absoluteString else { return }
+                    if let url = URL(string: imageUrl) {
+                        let placeholder = UIImage(named: "image_background")
+                        self.profileImage.kf.indicatorType = .activity
+                        let options : KingfisherOptionsInfo = [KingfisherOptionsInfoItem.transition(.fade(0.2))]
+                        self.profileImage.kf.setImage(with: url, placeholder: placeholder, options: options)
+                    }
                 }
             }
         }
@@ -40,17 +51,18 @@ class SuggestedChefsCollectionViewCell: UICollectionViewCell {
         addSubview(cellBackgroundView)
         addSubview(profileImage)
         addSubview(nameLabel)
-        addSubview(cityLabel)
+        addSubview(locationLabel)
     }
     
     func setupConstraints() {
         shadowView.anchor(top: topAnchor, left: leftAnchor, bottom: bottomAnchor, right: rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0)
         cellBackgroundView.anchor(top: topAnchor, left: leftAnchor, bottom: bottomAnchor, right: rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0)
-        profileImage.anchor(top: topAnchor, left: nil, bottom: nil, right: nil, paddingTop: 5, paddingLeft: 5, paddingBottom: 0, paddingRight: 5, width: 100, height: 100)
-        profileImage.backgroundColor = .green
+        profileImage.anchor(top: topAnchor, left: nil, bottom: nil, right: nil, paddingTop: 5, paddingLeft: 5, paddingBottom: 0, paddingRight: 5, width: 120, height: 120)
         profileImage.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
-        nameLabel.anchor(top: profileImage.bottomAnchor, left: leftAnchor, bottom: nil, right: rightAnchor, paddingTop: 5, paddingLeft: 0, paddingBottom: 0, paddingRight: 0)
-        cityLabel.anchor(top: nameLabel.bottomAnchor, left: leftAnchor, bottom: nil, right: rightAnchor, paddingTop: 5, paddingLeft: 0, paddingBottom: 0, paddingRight: 0)
+        nameLabel.anchor(top: profileImage.bottomAnchor, left: nil, bottom: nil, right: nil, paddingTop: 5, paddingLeft: 0, paddingBottom: 0, paddingRight: 0)
+        nameLabel.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
+        locationLabel.anchor(top: nameLabel.bottomAnchor, left: nil, bottom: nil, right: nil, paddingTop: 5, paddingLeft: 0, paddingBottom: 0, paddingRight: 0)
+        locationLabel.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
     }
     
     var profileImage: CustomImageView = {
@@ -59,23 +71,25 @@ class SuggestedChefsCollectionViewCell: UICollectionViewCell {
         image.image = UIImage(named: "image_background")
         image.translatesAutoresizingMaskIntoConstraints = false
         image.clipsToBounds = true
-        image.layer.cornerRadius = 50
+        image.layer.cornerRadius = 60
+        image.layer.borderWidth = 1
+        image.layer.borderColor = UIColor.white.cgColor
         return image
     }()
     
     var nameLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont.boldSystemFont(ofSize: 17)
-        label.textColor = .gray
+        label.font = UIFont.boldSystemFont(ofSize: 15)
+        label.textColor = .white
         label.lineBreakMode = .byWordWrapping
         label.numberOfLines = 0
         return label
     }()
     
-    var cityLabel: UILabel = {
+    var locationLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.boldSystemFont(ofSize: 13)
-        label.textColor = .gray
+        label.textColor = .white
         return label
     }()
     
@@ -83,7 +97,7 @@ class SuggestedChefsCollectionViewCell: UICollectionViewCell {
         let view = UIView()
         view.layer.cornerRadius = 8
         view.layer.masksToBounds = true
-        view.backgroundColor = UIColor.white
+        view.backgroundColor = UIColor.orangeColor()
         return view
     }()
     

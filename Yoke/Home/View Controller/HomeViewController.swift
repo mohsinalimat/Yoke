@@ -103,7 +103,7 @@ class HomeViewController: UIViewController {
         scrollView.contentSize = CGSize(width: view.frame.width, height: view.frame.height - 200)
         scrollView.anchor(top: buttonStackView.bottomAnchor, left: safeArea.leftAnchor, bottom: safeArea.bottomAnchor, right: safeArea.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0)
         
-        collectionViewBG.anchor(top: scrollView.topAnchor, left: safeArea.leftAnchor, bottom: scrollView.bottomAnchor, right: safeArea.rightAnchor, paddingTop: 10, paddingLeft: 5, paddingBottom: 8, paddingRight: 5, height: view.frame.width - 25)
+        collectionViewBG.anchor(top: scrollView.topAnchor, left: safeArea.leftAnchor, bottom: scrollView.bottomAnchor, right: safeArea.rightAnchor, paddingTop: 10, paddingLeft: 5, paddingBottom: 8, paddingRight: 5, height: view.frame.width - 100)
         
         menuViewBG.anchor(top: collectionViewBG.topAnchor, left: collectionViewBG.leftAnchor, bottom: nil, right: collectionViewBG.rightAnchor, paddingTop: 5, paddingLeft: 5, paddingBottom: 0, paddingRight: 5, height: 50)
 
@@ -193,7 +193,6 @@ class HomeViewController: UIViewController {
     }
     
     @objc func loadList(notification: NSNotification) {
-        print("loaded")
       self.menuCollectionView.reloadData()
     }
     
@@ -207,7 +206,7 @@ class HomeViewController: UIViewController {
         UserController.shared.fetchUserWithUID(uid: uid) { (user) in
             guard let latitude = user.latitude,
                   let longitude = user.longitude else { return }
-            SuggestedChefController.shared.fetchSuggestedChefsWith(latitude: latitude, longitude: longitude) { (result) in
+            SuggestedChefController.shared.fetchSuggestedChefsWith(uid: uid, latitude: latitude, longitude: longitude) { (result) in
                 switch result {
                 case true:
                     DispatchQueue.main.async {
@@ -561,14 +560,12 @@ class HomeViewController: UIViewController {
 extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         if collectionView == self.menuCollectionView {
-            print("count \(MenuController.shared.menus.count)")
             if MenuController.shared.menus.count == 0 {
                 return 1
             } else {
                 return MenuController.shared.menus.count
             }
         }
-        print("sug chefs \(SuggestedChefController.shared.chefs.count)")
         if SuggestedChefController.shared.chefs.count == 0 {
             return 1
         } else {
@@ -613,6 +610,13 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
                 return CGSize(width: view.frame.width / 2, height: 250)
             }
         }
+        
+        if SuggestedChefController.shared.chefs.count == 0 {
+            
+        } else {
+            return CGSize(width: 150, height: 200)
+        }
+        
         return CGSize(width: view.frame.width / 2, height: 250)
     }
     
@@ -639,11 +643,11 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
     }
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
-        return 15
+        return 5
     }
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-        return 15
+        return 5
     }
     
 //    func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {

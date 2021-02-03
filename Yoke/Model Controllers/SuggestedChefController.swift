@@ -22,7 +22,7 @@ class SuggestedChefController {
     var chefs: [User] = []
     
     //MARK: - CRUD Functions
-    func fetchSuggestedChefsWith(latitude: Double, longitude: Double, completion: @escaping (Bool) -> Void) {
+    func fetchSuggestedChefsWith(uid: String, latitude: Double, longitude: Double, completion: @escaping (Bool) -> Void) {
         
         let currentLatitude = latitude
         let currentLongitude = longitude
@@ -35,7 +35,7 @@ class SuggestedChefController {
             if let key = key {
                 print(key)
                 UserController.shared.fetchUserWithUID(uid: key) { (user) in
-                    if user.isChef == true {
+                    if user.isChef == true && key != uid {
                         print("chefs \(user.username)")
                         self.chefs.append(user)
                         completion(true)
