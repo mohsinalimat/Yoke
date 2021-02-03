@@ -29,10 +29,10 @@ class EmptyCell: UICollectionViewCell {
     }
     
     func setupConstraints() {
-        shadowView.anchor(top: topAnchor, left: nil, bottom: bottomAnchor, right: nil, paddingTop: 10, paddingLeft: 0, paddingBottom: -15, paddingRight: 0, width: 110)
-        shadowView.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
-        cellBackgroundView.anchor(top: topAnchor, left: nil, bottom: bottomAnchor, right: nil, paddingTop: 10, paddingLeft: 0, paddingBottom: -15, paddingRight: 0, width: 110)
-        cellBackgroundView.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
+        shadowView.anchor(top: topAnchor, left: leftAnchor, bottom: bottomAnchor, right: rightAnchor, paddingTop: 10, paddingLeft: 0, paddingBottom: -15, paddingRight: 0)
+//        shadowView.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
+        cellBackgroundView.anchor(top: topAnchor, left: leftAnchor, bottom: bottomAnchor, right: rightAnchor, paddingTop: 10, paddingLeft: 0, paddingBottom: -15, paddingRight: 0)
+//        cellBackgroundView.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
         
         photoImageView.anchor(top: topAnchor, left: nil, bottom: nil, right: nil, paddingTop: 25, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 100, height: 100)
         photoImageView.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
@@ -54,6 +54,8 @@ class EmptyCell: UICollectionViewCell {
         label.font = UIFont.boldSystemFont(ofSize: 16)
         label.textAlignment = .center
         label.textColor = UIColor.lightGray
+        label.lineBreakMode = .byWordWrapping
+        label.numberOfLines = 0
         return label
     }()
     

@@ -159,7 +159,6 @@ class HomeViewController: UIViewController {
         menuCollectionView.delegate = self
         menuCollectionView.dataSource = self
         menuCollectionView.translatesAutoresizingMaskIntoConstraints = false
-//        collectionView.register(MenuHeaderCollectionViewCell.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: headerId)
         menuCollectionView.register(MenuCollectionViewCell.self, forCellWithReuseIdentifier: cellId)
         menuCollectionView.register(EmptyCell.self, forCellWithReuseIdentifier: noCellId)
         
@@ -230,34 +229,6 @@ class HomeViewController: UIViewController {
                 print("Problem Loading Menus")
             }
         }
-    }
-
-    fileprivate func fetchPostsWithUser(user: User) {
-        GalleryController.shared.fetchGalleryWith(user: user) { (result) in
-            switch result {
-            case true:
-                print("Result: fetched")
-                self.menuCollectionView.reloadData()
-            case false:
-                print("Result: not fetched")
-            }
-        }
-//        let ref = Database.database().reference().child(Constants.Gallery).child(uid)
-//
-//        ref.queryOrdered(byChild: "creationDate").observe(.childAdded, with: { (snapshot) in
-//            guard let dictionary = snapshot.value as? [String: Any] else { return }
-//
-//            guard let user = self.user else { return }
-            
-//            let gallery = Gallery(imageUrl: <#T##String#>, caption: <#T##String#>, location: <#T##String#>, likes: <#T##Dictionary<String, Any>#>, likeCount: <#T##Int#>, isLiked: <#T##Bool#>, creationDate: <#T##Date#>)
-            
-//            self.galleries.insert(gallery, at: 0)
-//            self.collectionView?.reloadData()
-            
-//        }) { (err) in
-//            print("Failed to fetch ordered posts:", err)
-//        }
-        
     }
     
     func viewReviews(user: User) {
@@ -578,8 +549,8 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
             if MenuController.shared.menus.count == 0 {
                 let noCell = collectionView.dequeueReusableCell(withReuseIdentifier: noCellId, for: indexPath) as! EmptyCell
                 noCell.photoImageView.image = UIImage(named: "no_post_background")!
-                noCell.noPostLabel.text = "Coming Soon"
-                noCell.noPostLabel.font = UIFont.boldSystemFont(ofSize: 13)
+                noCell.noPostLabel.text = "Hey there chef, Let's add a menu item to your profile."
+                noCell.noPostLabel.font = UIFont.boldSystemFont(ofSize: 17)
                 return noCell
             }
             
@@ -593,7 +564,7 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
             let noCell = collectionView.dequeueReusableCell(withReuseIdentifier: noCellId, for: indexPath) as! EmptyCell
             noCell.photoImageView.image = UIImage(named: "no_post_background")!
             noCell.noPostLabel.text = "Sorry, there are currently no chefs in your area"
-            noCell.noPostLabel.font = UIFont.boldSystemFont(ofSize: 13)
+            noCell.noPostLabel.font = UIFont.boldSystemFont(ofSize: 17)
             return noCell
         } else {
             cellB.chef = SuggestedChefController.shared.chefs[indexPath.item]
@@ -605,19 +576,17 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         if collectionView == self.menuCollectionView {
             if MenuController.shared.menus.count == 0 {
-                return CGSize(width: collectionView.frame.width, height: 150)
+                return CGSize(width: view.frame.width - 20, height: 200)
             } else {
                 return CGSize(width: view.frame.width / 2, height: 250)
             }
         }
         
         if SuggestedChefController.shared.chefs.count == 0 {
-            
+            return CGSize(width: view.frame.width - 20, height: 200)
         } else {
             return CGSize(width: 150, height: 200)
         }
-        
-        return CGSize(width: view.frame.width / 2, height: 250)
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {

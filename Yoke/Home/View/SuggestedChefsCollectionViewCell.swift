@@ -9,6 +9,7 @@
 import UIKit
 import FirebaseStorage
 import Kingfisher
+import FirebaseAuth
 
 class SuggestedChefsCollectionViewCell: UICollectionViewCell {
 
@@ -18,7 +19,6 @@ class SuggestedChefsCollectionViewCell: UICollectionViewCell {
             nameLabel.text = chef.username
             guard let city = chef.city, let state = chef.state else { return }
             locationLabel.text = "\(city), \(state)"
-            profileImage.image = nil
             if let uid = chef.uid {
                 Storage.storage().reference().child("profileImageUrl/\(uid)").downloadURL { (url, error) in
                     if let error = error {

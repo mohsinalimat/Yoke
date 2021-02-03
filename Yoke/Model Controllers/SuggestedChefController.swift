@@ -36,7 +36,6 @@ class SuggestedChefController {
                 print(key)
                 UserController.shared.fetchUserWithUID(uid: key) { (user) in
                     if user.isChef == true && key != uid {
-                        print("chefs \(user.username)")
                         self.chefs.append(user)
                         completion(true)
                     }
@@ -63,33 +62,6 @@ class SuggestedChefController {
                         }
                     }
                 }
-//                self.geoRef.getDocuments { (querySnapshot, error) in
-//                    if let error = error {
-//                        print(error.localizedDescription)
-//                    } else {
-//                        for document in querySnapshot!.documents {
-//                            let uid = document.documentID
-//                            UserController.shared.fetchUserWithUID(uid: uid) { (user) in
-//                                print(user.username)
-//                            }
-//                            print("\(document.documentID) => \(document.data())")
-//                        }
-//                    }
-//                }
-//                self.geoRef.document(key!).getDocument { (document, error) in
-//                    print("doc data \(key)")
-//                    if let document = document, document.exists {
-//                        guard let getDoc = document.data() else { return }
-//                        for x in getDoc {
-//                            print("this is x \(x)")
-//                        }
-////                        print("Query Data: \(document.data())")
-////                        UserController.shared.users.append(document.data())
-////                        self.addFaciltiesToMap()
-//                    } else {
-//                        print("Document does not exist.")
-//                    }
-//                }
             })
         }
     
