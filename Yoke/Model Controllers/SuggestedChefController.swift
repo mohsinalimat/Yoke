@@ -19,46 +19,77 @@ class SuggestedChefController {
     let geoRef = Firestore.firestore().collection("geoFireLocation")
     
     //MARK: - Source of truth
-    var users: [User] = []
+    var chefs: [User] = []
     
     //MARK: - CRUD Functions
-    func fetchSuggestedChefsWith(uid: String, location: String, completion: @escaping (Bool) -> Void) {
-        let geoFirestore = GeoFirestore(collectionRef: self.geoRef)
-        geoFirestore.getLocation(forDocumentWithID: uid) { (location: GeoPoint?, error) in
-            if let error = error {
-                print("An error occurred: \(error)")
-            } else if let location = location {
-                print("Location: [\(location.latitude), \(location.longitude)]")
-                let center2 = GeoPoint(latitude: location.latitude, longitude: location.longitude)
-                // Query locations at [37.7832889, -122.4056973] with a radius of 600 meters
-                var circleQuery2 = geoFirestore.query(withCenter: center2, radius: 0.6)
+    func fetchSuggestedChefsWith(latitude: Double, longitude: Double, completion: @escaping (Bool) -> Void) {
+        
+        let currentLatitude = latitude
+        let currentLongitude = longitude
 
-            } else {
-                print("GeoFirestore does not contain a location for this document")
-            }
+        let circleQuery = GeoFirestore(collectionRef: self.geoRef).query(withCenter: GeoPoint(latitude: currentLatitude, longitude: currentLongitude), radius: 80.0)
+        let _ = circleQuery.observeReady {
+            print("All initial data has been loaded and events have been fired!")
         }
+        let _ = circleQuery.observe(.documentEntered, with: { (key, location) in
+            if let key = key {
+                print(key)
+                UserController.shared.fetchUserWithUID(uid: key) { (user) in
+                    if user.isChef == true {
+                        print("chefs \(user.username)")
+                        self.chefs.append(user)
+                        completion(true)
+                    }
+                }
+            } else {
+                completion(false)
+            }
+        })
     }
     
     func getChefs(latitude: Double, longitude: Double) {
             let currentLatitude = latitude
             let currentLongitude = longitude
 
-//            let geoFireStore = "geoFireLocation"
-            let circleQuery = GeoFirestore(collectionRef: self.geoRef).query(withCenter: GeoPoint(latitude: currentLatitude, longitude: currentLongitude), radius: 10)
+        let circleQuery = GeoFirestore(collectionRef: self.geoRef).query(withCenter: GeoPoint(latitude: currentLatitude, longitude: currentLongitude), radius: 20.0)
             let _ = circleQuery.observeReady {
                 print("All initial data has been loaded and events have been fired!")
             }
             let _ = circleQuery.observe(.documentEntered, with: { (key, location) in
-                self.geoRef.document(key!).getDocument { (document, error) in
-                    print("doc data \(document)")
-                    if let document = document, document.exists {
-                        print("Query Data: \(document.data())")
-//                        UserController.shared.users.append(document.data())
-//                        self.addFaciltiesToMap()
-                    } else {
-                        print("Document does not exist.")
+                if let key = key {
+                    UserController.shared.fetchUserWithUID(uid: key) { (user) in
+                        if user.isChef == true {
+                            UserController.shared.users.append(user)
+                        }
                     }
                 }
+//                self.geoRef.getDocuments { (querySnapshot, error) in
+//                    if let error = error {
+//                        print(error.localizedDescription)
+//                    } else {
+//                        for document in querySnapshot!.documents {
+//                            let uid = document.documentID
+//                            UserController.shared.fetchUserWithUID(uid: uid) { (user) in
+//                                print(user.username)
+//                            }
+//                            print("\(document.documentID) => \(document.data())")
+//                        }
+//                    }
+//                }
+//                self.geoRef.document(key!).getDocument { (document, error) in
+//                    print("doc data \(key)")
+//                    if let document = document, document.exists {
+//                        guard let getDoc = document.data() else { return }
+//                        for x in getDoc {
+//                            print("this is x \(x)")
+//                        }
+////                        print("Query Data: \(document.data())")
+////                        UserController.shared.users.append(document.data())
+////                        self.addFaciltiesToMap()
+//                    } else {
+//                        print("Document does not exist.")
+//                    }
+//                }
             })
         }
     

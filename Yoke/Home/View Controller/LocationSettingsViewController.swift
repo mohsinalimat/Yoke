@@ -111,6 +111,15 @@ class LocationSettingsViewController: UIViewController, UISearchBarDelegate, UIS
             self.pin.coordinate = CLLocationCoordinate2D(latitude: location.coordinate.latitude, longitude: location.coordinate.longitude)
             self.mapView.addAnnotation(self.pin)
             self.mapView.setRegion(region, animated: true)
+//            SuggestedChefController.shared.fetchSuggestedChefsWith(uid: self.uid, location: "") { (result) in
+//                switch result {
+//                case true:
+//                    print("found")
+//                case false:
+//                    print("nope")
+//                }
+//            }
+            SuggestedChefController.shared.getChefs(latitude: self.latitude, longitude: self.longitude)
         }
     }
     
@@ -170,7 +179,15 @@ class LocationSettingsViewController: UIViewController, UISearchBarDelegate, UIS
                 self.pin.coordinate = CLLocationCoordinate2D(latitude: location.coordinate.latitude, longitude: location.coordinate.longitude)
                 self.mapView.addAnnotation(self.pin)
                 self.mapView.setRegion(region, animated: true)
-                SuggestedChefController.shared.getChefs(latitude: self.latitude, longitude: self.longitude)
+//                SuggestedChefController.shared.fetchSuggestedChefsWith(uid: self.uid, location: "") { (result) in
+//                    switch result {
+//                    case true:
+//                        print("found")
+//                    case false:
+//                        print("nope")
+//                    }
+//                }
+//                SuggestedChefController.shared.getChefs(latitude: self.latitude, longitude: self.longitude)
             }
         }
     }

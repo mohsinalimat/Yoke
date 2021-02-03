@@ -202,6 +202,24 @@ class HomeViewController: UIViewController {
         setupCollectionView()
     }
     
+    fileprivate func fetchSuggestedChefs() {
+        let uid = userId ?? (Auth.auth().currentUser?.uid ?? "")
+        UserController.shared.fetchUserWithUID(uid: uid) { (user) in
+            guard let latitude = user.latitude,
+                  let longitude = user.longitude else { return }
+            SuggestedChefController.shared.fetchSuggestedChefsWith(latitude: latitude, longitude: longitude) { (result) in
+                switch result {
+                case true:
+                    DispatchQueue.main.async {
+                        self.suggestedChefCollectionView.reloadData()
+                    }
+                case false:
+                    print("failed to fetch any chefs in your area")
+                }
+            }
+        }
+    }
+    
     fileprivate func fetchMenus() {
         MenuController.shared.fetchMenuWith(uid: Auth.auth().currentUser?.uid ?? "") { (result) in
             switch result {
@@ -213,10 +231,6 @@ class HomeViewController: UIViewController {
                 print("Problem Loading Menus")
             }
         }
-    }
-    
-    fileprivate func fetchSuggestedChefs() {
-        
     }
 
     fileprivate func fetchPostsWithUser(user: User) {
@@ -554,13 +568,12 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
                 return MenuController.shared.menus.count
             }
         }
-//        if SuggestedChefController.shared.users.count == 0 {
-//            return 1
-//        } else {
-//            return MenuController.shared.menus.count
-//        }
-//        print("count \(MenuController.shared.menus.count)")
-        return 1
+        print("sug chefs \(SuggestedChefController.shared.chefs.count)")
+        if SuggestedChefController.shared.chefs.count == 0 {
+            return 1
+        } else {
+            return SuggestedChefController.shared.chefs.count
+        }
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -579,8 +592,17 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
         }
 
         let cellB = collectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath) as! SuggestedChefsCollectionViewCell
-//        cell.menu = MenuController.shared.menus[indexPath.item]
-        return cellB
+        if SuggestedChefController.shared.chefs.count == 0 {
+            let noCell = collectionView.dequeueReusableCell(withReuseIdentifier: noCellId, for: indexPath) as! EmptyCell
+            noCell.photoImageView.image = UIImage(named: "no_post_background")!
+            noCell.noPostLabel.text = "Sorry, there are currently no chefs in your area"
+            noCell.noPostLabel.font = UIFont.boldSystemFont(ofSize: 13)
+            return noCell
+        } else {
+            cellB.chef = SuggestedChefController.shared.chefs[indexPath.item]
+            return cellB
+        }
+        
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {

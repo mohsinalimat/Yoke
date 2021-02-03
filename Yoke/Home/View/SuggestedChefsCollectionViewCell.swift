@@ -7,18 +7,21 @@
 //
 
 import UIKit
+import FirebaseStorage
 
 class SuggestedChefsCollectionViewCell: UICollectionViewCell {
 
-    var user: User? {
+    var chef: User? {
         didSet {
-//            guard let menu = menu else { return }
-//            nameLabel.text = menu.name
-//            guard let course = menu.courseType else { return }
-//            courseTypeLabel.text = "Course: \(course)"
-//            detailLabel.text = menu.detail
-//            guard let image = menu.imageUrl else { return }
-//            menuImage.loadImage(urlString: image)
+            guard let chef = chef else { return }
+            nameLabel.text = chef.username
+            guard let uid = chef.uid else { return }
+            let imageStorageRef = Storage.storage().reference().child("profileImageUrl/\(uid)")
+            imageStorageRef.getData(maxSize: 2 * 1024 * 1024) { data, error in
+                if error == nil, let data = data {
+                    self.profileImage.image = UIImage(data: data)
+                }
+            }
         }
     }
     
@@ -37,16 +40,17 @@ class SuggestedChefsCollectionViewCell: UICollectionViewCell {
         addSubview(cellBackgroundView)
         addSubview(profileImage)
         addSubview(nameLabel)
-        addSubview(distanceLabel)
+        addSubview(cityLabel)
     }
     
     func setupConstraints() {
         shadowView.anchor(top: topAnchor, left: leftAnchor, bottom: bottomAnchor, right: rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0)
         cellBackgroundView.anchor(top: topAnchor, left: leftAnchor, bottom: bottomAnchor, right: rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0)
         profileImage.anchor(top: topAnchor, left: nil, bottom: nil, right: nil, paddingTop: 5, paddingLeft: 5, paddingBottom: 0, paddingRight: 5, width: 100, height: 100)
+        profileImage.backgroundColor = .green
         profileImage.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
         nameLabel.anchor(top: profileImage.bottomAnchor, left: leftAnchor, bottom: nil, right: rightAnchor, paddingTop: 5, paddingLeft: 0, paddingBottom: 0, paddingRight: 0)
-        distanceLabel.anchor(top: nameLabel.bottomAnchor, left: leftAnchor, bottom: nil, right: rightAnchor, paddingTop: 5, paddingLeft: 0, paddingBottom: 0, paddingRight: 0)
+        cityLabel.anchor(top: nameLabel.bottomAnchor, left: leftAnchor, bottom: nil, right: rightAnchor, paddingTop: 5, paddingLeft: 0, paddingBottom: 0, paddingRight: 0)
     }
     
     var profileImage: CustomImageView = {
@@ -61,7 +65,6 @@ class SuggestedChefsCollectionViewCell: UICollectionViewCell {
     
     var nameLabel: UILabel = {
         let label = UILabel()
-        label.text = "Name"
         label.font = UIFont.boldSystemFont(ofSize: 17)
         label.textColor = .gray
         label.lineBreakMode = .byWordWrapping
@@ -69,9 +72,8 @@ class SuggestedChefsCollectionViewCell: UICollectionViewCell {
         return label
     }()
     
-    var distanceLabel: UILabel = {
+    var cityLabel: UILabel = {
         let label = UILabel()
-        label.text = "distance"
         label.font = UIFont.boldSystemFont(ofSize: 13)
         label.textColor = .gray
         return label
