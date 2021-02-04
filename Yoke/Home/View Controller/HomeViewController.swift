@@ -194,25 +194,15 @@ class HomeViewController: UIViewController {
     
     func handleUpdateObserverAndRefresh() {
         NotificationCenter.default.addObserver(self, selector: #selector(handleUpdate), name: SettingsViewController.updateNotificationName, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(handleUpdate), name: AddMenuViewController.updateNotificationName, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(handleDelete), name: AddMenuViewController.updateNotificationDelete, object: nil)
     }
     
     @objc func handleUpdate() {
         DispatchQueue.main.async {
             self.fetchUser()
             self.setupCollectionView()
-//            MenuController.shared.menus = []
-//            self.fetchMenus()
         }
     }
-    
-    @objc func handleDelete() {
-        DispatchQueue.main.async {
-            self.menuCollectionView.reloadData()
-        }
-    }
-    
+
     fileprivate func fetchSuggestedChefs() {
         let uid = userId ?? (Auth.auth().currentUser?.uid ?? "")
         UserController.shared.fetchUserWithUID(uid: uid) { (user) in

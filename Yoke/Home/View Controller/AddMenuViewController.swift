@@ -20,8 +20,6 @@ class AddMenuViewController: UIViewController {
     var menuType: String = "Fixed"
     var uid = Auth.auth().currentUser?.uid ?? ""
     var menuExist: Bool = false
-    static let updateNotificationName = NSNotification.Name(rawValue: "load")
-    static let updateNotificationDelete = NSNotification.Name(rawValue: "delete")
     var menu: Menu? {
         didSet {
             fetchMenu()
@@ -171,7 +169,6 @@ class AddMenuViewController: UIViewController {
                 case true:
                     print("updated")
                     self.saveSuccessful()
-//                    NotificationCenter.default.post(name: AddMenuViewController.updateNotificationName, object: nil)
                 case false:
                     print("false")
                 }
@@ -182,7 +179,6 @@ class AddMenuViewController: UIViewController {
                 case true:
                     print("saved")
                     self.saveSuccessful()
-//                    NotificationCenter.default.post(name: AddMenuViewController.updateNotificationName, object: nil)
                 case false:
                     print("failed to save")
                 }
@@ -197,9 +193,7 @@ class AddMenuViewController: UIViewController {
             switch result {
             case true:
                 print("deleted")
-                //update here
                 self.deleteSuccessful()
-                NotificationCenter.default.post(name: AddMenuViewController.updateNotificationDelete, object: nil)
             case false:
                 print("error in delete menu")
             }
