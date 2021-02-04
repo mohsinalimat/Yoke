@@ -123,29 +123,38 @@ class SignupVC: UIViewController {
         guard password == confirmPassword else { return confirmPasswordsMatch()}
         guard let image = self.addImageButton.imageView?.image else { return }
         myActivityIndicator.startAnimating()
-        guard let exposedLocation = self.locationManager.exposedLocation else { return }
-        self.locationManager.getPlace(for: exposedLocation) { [self] placemark in
-            guard let placemark = placemark else { return }
-            var output = ""
-            if let locationName = placemark.location {
-                output = output + "\n\(locationName)"
-                // pulls to physical address on mapkit
+        UserController.shared.createUserWith(email: email, username: username, password: password, image: image, isChef: self.isChef) { (result) in
+            switch result {
+            case true:
+                self.handleLoginToHome()
+                print("success")
+            case false:
+                print("error in signup: \(Error.self)")
             }
-            if let postal = placemark.postalAddress {
-                UserController.shared.createUserWith(email: email, username: username, password: password, image: image, city:postal.city, state:postal.state, isChef: self.isChef) { (result) in
-                    switch result {
-                    case true:
-                        self.handleLoginToHome()
-                        print("success")
-                    case false:
-                        print("error in signup: \(Error.self)")
-                    }
-                }
-                self.location = output
-                print(self.location)
-            }
-            
         }
+//        guard let exposedLocation = self.locationManager.exposedLocation else { return }
+//        self.locationManager.getPlace(for: exposedLocation) { [self] placemark in
+//            guard let placemark = placemark else { return }
+//            var output = ""
+//            if let locationName = placemark.location {
+//                output = output + "\n\(locationName)"
+//                // pulls to physical address on mapkit
+//            }
+//            if let postal = placemark.postalAddress {
+//                UserController.shared.createUserWith(email: email, username: username, password: password, image: image, isChef: self.isChef) { (result) in
+//                    switch result {
+//                    case true:
+//                        self.handleLoginToHome()
+//                        print("success")
+//                    case false:
+//                        print("error in signup: \(Error.self)")
+//                    }
+//                }
+//                self.location = output
+//                print(self.location)
+//            }
+//
+//        }
     }
 
     func handleLoginToHome() {

@@ -109,7 +109,7 @@ class AddMenuViewController: UIViewController {
     func setupActivityIndicator() {
         myActivityIndicator.center = view.center
     }
-    
+
     func saveSuccessful() {
         let alertVC = UIAlertController(title: "Success", message: "Your menu item has been added!", preferredStyle: .alert)
         let okAction = UIAlertAction(title: "Cool Beans", style: .default) { (_) in
@@ -324,7 +324,7 @@ class AddMenuViewController: UIViewController {
         seg.backgroundColor = UIColor.orangeColor()
         seg.tintColor = UIColor.white
         seg.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor.white], for: UIControl.State.normal)
-        seg.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor.white], for: UIControl.State.selected)
+        seg.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor.orangeColor()!], for: UIControl.State.selected)
         seg.addTarget(self, action: #selector(handleCourseType), for: .valueChanged)
         return seg
     }()
@@ -351,7 +351,7 @@ class AddMenuViewController: UIViewController {
         seg.backgroundColor = UIColor.orangeColor()
         seg.tintColor = UIColor.white
         seg.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor.white], for: UIControl.State.normal)
-        seg.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor.white], for: UIControl.State.selected)
+        seg.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor.orangeColor()!], for: UIControl.State.selected)
         seg.addTarget(self, action: #selector(handleMenuType), for: .valueChanged)
         return seg
     }()
@@ -389,14 +389,6 @@ extension AddMenuViewController: UIImagePickerControllerDelegate, UINavigationCo
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         if let pickedImage = info[.editedImage] as? UIImage {
             self.menuImageView.image = pickedImage
-//            UserController.shared.updateUserProfileImage(uid, profileImage: pickedImage) { (result) in
-//                switch result {
-//                case true:
-//                    print("success")
-//                case false:
-//                    print("error in uploading image")
-//                }
-//            }
         }
         
         picker.dismiss(animated: true)

@@ -12,6 +12,7 @@ import FirebaseAuth
 import GoogleSignIn
 import AuthenticationServices
 import CryptoKit
+import MapKit
 
 class LoginVC: UIViewController {
     
@@ -22,7 +23,10 @@ class LoginVC: UIViewController {
     let appleButton = ASAuthorizationAppleIDButton(type: .continue, style: .black)
     fileprivate var currentNonce: String?
     private let locationManager = LocationManager()
+    let mapView = MKMapView()
     let myActivityIndicator = UIActivityIndicatorView(style: UIActivityIndicatorView.Style.large)
+//    var city: String?
+//    var state: String?
 
     //MARK: - Lifecycle Methods
     override func viewDidLayoutSubviews() {
@@ -78,6 +82,33 @@ class LoginVC: UIViewController {
 //        self.view.backgroundColor = UIColor(patternImage: image)
         self.view.backgroundColor = UIColor.orangeColor()
     }
+    
+    func setupGeofirestore(uid: String) {
+        guard let exposedLocation = self.locationManager.exposedLocation else { return }
+        self.locationManager.getPlace(for: exposedLocation) { placemark in
+            guard let placemark = placemark else { return }
+            var output = ""
+            if let locationName = placemark.location {
+                output = output + "\n\(locationName)"
+            }
+            self.locationManager.getLocation(forPlaceCalled: output) { location in
+                guard let location = location else { return }
+                let center = CLLocationCoordinate2D(latitude: location.coordinate.latitude, longitude: location.coordinate.longitude)
+                let latitude = center.latitude
+                let longitude = center.longitude
+                if let postal = placemark.postalAddress {
+                    UserController.shared.setUserLocation(uid, city: postal.city, state: postal.state, latitude: latitude, longitude: longitude) { (result) in
+                        switch result {
+                        case true:
+                            print("success")
+                        case false:
+                            print("failed to save")
+                        }
+                    }
+                }
+            }
+        }
+    }
 
     @objc func handleForgotPassword() {
         let forgotPasswordAlert = UIAlertController(title: "Forgot password?", message: "Enter email address", preferredStyle: .alert)
@@ -107,9 +138,9 @@ class LoginVC: UIViewController {
               let password = passwordTextField.text,
               !password.isEmpty else { return }
         self.myActivityIndicator.startAnimating()
-        Auth.auth().signIn(withEmail: email, password: password, completion: { (user, err) in
-            if let err = err {
-                Auth.auth().handleFirebaseErrors(error: err, vc: self)
+        Auth.auth().signIn(withEmail: email, password: password, completion: { (user, error) in
+            if let error = error {
+                print(error.localizedDescription)
                 return
             }
             self.handleLoginToHome()
@@ -394,25 +425,29 @@ extension LoginVC: ASAuthorizationControllerDelegate {
                     case true:
                         self.handleLoginToHome()
                     case false:
-                        guard let exposedLocation = self.locationManager.exposedLocation else { return }
-                        self.locationManager.getPlace(for: exposedLocation) { placemark in
-                            guard let placemark = placemark else { return }
-                            var output = ""
-                            if let town = placemark.locality {
-                                output = output + "\n\(town)"
-                            }
-                            if let state = placemark.administrativeArea {
-                                output = output + "\n\(state)"
-                            }
-                            UserController.shared.createUserWithProvider(uid: uid, email: email, username: username, location: output, isChef: false) { (result) in
-                                switch result {
-                                case true:
-                                    self.handleLoginToHome()
-                                case false:
-                                    print("google sign in problem")
-                                }
+                        UserController.shared.createUserWithProvider(uid: uid, email: email, username: username, isChef: false) { (result) in
+                            switch result {
+                            case true:
+                                self.setupGeofirestore(uid: uid)
+                                self.handleLoginToHome()
+                            case false:
+                                print("google sign in problem")
                             }
                         }
+//                        guard let exposedLocation = self.locationManager.exposedLocation else { return }
+//                        self.locationManager.getPlace(for: exposedLocation) { placemark in
+//                            guard let placemark = placemark else { return }
+//                            guard let city = placemark.locality,
+//                                  let state = placemark.administrativeArea else { return }
+//                            UserController.shared.createUserWithProvider(uid: uid, email: email, username: username, city: city, state: state, isChef: false) { (result) in
+//                                switch result {
+//                                case true:
+//                                    self.handleLoginToHome()
+//                                case false:
+//                                    print("google sign in problem")
+//                                }
+//                            }
+//                        }
                     }
                 }
             }
@@ -459,25 +494,29 @@ extension LoginVC: GIDSignInDelegate {
                     case true:
                         self.handleLoginToHome()
                     case false:
-                        guard let exposedLocation = self.locationManager.exposedLocation else { return }
-                        self.locationManager.getPlace(for: exposedLocation) { placemark in
-                            guard let placemark = placemark else { return }
-                            var output = ""
-                            if let town = placemark.locality {
-                                output = output + "\n\(town)"
-                            }
-                            if let state = placemark.administrativeArea {
-                                output = output + "\n\(state)"
-                            }
-                            UserController.shared.createUserWithProvider(uid: uid, email: email, username: username, location: output, isChef: false) { (result) in
-                                switch result {
-                                case true:
-                                    self.handleLoginToHome()
-                                case false:
-                                    print("google sign in problem")
-                                }
+                        UserController.shared.createUserWithProvider(uid: uid, email: email, username: username, isChef: false) { (result) in
+                            switch result {
+                            case true:
+                                self.setupGeofirestore(uid: uid)
+                                self.handleLoginToHome()
+                            case false:
+                                print("google sign in problem")
                             }
                         }
+//                        guard let exposedLocation = self.locationManager.exposedLocation else { return }
+//                        self.locationManager.getPlace(for: exposedLocation) { placemark in
+//                            guard let placemark = placemark else { return }
+//                            guard let city = placemark.locality,
+//                                  let state = placemark.administrativeArea else { return }
+//                            UserController.shared.createUserWithProvider(uid: uid, email: email, username: username, city: city, state: state, isChef: false) { (result) in
+//                                switch result {
+//                                case true:
+//                                    self.handleLoginToHome()
+//                                case false:
+//                                    print("google sign in problem")
+//                                }
+//                            }
+//                        }
                     }
                 }
             }

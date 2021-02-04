@@ -10,6 +10,7 @@ import UIKit
 import Firebase
 import FirebaseAuth
 import Geofirestore
+import MapKit
 
 //https://github.com/imperiumlabs/GeoFirestore-iOS
 
@@ -27,10 +28,11 @@ class UserController {
     var users: [User] = []
     
     //MARK: - Properties
-//    private let locationManager = LocationManager()
+    private let locationManager = LocationManager()
+    let mapView = MKMapView()
     
     //MARK: - CRUD Functions
-    func createUserWith(email: String, username: String, password: String = "", image: UIImage?, city: String, state: String, isChef: Bool, completion: @escaping (Bool) -> Void) {
+    func createUserWith(email: String, username: String, password: String = "", image: UIImage?, isChef: Bool, completion: @escaping (Bool) -> Void) {
         Auth.auth().createUser(withEmail: email, password: password, completion: { (user, error) in
             if let error = error {
                 print("There was an error authorizing user: \(error.localizedDescription)")
@@ -50,18 +52,49 @@ class UserController {
                     completion(false)
                     return
                 }
-                guard let uid = user?.user.uid else { return }
-                self.firestoreDB.collection(Constants.Users).document(uid).setData([Constants.Email: email, Constants.Username: username, Constants.Uid: uid, Constants.City: city, Constants.State: state, Constants.IsChef: isChef])
-                let getUser = StripeUser.init(id: uid, customer_id: "", email: email)
-                self.createFirestoreUser(stripeUser: getUser)
-                completion(true)
+                storageRef.downloadURL(completion: { (downloadURL, err) in
+                    guard let imageUrl = downloadURL?.absoluteString else { return }
+                    guard let uid = user?.user.uid else { return }
+                    self.firestoreDB.collection(Constants.Users).document(uid).setData([Constants.Email: email, Constants.Username: username, Constants.Uid: uid, Constants.IsChef: isChef, Constants.ProfileImageUrl: imageUrl])
+                    let getUser = StripeUser.init(id: uid, customer_id: "", email: email)
+                    self.createFirestoreUser(stripeUser: getUser)
+                    self.setupGeofirestore(uid: uid)
+                    completion(true)
+                })
             })
         })
     }
     
-    func createUserWithProvider(uid: String, email: String, username: String, location: String, isChef: Bool, completion: @escaping (Bool) -> Void) {
+    func setupGeofirestore(uid: String) {
+        guard let exposedLocation = self.locationManager.exposedLocation else { return }
+        self.locationManager.getPlace(for: exposedLocation) { placemark in
+            guard let placemark = placemark else { return }
+            var output = ""
+            if let locationName = placemark.location {
+                output = output + "\n\(locationName)"
+            }
+            self.locationManager.getLocation(forPlaceCalled: output) { location in
+                guard let location = location else { return }
+                let center = CLLocationCoordinate2D(latitude: location.coordinate.latitude, longitude: location.coordinate.longitude)
+                let latitude = center.latitude
+                let longitude = center.longitude
+                if let postal = placemark.postalAddress {
+                    self.setUserLocation(uid, city: postal.city, state: postal.state, latitude: latitude, longitude: longitude) { (result) in
+                        switch result {
+                        case true:
+                            print("success")
+                        case false:
+                            print("failed to save")
+                        }
+                    }
+                }
+            }
+        }
+    }
+    
+    func createUserWithProvider(uid: String, email: String, username: String, isChef: Bool, completion: @escaping (Bool) -> Void) {
         
-        self.firestoreDB.collection(Constants.Users).document(uid).setData([Constants.Email: email, Constants.Username: username, Constants.Uid: uid, Constants.Location: location, Constants.IsChef: isChef]) { (error) in
+        self.firestoreDB.collection(Constants.Users).document(uid).setData([Constants.Email: email, Constants.Username: username, Constants.Uid: uid, Constants.IsChef: isChef]) { (error) in
             if let error = error {
                 print(error.localizedDescription)
                 completion(false)
@@ -101,6 +134,7 @@ class UserController {
             if let document = document, document.exists {
                 guard let dictionary = document.data() else { return }
                 let uid = dictionary[Constants.Uid] as? String ?? ""
+                let profileImageUrl = dictionary[Constants.ProfileImageUrl] as? String ?? ""
                 let username = dictionary[Constants.Username] as? String ?? ""
                 let location = dictionary[Constants.Location] as? String ?? ""
                 let street = dictionary[Constants.Street] as? String ?? ""
@@ -110,7 +144,7 @@ class UserController {
                 let latitude = dictionary[Constants.Latitude] as? Double ?? 0.0
                 let longitude = dictionary[Constants.Longitude] as? Double ?? 0.0
                 guard let isChef = dictionary[Constants.IsChef] as? Bool else { return }
-                let user = User(uid: uid, username: username, location: location, isChef: isChef, street: street, apartment: apartment, city: city, state: state, latitude: latitude, longitude: longitude)
+                let user = User(uid: uid, username: username, profileImageUrl: profileImageUrl, location: location, isChef: isChef, street: street, apartment: apartment, city: city, state: state, latitude: latitude, longitude: longitude)
                 completion(user)
             } else {
                 completion(error as! User)
@@ -150,7 +184,7 @@ class UserController {
         }
     }
     
-    func setUserLocation(_ uid: String, street: String, apartment: String, city: String, state: String, latitude: Double, longitude: Double, completion: @escaping (Bool) -> Void) {
+    func setUserLocation(_ uid: String, street: String = "", apartment: String = "", city: String, state: String, latitude: Double, longitude: Double, completion: @escaping (Bool) -> Void) {
         let geoFirestore = GeoFirestore(collectionRef: geoRef)
         geoFirestore.setLocation(geopoint: GeoPoint(latitude: latitude, longitude: longitude), forDocumentWithID: uid) { (error) in
             if let error = error {
@@ -182,7 +216,12 @@ class UserController {
                 completion(false)
                 return
             }
-            completion(true)
+            storageRef.child(Constants.ProfileImageUrl).child(filename).downloadURL(completion: { (downloadURL, err) in
+                guard let imageUrl = downloadURL?.absoluteString else { return }
+                print("image: \(imageUrl)")
+                self.firestoreDB.collection(Constants.Users).document(uid).setData([Constants.ProfileImageUrl: imageUrl], merge: true)
+                completion(true)
+            })
         })
     }
 

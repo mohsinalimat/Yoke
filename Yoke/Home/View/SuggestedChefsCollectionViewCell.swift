@@ -8,7 +8,6 @@
 
 import UIKit
 import FirebaseStorage
-import Kingfisher
 import FirebaseAuth
 
 class SuggestedChefsCollectionViewCell: UICollectionViewCell {
@@ -19,20 +18,8 @@ class SuggestedChefsCollectionViewCell: UICollectionViewCell {
             nameLabel.text = chef.username
             guard let city = chef.city, let state = chef.state else { return }
             locationLabel.text = "\(city), \(state)"
-            if let uid = chef.uid {
-                Storage.storage().reference().child("profileImageUrl/\(uid)").downloadURL { (url, error) in
-                    if let error = error {
-                        print(error.localizedDescription)
-                    }
-                    guard let imageUrl = url?.absoluteString else { return }
-                    if let url = URL(string: imageUrl) {
-                        let placeholder = UIImage(named: "image_background")
-                        self.profileImage.kf.indicatorType = .activity
-                        let options : KingfisherOptionsInfo = [KingfisherOptionsInfoItem.transition(.fade(0.2))]
-                        self.profileImage.kf.setImage(with: url, placeholder: placeholder, options: options)
-                    }
-                }
-            }
+            guard let image = chef.profileImageUrl else { return }
+            profileImage.loadImage(urlString: image)
         }
     }
     
