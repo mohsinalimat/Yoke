@@ -202,14 +202,14 @@ class HomeViewController: UIViewController {
         DispatchQueue.main.async {
             self.fetchUser()
             self.setupCollectionView()
-            MenuController.shared.menus.removeAll()
-            self.menuCollectionView.reloadData()
+//            MenuController.shared.menus = []
+//            self.fetchMenus()
         }
     }
     
     @objc func handleDelete() {
         DispatchQueue.main.async {
-            
+            self.menuCollectionView.reloadData()
         }
     }
     

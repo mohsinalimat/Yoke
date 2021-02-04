@@ -48,6 +48,7 @@ class MenuController {
                 print(error.localizedDescription)
                 completion(false)
             } else {
+                self.menus = []
                 for document in snap!.documents {
                     let dictionary = document.data()
                     let menu = Menu(dictionary: dictionary)

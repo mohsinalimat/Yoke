@@ -22,7 +22,11 @@ class AddMenuViewController: UIViewController {
     var menuExist: Bool = false
     static let updateNotificationName = NSNotification.Name(rawValue: "load")
     static let updateNotificationDelete = NSNotification.Name(rawValue: "delete")
-    var menu: Menu?
+    var menu: Menu? {
+        didSet {
+            fetchMenu()
+        }
+    }
     
     //MARK: - Lifecycle Methods
     override func viewDidLayoutSubviews() {
@@ -167,7 +171,7 @@ class AddMenuViewController: UIViewController {
                 case true:
                     print("updated")
                     self.saveSuccessful()
-                    NotificationCenter.default.post(name: AddMenuViewController.updateNotificationName, object: nil)
+//                    NotificationCenter.default.post(name: AddMenuViewController.updateNotificationName, object: nil)
                 case false:
                     print("false")
                 }
@@ -178,7 +182,7 @@ class AddMenuViewController: UIViewController {
                 case true:
                     print("saved")
                     self.saveSuccessful()
-                    NotificationCenter.default.post(name: AddMenuViewController.updateNotificationName, object: nil)
+//                    NotificationCenter.default.post(name: AddMenuViewController.updateNotificationName, object: nil)
                 case false:
                     print("failed to save")
                 }
