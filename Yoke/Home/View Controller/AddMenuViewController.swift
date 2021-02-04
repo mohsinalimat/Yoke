@@ -22,14 +22,7 @@ class AddMenuViewController: UIViewController {
     var menuExist: Bool = false
     static let updateNotificationName = NSNotification.Name(rawValue: "load")
     static let updateNotificationDelete = NSNotification.Name(rawValue: "delete")
-    var menu: Menu? {
-        didSet {
-            fetchMenu()
-//            guard let id = menu.id else { return }
-//            menuImageView.loadImage(urlString: image)
-//            dishNameTextField.text = menu.name
-        }
-    }
+    var menu: Menu?
     
     //MARK: - Lifecycle Methods
     override func viewDidLayoutSubviews() {
@@ -107,8 +100,25 @@ class AddMenuViewController: UIViewController {
     func setupImagePicker() {
         menuImagePicker.delegate = self
     }
-
+    
+    func saveSuccessful() {
+        let alertVC = UIAlertController(title: "Success", message: "Your menu item has been added!", preferredStyle: .alert)
+        let okAction = UIAlertAction(title: "Cool Beans", style: .default) { (_) in
+            self.handleDismiss()
+        }
+        alertVC.addAction(okAction)
+        present(alertVC, animated: true)
+    }
  
+    func deleteSuccessful() {
+        let alertVC = UIAlertController(title: "Success", message: "Your menu item has been deleted!", preferredStyle: .alert)
+        let okAction = UIAlertAction(title: "Cool Beans", style: .default) { (_) in
+            self.handleDismiss()
+        }
+        alertVC.addAction(okAction)
+        present(alertVC, animated: true)
+    }
+    
     @objc func handleAddImage() {
         let alertVC = UIAlertController(title: "Add a Photo", message: nil, preferredStyle: .alert)
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel) { (_) in
@@ -156,8 +166,8 @@ class AddMenuViewController: UIViewController {
                 switch result {
                 case true:
                     print("updated")
+                    self.saveSuccessful()
                     NotificationCenter.default.post(name: AddMenuViewController.updateNotificationName, object: nil)
-                    self.handleDismiss()
                 case false:
                     print("false")
                 }
@@ -167,8 +177,8 @@ class AddMenuViewController: UIViewController {
                 switch result {
                 case true:
                     print("saved")
+                    self.saveSuccessful()
                     NotificationCenter.default.post(name: AddMenuViewController.updateNotificationName, object: nil)
-                    self.handleDismiss()
                 case false:
                     print("failed to save")
                 }
@@ -184,8 +194,8 @@ class AddMenuViewController: UIViewController {
             case true:
                 print("deleted")
                 //update here
+                self.deleteSuccessful()
                 NotificationCenter.default.post(name: AddMenuViewController.updateNotificationDelete, object: nil)
-                self.handleDismiss()
             case false:
                 print("error in delete menu")
             }

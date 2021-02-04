@@ -209,7 +209,7 @@ class HomeViewController: UIViewController {
     
     @objc func handleDelete() {
         DispatchQueue.main.async {
-            self.menuCollectionView.reloadData()
+            
         }
     }
     
