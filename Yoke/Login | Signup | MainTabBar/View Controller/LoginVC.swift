@@ -22,6 +22,7 @@ class LoginVC: UIViewController {
     let appleButton = ASAuthorizationAppleIDButton(type: .continue, style: .black)
     fileprivate var currentNonce: String?
     private let locationManager = LocationManager()
+    let myActivityIndicator = UIActivityIndicatorView(style: UIActivityIndicatorView.Style.large)
 
     //MARK: - Lifecycle Methods
     override func viewDidLayoutSubviews() {
@@ -51,6 +52,7 @@ class LoginVC: UIViewController {
         stackView.addArrangedSubview(signInButton)
         signInButtonsStackView.addArrangedSubview(googleSignUpButton)
         signInButtonsStackView.addArrangedSubview(appleSignUpButton)
+        view.addSubview(myActivityIndicator)
         constrainViews()
     }
     
@@ -64,6 +66,7 @@ class LoginVC: UIViewController {
         signInOptionLabel.anchor(top: forgotPasswordButton.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 20, paddingLeft: 0, paddingBottom: 0, paddingRight: 0)
         signInButtonsStackView.anchor(top: signInOptionLabel.bottomAnchor, left: nil, bottom: nil, right: nil, paddingTop: 10, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 195, height: 75)
         signInButtonsStackView.centerXAnchor.constraint(equalTo: safeArea.centerXAnchor).isActive = true
+        myActivityIndicator.center = view.center
     }
     
     func setupBackground() {
@@ -103,8 +106,8 @@ class LoginVC: UIViewController {
         guard let email = emailTextField.text, !email.isEmpty,
               let password = passwordTextField.text,
               !password.isEmpty else { return }
+        self.myActivityIndicator.startAnimating()
         Auth.auth().signIn(withEmail: email, password: password, completion: { (user, err) in
-
             if let err = err {
                 Auth.auth().handleFirebaseErrors(error: err, vc: self)
                 return
@@ -114,6 +117,7 @@ class LoginVC: UIViewController {
     }
 
     func handleLoginToHome() {
+        self.myActivityIndicator.stopAnimating()
         UIView.animate(withDuration: 0.5) { [weak self] in
             let homeVC = WelcomeVC()
             self?.view.window?.rootViewController = homeVC
@@ -375,6 +379,7 @@ extension LoginVC: ASAuthorizationControllerDelegate {
             let credential = OAuthProvider.credential(withProviderID: "apple.com",
                                                       idToken: idTokenString,
                                                       accessToken: nonce)
+            myActivityIndicator.startAnimating()
             Auth.auth().signInAndRetrieveData(with: credential) { (authResult, error) in
                 if (error != nil) {
                     print(error?.localizedDescription ?? "")
@@ -439,7 +444,8 @@ extension LoginVC: GIDSignInDelegate {
         }
         guard let auth = user.authentication else { return }
         let credentials = GoogleAuthProvider.credential(withIDToken: auth.idToken, accessToken: auth.accessToken)
-        Auth.auth().signIn(with: credentials) {
+        myActivityIndicator.startAnimating()
+        Auth.auth().signInAndRetrieveData(with: credentials) {
             (authResult, error) in
             if let error = error {print(error.localizedDescription)
                 

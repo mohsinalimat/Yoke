@@ -19,6 +19,7 @@ class SignupVC: UIViewController {
     }
     let imagePicker = UIImagePickerController()
     private let locationManager = LocationManager()
+    let myActivityIndicator = UIActivityIndicatorView(style: UIActivityIndicatorView.Style.large)
     var location: String = ""
     var isChef: Bool = false
     
@@ -50,6 +51,7 @@ class SignupVC: UIViewController {
         stackView.addArrangedSubview(passwordTextField)
         stackView.addArrangedSubview(confirmPasswordTextField)
         stackView.addArrangedSubview(signUpButton)
+        view.addSubview(myActivityIndicator)
         constrainViews()
     }
     
@@ -59,6 +61,7 @@ class SignupVC: UIViewController {
         addImageButton.centerXAnchor.constraint(equalTo: safeArea.centerXAnchor).isActive = true
         stackView.anchor(top: addImageButton.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 20, paddingLeft: 40, paddingBottom: 0, paddingRight: 40, height: 300)
         alreadyHaveAccountButton.anchor(top: stackView.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 5, paddingLeft: 0, paddingBottom: 0, paddingRight: 0)
+        myActivityIndicator.center = view.center
     }
     
     func setupBackground() {
@@ -119,17 +122,11 @@ class SignupVC: UIViewController {
               let confirmPassword = confirmPasswordTextField.text, !confirmPassword.isEmpty else { return confirmAllTextFields()}
         guard password == confirmPassword else { return confirmPasswordsMatch()}
         guard let image = self.addImageButton.imageView?.image else { return }
-        
+        myActivityIndicator.startAnimating()
         guard let exposedLocation = self.locationManager.exposedLocation else { return }
         self.locationManager.getPlace(for: exposedLocation) { [self] placemark in
             guard let placemark = placemark else { return }
             var output = ""
-//            if let town = placemark.locality {
-//                output = output + "\n\(town)"
-//            }
-//            if let state = placemark.administrativeArea {
-//                output = output + "\n\(state)"
-//            }
             if let locationName = placemark.location {
                 output = output + "\n\(locationName)"
                 // pulls to physical address on mapkit
@@ -152,6 +149,7 @@ class SignupVC: UIViewController {
     }
 
     func handleLoginToHome() {
+        myActivityIndicator.stopAnimating()
         UIView.animate(withDuration: 0.5) { [weak self] in
             let homeVC = MainTabBarController()
             self?.view.window?.rootViewController = homeVC

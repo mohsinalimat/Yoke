@@ -199,7 +199,6 @@ class HomeViewController: UIViewController {
     @objc func handleUpdate() {
         DispatchQueue.main.async {
             self.fetchUser()
-            self.setupCollectionView()
         }
     }
 

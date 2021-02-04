@@ -20,6 +20,7 @@ class AddMenuViewController: UIViewController {
     var menuType: String = "Fixed"
     var uid = Auth.auth().currentUser?.uid ?? ""
     var menuExist: Bool = false
+    let myActivityIndicator = UIActivityIndicatorView(style: UIActivityIndicatorView.Style.large)
     var menu: Menu? {
         didSet {
             fetchMenu()
@@ -36,6 +37,7 @@ class AddMenuViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupImagePicker()
+        setupActivityIndicator()
     }
  
     //MARK: - Helper Functions
@@ -56,6 +58,7 @@ class AddMenuViewController: UIViewController {
         scrollView.addSubview(fixedView)
         scrollView.addSubview(fixedLabel)
         scrollView.addSubview(fixedSegmentedControl)
+        view.addSubview(myActivityIndicator)
     }
     
     func constrainViews() {
@@ -101,6 +104,10 @@ class AddMenuViewController: UIViewController {
     
     func setupImagePicker() {
         menuImagePicker.delegate = self
+    }
+    
+    func setupActivityIndicator() {
+        myActivityIndicator.center = view.center
     }
     
     func saveSuccessful() {
@@ -160,7 +167,7 @@ class AddMenuViewController: UIViewController {
         guard let name = dishNameTextField.text, !name.isEmpty,
               let detail = dishDetailTextField.text else { return }
         let image = menuImageView.image
-        
+        myActivityIndicator.startAnimating()
         if menuExist == true {
             guard let  menuId = menu?.id,
                   let imageId = menu?.imageId else { return }
@@ -168,6 +175,7 @@ class AddMenuViewController: UIViewController {
                 switch result {
                 case true:
                     print("updated")
+                    self.myActivityIndicator.stopAnimating()
                     self.saveSuccessful()
                 case false:
                     print("false")
@@ -178,6 +186,7 @@ class AddMenuViewController: UIViewController {
                 switch result {
                 case true:
                     print("saved")
+                    self.myActivityIndicator.stopAnimating()
                     self.saveSuccessful()
                 case false:
                     print("failed to save")
@@ -189,10 +198,12 @@ class AddMenuViewController: UIViewController {
     @objc func handleDeleteMenu() {
         guard let menuId = menu?.id,
         let imageId = menu?.imageId else { return }
+        self.myActivityIndicator.startAnimating()
         MenuController.shared.deleteMenuWith(uid: uid, menuId: menuId, imageId: imageId) { (result) in
             switch result {
             case true:
                 print("deleted")
+                self.myActivityIndicator.stopAnimating()
                 self.deleteSuccessful()
             case false:
                 print("error in delete menu")
