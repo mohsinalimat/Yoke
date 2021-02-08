@@ -9,14 +9,17 @@
 import UIKit
 import FirebaseAuth
 import FirebaseStorage
+import FirebaseFirestore
+import TTGTagCollectionView
 
-class ProfileViewController: UIViewController {
+class ProfileViewController: UIViewController, TTGTextTagCollectionViewDelegate {
 
     //MARK: - Properties
     var safeArea: UILayoutGuide {
         return self.view.safeAreaLayoutGuide
     }
     var userId: String?
+    let cusineCollectionView = TTGTextTagCollectionView()
     var user: User? {
         didSet {
         }
@@ -40,9 +43,11 @@ class ProfileViewController: UIViewController {
         UserController.shared.fetchUserWithUID(uid: uid) { (user) in
             guard let username = user.username,
                   let city = user.city,
-                  let state = user.state else { return }
+                  let state = user.state,
+                  let uid = user.uid else { return }
             self.usernameLabel.text = username
             self.locationLabel.text = "\(city), \(state)"
+            self.setupCusineCollectionView(uid: uid)
             let imageStorageRef = Storage.storage().reference().child("profileImageUrl/\(uid)")
             imageStorageRef.getData(maxSize: 2 * 1024 * 1024) { data, error in
                 if error == nil, let data = data {
@@ -84,6 +89,7 @@ class ProfileViewController: UIViewController {
         buttonStackView.addArrangedSubview(eventButton)
         buttonStackView.addArrangedSubview(addPhotosButton)
         buttonStackView.addArrangedSubview(bookmarkButton)
+        scrollView.addSubview(cusineCollectionView)
     }
     
     func constrainViews() {
@@ -106,6 +112,33 @@ class ProfileViewController: UIViewController {
         statsStackView.anchor(top: ratingView.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 0, paddingLeft: 40, paddingBottom: 0, paddingRight: 40, height: 35)
         setupButtonImages()
         buttonStackView.anchor(top: statsStackView.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 20, paddingLeft: 5, paddingBottom: 0, paddingRight: 5, width: 0, height: 60)
+        cusineCollectionView.anchor(top: buttonStackView.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 10, paddingLeft: 5, paddingBottom: 0, paddingRight: 5, height: 45)
+        
+    }
+    
+    func setupCusineCollectionView(uid: String) {
+        cusineCollectionView.alignment = .center
+        cusineCollectionView.scrollDirection = .horizontal
+        cusineCollectionView.alignment = .fillByExpandingWidthExceptLastLine
+        cusineCollectionView.delegate = self
+        let config = TTGTextTagConfig()
+        config.backgroundColor = .white
+        config.textColor = UIColor.orangeColor()
+        print("tag id \(uid)")
+        Firestore.firestore().collection(Constants.Chefs).document(uid).getDocument { (document, error) in
+            if let document = document, document.exists {
+                guard let array = document.data()?["cusine"] as? [String] else { return }
+                let sortedArray = array.sorted(by: { $0 < $1 })
+                for name in sortedArray {
+                    self.cusineCollectionView.addTags([name], with: config)
+                }
+            } else {
+                print("Document does not exist")
+            }
+        }
+    }
+    
+    func textTagCollectionView(_ textTagCollectionView: TTGTextTagCollectionView!, didTapTag tagText: String!, at index: UInt, selected: Bool, tagConfig config: TTGTextTagConfig!) {
         
     }
 

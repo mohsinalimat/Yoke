@@ -109,7 +109,7 @@ class ChefSettingsViewController: UIViewController, TTGTextTagCollectionViewDele
         config.selectedTextColor = .white
         config.selectedBackgroundColor = UIColor.orangeColor()
         
-        firestoreDB.collection(Constants.Cusine).document(uid).getDocument { (document, error) in
+        firestoreDB.collection(Constants.Chefs).document(uid).getDocument { (document, error) in
             if let document = document, document.exists {
                 guard let array = document.data()?["cusine"] as? [String] else { return }
                 let sortedArray = array.sorted(by: { $0 < $1 })
