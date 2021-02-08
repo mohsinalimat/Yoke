@@ -59,6 +59,13 @@ class ProfileViewController: UIViewController {
         }
     }
     
+    func setupButtonImages() {
+        reviewsButton.alignImageTextVertical()
+        eventButton.alignImageTextVertical()
+        bookmarkButton.alignImageTextVertical()
+        addPhotosButton.alignImageTextVertical()
+    }
+    
     func setupViews() {
         view.backgroundColor = UIColor.LightGrayBg()
         view.addSubview(scrollView)
@@ -72,6 +79,11 @@ class ProfileViewController: UIViewController {
         statsStackView.addArrangedSubview(reviewCountLabel)
         statsStackView.addArrangedSubview(rebookCountLabel)
         statsStackView.addArrangedSubview(verifiedLabel)
+        scrollView.addSubview(buttonStackView)
+        buttonStackView.addArrangedSubview(reviewsButton)
+        buttonStackView.addArrangedSubview(eventButton)
+        buttonStackView.addArrangedSubview(addPhotosButton)
+        buttonStackView.addArrangedSubview(bookmarkButton)
     }
     
     func constrainViews() {
@@ -92,6 +104,9 @@ class ProfileViewController: UIViewController {
         ratingView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         
         statsStackView.anchor(top: ratingView.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 0, paddingLeft: 40, paddingBottom: 0, paddingRight: 40, height: 35)
+        setupButtonImages()
+        buttonStackView.anchor(top: statsStackView.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 20, paddingLeft: 5, paddingBottom: 0, paddingRight: 5, width: 0, height: 60)
+        
     }
 
     //MARK: - Views
@@ -195,6 +210,76 @@ class ProfileViewController: UIViewController {
         label.textAlignment = .center
         label.backgroundColor = .white
         return label
+    }()
+    
+    let buttonStackView: UIStackView = {
+        let stackView = UIStackView()
+        stackView.axis = .horizontal
+        stackView.distribution = .fillEqually
+        stackView.spacing = 1
+        return stackView
+    }()
+    
+    lazy var reviewsButton: UIButton = {
+        let button = UIButton(type: .custom)
+//        button.setImage(UIImage(named: "reviews"), for: .normal)
+        let image = UIImage(named: "reviews")?.withRenderingMode(.alwaysTemplate)
+        button.setImage(image, for: .normal)
+        button.tintColor = UIColor.white
+        button.setTitle("Reviews", for: .normal)
+        button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 10)
+        button.setTitleColor(UIColor.white, for: .normal)
+        button.imageEdgeInsets = UIEdgeInsets.init(top: 0,left: 45,bottom: 20,right: 0)
+        button.titleEdgeInsets = UIEdgeInsets.init(top: 20,left: -25,bottom: 0,right: 0)
+//        button.addTarget(self, action: #selector(handleReviews), for: .touchUpInside)
+        button.backgroundColor = UIColor.orangeColor()
+        button.layer.cornerRadius = 8
+        return button
+    }()
+    
+    lazy var eventButton: UIButton = {
+        let button = UIButton(type: .custom)
+//        button.setImage(UIImage(named: "event_full"), for: .normal)
+        let image = UIImage(named: "event_full")?.withRenderingMode(.alwaysTemplate)
+        button.setImage(image, for: .normal)
+        button.tintColor = UIColor.white
+        button.setTitle("Events", for: .normal)
+        button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 10)
+        button.setTitleColor(UIColor.white, for: .normal)
+//        button.addTarget(self, action: #selector(handleEvents), for: .touchUpInside)
+        button.backgroundColor = UIColor.orangeColor()
+        button.layer.cornerRadius = 8
+        return button
+    }()
+    
+    lazy var bookmarkButton: UIButton = {
+        let button = UIButton(type: .custom)
+//        button.setImage(UIImage(named: "bookmark_selected"), for: .normal)
+        let image = UIImage(named: "bookmark_selected")?.withRenderingMode(.alwaysTemplate)
+        button.setImage(image, for: .normal)
+        button.tintColor = UIColor.white
+        button.setTitle("Bookmarked", for: .normal)
+        button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 10)
+        button.setTitleColor(UIColor.white, for: .normal)
+//        button.addTarget(self, action: #selector(handleBookmarked), for: .touchUpInside)
+        button.backgroundColor = UIColor.orangeColor()
+        button.layer.cornerRadius = 8
+        return button
+    }()
+    
+    lazy var addPhotosButton: UIButton = {
+        let button = UIButton(type: .custom)
+//        button.setImage(UIImage(named: "add_image"), for: .normal)
+        let image = UIImage(named: "add_image")?.withRenderingMode(.alwaysTemplate)
+        button.setImage(image, for: .normal)
+        button.tintColor = UIColor.white
+        button.setTitle("Add Photo", for: .normal)
+        button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 10)
+        button.setTitleColor(UIColor.white, for: .normal)
+//        button.addTarget(self, action: #selector(handleAddPhotos), for: .touchUpInside)
+        button.backgroundColor = UIColor.orangeColor()
+        button.layer.cornerRadius = 8
+        return button
     }()
     
 }
