@@ -395,61 +395,66 @@ extension LoginVC: ASAuthorizationControllerDelegate {
     }
     
     func authorizationController(controller: ASAuthorizationController, didCompleteWithAuthorization authorization: ASAuthorization) {
+        print("authorizationController passed")
         if let appleIDCredential = authorization.credential as? ASAuthorizationAppleIDCredential {
+            print("appleID Credential")
             guard let nonce = currentNonce else {
+                print("error_01")
                 fatalError("Invalid state: A login callback was received, but no login request was sent.")
             }
             guard let appleIDToken = appleIDCredential.identityToken else {
+                print("error_02")
                 print("Unable to fetch identity token")
                 return
             }
             guard let idTokenString = String(data: appleIDToken, encoding: .utf8) else {
+                print("error_03")
                 print("Unable to serialize token string from data: \(appleIDToken.debugDescription)")
                 return
             }
             let credential = OAuthProvider.credential(withProviderID: "apple.com",
                                                       idToken: idTokenString,
                                                       accessToken: nonce)
+            print("credential \(nonce)")
             myActivityIndicator.startAnimating()
             Auth.auth().signInAndRetrieveData(with: credential) { (authResult, error) in
+                print("here")
                 if (error != nil) {
-                    print(error?.localizedDescription ?? "")
+                    print("error_04 \(error)")
+                    print(error?.localizedDescription ?? "", "this is an error")
                     return
                 }
-                guard let user = authResult?.user else { return }
-                let email = user.email ?? ""
-                let username = user.displayName ?? ""
-                guard let uid = Auth.auth().currentUser?.uid else { return }
-                UserController.shared.checkIfUserExist(uid: uid) { (result) in
-                    switch result {
-                    case true:
-                        self.handleLoginToHome()
-                    case false:
-                        UserController.shared.createUserWithProvider(uid: uid, email: email, username: username, isChef: false) { (result) in
-                            switch result {
-                            case true:
-                                self.setupGeofirestore(uid: uid)
-                                self.handleLoginToHome()
-                            case false:
-                                print("google sign in problem")
-                            }
-                        }
-//                        guard let exposedLocation = self.locationManager.exposedLocation else { return }
-//                        self.locationManager.getPlace(for: exposedLocation) { placemark in
-//                            guard let placemark = placemark else { return }
-//                            guard let city = placemark.locality,
-//                                  let state = placemark.administrativeArea else { return }
-//                            UserController.shared.createUserWithProvider(uid: uid, email: email, username: username, city: city, state: state, isChef: false) { (result) in
-//                                switch result {
-//                                case true:
-//                                    self.handleLoginToHome()
-//                                case false:
-//                                    print("google sign in problem")
-//                                }
+                
+                if Auth.auth().currentUser != nil {
+                    // User is signed in.
+                    print("signed in")
+                } else {
+                    // No user is signed in.
+                    print("not Signed in")
+                }
+                
+//                guard let user = authResult?.user else { return }
+//                let email = user.email ?? ""
+//                let username = user.displayName ?? ""
+//                guard let uid = Auth.auth().currentUser?.uid else { return }
+//                UserController.shared.checkIfUserExist(uid: uid) { (result) in
+//                    switch result {
+//                    case true:
+//                        print("error_05")
+//                        self.handleLoginToHome()
+//                    case false:
+//                        UserController.shared.createUserWithProvider(uid: uid, email: email, username: username, isChef: false) { (result) in
+//                            switch result {
+//                            case true:
+//                                print("signing in")
+//                                self.setupGeofirestore(uid: uid)
+//                                self.handleLoginToHome()
+//                            case false:
+//                                print("apple sign in problem")
 //                            }
 //                        }
-                    }
-                }
+//                    }
+//                }
             }
         }
     }
