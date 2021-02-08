@@ -611,6 +611,16 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
     //            galleryDetail.gallery = gallery
     //            navigationController?.pushViewController(galleryDetail, animated: true)
             }
+        } else {
+            if SuggestedChefController.shared.chefs.count == 0 {
+                return
+            } else {
+                let chef = SuggestedChefController.shared.chefs[indexPath.row].uid
+                let profileVC = ProfileViewController()
+                print(chef)
+                profileVC.userId = chef
+                navigationController?.pushViewController(profileVC, animated: true)
+            }
         }
     }
 
