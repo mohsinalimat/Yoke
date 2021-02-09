@@ -200,12 +200,27 @@ class SettingsViewController: UIViewController  {
         present(alertVC, animated: true)
     }
     
+    func chefAlert() {
+        let alertVC = UIAlertController(title: "Turn chef mode on", message: "By turning chef mode on you will be viewed as a chef. Don't worry if you turn it off, your chef settings data will be saved.", preferredStyle: .alert)
+        let okAction = UIAlertAction(title: "Let's do it! I want to cook!", style: .default) { (_) in
+            self.chefSwitch.isOn = true
+        }
+        let cancelAction = UIAlertAction(title: "Keep off, I prefer to be served!", style: .cancel) { (_) in
+            self.chefSwitch.isOn = false
+        }
+        alertVC.addAction(okAction)
+        alertVC.addAction(cancelAction)
+        present(alertVC, animated: true)
+    }
+    
     @objc func chefSwitch(chefSwitchChanged: UISwitch) {
         if chefSwitch.isOn {
+            chefAlert()
             isUserChef = true
             chefPreferenceButton.isEnabled = true
             chefPreferenceButton.setTitleColor(UIColor.orangeColor(), for: .normal)
         } else {
+            chefAlert()
             isUserChef = false
             chefPreferenceButton.isEnabled = false
             chefPreferenceButton.setTitleColor(UIColor.orangeColor()?.withAlphaComponent(0.4), for: .normal)
