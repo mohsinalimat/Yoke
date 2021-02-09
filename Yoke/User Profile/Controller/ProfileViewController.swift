@@ -47,9 +47,15 @@ class ProfileViewController: UIViewController, TTGTextTagCollectionViewDelegate 
             guard let username = user.username,
                   let city = user.city,
                   let state = user.state,
+                  let bio = user.bio,
                   let uid = user.uid else { return }
             self.usernameLabel.text = username
             self.locationLabel.text = "\(city), \(state)"
+            self.bioLabel.text = "About \(username)"
+            self.bioTextLabel.text = bio
+            if self.bioTextLabel.text == "" {
+                self.bioTextLabel.text = "Full bio coming soon"
+            }
             self.setupCusineCollectionView(uid: uid)
             self.fetchMenus(uid: uid)
             let imageStorageRef = Storage.storage().reference().child("profileImageUrl/\(uid)")
@@ -108,6 +114,8 @@ class ProfileViewController: UIViewController, TTGTextTagCollectionViewDelegate 
         buttonStackView.addArrangedSubview(bookmarkButton)
         scrollView.addSubview(cusineLabel)
         scrollView.addSubview(cusineCollectionView)
+        scrollView.addSubview(bioLabel)
+        scrollView.addSubview(bioTextLabel)
         scrollView.addSubview(collectionViewBG)
         scrollView.addSubview(menuViewBG)
         scrollView.addSubview(menuLabel)
@@ -115,7 +123,6 @@ class ProfileViewController: UIViewController, TTGTextTagCollectionViewDelegate 
     }
     
     func constrainViews() {
-        scrollView.contentSize = CGSize(width: view.frame.width, height: view.frame.height + 50)
         scrollView.anchor(top: safeArea.topAnchor, left: safeArea.leftAnchor, bottom: safeArea.bottomAnchor, right: safeArea.rightAnchor, paddingTop: -100, paddingLeft: 0, paddingBottom: 0, paddingRight: 0)
         
         bannerLayerImageView.anchor(top: scrollView.topAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: -100, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, height: 250)
@@ -136,10 +143,15 @@ class ProfileViewController: UIViewController, TTGTextTagCollectionViewDelegate 
         setupButtonImages()
         buttonStackView.anchor(top: statsStackView.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 10, paddingLeft: 5, paddingBottom: 0, paddingRight: 5, width: 0, height: 60)
         
-        cusineLabel.anchor(top: buttonStackView.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: nil, paddingTop: 10, paddingLeft: 5, paddingBottom: 0, paddingRight: 0)
+        cusineLabel.anchor(top: buttonStackView.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: nil, paddingTop: 10, paddingLeft: 15, paddingBottom: 0, paddingRight: 0)
         cusineCollectionView.anchor(top: cusineLabel.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 10, paddingLeft: 5, paddingBottom: 0, paddingRight: 5, height: 45)
         
-        collectionViewBG.anchor(top: cusineCollectionView.bottomAnchor, left: safeArea.leftAnchor, bottom: scrollView.bottomAnchor, right: safeArea.rightAnchor, paddingTop: 10, paddingLeft: 5, paddingBottom: 8, paddingRight: 5, height: view.frame.width - 100)
+        bioLabel.anchor(top: cusineCollectionView.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 10, paddingLeft: 15, paddingBottom: 0, paddingRight: 5)
+        
+        bioTextLabel.anchor(top: bioLabel.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 10, paddingLeft: 15, paddingBottom: 0, paddingRight: 15)
+//        bioTextLabel.autoresizingMask = .flexibleHeight
+        
+        collectionViewBG.anchor(top: bioTextLabel.bottomAnchor, left: safeArea.leftAnchor, bottom: scrollView.bottomAnchor, right: safeArea.rightAnchor, paddingTop: 20, paddingLeft: 5, paddingBottom: 8, paddingRight: 5, height: view.frame.width - 100)
         
         menuViewBG.anchor(top: collectionViewBG.topAnchor, left: collectionViewBG.leftAnchor, bottom: nil, right: collectionViewBG.rightAnchor, paddingTop: 5, paddingLeft: 5, paddingBottom: 0, paddingRight: 5, height: 50)
 
@@ -310,15 +322,6 @@ class ProfileViewController: UIViewController, TTGTextTagCollectionViewDelegate 
         return label
     }()
     
-    let cusineLabel: UILabel = {
-        let label = UILabel()
-        label.text = "What I'm know for:"
-        label.font = UIFont.boldSystemFont(ofSize: 17)
-        label.textColor = UIColor.gray
-        label.textAlignment = .center
-        return label
-    }()
-    
     let buttonStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .horizontal
@@ -387,6 +390,34 @@ class ProfileViewController: UIViewController, TTGTextTagCollectionViewDelegate 
         button.backgroundColor = UIColor.orangeColor()
         button.layer.cornerRadius = 8
         return button
+    }()
+    
+    let cusineLabel: UILabel = {
+        let label = UILabel()
+        label.text = "What I'm know for:"
+        label.font = UIFont.boldSystemFont(ofSize: 17)
+        label.textColor = UIColor.gray
+        label.textAlignment = .center
+        return label
+    }()
+    
+    let bioLabel: UILabel = {
+        let label = UILabel()
+        label.font = UIFont.boldSystemFont(ofSize: 17)
+        label.textColor = UIColor.gray
+        label.textAlignment = .left
+        return label
+    }()
+    
+    let bioTextLabel: UILabel = {
+        let label = UILabel()
+        label.font = UIFont.boldSystemFont(ofSize: 15)
+        label.textColor = UIColor.gray
+        label.textAlignment = .justified
+        label.lineBreakMode = .byWordWrapping
+        label.numberOfLines = 0
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
     }()
     
     let collectionViewBG: UIView = {
