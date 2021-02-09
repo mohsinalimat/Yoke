@@ -272,9 +272,9 @@ class HomeViewController: UIViewController {
     }
     
     func viewProfile(user: User) {
-        let profileView = UserProfileVC(collectionViewLayout: UICollectionViewFlowLayout())
-        profileView.user = user
-        navigationController?.pushViewController(profileView, animated: true)
+//        let profileView = UserProfileVC(collectionViewLayout: UICollectionViewFlowLayout())
+//        profileView.user = user
+//        navigationController?.pushViewController(profileView, animated: true)
     }
     
 //    @objc func editDeleteGallery(sender: UIButton){

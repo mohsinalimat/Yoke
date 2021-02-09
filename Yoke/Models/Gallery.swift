@@ -10,10 +10,9 @@ import Foundation
 import Firebase
 
 class Gallery {
-    let user: User
+    let uid: String
 //    let uid: String
     var id: String?
-    var bookmarkedUser: String?
     var imageUrl: String?
     var caption: String?
     var location: String?
@@ -23,10 +22,9 @@ class Gallery {
     var timestamp: String
     var hasLiked = false
     
-    init(user: User, id: String = "", bookmarkedUser: String = "", imageUrl: String = "", caption: String = "", location: String = "", likeCount: Int = 0, isLiked: Bool = false, timestamp: String) {
-        self.user = user
+    init(uid: String, id: String = "", imageUrl: String = "", caption: String = "", location: String = "", likeCount: Int = 0, isLiked: Bool = false, timestamp: String) {
+        self.uid = uid
         self.id = id
-        self.bookmarkedUser = bookmarkedUser
         self.imageUrl = imageUrl
         self.caption = caption
         self.location = location
@@ -39,25 +37,6 @@ class Gallery {
 //            }
 //        }
     }
-    
-//    init(user: User, dictionary: [String: Any]) {
-//        self.user = user
-//        self.id = dictionary[Constants.Id] as? String ?? ""
-//        self.BookmarkedUser = dictionary[Constants.BookmarkedUser] as? String ?? ""
-//        self.imageUrl = dictionary[Constants.ImageUrl] as? String ?? ""
-//        self.caption = dictionary[Constants.Caption] as? String ?? ""
-//        self.location = dictionary[Constants.Location] as? String ?? ""
-//        self.likes = dictionary[Constants.Likes] as? Dictionary<String, Any>
-//        self.likeCount = dictionary[Constants.LikeCount] as? Int
-//        let secondsFrom1970 = dictionary[Constants.CreationDate] as? Double ?? 0
-//        self.creationDate = Date(timeIntervalSince1970: secondsFrom1970)
-//        if let currentUserId = Auth.auth().currentUser?.uid {
-//            if self.likes != nil {
-//                self.isLiked = self.likes![currentUserId] != nil
-//            }
-//        }
-//    }
-    
 }
 
 extension Gallery: Equatable {

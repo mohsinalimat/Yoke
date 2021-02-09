@@ -42,7 +42,6 @@ class ProfileViewController: UIViewController, TTGTextTagCollectionViewDelegate 
     
     fileprivate func fetchUser() {
         let uid = userId ?? (Auth.auth().currentUser?.uid ?? "")
-        
         UserController.shared.fetchUserWithUID(uid: uid) { (user) in
             guard let username = user.username,
                   let city = user.city,
@@ -56,6 +55,11 @@ class ProfileViewController: UIViewController, TTGTextTagCollectionViewDelegate 
             if self.bioTextLabel.text == "" {
                 self.bioTextLabel.text = "Full bio coming soon"
             }
+            
+            if user.isChef == false {
+                
+            }
+            
             self.setupCusineCollectionView(uid: uid)
             self.fetchMenus(uid: uid)
             let imageStorageRef = Storage.storage().reference().child("profileImageUrl/\(uid)")
@@ -120,6 +124,7 @@ class ProfileViewController: UIViewController, TTGTextTagCollectionViewDelegate 
         scrollView.addSubview(menuViewBG)
         scrollView.addSubview(menuLabel)
         scrollView.addSubview(menuCollectionView)
+//        scrollView.addSubview(galleryCollectionView)
     }
     
     func constrainViews() {
@@ -149,7 +154,6 @@ class ProfileViewController: UIViewController, TTGTextTagCollectionViewDelegate 
         bioLabel.anchor(top: cusineCollectionView.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 10, paddingLeft: 15, paddingBottom: 0, paddingRight: 5)
         
         bioTextLabel.anchor(top: bioLabel.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 10, paddingLeft: 15, paddingBottom: 0, paddingRight: 15)
-//        bioTextLabel.autoresizingMask = .flexibleHeight
         
         collectionViewBG.anchor(top: bioTextLabel.bottomAnchor, left: safeArea.leftAnchor, bottom: scrollView.bottomAnchor, right: safeArea.rightAnchor, paddingTop: 20, paddingLeft: 5, paddingBottom: 8, paddingRight: 5, height: view.frame.width - 100)
         
@@ -158,6 +162,8 @@ class ProfileViewController: UIViewController, TTGTextTagCollectionViewDelegate 
         menuLabel.anchor(top: menuViewBG.topAnchor, left: menuViewBG.leftAnchor, bottom: menuViewBG.bottomAnchor, right: nil, paddingTop: 5, paddingLeft: 5, paddingBottom: 5, paddingRight: 5)
 
         menuCollectionView.anchor(top: menuViewBG.bottomAnchor, left: collectionViewBG.leftAnchor, bottom: collectionViewBG.bottomAnchor, right: collectionViewBG.rightAnchor, paddingTop: 5, paddingLeft: 5, paddingBottom: 5, paddingRight: 5)
+        
+//        galleryCollectionView.anchor(top: menuViewBG.bottomAnchor, left: collectionViewBG.leftAnchor, bottom: collectionViewBG.bottomAnchor, right: collectionViewBG.rightAnchor, paddingTop: 5, paddingLeft: 5, paddingBottom: 5, paddingRight: 5)
         
     }
     
@@ -168,6 +174,14 @@ class ProfileViewController: UIViewController, TTGTextTagCollectionViewDelegate 
         menuCollectionView.translatesAutoresizingMaskIntoConstraints = false
         menuCollectionView.register(MenuCollectionViewCell.self, forCellWithReuseIdentifier: cellId)
         menuCollectionView.register(EmptyCell.self, forCellWithReuseIdentifier: noCellId)
+        
+//        galleryCollectionView.backgroundColor = UIColor.LightGrayBg()
+//        galleryCollectionView.delegate = self
+//        galleryCollectionView.dataSource = self
+//        galleryCollectionView.translatesAutoresizingMaskIntoConstraints = false
+////        collectionView.register(MenuHeaderCollectionViewCell.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: headerId)
+//        galleryCollectionView.register(SuggestedChefsCollectionViewCell.self, forCellWithReuseIdentifier: cellId)
+//        galleryCollectionView.register(EmptyCell.self, forCellWithReuseIdentifier: noCellId)
     }
     
     func setupCusineCollectionView(uid: String) {
@@ -421,6 +435,13 @@ class ProfileViewController: UIViewController, TTGTextTagCollectionViewDelegate 
         let cv = UICollectionView(frame: .zero, collectionViewLayout: layout)
         return cv
     }()
+    
+    let galleryCollectionView: UICollectionView = {
+        let layout = UICollectionViewFlowLayout()
+        layout.scrollDirection = .horizontal
+        let cv = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        return cv
+    }()
 }
 
 // MARK: - CollectionView
@@ -433,12 +454,11 @@ extension ProfileViewController: UICollectionViewDelegate, UICollectionViewDataS
                 return MenuController.shared.menus.count
             }
         }
-        return 0
-//        if SuggestedChefController.shared.chefs.count == 0 {
-//            return 1
-//        } else {
-//            return SuggestedChefController.shared.chefs.count
-//        }
+        if SuggestedChefController.shared.chefs.count == 0 {
+            return 1
+        } else {
+            return SuggestedChefController.shared.chefs.count
+        }
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -463,7 +483,8 @@ extension ProfileViewController: UICollectionViewDelegate, UICollectionViewDataS
 //            noCell.noPostLabel.text = "Sorry, there are currently no chefs in your area"
 //            noCell.noPostLabel.font = UIFont.boldSystemFont(ofSize: 17)
 //            return noCell
-//        } else {
+//        }
+//        else {
 //            cellB.chef = SuggestedChefController.shared.chefs[indexPath.item]
 //            return cellB
 //        }
@@ -506,18 +527,17 @@ extension ProfileViewController: UICollectionViewDelegate, UICollectionViewDataS
     //            galleryDetail.gallery = gallery
     //            navigationController?.pushViewController(galleryDetail, animated: true)
             }
+        } else {
+            if SuggestedChefController.shared.chefs.count == 0 {
+                return
+            } else {
+                let chef = SuggestedChefController.shared.chefs[indexPath.row].uid
+                let profileVC = ProfileViewController()
+                print(chef)
+                profileVC.userId = chef
+                navigationController?.pushViewController(profileVC, animated: true)
+            }
         }
-//        else {
-//            if SuggestedChefController.shared.chefs.count == 0 {
-//                return
-//            } else {
-//                let chef = SuggestedChefController.shared.chefs[indexPath.row].uid
-//                let profileVC = ProfileViewController()
-//                print(chef)
-//                profileVC.userId = chef
-//                navigationController?.pushViewController(profileVC, animated: true)
-//            }
-//        }
     }
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {

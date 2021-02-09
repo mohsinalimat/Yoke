@@ -30,7 +30,7 @@ class SharePhotoVC: UIViewController, UITextViewDelegate, UICollectionViewDataSo
     var user: User?
     var gallery: Gallery?
     fileprivate func fetchSelectedUser() {
-        selectedUser = (gallery?.bookmarkedUser)!
+//        selectedUser = (gallery?.bookmarkedUser)!
         let uid = selectedUser
         
         Database.fetchUserWithUID(uid: uid) { (user) in
@@ -304,14 +304,14 @@ class SharePhotoVC: UIViewController, UITextViewDelegate, UICollectionViewDataSo
         formatter.timeStyle = .medium
         let timestamp = formatter.string(from: date)
         
-        GalleryController.shared.createPostWith(image: selectedImage, uid: Auth.auth().currentUser?.uid ?? "", caption: textView.text, location: locationTextField.text, timestamp: timestamp) { (result) in
-            switch result {
-            case true:
-                print("Result: true")
-            case false:
-                print("Result: false")
-            }
-        }
+//        GalleryController.shared.createPostWith(image: selectedImage, uid: Auth.auth().currentUser?.uid ?? "", caption: textView.text, location: locationTextField.text, timestamp: timestamp) { (result) in
+//            switch result {
+//            case true:
+//                print("Result: true")
+//            case false:
+//                print("Result: false")
+//            }
+//        }
 //        guard let image = selectedImage else {return}
 //        guard let uploadData = image.jpegData(compressionQuality: 0.5) else {return}
 //        let filename = NSUUID().uuidString

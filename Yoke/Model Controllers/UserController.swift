@@ -7,7 +7,8 @@
 //
 
 import UIKit
-import Firebase
+import FirebaseFirestore
+import FirebaseStorage
 import FirebaseAuth
 import Geofirestore
 import MapKit
@@ -152,9 +153,42 @@ class UserController {
             }
         }
     }
-//
-//    func fetchUsers(userUid: String, completion: @escaping (Bool) -> Void) {
-//        guard let userUid = Auth.auth().currentUser?.uid else { return }
+
+    func fetchUsers(uid: String, completion: @escaping (User) -> Void) {
+        firestoreDB.collection(Constants.Users).getDocuments { (snapshot, error) in
+            if let error = error {
+                print(error.localizedDescription)
+                completion(error as! User)
+            }
+            self.users = []
+            for document in snapshot!.documents {
+                let dictionary = document.data()
+                let uid = dictionary[Constants.Uid] as? String ?? ""
+                let username = dictionary[Constants.Username] as? String ?? ""
+                let profileImageUrl = dictionary[Constants.ProfileImageUrl] as? String ?? ""
+                guard let isChef = dictionary[Constants.IsChef] as? Bool else { return }
+                if uid != Auth.auth().currentUser?.uid && isChef == true {
+                    let user = User(uid: uid, username: username, profileImageUrl: profileImageUrl)
+                    self.users.append(user)
+                    completion(user)
+                }
+                print(document.data())
+            }
+        }
+//        firestoreDB.collection(Constants.Users).document(uid).addSnapshotListener { (snap, error) in
+//            if let error = error {
+//                print(error.localizedDescription)
+//                completion(false)
+//            } else {
+//                self.menus = []
+//                for document in snap!.documents {
+//                    let dictionary = document.data()
+//                    let menu = Menu(dictionary: dictionary)
+//                    self.menus.append(menu)
+//                }
+//                completion(true)
+//            }
+//        }
 //        firestoreDB.collection(Constants.Users).whereField("userUid", isEqualTo: userUid).getDocuments() { (snapshot, error) in
 //            if (error != nil) == true {
 //                print("error")
@@ -169,7 +203,7 @@ class UserController {
 //                completion(true)
 //            }
 //        }
-//    }
+    }
 
     func updateUser(_ uid: String, username: String = "", bio: String = "", isChef: Bool, completion: @escaping (Bool) -> Void) {
         firestoreDB.collection(Constants.Users).document(uid).setData([Constants.Username: username, Constants.Bio: bio, Constants.IsChef: isChef], merge: true) { error in

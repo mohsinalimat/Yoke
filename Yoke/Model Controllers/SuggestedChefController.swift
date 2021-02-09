@@ -9,6 +9,7 @@
 import Foundation
 import Firebase
 import Geofirestore
+import FirebaseFirestore
 
 class SuggestedChefController {
     //MARK: - Shared Instance

@@ -19,29 +19,29 @@ class GalleryDetailVC: UICollectionViewController, UICollectionViewDelegateFlowL
     var user: User?
     var gallery: Gallery? {
         didSet {
-            userId = gallery?.user.uid
-            likeButton.setImage(gallery?.hasLiked == true ? UIImage(named: "like_selected") : UIImage(named: "like_unselected"), for: .normal)
-            getBookmarkedUser()
-
-            guard let count = gallery?.likeCount else {return}
-            self.likeLabel.text = "\(Int(count))"
-//            self.captionLabel.text = gallery?.caption
-
-            if gallery?.caption != "" {
-                getGalleryCaption()
-            }
-            
-            if gallery?.location != "" {
-                getGalleryLocation()
-            }
-
-            guard let imageUrl = gallery?.imageUrl else { return }
-            if let url = URL(string: imageUrl) {
-                let placeholder = UIImage(named: "image_background")
-                photoImageView.kf.indicatorType = .activity
-                let options : KingfisherOptionsInfo = [KingfisherOptionsInfoItem.transition(.fade(0.2))]
-                photoImageView.kf.setImage(with: url, placeholder: placeholder, options: options)
-            }
+//            userId = gallery?.user.uid
+//            likeButton.setImage(gallery?.hasLiked == true ? UIImage(named: "like_selected") : UIImage(named: "like_unselected"), for: .normal)
+//            getBookmarkedUser()
+//
+//            guard let count = gallery?.likeCount else {return}
+//            self.likeLabel.text = "\(Int(count))"
+////            self.captionLabel.text = gallery?.caption
+//
+//            if gallery?.caption != "" {
+//                getGalleryCaption()
+//            }
+//
+//            if gallery?.location != "" {
+//                getGalleryLocation()
+//            }
+//
+//            guard let imageUrl = gallery?.imageUrl else { return }
+//            if let url = URL(string: imageUrl) {
+//                let placeholder = UIImage(named: "image_background")
+//                photoImageView.kf.indicatorType = .activity
+//                let options : KingfisherOptionsInfo = [KingfisherOptionsInfoItem.transition(.fade(0.2))]
+//                photoImageView.kf.setImage(with: url, placeholder: placeholder, options: options)
+//            }
             
         }
     }
@@ -56,9 +56,9 @@ class GalleryDetailVC: UICollectionViewController, UICollectionViewDelegateFlowL
         scrollView.keyboardDismissMode = .onDrag
         collectionView?.register(CommentCell.self, forCellWithReuseIdentifier: cellId)
         
-        if gallery?.user.uid == currentUser?.uid {
-            navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Edit", style: .plain, target: self, action: #selector(handleEdit))
-        }
+//        if gallery?.user.uid == currentUser?.uid {
+//            navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Edit", style: .plain, target: self, action: #selector(handleEdit))
+//        }
         
         let refreshControl = UIRefreshControl()
         refreshControl.addTarget(self, action: #selector(handleRefresh), for: .valueChanged)
@@ -76,33 +76,33 @@ class GalleryDetailVC: UICollectionViewController, UICollectionViewDelegateFlowL
     }
     
     func getGalleryCaption() {
-    Database.database().reference().child(Constants.Gallery).child((gallery?.user.uid)!).child(gallery!.id!).observe(.value) { (snapshot) in
-        
-        if let dict = snapshot.value as? [String: Any] {
-            let caption = dict[Constants.Caption] as! String
-            self.captionLabel.text = caption
-        }
-            
-        }
+//    Database.database().reference().child(Constants.Gallery).child((gallery?.user.uid)!).child(gallery!.id!).observe(.value) { (snapshot) in
+//
+//        if let dict = snapshot.value as? [String: Any] {
+//            let caption = dict[Constants.Caption] as! String
+//            self.captionLabel.text = caption
+//        }
+//
+//        }
     }
     
     func getGalleryLocation() {
-        Database.database().reference().child(Constants.Gallery).child((gallery?.user.uid)!).child(gallery!.id!).observe(.value) { (snapshot) in
-            if let dict = snapshot.value as? [String: Any] {
-                let location = dict[Constants.Location] as! String
-                print("location \(location)")
-                let locationString = NSMutableAttributedString(string: "")
-                let imageString = NSTextAttachment()
-                imageString.image = UIImage(named: "location")
-                imageString.setImageHeight(height: 15)
-                let image2String = NSAttributedString(attachment: imageString)
-                locationString.append(image2String)
-                locationString.append(NSAttributedString(string: " \(location)"))
-                self.locationLabel.attributedText = locationString
-            }
-            
-
-        }
+//        Database.database().reference().child(Constants.Gallery).child((gallery?.user.uid)!).child(gallery!.id!).observe(.value) { (snapshot) in
+//            if let dict = snapshot.value as? [String: Any] {
+//                let location = dict[Constants.Location] as! String
+//                print("location \(location)")
+//                let locationString = NSMutableAttributedString(string: "")
+//                let imageString = NSTextAttachment()
+//                imageString.image = UIImage(named: "location")
+//                imageString.setImageHeight(height: 15)
+//                let image2String = NSAttributedString(attachment: imageString)
+//                locationString.append(image2String)
+//                locationString.append(NSAttributedString(string: " \(location)"))
+//                self.locationLabel.attributedText = locationString
+//            }
+//
+//
+//        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -286,9 +286,9 @@ class GalleryDetailVC: UICollectionViewController, UICollectionViewDelegateFlowL
         alertController.addAction(destroyAction)
         
         let editAction = UIAlertAction(title: "Edit", style: .default) { action in
-            let editPhotoVC = EditPhotoVC()
-            editPhotoVC.gallery = self.gallery
-            self.navigationController?.pushViewController(editPhotoVC, animated: true)
+//            let editPhotoVC = EditPhotoVC()
+//            editPhotoVC.gallery = self.gallery
+//            self.navigationController?.pushViewController(editPhotoVC, animated: true)
         }
         alertController.addAction(editAction)
         
@@ -297,45 +297,45 @@ class GalleryDetailVC: UICollectionViewController, UICollectionViewDelegateFlowL
     }
     
     @objc func handleGetBookmarkedUser() {
-        let user = gallery?.bookmarkedUser
-        let userProfileVC = UserProfileVC(collectionViewLayout: UICollectionViewFlowLayout())
-        userProfileVC.userId = user
-        self.navigationController?.pushViewController(userProfileVC, animated: true)
+//        let user = gallery?.bookmarkedUser
+//        let userProfileVC = UserProfileVC(collectionViewLayout: UICollectionViewFlowLayout())
+//        userProfileVC.userId = user
+//        self.navigationController?.pushViewController(userProfileVC, animated: true)
     }
     
     func getBookmarkedUser() {
-        let uid = gallery?.bookmarkedUser
-        if uid != "" {
-            Database.fetchUserWithUID(uid: uid!) { (user) in
-                self.user = user
-                self.taggedButton.setTitle("@\(user.username)",for: .normal)
-            }
-        }
+//        let uid = gallery?.bookmarkedUser
+//        if uid != "" {
+//            Database.fetchUserWithUID(uid: uid!) { (user) in
+//                self.user = user
+//                self.taggedButton.setTitle("@\(user.username)",for: .normal)
+//            }
+//        }
     }
     
     func setupLikeButton() {
-        let getUid = self.gallery?.user.uid
-        let getId = self.gallery?.id
-        let uid = Auth.auth().currentUser?.uid ?? ""
-        Database.fetchUserWithUID(uid: uid) { (user) in
-            Database.database().reference().child(Constants.Gallery).child(getUid!).child(getId!).child(Constants.Likes).child(uid).observeSingleEvent(of: .value) { (snapshot) in
-                if snapshot.exists() {
-                    self.gallery?.hasLiked = !(self.gallery?.hasLiked)!
-                }
-            }
-        }
+//        let getUid = self.gallery?.user.uid
+//        let getId = self.gallery?.id
+//        let uid = Auth.auth().currentUser?.uid ?? ""
+//        Database.fetchUserWithUID(uid: uid) { (user) in
+//            Database.database().reference().child(Constants.Gallery).child(getUid!).child(getId!).child(Constants.Likes).child(uid).observeSingleEvent(of: .value) { (snapshot) in
+//                if snapshot.exists() {
+//                    self.gallery?.hasLiked = !(self.gallery?.hasLiked)!
+//                }
+//            }
+//        }
     }
     
     func observeLikeCount(withPostId id: String, completion: @escaping (Int, UInt) -> Void) {
-        let getUid = self.gallery?.user.uid
-        let galleryId = self.gallery?.id
-        var likeHandler: UInt!
-        likeHandler = Database.database().reference().child(Constants.Gallery).child(getUid!).child(galleryId!).observe(.childChanged, with: {
-            snapshot in
-            if let value = snapshot.value as? Int {
-                completion(value, likeHandler)
-            }
-        })
+//        let getUid = self.gallery?.user.uid
+//        let galleryId = self.gallery?.id
+//        var likeHandler: UInt!
+//        likeHandler = Database.database().reference().child(Constants.Gallery).child(getUid!).child(galleryId!).observe(.childChanged, with: {
+//            snapshot in
+//            if let value = snapshot.value as? Int {
+//                completion(value, likeHandler)
+//            }
+//        })
     }
     
     func updateLikeCount() {
@@ -345,40 +345,40 @@ class GalleryDetailVC: UICollectionViewController, UICollectionViewDelegateFlowL
     }
     
     @objc func handleLike() {
-        let getUid = self.gallery?.user.uid
-        guard let galleryId = self.gallery?.id else { return }
-        let ref = Database.database().reference()
-        let postRef = Database.database().reference().child(Constants.Gallery).child(getUid!).child(galleryId)
-        postRef.runTransactionBlock({ (currentData: MutableData) -> TransactionResult in
-            if var post = currentData.value as? [String : AnyObject], let uid = self.currentUser?.uid {
-                var likes: Dictionary<String, Bool>
-                likes = post[Constants.Likes] as? [String : Bool] ?? [:]
-                var likeCount = post[Constants.LikeCount] as? Int ?? 0
-                if let _ = likes[uid] {
-                    likeCount -= 1
-                    likes.removeValue(forKey: uid)
-                } else {
-                    likeCount += 1
-                    likes[uid] = true
-                }
-                post[Constants.LikeCount] = likeCount as AnyObject?
-                post[Constants.Likes] = likes as AnyObject?
-                currentData.value = post
-                return TransactionResult.success(withValue: currentData)
-            }
-            return TransactionResult.success(withValue: currentData)
-        }) { (error, committed, snapshot) in
-            if let error = error {
-                print(error)
-            }
-        }
-        if gallery?.hasLiked == nil {
-
-        } else {
-            gallery?.hasLiked = !(gallery?.hasLiked)!
-        }
-        updateLikeCount()
-        ref.removeAllObservers()
+//        let getUid = self.gallery?.user.uid
+//        guard let galleryId = self.gallery?.id else { return }
+//        let ref = Database.database().reference()
+//        let postRef = Database.database().reference().child(Constants.Gallery).child(getUid!).child(galleryId)
+//        postRef.runTransactionBlock({ (currentData: MutableData) -> TransactionResult in
+//            if var post = currentData.value as? [String : AnyObject], let uid = self.currentUser?.uid {
+//                var likes: Dictionary<String, Bool>
+//                likes = post[Constants.Likes] as? [String : Bool] ?? [:]
+//                var likeCount = post[Constants.LikeCount] as? Int ?? 0
+//                if let _ = likes[uid] {
+//                    likeCount -= 1
+//                    likes.removeValue(forKey: uid)
+//                } else {
+//                    likeCount += 1
+//                    likes[uid] = true
+//                }
+//                post[Constants.LikeCount] = likeCount as AnyObject?
+//                post[Constants.Likes] = likes as AnyObject?
+//                currentData.value = post
+//                return TransactionResult.success(withValue: currentData)
+//            }
+//            return TransactionResult.success(withValue: currentData)
+//        }) { (error, committed, snapshot) in
+//            if let error = error {
+//                print(error)
+//            }
+//        }
+//        if gallery?.hasLiked == nil {
+//
+//        } else {
+//            gallery?.hasLiked = !(gallery?.hasLiked)!
+//        }
+//        updateLikeCount()
+//        ref.removeAllObservers()
     }
     //MARK: Comments
     var comments = [Comment]()

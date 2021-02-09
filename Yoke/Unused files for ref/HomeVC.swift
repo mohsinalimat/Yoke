@@ -42,7 +42,7 @@ class HomeVC: UICollectionViewController, UICollectionViewDelegateFlowLayout, Ho
         let uid = userId ?? (Auth.auth().currentUser?.uid ?? "")
         UserController.shared.fetchUserWithUID(uid: uid) { (user) in
             self.user = user
-            self.fetchPostsWithUser(user: user)
+//            self.fetchPostsWithUser(user: user)
         }
     }
     
@@ -98,7 +98,7 @@ class HomeVC: UICollectionViewController, UICollectionViewDelegateFlowLayout, Ho
     fileprivate func fetchGallery() {
         guard let uid = Auth.auth().currentUser?.uid else { return }
         UserController.shared.fetchUserWithUID(uid: uid) { (user) in
-            self.fetchPostsWithUser(user: user)
+//            self.fetchPostsWithUser(user: user)
         }
     }
     
@@ -114,17 +114,17 @@ class HomeVC: UICollectionViewController, UICollectionViewDelegateFlowLayout, Ho
         }
     }
     
-    fileprivate func fetchPostsWithUser(user: User) {
-        print("fetch with: \(user.uid)")
-        GalleryController.shared.fetchGalleryWith(user: user) { (result) in
-            switch result {
-            case true:
-                print("Result: fetched")
-                self.collectionView.reloadData()
-            case false:
-                print("Result: not fetched")
-            }
-        }
+//    fileprivate func fetchPostsWithUser(user: User) {
+//        print("fetch with: \(user.uid)")
+//        GalleryController.shared.fetchGalleryWith(user: user) { (result) in
+//            switch result {
+//            case true:
+//                print("Result: fetched")
+//                self.collectionView.reloadData()
+//            case false:
+//                print("Result: not fetched")
+//            }
+//        }
 //        let ref = Database.database().reference().child(Constants.Gallery).child(uid)
 //
 //        ref.queryOrdered(byChild: "creationDate").observe(.childAdded, with: { (snapshot) in
@@ -141,7 +141,7 @@ class HomeVC: UICollectionViewController, UICollectionViewDelegateFlowLayout, Ho
 //            print("Failed to fetch ordered posts:", err)
 //        }
         
-    }
+//    }
     
     @objc func handleLogOut() {
         do {
@@ -243,12 +243,12 @@ class HomeVC: UICollectionViewController, UICollectionViewDelegateFlowLayout, Ho
         alertController.addAction(destroyAction)
         
         let editAction = UIAlertAction(title: "Edit", style: .default) { action in
-            let item = sender.tag
-            let indexPath = IndexPath(item: item, section: 0)
-            let gallery = self.galleries[indexPath.row]
-            let editPhotoVC = EditPhotoVC()
-            editPhotoVC.gallery = gallery
-            self.navigationController?.pushViewController(editPhotoVC, animated: true)
+//            let item = sender.tag
+//            let indexPath = IndexPath(item: item, section: 0)
+//            let gallery = self.galleries[indexPath.row]
+//            let editPhotoVC = EditPhotoVC()
+//            editPhotoVC.gallery = gallery
+//            self.navigationController?.pushViewController(editPhotoVC, animated: true)
             
         }
         alertController.addAction(editAction)

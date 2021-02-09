@@ -23,13 +23,13 @@ class CreateInvoiceVC: UIViewController, UICollectionViewDataSource, UICollectio
     var gallery: Gallery?
     
     fileprivate func fetchSelectedUser() {
-        selectedUser = (gallery?.bookmarkedUser)!
-        let uid = selectedUser
-        
-        Database.fetchUserWithUID(uid: uid) { (user) in
-            self.user = user
-            self.addUserLabel.text = user.username
-        }
+//        selectedUser = (gallery?.bookmarkedUser)!
+//        let uid = selectedUser
+//        
+//        Database.fetchUserWithUID(uid: uid) { (user) in
+//            self.user = user
+//            self.addUserLabel.text = user.username
+//        }
     }
     
     override func viewDidLoad() {
