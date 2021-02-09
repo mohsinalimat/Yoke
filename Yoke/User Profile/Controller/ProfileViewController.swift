@@ -162,37 +162,12 @@ class ProfileViewController: UIViewController, TTGTextTagCollectionViewDelegate 
     }
     
     func setupCollectionView() {
-        let uid = userId ?? (Auth.auth().currentUser?.uid ?? "")
-//        UserController.shared.fetchUserWithUID(uid: uid) { (user) in
-//            guard let chef = user.isChef else { return }
-//            self.isChef = chef
-//            if self.isChef == true {
-//                self.suggestedChefCollectionView.isHidden = true
-//                self.menuCollectionView.isHidden = false
-//                self.addMenuButton.isHidden = false
-//                self.menuLabel.text = "Menus"
-//            } else {
-//                self.suggestedChefCollectionView.isHidden = false
-//                self.menuCollectionView.isHidden = true
-//                self.addMenuButton.isHidden = true
-//                self.menuLabel.text = "Chef's near you"
-//            }
-//        }
-        
         menuCollectionView.backgroundColor = UIColor.LightGrayBg()
         menuCollectionView.delegate = self
         menuCollectionView.dataSource = self
         menuCollectionView.translatesAutoresizingMaskIntoConstraints = false
         menuCollectionView.register(MenuCollectionViewCell.self, forCellWithReuseIdentifier: cellId)
         menuCollectionView.register(EmptyCell.self, forCellWithReuseIdentifier: noCellId)
-        
-//        suggestedChefCollectionView.backgroundColor = UIColor.LightGrayBg()
-//        suggestedChefCollectionView.delegate = self
-//        suggestedChefCollectionView.dataSource = self
-//        suggestedChefCollectionView.translatesAutoresizingMaskIntoConstraints = false
-//        collectionView.register(MenuHeaderCollectionViewCell.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: headerId)
-//        suggestedChefCollectionView.register(SuggestedChefsCollectionViewCell.self, forCellWithReuseIdentifier: cellId)
-//        suggestedChefCollectionView.register(EmptyCell.self, forCellWithReuseIdentifier: noCellId)
     }
     
     func setupCusineCollectionView(uid: String) {
@@ -202,10 +177,8 @@ class ProfileViewController: UIViewController, TTGTextTagCollectionViewDelegate 
         cusineCollectionView.delegate = self
         cusineCollectionView.enableTagSelection = false
         let config = TTGTextTagConfig()
-        config.backgroundColor = .white
-        config.textColor = UIColor.orangeColor()
-        config.borderColor = UIColor.orangeColor()
-        config.borderWidth = 0.3
+        config.backgroundColor = UIColor.orangeColor()
+        config.textColor = UIColor.white
         Firestore.firestore().collection(Constants.Chefs).document(uid).getDocument { (document, error) in
             if let document = document, document.exists {
                 guard let array = document.data()?["cusine"] as? [String] else { return }
