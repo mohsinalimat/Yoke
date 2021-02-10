@@ -112,7 +112,7 @@ class ProfileViewController: UIViewController, TTGTextTagCollectionViewDelegate 
         buttonStackView.anchor(top: statsStackView.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 10, paddingLeft: 15, paddingBottom: 0, paddingRight: 15, height: 50)
         
         cusineLabel.anchor(top: buttonStackView.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: nil, paddingTop: 10, paddingLeft: 15, paddingBottom: 0, paddingRight: 0)
-        cusineCollectionView.anchor(top: cusineLabel.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 10, paddingLeft: 5, paddingBottom: 0, paddingRight: 5, height: 45)
+        cusineCollectionView.anchor(top: cusineLabel.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 10, paddingLeft: 15, paddingBottom: 0, paddingRight: 5, height: 45)
         
         bioLabel.anchor(top: cusineCollectionView.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 10, paddingLeft: 15, paddingBottom: 0, paddingRight: 5)
         
@@ -164,6 +164,9 @@ class ProfileViewController: UIViewController, TTGTextTagCollectionViewDelegate 
                     self.cusineCollectionView.addTags([name], with: config)
                 }
             } else {
+                config.backgroundColor = .white
+                config.textColor = UIColor.orangeColor()
+                self.cusineCollectionView.addTag("Chef's working on it!'", with: config)
                 print("Document does not exist")
             }
         }
