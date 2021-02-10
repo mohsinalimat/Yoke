@@ -14,8 +14,9 @@ class SearchTableViewCell: UITableViewCell {
     var user: User? {
         didSet {
             guard let user = user else { return }
+            guard let city = user.city, let state = user.state else { return }
             usernameLabel.text = user.username
-            locationLabel.text = user.location
+            locationLabel.text = "\(city), \(state)"
             guard let image = user.profileImageUrl else { return }
             profileImage.loadImage(urlString: image)
         }
@@ -34,14 +35,19 @@ class SearchTableViewCell: UITableViewCell {
     func setupViews(){
         addSubview(profileImage)
         addSubview(usernameLabel)
+        addSubview(ratingView)
+        addSubview(reviewCountLabel)
         addSubview(locationLabel)
     }
     
     func setupConstraints() {
-        profileImage.anchor(top: nil, left: leftAnchor, bottom: nil, right: nil, paddingTop: 0, paddingLeft: 25, paddingBottom: 0, paddingRight: 0, width: 50, height: 50)
-        profileImage.layer.cornerRadius = 50/2
+        profileImage.anchor(top: nil, left: leftAnchor, bottom: nil, right: nil, paddingTop: 0, paddingLeft: 25, paddingBottom: 0, paddingRight: 0, width: 80, height: 80)
+        profileImage.layer.cornerRadius = 40
         profileImage.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
-        usernameLabel.anchor(top: profileImage.topAnchor, left: profileImage.rightAnchor, bottom: nil, right: rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0)
+        usernameLabel.anchor(top: topAnchor, left: profileImage.rightAnchor, bottom: nil, right: rightAnchor, paddingTop: 20, paddingLeft: 5, paddingBottom: 0, paddingRight: 0)
+        ratingView.anchor(top: usernameLabel.bottomAnchor, left: profileImage.rightAnchor, bottom: nil, right: nil, paddingTop: 5, paddingLeft: 5, paddingBottom: 0, paddingRight: 0, width: 70, height: 15)
+        reviewCountLabel.anchor(top: ratingView.topAnchor, left: ratingView.rightAnchor, bottom: nil, right: nil, paddingTop: 0, paddingLeft: 5, paddingBottom: 0, paddingRight: 0)
+        locationLabel.anchor(top: ratingView.bottomAnchor, left: profileImage.rightAnchor, bottom: nil, right: rightAnchor, paddingTop: 5, paddingLeft: 5, paddingBottom: 0, paddingRight: 0)
     }
     
     //MARK: - Views
@@ -60,13 +66,34 @@ class SearchTableViewCell: UITableViewCell {
     let usernameLabel: UILabel = {
         let label = UILabel()
         label.textColor = .gray
+        label.font = UIFont.boldSystemFont(ofSize: 15)
         return label
     }()
     
     let locationLabel: UILabel = {
         let label = UILabel()
         label.textColor = .gray
+        label.font = UIFont.systemFont(ofSize: 13)
         return label
     }()
 
+    let ratingView: RatingView = {
+        let view = RatingView()
+        view.backgroundColor = .clear
+        view.minRating = 0
+        view.maxRating = 5
+        view.rating = 2.5
+        view.editable = false
+        view.emptyImage = UIImage(named: "star_unselected_color")
+        view.fullImage = UIImage(named: "star_selected_color")
+        return view
+    }()
+    
+    let reviewCountLabel: UILabel = {
+        let label = UILabel()
+        label.text = "12 reviews"
+        label.textColor = .lightGray
+        label.font = UIFont.systemFont(ofSize: 13)
+        return label
+    }()
 }

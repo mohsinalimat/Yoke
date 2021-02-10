@@ -94,10 +94,6 @@ class SearchViewController: UIViewController {
     var searchBar: UISearchBar = {
         let search = UISearchBar()
         search.placeholder = "Search by name or location"
-//        if #available(iOS 13.0, *) {
-//            search.searchTextField.textColor = UIColor.orangeColor()
-//            search.searchTextField.backgroundColor = UIColor.white
-//        }
         search.searchTextField.textColor = UIColor.orangeColor()
         search.searchTextField.backgroundColor = UIColor.white
         search.tintColor = UIColor.orangeColor()

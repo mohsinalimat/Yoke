@@ -165,10 +165,12 @@ class UserController {
                 let dictionary = document.data()
                 let uid = dictionary[Constants.Uid] as? String ?? ""
                 let username = dictionary[Constants.Username] as? String ?? ""
+                let city = dictionary[Constants.City] as? String ?? ""
+                let state = dictionary[Constants.State] as? String ?? ""
                 let profileImageUrl = dictionary[Constants.ProfileImageUrl] as? String ?? ""
                 guard let isChef = dictionary[Constants.IsChef] as? Bool else { return }
                 if uid != Auth.auth().currentUser?.uid && isChef == true {
-                    let user = User(uid: uid, username: username, profileImageUrl: profileImageUrl)
+                    let user = User(uid: uid, username: username, profileImageUrl: profileImageUrl, city: city, state: state)
                     self.users.append(user)
                     completion(user)
                 }
