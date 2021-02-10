@@ -38,6 +38,7 @@ class SuggestedChefsCollectionViewCell: UICollectionViewCell {
         addSubview(cellBackgroundView)
         addSubview(profileImage)
         addSubview(nameLabel)
+        addSubview(ratingView)
         addSubview(locationLabel)
     }
     
@@ -48,7 +49,9 @@ class SuggestedChefsCollectionViewCell: UICollectionViewCell {
         profileImage.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
         nameLabel.anchor(top: profileImage.bottomAnchor, left: nil, bottom: nil, right: nil, paddingTop: 5, paddingLeft: 0, paddingBottom: 0, paddingRight: 0)
         nameLabel.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
-        locationLabel.anchor(top: nameLabel.bottomAnchor, left: nil, bottom: nil, right: nil, paddingTop: 5, paddingLeft: 0, paddingBottom: 0, paddingRight: 0)
+        ratingView.anchor(top: nameLabel.bottomAnchor, left: nil, bottom: nil, right: nil, paddingTop: 5, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 70, height: 15)
+        ratingView.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
+        locationLabel.anchor(top: ratingView.bottomAnchor, left: nil, bottom: nil, right: nil, paddingTop: 5, paddingLeft: 0, paddingBottom: 0, paddingRight: 0)
         locationLabel.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
     }
     
@@ -59,24 +62,36 @@ class SuggestedChefsCollectionViewCell: UICollectionViewCell {
         image.translatesAutoresizingMaskIntoConstraints = false
         image.clipsToBounds = true
         image.layer.cornerRadius = 60
-        image.layer.borderWidth = 1
-        image.layer.borderColor = UIColor.white.cgColor
+//        image.layer.borderWidth = 2
+//        image.layer.borderColor = UIColor.orangeColor()?.cgColor
         return image
     }()
     
     var nameLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.boldSystemFont(ofSize: 15)
-        label.textColor = UIColor.orangeColor()
+        label.textColor = .gray
         label.lineBreakMode = .byWordWrapping
         label.numberOfLines = 0
         return label
     }()
     
+    let ratingView: RatingView = {
+        let view = RatingView()
+        view.backgroundColor = .clear
+        view.minRating = 0
+        view.maxRating = 5
+        view.rating = 2.5
+        view.editable = false
+        view.emptyImage = UIImage(named: "star_unselected_color")
+        view.fullImage = UIImage(named: "star_selected_color")
+        return view
+    }()
+    
     var locationLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.boldSystemFont(ofSize: 13)
-        label.textColor = UIColor.orangeColor()
+        label.textColor = .gray
         return label
     }()
     
@@ -85,6 +100,8 @@ class SuggestedChefsCollectionViewCell: UICollectionViewCell {
         view.layer.cornerRadius = 8
         view.layer.masksToBounds = true
         view.backgroundColor = UIColor.white
+//        view.layer.borderWidth = 0.5
+//        view.layer.borderColor = UIColor.orangeColor()?.cgColor
         return view
     }()
     
