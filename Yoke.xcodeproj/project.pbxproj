@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		2F6CBC4B9CA2F859DCAE6A2D /* Pods_YokeTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6A8E36B9FA1B6F243ABB5524 /* Pods_YokeTests.framework */; };
+		6C29312125D48D2500A36B64 /* SearchFilterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C29312025D48D2500A36B64 /* SearchFilterViewController.swift */; };
 		6C296DD224B3BE6A008E33ED /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C296DD124B3BE6A008E33ED /* AppDelegate.swift */; };
 		6C296DD824B3BE6F008E33ED /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6C296DD724B3BE6F008E33ED /* Assets.xcassets */; };
 		6C296DDB24B3BE6F008E33ED /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6C296DDA24B3BE6F008E33ED /* Preview Assets.xcassets */; };
@@ -154,6 +155,7 @@
 		49D4C337C2052ABFA7730F3C /* Pods-YokeTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-YokeTests.debug.xcconfig"; path = "Target Support Files/Pods-YokeTests/Pods-YokeTests.debug.xcconfig"; sourceTree = "<group>"; };
 		53539C89D75D851E965CA038 /* Pods-YokeTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-YokeTests.release.xcconfig"; path = "Target Support Files/Pods-YokeTests/Pods-YokeTests.release.xcconfig"; sourceTree = "<group>"; };
 		6A8E36B9FA1B6F243ABB5524 /* Pods_YokeTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_YokeTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		6C29312025D48D2500A36B64 /* SearchFilterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchFilterViewController.swift; sourceTree = "<group>"; };
 		6C296DCE24B3BE6A008E33ED /* Yoke.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Yoke.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6C296DD124B3BE6A008E33ED /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		6C296DD724B3BE6F008E33ED /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -768,9 +770,8 @@
 		6C8DB62424B3C1B9003D06FF /* Controller */ = {
 			isa = PBXGroup;
 			children = (
-				6C8DB62524B3C1B9003D06FF /* SearchFilterVC.swift */,
-				6C8DB62624B3C1B9003D06FF /* SearchVC.swift */,
 				6CBF4FD725D331CA000CFBA5 /* SearchViewController.swift */,
+				6C29312025D48D2500A36B64 /* SearchFilterViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -785,7 +786,6 @@
 		6C8DB62924B3C1B9003D06FF /* View */ = {
 			isa = PBXGroup;
 			children = (
-				6C8DB62A24B3C1B9003D06FF /* SearchCell.swift */,
 				6CBF4FDF25D3340D000CFBA5 /* SearchTableViewCell.swift */,
 			);
 			path = View;
@@ -850,7 +850,10 @@
 		6CC8CBDC25C47BF100C3F24D /* Unused files for ref */ = {
 			isa = PBXGroup;
 			children = (
+				6C8DB62524B3C1B9003D06FF /* SearchFilterVC.swift */,
+				6C8DB62624B3C1B9003D06FF /* SearchVC.swift */,
 				6C8DB5E424B3C1B8003D06FF /* UserProfileVC.swift */,
+				6C8DB62A24B3C1B9003D06FF /* SearchCell.swift */,
 				6C8DB5E624B3C1B8003D06FF /* UserHeaderCell.swift */,
 				6C8DB60524B3C1B8003D06FF /* HomeHeaderCell.swift */,
 				6C8DB5FB24B3C1B8003D06FF /* HomeVC.swift */,
@@ -1154,6 +1157,7 @@
 				6CBDDE4324B3DBE70099A04C /* InvoiceCell.swift in Sources */,
 				6CC8CBB325C33BD900C3F24D /* MenuCollectionViewCell.swift in Sources */,
 				6CB2AA30258D62140062BDBE /* WelcomeVC.swift in Sources */,
+				6C29312125D48D2500A36B64 /* SearchFilterViewController.swift in Sources */,
 				6C8DB66124B3C1B9003D06FF /* FirebaseUtil.swift in Sources */,
 				6C8DB68124B3C1B9003D06FF /* EditEventCell.swift in Sources */,
 				6C8DB67A24B3C1B9003D06FF /* UserHeaderCell.swift in Sources */,
