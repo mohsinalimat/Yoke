@@ -350,8 +350,8 @@ class HomeViewController: UIViewController {
     
     let bannerLayerImageView: UIView = {
         let view = UIView()
-        view.backgroundColor = UIColor.black
-        view.layer.opacity = 0.4
+        view.backgroundColor = UIColor.orangeColor()
+        view.layer.opacity = 0.2
         return view
     }()
     

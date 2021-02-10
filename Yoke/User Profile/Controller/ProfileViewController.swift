@@ -65,7 +65,7 @@ class ProfileViewController: UIViewController, TTGTextTagCollectionViewDelegate 
         view.backgroundColor = UIColor.LightGrayBg()
         view.addSubview(scrollView)
         scrollView.addSubview(bannerImageView)
-        scrollView.addSubview(bannerLayerImageView)
+//        scrollView.addSubview(bannerLayerImageView)
         scrollView.addSubview(profileImageView)
         scrollView.addSubview(usernameLabel)
         scrollView.addSubview(locationLabel)
@@ -93,9 +93,9 @@ class ProfileViewController: UIViewController, TTGTextTagCollectionViewDelegate 
     func constrainViews() {
         scrollView.anchor(top: safeArea.topAnchor, left: safeArea.leftAnchor, bottom: safeArea.bottomAnchor, right: safeArea.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0)
         
-        bannerLayerImageView.anchor(top: scrollView.topAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, height: 250)
+//        bannerLayerImageView.anchor(top: scrollView.topAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, height: 200)
 
-        bannerImageView.anchor(top: scrollView.topAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, height: 250)
+        bannerImageView.anchor(top: scrollView.topAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, height: 200)
         
         profileImageView.anchor(top: bannerImageView.bottomAnchor, left: nil, bottom: nil, right: nil, paddingTop: -75, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 150, height: 150)
         profileImageView.layer.cornerRadius = 75
@@ -109,7 +109,7 @@ class ProfileViewController: UIViewController, TTGTextTagCollectionViewDelegate 
         statsStackView.anchor(top: ratingView.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 0, paddingLeft: 40, paddingBottom: 0, paddingRight: 40, height: 35)
         
         setupButtonImages()
-        buttonStackView.anchor(top: statsStackView.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 10, paddingLeft: 5, paddingBottom: 0, paddingRight: 5, width: 0, height: 60)
+        buttonStackView.anchor(top: statsStackView.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 10, paddingLeft: 15, paddingBottom: 0, paddingRight: 15, height: 50)
         
         cusineLabel.anchor(top: buttonStackView.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: nil, paddingTop: 10, paddingLeft: 15, paddingBottom: 0, paddingRight: 0)
         cusineCollectionView.anchor(top: cusineLabel.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 10, paddingLeft: 5, paddingBottom: 0, paddingRight: 5, height: 45)
@@ -248,7 +248,7 @@ class ProfileViewController: UIViewController, TTGTextTagCollectionViewDelegate 
         let image = CustomImageView()
         image.clipsToBounds = true
         image.contentMode = .scaleAspectFill
-        image.layer.borderColor = UIColor.white.cgColor
+        image.layer.borderColor = UIColor.orangeColor()?.cgColor
         image.image = UIImage(named: "person.crop.circle.fill")
         image.tintColor = UIColor.orangeColor()
         image.backgroundColor = .white
@@ -327,7 +327,7 @@ class ProfileViewController: UIViewController, TTGTextTagCollectionViewDelegate 
         let stackView = UIStackView()
         stackView.axis = .horizontal
         stackView.distribution = .fillEqually
-        stackView.spacing = 1
+        stackView.spacing = 4
         return stackView
     }()
     
