@@ -118,10 +118,10 @@ extension SearchViewController: UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-//        let user = users[indexPath.row]
-//        let userProfileVC = UserProfileViewController()
-//        userProfileVC.userId = user.uid
-//        navigationController?.pushViewController(userProfileVC, animated: true)
+        let user = UserController.shared.users[indexPath.row]
+        let userProfileVC = ProfileViewController()
+        userProfileVC.userId = user.uid
+        navigationController?.pushViewController(userProfileVC, animated: true)
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
