@@ -49,7 +49,7 @@ class SearchViewController: UIViewController {
     }
     
     func constrainViews() {
-        searchBar.anchor(top: safeArea.topAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 0, paddingLeft: 8, paddingBottom: 0, paddingRight: 0, height: 45)
+        searchBar.anchor(top: safeArea.topAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, height: 45)
         tableView.anchor(top: searchBar.bottomAnchor, left: safeArea.leftAnchor, bottom: safeArea.bottomAnchor, right: safeArea.rightAnchor, paddingTop: 0, paddingLeft: 8, paddingBottom: 0, paddingRight: 0)
 
     }
@@ -94,7 +94,15 @@ class SearchViewController: UIViewController {
     var searchBar: UISearchBar = {
         let search = UISearchBar()
         search.placeholder = "Search by name or location"
-        search.layer.cornerRadius = 2
+//        if #available(iOS 13.0, *) {
+//            search.searchTextField.textColor = UIColor.orangeColor()
+//            search.searchTextField.backgroundColor = UIColor.white
+//        }
+        search.searchTextField.textColor = UIColor.orangeColor()
+        search.searchTextField.backgroundColor = UIColor.white
+        search.tintColor = UIColor.orangeColor()
+        search.backgroundColor = UIColor.orangeColor()
+        search.barTintColor = UIColor.orangeColor()
         return search
     }()
 }
@@ -108,6 +116,7 @@ extension SearchViewController: UITableViewDataSource, UITableViewDelegate {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as? SearchTableViewCell else { return UITableViewCell() }
         let user = UserController.shared.users[indexPath.row]
         cell.backgroundColor = .white
+        cell.selectionStyle = .none
         cell.user = user
         return cell
     }

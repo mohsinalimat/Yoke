@@ -59,11 +59,13 @@ class SearchTableViewCell: UITableViewCell {
     
     let usernameLabel: UILabel = {
         let label = UILabel()
+        label.textColor = .gray
         return label
     }()
     
     let locationLabel: UILabel = {
         let label = UILabel()
+        label.textColor = .gray
         return label
     }()
 
