@@ -19,8 +19,6 @@ class SearchViewController: UIViewController {
     }
     let tableView = UITableView()
     var searchController = UISearchController()
-    var users = [User]()
-    var filteredUsers = [User]()
     let firestoreDB = Firestore.firestore()
     var getLocation: String = ""
     
@@ -35,7 +33,7 @@ class SearchViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         fetchUsers()
-//        setupSearch()
+        setupSearch()
         setupNavigationAndBarButtons()
     }
     
@@ -70,7 +68,7 @@ class SearchViewController: UIViewController {
     }
     
     @objc func handleClear() {
-        filteredUsers = self.users
+        UserController.shared.filteredUsers = UserController.shared.users
         tableView.reloadData()
     }
     
@@ -107,12 +105,12 @@ class SearchViewController: UIViewController {
 
 extension SearchViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return UserController.shared.users.count
+        return UserController.shared.filteredUsers.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as? SearchTableViewCell else { return UITableViewCell() }
-        let user = UserController.shared.users[indexPath.row]
+        let user = UserController.shared.filteredUsers[indexPath.row]
         cell.backgroundColor = .white
         cell.selectionStyle = .none
         cell.user = user
@@ -120,7 +118,7 @@ extension SearchViewController: UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let user = UserController.shared.users[indexPath.row]
+        let user = UserController.shared.filteredUsers[indexPath.row]
         let userProfileVC = ProfileViewController()
         userProfileVC.userId = user.uid
         navigationController?.pushViewController(userProfileVC, animated: true)
@@ -136,9 +134,9 @@ extension SearchViewController: UISearchBarDelegate {
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         
         if searchText.isEmpty {
-            filteredUsers = users
+            UserController.shared.filteredUsers = UserController.shared.users
         } else {
-            filteredUsers = self.users.filter { (user) -> Bool in
+            UserController.shared.filteredUsers = UserController.shared.users.filter { (user) -> Bool in
                 guard let username = user.username,
                       let location = user.location else { return false }
                 return username.lowercased().contains(searchText.lowercased()) || location.lowercased().contains(searchText.lowercased())

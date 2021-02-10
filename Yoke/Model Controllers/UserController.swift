@@ -27,6 +27,7 @@ class UserController {
     //MARK: - Source of truth
     var user: User?
     var users: [User] = []
+    var filteredUsers = [User]()
     
     //MARK: - Properties
     private let locationManager = LocationManager()
@@ -172,6 +173,10 @@ class UserController {
                 if uid != Auth.auth().currentUser?.uid && isChef == true {
                     let user = User(uid: uid, username: username, profileImageUrl: profileImageUrl, city: city, state: state)
                     self.users.append(user)
+                    self.users.sort(by: { (u1, u2) -> Bool in
+                        return u1.username!.compare(u2.username!) == .orderedDescending
+                    })
+                    self.filteredUsers = self.users
                     completion(user)
                 }
                 print(document.data())
