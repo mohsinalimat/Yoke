@@ -72,8 +72,7 @@ class UserProfileVC: UICollectionViewController, UICollectionViewDelegateFlowLay
         self.navigationController?.navigationBar.shadowImage = UIImage()
         self.navigationController?.navigationBar.isTranslucent = true
         self.navigationController?.view.backgroundColor = UIColor.black
-        
-        
+
     }
     
     override func viewWillDisappear(_ animated : Bool) {

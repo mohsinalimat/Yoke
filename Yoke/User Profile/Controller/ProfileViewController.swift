@@ -28,6 +28,12 @@ class ProfileViewController: UIViewController, TTGTextTagCollectionViewDelegate 
     }
     
     //MARK: - Lifecycle Methods
+    override func viewWillDisappear(_ animated : Bool) {
+        super.viewWillDisappear(animated)
+        let userProfileVC = ProfileViewController()
+        userProfileVC.dismiss(animated: true, completion: nil)
+    }
+    
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         setupViews()
@@ -38,59 +44,16 @@ class ProfileViewController: UIViewController, TTGTextTagCollectionViewDelegate 
         super.viewDidLoad()
         fetchUser()
         setupCollectionView()
+//        setupNavTitleAndBarButtonItems()
+//        self.navigationController?.navigationBar.backgroundColor = UIColor.orangeColor()
+//        self.navigationController?.navigationBar.isTranslucent = false
+//        self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for: UIBarMetrics.default)
+//        self.navigationController?.navigationBar.shadowImage = UIImage()
+//        self.navigationController?.navigationBar.isTranslucent = true
+//        self.navigationController?.view.backgroundColor = UIColor.orangeColor()
     }
-    
-    fileprivate func fetchUser() {
-        let uid = userId ?? (Auth.auth().currentUser?.uid ?? "")
-        UserController.shared.fetchUserWithUID(uid: uid) { (user) in
-            guard let username = user.username,
-                  let city = user.city,
-                  let state = user.state,
-                  let bio = user.bio,
-                  let uid = user.uid else { return }
-            self.usernameLabel.text = username
-            self.locationLabel.text = "\(city), \(state)"
-            self.bioLabel.text = "About \(username)"
-            self.bioTextLabel.text = bio
-            if self.bioTextLabel.text == "" {
-                self.bioTextLabel.text = "Full bio coming soon"
-            }
-            
-            if user.isChef == false {
-                
-            }
-            
-            self.setupCusineCollectionView(uid: uid)
-            self.fetchMenus(uid: uid)
-            let imageStorageRef = Storage.storage().reference().child("profileImageUrl/\(uid)")
-            imageStorageRef.getData(maxSize: 2 * 1024 * 1024) { data, error in
-                if error == nil, let data = data {
-                    self.profileImageView.image = UIImage(data: data)
-                }
-            }
-            
-            let bannerStorageRef = Storage.storage().reference().child("profileBannerUrl/\(uid)")
-            bannerStorageRef.getData(maxSize: 2 * 1024 * 1024) { data, error in
-                if error == nil, let data = data {
-                    self.bannerImageView.image = UIImage(data: data)
-                }
-            }
-        }
-    }
-    
-    fileprivate func fetchMenus(uid: String) {
-        MenuController.shared.fetchMenuWith(uid: uid) { (result) in
-            switch result {
-            case true:
-                DispatchQueue.main.async {
-                    self.menuCollectionView.reloadData()
-                }
-            case false:
-                print("Problem Loading Menus")
-            }
-        }
-    }
-    
+
+    //MARK: - Helper Functions
     func setupButtonImages() {
         reviewsButton.alignImageTextVertical()
         eventButton.alignImageTextVertical()
@@ -128,11 +91,11 @@ class ProfileViewController: UIViewController, TTGTextTagCollectionViewDelegate 
     }
     
     func constrainViews() {
-        scrollView.anchor(top: safeArea.topAnchor, left: safeArea.leftAnchor, bottom: safeArea.bottomAnchor, right: safeArea.rightAnchor, paddingTop: -100, paddingLeft: 0, paddingBottom: 0, paddingRight: 0)
+        scrollView.anchor(top: safeArea.topAnchor, left: safeArea.leftAnchor, bottom: safeArea.bottomAnchor, right: safeArea.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0)
         
-        bannerLayerImageView.anchor(top: scrollView.topAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: -100, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, height: 250)
+        bannerLayerImageView.anchor(top: scrollView.topAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, height: 250)
 
-        bannerImageView.anchor(top: scrollView.topAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: -100, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, height: 250)
+        bannerImageView.anchor(top: scrollView.topAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, height: 250)
         
         profileImageView.anchor(top: bannerImageView.bottomAnchor, left: nil, bottom: nil, right: nil, paddingTop: -75, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 150, height: 150)
         profileImageView.layer.cornerRadius = 75
@@ -202,6 +165,57 @@ class ProfileViewController: UIViewController, TTGTextTagCollectionViewDelegate 
                 }
             } else {
                 print("Document does not exist")
+            }
+        }
+    }
+    
+    fileprivate func fetchUser() {
+        let uid = userId ?? (Auth.auth().currentUser?.uid ?? "")
+        UserController.shared.fetchUserWithUID(uid: uid) { (user) in
+            guard let username = user.username,
+                  let city = user.city,
+                  let state = user.state,
+                  let bio = user.bio,
+                  let uid = user.uid else { return }
+            self.usernameLabel.text = username
+            self.locationLabel.text = "\(city), \(state)"
+            self.bioLabel.text = "About \(username)"
+            self.bioTextLabel.text = bio
+            if self.bioTextLabel.text == "" {
+                self.bioTextLabel.text = "Full bio coming soon"
+            }
+            
+            if user.isChef == false {
+                
+            }
+            
+            self.setupCusineCollectionView(uid: uid)
+            self.fetchMenus(uid: uid)
+            let imageStorageRef = Storage.storage().reference().child("profileImageUrl/\(uid)")
+            imageStorageRef.getData(maxSize: 2 * 1024 * 1024) { data, error in
+                if error == nil, let data = data {
+                    self.profileImageView.image = UIImage(data: data)
+                }
+            }
+            
+            let bannerStorageRef = Storage.storage().reference().child("profileBannerUrl/\(uid)")
+            bannerStorageRef.getData(maxSize: 2 * 1024 * 1024) { data, error in
+                if error == nil, let data = data {
+                    self.bannerImageView.image = UIImage(data: data)
+                }
+            }
+        }
+    }
+    
+    fileprivate func fetchMenus(uid: String) {
+        MenuController.shared.fetchMenuWith(uid: uid) { (result) in
+            switch result {
+            case true:
+                DispatchQueue.main.async {
+                    self.menuCollectionView.reloadData()
+                }
+            case false:
+                print("Problem Loading Menus")
             }
         }
     }

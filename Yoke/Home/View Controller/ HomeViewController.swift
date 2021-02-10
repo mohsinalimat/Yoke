@@ -83,11 +83,11 @@ class HomeViewController: UIViewController {
     }
     
     func constrainViews() {
-        bannerLayerImageView.anchor(top: safeArea.topAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: -100, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, height: 300)
+        bannerLayerImageView.anchor(top: safeArea.topAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, height: 300)
 
-        bannerImageView.anchor(top: safeArea.topAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: -100, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, height: 300)
+        bannerImageView.anchor(top: safeArea.topAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, height: 300)
         
-        profileImageView.anchor(top: safeArea.topAnchor, left: nil, bottom: nil, right: nil, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 100, height: 100)
+        profileImageView.anchor(top: safeArea.topAnchor, left: nil, bottom: nil, right: nil, paddingTop: 60, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 100, height: 100)
         profileImageView.layer.cornerRadius = 50
         profileImageView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
 
@@ -178,11 +178,10 @@ class HomeViewController: UIViewController {
     }
     
     func setupNavTitleAndBarButtonItems() {
-        self.navigationController?.navigationBar.isTranslucent = true
-        self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for: UIBarMetrics.default)
-        self.navigationController?.navigationBar.shadowImage = UIImage()
-        
-        self.navigationController?.view.backgroundColor = UIColor.black
+//        self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for: UIBarMetrics.default)
+//        self.navigationController?.navigationBar.shadowImage = UIImage()
+//        self.navigationController?.navigationBar.isTranslucent = true
+//        self.navigationController?.view.backgroundColor = UIColor.black
         let icon = UIImage(named: "menu")
         let imageView = UIImageView(frame: CGRect(x: 0, y: 0, width: 5, height: 5))
         imageView.image = icon
@@ -352,7 +351,7 @@ class HomeViewController: UIViewController {
     let bannerLayerImageView: UIView = {
         let view = UIView()
         view.backgroundColor = UIColor.black
-        view.layer.opacity = 0.1
+        view.layer.opacity = 0.4
         return view
     }()
     

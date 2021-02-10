@@ -67,7 +67,7 @@ class SuggestedChefsCollectionViewCell: UICollectionViewCell {
     var nameLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.boldSystemFont(ofSize: 15)
-        label.textColor = .white
+        label.textColor = UIColor.orangeColor()
         label.lineBreakMode = .byWordWrapping
         label.numberOfLines = 0
         return label
@@ -76,7 +76,7 @@ class SuggestedChefsCollectionViewCell: UICollectionViewCell {
     var locationLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.boldSystemFont(ofSize: 13)
-        label.textColor = .white
+        label.textColor = UIColor.orangeColor()
         return label
     }()
     
@@ -84,7 +84,7 @@ class SuggestedChefsCollectionViewCell: UICollectionViewCell {
         let view = UIView()
         view.layer.cornerRadius = 8
         view.layer.masksToBounds = true
-        view.backgroundColor = UIColor.orangeColor()
+        view.backgroundColor = UIColor.white
         return view
     }()
     
