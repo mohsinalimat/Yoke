@@ -135,6 +135,9 @@ class SettingsViewController: UIViewController  {
               let state = user.state else { return }
         usernameTextField.text = user.username
         locationTextField.text = "\(city), \(state)"
+//        if bioTextView.text.count == 0 {
+//            bioTextView.placeholder = "Enter bio here"
+//        }
         bioTextView.text = user.bio
         guard let isChef = user.isChef else { return }
         self.chefSwitch.setOn(isChef, animated: true)
@@ -337,6 +340,16 @@ class SettingsViewController: UIViewController  {
 //        }
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        self.addKeyboardObserver()
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        self.removeKeyboardObserver()
+    }
+    
     //MARK: - Views
     let swipeIndicator: UIView = {
         let view = UIView()
@@ -486,7 +499,6 @@ class SettingsViewController: UIViewController  {
     
     let bioTextView: UITextView = {
         let text = UITextView()
-        text.placeholder = "Enter bio here"
         text.backgroundColor = .clear
         text.textColor = .darkGray
         text.isEditable = true

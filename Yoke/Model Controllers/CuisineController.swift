@@ -1,5 +1,5 @@
 //
-//  CusineController.swift
+//  CuisineController.swift
 //  Yoke
 //
 //  Created by LAURA JELENICH on 1/19/21.
@@ -10,10 +10,10 @@ import UIKit
 import Firebase
 import FirebaseAuth
 
-class CusineController {
+class CuisineController {
     
     //MARK: - Shared Instance
-    static let shared = CusineController()
+    static let shared = CuisineController()
     
     //MARK: - Firebase Firestore Database
     let firestoreDB = Firestore.firestore().collection(Constants.Chefs)
@@ -25,7 +25,7 @@ class CusineController {
     func addCusineWith(uid: String, type: String, completion: @escaping (Bool) -> Void) {
         firestoreDB.document(uid).getDocument { (document, error) in
             if let document = document, document.exists {
-                self.firestoreDB.document(uid).updateData([Constants.Cusine: FieldValue.arrayUnion([type])]) { error in
+                self.firestoreDB.document(uid).updateData([Constants.Cuisine: FieldValue.arrayUnion([type])]) { error in
                     if let error = error {
                         completion(false)
                         print("error in add cusine: \(error.localizedDescription)")
@@ -34,7 +34,7 @@ class CusineController {
                     }
                 }
             } else {
-                self.firestoreDB.document(uid).setData([Constants.Cusine: FieldValue.arrayUnion([type])]) { error in
+                self.firestoreDB.document(uid).setData([Constants.Cuisine: FieldValue.arrayUnion([type])]) { error in
                     if let error = error {
                         completion(false)
                         print("error in add cusine: \(error.localizedDescription)")
@@ -50,7 +50,7 @@ class CusineController {
     func fetchCusineWith(uid: String, completion: @escaping (Bool) -> Void) {
         firestoreDB.document(uid).getDocument { (document, error) in
             if let document = document, document.exists {
-                guard let array = document.data()?["cusine"] as? [String] else { return }
+                guard let array = document.data()?["cuisine"] as? [String] else { return }
                 for name in array {
 //                    print(name)
                     let cusine = Cusine(type: [name])
@@ -65,10 +65,10 @@ class CusineController {
     }
     
     func deleteCusineWith(uid: String, type: String, completion: @escaping (Bool) -> Void) {
-        firestoreDB.document(uid).updateData([Constants.Cusine: FieldValue.arrayRemove([type])]) { error in
+        firestoreDB.document(uid).updateData([Constants.Cuisine: FieldValue.arrayRemove([type])]) { error in
             if let error = error {
                 completion(false)
-                print("error in add cusine: \(error.localizedDescription)")
+                print("error in add cuisine: \(error.localizedDescription)")
             } else {
                 completion(true)
             }

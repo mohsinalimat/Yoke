@@ -324,7 +324,7 @@ class AddMenuViewController: UIViewController {
         seg.backgroundColor = UIColor.orangeColor()
         seg.tintColor = UIColor.white
         seg.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor.white], for: UIControl.State.normal)
-        seg.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor.orangeColor()!], for: UIControl.State.selected)
+        seg.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor.white], for: UIControl.State.selected)
         seg.addTarget(self, action: #selector(handleCourseType), for: .valueChanged)
         return seg
     }()
@@ -351,7 +351,7 @@ class AddMenuViewController: UIViewController {
         seg.backgroundColor = UIColor.orangeColor()
         seg.tintColor = UIColor.white
         seg.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor.white], for: UIControl.State.normal)
-        seg.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor.orangeColor()!], for: UIControl.State.selected)
+        seg.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor.white], for: UIControl.State.selected)
         seg.addTarget(self, action: #selector(handleMenuType), for: .valueChanged)
         return seg
     }()

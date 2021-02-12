@@ -39,7 +39,7 @@ class User {
 //    let bookmarkCount: Int?
 //    let userRate: Int?
     
-    init(uid: String = "", id: String = "", customer_id: String = "", email: String = "", username: String = "", profileImageUrl: String = "", profileCoverUrl: String = "", location: String = "", bio: String = "", isChef: Bool = false, street: String = "", apartment: String = "", city: String = "", state: String = "", latitude: Double = 0.0, longitude: Double = 0.0) {
+    init(uid: String = "", id: String = "", customer_id: String = "", email: String = "", username: String = "", profileImageUrl: String = "", profileCoverUrl: String = "", location: String = "", bio: String = "", isChef: Bool, street: String = "", apartment: String = "", city: String = "", state: String = "", latitude: Double = 0.0, longitude: Double = 0.0) {
         self.uid = uid
         self.id = id
         self.customer_id = customer_id

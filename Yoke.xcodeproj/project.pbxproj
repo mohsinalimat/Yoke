@@ -135,7 +135,7 @@
 		6CDCD7F225818067002CE767 /* KeyboardExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CDCD7F125818067002CE767 /* KeyboardExtension.swift */; };
 		6CE86E3125C08A7C002C81F5 /* AddMenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CE86E3025C08A7C002C81F5 /* AddMenuViewController.swift */; };
 		6CFDB39525B738FA007261D1 /* Cusine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CFDB39425B738FA007261D1 /* Cusine.swift */; };
-		6CFDB39B25B7425A007261D1 /* CusineController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CFDB39A25B7425A007261D1 /* CusineController.swift */; };
+		6CFDB39B25B7425A007261D1 /* CuisineController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CFDB39A25B7425A007261D1 /* CuisineController.swift */; };
 		6CFDB3A825B79114007261D1 /* CusineCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CFDB3A725B79114007261D1 /* CusineCollectionViewCell.swift */; };
 		D337EDD6E6FF20B9F47A3ACA /* Pods_Yoke.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AB82B7404016C0A2550045A8 /* Pods_Yoke.framework */; };
 /* End PBXBuildFile section */
@@ -288,7 +288,7 @@
 		6CDCD7F125818067002CE767 /* KeyboardExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardExtension.swift; sourceTree = "<group>"; };
 		6CE86E3025C08A7C002C81F5 /* AddMenuViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddMenuViewController.swift; sourceTree = "<group>"; };
 		6CFDB39425B738FA007261D1 /* Cusine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Cusine.swift; sourceTree = "<group>"; };
-		6CFDB39A25B7425A007261D1 /* CusineController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CusineController.swift; sourceTree = "<group>"; };
+		6CFDB39A25B7425A007261D1 /* CuisineController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CuisineController.swift; sourceTree = "<group>"; };
 		6CFDB3A725B79114007261D1 /* CusineCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CusineCollectionViewCell.swift; sourceTree = "<group>"; };
 		AB82B7404016C0A2550045A8 /* Pods_Yoke.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Yoke.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F1337BDE1E46DC98CF590181 /* Pods-Yoke.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Yoke.debug.xcconfig"; path = "Target Support Files/Pods-Yoke/Pods-Yoke.debug.xcconfig"; sourceTree = "<group>"; };
@@ -881,7 +881,7 @@
 			children = (
 				6CDCD7DD258159BB002CE767 /* UserController.swift */,
 				6CA9D91625950AEB009B2BDF /* GalleryController.swift */,
-				6CFDB39A25B7425A007261D1 /* CusineController.swift */,
+				6CFDB39A25B7425A007261D1 /* CuisineController.swift */,
 				6CC8CBAA25C0D09700C3F24D /* MenuController.swift */,
 				6CC4374C25C8B93000CE85CE /* SuggestedChefController.swift */,
 			);
@@ -1137,7 +1137,7 @@
 				6C8DB69424B3C1B9003D06FF /* CustomViews.swift in Sources */,
 				6CBDDE5224B3DC000099A04C /* CreateStripeAccountVC.swift in Sources */,
 				6CBF4FD825D331CA000CFBA5 /* SearchViewController.swift in Sources */,
-				6CFDB39B25B7425A007261D1 /* CusineController.swift in Sources */,
+				6CFDB39B25B7425A007261D1 /* CuisineController.swift in Sources */,
 				6C8DB67B24B3C1B9003D06FF /* UserEventCell.swift in Sources */,
 				6C8DB67424B3C1B9003D06FF /* Schedule.swift in Sources */,
 				6CBDDE5C24B3DC130099A04C /* Payment.swift in Sources */,

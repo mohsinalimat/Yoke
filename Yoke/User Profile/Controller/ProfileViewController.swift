@@ -44,13 +44,7 @@ class ProfileViewController: UIViewController, TTGTextTagCollectionViewDelegate 
         super.viewDidLoad()
         fetchUser()
         setupCollectionView()
-//        setupNavTitleAndBarButtonItems()
-//        self.navigationController?.navigationBar.backgroundColor = UIColor.orangeColor()
-//        self.navigationController?.navigationBar.isTranslucent = false
-//        self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for: UIBarMetrics.default)
-//        self.navigationController?.navigationBar.shadowImage = UIImage()
-//        self.navigationController?.navigationBar.isTranslucent = true
-//        self.navigationController?.view.backgroundColor = UIColor.orangeColor()
+        setupViewForNonChefUser()
     }
 
     //MARK: - Helper Functions
@@ -65,7 +59,6 @@ class ProfileViewController: UIViewController, TTGTextTagCollectionViewDelegate 
         view.backgroundColor = UIColor.LightGrayBg()
         view.addSubview(scrollView)
         scrollView.addSubview(bannerImageView)
-//        scrollView.addSubview(bannerLayerImageView)
         scrollView.addSubview(profileImageView)
         scrollView.addSubview(usernameLabel)
         scrollView.addSubview(locationLabel)
@@ -79,21 +72,19 @@ class ProfileViewController: UIViewController, TTGTextTagCollectionViewDelegate 
         buttonStackView.addArrangedSubview(eventButton)
         buttonStackView.addArrangedSubview(addPhotosButton)
         buttonStackView.addArrangedSubview(bookmarkButton)
-        scrollView.addSubview(cusineLabel)
-        scrollView.addSubview(cusineCollectionView)
         scrollView.addSubview(bioLabel)
         scrollView.addSubview(bioTextLabel)
+        scrollView.addSubview(cusineLabel)
+        scrollView.addSubview(seperatorView)
+        scrollView.addSubview(cusineCollectionView)
         scrollView.addSubview(collectionViewBG)
         scrollView.addSubview(menuViewBG)
         scrollView.addSubview(menuLabel)
         scrollView.addSubview(menuCollectionView)
-//        scrollView.addSubview(galleryCollectionView)
     }
     
     func constrainViews() {
         scrollView.anchor(top: safeArea.topAnchor, left: safeArea.leftAnchor, bottom: safeArea.bottomAnchor, right: safeArea.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0)
-        
-//        bannerLayerImageView.anchor(top: scrollView.topAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, height: 200)
 
         bannerImageView.anchor(top: scrollView.topAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, height: 200)
         
@@ -111,14 +102,16 @@ class ProfileViewController: UIViewController, TTGTextTagCollectionViewDelegate 
         setupButtonImages()
         buttonStackView.anchor(top: statsStackView.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 10, paddingLeft: 15, paddingBottom: 0, paddingRight: 15, height: 50)
         
-        cusineLabel.anchor(top: buttonStackView.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: nil, paddingTop: 10, paddingLeft: 15, paddingBottom: 0, paddingRight: 0)
-        cusineCollectionView.anchor(top: cusineLabel.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 10, paddingLeft: 15, paddingBottom: 0, paddingRight: 5, height: 45)
-        
-        bioLabel.anchor(top: cusineCollectionView.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 10, paddingLeft: 15, paddingBottom: 0, paddingRight: 5)
+        bioLabel.anchor(top: buttonStackView.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 10, paddingLeft: 15, paddingBottom: 0, paddingRight: 5)
         
         bioTextLabel.anchor(top: bioLabel.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 10, paddingLeft: 15, paddingBottom: 0, paddingRight: 15)
         
-        collectionViewBG.anchor(top: bioTextLabel.bottomAnchor, left: safeArea.leftAnchor, bottom: scrollView.bottomAnchor, right: safeArea.rightAnchor, paddingTop: 20, paddingLeft: 5, paddingBottom: 8, paddingRight: 5, height: view.frame.width - 100)
+        seperatorView.anchor(top: bioTextLabel.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 20, paddingLeft: 15, paddingBottom: 0, paddingRight: 15, height: 0.5)
+        
+        cusineLabel.anchor(top: seperatorView.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: nil, paddingTop: 20, paddingLeft: 15, paddingBottom: 0, paddingRight: 0)
+        cusineCollectionView.anchor(top: cusineLabel.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 10, paddingLeft: 15, paddingBottom: 0, paddingRight: 5, height: 45)
+        
+        collectionViewBG.anchor(top: cusineCollectionView.bottomAnchor, left: safeArea.leftAnchor, bottom: scrollView.bottomAnchor, right: safeArea.rightAnchor, paddingTop: 20, paddingLeft: 5, paddingBottom: 8, paddingRight: 5, height: view.frame.width - 100)
         
         menuViewBG.anchor(top: collectionViewBG.topAnchor, left: collectionViewBG.leftAnchor, bottom: nil, right: collectionViewBG.rightAnchor, paddingTop: 5, paddingLeft: 5, paddingBottom: 0, paddingRight: 5, height: 50)
 
@@ -206,6 +199,20 @@ class ProfileViewController: UIViewController, TTGTextTagCollectionViewDelegate 
                 if error == nil, let data = data {
                     self.bannerImageView.image = UIImage(data: data)
                 }
+            }
+        }
+    }
+    
+    func setupViewForNonChefUser() {
+        let uid = userId ?? (Auth.auth().currentUser?.uid ?? "")
+        UserController.shared.fetchUserWithUID(uid: uid) { (user) in
+            if user.isChef == false {
+                self.cusineLabel.isHidden = true
+                self.cusineCollectionView.isHidden = true
+                self.collectionViewBG.isHidden = true
+                self.menuLabel.isHidden = true
+                self.menuViewBG.isHidden = true
+                self.menuCollectionView.isHidden = true
             }
         }
     }
@@ -422,6 +429,12 @@ class ProfileViewController: UIViewController, TTGTextTagCollectionViewDelegate 
         label.numberOfLines = 0
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
+    }()
+    
+    let seperatorView: UIView = {
+        let view = UIView()
+        view.backgroundColor = .lightGray
+        return view
     }()
     
     let collectionViewBG: UIView = {

@@ -138,6 +138,7 @@ class UserController {
                 let uid = dictionary[Constants.Uid] as? String ?? ""
                 let profileImageUrl = dictionary[Constants.ProfileImageUrl] as? String ?? ""
                 let username = dictionary[Constants.Username] as? String ?? ""
+                let bio = dictionary[Constants.Bio] as? String ?? ""
                 let location = dictionary[Constants.Location] as? String ?? ""
                 let street = dictionary[Constants.Street] as? String ?? ""
                 let apartment = dictionary[Constants.Apartment] as? String ?? ""
@@ -146,7 +147,7 @@ class UserController {
                 let latitude = dictionary[Constants.Latitude] as? Double ?? 0.0
                 let longitude = dictionary[Constants.Longitude] as? Double ?? 0.0
                 guard let isChef = dictionary[Constants.IsChef] as? Bool else { return }
-                let user = User(uid: uid, username: username, profileImageUrl: profileImageUrl, location: location, isChef: isChef, street: street, apartment: apartment, city: city, state: state, latitude: latitude, longitude: longitude)
+                let user = User(uid: uid, username: username, profileImageUrl: profileImageUrl, location: location, bio: bio, isChef: isChef, street: street, apartment: apartment, city: city, state: state, latitude: latitude, longitude: longitude)
                 completion(user)
             } else {
                 completion(error as! User)
@@ -171,7 +172,7 @@ class UserController {
                 let profileImageUrl = dictionary[Constants.ProfileImageUrl] as? String ?? ""
                 guard let isChef = dictionary[Constants.IsChef] as? Bool else { return }
                 if uid != Auth.auth().currentUser?.uid && isChef == true {
-                    let user = User(uid: uid, username: username, profileImageUrl: profileImageUrl, city: city, state: state)
+                    let user = User(uid: uid, username: username, profileImageUrl: profileImageUrl, isChef: isChef, city: city, state: state)
                     self.users.append(user)
                     self.users.sort(by: { (u1, u2) -> Bool in
                         return u1.username!.compare(u2.username!) == .orderedDescending

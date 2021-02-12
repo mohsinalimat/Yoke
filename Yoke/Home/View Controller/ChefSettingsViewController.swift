@@ -17,14 +17,14 @@ class ChefSettingsViewController: UIViewController, TTGTextTagCollectionViewDele
     var safeArea: UILayoutGuide {
         return self.view.safeAreaLayoutGuide
     }
-    let cusineCollectionView = TTGTextTagCollectionView()
-    let cusineListCollectionView = TTGTextTagCollectionView()
+    let cuisineCollectionView = TTGTextTagCollectionView()
+    let cuisineListCollectionView = TTGTextTagCollectionView()
     private var selections = [String]()
     let uid = Auth.auth().currentUser?.uid ?? ""
     let firestoreDB = Firestore.firestore()
     let noCellId = "noCellId"
     let cellId = "cellId"
-    var isCusineList: Bool = false
+    var isCuisineList: Bool = false
     
     //MARK: - Lifecycle Methods
     override func viewDidLayoutSubviews() {
@@ -35,8 +35,8 @@ class ChefSettingsViewController: UIViewController, TTGTextTagCollectionViewDele
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        setupCusineCollectionView()
-        setupSelectCusineCollectionView()
+        setupCuisineCollectionView()
+        setupSelectCuisineCollectionView()
     }
  
     // MARK: - Helper Functions
@@ -44,14 +44,14 @@ class ChefSettingsViewController: UIViewController, TTGTextTagCollectionViewDele
         view.backgroundColor = .white
         view.addSubview(swipeIndicator)
         view.addSubview(chefLabel)
-        view.addSubview(cusineTypeTextField)
+        view.addSubview(cuisineTypeTextField)
         view.addSubview(addButton)
         view.addSubview(moreButton)
         view.addSubview(selectionLabel)
-        view.addSubview(cusineCollectionView)
+        view.addSubview(cuisineCollectionView)
         view.addSubview(listViewBackground)
         view.addSubview(listView)
-        view.addSubview(cusineListCollectionView)
+        view.addSubview(cuisineListCollectionView)
         view.addSubview(doneButton)
     }
     
@@ -60,30 +60,30 @@ class ChefSettingsViewController: UIViewController, TTGTextTagCollectionViewDele
         swipeIndicator.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         chefLabel.anchor(top: swipeIndicator.bottomAnchor, left: nil, bottom: nil, right: nil, paddingTop: 20, paddingLeft: 0, paddingBottom: 0, paddingRight: 0)
         chefLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        cusineTypeTextField.anchor(top: chefLabel.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: nil, paddingTop: 20, paddingLeft: 8, paddingBottom: 0, paddingRight: 0, height: 45)
-        addButton.anchor(top: chefLabel.bottomAnchor, left: cusineTypeTextField.rightAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 28, paddingLeft: 8, paddingBottom: 0, paddingRight: 8, width: 50, height: 30)
-        moreButton.anchor(top: cusineTypeTextField.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: nil, paddingTop: 8, paddingLeft: 8, paddingBottom: 0, paddingRight: 0, height: 25)
+        cuisineTypeTextField.anchor(top: chefLabel.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: nil, paddingTop: 20, paddingLeft: 8, paddingBottom: 0, paddingRight: 0, height: 45)
+        addButton.anchor(top: chefLabel.bottomAnchor, left: cuisineTypeTextField.rightAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 28, paddingLeft: 8, paddingBottom: 0, paddingRight: 8, width: 50, height: 30)
+        moreButton.anchor(top: cuisineTypeTextField.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: nil, paddingTop: 8, paddingLeft: 8, paddingBottom: 0, paddingRight: 0, height: 25)
         selectionLabel.anchor(top: moreButton.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: nil, paddingTop: 20, paddingLeft: 8, paddingBottom: 0, paddingRight: 0)
-        cusineCollectionView.anchor(top: selectionLabel.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 5, paddingLeft: 5, paddingBottom: 5, paddingRight: 5, height: 200)
+        cuisineCollectionView.anchor(top: selectionLabel.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 5, paddingLeft: 5, paddingBottom: 5, paddingRight: 5, height: 200)
         listViewBackground.anchor(top: safeArea.topAnchor, left: safeArea.leftAnchor, bottom: safeArea.bottomAnchor, right: safeArea.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0)
         listView.anchor(top: nil, left: nil, bottom: nil, right: nil, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 350, height: 375)
         listView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         listView.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
         listView.layer.cornerRadius = 5
-        cusineListCollectionView.anchor(top: nil, left: nil, bottom: nil, right: nil, paddingTop: 20, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 345, height: 250)
-        cusineListCollectionView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        cusineListCollectionView.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
-        doneButton.anchor(top: listView.topAnchor, left: nil, bottom: nil, right: cusineListCollectionView.rightAnchor, paddingTop: 5, paddingLeft: 5, paddingBottom: 0, paddingRight: 0, width: 50)
+        cuisineListCollectionView.anchor(top: nil, left: nil, bottom: nil, right: nil, paddingTop: 20, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 345, height: 250)
+        cuisineListCollectionView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        cuisineListCollectionView.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
+        doneButton.anchor(top: listView.topAnchor, left: nil, bottom: nil, right: cuisineListCollectionView.rightAnchor, paddingTop: 5, paddingLeft: 5, paddingBottom: 0, paddingRight: 0, width: 50)
     }
     
-    func setupSelectCusineCollectionView() {
-        cusineListCollectionView.backgroundColor = .white
-        cusineListCollectionView.alignment = .center
-        cusineListCollectionView.scrollDirection = .vertical
-        cusineListCollectionView.alignment = .fillByExpandingWidthExceptLastLine
-        cusineListCollectionView.delegate = self
+    func setupSelectCuisineCollectionView() {
+        cuisineListCollectionView.backgroundColor = .white
+        cuisineListCollectionView.alignment = .center
+        cuisineListCollectionView.scrollDirection = .vertical
+        cuisineListCollectionView.alignment = .fillByExpandingWidthExceptLastLine
+        cuisineListCollectionView.delegate = self
         
-        cusineListCollectionView.isHidden = true
+        cuisineListCollectionView.isHidden = true
         listView.isHidden = true
         listViewBackground.isHidden = true
         doneButton.isHidden = true
@@ -95,14 +95,14 @@ class ChefSettingsViewController: UIViewController, TTGTextTagCollectionViewDele
         config.selectedBackgroundColor = UIColor.orangeColor()
         let array = ["Italian","Indian","Mexican","Greek","Chinese","Mediterranean","Thai","Japanese","Seafood","Spanish","Moroccan","Turkish","Middle Eastern","Korean BBQ","Korean","Cajun","Southern American","American","Caribbean","Lebanese","Brazilian BBQ","Brazilian","Georgian","Vietnamese","German","Ukrainian","Canadian","Argentinian","Soul Food","British","South Korea","Vegetarian","Sigaporean","French","Austrian","Brazilian","Russian","Shanghaninese","South Indian","Sichuan","Portuguese","South African","Jamaican","Shanghai","Chilean","Cuban","Afghan","Malaysian","Saudi Arabia","Puerto Rican","Jewish","Balkan","Sicilian","Hungarian","Welsh","Swiss","Irish","Colombian","Taiwanese","Macau","Papua New Guinean","Iranian","Egyptian","Filipino","Texas","Scottish","Buddhist","Ghanaian","Tunisian","Azerbaijan","Mongolian","Somali","Belgian","Oaxacan","Swidish","Nepalese","Algerian","South African","Ethiopian","Indonesian","Mughlai","Guatemalan","Laotian","Cambodian","Sri Lankan","Vegan","Salvadoran","Icelandic","Continental","Midwestern","Chadian","Tex-Mex","BBQ"]
         let sortedArray = array.sorted(by: { $0 < $1 })
-        cusineListCollectionView.addTags(sortedArray, with: config)
+        cuisineListCollectionView.addTags(sortedArray, with: config)
     }
     
-    func setupCusineCollectionView() {
-        cusineCollectionView.alignment = .center
-        cusineCollectionView.scrollDirection = .vertical
-        cusineCollectionView.alignment = .fillByExpandingWidthExceptLastLine
-        cusineCollectionView.delegate = self
+    func setupCuisineCollectionView() {
+        cuisineCollectionView.alignment = .center
+        cuisineCollectionView.scrollDirection = .vertical
+        cuisineCollectionView.alignment = .fillByExpandingWidthExceptLastLine
+        cuisineCollectionView.delegate = self
         let config = TTGTextTagConfig()
         config.backgroundColor = .white
         config.textColor = UIColor.orangeColor()
@@ -111,10 +111,10 @@ class ChefSettingsViewController: UIViewController, TTGTextTagCollectionViewDele
         
         firestoreDB.collection(Constants.Chefs).document(uid).getDocument { (document, error) in
             if let document = document, document.exists {
-                guard let array = document.data()?["cusine"] as? [String] else { return }
+                guard let array = document.data()?["cuisine"] as? [String] else { return }
                 let sortedArray = array.sorted(by: { $0 < $1 })
                 for name in sortedArray {
-                    self.cusineCollectionView.addTags([name], with: config)
+                    self.cuisineCollectionView.addTags([name], with: config)
                 }
             } else {
                 print("Document does not exist")
@@ -122,64 +122,64 @@ class ChefSettingsViewController: UIViewController, TTGTextTagCollectionViewDele
         }
     }
     
-    @objc func handleShowCusineList() {
-        cusineListCollectionView.isHidden = false
+    @objc func handleShowCuisineList() {
+        cuisineListCollectionView.isHidden = false
         listView.isHidden = false
         listViewBackground.isHidden = false
         doneButton.isHidden = false
-        isCusineList = true
+        isCuisineList = true
     }
     
-    @objc func handleHideCusineList() {
-        cusineListCollectionView.isHidden = true
+    @objc func handleHideCuisineList() {
+        cuisineListCollectionView.isHidden = true
         listView.isHidden = true
         listViewBackground.isHidden = true
         doneButton.isHidden = true
-        isCusineList = false
+        isCuisineList = false
     }
     
-    func handleAddFromCusineList(uid: String, text: String, index: UInt) {
+    func handleAddFromCuisineList(uid: String, text: String, index: UInt) {
         let config = TTGTextTagConfig()
         config.backgroundColor = UIColor.orangeColor()
         config.textColor = UIColor.white
-        CusineController.shared.addCusineWith(uid: uid, type: text) { (result) in
+        CuisineController.shared.addCusineWith(uid: uid, type: text) { (result) in
             switch result {
             case true:
-                self.cusineCollectionView.addTag(text, with: config)
-                self.cusineCollectionView.reload()
-                self.cusineListCollectionView.reload()
+                self.cuisineCollectionView.addTag(text, with: config)
+                self.cuisineCollectionView.reload()
+                self.cuisineListCollectionView.reload()
             case false:
-                print("error in adding cusines")
+                print("error in adding cuisine")
             }
         }
     }
     
     @objc func handleAddTextField() {
-        guard let text = cusineTypeTextField.text, !text.isEmpty else { return handleEmptyText()}
+        guard let text = cuisineTypeTextField.text, !text.isEmpty else { return handleEmptyText()}
         let config = TTGTextTagConfig()
         config.backgroundColor = UIColor.orangeColor()
         config.textColor = UIColor.white
-        CusineController.shared.addCusineWith(uid: uid, type: text) { (result) in
+        CuisineController.shared.addCusineWith(uid: uid, type: text) { (result) in
             switch result {
             case true:
-                self.cusineCollectionView.addTag(text, with: config)
-                self.cusineTypeTextField.text = ""
-                self.cusineCollectionView.reload()
+                self.cuisineCollectionView.addTag(text, with: config)
+                self.cuisineTypeTextField.text = ""
+                self.cuisineCollectionView.reload()
             case false:
-                print("error in adding cusines")
+                print("error in adding cuisine")
             }
         }
     }
     
     func handleDelete(uid: String, text: String, index: UInt) {
-        let alertController = UIAlertController(title: "Delete", message: "Would you like to delete this cusine?", preferredStyle: .alert)
+        let alertController = UIAlertController(title: "Delete", message: "Would you like to delete this cuisine?", preferredStyle: .alert)
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
         let deleteAction = UIAlertAction(title: "Yes", style: .default) { (_) in
-            CusineController.shared.deleteCusineWith(uid: self.uid, type: text) { (result) in
+            CuisineController.shared.deleteCusineWith(uid: self.uid, type: text) { (result) in
                 switch result {
                 case true:
-                    self.cusineCollectionView.removeTag(at: index)
-                    self.cusineCollectionView.reload()
+                    self.cuisineCollectionView.removeTag(at: index)
+                    self.cuisineCollectionView.reload()
                 case false:
                     print("error in adding cusines")
                 }
@@ -191,15 +191,15 @@ class ChefSettingsViewController: UIViewController, TTGTextTagCollectionViewDele
     }
     
     func handleEmptyText() {
-        let alertController = UIAlertController(title: "Empty field", message: "Please enter a cusine to add", preferredStyle: .alert)
+        let alertController = UIAlertController(title: "Empty field", message: "Please enter a cuisine to add", preferredStyle: .alert)
         let cancelAction = UIAlertAction(title: "Got it!", style: .cancel, handler: nil)
         alertController.addAction(cancelAction)
         self.present(alertController, animated: true, completion: nil)
     }
     
     func textTagCollectionView(_ textTagCollectionView: TTGTextTagCollectionView!, didTapTag tagText: String!, at index: UInt, selected: Bool, tagConfig config: TTGTextTagConfig!) {
-        if isCusineList == true {
-            handleAddFromCusineList(uid: uid, text: tagText, index: index)
+        if isCuisineList == true {
+            handleAddFromCuisineList(uid: uid, text: tagText, index: index)
         } else {
             handleDelete(uid: uid, text: tagText, index: index)
         }
@@ -223,9 +223,9 @@ class ChefSettingsViewController: UIViewController, TTGTextTagCollectionViewDele
         return label
     }()
     
-    var cusineTypeTextField: UITextField = {
+    var cuisineTypeTextField: UITextField = {
         let text = UITextField()
-        text.placeholder = "Enter a cusine"
+        text.placeholder = "Enter a cuisine"
         text.font = UIFont.systemFont(ofSize: 17)
         text.textColor = UIColor.orangeColor()
         text.backgroundColor = UIColor.LightGrayBg()
@@ -245,10 +245,10 @@ class ChefSettingsViewController: UIViewController, TTGTextTagCollectionViewDele
     
     let moreButton: UIButton = {
         let button = UIButton()
-        button.setTitle("Or choose from our list of cusines", for: .normal)
+        button.setTitle("Or choose from our list of cuisines", for: .normal)
         button.setTitleColor(UIColor.orangeColor(), for: .normal)
         button.titleLabel?.font = UIFont(name: "", size: 15)
-        button.addTarget(self, action: #selector(handleShowCusineList), for: .touchUpInside)
+        button.addTarget(self, action: #selector(handleShowCuisineList), for: .touchUpInside)
         return button
     }()
     
@@ -278,7 +278,7 @@ class ChefSettingsViewController: UIViewController, TTGTextTagCollectionViewDele
         button.backgroundColor = UIColor.orangeColor()
         button.layer.cornerRadius = 5
         button.titleLabel?.font = UIFont(name: "", size: 18)
-        button.addTarget(self, action: #selector(handleHideCusineList), for: .touchUpInside)
+        button.addTarget(self, action: #selector(handleHideCuisineList), for: .touchUpInside)
         return button
     }()
 }

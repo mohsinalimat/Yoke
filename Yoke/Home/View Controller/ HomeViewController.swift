@@ -318,6 +318,12 @@ class HomeViewController: UIViewController {
         present(addMenu, animated: true)
     }
     
+    @objc func handleViewProfile() {
+        let profileView = ProfileViewController()
+        profileView.userId = userId
+        navigationController?.pushViewController(profileView, animated: true)
+    }
+    
     @objc func handleLogOut() {
         do {
             try Auth.auth().signOut()
@@ -394,7 +400,7 @@ class HomeViewController: UIViewController {
         button.setTitleColor(UIColor.white, for: .normal)
         button.backgroundColor = UIColor.orangeColor()
         button.layer.cornerRadius = 5
-//        button.addTarget(self, action: #selector(handleViewProfile), for: .touchUpInside)
+        button.addTarget(self, action: #selector(handleViewProfile), for: .touchUpInside)
         return button
     }()
     

@@ -35,6 +35,7 @@ class SearchViewController: UIViewController {
         fetchUsers()
         setupSearch()
         setupNavigationAndBarButtons()
+        dismissKeyboardOnTap()
     }
     
     //MARK: - Helper Functions
@@ -65,6 +66,12 @@ class SearchViewController: UIViewController {
         navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .close, target: self, action: #selector(handleClear))
 //        self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for: UIBarMetrics.default)
 //        self.navigationController?.navigationBar.isTranslucent = false
+    }
+    
+    func dismissKeyboardOnTap() {
+        let tap = UITapGestureRecognizer(target: self.view, action: #selector(UIView.endEditing(_:)))
+        tap.cancelsTouchesInView = false
+        view.addGestureRecognizer(tap)
     }
     
     @objc func handleClear() {
