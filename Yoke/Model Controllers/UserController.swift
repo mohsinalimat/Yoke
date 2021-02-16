@@ -213,8 +213,21 @@ class UserController {
 //        }
     }
 
-    func updateUser(_ uid: String, username: String = "", bio: String = "", isChef: Bool, completion: @escaping (Bool) -> Void) {
+    func updateUser(_ uid: String, username: String, bio: String, isChef: Bool, completion: @escaping (Bool) -> Void) {
         firestoreDB.collection(Constants.Users).document(uid).setData([Constants.Username: username, Constants.Bio: bio, Constants.IsChef: isChef], merge: true) { error in
+            if let error = error {
+                print("There was an error updating data: \(error.localizedDescription)")
+                completion(false)
+                return
+            } else {
+                completion(true)
+                print("Document successfully updated")
+            }
+        }
+    }
+    
+    func updateChefAccount(_ uid: String, isChef: Bool, completion: @escaping (Bool) -> Void) {
+        firestoreDB.collection(Constants.Users).document(uid).setData([Constants.IsChef: isChef], merge: true) { error in
             if let error = error {
                 print("There was an error updating data: \(error.localizedDescription)")
                 completion(false)
