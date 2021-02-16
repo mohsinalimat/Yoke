@@ -576,7 +576,6 @@ extension ProfileViewController: UICollectionViewDelegate, UICollectionViewDataS
             } else {
                 let chef = SuggestedChefController.shared.chefs[indexPath.row].uid
                 let profileVC = ProfileViewController()
-                print(chef)
                 profileVC.userId = chef
                 navigationController?.pushViewController(profileVC, animated: true)
             }
