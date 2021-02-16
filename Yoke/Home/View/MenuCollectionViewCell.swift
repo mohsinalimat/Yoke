@@ -20,7 +20,6 @@ class MenuCollectionViewCell: UICollectionViewCell {
             nameLabel.text = menu.name
             guard let course = menu.courseType else { return }
             courseTypeLabel.text = "Course: \(course)"
-            detailLabel.text = menu.detail
             guard let image = menu.imageUrl else { return }
             menuImage.loadImage(urlString: image)
         }
@@ -42,16 +41,14 @@ class MenuCollectionViewCell: UICollectionViewCell {
         addSubview(menuImage)
         addSubview(nameLabel)
         addSubview(courseTypeLabel)
-//        addSubview(detailLabel)
     }
     
     func setupConstraints() {
-        shadowView.anchor(top: topAnchor, left: leftAnchor, bottom: bottomAnchor, right: rightAnchor, paddingTop: 20, paddingLeft: 0, paddingBottom: 0, paddingRight: 0)
-        cellBackgroundView.anchor(top: topAnchor, left: leftAnchor, bottom: bottomAnchor, right: rightAnchor, paddingTop: 20, paddingLeft: 0, paddingBottom: 0, paddingRight: 0)
-        menuImage.anchor(top: cellBackgroundView.topAnchor, left: leftAnchor, bottom: nil, right: rightAnchor, paddingTop: 5, paddingLeft: 5, paddingBottom: 0, paddingRight: 5, width: frame.width, height: frame.width - 50)
-//        menuImage.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
-        nameLabel.anchor(top: menuImage.bottomAnchor, left: menuImage.leftAnchor, bottom: nil, right: menuImage.rightAnchor, paddingTop: 5, paddingLeft: 0, paddingBottom: 0, paddingRight: 0)
-        courseTypeLabel.anchor(top: nameLabel.bottomAnchor, left: menuImage.leftAnchor, bottom: nil, right: menuImage.rightAnchor, paddingTop: 5, paddingLeft: 0, paddingBottom: 0, paddingRight: 0)
+        shadowView.anchor(top: topAnchor, left: leftAnchor, bottom: bottomAnchor, right: rightAnchor, paddingTop: 20, paddingLeft: 5, paddingBottom: 0, paddingRight: 5)
+        cellBackgroundView.anchor(top: topAnchor, left: leftAnchor, bottom: bottomAnchor, right: rightAnchor, paddingTop: 20, paddingLeft: 5, paddingBottom: 0, paddingRight: 5)
+        menuImage.anchor(top: cellBackgroundView.topAnchor, left: cellBackgroundView.leftAnchor, bottom: nil, right: cellBackgroundView.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, height: frame.width - 50)
+        nameLabel.anchor(top: menuImage.bottomAnchor, left: leftAnchor, bottom: nil, right: rightAnchor, paddingTop: 5, paddingLeft: 10, paddingBottom: 0, paddingRight: 10)
+        courseTypeLabel.anchor(top: nameLabel.bottomAnchor, left: leftAnchor, bottom: nil, right: rightAnchor, paddingTop: 0, paddingLeft: 10, paddingBottom: 0, paddingRight: 10)
 //        detailLabel.anchor(top: courseTypeLabel.bottomAnchor, left: menuImage.leftAnchor, bottom: nil, right: menuImage.rightAnchor, paddingTop: 5, paddingLeft: 0, paddingBottom: 0, paddingRight: 0)
     }
     
@@ -76,17 +73,8 @@ class MenuCollectionViewCell: UICollectionViewCell {
     
     var courseTypeLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont.boldSystemFont(ofSize: 13)
+        label.font = UIFont.systemFont(ofSize: 10)
         label.textColor = .gray
-        return label
-    }()
-    
-    var detailLabel: UILabel = {
-        let label = UILabel()
-        label.font = UIFont.systemFont(ofSize: 13)
-        label.textColor = .gray
-        label.lineBreakMode = .byWordWrapping
-        label.numberOfLines = 0
         return label
     }()
     

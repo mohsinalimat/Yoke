@@ -518,19 +518,6 @@ extension ProfileViewController: UICollectionViewDelegate, UICollectionViewDataS
             cellA.menu = MenuController.shared.menus[indexPath.item]
             return cellA
         }
-
-//        let cellB = collectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath) as! SuggestedChefsCollectionViewCell
-//        if SuggestedChefController.shared.chefs.count == 0 {
-//            let noCell = collectionView.dequeueReusableCell(withReuseIdentifier: noCellId, for: indexPath) as! EmptyCell
-//            noCell.photoImageView.image = UIImage(named: "no_post_background")!
-//            noCell.noPostLabel.text = "Sorry, there are currently no chefs in your area"
-//            noCell.noPostLabel.font = UIFont.boldSystemFont(ofSize: 17)
-//            return noCell
-//        }
-//        else {
-//            cellB.chef = SuggestedChefController.shared.chefs[indexPath.item]
-//            return cellB
-//        }
         return UICollectionViewCell()
     }
     
@@ -539,15 +526,9 @@ extension ProfileViewController: UICollectionViewDelegate, UICollectionViewDataS
             if MenuController.shared.menus.count == 0 {
                 return CGSize(width: view.frame.width - 20, height: 200)
             } else {
-                return CGSize(width: view.frame.width / 2, height: 250)
+                return CGSize(width: view.frame.width / 2, height: 200)
             }
         }
-        
-//        if SuggestedChefController.shared.chefs.count == 0 {
-//            return CGSize(width: view.frame.width - 20, height: 200)
-//        } else {
-//            return CGSize(width: 150, height: 200)
-//        }
         return CGSize(width: 150, height: 200)
     }
     
