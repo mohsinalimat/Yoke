@@ -175,7 +175,7 @@ class UserController {
                     let user = User(uid: uid, username: username, profileImageUrl: profileImageUrl, isChef: isChef, city: city, state: state)
                     self.users.append(user)
                     self.users.sort(by: { (u1, u2) -> Bool in
-                        return u1.username!.compare(u2.username!) == .orderedDescending
+                        return u1.username!.compare(u2.username!) == .orderedAscending
                     })
                     self.filteredUsers = self.users
                     completion(user)
