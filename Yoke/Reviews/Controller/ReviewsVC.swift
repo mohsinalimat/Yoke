@@ -20,7 +20,7 @@ class ReviewsVC: UICollectionViewController, UICollectionViewDelegateFlowLayout,
     var user: User? {
         didSet {
             guard let user = user else { return }
-                
+            let uid = userId ?? (Auth.auth().currentUser?.uid ?? "")
         }
     }
 //    var user: User?

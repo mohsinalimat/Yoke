@@ -242,6 +242,12 @@ class ProfileViewController: UIViewController, TTGTextTagCollectionViewDelegate 
             }
         }
     }
+    
+    @objc func viewReviews() {
+        let reviewsVC = NewReviewVC()
+        reviewsVC.userId = userId
+        navigationController?.pushViewController(reviewsVC, animated: true)
+    }
 
     //MARK: - Views
     lazy var scrollView: UIScrollView = {
@@ -365,7 +371,7 @@ class ProfileViewController: UIViewController, TTGTextTagCollectionViewDelegate 
         button.setTitleColor(UIColor.white, for: .normal)
         button.imageEdgeInsets = UIEdgeInsets.init(top: 0,left: 45,bottom: 20,right: 0)
         button.titleEdgeInsets = UIEdgeInsets.init(top: 20,left: -25,bottom: 0,right: 0)
-//        button.addTarget(self, action: #selector(handleReviews), for: .touchUpInside)
+        button.addTarget(self, action: #selector(viewReviews), for: .touchUpInside)
         button.backgroundColor = UIColor.orangeColor()
         button.layer.cornerRadius = 8
         return button

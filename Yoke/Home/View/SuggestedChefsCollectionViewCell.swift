@@ -8,18 +8,23 @@
 
 import UIKit
 import FirebaseStorage
+import FirebaseFirestore
 import FirebaseAuth
 
 class SuggestedChefsCollectionViewCell: UICollectionViewCell {
 
+    //MARK: - Properties
+    let firestoreDB = Firestore.firestore()
     var chef: User? {
         didSet {
             guard let chef = chef else { return }
+            guard let uid = chef.uid else { return }
             nameLabel.text = chef.username
             guard let city = chef.city, let state = chef.state else { return }
             locationLabel.text = "\(city), \(state)"
             guard let image = chef.profileImageUrl else { return }
             profileImage.loadImage(urlString: image)
+            handleRatingView(uid: uid)
         }
     }
     
@@ -33,6 +38,7 @@ class SuggestedChefsCollectionViewCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
+    //MARK: - Helper Functions
     func setupViews() {
         addSubview(shadowView)
         addSubview(cellBackgroundView)
@@ -55,6 +61,35 @@ class SuggestedChefsCollectionViewCell: UICollectionViewCell {
         locationLabel.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
     }
     
+    @objc func handleRatingView(uid: String) {
+        firestoreDB.collection(Constants.Users).document(uid).collection(Constants.Ratings).getDocuments { (snapshot, error) in
+            if let error = error {
+                print(error.localizedDescription)
+            }
+            
+            let count = snapshot!.documents.count
+            var total: Double = 0.0
+            for document in snapshot!.documents {
+                print("dud d \(document.data().count)")
+                
+                
+            }
+            
+        }
+//        Database.database().reference().child(Constants.Ratings).child(userId).observe(.value, with: { snapshot in
+//            let count = snapshot.childrenCount
+//            var total: Double = 0.0
+//            for child in snapshot.children {
+//                let snap = child as! DataSnapshot
+//                let val = snap.value as! Double
+//                total += val
+//            }
+//            let average = total/Double(count)
+//            self.ratingView.rating = average
+//        })
+    }
+    
+    //MARK: Views
     var profileImage: CustomImageView = {
         let image = CustomImageView()
         image.contentMode = .scaleAspectFill

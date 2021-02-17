@@ -14,26 +14,52 @@ class NewReviewVC: UIViewController, FloatRatingViewDelegate {
     var userId: String?
     var uid = Auth.auth().currentUser?.uid
     var review: Review?
-    var user: User? {
-        didSet {
-//            guard let uid = self.user?.uid else { return }
-//            Database.fetchUserWithUID(uid: uid) { (user) in
-//                self.user = user
-//                self.usernameLabel.text = "Review for \(user.username)"
-//                self.userProfileImageView.loadImage(urlString: user.profileImageUrl)
-//            }
-        }
+    var user: User?
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        setupViews()
     }
 
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = UIColor.white
-        setupView()
         setupNavTitleAndBarButtonItems()
         ratingView.delegate = self
         ratingView.contentMode = UIView.ContentMode.scaleAspectFit
         ratingView.type = .wholeRatings
+        fetchUser()
+    }
+    
+    fileprivate func fetchUser() {
+        let uid = userId ?? (Auth.auth().currentUser?.uid ?? "")
+        UserController.shared.fetchUserWithUID(uid: uid) { (user) in
+            print("crazy \(user.uid)")
+        }
+    }
+    
+    fileprivate func setupViews() {
+        view.addSubview(userProfileImageView)
+        view.addSubview(usernameLabel)
+        view.addSubview(reviewField)
+        userProfileImageView.anchor(top: view.topAnchor, left: view.leftAnchor, bottom: nil, right: nil, paddingTop: 10, paddingLeft: 15, paddingBottom: 0, paddingRight: 0, width: 50, height: 50)
+        userProfileImageView.layer.cornerRadius = 50 / 2
+//        userProfileImageView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        
+        view.addSubview(usernameLabel)
+        usernameLabel.anchor(top: userProfileImageView.topAnchor, left: userProfileImageView.rightAnchor, bottom: nil, right: view.rightAnchor, paddingTop: 15, paddingLeft: 5, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
+
+        view.addSubview(reviewField)
+        reviewField.anchor(top: userProfileImageView.bottomAnchor, left: view.leftAnchor, bottom: nil, right: view.rightAnchor, paddingTop: 20, paddingLeft: 15, paddingBottom: 10, paddingRight: 15, width: 0, height: 300)
+        
+        view.addSubview(ratingLabel)
+        ratingLabel.anchor(top: reviewField.bottomAnchor, left: view.leftAnchor, bottom: nil, right: nil, paddingTop: 25, paddingLeft: 15, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
+        
+        view.addSubview(ratingView)
+        ratingView.anchor(top: reviewField.bottomAnchor, left: ratingLabel.rightAnchor, bottom: nil, right: view.rightAnchor, paddingTop: 20, paddingLeft: 60, paddingBottom: 20, paddingRight: 15, width: 0, height: 30)
+        
+        view.addSubview(submitButton)
+        submitButton.anchor(top: ratingLabel.bottomAnchor, left: view.leftAnchor, bottom: nil, right: view.rightAnchor, paddingTop: 20, paddingLeft: 15, paddingBottom: 0, paddingRight: 15, width: 0, height: 50)
     }
     
     @objc func doneButtonAction() {
@@ -45,6 +71,7 @@ class NewReviewVC: UIViewController, FloatRatingViewDelegate {
 
     }
     
+    //MARK: - Views
     let ratingView: RatingView = {
         let view = RatingView()
         view.backgroundColor = .clear
@@ -103,27 +130,7 @@ class NewReviewVC: UIViewController, FloatRatingViewDelegate {
         return button
     }()
 
-    fileprivate func setupView() {
-        view.addSubview(userProfileImageView)
-        userProfileImageView.anchor(top: view.topAnchor, left: view.leftAnchor, bottom: nil, right: nil, paddingTop: 10, paddingLeft: 15, paddingBottom: 0, paddingRight: 0, width: 50, height: 50)
-        userProfileImageView.layer.cornerRadius = 50 / 2
-//        userProfileImageView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        
-        view.addSubview(usernameLabel)
-        usernameLabel.anchor(top: userProfileImageView.topAnchor, left: userProfileImageView.rightAnchor, bottom: nil, right: view.rightAnchor, paddingTop: 15, paddingLeft: 5, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
-
-        view.addSubview(reviewField)
-        reviewField.anchor(top: userProfileImageView.bottomAnchor, left: view.leftAnchor, bottom: nil, right: view.rightAnchor, paddingTop: 20, paddingLeft: 15, paddingBottom: 10, paddingRight: 15, width: 0, height: 300)
-        
-        view.addSubview(ratingLabel)
-        ratingLabel.anchor(top: reviewField.bottomAnchor, left: view.leftAnchor, bottom: nil, right: nil, paddingTop: 25, paddingLeft: 15, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
-        
-        view.addSubview(ratingView)
-        ratingView.anchor(top: reviewField.bottomAnchor, left: ratingLabel.rightAnchor, bottom: nil, right: view.rightAnchor, paddingTop: 20, paddingLeft: 60, paddingBottom: 20, paddingRight: 15, width: 0, height: 30)
-        
-        view.addSubview(submitButton)
-        submitButton.anchor(top: ratingLabel.bottomAnchor, left: view.leftAnchor, bottom: nil, right: view.rightAnchor, paddingTop: 20, paddingLeft: 15, paddingBottom: 0, paddingRight: 15, width: 0, height: 50)
-    }
+    
     
     @objc func didSubmit() {
         let userId = self.user?.uid ?? ""

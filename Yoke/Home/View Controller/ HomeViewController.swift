@@ -12,7 +12,7 @@ import FirebaseDatabase
 
 class HomeViewController: UIViewController {
 
-    //MARK: Properties
+    //MARK: - Properties
     var safeArea: UILayoutGuide {
         return self.view.safeAreaLayoutGuide
     }
@@ -22,8 +22,14 @@ class HomeViewController: UIViewController {
     var userId: String?
     private let refreshControl = UIRefreshControl()
     var isChef: Bool = false
+    var user: User? {
+        didSet {
+            guard let user = user else { return }
+            userId = user.uid
+        }
+    }
     
-    //MARK: Lifecycle Methods
+    //MARK: - Lifecycle Methods
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         setupViews()
@@ -124,7 +130,20 @@ class HomeViewController: UIViewController {
     
     fileprivate func fetchUser() {
         let uid = userId ?? (Auth.auth().currentUser?.uid ?? "")
+        let firestoreDB = Firestore.firestore()
         UserController.shared.fetchUserWithUID(uid: uid) { (user) in
+            firestoreDB.collection(Constants.Users).document(uid).collection(Constants.Ratings).getDocuments { (snap, error) in
+                if let error = error {
+                    print(error.localizedDescription)
+                }
+                var totalVotes = 0
+                for doc in snap!.documents {
+                   if let rate = doc.data() as? Int {
+                      totalVotes += rate
+                   }
+                }
+                print("vote \(totalVotes)")
+            }
             guard let username = user.username else { return }
             self.usernameLabel.text = "Welcome back \(username)"
             let imageStorageRef = Storage.storage().reference().child("profileImageUrl/\(uid)")
@@ -233,9 +252,9 @@ class HomeViewController: UIViewController {
         }
     }
     
-    func viewReviews(user: User) {
-        let reviewsVC = ReviewsVC(collectionViewLayout: UICollectionViewFlowLayout())
-        reviewsVC.user = user
+    @objc func viewReviews() {
+        let reviewsVC = NewReviewVC()
+        reviewsVC.userId = userId
         navigationController?.pushViewController(reviewsVC, animated: true)
     }
     
@@ -415,7 +434,7 @@ class HomeViewController: UIViewController {
         button.setTitleColor(UIColor.white, for: .normal)
         button.imageEdgeInsets = UIEdgeInsets.init(top: 0,left: 45,bottom: 20,right: 0)
         button.titleEdgeInsets = UIEdgeInsets.init(top: 20,left: -25,bottom: 0,right: 0)
-//        button.addTarget(self, action: #selector(handleReviews), for: .touchUpInside)
+        button.addTarget(self, action: #selector(viewReviews), for: .touchUpInside)
         button.backgroundColor = UIColor.orangeColor()
         button.layer.cornerRadius = 8
         return button

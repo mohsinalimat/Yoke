@@ -30,7 +30,7 @@ class PasswordChangeViewController: UIViewController {
     
     //MARK: - Helper Functions
     func setupViews() {
-        saveButton.isEnabled = false
+//        saveButton.isEnabled = false
         view.addSubview(swipeIndicator)
         view.addSubview(passwordLabel)
         view.addSubview(oldPasswordTextField)
@@ -54,24 +54,23 @@ class PasswordChangeViewController: UIViewController {
     
     @objc func handleChangePassword() {
         let user = Auth.auth().currentUser
-        let credential = EmailAuthProvider.credential(withEmail: (user?.email)!, password: oldPasswordTextField.text!)
-//        user?.reauthenticate(with: credential) { error in
-//          if let error = error {
-//            // An error happened.
-//          } else {
-//            // User re-authenticated.
-//          }
-//        }
-//        user?.reauthenticate(with: credential, completion: {(authResult, error) in
-//            if let error = error {
-//                self.handleAlert()
-//                print("\(String(describing: error?.localizedDescription))")
-//            } else {
-//                user?.updatePassword(to: self.newPasswordTextField.text!, completion: nil)
-//                self.dismiss(animated: true, completion: nil)
-//                return authResult
-//            }
-//        })
+        guard let password = oldPasswordTextField.text,
+              let newPassword = newPasswordTextField.text else { return }
+        
+        let credential = EmailAuthProvider.credential(withEmail: (user?.email)!, password: password)
+        user?.reauthenticateAndRetrieveData(with: credential) { error, success  in
+          if let error = error {
+            print(error)
+          } else {
+            Auth.auth().currentUser?.updatePassword(to: newPassword, completion: { (error) in
+                if let error = error {
+                    print(error.localizedDescription)
+                }
+                print("update successful")
+                self.handleSuccess()
+            })
+          }
+        }
     }
     
     func handleAlert() {
@@ -81,15 +80,22 @@ class PasswordChangeViewController: UIViewController {
         self.present(alertController, animated: true, completion: nil)
     }
     
+    func handleSuccess() {
+        let alertController = UIAlertController(title: "Success", message: "Your password has been changed", preferredStyle: .alert)
+        let defaultAction = UIAlertAction(title: "OK", style: .cancel, handler: nil)
+        alertController.addAction(defaultAction)
+        self.present(alertController, animated: true, completion: nil)
+    }
+    
     @objc func handleTextInputChange() {
-        if (newPasswordTextField.text?.isEmpty)! || (oldPasswordTextField.text?.isEmpty)! {
+        if newPasswordTextField.text == oldPasswordTextField.text ||  ((newPasswordTextField.text?.isEmpty) != nil) || ((oldPasswordTextField.text?.isEmpty) != nil) {
             self.saveButton.isEnabled = false
             self.saveButton.backgroundColor = UIColor.orangeColor()?.withAlphaComponent(0.5)
-            
         } else {
             self.saveButton.isEnabled = true
             self.saveButton.backgroundColor = UIColor.orangeColor()?.withAlphaComponent(1)
         }
+
     }
     
     //MARK: - Views
@@ -136,8 +142,9 @@ class PasswordChangeViewController: UIViewController {
         let button = UIButton()
         button.setTitle("Save", for: .normal)
         button.setTitleColor(.white, for: .normal)
-        button.backgroundColor = UIColor.orangeColor()
+        button.backgroundColor = UIColor.orangeColor()?.withAlphaComponent(0.5)
         button.layer.cornerRadius = 5
+        button.isEnabled = false
         button.addTarget(self, action: #selector(handleChangePassword), for: .touchUpInside)
         return button
     }()
