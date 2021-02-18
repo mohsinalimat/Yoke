@@ -61,32 +61,23 @@ class SuggestedChefsCollectionViewCell: UICollectionViewCell {
         locationLabel.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
     }
     
-    @objc func handleRatingView(uid: String) {
-        firestoreDB.collection(Constants.Users).document(uid).collection(Constants.Ratings).getDocuments { (snapshot, error) in
-            if let error = error {
-                print(error.localizedDescription)
+    func handleRatingView(uid: String) {
+        firestoreDB.collection(Constants.Users).document(uid).collection(Constants.Ratings).getDocuments() { (querySnapshot, error) in
+            var totalCount = 0.0
+            var count = 0.0
+            if error != nil {
+                print(error?.localizedDescription)
+            } else {
+                count = Double(querySnapshot?.count ?? 0)
+                for document in querySnapshot!.documents {
+                    if let rate = document.data()[Constants.Stars] as? Double {
+                        totalCount += rate
+                    }
+                }
             }
-            
-            let count = snapshot!.documents.count
-            var total: Double = 0.0
-            for document in snapshot!.documents {
-                print("dud d \(document.data().count)")
-                
-                
-            }
-            
+            let average = totalCount/count
+            self.ratingView.rating = average
         }
-//        Database.database().reference().child(Constants.Ratings).child(userId).observe(.value, with: { snapshot in
-//            let count = snapshot.childrenCount
-//            var total: Double = 0.0
-//            for child in snapshot.children {
-//                let snap = child as! DataSnapshot
-//                let val = snap.value as! Double
-//                total += val
-//            }
-//            let average = total/Double(count)
-//            self.ratingView.rating = average
-//        })
     }
     
     //MARK: Views

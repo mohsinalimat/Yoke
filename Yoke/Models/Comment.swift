@@ -10,9 +10,7 @@ import Foundation
 struct Comment {
     
     var id: String?
-    
     let user: User
-    
     let text: String
     let uid: String
     let creationDate: Date?

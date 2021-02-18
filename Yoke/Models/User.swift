@@ -31,7 +31,7 @@ class User {
 //    let chefExperience: String
 //    let cusine: String
 //    let stars: Dictionary<String, Any>?
-//    var ratings: Double
+    var stars: Int?
 //    var availableDate = [String]()
 //    var hasRated: Bool?
     var isChef: Bool?
@@ -39,7 +39,7 @@ class User {
 //    let bookmarkCount: Int?
 //    let userRate: Int?
     
-    init(uid: String = "", id: String = "", customer_id: String = "", email: String = "", username: String = "", profileImageUrl: String = "", profileCoverUrl: String = "", location: String = "", bio: String = "", isChef: Bool, street: String = "", apartment: String = "", city: String = "", state: String = "", latitude: Double = 0.0, longitude: Double = 0.0) {
+    init(uid: String = "", id: String = "", customer_id: String = "", email: String = "", username: String = "", profileImageUrl: String = "", profileCoverUrl: String = "", location: String = "", bio: String = "", isChef: Bool, street: String = "", apartment: String = "", city: String = "", state: String = "", latitude: Double = 0.0, longitude: Double = 0.0, stars: Int = Int(0.0)) {
         self.uid = uid
         self.id = id
         self.customer_id = customer_id
@@ -56,6 +56,7 @@ class User {
         self.state = state
         self.latitude = latitude
         self.longitude = longitude
+        self.stars = stars
     }
     
 //    init(uid: String, id: String, customer_id: String, email: String, username: String, profileImageUrl: String, dictionary: [String: Any]) {

@@ -26,10 +26,10 @@ class ReviewsCell: UICollectionViewCell {
 //                textView.attributedText = attributedText
 //            }
             
-            timeLabel.text = review.creationDate?.timeAgoDisplay()
+//            timeLabel.text = review.creationDate?.timeAgoDisplay()
 //            profileImageView.loadImage(urlString: review.user.profileImageUrl?)
             
-            self.ratingView.rating = review.ratings
+//            self.ratingView.rating = review.ratings
         }
     }
 

@@ -207,9 +207,22 @@ class ProfileViewController: UIViewController, TTGTextTagCollectionViewDelegate 
             if self.bioTextLabel.text == "" {
                 self.bioTextLabel.text = "Full bio coming soon"
             }
-            
-            if user.isChef == false {
-                
+        
+            Firestore.firestore().collection(Constants.Users).document(uid).collection(Constants.Ratings).getDocuments() { (querySnapshot, error) in
+                var totalCount = 0.0
+                var count = 0.0
+                if error != nil {
+                    print(error?.localizedDescription)
+                } else {
+                    count = Double(querySnapshot?.count ?? 0)
+                    for document in querySnapshot!.documents {
+                        if let rate = document.data()[Constants.Stars] as? Double {
+                            totalCount += rate
+                        }
+                    }
+                }
+                let average = totalCount/count
+                self.ratingView.rating = average
             }
             
             self.setupCusineCollectionView(uid: uid)
@@ -244,9 +257,10 @@ class ProfileViewController: UIViewController, TTGTextTagCollectionViewDelegate 
     }
     
     @objc func viewReviews() {
-        let reviewsVC = NewReviewVC()
+        let reviewsVC = NewReviewViewController()
         reviewsVC.userId = userId
-        navigationController?.pushViewController(reviewsVC, animated: true)
+        present(reviewsVC, animated: true)
+//        navigationController?.pushViewController(reviewsVC, animated: true)
     }
 
     //MARK: - Views
@@ -515,8 +529,10 @@ extension ProfileViewController: UICollectionViewDelegate, UICollectionViewDataS
             if MenuController.shared.menus.count == 0 {
                 let noCell = collectionView.dequeueReusableCell(withReuseIdentifier: noCellId, for: indexPath) as! EmptyCell
                 noCell.photoImageView.image = UIImage(named: "no_post_background")!
-                noCell.noPostLabel.text = "Hey there chef, Let's add a menu item to your profile."
+                noCell.noPostLabel.text = "Coming soon!"
+                noCell.noPostSub.text = "Chef is working on those menus now."
                 noCell.noPostLabel.font = UIFont.boldSystemFont(ofSize: 17)
+                noCell.noPostSub.font = UIFont.boldSystemFont(ofSize: 13)
                 return noCell
             }
             

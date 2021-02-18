@@ -145,7 +145,7 @@ class HomeViewController: UIViewController {
                 print("vote \(totalVotes)")
             }
             guard let username = user.username else { return }
-            self.usernameLabel.text = "Welcome back \(username)"
+            self.usernameLabel.text = "WELCOME BACK \(username)"
             let imageStorageRef = Storage.storage().reference().child("profileImageUrl/\(uid)")
             imageStorageRef.getData(maxSize: 2 * 1024 * 1024) { data, error in
                 if error == nil, let data = data {
@@ -375,8 +375,8 @@ class HomeViewController: UIViewController {
     
     let bannerLayerImageView: UIView = {
         let view = UIView()
-        view.backgroundColor = UIColor.orangeColor()
-        view.layer.opacity = 0.2
+        view.backgroundColor = UIColor.black
+        view.layer.opacity = 0.3
         return view
     }()
     
@@ -420,6 +420,8 @@ class HomeViewController: UIViewController {
         button.backgroundColor = UIColor.orangeColor()
         button.layer.cornerRadius = 5
         button.addTarget(self, action: #selector(handleViewProfile), for: .touchUpInside)
+        button.layer.borderWidth = 1
+        button.layer.borderColor = UIColor.white.cgColor
         return button
     }()
     

@@ -8,10 +8,15 @@
 
 import UIKit
 import FirebaseAuth
+import FirebaseFirestore
 
 class NewReviewViewController: UIViewController {
     
     //MARK: - Properties
+    var safeArea: UILayoutGuide {
+        return self.view.safeAreaLayoutGuide
+    }
+    let myActivityIndicator = UIActivityIndicatorView(style: UIActivityIndicatorView.Style.large)
     var userId: String?
     var uid = Auth.auth().currentUser?.uid
     var review: Review?
@@ -27,14 +32,16 @@ class NewReviewViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         fetchUser()
-        
     }
     
     // MARK: - Helper Functions
     fileprivate func fetchUser() {
         let uid = userId ?? (Auth.auth().currentUser?.uid ?? "")
         UserController.shared.fetchUserWithUID(uid: uid) { (user) in
-            print("crazy \(user.uid)")
+            
+            guard let image = user.profileImageUrl else { return }
+            self.userProfileImageView.loadImage(urlString: image)
+            self.usernameLabel.text = user.username
         }
     }
     
@@ -45,14 +52,47 @@ class NewReviewViewController: UIViewController {
         view.addSubview(ratingLabel)
         view.addSubview(ratingView)
         view.addSubview(submitButton)
+        view.addSubview(myActivityIndicator)
     }
     
     func constrainViews() {
+        userProfileImageView.anchor(top: safeArea.topAnchor, left: nil, bottom: nil, right: nil, paddingTop: 5, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 150, height: 150)
+        userProfileImageView.layer.cornerRadius = 75
+        userProfileImageView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        usernameLabel.anchor(top: userProfileImageView.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0)
+        reviewField.anchor(top: usernameLabel.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 0, paddingLeft: 15, paddingBottom: 0, paddingRight: 15, height: 200)
+        ratingLabel.anchor(top: reviewField.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: nil, paddingTop: 0, paddingLeft: 15, paddingBottom: 0, paddingRight: 0, height: 45)
+        ratingView.anchor(top: reviewField.bottomAnchor, left: ratingLabel.rightAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 15, height: 45)
+        submitButton.anchor(top: ratingView.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, height: 45)
+        
+        myActivityIndicator.center = view.center
         
     }
     
     @objc func didSubmit() {
-        
+        guard let currentUserUid = Auth.auth().currentUser?.uid else {return}
+        let profileUserUid = userId ?? (Auth.auth().currentUser?.uid ?? "")
+        guard let reviewText = reviewField.text else { return }
+        let liveRate = self.ratingView.rating
+        myActivityIndicator.startAnimating()
+        ReviewController.shared.createReviewWith(currentUserUid: currentUserUid, reviewedUserUid: profileUserUid, review: reviewText, liveRate: liveRate) { (result) in
+            switch result {
+            case true:
+                self.handleDone()
+            case false:
+                print("failed to save")
+            }
+        }
+    }
+    
+    func handleDone() {
+        let alertVC = UIAlertController(title: "Success", message: "Your review has been submitted", preferredStyle: .alert)
+        let okAction = UIAlertAction(title: "Cool Beans", style: .default) { (_) in
+            self.myActivityIndicator.stopAnimating()
+            self.dismiss(animated: true, completion: nil)
+        }
+        alertVC.addAction(okAction)
+        present(alertVC, animated: true)
     }
     
     // MARK: - Views
@@ -66,16 +106,16 @@ class NewReviewViewController: UIViewController {
     
     let usernameLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont.systemFont(ofSize: 15)
-        label.textColor = UIColor.black
-        label.textAlignment = .left
+        label.font = UIFont.boldSystemFont(ofSize: 17)
+        label.textColor = UIColor.white
+        label.textAlignment = .center
         return label
     }()
     
     var reviewField: UITextView = {
         let textView = UITextView()
         textView.font = UIFont.systemFont(ofSize: 15)
-        textView.backgroundColor = UIColor.lightGray.withAlphaComponent(0.1)
+        textView.backgroundColor = UIColor.white
         textView.textColor = UIColor.darkGray
         textView.layer.cornerRadius = 5
         textView.placeholder = "Enter your review..."
@@ -84,7 +124,7 @@ class NewReviewViewController: UIViewController {
     
     let ratingView: RatingView = {
         let view = RatingView()
-        view.backgroundColor = .clear
+        view.backgroundColor = .white
         view.minRating = 0
         view.maxRating = 5
         view.rating = 0

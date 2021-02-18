@@ -37,7 +37,6 @@ class AddMenuViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupImagePicker()
-        setupActivityIndicator()
     }
  
     //MARK: - Helper Functions
@@ -105,10 +104,6 @@ class AddMenuViewController: UIViewController {
     
     func setupImagePicker() {
         menuImagePicker.delegate = self
-    }
-    
-    func setupActivityIndicator() {
-        myActivityIndicator.center = view.center
     }
 
     func saveSuccessful() {

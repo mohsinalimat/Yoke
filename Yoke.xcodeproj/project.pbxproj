@@ -16,6 +16,8 @@
 		6C296DE924B3BE70008E33ED /* YokeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C296DE824B3BE70008E33ED /* YokeTests.swift */; };
 		6C3132B92583F3E0005D0544 /* UserError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C3132B82583F3E0005D0544 /* UserError.swift */; };
 		6C35F5B625DDA8AE0044E847 /* NewReviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C35F5B525DDA8AE0044E847 /* NewReviewViewController.swift */; };
+		6C35F5BA25DED0350044E847 /* ReviewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C35F5B925DED0340044E847 /* ReviewController.swift */; };
+		6C35F5BE25DED0550044E847 /* Review.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C35F5BD25DED0550044E847 /* Review.swift */; };
 		6C50F2ED25A6568C000BCDAB /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C50F2EC25A6568C000BCDAB /* SettingsViewController.swift */; };
 		6C5D5F3625AE030700ACF451 /* MenuHeaderCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C5D5F3525AE030700ACF451 /* MenuHeaderCollectionViewCell.swift */; };
 		6C5D5F8625AF8B1500ACF451 /* LocationSettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C5D5F8525AF8B1500ACF451 /* LocationSettingsViewController.swift */; };
@@ -93,7 +95,6 @@
 		6C8DB69C24B3C1B9003D06FF /* StripeUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C8DB61824B3C1B8003D06FF /* StripeUser.swift */; };
 		6C8DB69D24B3C1B9003D06FF /* ReviewsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C8DB61B24B3C1B8003D06FF /* ReviewsVC.swift */; };
 		6C8DB69E24B3C1B9003D06FF /* NewReviewVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C8DB61C24B3C1B8003D06FF /* NewReviewVC.swift */; };
-		6C8DB69F24B3C1B9003D06FF /* Review.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C8DB61E24B3C1B8003D06FF /* Review.swift */; };
 		6C8DB6A024B3C1B9003D06FF /* ReviewInputAccessoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C8DB62024B3C1B8003D06FF /* ReviewInputAccessoryView.swift */; };
 		6C8DB6A124B3C1B9003D06FF /* RatingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C8DB62124B3C1B8003D06FF /* RatingView.swift */; };
 		6C8DB6A224B3C1B9003D06FF /* ReviewsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C8DB62224B3C1B8003D06FF /* ReviewsCell.swift */; };
@@ -167,6 +168,8 @@
 		6C296DEA24B3BE70008E33ED /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		6C3132B82583F3E0005D0544 /* UserError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserError.swift; sourceTree = "<group>"; };
 		6C35F5B525DDA8AE0044E847 /* NewReviewViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewReviewViewController.swift; sourceTree = "<group>"; };
+		6C35F5B925DED0340044E847 /* ReviewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewController.swift; sourceTree = "<group>"; };
+		6C35F5BD25DED0550044E847 /* Review.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Review.swift; sourceTree = "<group>"; };
 		6C50F2EC25A6568C000BCDAB /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		6C5D5F3525AE030700ACF451 /* MenuHeaderCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuHeaderCollectionViewCell.swift; sourceTree = "<group>"; };
 		6C5D5F8525AF8B1500ACF451 /* LocationSettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationSettingsViewController.swift; sourceTree = "<group>"; };
@@ -244,7 +247,6 @@
 		6C8DB61824B3C1B8003D06FF /* StripeUser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StripeUser.swift; sourceTree = "<group>"; };
 		6C8DB61B24B3C1B8003D06FF /* ReviewsVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReviewsVC.swift; sourceTree = "<group>"; };
 		6C8DB61C24B3C1B8003D06FF /* NewReviewVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewReviewVC.swift; sourceTree = "<group>"; };
-		6C8DB61E24B3C1B8003D06FF /* Review.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Review.swift; sourceTree = "<group>"; };
 		6C8DB62024B3C1B8003D06FF /* ReviewInputAccessoryView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReviewInputAccessoryView.swift; sourceTree = "<group>"; };
 		6C8DB62124B3C1B8003D06FF /* RatingView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RatingView.swift; sourceTree = "<group>"; };
 		6C8DB62224B3C1B8003D06FF /* ReviewsCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReviewsCell.swift; sourceTree = "<group>"; };
@@ -621,7 +623,6 @@
 			isa = PBXGroup;
 			children = (
 				6C8DB5FA24B3C1B8003D06FF /* View Controller */,
-				6C8DB5FC24B3C1B8003D06FF /* Edit Profile */,
 				6C8DB60424B3C1B8003D06FF /* View */,
 			);
 			path = Home;
@@ -638,20 +639,6 @@
 				6CE86E3025C08A7C002C81F5 /* AddMenuViewController.swift */,
 			);
 			path = "View Controller";
-			sourceTree = "<group>";
-		};
-		6C8DB5FC24B3C1B8003D06FF /* Edit Profile */ = {
-			isa = PBXGroup;
-			children = (
-				6C8DB60224B3C1B8003D06FF /* EditProfileVC.swift */,
-				6C8DB5FD24B3C1B8003D06FF /* ChefPreferencesVC.swift */,
-				6C8DB5FE24B3C1B8003D06FF /* ChangeProfileImageVC.swift */,
-				6C8DB5FF24B3C1B8003D06FF /* ChangeEmailVC.swift */,
-				6C8DB60024B3C1B8003D06FF /* CustomCoverImageVC.swift */,
-				6C8DB60124B3C1B8003D06FF /* ChangePasswordVC.swift */,
-				6C8DB60324B3C1B8003D06FF /* PrivacyVC.swift */,
-			);
-			path = "Edit Profile";
 			sourceTree = "<group>";
 		};
 		6C8DB60424B3C1B8003D06FF /* View */ = {
@@ -716,6 +703,7 @@
 				6C8DB5CB24B3C1B7003D06FF /* Gallery.swift */,
 				6CFDB39425B738FA007261D1 /* Cusine.swift */,
 				6CC8CBAE25C0D0A100C3F24D /* Menu.swift */,
+				6C35F5BD25DED0550044E847 /* Review.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -724,7 +712,6 @@
 			isa = PBXGroup;
 			children = (
 				6C8DB61A24B3C1B8003D06FF /* Controller */,
-				6C8DB61D24B3C1B8003D06FF /* Model */,
 				6C8DB61F24B3C1B8003D06FF /* View */,
 			);
 			path = Reviews;
@@ -738,14 +725,6 @@
 				6C35F5B525DDA8AE0044E847 /* NewReviewViewController.swift */,
 			);
 			path = Controller;
-			sourceTree = "<group>";
-		};
-		6C8DB61D24B3C1B8003D06FF /* Model */ = {
-			isa = PBXGroup;
-			children = (
-				6C8DB61E24B3C1B8003D06FF /* Review.swift */,
-			);
-			path = Model;
 			sourceTree = "<group>";
 		};
 		6C8DB61F24B3C1B8003D06FF /* View */ = {
@@ -851,6 +830,13 @@
 		6CC8CBDC25C47BF100C3F24D /* Unused files for ref */ = {
 			isa = PBXGroup;
 			children = (
+				6C8DB5FF24B3C1B8003D06FF /* ChangeEmailVC.swift */,
+				6C8DB60124B3C1B8003D06FF /* ChangePasswordVC.swift */,
+				6C8DB60324B3C1B8003D06FF /* PrivacyVC.swift */,
+				6C8DB60024B3C1B8003D06FF /* CustomCoverImageVC.swift */,
+				6C8DB5FE24B3C1B8003D06FF /* ChangeProfileImageVC.swift */,
+				6C8DB5FD24B3C1B8003D06FF /* ChefPreferencesVC.swift */,
+				6C8DB60224B3C1B8003D06FF /* EditProfileVC.swift */,
 				6C8DB62524B3C1B9003D06FF /* SearchFilterVC.swift */,
 				6C8DB62624B3C1B9003D06FF /* SearchVC.swift */,
 				6C8DB5E424B3C1B8003D06FF /* UserProfileVC.swift */,
@@ -884,6 +870,7 @@
 				6CFDB39A25B7425A007261D1 /* CuisineController.swift */,
 				6CC8CBAA25C0D09700C3F24D /* MenuController.swift */,
 				6CC4374C25C8B93000CE85CE /* SuggestedChefController.swift */,
+				6C35F5B925DED0340044E847 /* ReviewController.swift */,
 			);
 			path = "Model Controllers";
 			sourceTree = "<group>";
@@ -1152,6 +1139,7 @@
 				6C8DB68A24B3C1B9003D06FF /* ChangeEmailVC.swift in Sources */,
 				6CE86E3125C08A7C002C81F5 /* AddMenuViewController.swift in Sources */,
 				6C8DB65C24B3C1B9003D06FF /* ChatHeaderCell.swift in Sources */,
+				6C35F5BA25DED0350044E847 /* ReviewController.swift in Sources */,
 				6C8DB69324B3C1B9003D06FF /* SignupVC.swift in Sources */,
 				6C8DB6A024B3C1B9003D06FF /* ReviewInputAccessoryView.swift in Sources */,
 				6C8DB6A724B3C1B9003D06FF /* BookmarkedVC.swift in Sources */,
@@ -1164,6 +1152,7 @@
 				6C8DB67A24B3C1B9003D06FF /* UserHeaderCell.swift in Sources */,
 				6C8DB6A924B3C1B9003D06FF /* BookmarkedUsersCell.swift in Sources */,
 				6C8DB68F24B3C1B9003D06FF /* HomeHeaderCell.swift in Sources */,
+				6C35F5BE25DED0550044E847 /* Review.swift in Sources */,
 				6CBDDE4724B3DBF30099A04C /* StripeApi.swift in Sources */,
 				6C8DB68624B3C1B9003D06FF /* EventDetailCell.swift in Sources */,
 				6C8DB65624B3C1B9003D06FF /* RequestFormVC.swift in Sources */,
@@ -1181,7 +1170,6 @@
 				6C8DB65A24B3C1B9003D06FF /* Notifications.swift in Sources */,
 				6C8DB67224B3C1B9003D06FF /* CalendarVC.swift in Sources */,
 				6C8DB66024B3C1B9003D06FF /* Constants.swift in Sources */,
-				6C8DB69F24B3C1B9003D06FF /* Review.swift in Sources */,
 				6C8DB68924B3C1B9003D06FF /* ChangeProfileImageVC.swift in Sources */,
 				6C8DB66C24B3C1B9003D06FF /* CommentCell.swift in Sources */,
 				6C3132B92583F3E0005D0544 /* UserError.swift in Sources */,

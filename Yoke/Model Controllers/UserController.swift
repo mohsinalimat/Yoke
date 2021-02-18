@@ -146,8 +146,9 @@ class UserController {
                 let state = dictionary[Constants.State] as? String ?? ""
                 let latitude = dictionary[Constants.Latitude] as? Double ?? 0.0
                 let longitude = dictionary[Constants.Longitude] as? Double ?? 0.0
+                let stars = dictionary[Constants.Stars] as? Int ?? 0
                 guard let isChef = dictionary[Constants.IsChef] as? Bool else { return }
-                let user = User(uid: uid, username: username, profileImageUrl: profileImageUrl, location: location, bio: bio, isChef: isChef, street: street, apartment: apartment, city: city, state: state, latitude: latitude, longitude: longitude)
+                let user = User(uid: uid, username: username, profileImageUrl: profileImageUrl, location: location, bio: bio, isChef: isChef, street: street, apartment: apartment, city: city, state: state, latitude: latitude, longitude: longitude, stars: stars)
                 completion(user)
             } else {
                 completion(error as! User)

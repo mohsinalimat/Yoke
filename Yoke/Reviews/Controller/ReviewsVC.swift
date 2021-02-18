@@ -76,25 +76,25 @@ class ReviewsVC: UICollectionViewController, UICollectionViewDelegateFlowLayout,
     
     var reviews = [Review]()
     fileprivate func fetchReviews() {
-        let userId = self.user?.uid ?? ""
-        let ref = Database.database().reference().child(Constants.Reviews).child(userId)
-        
-        ref.observe(.childAdded, with: { (snapshot) in
-            
-            guard let dictionary = snapshot.value as? [String: Any] else { return }
-            
-            guard let uid = dictionary[Constants.Uid] as? String else { return }
-            Database.fetchUserWithUID(uid: uid, completion: { (user) in
-                let review = Review(user: user, dictionary: dictionary)
-                self.reviews.append(review)
-                self.collectionView?.reloadData()
-                
-                self.reviews.sort(by: { (review1, review2) -> Bool in
-                    return review1.creationDate?.compare(review2.creationDate!) == .orderedDescending
-                })
-            })
-            
-        })
+//        let userId = self.user?.uid ?? ""
+//        let ref = Database.database().reference().child(Constants.Reviews).child(userId)
+//        
+//        ref.observe(.childAdded, with: { (snapshot) in
+//            
+//            guard let dictionary = snapshot.value as? [String: Any] else { return }
+//            
+//            guard let uid = dictionary[Constants.Uid] as? String else { return }
+//            Database.fetchUserWithUID(uid: uid, completion: { (user) in
+//                let review = Review(user: user, dictionary: dictionary)
+//                self.reviews.append(review)
+//                self.collectionView?.reloadData()
+//                
+//                self.reviews.sort(by: { (review1, review2) -> Bool in
+//                    return review1.creationDate?.compare(review2.creationDate!) == .orderedDescending
+//                })
+//            })
+//            
+//        })
     }
     
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
