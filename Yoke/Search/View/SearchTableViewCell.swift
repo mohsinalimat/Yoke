@@ -65,6 +65,11 @@ class SearchTableViewCell: UITableViewCell {
                 for document in querySnapshot!.documents {
                     if let rate = document.data()[Constants.Stars] as? Double {
                         totalCount += rate
+                        if count <= 1 {
+                            self.reviewCountLabel.text = "\(Int(count)) review"
+                        } else {
+                            self.reviewCountLabel.text = "\(Int(count)) reviews"
+                        }
                     }
                 }
             }
@@ -114,7 +119,7 @@ class SearchTableViewCell: UITableViewCell {
     
     let reviewCountLabel: UILabel = {
         let label = UILabel()
-        label.text = "12 reviews"
+        label.text = "0 reviews"
         label.textColor = .lightGray
         label.font = UIFont.systemFont(ofSize: 13)
         return label

@@ -237,6 +237,11 @@ class ProfileViewController: UIViewController, TTGTextTagCollectionViewDelegate 
                 for document in querySnapshot!.documents {
                     if let rate = document.data()[Constants.Stars] as? Double {
                         totalCount += rate
+                        if count <= 1 {
+                            self.reviewCountLabel.text = "\(Int(count)) review"
+                        } else {
+                            self.reviewCountLabel.text = "\(Int(count)) reviews"
+                        }
                     }
                 }
             }
