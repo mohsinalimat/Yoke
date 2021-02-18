@@ -23,9 +23,17 @@ class ReviewsCollectionViewController: UICollectionViewController, UICollectionV
     
     //MARK: - Helper Functions
     func setupCollectionView() {
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "new", style: .plain, target: self, action: #selector(newReview))
         collectionView.backgroundColor = .white
         collectionView.register(ReviewsCollectionViewCell.self, forCellWithReuseIdentifier: cellId)
         collectionView.register(EmptyCell.self, forCellWithReuseIdentifier: noCellId)
+    }
+    
+    @objc func newReview() {
+        let reviewsVC = NewReviewViewController()
+        reviewsVC.userId = userId
+        present(reviewsVC, animated: true)
+//        navigationController?.pushViewController(reviewsVC, animated: true)
     }
     
     func fetchReviews() {
@@ -34,7 +42,9 @@ class ReviewsCollectionViewController: UICollectionViewController, UICollectionV
             ReviewController.shared.fetchReviewsFor(uid: uid) { (result) in
                 switch result {
                 case true:
-                    self.collectionView.reloadData()
+                    DispatchQueue.main.async {
+                        self.collectionView.reloadData()
+                    }
                 case false:
                     print("failed to fetch reviews")
                 }
@@ -45,43 +55,48 @@ class ReviewsCollectionViewController: UICollectionViewController, UICollectionV
 
     // MARK: UICollectionViewDataSource
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        print("count \(ReviewController.shared.reviews.count)")
+        if ReviewController.shared.reviews.count == 0 {
+            return 1
+        }
         return ReviewController.shared.reviews.count
     }
 
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         if ReviewController.shared.reviews.count == 0 {
             let noCell = collectionView.dequeueReusableCell(withReuseIdentifier: noCellId, for: indexPath) as! EmptyCell
+            noCell.photoImageView.image = UIImage(named: "no_post_background")!
             noCell.noPostLabel.text = "No Reviews yet"
             return noCell
         }
         
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath) as! ReviewsCollectionViewCell
         cell.review = ReviewController.shared.reviews[indexPath.item]
-
-    
         return cell
     }
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         
         if ReviewController.shared.reviews.count == 0 {
-            let noCell = collectionView.dequeueReusableCell(withReuseIdentifier: noCellId, for: indexPath) as! EmptyCell
-            noCell.photoImageView.image = UIImage(named: "no_post_background")!
-            noCell.noPostLabel.text = "No Reviews yet"
-            return CGSize(width: view.frame.width, height: 75)
-        } else {
-            let frame = CGRect(x: 0, y: 0, width: view.frame.width, height: 50)
-            let dummyCell = ReviewsCell(frame: frame)
-            dummyCell.review = ReviewController.shared.reviews[indexPath.item]
-            dummyCell.layoutIfNeeded()
-            
-            let targetSize = CGSize(width: view.frame.width, height: 1000)
-            let estimatedSize = dummyCell.systemLayoutSizeFitting(targetSize)
-            
-            let height = max(40 + 8 + 8, estimatedSize.height)
-            return CGSize(width: view.frame.width, height: height)
+            return CGSize(width: view.frame.width, height: 200)
         }
+        if let reviewText = ReviewController.shared.reviews[indexPath.item].review {
+            let rect = NSString(string: reviewText).boundingRect(with: CGSize(width: view.frame.width, height: 1000), options: NSStringDrawingOptions.usesFontLeading.union(NSStringDrawingOptions.usesLineFragmentOrigin), attributes: [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 17)], context: nil)
+            return CGSize(width: view.frame.width, height: rect.height + 80)
+        }
+//        else {
+//            let frame = CGRect(x: 0, y: 0, width: view.frame.width, height: 50)
+//            let dummyCell = ReviewsCollectionViewCell(frame: frame)
+//            dummyCell.review = ReviewController.shared.reviews[indexPath.item]
+//
+////            dummyCell.layoutIfNeeded()
+////
+////            let targetSize = CGSize(width: view.frame.width, height: 1000)
+////            let estimatedSize = dummyCell.systemLayoutSizeFitting(targetSize)
+////
+////            let height = max(40 + 8 + 8, estimatedSize.height)
+////            return CGSize(width: view.frame.width, height: height)
+//        }
+        return CGSize(width: view.frame.width, height: 500)
     
     }
 

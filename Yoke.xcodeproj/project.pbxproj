@@ -736,7 +736,6 @@
 			children = (
 				6C8DB62024B3C1B8003D06FF /* ReviewInputAccessoryView.swift */,
 				6C8DB62124B3C1B8003D06FF /* RatingView.swift */,
-				6C8DB62224B3C1B8003D06FF /* ReviewsCell.swift */,
 				6CB59AC825DEFB7E00157474 /* ReviewsCollectionViewCell.swift */,
 			);
 			path = View;
@@ -835,6 +834,7 @@
 		6CC8CBDC25C47BF100C3F24D /* Unused files for ref */ = {
 			isa = PBXGroup;
 			children = (
+				6C8DB62224B3C1B8003D06FF /* ReviewsCell.swift */,
 				6C8DB61C24B3C1B8003D06FF /* NewReviewVC.swift */,
 				6C8DB5FF24B3C1B8003D06FF /* ChangeEmailVC.swift */,
 				6C8DB60124B3C1B8003D06FF /* ChangePasswordVC.swift */,

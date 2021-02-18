@@ -207,24 +207,7 @@ class ProfileViewController: UIViewController, TTGTextTagCollectionViewDelegate 
             if self.bioTextLabel.text == "" {
                 self.bioTextLabel.text = "Full bio coming soon"
             }
-        
-            Firestore.firestore().collection(Constants.Users).document(uid).collection(Constants.Ratings).getDocuments() { (querySnapshot, error) in
-                var totalCount = 0.0
-                var count = 0.0
-                if error != nil {
-                    print(error?.localizedDescription)
-                } else {
-                    count = Double(querySnapshot?.count ?? 0)
-                    for document in querySnapshot!.documents {
-                        if let rate = document.data()[Constants.Stars] as? Double {
-                            totalCount += rate
-                        }
-                    }
-                }
-                let average = totalCount/count
-                self.ratingView.rating = average
-            }
-            
+            self.fetchUserAverageRating(uid: uid)
             self.setupCusineCollectionView(uid: uid)
             self.fetchMenus(uid: uid)
             let imageStorageRef = Storage.storage().reference().child("profileImageUrl/\(uid)")
@@ -243,6 +226,25 @@ class ProfileViewController: UIViewController, TTGTextTagCollectionViewDelegate 
         }
     }
     
+    func fetchUserAverageRating(uid: String) {
+        Firestore.firestore().collection(Constants.Users).document(uid).collection(Constants.Ratings).getDocuments() { (querySnapshot, error) in
+            var totalCount = 0.0
+            var count = 0.0
+            if error != nil {
+                print(error?.localizedDescription)
+            } else {
+                count = Double(querySnapshot?.count ?? 0)
+                for document in querySnapshot!.documents {
+                    if let rate = document.data()[Constants.Stars] as? Double {
+                        totalCount += rate
+                    }
+                }
+            }
+            let average = totalCount/count
+            self.ratingView.rating = average
+        }
+    }
+    
     fileprivate func fetchMenus(uid: String) {
         MenuController.shared.fetchMenuWith(uid: uid) { (result) in
             switch result {
@@ -257,11 +259,9 @@ class ProfileViewController: UIViewController, TTGTextTagCollectionViewDelegate 
     }
     
     @objc func viewReviews() {
-//        let reviewsVC = ReviewsCollectionViewController(collectionViewLayout: UICollectionViewFlowLayout())
-        let reviewsVC = NewReviewViewController()
+        let reviewsVC = ReviewsCollectionViewController(collectionViewLayout: UICollectionViewFlowLayout())
         reviewsVC.userId = userId
-        present(reviewsVC, animated: true)
-//        navigationController?.pushViewController(reviewsVC, animated: true)
+        navigationController?.pushViewController(reviewsVC, animated: true)
     }
 
     //MARK: - Views
