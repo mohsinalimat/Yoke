@@ -38,7 +38,6 @@ class NewReviewViewController: UIViewController {
     fileprivate func fetchUser() {
         let uid = userId ?? (Auth.auth().currentUser?.uid ?? "")
         UserController.shared.fetchUserWithUID(uid: uid) { (user) in
-            
             guard let image = user.profileImageUrl else { return }
             self.userProfileImageView.loadImage(urlString: image)
             self.usernameLabel.text = user.username
@@ -46,6 +45,7 @@ class NewReviewViewController: UIViewController {
     }
     
     func setupViews() {
+        view.backgroundColor = .white
         view.addSubview(userProfileImageView)
         view.addSubview(usernameLabel)
         view.addSubview(reviewField)
@@ -56,14 +56,18 @@ class NewReviewViewController: UIViewController {
     }
     
     func constrainViews() {
-        userProfileImageView.anchor(top: safeArea.topAnchor, left: nil, bottom: nil, right: nil, paddingTop: 5, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 150, height: 150)
+        view.anchor(top: safeArea.topAnchor, left: nil, bottom: safeArea.bottomAnchor, right: nil, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: view.frame.width, height: view.frame.width + 150)
+        view.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        view.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
+        view.layer.cornerRadius = 10
+        userProfileImageView.anchor(top: safeArea.topAnchor, left: nil, bottom: nil, right: nil, paddingTop: 20, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 150, height: 150)
         userProfileImageView.layer.cornerRadius = 75
         userProfileImageView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        usernameLabel.anchor(top: userProfileImageView.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0)
-        reviewField.anchor(top: usernameLabel.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 0, paddingLeft: 15, paddingBottom: 0, paddingRight: 15, height: 200)
-        ratingLabel.anchor(top: reviewField.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: nil, paddingTop: 0, paddingLeft: 15, paddingBottom: 0, paddingRight: 0, height: 45)
-        ratingView.anchor(top: reviewField.bottomAnchor, left: ratingLabel.rightAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 15, height: 45)
-        submitButton.anchor(top: ratingView.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, height: 45)
+        usernameLabel.anchor(top: userProfileImageView.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 5, paddingLeft: 0, paddingBottom: 0, paddingRight: 0)
+        reviewField.anchor(top: usernameLabel.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 5, paddingLeft: 15, paddingBottom: 0, paddingRight: 15, height: 200)
+        ratingLabel.anchor(top: reviewField.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: nil, paddingTop: 5, paddingLeft: 15, paddingBottom: 0, paddingRight: 10, height: 45)
+        ratingView.anchor(top: reviewField.bottomAnchor, left: ratingLabel.rightAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 5, paddingLeft: 0, paddingBottom: 0, paddingRight: 15, height: 35)
+        submitButton.anchor(top: ratingView.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 20, paddingLeft: 15, paddingBottom: 0, paddingRight: 15, height: 45)
         
         myActivityIndicator.center = view.center
         
@@ -75,14 +79,18 @@ class NewReviewViewController: UIViewController {
         guard let reviewText = reviewField.text else { return }
         let liveRate = self.ratingView.rating
         myActivityIndicator.startAnimating()
-        ReviewController.shared.createReviewWith(currentUserUid: currentUserUid, reviewedUserUid: profileUserUid, review: reviewText, liveRate: liveRate) { (result) in
-            switch result {
-            case true:
-                self.handleDone()
-            case false:
-                print("failed to save")
+        UserController.shared.fetchUserWithUID(uid: currentUserUid) { (user) in
+            guard let username = user.username else { return }
+            ReviewController.shared.createReviewWith(currentUserUid: currentUserUid, reviewedUserUid: profileUserUid, review: reviewText, liveRate: liveRate, username: username) { (result) in
+                switch result {
+                case true:
+                    self.handleDone()
+                case false:
+                    print("failed to save")
+                }
             }
         }
+       
     }
     
     func handleDone() {
@@ -107,7 +115,7 @@ class NewReviewViewController: UIViewController {
     let usernameLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.boldSystemFont(ofSize: 17)
-        label.textColor = UIColor.white
+        label.textColor = UIColor.gray
         label.textAlignment = .center
         return label
     }()
@@ -115,7 +123,7 @@ class NewReviewViewController: UIViewController {
     var reviewField: UITextView = {
         let textView = UITextView()
         textView.font = UIFont.systemFont(ofSize: 15)
-        textView.backgroundColor = UIColor.white
+        textView.backgroundColor = UIColor.LightGrayBg()
         textView.textColor = UIColor.darkGray
         textView.layer.cornerRadius = 5
         textView.placeholder = "Enter your review..."
@@ -124,7 +132,7 @@ class NewReviewViewController: UIViewController {
     
     let ratingView: RatingView = {
         let view = RatingView()
-        view.backgroundColor = .white
+//        view.backgroundColor = .white
         view.minRating = 0
         view.maxRating = 5
         view.rating = 0
@@ -138,8 +146,7 @@ class NewReviewViewController: UIViewController {
         let label = UILabel()
         label.text = "Select a rating"
         label.font = UIFont.systemFont(ofSize: 15)
-        label.textColor = UIColor.black
-        label.textAlignment = .center
+        label.textColor = UIColor.gray
         return label
     }()
     

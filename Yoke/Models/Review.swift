@@ -11,15 +11,15 @@ import Foundation
 class Review {
     var id: String?
     var uid: String?
-    var name: String?
+    var username: String?
     var review: String?
     var stars: Double?
     var timestamp: String?
 
-    init(id: String?, uid: String?, name: String?, review: String?, stars: Double?, timestamp: String?) {
+    init(id: String? = "", uid: String, username: String, review: String, stars: Double, timestamp: String) {
         self.id = id
         self.uid = uid
-        self.name = name
+        self.username = username
         self.review = review
         self.stars = stars
         self.timestamp = timestamp

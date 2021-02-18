@@ -64,9 +64,9 @@ class ReviewsVC: UICollectionViewController, UICollectionViewDelegateFlowLayout,
     }
     
     @objc func newReview() {
-        let addReview = NewReviewVC()
-        addReview.user = user
-        present(addReview, animated: true, completion: nil)
+        let reviewsVC = NewReviewViewController()
+        reviewsVC.userId = userId
+        present(reviewsVC, animated: true)
 //        navigationController?.pushViewController(addReview, animated: true)
     }
     

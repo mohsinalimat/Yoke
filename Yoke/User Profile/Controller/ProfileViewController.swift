@@ -257,6 +257,7 @@ class ProfileViewController: UIViewController, TTGTextTagCollectionViewDelegate 
     }
     
     @objc func viewReviews() {
+//        let reviewsVC = ReviewsCollectionViewController(collectionViewLayout: UICollectionViewFlowLayout())
         let reviewsVC = NewReviewViewController()
         reviewsVC.userId = userId
         present(reviewsVC, animated: true)

@@ -1,15 +1,14 @@
 //
-//  ReviewsCell.swift
-//  FooD
+//  ReviewsCollectionViewCell.swift
+//  Yoke
 //
-//  Created by LAURA JELENICH on 2/26/19.
-//  Copyright © 2019 LAURA JELENICH. All rights reserved.
+//  Created by LAURA JELENICH on 2/18/21.
+//  Copyright © 2021 LAURA JELENICH. All rights reserved.
 //
 
 import UIKit
-import Firebase
 
-class ReviewsCell: UICollectionViewCell {
+class ReviewsCollectionViewCell: UICollectionViewCell {
     
     var user: User?
     var review: Review? {
@@ -17,8 +16,7 @@ class ReviewsCell: UICollectionViewCell {
             guard let review = review else { return }
             guard let username = user?.username,
                   let reviewText = review.review else { return }
-            print("count \(reviewText)")
-            print("count \(username)")
+            textView.text = reviewText
 //            if case review.review = "" {
 //                let attributedText = NSMutableAttributedString(string: username, attributes: [NSAttributedString.Key.font: UIFont.boldSystemFont(ofSize: 15), NSAttributedString.Key.foregroundColor: UIColor.black])
 //                attributedText.append(NSAttributedString(string: " " + "There is no review to accompany this rating.", attributes: [NSAttributedString.Key.font: UIFont(name: "Avenir-BookOblique", size: 14)!, NSAttributedString.Key.foregroundColor: UIColor.black]))
@@ -32,14 +30,45 @@ class ReviewsCell: UICollectionViewCell {
 //            timeLabel.text = review.creationDate?.timeAgoDisplay()
 //            profileImageView.loadImage(urlString: review.user.profileImageUrl?)
             guard let rating = review.stars else { return }
+            print("count \(rating)")
             self.ratingView.rating = rating
         }
     }
-
+    
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        setupViews()
+        setupConstraints()
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    //MARK: - Helper Functions
+    func setupViews() {
+        addSubview(profileImageView)
+        addSubview(textView)
+        addSubview(ratingView)
+        
+    }
+    
+    func setupConstraints() {
+        profileImageView.anchor(top: topAnchor, left: leftAnchor, bottom: nil, right: nil, paddingTop: 10, paddingLeft: 12, paddingBottom: 0, paddingRight: 0, width: 40, height: 40)
+        profileImageView.layer.cornerRadius = 40 / 2
+    
+        textView.anchor(top: profileImageView.topAnchor, left: profileImageView.rightAnchor, bottom: nil, right: rightAnchor, paddingTop: 0, paddingLeft: 5, paddingBottom: 0, paddingRight: 5)
+//
+//        timestampLabel.anchor(top: textView.bottomAnchor, left: nil, bottom: nil, right: rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 5, paddingRight: 25, width: 0, height: 0)
+//
+//        ratingView.anchor(top: textView.bottomAnchor, left: textView.leftAnchor, bottom: nil, right: nil, paddingTop: 0, paddingLeft: 5, paddingBottom: 5, paddingRight: 25, width: 80, height: 40)
+    }
+    
+    //MARK: - Views
     let textView: UITextView = {
         let textView = UITextView()
         textView.font = UIFont.systemFont(ofSize: 15)
-        textView.backgroundColor = UIColor.white
+        textView.backgroundColor = UIColor.yellow
         textView.textColor = UIColor.black
         textView.textAlignment = .justified
         textView.isScrollEnabled = false
@@ -51,11 +80,12 @@ class ReviewsCell: UICollectionViewCell {
     let profileImageView: CustomImageView = {
         let image = CustomImageView()
         image.clipsToBounds = true
+        image.backgroundColor = .green
         image.contentMode = .scaleAspectFill
         return image
     }()
     
-    let timeLabel: UILabel = {
+    let timestampLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.systemFont(ofSize: 13)
         label.textColor = UIColor.lightGray
@@ -75,28 +105,4 @@ class ReviewsCell: UICollectionViewCell {
         view.fullImage = UIImage(named: "star_selected_color")
         return view
     }()
-    
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-        
-        addSubview(profileImageView)
-        addSubview(textView)
-        addSubview(timeLabel)
-        addSubview(ratingView)
-        
-        profileImageView.anchor(top: topAnchor, left: leftAnchor, bottom: nil, right: nil, paddingTop: 10, paddingLeft: 12, paddingBottom: 0, paddingRight: 0, width: 40, height: 40)
-        profileImageView.layer.cornerRadius = 40 / 2
-    
-        textView.anchor(top: profileImageView.topAnchor, left: profileImageView.rightAnchor, bottom: bottomAnchor, right: rightAnchor, paddingTop: 0, paddingLeft: 5, paddingBottom: 0, paddingRight: 25, width: 0, height: 0)
-        
-        timeLabel.anchor(top: textView.bottomAnchor, left: nil, bottom: nil, right: rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 5, paddingRight: 25, width: 0, height: 0)
-        
-        ratingView.anchor(top: textView.bottomAnchor, left: textView.leftAnchor, bottom: nil, right: nil, paddingTop: 0, paddingLeft: 5, paddingBottom: 5, paddingRight: 25, width: 80, height: 40)
-
-    }
-    
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
 }
