@@ -184,34 +184,6 @@ class UserController {
                 print(document.data())
             }
         }
-//        firestoreDB.collection(Constants.Users).document(uid).addSnapshotListener { (snap, error) in
-//            if let error = error {
-//                print(error.localizedDescription)
-//                completion(false)
-//            } else {
-//                self.menus = []
-//                for document in snap!.documents {
-//                    let dictionary = document.data()
-//                    let menu = Menu(dictionary: dictionary)
-//                    self.menus.append(menu)
-//                }
-//                completion(true)
-//            }
-//        }
-//        firestoreDB.collection(Constants.Users).whereField("userUid", isEqualTo: userUid).getDocuments() { (snapshot, error) in
-//            if (error != nil) == true {
-//                print("error")
-//                completion(false)
-//            } else {
-////                for document in snapshot!.documents {
-//                    let dictionary = document.data()
-//                    let userUid = dictionary["userUid"] as? String ?? ""
-//                    let getNotifications = Notification(userUid: userUid, alertUid: alertUid, title: title, dateTime: dateTime)
-//                    self.notifications.append(getNotifications)
-//                }
-//                completion(true)
-//            }
-//        }
     }
 
     func updateUser(_ uid: String, username: String, bio: String, isChef: Bool, completion: @escaping (Bool) -> Void) {

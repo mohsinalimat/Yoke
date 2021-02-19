@@ -1,5 +1,5 @@
 //
-//  Message.swift
+//  Message001.swift
 //  FooD
 //
 //  Created by LAURA JELENICH on 2/26/19.
@@ -8,7 +8,7 @@
 import UIKit
 import Firebase
 
-class Message: NSObject {
+class Message001: NSObject {
 
     var fromId: String?
     var toId: String?

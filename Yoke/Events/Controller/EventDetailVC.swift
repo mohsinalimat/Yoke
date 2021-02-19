@@ -118,10 +118,10 @@ class EventDetailVC: UICollectionViewController, UICollectionViewDelegateFlowLay
     }
     
     @objc func sendMessage() {
-        print("message tapped")
-        let chatVC = ChatVC(collectionViewLayout: UICollectionViewFlowLayout())
-        chatVC.user = event?.user
-        navigationController?.pushViewController(chatVC, animated: true)
+//        print("message tapped")
+//        let chatVC = ChatVC(collectionViewLayout: UICollectionViewFlowLayout())
+//        chatVC.user = event?.user
+//        navigationController?.pushViewController(chatVC, animated: true)
     }
 
 }

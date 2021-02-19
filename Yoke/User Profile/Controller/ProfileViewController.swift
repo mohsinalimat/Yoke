@@ -50,7 +50,7 @@ class ProfileViewController: UIViewController, TTGTextTagCollectionViewDelegate 
         reviewsButton.alignImageTextVertical()
         eventButton.alignImageTextVertical()
         bookmarkButton.alignImageTextVertical()
-        addPhotosButton.alignImageTextVertical()
+        contactButton.alignImageTextVertical()
     }
     
     func setupViews() {
@@ -68,7 +68,7 @@ class ProfileViewController: UIViewController, TTGTextTagCollectionViewDelegate 
         scrollView.addSubview(buttonStackView)
         buttonStackView.addArrangedSubview(reviewsButton)
         buttonStackView.addArrangedSubview(eventButton)
-        buttonStackView.addArrangedSubview(addPhotosButton)
+        buttonStackView.addArrangedSubview(contactButton)
         buttonStackView.addArrangedSubview(bookmarkButton)
         scrollView.addSubview(bioLabel)
         scrollView.addSubview(bioTextLabel)
@@ -268,6 +268,12 @@ class ProfileViewController: UIViewController, TTGTextTagCollectionViewDelegate 
         reviewsVC.userId = userId
         navigationController?.pushViewController(reviewsVC, animated: true)
     }
+    
+    @objc func handleSendMessage() {
+        let chatVC = ChatViewController()
+        chatVC.user2UID = userId
+        navigationController?.pushViewController(chatVC, animated: true)
+    }
 
     //MARK: - Views
     lazy var scrollView: UIScrollView = {
@@ -427,16 +433,16 @@ class ProfileViewController: UIViewController, TTGTextTagCollectionViewDelegate 
         return button
     }()
     
-    lazy var addPhotosButton: UIButton = {
+    lazy var contactButton: UIButton = {
         let button = UIButton(type: .custom)
 //        button.setImage(UIImage(named: "add_image"), for: .normal)
-        let image = UIImage(named: "add_image")?.withRenderingMode(.alwaysTemplate)
+        let image = UIImage(named: "message_full")?.withRenderingMode(.alwaysTemplate)
         button.setImage(image, for: .normal)
         button.tintColor = UIColor.white
-        button.setTitle("Add Photo", for: .normal)
+        button.setTitle("Contact Me", for: .normal)
         button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 10)
         button.setTitleColor(UIColor.white, for: .normal)
-//        button.addTarget(self, action: #selector(handleAddPhotos), for: .touchUpInside)
+        button.addTarget(self, action: #selector(handleSendMessage), for: .touchUpInside)
         button.backgroundColor = UIColor.orangeColor()
         button.layer.cornerRadius = 8
         return button

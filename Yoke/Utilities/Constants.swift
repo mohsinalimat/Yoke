@@ -43,6 +43,10 @@ class Constants {
     static let VideoUrl = "videoUrl"
     static let Caption = "caption"
     static let CreationDate = "creationDate"
+    static let Content = "content"
+    static let Created = "created"
+    static let SenderID = "senderID"
+    static let Thread = "thread"
     
     static let Comment = "comment"
     static let Gallery = "gallery"

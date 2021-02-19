@@ -19,6 +19,8 @@ target 'Yoke' do
   pod 'Stripe' , '~> 19.0.1'
   pod 'GoogleSignIn'
   pod 'TTGTagCollectionView'
+  pod 'MessageKit'
+  pod 'SDWebImage'
 
   target 'YokeTests' do
     inherit! :search_paths

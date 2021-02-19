@@ -60,6 +60,9 @@ class SuggestedChefController {
                     UserController.shared.fetchUserWithUID(uid: key) { (user) in
                         if user.isChef == true {
                             UserController.shared.users.append(user)
+                            UserController.shared.users.sort(by: { (u1, u2) -> Bool in
+                                return u1.username!.compare(u2.username!) == .orderedAscending
+                            })
                         }
                     }
                 }
