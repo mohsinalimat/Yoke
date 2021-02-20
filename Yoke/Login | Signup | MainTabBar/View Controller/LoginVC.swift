@@ -202,12 +202,12 @@ class LoginVC: UIViewController {
     let emailTextField: UITextField = {
         let textField = UITextField()
         let placeholderText = NSAttributedString(string: "Email",
-                                                 attributes: [NSAttributedString.Key.foregroundColor: UIColor.orangeColor() as Any])
+                                                 attributes: [NSAttributedString.Key.foregroundColor: UIColor.white as Any])
         textField.attributedPlaceholder = placeholderText
-        textField.backgroundColor = UIColor.white.withAlphaComponent(0.9)
+        textField.backgroundColor = UIColor.white.withAlphaComponent(0.4)
         textField.borderStyle = .roundedRect
         textField.font = UIFont.systemFont(ofSize: 17)
-        textField.textColor = UIColor.darkGray
+        textField.textColor = UIColor.gray
         textField.keyboardType = UIKeyboardType.emailAddress
         return textField
     }()
@@ -215,13 +215,13 @@ class LoginVC: UIViewController {
     let passwordTextField: UITextField = {
         let textField = UITextField()
         let placeholderText = NSAttributedString(string: "Password",
-                                                 attributes: [NSAttributedString.Key.foregroundColor: UIColor.orangeColor() as Any])
+                                                 attributes: [NSAttributedString.Key.foregroundColor: UIColor.white as Any])
         textField.attributedPlaceholder = placeholderText
         textField.isSecureTextEntry = true
-        textField.backgroundColor = UIColor.white.withAlphaComponent(0.9)
+        textField.backgroundColor = UIColor.white.withAlphaComponent(0.4)
         textField.borderStyle = .roundedRect
         textField.font = UIFont.systemFont(ofSize: 17)
-        textField.textColor = UIColor.darkGray
+        textField.textColor = UIColor.gray
         return textField
     }()
     
@@ -258,9 +258,9 @@ class LoginVC: UIViewController {
     let signInButton: UIButton = {
         let button = UIButton(type: .custom)
         button.setTitle("Sign in", for: .normal)
-        button.backgroundColor = UIColor.yellowColor()?.withAlphaComponent(0.8)
+        button.backgroundColor = UIColor.orangeColor()
         button.layer.cornerRadius = 5
-        button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 17)
+        button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 20)
         button.setTitleColor(.white, for: .normal)
         button.addTarget(self, action: #selector(handleSignIn), for: .touchUpInside)
         return button
