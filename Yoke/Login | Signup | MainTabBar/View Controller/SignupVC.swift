@@ -39,6 +39,7 @@ class SignupVC: UIViewController {
 
     //MARK: - Helper Functions
     fileprivate func setupViews() {
+        view.layer.addSublayer(backgroundView)
         view.addSubview(addImageButton)
         view.addSubview(stackView)
         view.addSubview(alreadyHaveAccountButton)
@@ -56,6 +57,7 @@ class SignupVC: UIViewController {
     }
     
     func constrainViews() {
+        backgroundView.frame = view.frame
         addImageButton.anchor(top: safeArea.topAnchor, left: nil, bottom: nil, right: nil, paddingTop: 75, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 200, height: 200)
         addImageButton.layer.cornerRadius = 100
         addImageButton.centerXAnchor.constraint(equalTo: safeArea.centerXAnchor).isActive = true
@@ -183,6 +185,13 @@ class SignupVC: UIViewController {
     }
     
     //MARK: - Views
+    var backgroundView: CAGradientLayer = {
+        let view = CAGradientLayer()
+        view.colors = [UIColor.orangeColor()?.cgColor ?? "", UIColor.yellowColor()?.cgColor ?? ""]
+        view.locations = [0, 1]
+        return view
+    }()
+    
     let addImageButton: UIButton = {
         let button = UIButton(type: .custom)
         button.setTitle("Add Photo", for: .normal)

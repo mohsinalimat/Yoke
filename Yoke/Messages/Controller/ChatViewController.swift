@@ -75,6 +75,7 @@ class ChatViewController: MessagesViewController, InputBarAccessoryViewDelegate,
                  print("Unable to create chat! \(error)")
                  return
              } else {
+                print("line 78")
                  self.loadChat()
              }
          }
@@ -85,6 +86,7 @@ class ChatViewController: MessagesViewController, InputBarAccessoryViewDelegate,
                 print("Unable to create chat! \(error)")
                 return
             } else {
+                print("line 89")
                 self.loadChat()
             }
         }
@@ -93,12 +95,14 @@ class ChatViewController: MessagesViewController, InputBarAccessoryViewDelegate,
                 print("Unable to create chat! \(error)")
                 return
             } else {
+                print("line 98")
                 self.loadChat()
             }
         }
     }
 
     func loadChat() {
+        print("load chat")
         let db = Firestore.firestore().collection(Constants.Messages)
             .whereField(Constants.Users, arrayContains: Auth.auth().currentUser?.uid ?? "Not Found User 1")
         db.getDocuments { (chatQuerySnap, error) in
@@ -131,7 +135,7 @@ class ChatViewController: MessagesViewController, InputBarAccessoryViewDelegate,
                                         guard let msg = Message(dictionary: message.data()) else { return }
                                         print(message.data())
                                         self.messages.append(msg)
-                                        print("Data: \(msg.content)")
+                                        print("Data: \(msg.content ?? "There are currently no messages")")
                                     }
                                 self.messagesCollectionView.reloadData()
                                 self.messagesCollectionView.scrollToLastItem(animated: true)
@@ -197,11 +201,13 @@ class ChatViewController: MessagesViewController, InputBarAccessoryViewDelegate,
     }
 
     func messageForItem(at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) -> MessageType {
+        print("Message count 204 \(messages[indexPath.section])")
         return messages[indexPath.section]
 
     }
 
     func numberOfSections(in messagesCollectionView: MessagesCollectionView) -> Int {
+        print("Message count 209 \(messages.count)")
         if messages.count == 0 {
             return 0
         } else {

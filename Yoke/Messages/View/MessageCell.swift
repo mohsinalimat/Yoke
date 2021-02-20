@@ -8,8 +8,112 @@
 
 import UIKit
 import Firebase
+import FirebaseAuth
+import FirebaseStorage
 
 class MessageCell: UITableViewCell {
+    var user: User?
+    var message: Message? {
+        didSet {
+            guard let message = message else {return}
+            messageView.text = message.content
+            let dateFormatter = DateFormatter()
+            dateFormatter.timeStyle = DateFormatter.Style.short
+            dateFormatter.dateStyle = DateFormatter.Style.short
+            dateFormatter.timeZone = .current
+            let localDate = dateFormatter.string(from: message.sentDate)
+            timestampLabel.text = localDate
+            fetchUser()
+        }
+    }
+
+    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+        super.init(style: .subtitle, reuseIdentifier: reuseIdentifier)
+        setupViews()
+        setupConstraints()
+    }
+
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemeted")
+    }
+
+    func setupViews() {
+        addSubview(profileImageView)
+        addSubview(usernameLabel)
+        addSubview(messageView)
+        addSubview(timestampLabel)
+    }
+
+    func setupConstraints() {
+        profileImageView.anchor(top: topAnchor, left: leftAnchor, bottom: nil, right: rightAnchor, paddingTop: 15, paddingLeft: 15, paddingBottom: 0, paddingRight: 0, width: 40, height: 40)
+//        usernameLabel.anchor(top: profileImageView.topAnchor, bottom: nil, leading: profileImageView.trailingAnchor, trailing: trailingAnchor, topPadding: 0, bottomPadding: 0, leadingPadding: 10, trailingPadding: 40)
+//        messageView.anchor(top: usernameLabel.bottomAnchor, bottom: nil, leading: profileImageView.trailingAnchor, trailing: trailingAnchor, topPadding: 0, bottomPadding: 0, leadingPadding: 5, trailingPadding: 0)
+//        timestampLabel.anchor(top: usernameLabel.topAnchor, bottom: nil, leading: nil, trailing: trailingAnchor, topPadding: 0, bottomPadding: 0, leadingPadding: 10, trailingPadding: -10)
+    }
+
+    fileprivate func fetchUser() {
+        guard let senderUid = message?.toId, let currentUid = message?.senderID else { return }
+        if senderUid == Auth.auth().currentUser?.uid {
+            UserController.shared.fetchUserWithUID(uid: currentUid) { (user) in
+                self.usernameLabel.text = user.username
+                Storage.storage().reference().child("profileImage/\(currentUid)").getData(maxSize: 2 * 1024 * 1024) { data, error in
+                    if error == nil, let data = data {
+                        self.profileImageView.image = UIImage(data: data)
+                    }
+                }
+            }
+        } else {
+            UserController.shared.fetchUserWithUID(uid: senderUid) { (user) in
+                self.usernameLabel.text = user.username
+                Storage.storage().reference().child("profileImage/\(senderUid)").getData(maxSize: 2 * 1024 * 1024) { data, error in
+                    if error == nil, let data = data {
+                        self.profileImageView.image = UIImage(data: data)
+                    }
+                }
+            }
+        }
+    }
+
+    let profileImageView: CustomImageView = {
+        let image = CustomImageView()
+        image.translatesAutoresizingMaskIntoConstraints = false
+        image.layer.cornerRadius = 30
+        image.layer.masksToBounds = true
+        image.contentMode = .scaleAspectFill
+        image.backgroundColor = .lightGray
+        image.layer.cornerRadius = 40/2
+        return image
+    }()
+
+    let usernameLabel: UILabel = {
+        let label = UILabel()
+        label.textColor = UIColor.black
+        label.font = UIFont.boldSystemFont(ofSize: 14)
+        return label
+    }()
+
+    let messageView: UITextView = {
+        let text = UITextView()
+        text.textAlignment = .justified
+        text.textColor = .darkGray
+        text.isEditable = false
+        text.isScrollEnabled = false
+        text.textContainer.maximumNumberOfLines = 1
+        text.textContainer.lineBreakMode = .byWordWrapping
+        text.font = UIFont.systemFont(ofSize: 14)
+        text.backgroundColor = .clear
+        return text
+    }()
+
+    let timestampLabel: UILabel = {
+        let label = UILabel()
+        label.font = UIFont.systemFont(ofSize: 10)
+        label.textColor = UIColor.lightGray
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+}
+
     
 //    var user: User?
 //    var message: Message? {
@@ -142,4 +246,4 @@ class MessageCell: UITableViewCell {
 //        fatalError("init(coder:) has not been implemeted")
 //    }
     
-}
+//}

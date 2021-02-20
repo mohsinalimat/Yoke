@@ -32,7 +32,6 @@ class LoginVC: UIViewController {
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         setupViews()
-        setupBackground()
     }
     
     override func viewDidLoad() {
@@ -44,6 +43,8 @@ class LoginVC: UIViewController {
     
     //MARK: - Helper Functions
     fileprivate func setupViews() {
+        navigationController?.isNavigationBarHidden = true
+        view.layer.addSublayer(backgroundView)
         view.addSubview(logoView)
         view.addSubview(introductionLabel)
         view.addSubview(emailTextField)
@@ -56,9 +57,11 @@ class LoginVC: UIViewController {
         view.addSubview(appleSignUpButton)
         view.addSubview(myActivityIndicator)
         constrainViews()
+//        setupBackground()
     }
     
     func constrainViews() {
+        backgroundView.frame = view.frame
         logoView.anchor(top: safeArea.topAnchor, left: nil, bottom: nil, right: nil, paddingTop: 75, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 100, height: 100)
         logoView.centerXAnchor.constraint(equalTo: safeArea.centerXAnchor).isActive = true
         introductionLabel.anchor(top: logoView.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 20, paddingLeft: 20, paddingBottom: 0, paddingRight: 20)
@@ -73,17 +76,7 @@ class LoginVC: UIViewController {
         
         myActivityIndicator.center = view.center
     }
-    
-    func setupBackground() {
-        navigationController?.isNavigationBarHidden = true
-//        UIGraphicsBeginImageContext(self.view.frame.size)
-//        UIImage(named: "loginBackground")?.draw(in: self.view.bounds)
-//        let image: UIImage = UIGraphicsGetImageFromCurrentImageContext()!
-//        UIGraphicsEndImageContext()
-//        self.view.backgroundColor = UIColor(patternImage: image)
-        self.view.backgroundColor = UIColor.orangeColor()
-    }
-    
+
     func setupGeofirestore(uid: String) {
         guard let exposedLocation = self.locationManager.exposedLocation else { return }
         self.locationManager.getPlace(for: exposedLocation) { placemark in
@@ -168,6 +161,13 @@ class LoginVC: UIViewController {
     }
     
     //MARK: - Views
+    var backgroundView: CAGradientLayer = {
+        let view = CAGradientLayer()
+        view.colors = [UIColor.orangeColor()?.cgColor ?? "", UIColor.yellowColor()?.cgColor ?? ""]
+        view.locations = [0, 1]
+        return view
+    }()
+    
     var logoView: UIImageView = {
         let imageView = UIImageView()
         imageView.image = UIImage(named: "YokeLogo-1")
