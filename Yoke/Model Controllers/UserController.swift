@@ -164,6 +164,9 @@ class UserController {
                 completion(error as! User)
             }
             self.users = []
+//            snapshot?.documents.forEach({ (document) in
+//                print(document)
+//            })
             for document in snapshot!.documents {
                 let dictionary = document.data()
                 let uid = dictionary[Constants.Uid] as? String ?? ""

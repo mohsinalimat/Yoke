@@ -36,12 +36,12 @@ class SearchViewController: UIViewController {
         setupSearch()
         setupNavigationAndBarButtons()
         dismissKeyboardOnTap()
+        configureNav()
     }
     
     //MARK: - Helper Functions
     func setupViews() {
         tableView.backgroundColor = .white
-        navigationItem.title = "Search"
         view.backgroundColor = .white
         view.addSubview(searchBar)
         view.addSubview(tableView)
@@ -51,6 +51,24 @@ class SearchViewController: UIViewController {
         searchBar.anchor(top: safeArea.topAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, height: 45)
         tableView.anchor(top: searchBar.bottomAnchor, left: safeArea.leftAnchor, bottom: safeArea.bottomAnchor, right: safeArea.rightAnchor, paddingTop: 0, paddingLeft: 8, paddingBottom: 0, paddingRight: 0)
 
+    }
+    
+    func configureNav() {
+        let appearance = UINavigationBarAppearance()
+        appearance.configureWithOpaqueBackground()
+        appearance.largeTitleTextAttributes = [.foregroundColor: UIColor.white]
+        appearance.backgroundColor = UIColor.orangeColor()
+        
+        navigationController?.navigationBar.standardAppearance = appearance
+        navigationController?.navigationBar.compactAppearance = appearance
+        navigationController?.navigationBar.scrollEdgeAppearance = appearance
+        
+        navigationController?.navigationBar.prefersLargeTitles = true
+        navigationItem.title = "Search"
+        navigationController?.navigationBar.tintColor = .white
+        navigationController?.navigationBar.isTranslucent = true
+        
+        navigationController?.navigationBar.overrideUserInterfaceStyle = .dark
     }
     
     func setupTableView() {
