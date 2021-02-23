@@ -27,6 +27,7 @@ class UserController {
     //MARK: - Source of truth
     var user: User?
     var users: [User] = []
+    // var users: users = [User]()
     var filteredUsers = [User]()
     
     //MARK: - Properties
@@ -164,8 +165,11 @@ class UserController {
                 completion(error as! User)
             }
             self.users = []
+//Initializing user object #22\ create a dic in model
 //            snapshot?.documents.forEach({ (document) in
 //                print(document)
+//                  let dictionary = document.data()
+//                  let user = User(dictionary: dictionary)
 //            })
             for document in snapshot!.documents {
                 let dictionary = document.data()
