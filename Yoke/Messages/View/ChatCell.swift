@@ -16,6 +16,8 @@ class ChatCell: UICollectionViewCell {
             configure()
         }
     }
+    var bubbleLeftAnchor: NSLayoutConstraint!
+    var bubbleRightAnchor: NSLayoutConstraint!
     
     //MARK: - Lifecycle Methods
     override init(frame: CGRect) {
@@ -39,8 +41,15 @@ class ChatCell: UICollectionViewCell {
         profileImage.anchor(top: safeAreaLayoutGuide.topAnchor, left: safeAreaLayoutGuide.leftAnchor, bottom: nil, right: nil, paddingTop: 5, paddingLeft: 5, paddingBottom: 0, paddingRight: 0, width: 50, height: 50)
         
         bubbleContainer.layer.cornerRadius = 12
-        bubbleContainer.anchor(top: safeAreaLayoutGuide.topAnchor, left: profileImage.rightAnchor, bottom: nil, right: safeAreaLayoutGuide.rightAnchor, paddingTop: 5, paddingLeft: 5, paddingBottom: 0, paddingRight: 20)
+        bubbleContainer.anchor(top: safeAreaLayoutGuide.topAnchor, left: nil, bottom: nil, right: nil, paddingTop: 10, paddingLeft: 5, paddingBottom: 0, paddingRight: 20)
         bubbleContainer.widthAnchor.constraint(lessThanOrEqualToConstant: 250).isActive = true
+        
+        bubbleLeftAnchor = bubbleContainer.leftAnchor.constraint(equalTo: profileImage.rightAnchor, constant: 12)
+        bubbleLeftAnchor.isActive = false
+        
+        bubbleRightAnchor = bubbleContainer.rightAnchor.constraint(equalTo: rightAnchor, constant: -12)
+        bubbleRightAnchor.isActive = false
+        
         textView.anchor(top: bubbleContainer.topAnchor, left: bubbleContainer.leftAnchor, bottom: bubbleContainer.bottomAnchor, right: bubbleContainer.rightAnchor, paddingTop: 4, paddingLeft: 10, paddingBottom: 4, paddingRight: 10)
         
     }
@@ -51,6 +60,9 @@ class ChatCell: UICollectionViewCell {
         bubbleContainer.backgroundColor = viewModel.messageBackgroundColor
         textView.textColor = viewModel.messageTextColor
         textView.text = message.text
+        bubbleLeftAnchor.isActive = viewModel.leftAnchorActive
+        bubbleRightAnchor.isActive = viewModel.rightAnchorActive
+        profileImage.isHidden = viewModel.shouldHideProfileImage
     }
     
     //MARK: - Views

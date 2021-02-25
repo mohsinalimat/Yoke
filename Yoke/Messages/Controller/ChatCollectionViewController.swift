@@ -46,6 +46,7 @@ class ChatCollectionViewController: UICollectionViewController, UICollectionView
         return true
     }
 
+
     //MARK: - Helper Functions
     func setupViews() {
         
@@ -56,7 +57,7 @@ class ChatCollectionViewController: UICollectionViewController, UICollectionView
         collectionView.alwaysBounceVertical = true
         collectionView.backgroundColor = .white
         collectionView.clipsToBounds = true
-        collectionView.contentInset = UIEdgeInsets(top: 100, left: 0, bottom: 0, right: 0)
+        collectionView.contentInset = UIEdgeInsets(top: 120, left: 0, bottom: 0, right: 0)
     }
     
     func configureNav() {
@@ -83,7 +84,6 @@ class ChatCollectionViewController: UICollectionViewController, UICollectionView
             self.navigationItem.title = username
         }
     }
-    
 
     // MARK: UICollectionViewDataSource
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
