@@ -21,7 +21,9 @@ class ChatCollectionViewController: UICollectionViewController, UICollectionView
     //MARK: - Lifecycle Methods
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        configureNav()
+        tabBarController?.tabBar.isHidden = true
+        self.navigationController?.navigationBar.isTranslucent = false
+//        configureNav()
     }
     
     override func viewDidLoad() {
@@ -29,6 +31,14 @@ class ChatCollectionViewController: UICollectionViewController, UICollectionView
         setupViews()
         setupCollectionView()
         fetchUser()
+    }
+    
+    override var inputAccessoryView: UIView? {
+        get { return chatInputView }
+    }
+    
+    override var canBecomeFirstResponder: Bool {
+        return true
     }
 
     //MARK: - Helper Functions
@@ -61,7 +71,7 @@ class ChatCollectionViewController: UICollectionViewController, UICollectionView
         let uid = userId ?? (Auth.auth().currentUser?.uid ?? "")
         UserController.shared.fetchUserWithUID(uid: uid) { (user) in
             guard let username = user.username else { return }
-            self.navigationItem.title = "Chat: \(username)"
+            self.navigationItem.title = username
         }
     }
     
@@ -88,33 +98,10 @@ class ChatCollectionViewController: UICollectionViewController, UICollectionView
 
     // MARK: UICollectionViewDelegate
 
-    /*
-    // Uncomment this method to specify if the specified item should be highlighted during tracking
-    override func collectionView(_ collectionView: UICollectionView, shouldHighlightItemAt indexPath: IndexPath) -> Bool {
-        return true
-    }
-    */
 
-    /*
-    // Uncomment this method to specify if the specified item should be selected
-    override func collectionView(_ collectionView: UICollectionView, shouldSelectItemAt indexPath: IndexPath) -> Bool {
-        return true
-    }
-    */
-
-    /*
-    // Uncomment these methods to specify if an action menu should be displayed for the specified item, and react to actions performed on the item
-    override func collectionView(_ collectionView: UICollectionView, shouldShowMenuForItemAt indexPath: IndexPath) -> Bool {
-        return false
-    }
-
-    override func collectionView(_ collectionView: UICollectionView, canPerformAction action: Selector, forItemAt indexPath: IndexPath, withSender sender: Any?) -> Bool {
-        return false
-    }
-
-    override func collectionView(_ collectionView: UICollectionView, performAction action: Selector, forItemAt indexPath: IndexPath, withSender sender: Any?) {
-    
-    }
-    */
-
+    //MARK: - Views
+    private lazy var chatInputView: ChatInputAccessoryView = {
+        let customView = ChatInputAccessoryView(frame: CGRect(x: 0, y: 0, width: view.frame.width, height: 50))
+        return customView
+    }()
 }
