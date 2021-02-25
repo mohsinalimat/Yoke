@@ -22,13 +22,9 @@ class ChatInputAccessoryView: UIView {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
-    override var intrinsicContentSize: CGSize {
-        return .zero
-    }
-    
+
     func setupViews() {
-        backgroundColor = UIColor.black
+        backgroundColor = UIColor.orangeColor()
         autoresizingMask = .flexibleHeight
         addSubview(sendButton)
         addSubview(messageInputTextView)
@@ -36,7 +32,7 @@ class ChatInputAccessoryView: UIView {
 
     func constrainViews() {
         sendButton.anchor(top: messageInputTextView.topAnchor, left: messageInputTextView.rightAnchor, bottom: messageInputTextView.bottomAnchor, right: safeAreaLayoutGuide.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 75)
-        messageInputTextView.anchor(top: safeAreaLayoutGuide.topAnchor, left: safeAreaLayoutGuide.leftAnchor, bottom: nil, right: sendButton.rightAnchor, paddingTop: 5, paddingLeft: 5, paddingBottom: 5, paddingRight: 5, height: 50)
+        messageInputTextView.anchor(top: topAnchor, left: safeAreaLayoutGuide.leftAnchor, bottom: nil, right: sendButton.leftAnchor, paddingTop: 5, paddingLeft: 5, paddingBottom: 5, paddingRight: 5)
     }
     
     //MARK: - Helper Functions
@@ -49,6 +45,8 @@ class ChatInputAccessoryView: UIView {
         let text = UITextView()
         text.font = UIFont.systemFont(ofSize: 14)
         text.isScrollEnabled = false
+        text.backgroundColor = .white
+        text.layer.cornerRadius = 4
         return text
     }()
     

@@ -22,8 +22,12 @@ class ChatCollectionViewController: UICollectionViewController, UICollectionView
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         tabBarController?.tabBar.isHidden = true
-        self.navigationController?.navigationBar.isTranslucent = false
-//        configureNav()
+//        hidesBottomBarWhenPushed = true
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        tabBarController?.tabBar.isHidden = false
     }
     
     override func viewDidLoad() {
@@ -101,7 +105,7 @@ class ChatCollectionViewController: UICollectionViewController, UICollectionView
 
     //MARK: - Views
     private lazy var chatInputView: ChatInputAccessoryView = {
-        let customView = ChatInputAccessoryView(frame: CGRect(x: 0, y: 0, width: view.frame.width, height: 50))
+        let customView = ChatInputAccessoryView(frame: CGRect(x: 0, y: 0, width: view.frame.width, height: 75))
         return customView
     }()
 }

@@ -22,7 +22,7 @@ class HomeViewController: UIViewController {
     var userId: String?
     private let refreshControl = UIRefreshControl()
     var isChef: Bool = false
-    var user: User? 
+    var user: User?
     
     //MARK: - Lifecycle Methods
     override func viewDidLayoutSubviews() {
@@ -638,7 +638,6 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
             } else {
                 let chef = SuggestedChefController.shared.chefs[indexPath.row].uid
                 let profileVC = ProfileViewController()
-                print(chef)
                 profileVC.userId = chef
                 navigationController?.pushViewController(profileVC, animated: true)
             }
