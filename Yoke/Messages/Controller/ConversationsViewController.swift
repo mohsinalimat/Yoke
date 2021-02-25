@@ -16,6 +16,7 @@ class ConversationsViewController: UIViewController {
     }
     private let tableView = UITableView()
     let cellId = "cellId"
+    var userId: String?
     
     //MARK: - Lifecycle Methods
     override func viewDidLayoutSubviews() {

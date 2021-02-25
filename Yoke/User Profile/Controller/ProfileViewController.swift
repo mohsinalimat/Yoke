@@ -12,6 +12,7 @@ import FirebaseStorage
 import FirebaseFirestore
 import TTGTagCollectionView
 
+
 class ProfileViewController: UIViewController, TTGTextTagCollectionViewDelegate {
 
     //MARK: - Properties
@@ -22,10 +23,7 @@ class ProfileViewController: UIViewController, TTGTextTagCollectionViewDelegate 
     let cusineCollectionView = TTGTextTagCollectionView()
     let noCellId = "noCellId"
     let cellId = "cellId"
-    var user: User? {
-        didSet {
-        }
-    }
+    var user: User? 
     
     //MARK: - Lifecycle Methods
     override func viewWillDisappear(_ animated : Bool) {
@@ -270,8 +268,8 @@ class ProfileViewController: UIViewController, TTGTextTagCollectionViewDelegate 
     }
     
     @objc func handleSendMessage() {
-        let chatVC = ChatViewController()
-        chatVC.user2UID = userId
+        let chatVC = ChatCollectionViewController(collectionViewLayout: UICollectionViewFlowLayout())
+        chatVC.userId = userId
         navigationController?.pushViewController(chatVC, animated: true)
     }
 

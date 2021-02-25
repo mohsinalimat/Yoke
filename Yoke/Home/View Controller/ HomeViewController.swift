@@ -22,12 +22,7 @@ class HomeViewController: UIViewController {
     var userId: String?
     private let refreshControl = UIRefreshControl()
     var isChef: Bool = false
-    var user: User? {
-        didSet {
-            guard let user = user else { return }
-            userId = user.uid
-        }
-    }
+    var user: User? 
     
     //MARK: - Lifecycle Methods
     override func viewDidLayoutSubviews() {

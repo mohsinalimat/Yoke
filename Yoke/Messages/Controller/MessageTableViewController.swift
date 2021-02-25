@@ -113,16 +113,16 @@ class MessageTableViewController: UITableViewController {
 
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
-        let chatVC = ChatViewController()
-        let uid = messages[indexPath.row].toId
-        let currentUid = messages[indexPath.row].senderID
-        if currentUserUid == uid {
-            chatVC.user2UID = currentUid
-            navigationController?.pushViewController(chatVC, animated: true)
-        } else {
-            chatVC.user2UID = uid
-            navigationController?.pushViewController(chatVC, animated: true)
-        }
+//        let chatVC = ChatCollectionViewController(collectionViewLayout: UICollectionViewFlowLayout())
+//        let uid = messages[indexPath.row].toId
+//        let currentUid = messages[indexPath.row].senderID
+//        if currentUserUid == uid {
+//            chatVC.user2UID = currentUid
+//            navigationController?.pushViewController(chatVC, animated: true)
+//        } else {
+//            chatVC.user2UID = uid
+//            navigationController?.pushViewController(chatVC, animated: true)
+//        }
     }
 
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
