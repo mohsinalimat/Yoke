@@ -24,7 +24,11 @@ class ChatInputAccessoryView: UIView {
     }
 
     func setupViews() {
-        backgroundColor = UIColor.orangeColor()
+        backgroundColor = UIColor.white
+        layer.shadowOpacity = 0.25
+        layer.shadowRadius = 10
+        layer.shadowOffset = .init(width: 0, height: -8)
+        layer.shadowColor = UIColor.lightGray.cgColor
         autoresizingMask = .flexibleHeight
         addSubview(sendButton)
         addSubview(messageInputTextView)
@@ -47,12 +51,15 @@ class ChatInputAccessoryView: UIView {
         text.isScrollEnabled = false
         text.backgroundColor = .white
         text.layer.cornerRadius = 4
+        text.textColor = .darkGray
+        text.placeholder = "Enter message..."
         return text
     }()
     
     private lazy var sendButton: UIButton = {
         let button = UIButton(type: .custom)
         button.setTitle("Send", for: .normal)
+        button.setTitleColor(UIColor.orangeColor(), for: .normal)
         button.addTarget(self, action: #selector(handleSendMessage), for: .touchUpInside)
         return button
     }()

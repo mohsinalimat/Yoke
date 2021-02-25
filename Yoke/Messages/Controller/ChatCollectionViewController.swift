@@ -9,11 +9,10 @@
 import UIKit
 import FirebaseAuth
 
-private let reuseIdentifier = "Cell"
-
 class ChatCollectionViewController: UICollectionViewController, UICollectionViewDelegateFlowLayout {
 
     //MARK: - Properties
+    let cellId = "cellId"
     var userId: String?
     var user: User?
 
@@ -51,7 +50,8 @@ class ChatCollectionViewController: UICollectionViewController, UICollectionView
     }
     
     func setupCollectionView() {
-        
+        collectionView.register(ChatCell.self, forCellWithReuseIdentifier: cellId)
+        collectionView.alwaysBounceVertical = true
     }
     
     func configureNav() {
@@ -81,31 +81,28 @@ class ChatCollectionViewController: UICollectionViewController, UICollectionView
     
 
     // MARK: UICollectionViewDataSource
-    override func numberOfSections(in collectionView: UICollectionView) -> Int {
-        // #warning Incomplete implementation, return the number of sections
-        return 0
-    }
-
-
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        // #warning Incomplete implementation, return the number of items
-        return 0
+        return 5
     }
 
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, for: indexPath)
-    
-        // Configure the cell
-    
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath) as! ChatCell
+
         return cell
     }
 
     // MARK: UICollectionViewDelegate
-
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        return CGSize(width: view.frame.width, height: 50)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
+        return .init(top: 16, left: 0, bottom: 16, right: 0)
+    }
 
     //MARK: - Views
     private lazy var chatInputView: ChatInputAccessoryView = {
-        let customView = ChatInputAccessoryView(frame: CGRect(x: 0, y: 0, width: view.frame.width, height: 75))
+        let customView = ChatInputAccessoryView(frame: CGRect(x: 0, y: 0, width: view.frame.width, height: 100))
         return customView
     }()
 }
