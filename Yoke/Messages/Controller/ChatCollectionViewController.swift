@@ -36,6 +36,7 @@ class ChatCollectionViewController: UICollectionViewController, UICollectionView
         setupViews()
         setupCollectionView()
         fetchUser()
+        fetchMessages()
     }
     
     override var inputAccessoryView: UIView? {
@@ -57,7 +58,7 @@ class ChatCollectionViewController: UICollectionViewController, UICollectionView
         collectionView.alwaysBounceVertical = true
         collectionView.backgroundColor = .white
         collectionView.clipsToBounds = true
-        collectionView.contentInset = UIEdgeInsets(top: 120, left: 0, bottom: 0, right: 0)
+//        collectionView.contentInset = UIEdgeInsets(top: 120, left: 0, bottom: 0, right: 0)
     }
     
     func configureNav() {
@@ -77,6 +78,15 @@ class ChatCollectionViewController: UICollectionViewController, UICollectionView
         navigationController?.navigationBar.overrideUserInterfaceStyle = .dark
     }
     
+    //MARK: - API
+    func fetchMessages() {
+        guard let userId = userId else { return }
+        ConversationController.shared.fetchMessages(forUser: userId) { (messages) in
+            self.messages = messages
+            self.collectionView.reloadData()
+        }
+    }
+    
     fileprivate func fetchUser() {
         let uid = userId ?? (Auth.auth().currentUser?.uid ?? "")
         UserController.shared.fetchUserWithUID(uid: uid) { (user) in
@@ -93,6 +103,8 @@ class ChatCollectionViewController: UICollectionViewController, UICollectionView
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath) as! ChatCell
         cell.message = messages[indexPath.row]
+        guard let uid = userId else { return UICollectionViewCell()}
+        cell.setupProfileImage(uid: uid)
         return cell
     }
 
@@ -123,6 +135,7 @@ extension ChatCollectionViewController: ChatInputAccessoryViewDelegate {
                 return
             }
             inputView.messageInputTextView.text = nil
+            inputView.messageInputTextView.placeholder = "Enter message..."
         }
     }
 }

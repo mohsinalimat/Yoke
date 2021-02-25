@@ -17,7 +17,7 @@ struct Message {
     var user: User?
     let isFromCurrentUser: Bool
     
-    init(dictionary: [String: AnyObject]) {
+    init(dictionary: [String: Any]) {
         self.text = dictionary[Constants.Text] as? String ?? ""
         self.toId = dictionary[Constants.ToId] as? String ?? ""
         self.fromId = dictionary[Constants.FromId] as? String ?? ""
@@ -41,7 +41,7 @@ struct MessageViewModel {
     }
     
     var messageTextColor: UIColor {
-        return message.isFromCurrentUser ? .white : .white
+        return message.isFromCurrentUser ? .darkGray : .white
     }
     
     var rightAnchorActive: Bool {

@@ -26,4 +26,25 @@ struct ConversationController {
             firestoreDB.document(userUid).collection(currentUid).addDocument(data: data, completion: completion)
         }
     }
+    
+    func fetchMessages(forUser: String, completion: @escaping([Message]) -> Void) {
+        var messages = [Message]()
+        guard let currentUid = Auth.auth().currentUser?.uid else { return }
+        let query = firestoreDB.document(currentUid).collection(forUser).order(by: Constants.Timestamp)
+        query.addSnapshotListener { (snapshot, error) in
+            if let error = error {
+                print(error.localizedDescription)
+                return
+            }
+            snapshot?.documentChanges.forEach({ (change) in
+                if change.type == .added {
+                    let dictionary = change.document.data()
+                    let message = Message(dictionary: dictionary)
+                    messages.append(message)
+                    completion(messages)
+                }
+            })
+        }
+    }
+
 }

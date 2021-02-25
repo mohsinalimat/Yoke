@@ -63,6 +63,14 @@ class ChatCell: UICollectionViewCell {
         bubbleLeftAnchor.isActive = viewModel.leftAnchorActive
         bubbleRightAnchor.isActive = viewModel.rightAnchorActive
         profileImage.isHidden = viewModel.shouldHideProfileImage
+//        setupProfileImage()
+    }
+    
+    func setupProfileImage(uid: String) {
+        UserController.shared.fetchUserWithUID(uid: uid) { (user) in
+            guard let image = user.profileImageUrl else { return }
+            self.profileImage.loadImage(urlString: image)
+        }
     }
     
     //MARK: - Views
