@@ -7,68 +7,25 @@
 //
 
 import UIKit
-import Firebase
-import MessageKit
 
 struct Message {
-    
-    var id: String
-    var content: String
-    var created: Timestamp
-    var senderID: String
-    var senderName: String
-    var toId: String
-    
-    var dictionary: [String: Any] {
-        return [Constants.Id: id, Constants.Content: content, Constants.Created: created, Constants.SenderID: senderID, "senderName":senderName, Constants.ToId: toId]
-    }
+    let text: String
+    let isFromCurrentUser: Bool
 }
 
-extension Message {
-    init?(dictionary: [String: Any]) {
-        guard let id = dictionary[Constants.Id] as? String,
-            let content = dictionary[Constants.Content] as? String,
-            let created = dictionary[Constants.Created] as? Timestamp,
-            let senderID = dictionary[Constants.SenderID] as? String,
-            let senderName = dictionary["senderName"] as? String,
-            let toId = dictionary[Constants.ToId] as? String
-            else { return nil }
-        
-        self.init(id: id, content: content, created: created, senderID: senderID, senderName: senderName, toId: toId)
-    }
-}
-
-extension Message: MessageType {
-    
-    var sender: SenderType {
-        return Sender(id: senderID, displayName: "")
-    }
-    var messageId: String {
-        return id
-    }
-    var sentDate: Date {
-        return created.dateValue()
-    }
-    var kind: MessageKind {
-        return .text(content)
-    }
-}
-
-struct Chat {
-    var users: [String]
-    var dictionary: [String: Any] {
-        return [
-            Constants.Users: users
-        ]
-    }
-}
-
-extension Chat {
-    
-    init?(dictionary: [String:Any]) {
-        guard let chatUsers = dictionary[Constants.Users] as? [String] else {return nil}
-        self.init(users: chatUsers)
+struct MessageViewModel {
+    private let message: Message
+    init(message: Message) {
+        self.message = message
     }
     
+    var messageBackgroundColor: UIColor {
+        guard let yellow = UIColor.yellowColor(),
+              let orange = UIColor.orangeColor() else { return UIColor() }
+        return message.isFromCurrentUser ? yellow : orange
+    }
+    
+    var messageTextColor: UIColor {
+        return message.isFromCurrentUser ? .lightGray : .white
+    }
 }
-

@@ -15,15 +15,15 @@ class MessageCell: UITableViewCell {
     var user: User?
     var message: Message? {
         didSet {
-            guard let message = message else {return}
-            messageView.text = message.content
-            let dateFormatter = DateFormatter()
-            dateFormatter.timeStyle = DateFormatter.Style.short
-            dateFormatter.dateStyle = DateFormatter.Style.short
-            dateFormatter.timeZone = .current
-            let localDate = dateFormatter.string(from: message.sentDate)
-            timestampLabel.text = localDate
-            fetchUser()
+//            guard let message = message else {return}
+//            messageView.text = message.content
+//            let dateFormatter = DateFormatter()
+//            dateFormatter.timeStyle = DateFormatter.Style.short
+//            dateFormatter.dateStyle = DateFormatter.Style.short
+//            dateFormatter.timeZone = .current
+//            let localDate = dateFormatter.string(from: message.sentDate)
+//            timestampLabel.text = localDate
+//            fetchUser()
         }
     }
 
@@ -52,26 +52,26 @@ class MessageCell: UITableViewCell {
     }
 
     fileprivate func fetchUser() {
-        guard let senderUid = message?.toId, let currentUid = message?.senderID else { return }
-        if senderUid == Auth.auth().currentUser?.uid {
-            UserController.shared.fetchUserWithUID(uid: currentUid) { (user) in
-                self.usernameLabel.text = user.username
-                Storage.storage().reference().child("profileImage/\(currentUid)").getData(maxSize: 2 * 1024 * 1024) { data, error in
-                    if error == nil, let data = data {
-                        self.profileImageView.image = UIImage(data: data)
-                    }
-                }
-            }
-        } else {
-            UserController.shared.fetchUserWithUID(uid: senderUid) { (user) in
-                self.usernameLabel.text = user.username
-                Storage.storage().reference().child("profileImage/\(senderUid)").getData(maxSize: 2 * 1024 * 1024) { data, error in
-                    if error == nil, let data = data {
-                        self.profileImageView.image = UIImage(data: data)
-                    }
-                }
-            }
-        }
+//        guard let senderUid = message?.toId, let currentUid = message?.senderID else { return }
+//        if senderUid == Auth.auth().currentUser?.uid {
+//            UserController.shared.fetchUserWithUID(uid: currentUid) { (user) in
+//                self.usernameLabel.text = user.username
+//                Storage.storage().reference().child("profileImage/\(currentUid)").getData(maxSize: 2 * 1024 * 1024) { data, error in
+//                    if error == nil, let data = data {
+//                        self.profileImageView.image = UIImage(data: data)
+//                    }
+//                }
+//            }
+//        } else {
+//            UserController.shared.fetchUserWithUID(uid: senderUid) { (user) in
+//                self.usernameLabel.text = user.username
+//                Storage.storage().reference().child("profileImage/\(senderUid)").getData(maxSize: 2 * 1024 * 1024) { data, error in
+//                    if error == nil, let data = data {
+//                        self.profileImageView.image = UIImage(data: data)
+//                    }
+//                }
+//            }
+//        }
     }
 
     let profileImageView: CustomImageView = {

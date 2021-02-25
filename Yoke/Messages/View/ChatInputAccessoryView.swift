@@ -8,9 +8,14 @@
 
 import UIKit
 
+protocol ChatInputAccessoryViewDelegate: class {
+    func inputView(_ inputView: ChatInputAccessoryView, wantsToSend message: String)
+}
+
 class ChatInputAccessoryView: UIView {
     
     //MARK: - Properties
+    weak var delegate: ChatInputAccessoryViewDelegate?
     
     //MARK: - Lifecycle Methods
     override init(frame: CGRect) {
@@ -41,11 +46,12 @@ class ChatInputAccessoryView: UIView {
     
     //MARK: - Helper Functions
     @objc func handleSendMessage() {
-        print("hanle send message")
+        guard let text = messageInputTextView.text else { return }
+        delegate?.inputView(self, wantsToSend: text)
     }
     
     //MARK: - Views
-    private let messageInputTextView: UITextView = {
+    let messageInputTextView: UITextView = {
         let text = UITextView()
         text.font = UIFont.systemFont(ofSize: 14)
         text.isScrollEnabled = false
@@ -59,7 +65,7 @@ class ChatInputAccessoryView: UIView {
     private lazy var sendButton: UIButton = {
         let button = UIButton(type: .custom)
         button.setTitle("Send", for: .normal)
-        button.setTitleColor(UIColor.orangeColor(), for: .normal)
+        button.setTitleColor(UIColor.white, for: .normal)
         button.addTarget(self, action: #selector(handleSendMessage), for: .touchUpInside)
         return button
     }()

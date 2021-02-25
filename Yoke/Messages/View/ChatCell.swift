@@ -11,6 +11,11 @@ import UIKit
 class ChatCell: UICollectionViewCell {
 
     //MARK: - Properties
+    var message: Message? {
+        didSet {
+            configure()
+        }
+    }
     
     //MARK: - Lifecycle Methods
     override init(frame: CGRect) {
@@ -40,6 +45,14 @@ class ChatCell: UICollectionViewCell {
         
     }
     
+    func configure() {
+        guard let message = message else { return }
+        let viewModel = MessageViewModel(message: message)
+        bubbleContainer.backgroundColor = viewModel.messageBackgroundColor
+        textView.textColor = viewModel.messageTextColor
+        textView.text = message.text
+    }
+    
     //MARK: - Views
     private let profileImage: CustomImageView = {
         let image = CustomImageView()
@@ -53,9 +66,8 @@ class ChatCell: UICollectionViewCell {
     
     private let textView: UITextView = {
         let text = UITextView()
-        text.text = "yo"
         text.backgroundColor = .clear
-        text.font = UIFont.boldSystemFont(ofSize: 16)
+        text.font = UIFont.systemFont(ofSize: 16)
         text.isScrollEnabled = false
         text.isEditable = false
         return text

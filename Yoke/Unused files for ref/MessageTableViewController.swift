@@ -64,25 +64,25 @@ class MessageTableViewController: UITableViewController {
     private func fetchMessages() {
         let db = Firestore.firestore().collection(Constants.Messages)
             .whereField(Constants.Users, arrayContains: Auth.auth().currentUser?.uid ?? "Not Found User 1")
-        db.getDocuments() { (snapshot, error) in
-            for doc in snapshot!.documents {
-                self.docReference = doc.reference
-                doc.reference.collection(Constants.Thread)
-                    .order(by: Constants.Created, descending: true).limit(to: 1).getDocuments() {
-                        (snapshot, error) in
-                        guard let snap = snapshot else { return }
-                        if let doc = snap.documents.first {
-                            guard let messageToAppend = Message(dictionary: doc.data()) else { return }
-                            print("message \(messageToAppend)")
-                            self.messages.append(messageToAppend)
-                            DispatchQueue.main.async {
-                                self.tableView.reloadData()
-                            }
-                            self.refresh.endRefreshing()
-                        }
-                }
-            }
-        }
+//        db.getDocuments() { (snapshot, error) in
+//            for doc in snapshot!.documents {
+//                self.docReference = doc.reference
+//                doc.reference.collection(Constants.Thread)
+//                    .order(by: Constants.Created, descending: true).limit(to: 1).getDocuments() {
+//                        (snapshot, error) in
+//                        guard let snap = snapshot else { return }
+//                        if let doc = snap.documents.first {
+//                            guard let messageToAppend = Message(dictionary: doc.data()) else { return }
+//                            print("message \(messageToAppend)")
+//                            self.messages.append(messageToAppend)
+//                            DispatchQueue.main.async {
+//                                self.tableView.reloadData()
+//                            }
+//                            self.refresh.endRefreshing()
+//                        }
+//                }
+//            }
+//        }
     }
 
     //MARK: - Views

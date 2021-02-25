@@ -15,6 +15,8 @@ class ChatCollectionViewController: UICollectionViewController, UICollectionView
     let cellId = "cellId"
     var userId: String?
     var user: User?
+    private var messages = [Message]()
+    var fromCurrentUser = false
 
     
     //MARK: - Lifecycle Methods
@@ -46,12 +48,15 @@ class ChatCollectionViewController: UICollectionViewController, UICollectionView
 
     //MARK: - Helper Functions
     func setupViews() {
-        collectionView.backgroundColor = .white
+        
     }
     
     func setupCollectionView() {
         collectionView.register(ChatCell.self, forCellWithReuseIdentifier: cellId)
         collectionView.alwaysBounceVertical = true
+        collectionView.backgroundColor = .white
+        collectionView.clipsToBounds = true
+        collectionView.contentInset = UIEdgeInsets(top: 100, left: 0, bottom: 0, right: 0)
     }
     
     func configureNav() {
@@ -82,12 +87,12 @@ class ChatCollectionViewController: UICollectionViewController, UICollectionView
 
     // MARK: UICollectionViewDataSource
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 5
+        return messages.count
     }
 
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath) as! ChatCell
-
+        cell.message = messages[indexPath.row]
         return cell
     }
 
@@ -103,6 +108,18 @@ class ChatCollectionViewController: UICollectionViewController, UICollectionView
     //MARK: - Views
     private lazy var chatInputView: ChatInputAccessoryView = {
         let customView = ChatInputAccessoryView(frame: CGRect(x: 0, y: 0, width: view.frame.width, height: 100))
+        customView.backgroundColor = UIColor.orangeColor()
+        customView.delegate = self
         return customView
     }()
+}
+
+extension ChatCollectionViewController: ChatInputAccessoryViewDelegate {
+    func inputView(_ inputView: ChatInputAccessoryView, wantsToSend message: String) {
+        inputView.messageInputTextView.text = nil
+        fromCurrentUser.toggle()
+        let message = Message(text: message, isFromCurrentUser: fromCurrentUser)
+        messages.append(message)
+        collectionView.reloadData()
+    }
 }

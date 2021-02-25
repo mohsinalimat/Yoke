@@ -437,9 +437,6 @@
 			isa = PBXGroup;
 			children = (
 				6C8DB5B424B3C1B7003D06FF /* RequestFormVC.swift */,
-				6C8DB5B524B3C1B7003D06FF /* MessageVC.swift */,
-				6C8DB5B624B3C1B7003D06FF /* ChatVC.swift */,
-				6CD806EA25E05B3E00BC51B6 /* MessageTableViewController.swift */,
 				6CD806EE25E1608F00BC51B6 /* ConversationsViewController.swift */,
 				6C411C1625E801E6003426FC /* ChatCollectionViewController.swift */,
 			);
@@ -845,6 +842,9 @@
 		6CC8CBDC25C47BF100C3F24D /* Unused files for ref */ = {
 			isa = PBXGroup;
 			children = (
+				6C8DB5B524B3C1B7003D06FF /* MessageVC.swift */,
+				6C8DB5B624B3C1B7003D06FF /* ChatVC.swift */,
+				6CD806EA25E05B3E00BC51B6 /* MessageTableViewController.swift */,
 				6C8DB61B24B3C1B8003D06FF /* ReviewsVC.swift */,
 				6C8DB62224B3C1B8003D06FF /* ReviewsCell.swift */,
 				6C8DB61C24B3C1B8003D06FF /* NewReviewVC.swift */,
