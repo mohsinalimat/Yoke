@@ -116,10 +116,13 @@ class ChatCollectionViewController: UICollectionViewController, UICollectionView
 
 extension ChatCollectionViewController: ChatInputAccessoryViewDelegate {
     func inputView(_ inputView: ChatInputAccessoryView, wantsToSend message: String) {
-        inputView.messageInputTextView.text = nil
-        fromCurrentUser.toggle()
-        let message = Message(text: message, isFromCurrentUser: fromCurrentUser)
-        messages.append(message)
-        collectionView.reloadData()
+        guard let userId = userId else { return }
+        ConversationController.shared.uploadMessage(message, to: userId) { (error) in
+            if let error = error {
+                print("error: \(error.localizedDescription)")
+                return
+            }
+            inputView.messageInputTextView.text = nil
+        }
     }
 }

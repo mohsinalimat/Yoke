@@ -7,10 +7,24 @@
 //
 
 import UIKit
+import Firebase
 
 struct Message {
     let text: String
+    let toId: String
+    let fromId: String
+    let timestamp: Timestamp!
+    var user: User?
     let isFromCurrentUser: Bool
+    
+    init(dictionary: [String: AnyObject]) {
+        self.text = dictionary[Constants.Text] as? String ?? ""
+        self.toId = dictionary[Constants.ToId] as? String ?? ""
+        self.fromId = dictionary[Constants.FromId] as? String ?? ""
+        self.timestamp = dictionary[Constants.Timestamp] as? Timestamp ?? Timestamp(date: Date())
+        self.isFromCurrentUser = fromId == Auth.auth().currentUser?.uid
+    }
+    
 }
 
 struct MessageViewModel {
