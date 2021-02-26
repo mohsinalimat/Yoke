@@ -23,7 +23,6 @@ class ChatCollectionViewController: UICollectionViewController, UICollectionView
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         tabBarController?.tabBar.isHidden = true
-//        hidesBottomBarWhenPushed = true
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -50,7 +49,7 @@ class ChatCollectionViewController: UICollectionViewController, UICollectionView
 
     //MARK: - Helper Functions
     func setupViews() {
-        
+        addBackgroundGradient()
     }
     
     func setupCollectionView() {
@@ -58,8 +57,7 @@ class ChatCollectionViewController: UICollectionViewController, UICollectionView
         collectionView.alwaysBounceVertical = true
         collectionView.backgroundColor = .white
         collectionView.clipsToBounds = true
-        collectionView.keyboardDismissMode = .onDrag
-//        collectionView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 110, right: 0)
+        collectionView.keyboardDismissMode = .interactive
     }
     
     func configureNav() {
@@ -79,12 +77,25 @@ class ChatCollectionViewController: UICollectionViewController, UICollectionView
         navigationController?.navigationBar.overrideUserInterfaceStyle = .dark
     }
     
+    private func addBackgroundGradient() {
+        let collectionViewBackgroundView = UIView()
+        let gradientLayer = CAGradientLayer()
+        gradientLayer.frame.size = view.frame.size
+        // Start and end for left to right gradient
+        gradientLayer.startPoint = CGPoint(x: 0.0, y: 0.5)
+        gradientLayer.endPoint = CGPoint(x: 1.0, y: 0.5)
+        gradientLayer.colors = [UIColor.yellowColor()?.cgColor, UIColor.orangeColor()?.cgColor]
+        collectionView.backgroundView = collectionViewBackgroundView
+        collectionView.backgroundView?.layer.addSublayer(gradientLayer)
+      }
+    
     //MARK: - API
     func fetchMessages() {
         guard let userId = userId else { return }
         ConversationController.shared.fetchMessages(forUser: userId) { (messages) in
             self.messages = messages
             self.collectionView.reloadData()
+            self.collectionView.scrollToItem(at: [0, self.messages.count - 1], at: .bottom, animated: true)
         }
     }
     
@@ -128,7 +139,7 @@ class ChatCollectionViewController: UICollectionViewController, UICollectionView
     //MARK: - Views
     private lazy var chatInputView: ChatInputAccessoryView = {
         let customView = ChatInputAccessoryView(frame: CGRect(x: 0, y: 0, width: view.frame.width, height: 100))
-        customView.backgroundColor = UIColor.orangeColor()
+        customView.backgroundColor = UIColor.orangeColor()?.withAlphaComponent(0.8)
         customView.delegate = self
         return customView
     }()

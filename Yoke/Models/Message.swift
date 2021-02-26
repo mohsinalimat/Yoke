@@ -27,6 +27,11 @@ struct Message {
     
 }
 
+struct Conversation {
+    let user: User
+    let message: Message
+}
+
 struct MessageViewModel {
     
     private let message: Message

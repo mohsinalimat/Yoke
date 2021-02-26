@@ -95,6 +95,10 @@ class ChatCell: UICollectionViewCell {
     private let bubbleContainer: UIView = {
         let view = UIView()
         view.backgroundColor = UIColor.orangeColor()
+        view.layer.shadowOpacity = 0.25
+        view.layer.shadowRadius = 4
+        view.layer.shadowOffset = .init(width: 0, height: 2)
+        view.layer.shadowColor = UIColor.white.cgColor
         return view
     }()
     

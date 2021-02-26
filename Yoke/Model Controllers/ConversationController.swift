@@ -24,6 +24,8 @@ struct ConversationController {
         let data = [Constants.Text: message, Constants.FromId: currentUid, Constants.ToId: userUid, Constants.Timestamp: Timestamp(date: Date())] as [String: Any]
         firestoreDB.document(currentUid).collection(userUid).addDocument(data: data) { _ in
             firestoreDB.document(userUid).collection(currentUid).addDocument(data: data, completion: completion)
+            firestoreDB.document(currentUid).collection(Constants.RecentMessages).document(userUid).setData(data)
+            firestoreDB.document(userUid).collection(Constants.RecentMessages).document(currentUid).setData(data)
         }
     }
     
@@ -42,6 +44,27 @@ struct ConversationController {
                     let message = Message(dictionary: dictionary)
                     messages.append(message)
                     completion(messages)
+                }
+            })
+        }
+    }
+    
+    func fetchConversations(completion: @escaping([Conversation]) -> Void) {
+        var conversations = [Conversation]()
+        guard let uid = Auth.auth().currentUser?.uid else { return }
+        let query = firestoreDB.document(uid).collection(Constants.RecentMessages).order(by: Constants.Timestamp)
+        
+        query.addSnapshotListener { (snapshot, error) in
+            if let error = error {
+                print(error.localizedDescription)
+            }
+            snapshot?.documentChanges.forEach({ (change) in
+                let dictionary = change.document.data()
+                let message = Message(dictionary: dictionary)
+                UserController.shared.fetchUserWithUID(uid: message.toId) { (user) in
+                    let conversation = Conversation(user: user, message: message)
+                    conversations.append(conversation)
+                    completion(conversations)
                 }
             })
         }

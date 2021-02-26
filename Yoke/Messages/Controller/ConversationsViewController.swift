@@ -15,6 +15,7 @@ class ConversationsViewController: UIViewController {
         return self.view.safeAreaLayoutGuide
     }
     private let tableView = UITableView()
+    private var conversations = [Conversation]()
     let cellId = "cellId"
     var userId: String?
     
@@ -29,11 +30,13 @@ class ConversationsViewController: UIViewController {
         super.viewDidLoad()
         configureTableView()
         configureNav()
+        fetchConversations()
     }
     
     //MARK: - Helper Functions
     func setupViews() {
         view.backgroundColor = .white
+        addBackgroundGradient()
         view.addSubview(tableView)
     }
     
@@ -68,16 +71,38 @@ class ConversationsViewController: UIViewController {
         tableView.delegate = self
         tableView.dataSource = self
     }
+    
+    private func addBackgroundGradient() {
+        let collectionViewBackgroundView = UIView()
+        let gradientLayer = CAGradientLayer()
+        gradientLayer.frame.size = view.frame.size
+        // Start and end for left to right gradient
+        gradientLayer.startPoint = CGPoint(x: 0.0, y: 0.5)
+        gradientLayer.endPoint = CGPoint(x: 1.0, y: 0.5)
+        gradientLayer.colors = [UIColor.orangeColor()?.cgColor, UIColor.yellowColor()?.cgColor]
+        tableView.backgroundView = collectionViewBackgroundView
+        tableView.backgroundView?.layer.addSublayer(gradientLayer)
+      }
+    
+    //MARK: - API
+    func fetchConversations() {
+        ConversationController.shared.fetchConversations { (conversations) in
+            self.conversations = conversations
+            self.tableView.reloadData()
+        }
+    }
 }
 
 extension ConversationsViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 2
+        return conversations.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: cellId, for: indexPath)
-        cell.textLabel?.text = "yo bru"
+        cell.textLabel?.text = conversations[indexPath.row].message.text
+        cell.textLabel?.textColor = .darkGray
+        cell.backgroundColor = .white
         return cell
     }
 }

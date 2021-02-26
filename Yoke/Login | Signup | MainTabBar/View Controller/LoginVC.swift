@@ -153,7 +153,7 @@ class LoginVC: UIViewController {
         }
     }
 
-    
+    //MARK: - Selectors
     @objc func handleShowSignUp() {
         let signupVC = SignupVC()
         self.view.window?.rootViewController = signupVC

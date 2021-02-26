@@ -47,6 +47,7 @@ class Constants {
     static let Created = "created"
     static let SenderID = "senderID"
     static let Thread = "thread"
+    static let RecentMessages = "recentMessages"
     
     static let Comment = "comment"
     static let Gallery = "gallery"

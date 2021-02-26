@@ -90,9 +90,9 @@ class ProfileViewController: UIViewController, TTGTextTagCollectionViewDelegate 
     func constrainViewsForChef() {
         scrollView.anchor(top: safeArea.topAnchor, left: safeArea.leftAnchor, bottom: safeArea.bottomAnchor, right: safeArea.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0)
 
-        bannerImageView.anchor(top: scrollView.topAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, height: 200)
+        bannerImageView.anchor(top: scrollView.topAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, height: 250)
         
-        profileImageView.anchor(top: bannerImageView.bottomAnchor, left: nil, bottom: nil, right: nil, paddingTop: -75, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 150, height: 150)
+        profileImageView.anchor(top: bannerImageView.bottomAnchor, left: nil, bottom: nil, right: nil, paddingTop: -125, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 150, height: 150)
         profileImageView.layer.cornerRadius = 75
         profileImageView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
 
@@ -301,7 +301,7 @@ class ProfileViewController: UIViewController, TTGTextTagCollectionViewDelegate 
         let image = CustomImageView()
         image.clipsToBounds = true
         image.contentMode = .scaleAspectFill
-        image.layer.borderColor = UIColor.orangeColor()?.cgColor
+        image.layer.borderColor = UIColor.white.cgColor
         image.image = UIImage(named: "person.crop.circle.fill")
         image.tintColor = UIColor.orangeColor()
         image.backgroundColor = .white
