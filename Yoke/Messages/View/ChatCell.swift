@@ -98,7 +98,7 @@ class ChatCell: UICollectionViewCell {
         view.layer.shadowOpacity = 0.25
         view.layer.shadowRadius = 4
         view.layer.shadowOffset = .init(width: 0, height: 2)
-        view.layer.shadowColor = UIColor.white.cgColor
+        view.layer.shadowColor = UIColor.darkGray.cgColor
         return view
     }()
     

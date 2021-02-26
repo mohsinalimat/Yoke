@@ -16,6 +16,7 @@ class ConversationsViewController: UIViewController {
     }
     private let tableView = UITableView()
     private var conversations = [Conversation]()
+    private var conversationDictionary = [String: Conversation]()
     let cellId = "cellId"
     var userId: String?
     
@@ -26,10 +27,14 @@ class ConversationsViewController: UIViewController {
         constrainViews()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        configureNav()
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         configureTableView()
-        configureNav()
         fetchConversations()
     }
     
@@ -66,10 +71,11 @@ class ConversationsViewController: UIViewController {
     func configureTableView() {
         tableView.backgroundColor = .white
         tableView.rowHeight = 80
-        tableView.register(UITableViewCell.self, forCellReuseIdentifier: cellId)
+        tableView.register(ConversationTableViewCell.self, forCellReuseIdentifier: cellId)
         tableView.tableFooterView = UIView()
         tableView.delegate = self
         tableView.dataSource = self
+        tableView.separatorStyle = .none
     }
     
     private func addBackgroundGradient() {
@@ -79,7 +85,7 @@ class ConversationsViewController: UIViewController {
         // Start and end for left to right gradient
         gradientLayer.startPoint = CGPoint(x: 0.0, y: 0.5)
         gradientLayer.endPoint = CGPoint(x: 1.0, y: 0.5)
-        gradientLayer.colors = [UIColor.orangeColor()?.cgColor, UIColor.yellowColor()?.cgColor]
+        gradientLayer.colors = [UIColor.orangeColor()?.cgColor ?? "", UIColor.yellowColor()?.cgColor ?? ""]
         tableView.backgroundView = collectionViewBackgroundView
         tableView.backgroundView?.layer.addSublayer(gradientLayer)
       }
@@ -87,28 +93,40 @@ class ConversationsViewController: UIViewController {
     //MARK: - API
     func fetchConversations() {
         ConversationController.shared.fetchConversations { (conversations) in
-            self.conversations = conversations
+            conversations.forEach { (conversation) in
+                let message = conversation.message
+                self.conversationDictionary[message.chatPartnerId] = conversation
+            }
+            self.conversations = Array(self.conversationDictionary.values)
             self.tableView.reloadData()
         }
     }
 }
-
+//MARK: - TableView DataSource
 extension ConversationsViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return conversations.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: cellId, for: indexPath)
-        cell.textLabel?.text = conversations[indexPath.row].message.text
-        cell.textLabel?.textColor = .darkGray
-        cell.backgroundColor = .white
+        let cell = tableView.dequeueReusableCell(withIdentifier: cellId, for: indexPath) as! ConversationTableViewCell
+        cell.conversation = conversations[indexPath.row]
+        cell.backgroundColor = .clear
+        cell.selectionStyle = .none
         return cell
     }
-}
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 100
+    }
 
+}
+//MARK: - TableView Delegate
 extension ConversationsViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        print(indexPath.row)
+        let user = conversations[indexPath.row].message.chatPartnerId
+        let chatVC = ChatCollectionViewController(collectionViewLayout: UICollectionViewFlowLayout())
+        chatVC.userId = user
+        navigationController?.pushViewController(chatVC, animated: true)
     }
 }

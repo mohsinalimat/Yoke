@@ -84,7 +84,7 @@ class ChatCollectionViewController: UICollectionViewController, UICollectionView
         // Start and end for left to right gradient
         gradientLayer.startPoint = CGPoint(x: 0.0, y: 0.5)
         gradientLayer.endPoint = CGPoint(x: 1.0, y: 0.5)
-        gradientLayer.colors = [UIColor.yellowColor()?.cgColor, UIColor.orangeColor()?.cgColor]
+        gradientLayer.colors = [UIColor.yellowColor()?.cgColor ?? "", UIColor.orangeColor()?.cgColor ?? ""]
         collectionView.backgroundView = collectionViewBackgroundView
         collectionView.backgroundView?.layer.addSublayer(gradientLayer)
       }

@@ -61,7 +61,7 @@ struct ConversationController {
             snapshot?.documentChanges.forEach({ (change) in
                 let dictionary = change.document.data()
                 let message = Message(dictionary: dictionary)
-                UserController.shared.fetchUserWithUID(uid: message.toId) { (user) in
+                UserController.shared.fetchUserWithUID(uid: message.chatPartnerId) { (user) in
                     let conversation = Conversation(user: user, message: message)
                     conversations.append(conversation)
                     completion(conversations)
