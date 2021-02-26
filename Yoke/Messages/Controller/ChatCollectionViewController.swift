@@ -111,13 +111,14 @@ class ChatCollectionViewController: UICollectionViewController, UICollectionView
 
     // MARK: UICollectionViewDelegate
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-//        let frame = CGRect(x: 0, y: 0, width: view.frame.width, height: 50)
-//        let estimatedSizeCell = ChatCell(frame: frame)
-//        estimatedSizeCell.message = messages[indexPath.row]
-//        estimatedSizeCell.layoutIfNeeded()
-//        let targetSize = CGSize(width: view.frame.width, height: 1000)
-//        let estimatedSize = estimatedSizeCell.systemLayoutSizeFitting(targetSize)
-        return CGSize(width: view.frame.width, height: 50)
+        let frame = CGRect(x: 0, y: 0, width: view.frame.width, height: 50)
+        let estimatedSizeCell = ChatCell(frame: frame)
+        estimatedSizeCell.message = messages[indexPath.row]
+        estimatedSizeCell.layoutIfNeeded()
+        let targetSize = CGSize(width: view.frame.width, height: 1000)
+        let estimatedSize = estimatedSizeCell.systemLayoutSizeFitting(targetSize)
+        return CGSize(width: view.frame.width, height: estimatedSize.height)
+//        return CGSize(width: view.frame.width, height: 50)
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {

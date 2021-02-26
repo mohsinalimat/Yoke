@@ -38,10 +38,10 @@ class ChatCell: UICollectionViewCell {
     }
     
     func constrainViews() {
-        profileImage.anchor(top: safeAreaLayoutGuide.topAnchor, left: safeAreaLayoutGuide.leftAnchor, bottom: nil, right: nil, paddingTop: 5, paddingLeft: 5, paddingBottom: 0, paddingRight: 0, width: 35, height: 35)
+        profileImage.anchor(top: safeAreaLayoutGuide.topAnchor, left: safeAreaLayoutGuide.leftAnchor, bottom: nil, right: nil, paddingTop: 10, paddingLeft: 5, paddingBottom: 0, paddingRight: 0, width: 35, height: 35)
         
         bubbleContainer.layer.cornerRadius = 12
-        bubbleContainer.anchor(top: safeAreaLayoutGuide.topAnchor, left: nil, bottom: nil, right: nil, paddingTop: 10, paddingLeft: 5, paddingBottom: 0, paddingRight: 20)
+        bubbleContainer.anchor(top: topAnchor, left: nil, bottom: bottomAnchor, right: nil, paddingTop: 10, paddingLeft: 5, paddingBottom: 0, paddingRight: 20)
         bubbleContainer.widthAnchor.constraint(lessThanOrEqualToConstant: 250).isActive = true
         
         bubbleLeftAnchor = bubbleContainer.leftAnchor.constraint(equalTo: profileImage.rightAnchor, constant: 12)
