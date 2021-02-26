@@ -58,6 +58,7 @@ class ChatCollectionViewController: UICollectionViewController, UICollectionView
         collectionView.alwaysBounceVertical = true
         collectionView.backgroundColor = .white
         collectionView.clipsToBounds = true
+        collectionView.keyboardDismissMode = .onDrag
 //        collectionView.contentInset = UIEdgeInsets(top: 120, left: 0, bottom: 0, right: 0)
     }
     
