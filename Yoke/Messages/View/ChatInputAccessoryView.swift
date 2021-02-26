@@ -48,6 +48,12 @@ class ChatInputAccessoryView: UIView {
     }
     
     //MARK: - Helper Functions
+    func clearText() {
+        messageInputTextView.text = ""
+        messageInputTextView.placeholder = "Enter message..."
+    }
+    
+    //MARK: - Selectors
     @objc func handleSendMessage() {
         guard let text = messageInputTextView.text else { return }
         delegate?.inputView(self, wantsToSend: text)

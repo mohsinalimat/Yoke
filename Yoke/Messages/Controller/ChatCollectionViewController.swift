@@ -59,7 +59,7 @@ class ChatCollectionViewController: UICollectionViewController, UICollectionView
         collectionView.backgroundColor = .white
         collectionView.clipsToBounds = true
         collectionView.keyboardDismissMode = .onDrag
-//        collectionView.contentInset = UIEdgeInsets(top: 120, left: 0, bottom: 0, right: 0)
+//        collectionView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 110, right: 0)
     }
     
     func configureNav() {
@@ -111,6 +111,12 @@ class ChatCollectionViewController: UICollectionViewController, UICollectionView
 
     // MARK: UICollectionViewDelegate
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+//        let frame = CGRect(x: 0, y: 0, width: view.frame.width, height: 50)
+//        let estimatedSizeCell = ChatCell(frame: frame)
+//        estimatedSizeCell.message = messages[indexPath.row]
+//        estimatedSizeCell.layoutIfNeeded()
+//        let targetSize = CGSize(width: view.frame.width, height: 1000)
+//        let estimatedSize = estimatedSizeCell.systemLayoutSizeFitting(targetSize)
         return CGSize(width: view.frame.width, height: 50)
     }
     
@@ -135,8 +141,7 @@ extension ChatCollectionViewController: ChatInputAccessoryViewDelegate {
                 print("error: \(error.localizedDescription)")
                 return
             }
-            inputView.messageInputTextView.text = nil
-            inputView.messageInputTextView.placeholder = "Enter message..."
+            inputView.clearText()
         }
     }
 }

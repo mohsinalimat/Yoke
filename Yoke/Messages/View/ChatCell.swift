@@ -38,7 +38,7 @@ class ChatCell: UICollectionViewCell {
     }
     
     func constrainViews() {
-        profileImage.anchor(top: safeAreaLayoutGuide.topAnchor, left: safeAreaLayoutGuide.leftAnchor, bottom: nil, right: nil, paddingTop: 5, paddingLeft: 5, paddingBottom: 0, paddingRight: 0, width: 50, height: 50)
+        profileImage.anchor(top: safeAreaLayoutGuide.topAnchor, left: safeAreaLayoutGuide.leftAnchor, bottom: nil, right: nil, paddingTop: 5, paddingLeft: 5, paddingBottom: 0, paddingRight: 0, width: 35, height: 35)
         
         bubbleContainer.layer.cornerRadius = 12
         bubbleContainer.anchor(top: safeAreaLayoutGuide.topAnchor, left: nil, bottom: nil, right: nil, paddingTop: 10, paddingLeft: 5, paddingBottom: 0, paddingRight: 20)
@@ -63,7 +63,6 @@ class ChatCell: UICollectionViewCell {
         bubbleLeftAnchor.isActive = viewModel.leftAnchorActive
         bubbleRightAnchor.isActive = viewModel.rightAnchorActive
         profileImage.isHidden = viewModel.shouldHideProfileImage
-//        setupProfileImage()
     }
     
     func setupProfileImage(uid: String) {
@@ -80,7 +79,7 @@ class ChatCell: UICollectionViewCell {
         image.image = UIImage(named: "image_background")
         image.translatesAutoresizingMaskIntoConstraints = false
         image.clipsToBounds = true
-        image.layer.cornerRadius = 25
+        image.layer.cornerRadius = 35 / 2
         return image
     }()
     
