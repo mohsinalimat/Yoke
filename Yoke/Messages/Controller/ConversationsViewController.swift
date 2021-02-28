@@ -85,7 +85,7 @@ class ConversationsViewController: UIViewController {
         // Start and end for left to right gradient
         gradientLayer.startPoint = CGPoint(x: 0.0, y: 0.5)
         gradientLayer.endPoint = CGPoint(x: 1.0, y: 0.5)
-        gradientLayer.colors = [UIColor.orangeColor()?.withAlphaComponent(0.5).cgColor ?? "", UIColor.yellowColor()?.withAlphaComponent(0.5).cgColor ?? ""]
+        gradientLayer.colors = [UIColor.orangeColor()?.withAlphaComponent(0.8).cgColor ?? "", UIColor.yellowColor()?.withAlphaComponent(0.8).cgColor ?? ""]
         tableView.backgroundView = collectionViewBackgroundView
         tableView.backgroundView?.layer.addSublayer(gradientLayer)
       }
