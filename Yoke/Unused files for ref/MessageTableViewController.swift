@@ -16,7 +16,7 @@ class MessageTableViewController: UITableViewController {
     let messageCell: String = "messageCell"
     var refresh: UIRefreshControl = UIRefreshControl()
     private var messages = [Message]()
-    private var docReference: DocumentReference?
+//    private var docReference: DocumentReference?
     let currentUserUid = Auth.auth().currentUser?.uid
     var user2UID: String?
     var user: User? {
@@ -62,8 +62,8 @@ class MessageTableViewController: UITableViewController {
     }
 
     private func fetchMessages() {
-        let db = Firestore.firestore().collection(Constants.Messages)
-            .whereField(Constants.Users, arrayContains: Auth.auth().currentUser?.uid ?? "Not Found User 1")
+//        let db = Firestore.firestore().collection(Constants.Messages)
+//            .whereField(Constants.Users, arrayContains: Auth.auth().currentUser?.uid ?? "Not Found User 1")
 //        db.getDocuments() { (snapshot, error) in
 //            for doc in snapshot!.documents {
 //                self.docReference = doc.reference

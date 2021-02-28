@@ -9,7 +9,9 @@
 import Foundation
 import Stripe
 import FirebaseFunctions
-import Firebase
+import FirebaseFirestore
+import FirebaseDatabase
+import FirebaseAuth
 
 enum Result {
   case success

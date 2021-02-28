@@ -10,6 +10,7 @@ import UIKit
 import Stripe
 import FirebaseFunctions
 import Firebase
+import FirebaseFirestore
 
 class MakePaymentVC: UIViewController, STPPaymentContextDelegate {
 

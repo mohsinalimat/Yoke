@@ -13,7 +13,8 @@ struct Message {
     let text: String
     let toId: String
     let fromId: String
-    let timestamp: Timestamp!
+    var timestamp: Date
+//    var timestamp: Timestamp!
     var user: User?
     let isFromCurrentUser: Bool
     
@@ -25,7 +26,9 @@ struct Message {
         self.text = dictionary[Constants.Text] as? String ?? ""
         self.toId = dictionary[Constants.ToId] as? String ?? ""
         self.fromId = dictionary[Constants.FromId] as? String ?? ""
-        self.timestamp = dictionary[Constants.Timestamp] as? Timestamp ?? Timestamp(date: Date())
+//        self.timestamp = dictionary[Constants.Timestamp] as? Timestamp ?? Timestamp(date: Date())
+        let secondsFrom1970 = dictionary[Constants.Timestamp] as? Double ?? 0
+        self.timestamp = Date(timeIntervalSince1970: secondsFrom1970)
         self.isFromCurrentUser = fromId == Auth.auth().currentUser?.uid
     }
     
@@ -65,4 +68,18 @@ struct MessageViewModel {
         return message.isFromCurrentUser
     }
    
+}
+
+struct ConversationViewModel {
+    private let conversation: Conversation
+    var timestamp: String {
+        let date = conversation.message.timestamp
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateStyle = .short
+        dateFormatter.timeStyle = .short
+        return dateFormatter.string(from: date)
+    }
+    init(conversation: Conversation) {
+        self.conversation = conversation
+    }
 }

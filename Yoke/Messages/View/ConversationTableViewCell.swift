@@ -31,15 +31,27 @@ class ConversationTableViewCell: UITableViewCell {
     //MARK: - Helper Functions
     func configure() {
         guard let conversation = conversation else { return }
+        let viewModel = ConversationViewModel(conversation: conversation)
         nameLabel.text = conversation.user.username
         textView.text = conversation.message.text
         guard let image = conversation.user.profileImageUrl else { return }
         profileImage.loadImage(urlString: image)
-        let date = conversation.message.timestamp.dateValue()
+//        timestampLabel.text = viewModel.timestamp
+//        print(viewModel.timestamp)
+        
+        
+        
+//        let date = conversation.message.timestamp.dateValue().timeAgoDisplay()
+        let date = conversation.message.timestamp.timeAgoDisplay()
+        print("date \(date)")
+        timestampLabel.text = date
         let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "hh:mm a"
-        timestampLabel.text = dateFormatter.string(from: date)
+        dateFormatter.dateFormat = "MMM d, yyyy"
+//        timestampLabel.text = dateFormatter.string(from: date)
+ 
+        
     }
+
     
     //MARK: - Helper Functions
     func setupViews() {

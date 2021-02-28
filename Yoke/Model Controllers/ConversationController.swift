@@ -6,7 +6,8 @@
 //  Copyright © 2021 LAURA JELENICH. All rights reserved.
 //
 
-import Firebase
+import FirebaseFirestore
+import FirebaseAuth
 
 struct ConversationController {
     //MARK: - Shared Instance
@@ -21,7 +22,8 @@ struct ConversationController {
     //MARK: - CRUD Functions
     func uploadMessage(_ message: String, to userUid: String, completion: ((Error?) -> Void)?) {
         guard let currentUid = Auth.auth().currentUser?.uid else { return }
-        let data = [Constants.Text: message, Constants.FromId: currentUid, Constants.ToId: userUid, Constants.Timestamp: Timestamp(date: Date())] as [String: Any]
+//        let data = [Constants.Text: message, Constants.FromId: currentUid, Constants.ToId: userUid, Constants.Timestamp: Timestamp(date: Date())] as [String: Any]
+        let data = [Constants.Text: message, Constants.FromId: currentUid, Constants.ToId: userUid, Constants.Timestamp: Date().timeIntervalSince1970] as [String: Any]
         firestoreDB.document(currentUid).collection(userUid).addDocument(data: data) { _ in
             firestoreDB.document(userUid).collection(currentUid).addDocument(data: data, completion: completion)
             firestoreDB.document(currentUid).collection(Constants.RecentMessages).document(userUid).setData(data)
@@ -60,6 +62,7 @@ struct ConversationController {
             }
             snapshot?.documentChanges.forEach({ (change) in
                 let dictionary = change.document.data()
+                print(dictionary)
                 let message = Message(dictionary: dictionary)
                 UserController.shared.fetchUserWithUID(uid: message.chatPartnerId) { (user) in
                     let conversation = Conversation(user: user, message: message)

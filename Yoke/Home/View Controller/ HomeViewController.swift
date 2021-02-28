@@ -7,8 +7,10 @@
 //
 
 import UIKit
-import Firebase
+import FirebaseFirestore
 import FirebaseDatabase
+import FirebaseAuth
+import FirebaseStorage
 
 class HomeViewController: UIViewController {
 

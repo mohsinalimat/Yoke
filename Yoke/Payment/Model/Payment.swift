@@ -21,7 +21,7 @@ class Payment {
     let description: String
     let reference: String
     let eventDate: String?
-    let timestamp: Timestamp
+//    let timestamp: Timestamp
     let creationDate: Date?
     let status: String
     
@@ -39,7 +39,7 @@ class Payment {
         self.eventDate = dictionary[Constants.EventDate] as? String ?? ""
         let secondsFrom1970CD = dictionary[Constants.CreationDate] as? Double ?? 0
         self.creationDate = Date(timeIntervalSince1970: secondsFrom1970CD)
-        self.timestamp = dictionary[Constants.Timestamp] as? Timestamp ?? Timestamp()
+//        self.timestamp = dictionary[Constants.Timestamp] as? Timestamp ?? Timestamp()
         self.status = dictionary[Constants.Status] as? String ?? ""
     }
     
