@@ -35,6 +35,7 @@ class ChatCell: UICollectionViewCell {
         addSubview(profileImage)
         addSubview(bubbleContainer)
         bubbleContainer.addSubview(textView)
+        addSubview(timestampLabel)
     }
     
     func constrainViews() {
@@ -51,6 +52,7 @@ class ChatCell: UICollectionViewCell {
         bubbleRightAnchor.isActive = false
         
         textView.anchor(top: bubbleContainer.topAnchor, left: bubbleContainer.leftAnchor, bottom: bubbleContainer.bottomAnchor, right: bubbleContainer.rightAnchor, paddingTop: 4, paddingLeft: 10, paddingBottom: 4, paddingRight: 10)
+        timestampLabel.anchor(top: bubbleContainer.bottomAnchor, left: nil, bottom: nil, right: bubbleContainer.rightAnchor, paddingTop: 5, paddingLeft: 0, paddingBottom: 0, paddingRight: 0)
         
     }
     
@@ -60,6 +62,7 @@ class ChatCell: UICollectionViewCell {
         bubbleContainer.backgroundColor = viewModel.messageBackgroundColor
         textView.textColor = viewModel.messageTextColor
         textView.text = message.text
+        timestampLabel.text = viewModel.timestamp
         bubbleLeftAnchor.isActive = viewModel.leftAnchorActive
         bubbleRightAnchor.isActive = viewModel.rightAnchorActive
         profileImage.isHidden = viewModel.shouldHideProfileImage
@@ -90,6 +93,13 @@ class ChatCell: UICollectionViewCell {
         text.isScrollEnabled = false
         text.isEditable = false
         return text
+    }()
+    
+    private let timestampLabel: UILabel = {
+        let label = UILabel()
+        label.font = UIFont.systemFont(ofSize: 13)
+        label.textColor = .white
+        return label
     }()
     
     private let bubbleContainer: UIView = {

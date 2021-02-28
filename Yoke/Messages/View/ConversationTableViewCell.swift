@@ -31,25 +31,11 @@ class ConversationTableViewCell: UITableViewCell {
     //MARK: - Helper Functions
     func configure() {
         guard let conversation = conversation else { return }
-        let viewModel = ConversationViewModel(conversation: conversation)
         nameLabel.text = conversation.user.username
         textView.text = conversation.message.text
         guard let image = conversation.user.profileImageUrl else { return }
         profileImage.loadImage(urlString: image)
-//        timestampLabel.text = viewModel.timestamp
-//        print(viewModel.timestamp)
-        
-        
-        
-//        let date = conversation.message.timestamp.dateValue().timeAgoDisplay()
-        let date = conversation.message.timestamp.timeAgoDisplay()
-        print("date \(date)")
-        timestampLabel.text = date
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "MMM d, yyyy"
-//        timestampLabel.text = dateFormatter.string(from: date)
- 
-        
+        timestampLabel.text = conversation.message.timestamp.timeAgoDisplay()
     }
 
     
@@ -78,7 +64,7 @@ class ConversationTableViewCell: UITableViewCell {
         let view = UIView()
         view.layer.cornerRadius = 8
         view.layer.masksToBounds = true
-        view.backgroundColor = UIColor.white.withAlphaComponent(0.7)
+        view.backgroundColor = UIColor.yellowColor()?.withAlphaComponent(0.1)
         return view
     }()
     

@@ -46,6 +46,13 @@ struct MessageViewModel {
         self.message = message
     }
     
+    var timestamp: String {
+        let date = message.timestamp
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "MMM d, h:mm a"
+        return dateFormatter.string(from: date)
+    }
+    
     var messageBackgroundColor: UIColor {
         guard let yellow = UIColor.yellowColor(),
               let orange = UIColor.orangeColor() else { return UIColor() }
@@ -70,16 +77,16 @@ struct MessageViewModel {
    
 }
 
-struct ConversationViewModel {
-    private let conversation: Conversation
-    var timestamp: String {
-        let date = conversation.message.timestamp
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateStyle = .short
-        dateFormatter.timeStyle = .short
-        return dateFormatter.string(from: date)
-    }
-    init(conversation: Conversation) {
-        self.conversation = conversation
-    }
-}
+//struct ConversationViewModel {
+//    private let conversation: Conversation
+//    var timestamp: String {
+//        let date = conversation.message.timestamp
+//        let dateFormatter = DateFormatter()
+//        dateFormatter.dateStyle = .short
+//        dateFormatter.timeStyle = .short
+//        return dateFormatter.string(from: date)
+//    }
+//    init(conversation: Conversation) {
+//        self.conversation = conversation
+//    }
+//}
