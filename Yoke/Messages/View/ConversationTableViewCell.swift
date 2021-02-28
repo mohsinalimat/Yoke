@@ -64,7 +64,7 @@ class ConversationTableViewCell: UITableViewCell {
         let view = UIView()
         view.layer.cornerRadius = 8
         view.layer.masksToBounds = true
-        view.backgroundColor = UIColor.yellowColor()?.withAlphaComponent(0.1)
+        view.backgroundColor = UIColor.orangeColor()
         return view
     }()
     
