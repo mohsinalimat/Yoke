@@ -46,7 +46,13 @@ class ChatInputAccessoryView: UIView {
         messageInputTextView.anchor(top: topAnchor, left: safeAreaLayoutGuide.leftAnchor, bottom: safeAreaLayoutGuide.bottomAnchor, right: sendButton.leftAnchor, paddingTop: 10, paddingLeft: 5, paddingBottom: 5, paddingRight: 5)
     }
     
-    
+    func handleEmptyText() {
+        if messageInputTextView.text.isEmpty {
+            sendButton.isEnabled = false
+        } else {
+            sendButton.isEnabled = true
+        }
+    }
     
     func clearText() {
         messageInputTextView.text = ""

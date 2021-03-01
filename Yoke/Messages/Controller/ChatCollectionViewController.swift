@@ -129,7 +129,6 @@ class ChatCollectionViewController: UICollectionViewController, UICollectionView
         let targetSize = CGSize(width: view.frame.width, height: 1000)
         let estimatedSize = estimatedSizeCell.systemLayoutSizeFitting(targetSize)
         return CGSize(width: view.frame.width, height: estimatedSize.height)
-//        return CGSize(width: view.frame.width, height: 50)
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
@@ -153,6 +152,7 @@ extension ChatCollectionViewController: ChatInputAccessoryViewDelegate {
                 print("error: \(error.localizedDescription)")
                 return
             }
+            inputView.handleEmptyText()
             inputView.clearText()
         }
     }
