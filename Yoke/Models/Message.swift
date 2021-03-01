@@ -32,9 +32,21 @@ struct Message {
     
 }
 
+extension Message: Equatable {
+    static func == (lhs: Message, rhs: Message) -> Bool {
+        return lhs.toId == rhs.toId
+    }
+}
+
 struct Conversation {
     let user: User
     let message: Message
+}
+
+extension Conversation: Equatable {
+    static func == (lhs: Conversation, rhs: Conversation) -> Bool {
+        return lhs.message.toId == rhs.message.toId
+    }
 }
 
 struct MessageViewModel {

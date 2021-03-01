@@ -72,5 +72,19 @@ struct ConversationController {
             })
         }
     }
-
+    
+    func deleteConversation(currentUserUid: String, userUid: String, completion: @escaping (Bool) -> Void) {
+        firestoreDB.document(currentUserUid).collection(userUid).getDocuments { (snapshot, error) in
+            if let error = error {
+                print(error.localizedDescription)
+                completion(false)
+            } else {
+                for document in snapshot!.documents {
+                  document.reference.delete()
+                    firestoreDB.document(currentUserUid).collection(Constants.RecentMessages).document(userUid).delete()
+                    completion(true)
+                }
+            }
+        }
+    }
 }

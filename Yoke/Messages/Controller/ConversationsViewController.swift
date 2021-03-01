@@ -119,6 +119,25 @@ extension ConversationsViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 100
     }
+    
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+            let conversation = conversations[indexPath.row]
+            guard let indexOfConversation = conversations.firstIndex(of: conversation) else { return }
+            ConversationController.shared.deleteConversation(currentUserUid: conversation.message.toId, userUid: conversation.message.fromId) { (result) in
+                switch result {
+                case true:
+                    self.conversations.remove(at: indexOfConversation)
+                    DispatchQueue.main.async {
+                        self.tableView.deleteRows(at: [indexPath], with: .fade)
+                    }
+                case false:
+                    print(false)
+                }
+            }
+        }
+    }
+
 
 }
 //MARK: - TableView Delegate
@@ -129,4 +148,5 @@ extension ConversationsViewController: UITableViewDelegate {
         chatVC.userId = user
         navigationController?.pushViewController(chatVC, animated: true)
     }
+
 }
