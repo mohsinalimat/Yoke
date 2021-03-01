@@ -571,26 +571,9 @@ extension ProfileViewController: UICollectionViewDelegate, UICollectionViewDataS
                 return
             } else {
                 let menu = MenuController.shared.menus[indexPath.row]
-                let menuVC = AddMenuViewController()
+                let menuVC = MenuViewController()
                 menuVC.menu = menu
-                menuVC.menuLabel.text = "Edit Menu"
-                menuVC.dishDetailTextField.placeholder = ""
-                menuVC.deleteButton.isHidden = false
-                menuVC.menuExist = true
-                menuVC.saveButton.setTitle("Update", for: .normal)
                 present(menuVC, animated: true)
-    //            let galleryDetail = GalleryDetailVC(collectionViewLayout: UICollectionViewFlowLayout())
-    //            galleryDetail.gallery = gallery
-    //            navigationController?.pushViewController(galleryDetail, animated: true)
-            }
-        } else {
-            if SuggestedChefController.shared.chefs.count == 0 {
-                return
-            } else {
-                let chef = SuggestedChefController.shared.chefs[indexPath.row].uid
-                let profileVC = ProfileViewController()
-                profileVC.userId = chef
-                navigationController?.pushViewController(profileVC, animated: true)
             }
         }
     }
