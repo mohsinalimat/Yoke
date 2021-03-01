@@ -137,9 +137,8 @@ extension ConversationsViewController: UITableViewDataSource {
             }
         }
     }
-
-
 }
+
 //MARK: - TableView Delegate
 extension ConversationsViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {

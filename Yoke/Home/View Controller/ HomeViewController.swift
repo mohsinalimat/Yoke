@@ -35,7 +35,6 @@ class HomeViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        fetchMenus()
         handleUpdateObserverAndRefresh()
     }
     
@@ -45,9 +44,8 @@ class HomeViewController: UIViewController {
         setupBannerView()
         setupCollectionView()
         fetchUser()
-//        fetchMenus()
+        fetchMenus()
         fetchSuggestedChefs()
-//        handleUpdatesObserverAndRefresh()
     }
     
     //MARK: Helper Functions
@@ -58,20 +56,20 @@ class HomeViewController: UIViewController {
     
     func setupViews() {
         view.backgroundColor = UIColor.white
-        view.addSubview(bannerImageView)
-        view.addSubview(bannerLayerImageView)
-        view.addSubview(profileImageView)
-        view.addSubview(usernameLabel)
-        view.addSubview(viewProfileButton)
-        view.addSubview(buttonStackView)
+        view.addSubview(scrollView)
+        scrollView.alwaysBounceHorizontal = false
+        scrollView.bounces = false
+        scrollView.addSubview(bannerImageView)
+        scrollView.addSubview(bannerLayerImageView)
+        scrollView.addSubview(profileImageView)
+        scrollView.addSubview(usernameLabel)
+        scrollView.addSubview(viewProfileButton)
+        scrollView.addSubview(buttonStackView)
         buttonStackView.addArrangedSubview(reviewsButton)
         buttonStackView.addArrangedSubview(eventButton)
         buttonStackView.addArrangedSubview(addPhotosButton)
         buttonStackView.addArrangedSubview(bookmarkButton)
         buttonStackView.addArrangedSubview(calendarButton)
-        view.addSubview(scrollView)
-        scrollView.alwaysBounceHorizontal = false
-        scrollView.bounces = false
         scrollView.addSubview(collectionViewBG)
         scrollView.addSubview(menuViewBG)
         scrollView.addSubview(menuLabel)
@@ -86,11 +84,14 @@ class HomeViewController: UIViewController {
     }
     
     func constrainViews() {
-        bannerLayerImageView.anchor(top: safeArea.topAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, height: 300)
-
-        bannerImageView.anchor(top: safeArea.topAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, height: 300)
+        scrollView.contentSize = CGSize(width: view.frame.width, height: view.frame.height + 100)
+        scrollView.anchor(top: safeArea.topAnchor, left: safeArea.leftAnchor, bottom: safeArea.bottomAnchor, right: safeArea.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0)
         
-        profileImageView.anchor(top: safeArea.topAnchor, left: nil, bottom: nil, right: nil, paddingTop: 60, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 100, height: 100)
+        bannerLayerImageView.anchor(top: scrollView.topAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, height: 300)
+
+        bannerImageView.anchor(top: scrollView.topAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, height: 300)
+        
+        profileImageView.anchor(top: scrollView.topAnchor, left: nil, bottom: nil, right: nil, paddingTop: 60, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 100, height: 100)
         profileImageView.layer.cornerRadius = 50
         profileImageView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
 
@@ -109,10 +110,10 @@ class HomeViewController: UIViewController {
 
         buttonStackView.anchor(top: viewProfileButton.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 20, paddingLeft: 5, paddingBottom: 0, paddingRight: 5, width: 0, height: 60)
         
-        scrollView.contentSize = CGSize(width: view.frame.width, height: view.frame.height - 200)
-        scrollView.anchor(top: buttonStackView.bottomAnchor, left: safeArea.leftAnchor, bottom: safeArea.bottomAnchor, right: safeArea.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0)
+//        scrollView.contentSize = CGSize(width: view.frame.width, height: view.frame.height - 200)
+//        scrollView.anchor(top: buttonStackView.bottomAnchor, left: safeArea.leftAnchor, bottom: safeArea.bottomAnchor, right: safeArea.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0)
         
-        collectionViewBG.anchor(top: scrollView.topAnchor, left: safeArea.leftAnchor, bottom: scrollView.bottomAnchor, right: safeArea.rightAnchor, paddingTop: 10, paddingLeft: 5, paddingBottom: 8, paddingRight: 5, height: view.frame.width - 100)
+        collectionViewBG.anchor(top: buttonStackView.bottomAnchor, left: safeArea.leftAnchor, bottom: scrollView.bottomAnchor, right: safeArea.rightAnchor, paddingTop: 10, paddingLeft: 5, paddingBottom: 8, paddingRight: 5, height: view.frame.width - 100)
         
         menuViewBG.anchor(top: collectionViewBG.topAnchor, left: collectionViewBG.leftAnchor, bottom: nil, right: collectionViewBG.rightAnchor, paddingTop: 5, paddingLeft: 5, paddingBottom: 0, paddingRight: 5, height: 50)
 
