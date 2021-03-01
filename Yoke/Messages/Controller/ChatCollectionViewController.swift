@@ -146,14 +146,16 @@ class ChatCollectionViewController: UICollectionViewController, UICollectionView
 
 extension ChatCollectionViewController: ChatInputAccessoryViewDelegate {
     func inputView(_ inputView: ChatInputAccessoryView, wantsToSend message: String) {
-        guard let userId = userId else { return }
-        ConversationController.shared.uploadMessage(message, to: userId) { (error) in
-            if let error = error {
-                print("error: \(error.localizedDescription)")
-                return
+        guard let userId = userId,
+              let text = inputView.messageInputTextView.text else { return }
+        if !text.isEmpty {
+            ConversationController.shared.uploadMessage(message, to: userId) { (error) in
+                if let error = error {
+                    print("error: \(error.localizedDescription)")
+                    return
+                }
+                inputView.clearText()
             }
-            inputView.handleEmptyText()
-            inputView.clearText()
         }
     }
 }

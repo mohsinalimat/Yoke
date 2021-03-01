@@ -45,15 +45,7 @@ class ChatInputAccessoryView: UIView {
         sendButton.anchor(top: messageInputTextView.topAnchor, left: messageInputTextView.rightAnchor, bottom: messageInputTextView.bottomAnchor, right: safeAreaLayoutGuide.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 75)
         messageInputTextView.anchor(top: topAnchor, left: safeAreaLayoutGuide.leftAnchor, bottom: safeAreaLayoutGuide.bottomAnchor, right: sendButton.leftAnchor, paddingTop: 10, paddingLeft: 5, paddingBottom: 5, paddingRight: 5)
     }
-    
-    func handleEmptyText() {
-        if messageInputTextView.text.isEmpty {
-            sendButton.isEnabled = false
-        } else {
-            sendButton.isEnabled = true
-        }
-    }
-    
+
     func clearText() {
         messageInputTextView.text = ""
         messageInputTextView.placeholder = "Enter message..."
