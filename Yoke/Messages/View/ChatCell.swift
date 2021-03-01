@@ -53,7 +53,7 @@ class ChatCell: UICollectionViewCell {
         
         textView.anchor(top: bubbleContainer.topAnchor, left: bubbleContainer.leftAnchor, bottom: bubbleContainer.bottomAnchor, right: bubbleContainer.rightAnchor, paddingTop: 4, paddingLeft: 10, paddingBottom: 4, paddingRight: 10)
         timestampLabel.anchor(top: bubbleContainer.bottomAnchor, left: nil, bottom: nil, right: bubbleContainer.rightAnchor, paddingTop: 5, paddingLeft: 0, paddingBottom: 0, paddingRight: 0)
-        
+      
     }
     
     func configure() {
