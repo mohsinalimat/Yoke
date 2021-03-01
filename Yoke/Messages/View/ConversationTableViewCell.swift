@@ -38,8 +38,6 @@ class ConversationTableViewCell: UITableViewCell {
         timestampLabel.text = conversation.message.timestamp.timeAgoDisplay()
     }
 
-    
-    //MARK: - Helper Functions
     func setupViews() {
         addSubview(shadowView)
         addSubview(cellBackgroundView)
