@@ -16,13 +16,12 @@ class Review {
     var stars: Double?
     var timestamp: String?
 
-    init(id: String? = "", uid: String, username: String, review: String, stars: Double, timestamp: String) {
-        self.id = id
-        self.uid = uid
-        self.username = username
-        self.review = review
-        self.stars = stars
-        self.timestamp = timestamp
+    init(dictionary: [String: Any]) {
+        self.uid = dictionary[Constants.Uid] as? String ?? ""
+        self.username = dictionary[Constants.Username] as? String ?? ""
+        self.review = dictionary[Constants.Review] as? String ?? ""
+        self.stars = dictionary[Constants.Ratings] as? Double ?? 0.0
+        self.timestamp = dictionary[Constants.Timestamp] as? String ?? ""
     }
 }
 

@@ -136,20 +136,7 @@ class UserController {
         firestoreDB.collection(Constants.Users).document(uid).getDocument { (document, error) in
             if let document = document, document.exists {
                 guard let dictionary = document.data() else { return }
-                let uid = dictionary[Constants.Uid] as? String ?? ""
-                let profileImageUrl = dictionary[Constants.ProfileImageUrl] as? String ?? ""
-                let username = dictionary[Constants.Username] as? String ?? ""
-                let bio = dictionary[Constants.Bio] as? String ?? ""
-                let location = dictionary[Constants.Location] as? String ?? ""
-                let street = dictionary[Constants.Street] as? String ?? ""
-                let apartment = dictionary[Constants.Apartment] as? String ?? ""
-                let city = dictionary[Constants.City] as? String ?? ""
-                let state = dictionary[Constants.State] as? String ?? ""
-                let latitude = dictionary[Constants.Latitude] as? Double ?? 0.0
-                let longitude = dictionary[Constants.Longitude] as? Double ?? 0.0
-                let stars = dictionary[Constants.Stars] as? Int ?? 0
-                guard let isChef = dictionary[Constants.IsChef] as? Bool else { return }
-                let user = User(uid: uid, username: username, profileImageUrl: profileImageUrl, location: location, bio: bio, isChef: isChef, street: street, apartment: apartment, city: city, state: state, latitude: latitude, longitude: longitude, stars: stars)
+                let user = User(dictionary: dictionary)
                 completion(user)
             } else {
                 completion(error as! User)
@@ -173,14 +160,9 @@ class UserController {
 //            })
             for document in snapshot!.documents {
                 let dictionary = document.data()
-                let uid = dictionary[Constants.Uid] as? String ?? ""
-                let username = dictionary[Constants.Username] as? String ?? ""
-                let city = dictionary[Constants.City] as? String ?? ""
-                let state = dictionary[Constants.State] as? String ?? ""
-                let profileImageUrl = dictionary[Constants.ProfileImageUrl] as? String ?? ""
                 guard let isChef = dictionary[Constants.IsChef] as? Bool else { return }
                 if uid != Auth.auth().currentUser?.uid && isChef == true {
-                    let user = User(uid: uid, username: username, profileImageUrl: profileImageUrl, isChef: isChef, city: city, state: state)
+                    let user = User(dictionary: dictionary)
                     self.users.append(user)
                     self.users.sort(by: { (u1, u2) -> Bool in
                         return u1.username!.compare(u2.username!) == .orderedAscending

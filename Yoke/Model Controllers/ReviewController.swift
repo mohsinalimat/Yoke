@@ -67,12 +67,7 @@ class ReviewController {
             self.reviews = []
             for document in snapshot!.documents {
                 let dictionary = document.data()
-                let uid = dictionary[Constants.Uid] as? String ?? ""
-                let username = dictionary[Constants.Username] as? String ?? ""
-                let reviewText = dictionary[Constants.Review] as? String ?? ""
-                let stars = dictionary[Constants.Ratings] as? Double ?? 0.0
-                let timestamp = dictionary[Constants.Timestamp] as? String ?? ""
-                let review = Review(uid: uid, username: username, review: reviewText, stars: stars, timestamp: timestamp)
+                let review = Review(dictionary: dictionary)
                 self.reviews.append(review)
                 completion(true)
             }

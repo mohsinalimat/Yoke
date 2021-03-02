@@ -19,7 +19,6 @@ class Menu {
     var imageId: String?
 
     init(dictionary: [String: Any]) {
-//        self.user = user
         self.id = dictionary[Constants.Id] as? String ?? ""
         self.uid = dictionary[Constants.Uid] as? String ?? ""
         self.name = dictionary[Constants.Name] as? String ?? ""

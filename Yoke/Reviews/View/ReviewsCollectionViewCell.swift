@@ -53,7 +53,6 @@ class ReviewsCollectionViewCell: UICollectionViewCell {
         self.ratingView.rating = rating
         timestampLabel.text = date
     }
-    }
     
     func setupViews() {
         addSubview(profileImageView)
