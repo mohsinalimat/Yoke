@@ -84,7 +84,7 @@ class HomeViewController: UIViewController {
     }
     
     func constrainViews() {
-        scrollView.contentSize = CGSize(width: view.frame.width, height: view.frame.height + 100)
+        scrollView.contentSize = CGSize(width: view.frame.width, height: view.frame.height + 50)
         scrollView.anchor(top: safeArea.topAnchor, left: safeArea.leftAnchor, bottom: safeArea.bottomAnchor, right: safeArea.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0)
         
         bannerLayerImageView.anchor(top: scrollView.topAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, height: 300)
@@ -418,8 +418,6 @@ class HomeViewController: UIViewController {
         button.backgroundColor = UIColor.orangeColor()
         button.layer.cornerRadius = 5
         button.addTarget(self, action: #selector(handleViewProfile), for: .touchUpInside)
-        button.layer.borderWidth = 1
-        button.layer.borderColor = UIColor.white.cgColor
         return button
     }()
     
@@ -605,7 +603,8 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
             if MenuController.shared.menus.count == 0 {
                 return CGSize(width: view.frame.width - 20, height: 200)
             } else {
-                return CGSize(width: view.frame.width / 2, height: 200)
+                return CGSize(width: view.frame.width - 20, height: 180)
+//                return CGSize(width: view.frame.width / 2, height: 200)
             }
         }
         
@@ -631,9 +630,6 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
                 menuVC.menuExist = true
                 menuVC.saveButton.setTitle("Update", for: .normal)
                 present(menuVC, animated: true)
-    //            let galleryDetail = GalleryDetailVC(collectionViewLayout: UICollectionViewFlowLayout())
-    //            galleryDetail.gallery = gallery
-    //            navigationController?.pushViewController(galleryDetail, animated: true)
             }
         } else {
             if SuggestedChefController.shared.chefs.count == 0 {

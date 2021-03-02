@@ -34,8 +34,6 @@ class MenuCollectionViewCell: UICollectionViewCell {
     func configure() {
         guard let menu = menu else { return }
         nameLabel.text = menu.name
-        guard let course = menu.courseType else { return }
-        courseTypeLabel.text = "Course: \(course)"
         guard let image = menu.imageUrl else { return }
         menuImage.loadImage(urlString: image)
     }
@@ -46,7 +44,6 @@ class MenuCollectionViewCell: UICollectionViewCell {
         addSubview(menuImage)
         addSubview(imageLayerView)
         addSubview(nameLabel)
-        addSubview(courseTypeLabel)
     }
     
     func setupConstraints() {
@@ -55,7 +52,6 @@ class MenuCollectionViewCell: UICollectionViewCell {
         menuImage.anchor(top: cellBackgroundView.topAnchor, left: cellBackgroundView.leftAnchor, bottom: cellBackgroundView.bottomAnchor, right: cellBackgroundView.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, height: frame.width - 50)
         imageLayerView.anchor(top: cellBackgroundView.topAnchor, left: cellBackgroundView.leftAnchor, bottom: cellBackgroundView.bottomAnchor, right: cellBackgroundView.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, height: frame.width - 50)
         nameLabel.anchor(top: menuImage.topAnchor, left: leftAnchor, bottom: nil, right: rightAnchor, paddingTop: 5, paddingLeft: 10, paddingBottom: 0, paddingRight: 10)
-        courseTypeLabel.anchor(top: nameLabel.bottomAnchor, left: leftAnchor, bottom: nil, right: rightAnchor, paddingTop: 0, paddingLeft: 10, paddingBottom: 0, paddingRight: 10)
     }
     
     var menuImage: CustomImageView = {
@@ -71,24 +67,17 @@ class MenuCollectionViewCell: UICollectionViewCell {
     let imageLayerView: UIView = {
         let view = UIView()
         view.backgroundColor = UIColor.black
-        view.layer.opacity = 0.5
+        view.layer.opacity = 0.3
         view.layer.cornerRadius = 5
         return view
     }()
     
     var nameLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont.boldSystemFont(ofSize: 20)
+        label.font = UIFont.boldSystemFont(ofSize: 25)
         label.textColor = .white
         label.lineBreakMode = .byWordWrapping
         label.numberOfLines = 0
-        return label
-    }()
-    
-    var courseTypeLabel: UILabel = {
-        let label = UILabel()
-        label.font = UIFont.systemFont(ofSize: 15)
-        label.textColor = .white
         return label
     }()
     

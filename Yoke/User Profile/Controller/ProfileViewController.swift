@@ -115,7 +115,7 @@ class ProfileViewController: UIViewController, TTGTextTagCollectionViewDelegate 
         cusineLabel.anchor(top: seperatorView.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: nil, paddingTop: 20, paddingLeft: 15, paddingBottom: 0, paddingRight: 0)
         cusineCollectionView.anchor(top: cusineLabel.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 10, paddingLeft: 15, paddingBottom: 0, paddingRight: 5, height: 45)
         
-        collectionViewBG.anchor(top: cusineCollectionView.bottomAnchor, left: safeArea.leftAnchor, bottom: scrollView.bottomAnchor, right: safeArea.rightAnchor, paddingTop: 20, paddingLeft: 5, paddingBottom: 8, paddingRight: 5, height: view.frame.width - 100)
+        collectionViewBG.anchor(top: cusineCollectionView.bottomAnchor, left: safeArea.leftAnchor, bottom: scrollView.bottomAnchor, right: safeArea.rightAnchor, paddingTop: 20, paddingLeft: 5, paddingBottom: 8, paddingRight: 5, height: view.frame.width - 150)
         
         menuViewBG.anchor(top: collectionViewBG.topAnchor, left: collectionViewBG.leftAnchor, bottom: nil, right: collectionViewBG.rightAnchor, paddingTop: 5, paddingLeft: 5, paddingBottom: 0, paddingRight: 5, height: 50)
 
@@ -155,14 +155,6 @@ class ProfileViewController: UIViewController, TTGTextTagCollectionViewDelegate 
         menuCollectionView.translatesAutoresizingMaskIntoConstraints = false
         menuCollectionView.register(MenuCollectionViewCell.self, forCellWithReuseIdentifier: cellId)
         menuCollectionView.register(EmptyCell.self, forCellWithReuseIdentifier: noCellId)
-        
-//        galleryCollectionView.backgroundColor = UIColor.LightGrayBg()
-//        galleryCollectionView.delegate = self
-//        galleryCollectionView.dataSource = self
-//        galleryCollectionView.translatesAutoresizingMaskIntoConstraints = false
-////        collectionView.register(MenuHeaderCollectionViewCell.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: headerId)
-//        galleryCollectionView.register(SuggestedChefsCollectionViewCell.self, forCellWithReuseIdentifier: cellId)
-//        galleryCollectionView.register(EmptyCell.self, forCellWithReuseIdentifier: noCellId)
     }
     
     func setupCusineCollectionView(uid: String) {
@@ -558,7 +550,8 @@ extension ProfileViewController: UICollectionViewDelegate, UICollectionViewDataS
             if MenuController.shared.menus.count == 0 {
                 return CGSize(width: view.frame.width - 20, height: 200)
             } else {
-                return CGSize(width: view.frame.width / 2, height: 200)
+                return CGSize(width: view.frame.width - 40, height: 150)
+//                return CGSize(width: view.frame.width / 2, height: 200)
             }
         }
         return CGSize(width: 150, height: 200)
