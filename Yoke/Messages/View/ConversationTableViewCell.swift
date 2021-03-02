@@ -58,11 +58,11 @@ class ConversationTableViewCell: UITableViewCell {
     }
     
     //MARK: - Views
-    let cellBackgroundView: UIView = {
+    var cellBackgroundView: UIView = {
         let view = UIView()
         view.layer.cornerRadius = 8
         view.layer.masksToBounds = true
-        view.backgroundColor = UIColor.orangeColor()
+        view.backgroundColor = UIColor.clear
         return view
     }()
     

@@ -37,6 +37,8 @@ class SearchTableViewCell: UITableViewCell {
     }
     
     func setupViews(){
+        addSubview(shadowView)
+        addSubview(cellBackgroundView)
         addSubview(profileImage)
         addSubview(usernameLabel)
         addSubview(ratingView)
@@ -45,13 +47,16 @@ class SearchTableViewCell: UITableViewCell {
     }
     
     func setupConstraints() {
-        profileImage.anchor(top: nil, left: leftAnchor, bottom: nil, right: nil, paddingTop: 0, paddingLeft: 25, paddingBottom: 0, paddingRight: 0, width: 80, height: 80)
+        shadowView.anchor(top: topAnchor, left: leftAnchor, bottom: bottomAnchor, right: rightAnchor, paddingTop: 10, paddingLeft: 10, paddingBottom: 10, paddingRight: 10)
+        cellBackgroundView.anchor(top: topAnchor, left: leftAnchor, bottom: bottomAnchor, right: rightAnchor, paddingTop: 10, paddingLeft: 10, paddingBottom: 10, paddingRight: 10)
+        
+        profileImage.anchor(top: nil, left: cellBackgroundView.leftAnchor, bottom: nil, right: nil, paddingTop: 0, paddingLeft: 5, paddingBottom: 0, paddingRight: 0, width: 80, height: 80)
         profileImage.layer.cornerRadius = 40
-        profileImage.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
-        usernameLabel.anchor(top: topAnchor, left: profileImage.rightAnchor, bottom: nil, right: rightAnchor, paddingTop: 20, paddingLeft: 5, paddingBottom: 0, paddingRight: 0)
+        profileImage.centerYAnchor.constraint(equalTo: cellBackgroundView.centerYAnchor).isActive = true
+        usernameLabel.anchor(top: cellBackgroundView.topAnchor, left: profileImage.rightAnchor, bottom: nil, right: cellBackgroundView.rightAnchor, paddingTop: 10, paddingLeft: 5, paddingBottom: 0, paddingRight: 0)
         ratingView.anchor(top: usernameLabel.bottomAnchor, left: profileImage.rightAnchor, bottom: nil, right: nil, paddingTop: 5, paddingLeft: 5, paddingBottom: 0, paddingRight: 0, width: 70, height: 15)
         reviewCountLabel.anchor(top: ratingView.topAnchor, left: ratingView.rightAnchor, bottom: nil, right: nil, paddingTop: 0, paddingLeft: 5, paddingBottom: 0, paddingRight: 0)
-        locationLabel.anchor(top: ratingView.bottomAnchor, left: profileImage.rightAnchor, bottom: nil, right: rightAnchor, paddingTop: 5, paddingLeft: 5, paddingBottom: 0, paddingRight: 0)
+        locationLabel.anchor(top: ratingView.bottomAnchor, left: profileImage.rightAnchor, bottom: nil, right: cellBackgroundView.rightAnchor, paddingTop: 5, paddingLeft: 5, paddingBottom: 0, paddingRight: 0)
     }
     
     func fetchUserAverageRating(uid: String) {
@@ -79,6 +84,20 @@ class SearchTableViewCell: UITableViewCell {
     }
     
     //MARK: - Views
+    var cellBackgroundView: UIView = {
+        let view = UIView()
+        view.layer.cornerRadius = 8
+        view.layer.masksToBounds = true
+        view.backgroundColor = UIColor.clear
+        return view
+    }()
+    
+    let shadowView: ShadowView = {
+        let view = ShadowView()
+        view.backgroundColor = UIColor.white
+        return view
+    }()
+    
     var profileImage: CustomImageView = {
         let image = CustomImageView()
         image.contentMode = .scaleAspectFill
@@ -93,14 +112,14 @@ class SearchTableViewCell: UITableViewCell {
     
     let usernameLabel: UILabel = {
         let label = UILabel()
-        label.textColor = .gray
-        label.font = UIFont.boldSystemFont(ofSize: 15)
+        label.textColor = .white
+        label.font = UIFont.boldSystemFont(ofSize: 20)
         return label
     }()
     
     let locationLabel: UILabel = {
         let label = UILabel()
-        label.textColor = .gray
+        label.textColor = .white
         label.font = UIFont.systemFont(ofSize: 13)
         return label
     }()
@@ -112,15 +131,15 @@ class SearchTableViewCell: UITableViewCell {
         view.maxRating = 5
         view.rating = 2.5
         view.editable = false
-        view.emptyImage = UIImage(named: "star_unselected_color")
-        view.fullImage = UIImage(named: "star_selected_color")
+        view.emptyImage = UIImage(named: "star_unselected_white")
+        view.fullImage = UIImage(named: "star_selected_white")
         return view
     }()
     
     let reviewCountLabel: UILabel = {
         let label = UILabel()
         label.text = "0 reviews"
-        label.textColor = .lightGray
+        label.textColor = .white
         label.font = UIFont.systemFont(ofSize: 13)
         return label
     }()

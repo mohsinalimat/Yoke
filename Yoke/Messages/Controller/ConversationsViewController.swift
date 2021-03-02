@@ -41,7 +41,7 @@ class ConversationsViewController: UIViewController {
     //MARK: - Helper Functions
     func setupViews() {
         view.backgroundColor = .white
-        addBackgroundGradient()
+//        addBackgroundGradient()
         view.addSubview(tableView)
     }
     
@@ -60,7 +60,7 @@ class ConversationsViewController: UIViewController {
         navigationController?.navigationBar.compactAppearance = appearance
         navigationController?.navigationBar.scrollEdgeAppearance = appearance
         
-        navigationController?.navigationBar.prefersLargeTitles = true
+        navigationController?.navigationBar.prefersLargeTitles = false
         navigationItem.title = "Messages"
         navigationController?.navigationBar.tintColor = .white
         navigationController?.navigationBar.isTranslucent = true
@@ -69,7 +69,7 @@ class ConversationsViewController: UIViewController {
     }
     
     func configureTableView() {
-        tableView.backgroundColor = .white
+        tableView.backgroundColor = UIColor.LightGrayBg()
         tableView.rowHeight = 80
         tableView.register(ConversationTableViewCell.self, forCellReuseIdentifier: cellId)
         tableView.tableFooterView = UIView()
@@ -82,13 +82,21 @@ class ConversationsViewController: UIViewController {
         let collectionViewBackgroundView = UIView()
         let gradientLayer = CAGradientLayer()
         gradientLayer.frame.size = view.frame.size
-        // Start and end for left to right gradient
         gradientLayer.startPoint = CGPoint(x: 0.0, y: 0.5)
         gradientLayer.endPoint = CGPoint(x: 1.0, y: 0.5)
-        gradientLayer.colors = [UIColor.orangeColor()?.withAlphaComponent(0.8).cgColor ?? "", UIColor.yellowColor()?.withAlphaComponent(0.8).cgColor ?? ""]
+        gradientLayer.colors = [UIColor.orangeColor()?.withAlphaComponent(0.5).cgColor ?? "", UIColor.yellowColor()?.withAlphaComponent(0.2).cgColor ?? ""]
         tableView.backgroundView = collectionViewBackgroundView
         tableView.backgroundView?.layer.addSublayer(gradientLayer)
-      }
+    }
+    
+    func gradient(frame:CGRect) -> CAGradientLayer {
+        let layer = CAGradientLayer()
+        layer.frame = frame
+        layer.startPoint = CGPoint(x: 0.0, y: 0.5)
+        layer.endPoint = CGPoint(x: 1.0, y: 0.5)
+        layer.colors = [UIColor.orangeColor()?.cgColor ?? "", UIColor.yellowColor()?.cgColor ?? ""]
+        return layer
+    }
     
     //MARK: - API
     func fetchConversations() {
@@ -113,6 +121,7 @@ extension ConversationsViewController: UITableViewDataSource {
         cell.conversation = conversations[indexPath.row]
         cell.backgroundColor = .clear
         cell.selectionStyle = .none
+        cell.cellBackgroundView.layer.insertSublayer(gradient(frame: cell.bounds), at:0)
         return cell
     }
     

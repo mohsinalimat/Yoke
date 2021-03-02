@@ -86,12 +86,33 @@ class SearchViewController: UIViewController {
 //        self.navigationController?.navigationBar.isTranslucent = false
     }
     
+    func fetchUsers() {
+        guard let uid = Auth.auth().currentUser?.uid else { return }
+        UserController.shared.fetchUsers(uid: uid) { (result) in
+            switch result {
+            default:
+                print("fetched")
+                self.tableView.reloadData()
+            }
+        }
+    }
+    
     func dismissKeyboardOnTap() {
         let tap = UITapGestureRecognizer(target: self.view, action: #selector(UIView.endEditing(_:)))
         tap.cancelsTouchesInView = false
         view.addGestureRecognizer(tap)
     }
     
+    func gradient(frame:CGRect) -> CAGradientLayer {
+        let layer = CAGradientLayer()
+        layer.frame = frame
+        layer.startPoint = CGPoint(x: 0.0, y: 0.5)
+        layer.endPoint = CGPoint(x: 1.0, y: 0.5)
+        layer.colors = [UIColor.orangeColor()?.cgColor ?? "", UIColor.yellowColor()?.cgColor ?? ""]
+        return layer
+    }
+    
+    //MARK: - Selectors
     @objc func handleClear() {
         UserController.shared.filteredUsers = UserController.shared.users
         tableView.reloadData()
@@ -102,17 +123,6 @@ class SearchViewController: UIViewController {
 //        filterVC.delegate = self
 //        let rootVC = UINavigationController(rootViewController: filterVC)
 //        present(rootVC, animated: true)
-    }
-    
-    func fetchUsers() {
-        guard let uid = Auth.auth().currentUser?.uid else { return }
-        UserController.shared.fetchUsers(uid: uid) { (result) in
-            switch result {
-            default:
-                print("fetched")
-                self.tableView.reloadData()
-            }
-        }
     }
     
     //MARK: - Views
@@ -138,6 +148,7 @@ extension SearchViewController: UITableViewDataSource, UITableViewDelegate {
         let user = UserController.shared.filteredUsers[indexPath.row]
         cell.backgroundColor = .white
         cell.selectionStyle = .none
+        cell.cellBackgroundView.layer.insertSublayer(gradient(frame: cell.bounds), at:0)
         cell.user = user
         return cell
     }
@@ -150,7 +161,7 @@ extension SearchViewController: UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 100
+        return 120
     }
 }
 
