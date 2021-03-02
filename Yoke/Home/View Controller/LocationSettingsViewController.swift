@@ -181,6 +181,7 @@ class LocationSettingsViewController: UIViewController, UISearchBarDelegate, UIS
         navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .close, target: self, action: #selector(handleDismiss))
     }
     
+    //MARK: - Selectors
     @objc func locationSwitch(locationSwitchChanged: UISwitch) {
         if locationSwitch.isOn {
             setUserLocationFromSwitch()
@@ -196,6 +197,7 @@ class LocationSettingsViewController: UIViewController, UISearchBarDelegate, UIS
         fetchUserLocationFromSearch()
     }
     
+    //MARK: - API
     @objc func handleSave() {
         guard let street = streetTextField.text,
               let apartment = apartmentTextField.text,

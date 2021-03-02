@@ -14,15 +14,7 @@ class SearchTableViewCell: UITableViewCell {
 
     var user: User? {
         didSet {
-            guard let user = user else { return }
-            guard let city = user.city,
-                  let state = user.state,
-                  let uid = user.uid else { return }
-            usernameLabel.text = user.username
-            locationLabel.text = "\(city), \(state)"
-            guard let image = user.profileImageUrl else { return }
-            profileImage.loadImage(urlString: image)
-            fetchUserAverageRating(uid: uid)
+            configure()
         }
     }
     
@@ -34,6 +26,18 @@ class SearchTableViewCell: UITableViewCell {
 
      required init?(coder aDecoder: NSCoder) {
        super.init(coder: aDecoder)
+    }
+    
+    func configure() {
+        guard let user = user else { return }
+        guard let city = user.city,
+              let state = user.state,
+              let uid = user.uid else { return }
+        usernameLabel.text = user.username
+        locationLabel.text = "\(city), \(state)"
+        guard let image = user.profileImageUrl else { return }
+        profileImage.loadImage(urlString: image)
+        fetchUserAverageRating(uid: uid)
     }
     
     func setupViews(){

@@ -11,10 +11,7 @@ import UIKit
 class CusineCollectionViewCell: UICollectionViewCell {
     var cusine: Cusine? {
         didSet {
-            guard let cusine = cusine?.type else { return }
-            for c in cusine {
-              label.text = "\(c)"
-            }
+            configure()
         }
     }
     
@@ -26,6 +23,14 @@ class CusineCollectionViewCell: UICollectionViewCell {
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    //MARK: - Helper Functions
+    func configure() {
+        guard let cusine = cusine?.type else { return }
+        for c in cusine {
+          label.text = "\(c)"
+        }
     }
     
     func setupViews() {

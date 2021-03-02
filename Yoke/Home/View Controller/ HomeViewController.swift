@@ -211,14 +211,8 @@ class HomeViewController: UIViewController {
     func handleUpdateObserverAndRefresh() {
         NotificationCenter.default.addObserver(self, selector: #selector(handleUpdate), name: SettingsViewController.updateNotificationName, object: nil)
     }
-    
-    @objc func handleUpdate() {
-        DispatchQueue.main.async {
-            self.fetchUser()
-            self.setupCollectionView()
-        }
-    }
 
+    //MARK: - API
     fileprivate func fetchSuggestedChefs() {
         let uid = userId ?? (Auth.auth().currentUser?.uid ?? "")
         UserController.shared.fetchUserWithUID(uid: uid) { (user) in
@@ -247,6 +241,14 @@ class HomeViewController: UIViewController {
             case false:
                 print("Problem Loading Menus")
             }
+        }
+    }
+    
+    //MARK: - Selectors
+    @objc func handleUpdate() {
+        DispatchQueue.main.async {
+            self.fetchUser()
+            self.setupCollectionView()
         }
     }
     

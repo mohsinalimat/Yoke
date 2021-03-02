@@ -10,20 +10,13 @@ import UIKit
 
 protocol MenuHeaderDelegate: class {
     func addMenu(_ sender: MenuHeaderCollectionViewCell)
-//    func addMenu(user: User)
 }
 
 class MenuHeaderCollectionViewCell: UICollectionViewCell {
     
     // MARK: - Properties
     var delegate: MenuHeaderDelegate?
-    
-    var user: User? {
-        didSet {
-            
-        }
-    }
-    
+
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupViews()

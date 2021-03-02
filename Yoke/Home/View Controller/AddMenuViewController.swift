@@ -124,6 +124,7 @@ class AddMenuViewController: UIViewController {
         present(alertVC, animated: true)
     }
     
+    //MARK: - Selectors
     @objc func handleAddImage() {
         let alertVC = UIAlertController(title: "Add a Photo", message: nil, preferredStyle: .alert)
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel) { (_) in

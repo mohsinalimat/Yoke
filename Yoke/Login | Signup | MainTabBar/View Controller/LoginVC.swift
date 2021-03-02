@@ -104,6 +104,39 @@ class LoginVC: UIViewController {
         }
     }
 
+    func handleLoginToHome() {
+        self.myActivityIndicator.stopAnimating()
+        UIView.animate(withDuration: 0.5) { [weak self] in
+            let homeVC = WelcomeVC()
+            self?.view.window?.rootViewController = homeVC
+            self?.view.window?.makeKeyAndVisible()
+//            let homeVC = MainTabBarController()
+//            self?.view.window?.rootViewController = homeVC
+//            self?.view.window?.makeKeyAndVisible()
+        }
+    }
+
+    //MARK: - Selectors
+    @objc func handleShowSignUp() {
+        let signupVC = SignupVC()
+        self.view.window?.rootViewController = signupVC
+        self.view.window?.makeKeyAndVisible()
+    }
+    
+    @objc func handleSignIn() {
+        guard let email = emailTextField.text, !email.isEmpty,
+              let password = passwordTextField.text,
+              !password.isEmpty else { return }
+        self.myActivityIndicator.startAnimating()
+        Auth.auth().signIn(withEmail: email, password: password, completion: { (user, error) in
+            if let error = error {
+                print(error.localizedDescription)
+                return
+            }
+            self.handleLoginToHome()
+        })
+    }
+    
     @objc func handleForgotPassword() {
         let forgotPasswordAlert = UIAlertController(title: "Forgot password?", message: "Enter email address", preferredStyle: .alert)
         forgotPasswordAlert.addTextField { (textField) in
@@ -125,39 +158,6 @@ class LoginVC: UIViewController {
             })
         }))
         self.present(forgotPasswordAlert, animated: true, completion: nil)
-    }
-    
-    @objc func handleSignIn() {
-        guard let email = emailTextField.text, !email.isEmpty,
-              let password = passwordTextField.text,
-              !password.isEmpty else { return }
-        self.myActivityIndicator.startAnimating()
-        Auth.auth().signIn(withEmail: email, password: password, completion: { (user, error) in
-            if let error = error {
-                print(error.localizedDescription)
-                return
-            }
-            self.handleLoginToHome()
-        })
-    }
-
-    func handleLoginToHome() {
-        self.myActivityIndicator.stopAnimating()
-        UIView.animate(withDuration: 0.5) { [weak self] in
-            let homeVC = WelcomeVC()
-            self?.view.window?.rootViewController = homeVC
-            self?.view.window?.makeKeyAndVisible()
-//            let homeVC = MainTabBarController()
-//            self?.view.window?.rootViewController = homeVC
-//            self?.view.window?.makeKeyAndVisible()
-        }
-    }
-
-    //MARK: - Selectors
-    @objc func handleShowSignUp() {
-        let signupVC = SignupVC()
-        self.view.window?.rootViewController = signupVC
-        self.view.window?.makeKeyAndVisible()
     }
     
     //MARK: - Views

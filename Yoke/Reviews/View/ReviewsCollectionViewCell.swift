@@ -13,29 +13,7 @@ class ReviewsCollectionViewCell: UICollectionViewCell {
     var user: User?
     var review: Review? {
         didSet {
-            guard let review = review else { return }
-            guard let username = review.username,
-                  let reviewText = review.review,
-                  let uid = review.uid,
-                  let date = review.timestamp else { return }
-            if case review.review = "" {
-                let attributedText = NSMutableAttributedString(string: username, attributes: [NSAttributedString.Key.font: UIFont.boldSystemFont(ofSize: 17), NSAttributedString.Key.foregroundColor: UIColor.darkGray])
-                attributedText.append(NSAttributedString(string: " " + "There is no review to accompany this rating.", attributes: [NSAttributedString.Key.font: UIFont(name: "Avenir-BookOblique", size: 14)!, NSAttributedString.Key.foregroundColor: UIColor.darkGray]))
-                textView.attributedText = attributedText
-            } else {
-                let attributedText = NSMutableAttributedString(string: username, attributes: [NSAttributedString.Key.font: UIFont.boldSystemFont(ofSize: 17), NSAttributedString.Key.foregroundColor: UIColor.darkGray])
-                attributedText.append(NSAttributedString(string: " " + reviewText, attributes: [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 15), NSAttributedString.Key.foregroundColor: UIColor.darkGray ]))
-                textView.attributedText = attributedText
-            }
-            
-            UserController.shared.fetchUserWithUID(uid: uid) { (user) in
-                guard let image = user.profileImageUrl else { return }
-                self.profileImageView.loadImage(urlString: image)
-            }
-            
-            guard let rating = review.stars else { return }
-            self.ratingView.rating = rating
-            timestampLabel.text = date
+            configure()
         }
     }
     
@@ -50,6 +28,33 @@ class ReviewsCollectionViewCell: UICollectionViewCell {
     }
     
     //MARK: - Helper Functions
+    func configure() {
+        guard let review = review else { return }
+        guard let username = review.username,
+              let reviewText = review.review,
+              let uid = review.uid,
+              let date = review.timestamp else { return }
+        if case review.review = "" {
+            let attributedText = NSMutableAttributedString(string: username, attributes: [NSAttributedString.Key.font: UIFont.boldSystemFont(ofSize: 17), NSAttributedString.Key.foregroundColor: UIColor.darkGray])
+            attributedText.append(NSAttributedString(string: " " + "There is no review to accompany this rating.", attributes: [NSAttributedString.Key.font: UIFont(name: "Avenir-BookOblique", size: 14)!, NSAttributedString.Key.foregroundColor: UIColor.darkGray]))
+            textView.attributedText = attributedText
+        } else {
+            let attributedText = NSMutableAttributedString(string: username, attributes: [NSAttributedString.Key.font: UIFont.boldSystemFont(ofSize: 17), NSAttributedString.Key.foregroundColor: UIColor.darkGray])
+            attributedText.append(NSAttributedString(string: " " + reviewText, attributes: [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 15), NSAttributedString.Key.foregroundColor: UIColor.darkGray ]))
+            textView.attributedText = attributedText
+        }
+        
+        UserController.shared.fetchUserWithUID(uid: uid) { (user) in
+            guard let image = user.profileImageUrl else { return }
+            self.profileImageView.loadImage(urlString: image)
+        }
+        
+        guard let rating = review.stars else { return }
+        self.ratingView.rating = rating
+        timestampLabel.text = date
+    }
+    }
+    
     func setupViews() {
         addSubview(profileImageView)
         addSubview(textView)

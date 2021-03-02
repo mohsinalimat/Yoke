@@ -27,6 +27,16 @@ class SettingsViewController: UIViewController  {
     static let updateNotificationName = NSNotification.Name(rawValue: "Update")
     
     //MARK: - Lifecycle Methods
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        self.addKeyboardObserver()
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        self.removeKeyboardObserver()
+    }
+    
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         setupViews()
@@ -126,10 +136,6 @@ class SettingsViewController: UIViewController  {
         NotificationCenter.default.addObserver(self, selector: #selector(handleUpdate), name: LocationSettingsViewController.updateNotificationName, object: nil)
     }
     
-    @objc func handleUpdate() {
-        fetchUser()
-    }
-    
     func setupUserProfile(user: User) {
         guard let city = user.city,
               let state = user.state else { return }
@@ -176,29 +182,19 @@ class SettingsViewController: UIViewController  {
             self?.view.window?.makeKeyAndVisible()
         }
     }
-
-    @objc func handleSaveUserInfo() {
-        guard let username = usernameTextField.text, !username.isEmpty,
-              let bio = bioTextView.text else { return emptyFieldWarning() }
-        if chefSwitch.isOn {
-            isUserChef = true
-        } else {
-            isUserChef = false
-        }
-        UserController.shared.updateUser(uid, username: username, bio: bio, isChef: isUserChef) { (result) in
-            switch result {
-            case true:
-                self.saveSuccessful()
-            case false:
-                print("error updating user")
-            }
-        }
-        NotificationCenter.default.post(name: SettingsViewController.updateNotificationName, object: nil)
-    }
     
     func emptyFieldWarning() {
         let alertVC = UIAlertController(title: "Missing Fields", message: "You must fill in all the fields to save", preferredStyle: .alert)
         let okAction = UIAlertAction(title: "ok", style: .cancel)
+        alertVC.addAction(okAction)
+        present(alertVC, animated: true)
+    }
+    
+    func saveSuccessful() {
+        let alertVC = UIAlertController(title: "Success", message: "Your profile has been updated", preferredStyle: .alert)
+        let okAction = UIAlertAction(title: "Cool Beans", style: .default) { (_) in
+            self.handleDismiss()
+        }
         alertVC.addAction(okAction)
         present(alertVC, animated: true)
     }
@@ -234,6 +230,62 @@ class SettingsViewController: UIViewController  {
         present(alertVC, animated: true)
     }
     
+    func deleteAction() {
+        let alertVC = UIAlertController(title: "Are your sure you want to delete your account?", message: "You will loose all your data if you choose to delete", preferredStyle: .alert)
+        let yesAction = UIAlertAction(title: "Yes, let's delete", style: .default) { (_) in
+            self.deleteUser()
+        }
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+        alertVC.addAction(yesAction)
+        alertVC.addAction(cancelAction)
+        self.present(alertVC, animated: true)
+    }
+    
+    func deleteUser() {
+        guard let user = Auth.auth().currentUser else { return }
+        guard let uid = Auth.auth().currentUser?.uid else { return }
+//        UserController.shared.deleteUserData(uid) { (result) in
+//            switch result {
+//            case .success(_):
+//                user.delete { (error) in
+//                    if let error = error {
+//                        print(error)
+//                    } else {
+//                        print("Deleted account")
+//                    }
+//                    self.backToLoginVC()
+//                }
+//            case .failure(let error):
+//                print(error.localizedDescription)
+//            }
+//        }
+    }
+    
+    //MARK: - API
+    @objc func handleSaveUserInfo() {
+        guard let username = usernameTextField.text, !username.isEmpty,
+              let bio = bioTextView.text else { return emptyFieldWarning() }
+        if chefSwitch.isOn {
+            isUserChef = true
+        } else {
+            isUserChef = false
+        }
+        UserController.shared.updateUser(uid, username: username, bio: bio, isChef: isUserChef) { (result) in
+            switch result {
+            case true:
+                self.saveSuccessful()
+            case false:
+                print("error updating user")
+            }
+        }
+        NotificationCenter.default.post(name: SettingsViewController.updateNotificationName, object: nil)
+    }
+    
+    //MARK: - Selectors | API
+    @objc func handleUpdate() {
+        fetchUser()
+    }
+    
     @objc func chefSwitch(chefSwitchChanged: UISwitch) {
         if chefSwitch.isOn {
             chefAlert()
@@ -246,15 +298,6 @@ class SettingsViewController: UIViewController  {
             chefPreferenceButton.isEnabled = false
             chefPreferenceButton.setTitleColor(UIColor.orangeColor()?.withAlphaComponent(0.4), for: .normal)
         }
-    }
-    
-    func saveSuccessful() {
-        let alertVC = UIAlertController(title: "Success", message: "Your profile has been updated", preferredStyle: .alert)
-        let okAction = UIAlertAction(title: "Cool Beans", style: .default) { (_) in
-            self.handleDismiss()
-        }
-        alertVC.addAction(okAction)
-        present(alertVC, animated: true)
     }
     
     @objc func handleDismiss() {
@@ -325,47 +368,6 @@ class SettingsViewController: UIViewController  {
         let chefPreference = ChefSettingsViewController()
         present(chefPreference , animated: true)
 //        navigationController?.pushViewController(locationSettings, animated: true)
-    }
-    
-    func deleteAction() {
-        let alertVC = UIAlertController(title: "Are your sure you want to delete your account?", message: "You will loose all your data if you choose to delete", preferredStyle: .alert)
-        let yesAction = UIAlertAction(title: "Yes, let's delete", style: .default) { (_) in
-            self.deleteUser()
-        }
-        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
-        alertVC.addAction(yesAction)
-        alertVC.addAction(cancelAction)
-        self.present(alertVC, animated: true)
-    }
-    
-    func deleteUser() {
-        guard let user = Auth.auth().currentUser else { return }
-        guard let uid = Auth.auth().currentUser?.uid else { return }
-//        UserController.shared.deleteUserData(uid) { (result) in
-//            switch result {
-//            case .success(_):
-//                user.delete { (error) in
-//                    if let error = error {
-//                        print(error)
-//                    } else {
-//                        print("Deleted account")
-//                    }
-//                    self.backToLoginVC()
-//                }
-//            case .failure(let error):
-//                print(error.localizedDescription)
-//            }
-//        }
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        self.addKeyboardObserver()
-    }
-    
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        self.removeKeyboardObserver()
     }
     
     //MARK: - Views

@@ -182,6 +182,7 @@ class ProfileViewController: UIViewController, TTGTextTagCollectionViewDelegate 
         }
     }
     
+    //MARK: - API
     fileprivate func fetchUser() {
         let uid = userId ?? (Auth.auth().currentUser?.uid ?? "")
         UserController.shared.fetchUserWithUID(uid: uid) { (user) in
@@ -253,6 +254,7 @@ class ProfileViewController: UIViewController, TTGTextTagCollectionViewDelegate 
         }
     }
     
+    //MARK: - Selectors
     @objc func viewReviews() {
         let reviewsVC = ReviewsCollectionViewController(collectionViewLayout: UICollectionViewFlowLayout())
         reviewsVC.userId = userId

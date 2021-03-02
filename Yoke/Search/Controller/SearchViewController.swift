@@ -86,17 +86,6 @@ class SearchViewController: UIViewController {
 //        self.navigationController?.navigationBar.isTranslucent = false
     }
     
-    func fetchUsers() {
-        guard let uid = Auth.auth().currentUser?.uid else { return }
-        UserController.shared.fetchUsers(uid: uid) { (result) in
-            switch result {
-            default:
-                print("fetched")
-                self.tableView.reloadData()
-            }
-        }
-    }
-    
     func dismissKeyboardOnTap() {
         let tap = UITapGestureRecognizer(target: self.view, action: #selector(UIView.endEditing(_:)))
         tap.cancelsTouchesInView = false
@@ -110,6 +99,18 @@ class SearchViewController: UIViewController {
         layer.endPoint = CGPoint(x: 1.0, y: 0.5)
         layer.colors = [UIColor.orangeColor()?.cgColor ?? "", UIColor.yellowColor()?.cgColor ?? ""]
         return layer
+    }
+    
+    //MARK: - API
+    func fetchUsers() {
+        guard let uid = Auth.auth().currentUser?.uid else { return }
+        UserController.shared.fetchUsers(uid: uid) { (result) in
+            switch result {
+            default:
+                print("fetched")
+                self.tableView.reloadData()
+            }
+        }
     }
     
     //MARK: - Selectors

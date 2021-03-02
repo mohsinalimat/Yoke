@@ -122,22 +122,6 @@ class ChefSettingsViewController: UIViewController, TTGTextTagCollectionViewDele
         }
     }
     
-    @objc func handleShowCuisineList() {
-        cuisineListCollectionView.isHidden = false
-        listView.isHidden = false
-        listViewBackground.isHidden = false
-        doneButton.isHidden = false
-        isCuisineList = true
-    }
-    
-    @objc func handleHideCuisineList() {
-        cuisineListCollectionView.isHidden = true
-        listView.isHidden = true
-        listViewBackground.isHidden = true
-        doneButton.isHidden = true
-        isCuisineList = false
-    }
-    
     func handleAddFromCuisineList(uid: String, text: String, index: UInt) {
         let config = TTGTextTagConfig()
         config.backgroundColor = UIColor.orangeColor()
@@ -148,23 +132,6 @@ class ChefSettingsViewController: UIViewController, TTGTextTagCollectionViewDele
                 self.cuisineCollectionView.addTag(text, with: config)
                 self.cuisineCollectionView.reload()
                 self.cuisineListCollectionView.reload()
-            case false:
-                print("error in adding cuisine")
-            }
-        }
-    }
-    
-    @objc func handleAddTextField() {
-        guard let text = cuisineTypeTextField.text, !text.isEmpty else { return handleEmptyText()}
-        let config = TTGTextTagConfig()
-        config.backgroundColor = UIColor.orangeColor()
-        config.textColor = UIColor.white
-        CuisineController.shared.addCusineWith(uid: uid, type: text) { (result) in
-            switch result {
-            case true:
-                self.cuisineCollectionView.addTag(text, with: config)
-                self.cuisineTypeTextField.text = ""
-                self.cuisineCollectionView.reload()
             case false:
                 print("error in adding cuisine")
             }
@@ -205,7 +172,39 @@ class ChefSettingsViewController: UIViewController, TTGTextTagCollectionViewDele
         }
     }
     
+    //MARK: - Selectors
+    @objc func handleAddTextField() {
+        guard let text = cuisineTypeTextField.text, !text.isEmpty else { return handleEmptyText()}
+        let config = TTGTextTagConfig()
+        config.backgroundColor = UIColor.orangeColor()
+        config.textColor = UIColor.white
+        CuisineController.shared.addCusineWith(uid: uid, type: text) { (result) in
+            switch result {
+            case true:
+                self.cuisineCollectionView.addTag(text, with: config)
+                self.cuisineTypeTextField.text = ""
+                self.cuisineCollectionView.reload()
+            case false:
+                print("error in adding cuisine")
+            }
+        }
+    }
     
+    @objc func handleShowCuisineList() {
+        cuisineListCollectionView.isHidden = false
+        listView.isHidden = false
+        listViewBackground.isHidden = false
+        doneButton.isHidden = false
+        isCuisineList = true
+    }
+    
+    @objc func handleHideCuisineList() {
+        cuisineListCollectionView.isHidden = true
+        listView.isHidden = true
+        listViewBackground.isHidden = true
+        doneButton.isHidden = true
+        isCuisineList = false
+    }
     
     //MARK: - Views
     let swipeIndicator: UIView = {

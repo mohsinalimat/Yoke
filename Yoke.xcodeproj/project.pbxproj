@@ -371,13 +371,13 @@
 				6C8DB5F924B3C1B8003D06FF /* Home */,
 				6C8DB5E224B3C1B7003D06FF /* User Profile */,
 				6C8DB62324B3C1B9003D06FF /* Search */,
+				6C8DB61924B3C1B8003D06FF /* Reviews */,
 				6C8DB5B224B3C1B7003D06FF /* Messages */,
 				6C8DB62B24B3C1B9003D06FF /* Bookmark */,
 				6C8DB5D324B3C1B7003D06FF /* Calendar */,
 				6C8DB5E724B3C1B8003D06FF /* Events */,
 				6CBDDE3E24B3DBD30099A04C /* Payment */,
 				6C8DB5C324B3C1B7003D06FF /* Gallery */,
-				6C8DB61924B3C1B8003D06FF /* Reviews */,
 				6C8DB61424B3C1B8003D06FF /* Services */,
 				6C8DB5C024B3C1B7003D06FF /* Utilities */,
 				6C8DB60D24B3C1B8003D06FF /* Helpers and Extensions */,
@@ -858,6 +858,7 @@
 		6CC8CBDC25C47BF100C3F24D /* Unused files for ref */ = {
 			isa = PBXGroup;
 			children = (
+				6CBF4FD125D32502000CFBA5 /* GalleryCollectionViewCell.swift */,
 				6C8DB5BD24B3C1B7003D06FF /* MessageCell.swift */,
 				6C8DB5B524B3C1B7003D06FF /* MessageVC.swift */,
 				6C8DB5B624B3C1B7003D06FF /* ChatVC.swift */,
@@ -914,7 +915,6 @@
 		6CFDB3AB25B89D35007261D1 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				6CBF4FD125D32502000CFBA5 /* GalleryCollectionViewCell.swift */,
 				6C8DB60F24B3C1B8003D06FF /* EmptyCell.swift */,
 			);
 			path = Views;

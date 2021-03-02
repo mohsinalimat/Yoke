@@ -17,14 +17,7 @@ class SuggestedChefsCollectionViewCell: UICollectionViewCell {
     let firestoreDB = Firestore.firestore()
     var chef: User? {
         didSet {
-            guard let chef = chef else { return }
-            guard let uid = chef.uid else { return }
-            nameLabel.text = chef.username
-            guard let city = chef.city, let state = chef.state else { return }
-            locationLabel.text = "\(city), \(state)"
-            guard let image = chef.profileImageUrl else { return }
-            profileImage.loadImage(urlString: image)
-            handleRatingView(uid: uid)
+            configure()
         }
     }
     
@@ -39,6 +32,17 @@ class SuggestedChefsCollectionViewCell: UICollectionViewCell {
     }
     
     //MARK: - Helper Functions
+    func configure() {
+        guard let chef = chef else { return }
+        guard let uid = chef.uid else { return }
+        nameLabel.text = chef.username
+        guard let city = chef.city, let state = chef.state else { return }
+        locationLabel.text = "\(city), \(state)"
+        guard let image = chef.profileImageUrl else { return }
+        profileImage.loadImage(urlString: image)
+        handleRatingView(uid: uid)
+    }
+    
     func setupViews() {
         addSubview(shadowView)
         addSubview(cellBackgroundView)

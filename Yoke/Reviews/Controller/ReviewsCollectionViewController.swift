@@ -29,6 +29,7 @@ class ReviewsCollectionViewController: UICollectionViewController, UICollectionV
         collectionView.register(EmptyCell.self, forCellWithReuseIdentifier: noCellId)
     }
     
+    //MARK: - Selectors
     @objc func newReview() {
         let reviewsVC = NewReviewViewController()
         reviewsVC.userId = userId
@@ -36,6 +37,7 @@ class ReviewsCollectionViewController: UICollectionViewController, UICollectionV
 //        navigationController?.pushViewController(reviewsVC, animated: true)
     }
     
+    //MARK: - API
     func fetchReviews() {
         let uid = userId ?? (Auth.auth().currentUser?.uid ?? "")
         UserController.shared.fetchUserWithUID(uid: uid) { (user) in

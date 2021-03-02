@@ -99,7 +99,17 @@ class SignupVC: UIViewController {
         alertController.addAction(defaultAction)
         self.present(alertController, animated: true, completion: nil)
     }
+
+    func handleLoginToHome() {
+        myActivityIndicator.stopAnimating()
+        UIView.animate(withDuration: 0.5) { [weak self] in
+            let homeVC = MainTabBarController()
+            self?.view.window?.rootViewController = homeVC
+            self?.view.window?.makeKeyAndVisible()
+        }
+    }
     
+    //MARK: - Selectors
     @objc func handleAddProfileImageViewTapped(_ sender: UITapGestureRecognizer? = nil) {
         let alertVC = UIAlertController(title: "Add a Photo", message: nil, preferredStyle: .alert)
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel) { (_) in
@@ -133,38 +143,6 @@ class SignupVC: UIViewController {
             case false:
                 print("error in signup: \(Error.self)")
             }
-        }
-//        guard let exposedLocation = self.locationManager.exposedLocation else { return }
-//        self.locationManager.getPlace(for: exposedLocation) { [self] placemark in
-//            guard let placemark = placemark else { return }
-//            var output = ""
-//            if let locationName = placemark.location {
-//                output = output + "\n\(locationName)"
-//                // pulls to physical address on mapkit
-//            }
-//            if let postal = placemark.postalAddress {
-//                UserController.shared.createUserWith(email: email, username: username, password: password, image: image, isChef: self.isChef) { (result) in
-//                    switch result {
-//                    case true:
-//                        self.handleLoginToHome()
-//                        print("success")
-//                    case false:
-//                        print("error in signup: \(Error.self)")
-//                    }
-//                }
-//                self.location = output
-//                print(self.location)
-//            }
-//
-//        }
-    }
-
-    func handleLoginToHome() {
-        myActivityIndicator.stopAnimating()
-        UIView.animate(withDuration: 0.5) { [weak self] in
-            let homeVC = MainTabBarController()
-            self?.view.window?.rootViewController = homeVC
-            self?.view.window?.makeKeyAndVisible()
         }
     }
     

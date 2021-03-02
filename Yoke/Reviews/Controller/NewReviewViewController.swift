@@ -73,6 +73,17 @@ class NewReviewViewController: UIViewController {
         
     }
     
+    func handleDone() {
+        let alertVC = UIAlertController(title: "Success", message: "Your review has been submitted", preferredStyle: .alert)
+        let okAction = UIAlertAction(title: "Cool Beans", style: .default) { (_) in
+            self.myActivityIndicator.stopAnimating()
+            self.dismiss(animated: true, completion: nil)
+        }
+        alertVC.addAction(okAction)
+        present(alertVC, animated: true)
+    }
+    
+    //MARK: - API
     @objc func didSubmit() {
         guard let currentUserUid = Auth.auth().currentUser?.uid else {return}
         let profileUserUid = userId ?? (Auth.auth().currentUser?.uid ?? "")
@@ -91,16 +102,6 @@ class NewReviewViewController: UIViewController {
             }
         }
        
-    }
-    
-    func handleDone() {
-        let alertVC = UIAlertController(title: "Success", message: "Your review has been submitted", preferredStyle: .alert)
-        let okAction = UIAlertAction(title: "Cool Beans", style: .default) { (_) in
-            self.myActivityIndicator.stopAnimating()
-            self.dismiss(animated: true, completion: nil)
-        }
-        alertVC.addAction(okAction)
-        present(alertVC, animated: true)
     }
     
     // MARK: - Views
