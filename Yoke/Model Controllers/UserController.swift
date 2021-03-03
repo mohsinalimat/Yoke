@@ -29,6 +29,8 @@ class UserController {
     var users: [User] = []
     // var users: users = [User]()
     var filteredUsers = [User]()
+    var average = 0.0
+    var count = 0.0
     
     //MARK: - Properties
     private let locationManager = LocationManager()
@@ -132,6 +134,26 @@ class UserController {
         }
     }
     
+    func fetchUserRatingWith(uid: String, completion: @escaping (Bool) -> Void) {
+        firestoreDB.collection(Constants.Users).document(uid).collection(Constants.Ratings).getDocuments() { (querySnapshot, error) in
+            var totalCount = 0.0
+            if error != nil {
+                completion(false)
+                print(error?.localizedDescription ?? "")
+            } else {
+                self.count = Double(querySnapshot?.count ?? 0)
+                for document in querySnapshot!.documents {
+                    if let rate = document.data()[Constants.Stars] as? Double {
+                        totalCount += rate
+                        completion(true)
+                    }
+                }
+            }
+            self.average = totalCount/self.count
+//            self.ratingView.rating = average
+        }
+    }
+    
     func fetchUserWithUID(uid: String, completion: @escaping (User) -> ()) {
         firestoreDB.collection(Constants.Users).document(uid).getDocument { (document, error) in
             if let document = document, document.exists {
@@ -152,15 +174,10 @@ class UserController {
                 completion(error as! User)
             }
             self.users = []
-//Initializing user object #22\ create a dic in model
-//            snapshot?.documents.forEach({ (document) in
-//                print(document)
-//                  let dictionary = document.data()
-//                  let user = User(dictionary: dictionary)
-//            })
-            for document in snapshot!.documents {
+            snapshot?.documents.forEach({ (document) in
                 let dictionary = document.data()
-                guard let isChef = dictionary[Constants.IsChef] as? Bool else { return }
+                let uid = dictionary[Constants.Uid] as? String ?? ""
+                let isChef = dictionary[Constants.IsChef] as? Bool
                 if uid != Auth.auth().currentUser?.uid && isChef == true {
                     let user = User(dictionary: dictionary)
                     self.users.append(user)
@@ -170,8 +187,7 @@ class UserController {
                     self.filteredUsers = self.users
                     completion(user)
                 }
-                print(document.data())
-            }
+            })
         }
     }
 

@@ -141,6 +141,7 @@ class SearchViewController: UIViewController {
 
 extension SearchViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        print("search count \(UserController.shared.filteredUsers.count)")
         return UserController.shared.filteredUsers.count
     }
     

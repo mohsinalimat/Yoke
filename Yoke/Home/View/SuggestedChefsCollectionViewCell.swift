@@ -66,22 +66,31 @@ class SuggestedChefsCollectionViewCell: UICollectionViewCell {
     }
     
     func handleRatingView(uid: String) {
-        firestoreDB.collection(Constants.Users).document(uid).collection(Constants.Ratings).getDocuments() { (querySnapshot, error) in
-            var totalCount = 0.0
-            var count = 0.0
-            if error != nil {
-                print(error?.localizedDescription)
-            } else {
-                count = Double(querySnapshot?.count ?? 0)
-                for document in querySnapshot!.documents {
-                    if let rate = document.data()[Constants.Stars] as? Double {
-                        totalCount += rate
-                    }
-                }
+        UserController.shared.fetchUserRatingWith(uid: uid) { (result) in
+            switch result {
+            case true:
+                self.ratingView.rating = UserController.shared.average
+                print("average \(uid) average \(UserController.shared.average)")
+            case false:
+                print("Failed to fetch rating")
             }
-            let average = totalCount/count
-            self.ratingView.rating = average
         }
+//        firestoreDB.collection(Constants.Users).document(uid).collection(Constants.Ratings).getDocuments() { (querySnapshot, error) in
+//            var totalCount = 0.0
+//            var count = 0.0
+//            if error != nil {
+//                print(error?.localizedDescription)
+//            } else {
+//                count = Double(querySnapshot?.count ?? 0)
+//                for document in querySnapshot!.documents {
+//                    if let rate = document.data()[Constants.Stars] as? Double {
+//                        totalCount += rate
+//                    }
+//                }
+//            }
+//            let average = totalCount/count
+//            self.ratingView.rating = average
+//        }
     }
     
     //MARK: Views
