@@ -19,14 +19,30 @@ class ReviewsCollectionViewController: UICollectionViewController, UICollectionV
         super.viewDidLoad()
         setupCollectionView()
         fetchReviews()
+        addBackgroundGradient()
     }
     
     //MARK: - Helper Functions
+    func configureNavigationBar() {
+        guard let orange = UIColor.orangeColor() else { return }
+        configureNavigationBar(withTitle: "Reviews", largeTitle: true, backgroundColor: UIColor.white, titleColor: orange)
+    }
     func setupCollectionView() {
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "new", style: .plain, target: self, action: #selector(newReview))
         collectionView.backgroundColor = .white
         collectionView.register(ReviewsCollectionViewCell.self, forCellWithReuseIdentifier: cellId)
         collectionView.register(EmptyCell.self, forCellWithReuseIdentifier: noCellId)
+    }
+    
+    private func addBackgroundGradient() {
+        let collectionViewBackgroundView = UIView()
+        let gradientLayer = CAGradientLayer()
+        gradientLayer.frame.size = view.frame.size
+        gradientLayer.startPoint = CGPoint(x: 0.0, y: 0.5)
+        gradientLayer.endPoint = CGPoint(x: 1.0, y: 0.5)
+        gradientLayer.colors = [UIColor.orangeColor()?.withAlphaComponent(1).cgColor ?? "", UIColor.yellowColor()?.withAlphaComponent(1).cgColor ?? ""]
+        collectionView.backgroundView = collectionViewBackgroundView
+        collectionView.backgroundView?.layer.addSublayer(gradientLayer)
     }
     
     //MARK: - Selectors

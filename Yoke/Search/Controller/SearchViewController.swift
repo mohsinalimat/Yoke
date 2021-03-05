@@ -41,7 +41,7 @@ class SearchViewController: UIViewController {
     
     //MARK: - Helper Functions
     func setupViews() {
-        tableView.backgroundColor = .white
+        tableView.backgroundColor = UIColor.LightGrayBg()
         view.backgroundColor = .white
         view.addSubview(searchBar)
         view.addSubview(tableView)
@@ -54,21 +54,8 @@ class SearchViewController: UIViewController {
     }
     
     func configureNav() {
-        let appearance = UINavigationBarAppearance()
-        appearance.configureWithOpaqueBackground()
-        appearance.largeTitleTextAttributes = [.foregroundColor: UIColor.white]
-        appearance.backgroundColor = UIColor.orangeColor()
-        
-        navigationController?.navigationBar.standardAppearance = appearance
-        navigationController?.navigationBar.compactAppearance = appearance
-        navigationController?.navigationBar.scrollEdgeAppearance = appearance
-        
-        navigationController?.navigationBar.prefersLargeTitles = true
-        navigationItem.title = "Search"
-        navigationController?.navigationBar.tintColor = .white
-        navigationController?.navigationBar.isTranslucent = true
-        
-        navigationController?.navigationBar.overrideUserInterfaceStyle = .dark
+        guard let orange = UIColor.orangeColor() else { return }
+        configureNavigationBar(withTitle: "Search", largeTitle: true, backgroundColor: UIColor.white, titleColor: orange)
     }
     
     func setupTableView() {
@@ -130,11 +117,11 @@ class SearchViewController: UIViewController {
     var searchBar: UISearchBar = {
         let search = UISearchBar()
         search.placeholder = "Search by name or location"
-        search.searchTextField.textColor = UIColor.orangeColor()
+        search.searchTextField.textColor = UIColor.white
         search.searchTextField.backgroundColor = UIColor.white
-        search.tintColor = UIColor.orangeColor()
-        search.backgroundColor = UIColor.orangeColor()
-        search.barTintColor = UIColor.orangeColor()
+        search.tintColor = UIColor.white
+        search.backgroundColor = UIColor.white
+        search.barTintColor = UIColor.white
         return search
     }()
 }

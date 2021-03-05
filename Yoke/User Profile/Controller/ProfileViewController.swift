@@ -565,7 +565,7 @@ extension ProfileViewController: UICollectionViewDelegate, UICollectionViewDataS
             if MenuController.shared.menus.count == 0 {
                 return CGSize(width: view.frame.width - 20, height: 200)
             } else {
-                return CGSize(width: view.frame.width - 40, height: 150)
+                return CGSize(width: view.frame.width - 40, height: 160)
 //                return CGSize(width: view.frame.width / 2, height: 200)
             }
         }

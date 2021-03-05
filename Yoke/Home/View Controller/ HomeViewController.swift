@@ -55,7 +55,7 @@ class HomeViewController: UIViewController {
     }
     
     func setupViews() {
-        view.backgroundColor = UIColor.white
+//        view.backgroundColor = UIColor.LightGrayBg()
         view.addSubview(scrollView)
         scrollView.alwaysBounceHorizontal = false
         scrollView.bounces = false
@@ -82,7 +82,7 @@ class HomeViewController: UIViewController {
             scrollView.addSubview(refreshControl)
         }
     }
-    
+
     func constrainViews() {
         scrollView.contentSize = CGSize(width: view.frame.width, height: view.frame.height + 50)
         scrollView.anchor(top: safeArea.topAnchor, left: safeArea.leftAnchor, bottom: safeArea.bottomAnchor, right: safeArea.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0)
@@ -195,17 +195,12 @@ class HomeViewController: UIViewController {
     }
     
     func setupNavTitleAndBarButtonItems() {
-//        self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for: UIBarMetrics.default)
-//        self.navigationController?.navigationBar.shadowImage = UIImage()
-//        self.navigationController?.navigationBar.isTranslucent = true
-//        self.navigationController?.view.backgroundColor = UIColor.black
         let icon = UIImage(named: "menu")
         let imageView = UIImageView(frame: CGRect(x: 0, y: 0, width: 5, height: 5))
         imageView.image = icon
         navigationItem.rightBarButtonItem = UIBarButtonItem(image: icon, style: .plain, target: self, action: #selector(handleSettings))
-//        navigationItem.rightBarButtonItem = UIBarButtonItem(image: icon?.withRenderingMode(.alwaysOriginal), style: .plain, target: self, action: #selector(handleSettings))
-        navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Logout", style: .plain, target: self, action: #selector(handleLogOut))
-        
+        guard let orange = UIColor.orangeColor() else { return }
+        configureNavigationBar(withTitle: "", largeTitle: false, backgroundColor: UIColor.white, titleColor: orange)
     }
     
     func handleUpdateObserverAndRefresh() {
