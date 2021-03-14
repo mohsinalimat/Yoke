@@ -37,6 +37,11 @@ class ProfileViewController: UIViewController, TTGTextTagCollectionViewDelegate 
         setupViews()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        configureNavigationBar()
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         fetchUser()
@@ -44,6 +49,11 @@ class ProfileViewController: UIViewController, TTGTextTagCollectionViewDelegate 
     }
 
     //MARK: - Helper Functions
+    func configureNavigationBar() {
+        guard let orange = UIColor.orangeColor() else { return }
+        configureNavigationBar(withTitle: "", largeTitle: false, backgroundColor: UIColor.white, titleColor: orange)
+    }
+    
     func setupButtonImages() {
         reviewsButton.alignImageTextVertical()
         eventButton.alignImageTextVertical()
@@ -92,7 +102,7 @@ class ProfileViewController: UIViewController, TTGTextTagCollectionViewDelegate 
 
         bannerImageView.anchor(top: scrollView.topAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, height: 250)
         
-        profileImageView.anchor(top: bannerImageView.bottomAnchor, left: nil, bottom: nil, right: nil, paddingTop: -125, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 150, height: 150)
+        profileImageView.anchor(top: scrollView.topAnchor, left: nil, bottom: nil, right: nil, paddingTop: 125, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 150, height: 150)
         profileImageView.layer.cornerRadius = 75
         profileImageView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
 
@@ -125,11 +135,13 @@ class ProfileViewController: UIViewController, TTGTextTagCollectionViewDelegate 
     }
     
     func constrainViewsForUser() {
+        scrollView.contentSize = CGSize(width: view.frame.width, height: view.frame.height)
+        
         scrollView.anchor(top: safeArea.topAnchor, left: safeArea.leftAnchor, bottom: safeArea.bottomAnchor, right: safeArea.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0)
 
-        bannerImageView.anchor(top: scrollView.topAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, height: 200)
+        bannerImageView.anchor(top: scrollView.topAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, height: 250)
         
-        profileImageView.anchor(top: bannerImageView.bottomAnchor, left: nil, bottom: nil, right: nil, paddingTop: -75, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 150, height: 150)
+        profileImageView.anchor(top: scrollView.topAnchor, left: nil, bottom: nil, right: nil, paddingTop: 125, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 150, height: 150)
         profileImageView.layer.cornerRadius = 75
         profileImageView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
 

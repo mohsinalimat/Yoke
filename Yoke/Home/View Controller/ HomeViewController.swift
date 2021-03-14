@@ -36,12 +36,11 @@ class HomeViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         handleUpdateObserverAndRefresh()
+        configureNavigationBar()
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        configureNav()
-        setupBannerView()
         setupCollectionView()
         fetchUser()
         fetchMenus()
@@ -49,13 +48,7 @@ class HomeViewController: UIViewController {
     }
     
     //MARK: Helper Functions
-    
-    func setupBannerView() {
-        //check if user has a banner image. If no then hide the cover image view
-    }
-    
     func setupViews() {
-//        view.backgroundColor = UIColor.LightGrayBg()
         view.addSubview(scrollView)
         scrollView.alwaysBounceHorizontal = true
         scrollView.bounces = true
@@ -170,7 +163,7 @@ class HomeViewController: UIViewController {
         suggestedChefCollectionView.register(EmptyCell.self, forCellWithReuseIdentifier: noCellId)
     }
     
-    func configureNav() {
+    func configureNavigationBar() {
         let icon = UIImage(named: "menu")
         let imageView = UIImageView(frame: CGRect(x: 0, y: 0, width: 5, height: 5))
         imageView.image = icon

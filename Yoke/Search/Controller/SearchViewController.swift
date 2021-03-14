@@ -30,13 +30,17 @@ class SearchViewController: UIViewController {
         setupTableView()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        configureNavigationBar()
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         fetchUsers()
         setupSearch()
         setupNavigationAndBarButtons()
         dismissKeyboardOnTap()
-        configureNav()
     }
     
     //MARK: - Helper Functions
@@ -53,7 +57,7 @@ class SearchViewController: UIViewController {
 
     }
     
-    func configureNav() {
+    func configureNavigationBar() {
         guard let orange = UIColor.orangeColor() else { return }
         configureNavigationBar(withTitle: "Search", largeTitle: true, backgroundColor: UIColor.white, titleColor: orange)
     }

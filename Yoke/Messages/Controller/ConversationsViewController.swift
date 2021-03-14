@@ -29,7 +29,7 @@ class ConversationsViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        configureNav()
+        configureNavigationBar()
     }
     
     override func viewDidLoad() {
@@ -50,7 +50,7 @@ class ConversationsViewController: UIViewController {
 
     }
     
-    func configureNav() {
+    func configureNavigationBar() {
         guard let orange = UIColor.orangeColor() else { return }
         configureNavigationBar(withTitle: "Messages", largeTitle: true, backgroundColor: .white, titleColor: orange)
     }

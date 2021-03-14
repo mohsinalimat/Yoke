@@ -32,7 +32,6 @@ class ChatCollectionViewController: UICollectionViewController, UICollectionView
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        setupViews()
         setupCollectionView()
         fetchUser()
         fetchMessages()
@@ -46,59 +45,15 @@ class ChatCollectionViewController: UICollectionViewController, UICollectionView
         return true
     }
 
-
     //MARK: - Helper Functions
-    func setupViews() {
-        addBackgroundGradient()
-    }
-    
     func setupCollectionView() {
-        view.backgroundColor = .white
+        collectionView.backgroundColor = .white
         collectionView.register(ChatCell.self, forCellWithReuseIdentifier: cellId)
         collectionView.alwaysBounceVertical = true
         collectionView.backgroundColor = .white
         collectionView.clipsToBounds = true
         collectionView.keyboardDismissMode = .interactive
     }
-    
-    func configureNav() {
-        let appearance = UINavigationBarAppearance()
-        appearance.configureWithOpaqueBackground()
-        appearance.largeTitleTextAttributes = [.foregroundColor: UIColor.white]
-        appearance.backgroundColor = UIColor.orangeColor()
-        
-        navigationController?.navigationBar.standardAppearance = appearance
-        navigationController?.navigationBar.compactAppearance = appearance
-        navigationController?.navigationBar.scrollEdgeAppearance = appearance
-        
-        navigationController?.navigationBar.prefersLargeTitles = true
-        navigationController?.navigationBar.tintColor = .white
-        navigationController?.navigationBar.isTranslucent = true
-        
-        navigationController?.navigationBar.overrideUserInterfaceStyle = .dark
-    }
-    
-    private func addBackgroundGradient() {
-        collectionView.backgroundColor = .white
-//        collectionView.backgroundView = imageView
-//        let collectionViewBackgroundView = UIView()
-//        let gradientLayer = CAGradientLayer()
-//        gradientLayer.frame.size = view.frame.size
-//        gradientLayer.backgroundColor = UIColor.white.cgColor
-//        // Start and end for left to right gradient
-//        gradientLayer.startPoint = CGPoint(x: 0.0, y: 0.5)
-//        gradientLayer.endPoint = CGPoint(x: 1.0, y: 0.5)
-//        gradientLayer.colors = [UIColor.white, UIColor.orangeColor()?.cgColor ?? ""]
-//        collectionView.backgroundView = collectionViewBackgroundView
-//        collectionView.backgroundView?.layer.addSublayer(gradientLayer)
-      }
-    
-    let imageView : UIImageView = {
-        let iv = UIImageView()
-        iv.image = UIImage(named:"gradientBackground")
-        iv.contentMode = .scaleToFill
-        return iv
-    }()
     
     //MARK: - API
     func fetchMessages() {
