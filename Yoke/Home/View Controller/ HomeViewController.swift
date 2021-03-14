@@ -59,7 +59,7 @@ class HomeViewController: UIViewController {
         scrollView.addSubview(buttonStackView)
         buttonStackView.addArrangedSubview(reviewsButton)
         buttonStackView.addArrangedSubview(eventButton)
-        buttonStackView.addArrangedSubview(addPhotosButton)
+//        buttonStackView.addArrangedSubview(addPhotosButton)
         buttonStackView.addArrangedSubview(bookmarkButton)
         buttonStackView.addArrangedSubview(calendarButton)
         scrollView.addSubview(collectionViewBG)
@@ -80,22 +80,28 @@ class HomeViewController: UIViewController {
         scrollView.anchor(top: safeArea.topAnchor, left: safeArea.leftAnchor, bottom: safeArea.bottomAnchor, right: safeArea.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0)
 
         bannerImageView.anchor(top: scrollView.topAnchor, left: safeArea.leftAnchor, bottom: safeArea.bottomAnchor, right: safeArea.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, height: 300)
-        
-        profileImageView.anchor(top: scrollView.topAnchor, left: nil, bottom: nil, right: nil, paddingTop: 30, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 150, height: 150)
+        bannerImageView.alpha = 0.5
+        profileImageView.anchor(top: scrollView.topAnchor, left: safeArea.leftAnchor, bottom: nil, right: nil, paddingTop: 30, paddingLeft: 15, paddingBottom: 0, paddingRight: 0, width: 150, height: 150)
         profileImageView.layer.cornerRadius = 150 / 2
-        profileImageView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-
-        usernameLabel.anchor(top: profileImageView.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 5, paddingLeft: 40, paddingBottom: 0, paddingRight: 40, height: 45)
-
-        viewProfileButton.anchor(top: usernameLabel.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 0, paddingLeft: 40, paddingBottom: 0, paddingRight: 40, width: 0, height: 40)
+        
+        usernameLabel.anchor(top: profileImageView.topAnchor, left: profileImageView.rightAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 40, paddingLeft: 0, paddingBottom: 0, paddingRight: 15)
+        viewProfileButton.anchor(top: usernameLabel.bottomAnchor, left: usernameLabel.leftAnchor, bottom: nil, right: nil, paddingTop: 5, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 200, height: 35)
+        
+//        profileImageView.anchor(top: scrollView.topAnchor, left: nil, bottom: nil, right: nil, paddingTop: 30, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 150, height: 150)
+//        profileImageView.layer.cornerRadius = 150 / 2
+//        profileImageView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+//
+//        usernameLabel.anchor(top: profileImageView.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 5, paddingLeft: 40, paddingBottom: 0, paddingRight: 40, height: 45)
+//
+//        viewProfileButton.anchor(top: usernameLabel.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 0, paddingLeft: 40, paddingBottom: 0, paddingRight: 40, width: 0, height: 40)
         
         reviewsButton.alignImageTextVertical()
         eventButton.alignImageTextVertical()
         bookmarkButton.alignImageTextVertical()
-        addPhotosButton.alignImageTextVertical()
+//        addPhotosButton.alignImageTextVertical()
         calendarButton.alignImageTextVertical()
 
-        buttonStackView.anchor(top: viewProfileButton.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 20, paddingLeft: 5, paddingBottom: 0, paddingRight: 5, width: 0, height: 60)
+        buttonStackView.anchor(top: profileImageView.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 20, paddingLeft: 5, paddingBottom: 0, paddingRight: 5, width: 0, height: 60)
         
         let uid = userId ?? (Auth.auth().currentUser?.uid ?? "")
         UserController.shared.fetchUserWithUID(uid: uid) { (user) in
@@ -126,7 +132,7 @@ class HomeViewController: UIViewController {
 
         menuLabel.anchor(top: menuViewBG.topAnchor, left: menuViewBG.leftAnchor, bottom: menuViewBG.bottomAnchor, right: nil, paddingTop: 5, paddingLeft: 5, paddingBottom: 5, paddingRight: 5)
         
-        suggestedChefCollectionView.anchor(top: menuViewBG.bottomAnchor, left: collectionViewBG.leftAnchor, bottom: collectionViewBG.bottomAnchor, right: collectionViewBG.rightAnchor, paddingTop: -20, paddingLeft: 5, paddingBottom: 5, paddingRight: 5)
+        suggestedChefCollectionView.anchor(top: menuViewBG.bottomAnchor, left: collectionViewBG.leftAnchor, bottom: collectionViewBG.bottomAnchor, right: collectionViewBG.rightAnchor, paddingTop: -10, paddingLeft: 5, paddingBottom: 5, paddingRight: 5)
     }
     
     func setupCollectionView() {
@@ -357,10 +363,10 @@ class HomeViewController: UIViewController {
     
     let bannerImageView: CustomImageView = {
         let image = CustomImageView()
-        image.image = UIImage(named: "gradientBackground_3")
+//        image.image = UIImage(named: "gradientBackground_3")
         image.clipsToBounds = true
         image.contentMode = .scaleToFill
-        image.backgroundColor = .white
+        image.backgroundColor = UIColor.LightGrayBg()
         return image
     }()
     
@@ -385,9 +391,9 @@ class HomeViewController: UIViewController {
 
     let usernameLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont.boldSystemFont(ofSize: 18)
+        label.font = UIFont.boldSystemFont(ofSize: 20)
         label.textColor = UIColor.orangeColor()
-        label.textAlignment = .center
+        label.textAlignment = .left
         return label
     }()
     
@@ -395,8 +401,8 @@ class HomeViewController: UIViewController {
         let button = UIButton(type: .custom)
         button.setTitle("View Profile", for: .normal)
         button.titleLabel?.font = UIFont.systemFont(ofSize: 17)
-        button.setTitleColor(UIColor.orangeColor(), for: .normal)
-        button.backgroundColor = UIColor.white.withAlphaComponent(0.9)
+        button.setTitleColor(UIColor.white, for: .normal)
+        button.backgroundColor = UIColor.orangeColor()
         button.layer.cornerRadius = 5
         button.layer.borderWidth = 0.5
         button.layer.borderColor = UIColor.white.cgColor
@@ -416,8 +422,10 @@ class HomeViewController: UIViewController {
         button.imageEdgeInsets = UIEdgeInsets.init(top: 0,left: 45,bottom: 20,right: 0)
         button.titleEdgeInsets = UIEdgeInsets.init(top: 20,left: -25,bottom: 0,right: 0)
         button.addTarget(self, action: #selector(viewReviews), for: .touchUpInside)
-//        button.backgroundColor = UIColor.orangeColor()
+        button.backgroundColor = UIColor.orangeColor()
         button.layer.cornerRadius = 8
+//        button.layer.borderColor = UIColor.orangeColor()?.cgColor
+//        button.layer.borderWidth = 0.5
         return button
     }()
     
@@ -431,8 +439,10 @@ class HomeViewController: UIViewController {
         button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 10)
         button.setTitleColor(UIColor.white, for: .normal)
 //        button.addTarget(self, action: #selector(handleEvents), for: .touchUpInside)
-//        button.backgroundColor = UIColor.orangeColor()
+        button.backgroundColor = UIColor.orangeColor()
         button.layer.cornerRadius = 8
+//        button.layer.borderColor = UIColor.orangeColor()?.cgColor
+//        button.layer.borderWidth = 0.5
         return button
     }()
     
@@ -446,8 +456,10 @@ class HomeViewController: UIViewController {
         button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 10)
         button.setTitleColor(UIColor.white, for: .normal)
 //        button.addTarget(self, action: #selector(handleCalendar), for: .touchUpInside)
-//        button.backgroundColor = UIColor.orangeColor()
+        button.backgroundColor = UIColor.orangeColor()
         button.layer.cornerRadius = 8
+//        button.layer.borderColor = UIColor.orangeColor()?.cgColor
+//        button.layer.borderWidth = 0.5
         return button
     }()
     
@@ -461,23 +473,10 @@ class HomeViewController: UIViewController {
         button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 10)
         button.setTitleColor(UIColor.white, for: .normal)
 //        button.addTarget(self, action: #selector(handleBookmarked), for: .touchUpInside)
-//        button.backgroundColor = UIColor.orangeColor()
+        button.backgroundColor = UIColor.orangeColor()
         button.layer.cornerRadius = 8
-        return button
-    }()
-    
-    lazy var addPhotosButton: UIButton = {
-        let button = UIButton(type: .custom)
-//        button.setImage(UIImage(named: "add_image"), for: .normal)
-        let image = UIImage(named: "add_image")?.withRenderingMode(.alwaysTemplate)
-        button.setImage(image, for: .normal)
-        button.tintColor = UIColor.white
-        button.setTitle("Add Photo", for: .normal)
-        button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 10)
-        button.setTitleColor(UIColor.white, for: .normal)
-//        button.addTarget(self, action: #selector(handleAddPhotos), for: .touchUpInside)
-//        button.backgroundColor = UIColor.orangeColor()
-        button.layer.cornerRadius = 8
+//        button.layer.borderColor = UIColor.orangeColor()?.cgColor
+//        button.layer.borderWidth = 0.5
         return button
     }()
     
@@ -503,7 +502,7 @@ class HomeViewController: UIViewController {
     
     let menuLabel: UILabel = {
         let label = UILabel()
-        label.textColor = UIColor.white
+        label.textColor = UIColor.orangeColor()
         label.font = UIFont.boldSystemFont(ofSize: 20)
         return label
     }()
@@ -512,7 +511,7 @@ class HomeViewController: UIViewController {
         let button = UIButton(type: .custom)
         button.setTitle("Add Menu", for: .normal)
         button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 13)
-        button.setTitleColor(UIColor.white, for: .normal)
+        button.setTitleColor(UIColor.orangeColor(), for: .normal)
         button.addTarget(self, action: #selector(handleAddMenu), for: .touchUpInside)
         return button
     }()
