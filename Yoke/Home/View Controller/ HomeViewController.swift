@@ -79,10 +79,10 @@ class HomeViewController: UIViewController {
         scrollView.contentSize = CGSize(width: view.frame.width, height: view.frame.height)
         scrollView.anchor(top: safeArea.topAnchor, left: safeArea.leftAnchor, bottom: safeArea.bottomAnchor, right: safeArea.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0)
 
-        bannerImageView.anchor(top: scrollView.topAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, height: 300)
+        bannerImageView.anchor(top: scrollView.topAnchor, left: safeArea.leftAnchor, bottom: safeArea.bottomAnchor, right: safeArea.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, height: 300)
         
-        profileImageView.anchor(top: scrollView.topAnchor, left: nil, bottom: nil, right: nil, paddingTop: 30, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 100, height: 100)
-        profileImageView.layer.cornerRadius = 50
+        profileImageView.anchor(top: scrollView.topAnchor, left: nil, bottom: nil, right: nil, paddingTop: 30, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 150, height: 150)
+        profileImageView.layer.cornerRadius = 150 / 2
         profileImageView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
 
         usernameLabel.anchor(top: profileImageView.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 5, paddingLeft: 40, paddingBottom: 0, paddingRight: 40, height: 45)
@@ -357,7 +357,7 @@ class HomeViewController: UIViewController {
     
     let bannerImageView: CustomImageView = {
         let image = CustomImageView()
-        image.image = UIImage(named: "gradientBackground")
+        image.image = UIImage(named: "gradientBackground_3")
         image.clipsToBounds = true
         image.contentMode = .scaleToFill
         image.backgroundColor = .white
@@ -386,29 +386,17 @@ class HomeViewController: UIViewController {
     let usernameLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.boldSystemFont(ofSize: 18)
-        label.textColor = UIColor.white
+        label.textColor = UIColor.orangeColor()
         label.textAlignment = .center
         return label
-    }()
-    
-    let ratingView: RatingView = {
-        let view = RatingView()
-        view.backgroundColor = .clear
-        view.minRating = 0
-        view.maxRating = 5
-        view.rating = 2.5
-        view.editable = false
-        view.emptyImage = UIImage(named: "star_unselected_color")
-        view.fullImage = UIImage(named: "star_selected_color")
-        return view
     }()
     
     lazy var viewProfileButton: UIButton = {
         let button = UIButton(type: .custom)
         button.setTitle("View Profile", for: .normal)
         button.titleLabel?.font = UIFont.systemFont(ofSize: 17)
-        button.setTitleColor(UIColor.white, for: .normal)
-        button.backgroundColor = UIColor.clear
+        button.setTitleColor(UIColor.orangeColor(), for: .normal)
+        button.backgroundColor = UIColor.white.withAlphaComponent(0.9)
         button.layer.cornerRadius = 5
         button.layer.borderWidth = 0.5
         button.layer.borderColor = UIColor.white.cgColor
@@ -503,19 +491,19 @@ class HomeViewController: UIViewController {
     
     let collectionViewBG: UIView = {
         let view = UIView()
-        view.backgroundColor = UIColor.white
+        view.backgroundColor = UIColor.clear
         return view
     }()
     
     let menuViewBG: UIView = {
         let view = UIView()
-        view.backgroundColor = UIColor.white
+        view.backgroundColor = UIColor.clear
         return view
     }()
     
     let menuLabel: UILabel = {
         let label = UILabel()
-        label.textColor = UIColor.orangeColor()
+        label.textColor = UIColor.white
         label.font = UIFont.boldSystemFont(ofSize: 20)
         return label
     }()
@@ -524,7 +512,7 @@ class HomeViewController: UIViewController {
         let button = UIButton(type: .custom)
         button.setTitle("Add Menu", for: .normal)
         button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 13)
-        button.setTitleColor(UIColor.orangeColor(), for: .normal)
+        button.setTitleColor(UIColor.white, for: .normal)
         button.addTarget(self, action: #selector(handleAddMenu), for: .touchUpInside)
         return button
     }()

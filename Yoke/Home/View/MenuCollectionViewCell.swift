@@ -42,7 +42,7 @@ class MenuCollectionViewCell: UICollectionViewCell {
         addSubview(shadowView)
         addSubview(cellBackgroundView)
         addSubview(menuImage)
-        addSubview(imageLayerView)
+        addSubview(labelLayerView)
         addSubview(nameLabel)
     }
     
@@ -50,8 +50,8 @@ class MenuCollectionViewCell: UICollectionViewCell {
         shadowView.anchor(top: topAnchor, left: leftAnchor, bottom: bottomAnchor, right: rightAnchor, paddingTop: 20, paddingLeft: 5, paddingBottom: 0, paddingRight: 5)
         cellBackgroundView.anchor(top: topAnchor, left: leftAnchor, bottom: bottomAnchor, right: rightAnchor, paddingTop: 20, paddingLeft: 5, paddingBottom: 0, paddingRight: 5)
         menuImage.anchor(top: cellBackgroundView.topAnchor, left: cellBackgroundView.leftAnchor, bottom: cellBackgroundView.bottomAnchor, right: cellBackgroundView.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, height: frame.width - 50)
-        imageLayerView.anchor(top: cellBackgroundView.topAnchor, left: cellBackgroundView.leftAnchor, bottom: cellBackgroundView.bottomAnchor, right: cellBackgroundView.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, height: frame.width - 50)
-        nameLabel.anchor(top: menuImage.topAnchor, left: leftAnchor, bottom: nil, right: rightAnchor, paddingTop: 5, paddingLeft: 15, paddingBottom: 0, paddingRight: 10)
+        labelLayerView.anchor(top: nameLabel.topAnchor, left: leftAnchor, bottom: nameLabel.bottomAnchor, right: nameLabel.rightAnchor, paddingTop: 0, paddingLeft: 10, paddingBottom: 0, paddingRight: 0)
+        nameLabel.anchor(top: menuImage.topAnchor, left: labelLayerView.leftAnchor, bottom: nil, right: nil, paddingTop: 5, paddingLeft: 10, paddingBottom: 5, paddingRight: 15)
     }
     
     var menuImage: CustomImageView = {
@@ -64,10 +64,10 @@ class MenuCollectionViewCell: UICollectionViewCell {
         return image
     }()
     
-    let imageLayerView: UIView = {
+    let labelLayerView: UIView = {
         let view = UIView()
         view.backgroundColor = UIColor.black
-        view.layer.opacity = 0.3
+        view.layer.opacity = 0.5
         view.layer.cornerRadius = 5
         return view
     }()

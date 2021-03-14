@@ -22,7 +22,6 @@
 		6C411C4825E81E1B003426FC /* ChatInputAccessoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C411C4725E81E1B003426FC /* ChatInputAccessoryView.swift */; };
 		6C411C5425E85681003426FC /* ConversationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C411C5325E85681003426FC /* ConversationController.swift */; };
 		6C50F2ED25A6568C000BCDAB /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C50F2EC25A6568C000BCDAB /* SettingsViewController.swift */; };
-		6C5D5F3625AE030700ACF451 /* MenuHeaderCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C5D5F3525AE030700ACF451 /* MenuHeaderCollectionViewCell.swift */; };
 		6C5D5F8625AF8B1500ACF451 /* LocationSettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C5D5F8525AF8B1500ACF451 /* LocationSettingsViewController.swift */; };
 		6C5D5F8A25B0D68A00ACF451 /* PasswordChangeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C5D5F8925B0D68900ACF451 /* PasswordChangeViewController.swift */; };
 		6C5D5F8E25B0D6CE00ACF451 /* ChefSettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C5D5F8D25B0D6CE00ACF451 /* ChefSettingsViewController.swift */; };
@@ -187,7 +186,6 @@
 		6C411C4725E81E1B003426FC /* ChatInputAccessoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatInputAccessoryView.swift; sourceTree = "<group>"; };
 		6C411C5325E85681003426FC /* ConversationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationController.swift; sourceTree = "<group>"; };
 		6C50F2EC25A6568C000BCDAB /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
-		6C5D5F3525AE030700ACF451 /* MenuHeaderCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuHeaderCollectionViewCell.swift; sourceTree = "<group>"; };
 		6C5D5F8525AF8B1500ACF451 /* LocationSettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationSettingsViewController.swift; sourceTree = "<group>"; };
 		6C5D5F8925B0D68900ACF451 /* PasswordChangeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasswordChangeViewController.swift; sourceTree = "<group>"; };
 		6C5D5F8D25B0D6CE00ACF451 /* ChefSettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChefSettingsViewController.swift; sourceTree = "<group>"; };
@@ -672,7 +670,6 @@
 		6C8DB60424B3C1B8003D06FF /* View */ = {
 			isa = PBXGroup;
 			children = (
-				6C5D5F3525AE030700ACF451 /* MenuHeaderCollectionViewCell.swift */,
 				6CFDB3A725B79114007261D1 /* CusineCollectionViewCell.swift */,
 				6CC8CBB225C33BD900C3F24D /* MenuCollectionViewCell.swift */,
 				6CC4374825C8A94100CE85CE /* SuggestedChefsCollectionViewCell.swift */,
@@ -1260,7 +1257,6 @@
 				6CC780DE25D1B1A500103ACC /* ProfileViewController.swift in Sources */,
 				6CFDB3A825B79114007261D1 /* CusineCollectionViewCell.swift in Sources */,
 				6C8DB66D24B3C1B9003D06FF /* GalleryCell.swift in Sources */,
-				6C5D5F3625AE030700ACF451 /* MenuHeaderCollectionViewCell.swift in Sources */,
 				6C8DB66324B3C1B9003D06FF /* SharePhotoVC.swift in Sources */,
 				6C8DB67624B3C1B9003D06FF /* ScheduleCell.swift in Sources */,
 				6CBDDE4224B3DBE70099A04C /* CreateInvoiceVC.swift in Sources */,

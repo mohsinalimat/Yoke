@@ -98,7 +98,7 @@ class SuggestedChefsCollectionViewCell: UICollectionViewCell {
     var nameLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.boldSystemFont(ofSize: 15)
-        label.textColor = .white
+        label.textColor = .gray
         label.lineBreakMode = .byWordWrapping
         label.numberOfLines = 0
         return label
@@ -111,30 +111,30 @@ class SuggestedChefsCollectionViewCell: UICollectionViewCell {
         view.maxRating = 5
         view.rating = 2.5
         view.editable = false
-        view.emptyImage = UIImage(named: "star_unselected_white")
-        view.fullImage = UIImage(named: "star_selected_white")
+        view.emptyImage = UIImage(named: "star_unselected_color")
+        view.fullImage = UIImage(named: "star_selected_color")
         return view
     }()
     
     var locationLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.boldSystemFont(ofSize: 13)
-        label.textColor = .white
+        label.textColor = .gray
         return label
     }()
     
     let cellBackgroundImage: UIImageView = {
         let view = UIImageView()
-        view.image = UIImage(named: "image_background")
+//        view.image = UIImage(named: "image_background")
         view.layer.cornerRadius = 8
         view.layer.masksToBounds = true
-        view.backgroundColor = UIColor.white
+        view.backgroundColor = UIColor.white.withAlphaComponent(0.9)
         return view
     }()
     
     let shadowView: ShadowView = {
         let view = ShadowView()
-        view.backgroundColor = .white
+//        view.backgroundColor = .white
         return view
     }()
 }
