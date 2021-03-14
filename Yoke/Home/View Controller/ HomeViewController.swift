@@ -120,13 +120,13 @@ class HomeViewController: UIViewController {
     }
     
     fileprivate func setupBottomToolbarUser() {
-        collectionViewBG.anchor(top: buttonStackView.bottomAnchor, left: safeArea.leftAnchor, bottom: scrollView.bottomAnchor, right: safeArea.rightAnchor, paddingTop: 0, paddingLeft: 5, paddingBottom: 0, paddingRight: 5, height: 280)
+        collectionViewBG.anchor(top: buttonStackView.bottomAnchor, left: safeArea.leftAnchor, bottom: scrollView.bottomAnchor, right: safeArea.rightAnchor, paddingTop: 0, paddingLeft: 5, paddingBottom: 0, paddingRight: 5, height: 300)
         
         menuViewBG.anchor(top: collectionViewBG.topAnchor, left: collectionViewBG.leftAnchor, bottom: nil, right: collectionViewBG.rightAnchor, paddingTop: 5, paddingLeft: 5, paddingBottom: 0, paddingRight: 5, height: 50)
 
         menuLabel.anchor(top: menuViewBG.topAnchor, left: menuViewBG.leftAnchor, bottom: menuViewBG.bottomAnchor, right: nil, paddingTop: 5, paddingLeft: 5, paddingBottom: 5, paddingRight: 5)
         
-        suggestedChefCollectionView.anchor(top: menuViewBG.bottomAnchor, left: collectionViewBG.leftAnchor, bottom: collectionViewBG.bottomAnchor, right: collectionViewBG.rightAnchor, paddingTop: 0, paddingLeft: 5, paddingBottom: 5, paddingRight: 5)
+        suggestedChefCollectionView.anchor(top: menuViewBG.bottomAnchor, left: collectionViewBG.leftAnchor, bottom: collectionViewBG.bottomAnchor, right: collectionViewBG.rightAnchor, paddingTop: -20, paddingLeft: 5, paddingBottom: 5, paddingRight: 5)
     }
     
     func setupCollectionView() {
@@ -154,7 +154,7 @@ class HomeViewController: UIViewController {
         menuCollectionView.register(MenuCollectionViewCell.self, forCellWithReuseIdentifier: cellId)
         menuCollectionView.register(EmptyCell.self, forCellWithReuseIdentifier: noCellId)
         
-        suggestedChefCollectionView.backgroundColor = UIColor.white
+        suggestedChefCollectionView.backgroundColor = UIColor.clear
         suggestedChefCollectionView.delegate = self
         suggestedChefCollectionView.dataSource = self
         suggestedChefCollectionView.translatesAutoresizingMaskIntoConstraints = false

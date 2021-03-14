@@ -45,7 +45,7 @@ class SuggestedChefsCollectionViewCell: UICollectionViewCell {
     
     func setupViews() {
         addSubview(shadowView)
-        addSubview(cellBackgroundView)
+        addSubview(cellBackgroundImage)
         addSubview(profileImage)
         addSubview(nameLabel)
         addSubview(ratingView)
@@ -54,7 +54,7 @@ class SuggestedChefsCollectionViewCell: UICollectionViewCell {
     
     func setupConstraints() {
         shadowView.anchor(top: topAnchor, left: leftAnchor, bottom: bottomAnchor, right: rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0)
-        cellBackgroundView.anchor(top: topAnchor, left: leftAnchor, bottom: bottomAnchor, right: rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0)
+        cellBackgroundImage.anchor(top: topAnchor, left: leftAnchor, bottom: bottomAnchor, right: rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0)
         profileImage.anchor(top: topAnchor, left: nil, bottom: nil, right: nil, paddingTop: 5, paddingLeft: 5, paddingBottom: 0, paddingRight: 5, width: 120, height: 120)
         profileImage.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
         nameLabel.anchor(top: profileImage.bottomAnchor, left: nil, bottom: nil, right: nil, paddingTop: 5, paddingLeft: 0, paddingBottom: 0, paddingRight: 0)
@@ -66,38 +66,29 @@ class SuggestedChefsCollectionViewCell: UICollectionViewCell {
     }
     
     func handleRatingView(uid: String) {
-        UserController.shared.fetchUserRatingWith(uid: uid) { (result) in
-            switch result {
-            case true:
-                self.ratingView.rating = UserController.shared.average
-                print("average \(uid) average \(UserController.shared.average)")
-            case false:
-                print("Failed to fetch rating")
+        firestoreDB.collection(Constants.Users).document(uid).collection(Constants.Ratings).getDocuments() { (querySnapshot, error) in
+            var totalCount = 0.0
+            var count = 0.0
+            if error != nil {
+                print(error?.localizedDescription)
+            } else {
+                count = Double(querySnapshot?.count ?? 0)
+                for document in querySnapshot!.documents {
+                    if let rate = document.data()[Constants.Stars] as? Double {
+                        totalCount += rate
+                    }
+                }
             }
+            let average = totalCount/count
+            self.ratingView.rating = average
         }
-//        firestoreDB.collection(Constants.Users).document(uid).collection(Constants.Ratings).getDocuments() { (querySnapshot, error) in
-//            var totalCount = 0.0
-//            var count = 0.0
-//            if error != nil {
-//                print(error?.localizedDescription)
-//            } else {
-//                count = Double(querySnapshot?.count ?? 0)
-//                for document in querySnapshot!.documents {
-//                    if let rate = document.data()[Constants.Stars] as? Double {
-//                        totalCount += rate
-//                    }
-//                }
-//            }
-//            let average = totalCount/count
-//            self.ratingView.rating = average
-//        }
     }
     
     //MARK: Views
     var profileImage: CustomImageView = {
         let image = CustomImageView()
         image.contentMode = .scaleAspectFill
-        image.image = UIImage(named: "gradientBackground")
+        image.image = UIImage(named: "image_background")
         image.translatesAutoresizingMaskIntoConstraints = false
         image.clipsToBounds = true
         image.layer.cornerRadius = 60
@@ -107,7 +98,7 @@ class SuggestedChefsCollectionViewCell: UICollectionViewCell {
     var nameLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.boldSystemFont(ofSize: 15)
-        label.textColor = .gray
+        label.textColor = .white
         label.lineBreakMode = .byWordWrapping
         label.numberOfLines = 0
         return label
@@ -120,25 +111,24 @@ class SuggestedChefsCollectionViewCell: UICollectionViewCell {
         view.maxRating = 5
         view.rating = 2.5
         view.editable = false
-        view.emptyImage = UIImage(named: "star_unselected_color")
-        view.fullImage = UIImage(named: "star_selected_color")
+        view.emptyImage = UIImage(named: "star_unselected_white")
+        view.fullImage = UIImage(named: "star_selected_white")
         return view
     }()
     
     var locationLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.boldSystemFont(ofSize: 13)
-        label.textColor = .gray
+        label.textColor = .white
         return label
     }()
     
-    let cellBackgroundView: UIView = {
-        let view = UIView()
+    let cellBackgroundImage: UIImageView = {
+        let view = UIImageView()
+        view.image = UIImage(named: "image_background")
         view.layer.cornerRadius = 8
         view.layer.masksToBounds = true
         view.backgroundColor = UIColor.white
-//        view.layer.borderWidth = 0.5
-//        view.layer.borderColor = UIColor.orangeColor()?.cgColor
         return view
     }()
     

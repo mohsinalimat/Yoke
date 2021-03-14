@@ -131,7 +131,7 @@ class ProfileViewController: UIViewController, TTGTextTagCollectionViewDelegate 
 
         menuLabel.anchor(top: menuViewBG.topAnchor, left: menuViewBG.leftAnchor, bottom: menuViewBG.bottomAnchor, right: nil, paddingTop: 5, paddingLeft: 5, paddingBottom: 5, paddingRight: 5)
 
-        menuCollectionView.anchor(top: menuViewBG.bottomAnchor, left: collectionViewBG.leftAnchor, bottom: collectionViewBG.bottomAnchor, right: collectionViewBG.rightAnchor, paddingTop: 5, paddingLeft: 5, paddingBottom: 5, paddingRight: 5)
+        menuCollectionView.anchor(top: menuViewBG.bottomAnchor, left: collectionViewBG.leftAnchor, bottom: collectionViewBG.bottomAnchor, right: collectionViewBG.rightAnchor, paddingTop: -50, paddingLeft: 5, paddingBottom: 5, paddingRight: 5)
     }
     
     func constrainViewsForUser() {
@@ -161,7 +161,7 @@ class ProfileViewController: UIViewController, TTGTextTagCollectionViewDelegate 
     }
     
     func setupCollectionView() {
-        menuCollectionView.backgroundColor = UIColor.LightGrayBg()
+        menuCollectionView.backgroundColor = .clear
         menuCollectionView.delegate = self
         menuCollectionView.dataSource = self
         menuCollectionView.translatesAutoresizingMaskIntoConstraints = false
@@ -243,27 +243,6 @@ class ProfileViewController: UIViewController, TTGTextTagCollectionViewDelegate 
                 print("Failed to fetch rating")
             }
         }
-//        Firestore.firestore().collection(Constants.Users).document(uid).collection(Constants.Ratings).getDocuments() { (querySnapshot, error) in
-//            var totalCount = 0.0
-//            var count = 0.0
-//            if error != nil {
-//                print(error?.localizedDescription)
-//            } else {
-//                count = Double(querySnapshot?.count ?? 0)
-//                for document in querySnapshot!.documents {
-//                    if let rate = document.data()[Constants.Stars] as? Double {
-//                        totalCount += rate
-//                        if count <= 1 {
-//                            self.reviewCountLabel.text = "\(Int(count)) review"
-//                        } else {
-//                            self.reviewCountLabel.text = "\(Int(count)) reviews"
-//                        }
-//                    }
-//                }
-//            }
-//            let average = totalCount/count
-//            self.ratingView.rating = average
-//        }
     }
     
     fileprivate func fetchMenus(uid: String) {
@@ -501,7 +480,7 @@ class ProfileViewController: UIViewController, TTGTextTagCollectionViewDelegate 
     
     let collectionViewBG: UIView = {
         let view = UIView()
-        view.backgroundColor = UIColor.LightGrayBg()
+        view.backgroundColor = UIColor.clear
         view.layer.cornerRadius = 5
         return view
     }()
