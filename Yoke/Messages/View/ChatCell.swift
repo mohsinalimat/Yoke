@@ -39,10 +39,10 @@ class ChatCell: UICollectionViewCell {
     }
     
     func constrainViews() {
-        profileImage.anchor(top: safeAreaLayoutGuide.topAnchor, left: safeAreaLayoutGuide.leftAnchor, bottom: nil, right: nil, paddingTop: 10, paddingLeft: 5, paddingBottom: 0, paddingRight: 0, width: 35, height: 35)
+        profileImage.anchor(top: safeAreaLayoutGuide.topAnchor, left: safeAreaLayoutGuide.leftAnchor, bottom: nil, right: nil, paddingTop: 10, paddingLeft: 10, paddingBottom: 0, paddingRight: 0, width: 35, height: 35)
         
         bubbleContainer.layer.cornerRadius = 12
-        bubbleContainer.anchor(top: topAnchor, left: nil, bottom: bottomAnchor, right: nil, paddingTop: 10, paddingLeft: 5, paddingBottom: 0, paddingRight: 20)
+        bubbleContainer.anchor(top: topAnchor, left: nil, bottom: bottomAnchor, right: nil, paddingTop: 10, paddingLeft: 0, paddingBottom: 15, paddingRight: 20)
         bubbleContainer.widthAnchor.constraint(lessThanOrEqualToConstant: 250).isActive = true
         
         bubbleLeftAnchor = bubbleContainer.leftAnchor.constraint(equalTo: profileImage.rightAnchor, constant: 12)
@@ -52,7 +52,7 @@ class ChatCell: UICollectionViewCell {
         bubbleRightAnchor.isActive = false
         
         textView.anchor(top: bubbleContainer.topAnchor, left: bubbleContainer.leftAnchor, bottom: bubbleContainer.bottomAnchor, right: bubbleContainer.rightAnchor, paddingTop: 4, paddingLeft: 10, paddingBottom: 4, paddingRight: 10)
-        timestampLabel.anchor(top: bubbleContainer.bottomAnchor, left: nil, bottom: nil, right: bubbleContainer.rightAnchor, paddingTop: 5, paddingLeft: 0, paddingBottom: 0, paddingRight: 0)
+        timestampLabel.anchor(top: bubbleContainer.bottomAnchor, left: nil, bottom: nil, right: bubbleContainer.rightAnchor, paddingTop: 2, paddingLeft: 0, paddingBottom: 0, paddingRight: 0)
       
     }
     
@@ -98,7 +98,7 @@ class ChatCell: UICollectionViewCell {
     private let timestampLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.systemFont(ofSize: 13)
-        label.textColor = .white
+        label.textColor = .lightGray
         return label
     }()
     

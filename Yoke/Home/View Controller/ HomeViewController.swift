@@ -40,7 +40,7 @@ class HomeViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        setupNavTitleAndBarButtonItems()
+        configureNav()
         setupBannerView()
         setupCollectionView()
         fetchUser()
@@ -57,10 +57,9 @@ class HomeViewController: UIViewController {
     func setupViews() {
 //        view.backgroundColor = UIColor.LightGrayBg()
         view.addSubview(scrollView)
-        scrollView.alwaysBounceHorizontal = false
-        scrollView.bounces = false
+        scrollView.alwaysBounceHorizontal = true
+        scrollView.bounces = true
         scrollView.addSubview(bannerImageView)
-        scrollView.addSubview(bannerLayerImageView)
         scrollView.addSubview(profileImageView)
         scrollView.addSubview(usernameLabel)
         scrollView.addSubview(viewProfileButton)
@@ -76,32 +75,27 @@ class HomeViewController: UIViewController {
         scrollView.addSubview(addMenuButton)
         scrollView.addSubview(menuCollectionView)
         scrollView.addSubview(suggestedChefCollectionView)
-        if #available(iOS 10.0, *) {
-            scrollView.refreshControl = refreshControl
-        } else {
-            scrollView.addSubview(refreshControl)
-        }
+//        if #available(iOS 10.0, *) {
+//            scrollView.refreshControl = refreshControl
+//        } else {
+//            scrollView.addSubview(refreshControl)
+//        }
     }
 
     func constrainViews() {
-        scrollView.contentSize = CGSize(width: view.frame.width, height: view.frame.height + 50)
+        scrollView.contentSize = CGSize(width: view.frame.width, height: view.frame.height)
         scrollView.anchor(top: safeArea.topAnchor, left: safeArea.leftAnchor, bottom: safeArea.bottomAnchor, right: safeArea.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0)
-        
-        bannerLayerImageView.anchor(top: scrollView.topAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, height: 300)
 
         bannerImageView.anchor(top: scrollView.topAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, height: 300)
         
-        profileImageView.anchor(top: scrollView.topAnchor, left: nil, bottom: nil, right: nil, paddingTop: 60, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 100, height: 100)
+        profileImageView.anchor(top: scrollView.topAnchor, left: nil, bottom: nil, right: nil, paddingTop: 30, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 100, height: 100)
         profileImageView.layer.cornerRadius = 50
         profileImageView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
 
         usernameLabel.anchor(top: profileImageView.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 5, paddingLeft: 40, paddingBottom: 0, paddingRight: 40, height: 45)
 
         viewProfileButton.anchor(top: usernameLabel.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 0, paddingLeft: 40, paddingBottom: 0, paddingRight: 40, width: 0, height: 40)
-        setupBottomToolbar()
-    }
-    
-    fileprivate func setupBottomToolbar() {
+        
         reviewsButton.alignImageTextVertical()
         eventButton.alignImageTextVertical()
         bookmarkButton.alignImageTextVertical()
@@ -110,54 +104,36 @@ class HomeViewController: UIViewController {
 
         buttonStackView.anchor(top: viewProfileButton.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 20, paddingLeft: 5, paddingBottom: 0, paddingRight: 5, width: 0, height: 60)
         
-//        scrollView.contentSize = CGSize(width: view.frame.width, height: view.frame.height - 200)
-//        scrollView.anchor(top: buttonStackView.bottomAnchor, left: safeArea.leftAnchor, bottom: safeArea.bottomAnchor, right: safeArea.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0)
+        let uid = userId ?? (Auth.auth().currentUser?.uid ?? "")
+        UserController.shared.fetchUserWithUID(uid: uid) { (user) in
+            if user.isChef == false {
+                self.setupBottomToolbarUser()
+            } else {
+                self.setupBottomToolbarChef()
+            }
+        }
+    }
+    
+    fileprivate func setupBottomToolbarChef() {
+        collectionViewBG.anchor(top: buttonStackView.bottomAnchor, left: safeArea.leftAnchor, bottom: scrollView.bottomAnchor, right: safeArea.rightAnchor, paddingTop: 0, paddingLeft: 5, paddingBottom: 0, paddingRight: 5, height: 250)
         
-        collectionViewBG.anchor(top: buttonStackView.bottomAnchor, left: safeArea.leftAnchor, bottom: scrollView.bottomAnchor, right: safeArea.rightAnchor, paddingTop: 10, paddingLeft: 5, paddingBottom: 8, paddingRight: 5, height: view.frame.width - 100)
+        menuViewBG.anchor(top: collectionViewBG.topAnchor, left: collectionViewBG.leftAnchor, bottom: nil, right: collectionViewBG.rightAnchor, paddingTop: 5, paddingLeft: 5, paddingBottom: 0, paddingRight: 5, height: 50)
+
+        menuLabel.anchor(top: menuViewBG.topAnchor, left: menuViewBG.leftAnchor, bottom: menuViewBG.bottomAnchor, right: nil, paddingTop: 0, paddingLeft: 5, paddingBottom: 5, paddingRight: 5)
+
+        addMenuButton.anchor(top: menuViewBG.topAnchor, left: nil, bottom: menuViewBG.bottomAnchor, right: menuViewBG.rightAnchor, paddingTop: 5, paddingLeft: 5, paddingBottom: 5, paddingRight: 5)
+
+        menuCollectionView.anchor(top: menuViewBG.bottomAnchor, left: collectionViewBG.leftAnchor, bottom: collectionViewBG.bottomAnchor, right: collectionViewBG.rightAnchor, paddingTop: -50, paddingLeft: 5, paddingBottom: 5, paddingRight: 5)
+    }
+    
+    fileprivate func setupBottomToolbarUser() {
+        collectionViewBG.anchor(top: buttonStackView.bottomAnchor, left: safeArea.leftAnchor, bottom: scrollView.bottomAnchor, right: safeArea.rightAnchor, paddingTop: 0, paddingLeft: 5, paddingBottom: 0, paddingRight: 5, height: 280)
         
         menuViewBG.anchor(top: collectionViewBG.topAnchor, left: collectionViewBG.leftAnchor, bottom: nil, right: collectionViewBG.rightAnchor, paddingTop: 5, paddingLeft: 5, paddingBottom: 0, paddingRight: 5, height: 50)
 
         menuLabel.anchor(top: menuViewBG.topAnchor, left: menuViewBG.leftAnchor, bottom: menuViewBG.bottomAnchor, right: nil, paddingTop: 5, paddingLeft: 5, paddingBottom: 5, paddingRight: 5)
-
-        addMenuButton.anchor(top: menuViewBG.topAnchor, left: nil, bottom: menuViewBG.bottomAnchor, right: menuViewBG.rightAnchor, paddingTop: 5, paddingLeft: 5, paddingBottom: 5, paddingRight: 5)
-
-        menuCollectionView.anchor(top: menuViewBG.bottomAnchor, left: collectionViewBG.leftAnchor, bottom: collectionViewBG.bottomAnchor, right: collectionViewBG.rightAnchor, paddingTop: 5, paddingLeft: 5, paddingBottom: 5, paddingRight: 5)
         
-        suggestedChefCollectionView.anchor(top: menuViewBG.bottomAnchor, left: collectionViewBG.leftAnchor, bottom: collectionViewBG.bottomAnchor, right: collectionViewBG.rightAnchor, paddingTop: 5, paddingLeft: 5, paddingBottom: 5, paddingRight: 5)
-    }
-    
-    fileprivate func fetchUser() {
-        let uid = userId ?? (Auth.auth().currentUser?.uid ?? "")
-        let firestoreDB = Firestore.firestore()
-        UserController.shared.fetchUserWithUID(uid: uid) { (user) in
-            firestoreDB.collection(Constants.Users).document(uid).collection(Constants.Ratings).getDocuments { (snap, error) in
-                if let error = error {
-                    print(error.localizedDescription)
-                }
-                var totalVotes = 0
-                for doc in snap!.documents {
-                   if let rate = doc.data() as? Int {
-                      totalVotes += rate
-                   }
-                }
-                print("vote \(totalVotes)")
-            }
-            guard let username = user.username else { return }
-            self.usernameLabel.text = "WELCOME BACK \(username)"
-            let imageStorageRef = Storage.storage().reference().child("profileImageUrl/\(uid)")
-            imageStorageRef.getData(maxSize: 2 * 1024 * 1024) { data, error in
-                if error == nil, let data = data {
-                    self.profileImageView.image = UIImage(data: data)
-                }
-            }
-            
-            let bannerStorageRef = Storage.storage().reference().child("profileBannerUrl/\(uid)")
-            bannerStorageRef.getData(maxSize: 2 * 1024 * 1024) { data, error in
-                if error == nil, let data = data {
-                    self.bannerImageView.image = UIImage(data: data)
-                }
-            }
-        }
+        suggestedChefCollectionView.anchor(top: menuViewBG.bottomAnchor, left: collectionViewBG.leftAnchor, bottom: collectionViewBG.bottomAnchor, right: collectionViewBG.rightAnchor, paddingTop: 0, paddingLeft: 5, paddingBottom: 5, paddingRight: 5)
     }
     
     func setupCollectionView() {
@@ -177,15 +153,15 @@ class HomeViewController: UIViewController {
                 self.menuLabel.text = "Chef's near you"
             }
         }
-        
-        menuCollectionView.backgroundColor = UIColor.LightGrayBg()
+  
+        menuCollectionView.backgroundColor = UIColor.clear
         menuCollectionView.delegate = self
         menuCollectionView.dataSource = self
         menuCollectionView.translatesAutoresizingMaskIntoConstraints = false
         menuCollectionView.register(MenuCollectionViewCell.self, forCellWithReuseIdentifier: cellId)
         menuCollectionView.register(EmptyCell.self, forCellWithReuseIdentifier: noCellId)
         
-        suggestedChefCollectionView.backgroundColor = UIColor.LightGrayBg()
+        suggestedChefCollectionView.backgroundColor = UIColor.white
         suggestedChefCollectionView.delegate = self
         suggestedChefCollectionView.dataSource = self
         suggestedChefCollectionView.translatesAutoresizingMaskIntoConstraints = false
@@ -194,13 +170,13 @@ class HomeViewController: UIViewController {
         suggestedChefCollectionView.register(EmptyCell.self, forCellWithReuseIdentifier: noCellId)
     }
     
-    func setupNavTitleAndBarButtonItems() {
+    func configureNav() {
         let icon = UIImage(named: "menu")
         let imageView = UIImageView(frame: CGRect(x: 0, y: 0, width: 5, height: 5))
         imageView.image = icon
         navigationItem.rightBarButtonItem = UIBarButtonItem(image: icon, style: .plain, target: self, action: #selector(handleSettings))
         guard let orange = UIColor.orangeColor() else { return }
-        configureNavigationBar(withTitle: "", largeTitle: false, backgroundColor: UIColor.white, titleColor: orange)
+        configureNavigationBar(withTitle: "Home", largeTitle: true, backgroundColor: UIColor.white, titleColor: orange)
     }
     
     func handleUpdateObserverAndRefresh() {
@@ -208,6 +184,33 @@ class HomeViewController: UIViewController {
     }
 
     //MARK: - API
+    fileprivate func fetchUser() {
+        let uid = userId ?? (Auth.auth().currentUser?.uid ?? "")
+        let firestoreDB = Firestore.firestore()
+        UserController.shared.fetchUserWithUID(uid: uid) { (user) in
+            firestoreDB.collection(Constants.Users).document(uid).collection(Constants.Ratings).getDocuments { (snap, error) in
+                if let error = error {
+                    print(error.localizedDescription)
+                }
+                var totalVotes = 0
+                for doc in snap!.documents {
+                   if let rate = doc.data() as? Int {
+                      totalVotes += rate
+                   }
+                }
+                print("vote \(totalVotes)")
+            }
+            guard let username = user.username else { return }
+            self.usernameLabel.text = "Hi \(username)"
+            let imageStorageRef = Storage.storage().reference().child("profileImageUrl/\(uid)")
+            imageStorageRef.getData(maxSize: 2 * 1024 * 1024) { data, error in
+                if error == nil, let data = data {
+                    self.profileImageView.image = UIImage(data: data)
+                }
+            }
+        }
+    }
+    
     fileprivate func fetchSuggestedChefs() {
         let uid = userId ?? (Auth.auth().currentUser?.uid ?? "")
         UserController.shared.fetchUserWithUID(uid: uid) { (user) in
@@ -361,10 +364,10 @@ class HomeViewController: UIViewController {
     
     let bannerImageView: CustomImageView = {
         let image = CustomImageView()
+        image.image = UIImage(named: "gradientBackground")
         image.clipsToBounds = true
-        image.contentMode = .scaleAspectFill
+        image.contentMode = .scaleToFill
         image.backgroundColor = .white
-        image.image = UIImage(named: "image_background")
         return image
     }()
     
@@ -410,10 +413,12 @@ class HomeViewController: UIViewController {
     lazy var viewProfileButton: UIButton = {
         let button = UIButton(type: .custom)
         button.setTitle("View Profile", for: .normal)
-        button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 17)
+        button.titleLabel?.font = UIFont.systemFont(ofSize: 17)
         button.setTitleColor(UIColor.white, for: .normal)
-        button.backgroundColor = UIColor.orangeColor()
+        button.backgroundColor = UIColor.clear
         button.layer.cornerRadius = 5
+        button.layer.borderWidth = 0.5
+        button.layer.borderColor = UIColor.white.cgColor
         button.addTarget(self, action: #selector(handleViewProfile), for: .touchUpInside)
         return button
     }()
@@ -430,7 +435,7 @@ class HomeViewController: UIViewController {
         button.imageEdgeInsets = UIEdgeInsets.init(top: 0,left: 45,bottom: 20,right: 0)
         button.titleEdgeInsets = UIEdgeInsets.init(top: 20,left: -25,bottom: 0,right: 0)
         button.addTarget(self, action: #selector(viewReviews), for: .touchUpInside)
-        button.backgroundColor = UIColor.orangeColor()
+//        button.backgroundColor = UIColor.orangeColor()
         button.layer.cornerRadius = 8
         return button
     }()
@@ -445,7 +450,7 @@ class HomeViewController: UIViewController {
         button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 10)
         button.setTitleColor(UIColor.white, for: .normal)
 //        button.addTarget(self, action: #selector(handleEvents), for: .touchUpInside)
-        button.backgroundColor = UIColor.orangeColor()
+//        button.backgroundColor = UIColor.orangeColor()
         button.layer.cornerRadius = 8
         return button
     }()
@@ -460,7 +465,7 @@ class HomeViewController: UIViewController {
         button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 10)
         button.setTitleColor(UIColor.white, for: .normal)
 //        button.addTarget(self, action: #selector(handleCalendar), for: .touchUpInside)
-        button.backgroundColor = UIColor.orangeColor()
+//        button.backgroundColor = UIColor.orangeColor()
         button.layer.cornerRadius = 8
         return button
     }()
@@ -475,7 +480,7 @@ class HomeViewController: UIViewController {
         button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 10)
         button.setTitleColor(UIColor.white, for: .normal)
 //        button.addTarget(self, action: #selector(handleBookmarked), for: .touchUpInside)
-        button.backgroundColor = UIColor.orangeColor()
+//        button.backgroundColor = UIColor.orangeColor()
         button.layer.cornerRadius = 8
         return button
     }()
@@ -490,7 +495,7 @@ class HomeViewController: UIViewController {
         button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 10)
         button.setTitleColor(UIColor.white, for: .normal)
 //        button.addTarget(self, action: #selector(handleAddPhotos), for: .touchUpInside)
-        button.backgroundColor = UIColor.orangeColor()
+//        button.backgroundColor = UIColor.orangeColor()
         button.layer.cornerRadius = 8
         return button
     }()
@@ -505,21 +510,18 @@ class HomeViewController: UIViewController {
     
     let collectionViewBG: UIView = {
         let view = UIView()
-        view.backgroundColor = UIColor.LightGrayBg()
-        view.layer.cornerRadius = 5
+        view.backgroundColor = UIColor.white
         return view
     }()
     
     let menuViewBG: UIView = {
         let view = UIView()
         view.backgroundColor = UIColor.white
-        view.layer.cornerRadius = 5
         return view
     }()
     
     let menuLabel: UILabel = {
         let label = UILabel()
-        label.text = "Menus"
         label.textColor = UIColor.orangeColor()
         label.font = UIFont.boldSystemFont(ofSize: 20)
         return label

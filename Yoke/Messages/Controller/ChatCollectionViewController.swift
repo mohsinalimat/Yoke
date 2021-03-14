@@ -53,6 +53,7 @@ class ChatCollectionViewController: UICollectionViewController, UICollectionView
     }
     
     func setupCollectionView() {
+        view.backgroundColor = .white
         collectionView.register(ChatCell.self, forCellWithReuseIdentifier: cellId)
         collectionView.alwaysBounceVertical = true
         collectionView.backgroundColor = .white
@@ -78,16 +79,26 @@ class ChatCollectionViewController: UICollectionViewController, UICollectionView
     }
     
     private func addBackgroundGradient() {
-        let collectionViewBackgroundView = UIView()
-        let gradientLayer = CAGradientLayer()
-        gradientLayer.frame.size = view.frame.size
-        // Start and end for left to right gradient
-        gradientLayer.startPoint = CGPoint(x: 0.0, y: 0.5)
-        gradientLayer.endPoint = CGPoint(x: 1.0, y: 0.5)
-        gradientLayer.colors = [UIColor.yellowColor()?.cgColor ?? "", UIColor.orangeColor()?.cgColor ?? ""]
-        collectionView.backgroundView = collectionViewBackgroundView
-        collectionView.backgroundView?.layer.addSublayer(gradientLayer)
+        collectionView.backgroundColor = .white
+//        collectionView.backgroundView = imageView
+//        let collectionViewBackgroundView = UIView()
+//        let gradientLayer = CAGradientLayer()
+//        gradientLayer.frame.size = view.frame.size
+//        gradientLayer.backgroundColor = UIColor.white.cgColor
+//        // Start and end for left to right gradient
+//        gradientLayer.startPoint = CGPoint(x: 0.0, y: 0.5)
+//        gradientLayer.endPoint = CGPoint(x: 1.0, y: 0.5)
+//        gradientLayer.colors = [UIColor.white, UIColor.orangeColor()?.cgColor ?? ""]
+//        collectionView.backgroundView = collectionViewBackgroundView
+//        collectionView.backgroundView?.layer.addSublayer(gradientLayer)
       }
+    
+    let imageView : UIImageView = {
+        let iv = UIImageView()
+        iv.image = UIImage(named:"gradientBackground")
+        iv.contentMode = .scaleToFill
+        return iv
+    }()
     
     //MARK: - API
     func fetchMessages() {
@@ -138,7 +149,7 @@ class ChatCollectionViewController: UICollectionViewController, UICollectionView
     //MARK: - Views
     private lazy var chatInputView: ChatInputAccessoryView = {
         let customView = ChatInputAccessoryView(frame: CGRect(x: 0, y: 0, width: view.frame.width, height: 100))
-        customView.backgroundColor = UIColor.orangeColor()?.withAlphaComponent(0.8)
+        customView.backgroundColor = UIColor.orangeColor()
         customView.delegate = self
         return customView
     }()

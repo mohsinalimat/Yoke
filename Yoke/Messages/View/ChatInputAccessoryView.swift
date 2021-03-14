@@ -31,7 +31,6 @@ class ChatInputAccessoryView: UIView {
     
     //MARK: - Helper Functions
     func setupViews() {
-//        backgroundColor = UIColor.white
         layer.shadowOpacity = 0.25
         layer.shadowRadius = 10
         layer.shadowOffset = .init(width: 0, height: -8)

@@ -97,12 +97,10 @@ class SuggestedChefsCollectionViewCell: UICollectionViewCell {
     var profileImage: CustomImageView = {
         let image = CustomImageView()
         image.contentMode = .scaleAspectFill
-        image.image = UIImage(named: "image_background")
+        image.image = UIImage(named: "gradientBackground")
         image.translatesAutoresizingMaskIntoConstraints = false
         image.clipsToBounds = true
         image.layer.cornerRadius = 60
-//        image.layer.borderWidth = 2
-//        image.layer.borderColor = UIColor.orangeColor()?.cgColor
         return image
     }()
     
