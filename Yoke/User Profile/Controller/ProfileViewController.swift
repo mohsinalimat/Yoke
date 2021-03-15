@@ -66,6 +66,7 @@ class ProfileViewController: UIViewController, TTGTextTagCollectionViewDelegate 
         view.addSubview(scrollView)
         scrollView.addSubview(bannerImageView)
         scrollView.addSubview(profileImageView)
+        scrollView.addSubview(infoView)
         scrollView.addSubview(usernameLabel)
         scrollView.addSubview(locationLabel)
         scrollView.addSubview(ratingView)
@@ -102,11 +103,13 @@ class ProfileViewController: UIViewController, TTGTextTagCollectionViewDelegate 
 
         bannerImageView.anchor(top: scrollView.topAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, height: 250)
         
-        profileImageView.anchor(top: scrollView.topAnchor, left: nil, bottom: nil, right: nil, paddingTop: 125, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 150, height: 150)
+        profileImageView.anchor(top: scrollView.topAnchor, left: nil, bottom: nil, right: nil, paddingTop: 20, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 150, height: 150)
         profileImageView.layer.cornerRadius = 75
         profileImageView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        
+        infoView.anchor(top: profileImageView.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 0, paddingLeft: 15, paddingBottom: 0, paddingRight: 15, height: 120)
 
-        usernameLabel.anchor(top: profileImageView.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 0, paddingLeft: 40, paddingBottom: 0, paddingRight: 40)
+        usernameLabel.anchor(top: infoView.topAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 10, paddingLeft: 40, paddingBottom: 0, paddingRight: 40)
         locationLabel.anchor(top: usernameLabel.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 0, paddingLeft: 40, paddingBottom: 0, paddingRight: 40)
         ratingView.anchor(top: locationLabel.bottomAnchor, left: nil, bottom: nil, right: nil, paddingTop: 5, paddingLeft: 5, paddingBottom: 0, paddingRight: 0, width: 80, height: 20)
         ratingView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
@@ -114,7 +117,7 @@ class ProfileViewController: UIViewController, TTGTextTagCollectionViewDelegate 
         statsStackView.anchor(top: ratingView.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 0, paddingLeft: 40, paddingBottom: 0, paddingRight: 40, height: 35)
         
         setupButtonImages()
-        buttonStackView.anchor(top: statsStackView.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 10, paddingLeft: 15, paddingBottom: 0, paddingRight: 15, height: 50)
+        buttonStackView.anchor(top: infoView.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 10, paddingLeft: 15, paddingBottom: 0, paddingRight: 15, height: 50)
         
         bioLabel.anchor(top: buttonStackView.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 10, paddingLeft: 15, paddingBottom: 0, paddingRight: 5)
         
@@ -340,7 +343,7 @@ class ProfileViewController: UIViewController, TTGTextTagCollectionViewDelegate 
         stackView.axis = .horizontal
         stackView.distribution = .fillEqually
         stackView.spacing = 1
-        stackView.backgroundColor = .gray
+        stackView.backgroundColor = .white
         return stackView
     }()
 
@@ -372,6 +375,13 @@ class ProfileViewController: UIViewController, TTGTextTagCollectionViewDelegate 
         label.textAlignment = .center
         label.backgroundColor = .white
         return label
+    }()
+    
+    let infoView: UIView = {
+        let view = UIView()
+        view.backgroundColor = .green
+        
+        return view
     }()
     
     let buttonStackView: UIStackView = {

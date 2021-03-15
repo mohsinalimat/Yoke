@@ -63,7 +63,7 @@ class HomeViewController: UIViewController {
         buttonStackView.addArrangedSubview(bookmarkButton)
         buttonStackView.addArrangedSubview(calendarButton)
         scrollView.addSubview(collectionViewBG)
-        scrollView.addSubview(menuViewBG)
+//        scrollView.addSubview(menuViewBG)
         scrollView.addSubview(menuLabel)
         scrollView.addSubview(addMenuButton)
         scrollView.addSubview(menuCollectionView)
@@ -79,29 +79,20 @@ class HomeViewController: UIViewController {
         scrollView.contentSize = CGSize(width: view.frame.width, height: view.frame.height)
         scrollView.anchor(top: safeArea.topAnchor, left: safeArea.leftAnchor, bottom: safeArea.bottomAnchor, right: safeArea.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0)
 
-        bannerImageView.anchor(top: scrollView.topAnchor, left: safeArea.leftAnchor, bottom: safeArea.bottomAnchor, right: safeArea.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, height: 300)
-        bannerImageView.alpha = 0.5
+        bannerImageView.anchor(top: scrollView.topAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, height: 230)
         profileImageView.anchor(top: scrollView.topAnchor, left: safeArea.leftAnchor, bottom: nil, right: nil, paddingTop: 30, paddingLeft: 15, paddingBottom: 0, paddingRight: 0, width: 150, height: 150)
         profileImageView.layer.cornerRadius = 150 / 2
         
-        usernameLabel.anchor(top: profileImageView.topAnchor, left: profileImageView.rightAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 40, paddingLeft: 0, paddingBottom: 0, paddingRight: 15)
-        viewProfileButton.anchor(top: usernameLabel.bottomAnchor, left: usernameLabel.leftAnchor, bottom: nil, right: nil, paddingTop: 5, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 200, height: 35)
-        
-//        profileImageView.anchor(top: scrollView.topAnchor, left: nil, bottom: nil, right: nil, paddingTop: 30, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 150, height: 150)
-//        profileImageView.layer.cornerRadius = 150 / 2
-//        profileImageView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-//
-//        usernameLabel.anchor(top: profileImageView.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 5, paddingLeft: 40, paddingBottom: 0, paddingRight: 40, height: 45)
-//
-//        viewProfileButton.anchor(top: usernameLabel.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 0, paddingLeft: 40, paddingBottom: 0, paddingRight: 40, width: 0, height: 40)
-        
+        usernameLabel.anchor(top: profileImageView.topAnchor, left: profileImageView.rightAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 40, paddingLeft: 5, paddingBottom: 0, paddingRight: 15)
+        viewProfileButton.anchor(top: usernameLabel.bottomAnchor, left: usernameLabel.leftAnchor, bottom: nil, right: nil, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0)
+
         reviewsButton.alignImageTextVertical()
         eventButton.alignImageTextVertical()
         bookmarkButton.alignImageTextVertical()
 //        addPhotosButton.alignImageTextVertical()
         calendarButton.alignImageTextVertical()
 
-        buttonStackView.anchor(top: profileImageView.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 20, paddingLeft: 5, paddingBottom: 0, paddingRight: 5, width: 0, height: 60)
+        buttonStackView.anchor(top: bannerImageView.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: -30, paddingLeft: 15, paddingBottom: 0, paddingRight: 15, width: 0, height: 60)
         
         let uid = userId ?? (Auth.auth().currentUser?.uid ?? "")
         UserController.shared.fetchUserWithUID(uid: uid) { (user) in
@@ -114,25 +105,25 @@ class HomeViewController: UIViewController {
     }
     
     fileprivate func setupBottomToolbarChef() {
-        collectionViewBG.anchor(top: buttonStackView.bottomAnchor, left: safeArea.leftAnchor, bottom: scrollView.bottomAnchor, right: safeArea.rightAnchor, paddingTop: 0, paddingLeft: 5, paddingBottom: 0, paddingRight: 5, height: 250)
+        collectionViewBG.anchor(top: buttonStackView.bottomAnchor, left: safeArea.leftAnchor, bottom: scrollView.bottomAnchor, right: safeArea.rightAnchor, paddingTop: 20, paddingLeft: 5, paddingBottom: 0, paddingRight: 5, height: 250)
         
-        menuViewBG.anchor(top: collectionViewBG.topAnchor, left: collectionViewBG.leftAnchor, bottom: nil, right: collectionViewBG.rightAnchor, paddingTop: 5, paddingLeft: 5, paddingBottom: 0, paddingRight: 5, height: 50)
+//        menuViewBG.anchor(top: collectionViewBG.topAnchor, left: collectionViewBG.leftAnchor, bottom: nil, right: collectionViewBG.rightAnchor, paddingTop: 5, paddingLeft: 5, paddingBottom: 0, paddingRight: 5, height: 50)
 
-        menuLabel.anchor(top: menuViewBG.topAnchor, left: menuViewBG.leftAnchor, bottom: menuViewBG.bottomAnchor, right: nil, paddingTop: 0, paddingLeft: 5, paddingBottom: 5, paddingRight: 5)
+        menuLabel.anchor(top: collectionViewBG.topAnchor, left: collectionViewBG.leftAnchor, bottom: nil, right: nil, paddingTop: 5, paddingLeft: 10, paddingBottom: 0, paddingRight: 0)
 
-        addMenuButton.anchor(top: menuViewBG.topAnchor, left: nil, bottom: menuViewBG.bottomAnchor, right: menuViewBG.rightAnchor, paddingTop: 5, paddingLeft: 5, paddingBottom: 5, paddingRight: 5)
+        addMenuButton.anchor(top: menuLabel.topAnchor, left: nil, bottom: nil, right: collectionViewBG.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 10)
 
-        menuCollectionView.anchor(top: menuViewBG.bottomAnchor, left: collectionViewBG.leftAnchor, bottom: collectionViewBG.bottomAnchor, right: collectionViewBG.rightAnchor, paddingTop: -50, paddingLeft: 5, paddingBottom: 5, paddingRight: 5)
+        menuCollectionView.anchor(top: menuLabel.bottomAnchor, left: collectionViewBG.leftAnchor, bottom: nil, right: collectionViewBG.rightAnchor, paddingTop: 0, paddingLeft: 5, paddingBottom: 5, paddingRight: 5, height: 195)
     }
     
     fileprivate func setupBottomToolbarUser() {
-        collectionViewBG.anchor(top: buttonStackView.bottomAnchor, left: safeArea.leftAnchor, bottom: scrollView.bottomAnchor, right: safeArea.rightAnchor, paddingTop: 0, paddingLeft: 5, paddingBottom: 0, paddingRight: 5, height: 300)
+        collectionViewBG.anchor(top: buttonStackView.bottomAnchor, left: safeArea.leftAnchor, bottom: scrollView.bottomAnchor, right: safeArea.rightAnchor, paddingTop: 20, paddingLeft: 5, paddingBottom: 0, paddingRight: 5, height: 300)
         
-        menuViewBG.anchor(top: collectionViewBG.topAnchor, left: collectionViewBG.leftAnchor, bottom: nil, right: collectionViewBG.rightAnchor, paddingTop: 5, paddingLeft: 5, paddingBottom: 0, paddingRight: 5, height: 50)
+//        menuViewBG.anchor(top: collectionViewBG.topAnchor, left: collectionViewBG.leftAnchor, bottom: nil, right: collectionViewBG.rightAnchor, paddingTop: 5, paddingLeft: 5, paddingBottom: 0, paddingRight: 5, height: 50)
 
-        menuLabel.anchor(top: menuViewBG.topAnchor, left: menuViewBG.leftAnchor, bottom: menuViewBG.bottomAnchor, right: nil, paddingTop: 5, paddingLeft: 5, paddingBottom: 5, paddingRight: 5)
+        menuLabel.anchor(top: collectionViewBG.topAnchor, left: collectionViewBG.leftAnchor, bottom: nil, right: nil, paddingTop: 5, paddingLeft: 10, paddingBottom: 0, paddingRight: 0)
         
-        suggestedChefCollectionView.anchor(top: menuViewBG.bottomAnchor, left: collectionViewBG.leftAnchor, bottom: collectionViewBG.bottomAnchor, right: collectionViewBG.rightAnchor, paddingTop: -10, paddingLeft: 5, paddingBottom: 5, paddingRight: 5)
+        suggestedChefCollectionView.anchor(top: menuLabel.bottomAnchor, left: collectionViewBG.leftAnchor, bottom: nil, right: collectionViewBG.rightAnchor, paddingTop: 0, paddingLeft: 5, paddingBottom: 5, paddingRight: 5, height: 230)
     }
     
     func setupCollectionView() {
@@ -185,22 +176,9 @@ class HomeViewController: UIViewController {
     //MARK: - API
     fileprivate func fetchUser() {
         let uid = userId ?? (Auth.auth().currentUser?.uid ?? "")
-        let firestoreDB = Firestore.firestore()
         UserController.shared.fetchUserWithUID(uid: uid) { (user) in
-            firestoreDB.collection(Constants.Users).document(uid).collection(Constants.Ratings).getDocuments { (snap, error) in
-                if let error = error {
-                    print(error.localizedDescription)
-                }
-                var totalVotes = 0
-                for doc in snap!.documents {
-                   if let rate = doc.data() as? Int {
-                      totalVotes += rate
-                   }
-                }
-                print("vote \(totalVotes)")
-            }
             guard let username = user.username else { return }
-            self.usernameLabel.text = "Hi \(username)"
+            self.usernameLabel.text = "Hey, \(username)"
             let imageStorageRef = Storage.storage().reference().child("profileImageUrl/\(uid)")
             imageStorageRef.getData(maxSize: 2 * 1024 * 1024) { data, error in
                 if error == nil, let data = data {
@@ -277,7 +255,6 @@ class HomeViewController: UIViewController {
     @objc func handleSettings() {
         let editProfile = SettingsViewController()
         present(editProfile, animated: true)
-//        navigationController?.pushViewController(editProfile, animated: true)
     }
     
     func viewBookmarked(user: User) {
@@ -285,50 +262,7 @@ class HomeViewController: UIViewController {
         bookmarkedVC.user = user
         navigationController?.pushViewController(bookmarkedVC, animated: true)
     }
-    
-    func viewProfile(user: User) {
-//        let profileView = UserProfileVC(collectionViewLayout: UICollectionViewFlowLayout())
-//        profileView.user = user
-//        navigationController?.pushViewController(profileView, animated: true)
-    }
-    
-//    @objc func editDeleteGallery(sender: UIButton){
-//
-//        let alertController = UIAlertController(title: "Please Choose an Action", message: "Delete Event or Edit Event", preferredStyle: .actionSheet)
-//
-//        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel) { action in
-//        }
-//
-//        alertController.addAction(cancelAction)
-//
-//        let destroyAction = UIAlertAction(title: "Delete", style: .destructive) { action in
-//            let item = sender.tag
-//            let indexPath = IndexPath(item: item, section: 0)
-//            let uid = Auth.auth().currentUser?.uid
-//            Database.database().reference().child(Constants.Gallery).child(uid!).child(self.galleries[indexPath.item].id!).removeValue()
-//            self.galleries.remove(at: item)
-//            DispatchQueue.main.async {
-//                self.collectionView.deleteItems(at: [indexPath])
-//                self.collectionView.reloadData()
-//            }
-//        }
-//        alertController.addAction(destroyAction)
-//
-//        let editAction = UIAlertAction(title: "Edit", style: .default) { action in
-//            let item = sender.tag
-//            let indexPath = IndexPath(item: item, section: 0)
-//            let gallery = self.galleries[indexPath.row]
-//            let editPhotoVC = EditPhotoVC()
-//            editPhotoVC.gallery = gallery
-//            self.navigationController?.pushViewController(editPhotoVC, animated: true)
-//
-//        }
-//        alertController.addAction(editAction)
-//
-//        self.present(alertController, animated: true) {
-//        }
-//    }
-    
+
     @objc func handleAddMenu() {
         let addMenu = AddMenuViewController()
         present(addMenu, animated: true)
@@ -356,17 +290,16 @@ class HomeViewController: UIViewController {
     //MARK: - Views
     lazy var scrollView: UIScrollView = {
         let view = UIScrollView()
-        view.backgroundColor = UIColor.white
+        view.backgroundColor = UIColor.LightGrayBg()
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
     
     let bannerImageView: CustomImageView = {
         let image = CustomImageView()
-//        image.image = UIImage(named: "gradientBackground_3")
+        image.image = UIImage(named: "gradientBackground_3")
         image.clipsToBounds = true
         image.contentMode = .scaleToFill
-        image.backgroundColor = UIColor.LightGrayBg()
         return image
     }()
     
@@ -392,7 +325,7 @@ class HomeViewController: UIViewController {
     let usernameLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.boldSystemFont(ofSize: 20)
-        label.textColor = UIColor.orangeColor()
+        label.textColor = UIColor.white
         label.textAlignment = .left
         return label
     }()
@@ -402,10 +335,11 @@ class HomeViewController: UIViewController {
         button.setTitle("View Profile", for: .normal)
         button.titleLabel?.font = UIFont.systemFont(ofSize: 17)
         button.setTitleColor(UIColor.white, for: .normal)
-        button.backgroundColor = UIColor.orangeColor()
-        button.layer.cornerRadius = 5
-        button.layer.borderWidth = 0.5
-        button.layer.borderColor = UIColor.white.cgColor
+        button.contentHorizontalAlignment = UIControl.ContentHorizontalAlignment.left
+//        button.backgroundColor = UIColor.orangeColor()
+//        button.layer.cornerRadius = 5
+//        button.layer.borderWidth = 0.5
+//        button.layer.borderColor = UIColor.white.cgColor
         button.addTarget(self, action: #selector(handleViewProfile), for: .touchUpInside)
         return button
     }()
@@ -415,15 +349,15 @@ class HomeViewController: UIViewController {
 //        button.setImage(UIImage(named: "reviews"), for: .normal)
         let image = UIImage(named: "reviews")?.withRenderingMode(.alwaysTemplate)
         button.setImage(image, for: .normal)
-        button.tintColor = UIColor.white
+        button.tintColor = UIColor.orangeColor()
         button.setTitle("Reviews", for: .normal)
         button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 10)
-        button.setTitleColor(UIColor.white, for: .normal)
+        button.setTitleColor(UIColor.orangeColor(), for: .normal)
         button.imageEdgeInsets = UIEdgeInsets.init(top: 0,left: 45,bottom: 20,right: 0)
         button.titleEdgeInsets = UIEdgeInsets.init(top: 20,left: -25,bottom: 0,right: 0)
         button.addTarget(self, action: #selector(viewReviews), for: .touchUpInside)
-        button.backgroundColor = UIColor.orangeColor()
-        button.layer.cornerRadius = 8
+//        button.backgroundColor = UIColor.orangeColor()
+        button.layer.cornerRadius = 5
 //        button.layer.borderColor = UIColor.orangeColor()?.cgColor
 //        button.layer.borderWidth = 0.5
         return button
@@ -434,13 +368,13 @@ class HomeViewController: UIViewController {
 //        button.setImage(UIImage(named: "event_full"), for: .normal)
         let image = UIImage(named: "event_full")?.withRenderingMode(.alwaysTemplate)
         button.setImage(image, for: .normal)
-        button.tintColor = UIColor.white
+        button.tintColor = UIColor.orangeColor()
         button.setTitle("Events", for: .normal)
         button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 10)
-        button.setTitleColor(UIColor.white, for: .normal)
+        button.setTitleColor(UIColor.orangeColor(), for: .normal)
 //        button.addTarget(self, action: #selector(handleEvents), for: .touchUpInside)
-        button.backgroundColor = UIColor.orangeColor()
-        button.layer.cornerRadius = 8
+//        button.backgroundColor = UIColor.orangeColor()
+        button.layer.cornerRadius = 5
 //        button.layer.borderColor = UIColor.orangeColor()?.cgColor
 //        button.layer.borderWidth = 0.5
         return button
@@ -451,13 +385,13 @@ class HomeViewController: UIViewController {
 //        button.setImage(UIImage(named: "calendar"), for: .normal)
         let image = UIImage(named: "calendar")?.withRenderingMode(.alwaysTemplate)
         button.setImage(image, for: .normal)
-        button.tintColor = UIColor.white
+        button.tintColor = UIColor.orangeColor()
         button.setTitle("Calendar", for: .normal)
         button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 10)
-        button.setTitleColor(UIColor.white, for: .normal)
+        button.setTitleColor(UIColor.orangeColor(), for: .normal)
 //        button.addTarget(self, action: #selector(handleCalendar), for: .touchUpInside)
-        button.backgroundColor = UIColor.orangeColor()
-        button.layer.cornerRadius = 8
+//        button.backgroundColor = UIColor.orangeColor()
+        button.layer.cornerRadius = 5
 //        button.layer.borderColor = UIColor.orangeColor()?.cgColor
 //        button.layer.borderWidth = 0.5
         return button
@@ -468,13 +402,13 @@ class HomeViewController: UIViewController {
 //        button.setImage(UIImage(named: "bookmark_selected"), for: .normal)
         let image = UIImage(named: "bookmark_selected")?.withRenderingMode(.alwaysTemplate)
         button.setImage(image, for: .normal)
-        button.tintColor = UIColor.white
+        button.tintColor = UIColor.orangeColor()
         button.setTitle("Bookmarked", for: .normal)
         button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 10)
-        button.setTitleColor(UIColor.white, for: .normal)
+        button.setTitleColor(UIColor.orangeColor(), for: .normal)
 //        button.addTarget(self, action: #selector(handleBookmarked), for: .touchUpInside)
-        button.backgroundColor = UIColor.orangeColor()
-        button.layer.cornerRadius = 8
+//        button.backgroundColor = UIColor.orangeColor()
+        button.layer.cornerRadius = 5
 //        button.layer.borderColor = UIColor.orangeColor()?.cgColor
 //        button.layer.borderWidth = 0.5
         return button
@@ -484,25 +418,31 @@ class HomeViewController: UIViewController {
         let stackView = UIStackView()
         stackView.axis = .horizontal
         stackView.distribution = .fillEqually
-        stackView.spacing = 1
+        stackView.spacing = 0
+        stackView.backgroundColor = .white
+        stackView.layer.cornerRadius = 5
+        stackView.layer.shadowOffset = CGSize(width: 0, height: 2)
+        stackView.layer.shadowRadius = 2
+        stackView.layer.shadowOpacity = 0.2
         return stackView
     }()
     
     let collectionViewBG: UIView = {
         let view = UIView()
-        view.backgroundColor = UIColor.clear
+        view.backgroundColor = UIColor.white
+        view.layer.cornerRadius = 5
         return view
     }()
     
-    let menuViewBG: UIView = {
-        let view = UIView()
-        view.backgroundColor = UIColor.clear
-        return view
-    }()
+//    let menuViewBG: UIView = {
+//        let view = UIView()
+//        view.backgroundColor = UIColor.clear
+//        return view
+//    }()
     
     let menuLabel: UILabel = {
         let label = UILabel()
-        label.textColor = UIColor.orangeColor()
+        label.textColor = UIColor.gray
         label.font = UIFont.boldSystemFont(ofSize: 20)
         return label
     }()

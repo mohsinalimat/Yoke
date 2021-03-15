@@ -201,7 +201,7 @@ class SettingsViewController: UIViewController  {
     
     func chefAlert() {
         let alertVC = UIAlertController(title: "Turn chef mode on", message: "By turning chef mode on you will be viewed as a chef. Don't worry if you turn it off, your chef settings data will be saved.", preferredStyle: .alert)
-        let okAction = UIAlertAction(title: "Let's do it! I want to cook!", style: .default) { (_) in
+        let okAction = UIAlertAction(title: "I want to cook!", style: .default) { (_) in
             self.chefSwitch.isOn = true
             UserController.shared.updateChefAccount(self.uid, isChef: true) { (result) in
                 switch result {
@@ -213,7 +213,7 @@ class SettingsViewController: UIViewController  {
             }
             NotificationCenter.default.post(name: SettingsViewController.updateNotificationName, object: nil)
         }
-        let cancelAction = UIAlertAction(title: "Keep off, I prefer to be served!", style: .cancel) { (_) in
+        let cancelAction = UIAlertAction(title: "I prefer to be served!", style: .cancel) { (_) in
             self.chefSwitch.isOn = false
             UserController.shared.updateChefAccount(self.uid, isChef: false) { (result) in
                 switch result {

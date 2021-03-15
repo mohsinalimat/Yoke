@@ -92,6 +92,8 @@ class SuggestedChefsCollectionViewCell: UICollectionViewCell {
         image.translatesAutoresizingMaskIntoConstraints = false
         image.clipsToBounds = true
         image.layer.cornerRadius = 60
+        image.layer.borderWidth = 1
+        image.layer.borderColor = UIColor.white.cgColor
         return image
     }()
     
@@ -125,7 +127,7 @@ class SuggestedChefsCollectionViewCell: UICollectionViewCell {
     
     let cellBackgroundImage: UIImageView = {
         let view = UIImageView()
-        view.image = UIImage(named: "gradientBackground_3")
+        view.image = UIImage(named: "image_background")
         view.layer.cornerRadius = 8
         view.layer.masksToBounds = true
 //        view.backgroundColor = UIColor.white.withAlphaComponent(0.9)
