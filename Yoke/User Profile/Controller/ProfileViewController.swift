@@ -62,7 +62,6 @@ class ProfileViewController: UIViewController, TTGTextTagCollectionViewDelegate 
     }
     
     func setupViews() {
-        view.backgroundColor = UIColor.LightGrayBg()
         view.addSubview(scrollView)
         scrollView.addSubview(bannerImageView)
         scrollView.addSubview(profileImageView)
@@ -103,11 +102,11 @@ class ProfileViewController: UIViewController, TTGTextTagCollectionViewDelegate 
 
         bannerImageView.anchor(top: scrollView.topAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, height: 250)
         
-        profileImageView.anchor(top: scrollView.topAnchor, left: nil, bottom: nil, right: nil, paddingTop: 20, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 150, height: 150)
+        profileImageView.anchor(top: scrollView.topAnchor, left: nil, bottom: nil, right: nil, paddingTop: 125, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 150, height: 150)
         profileImageView.layer.cornerRadius = 75
         profileImageView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         
-        infoView.anchor(top: profileImageView.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 0, paddingLeft: 15, paddingBottom: 0, paddingRight: 15, height: 120)
+        infoView.anchor(top: profileImageView.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 5, paddingLeft: 15, paddingBottom: 0, paddingRight: 15, height: 110)
 
         usernameLabel.anchor(top: infoView.topAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 10, paddingLeft: 40, paddingBottom: 0, paddingRight: 40)
         locationLabel.anchor(top: usernameLabel.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 0, paddingLeft: 40, paddingBottom: 0, paddingRight: 40)
@@ -277,7 +276,7 @@ class ProfileViewController: UIViewController, TTGTextTagCollectionViewDelegate 
     //MARK: - Views
     lazy var scrollView: UIScrollView = {
         let view = UIScrollView()
-        view.backgroundColor = UIColor.white
+        view.backgroundColor = UIColor.LightGrayBg()
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
@@ -343,7 +342,7 @@ class ProfileViewController: UIViewController, TTGTextTagCollectionViewDelegate 
         stackView.axis = .horizontal
         stackView.distribution = .fillEqually
         stackView.spacing = 1
-        stackView.backgroundColor = .white
+        stackView.backgroundColor = .lightGray
         return stackView
     }()
 
@@ -379,8 +378,11 @@ class ProfileViewController: UIViewController, TTGTextTagCollectionViewDelegate 
     
     let infoView: UIView = {
         let view = UIView()
-        view.backgroundColor = .green
-        
+        view.backgroundColor = UIColor.white
+        view.layer.cornerRadius = 5
+        view.layer.shadowOffset = CGSize(width: 0, height: 2)
+        view.layer.shadowRadius = 2
+        view.layer.shadowOpacity = 0.2
         return view
     }()
     
@@ -468,6 +470,7 @@ class ProfileViewController: UIViewController, TTGTextTagCollectionViewDelegate 
         label.font = UIFont.boldSystemFont(ofSize: 17)
         label.textColor = UIColor.gray
         label.textAlignment = .left
+        label.backgroundColor = .white
         return label
     }()
     
@@ -479,6 +482,7 @@ class ProfileViewController: UIViewController, TTGTextTagCollectionViewDelegate 
         label.lineBreakMode = .byWordWrapping
         label.numberOfLines = 0
         label.translatesAutoresizingMaskIntoConstraints = false
+        label.backgroundColor = .white
         return label
     }()
     
@@ -490,7 +494,7 @@ class ProfileViewController: UIViewController, TTGTextTagCollectionViewDelegate 
     
     let collectionViewBG: UIView = {
         let view = UIView()
-        view.backgroundColor = UIColor.clear
+        view.backgroundColor = UIColor.white
         view.layer.cornerRadius = 5
         return view
     }()

@@ -297,7 +297,8 @@ class HomeViewController: UIViewController {
     
     let bannerImageView: CustomImageView = {
         let image = CustomImageView()
-        image.image = UIImage(named: "gradientBackground_3")
+//        image.image = UIImage(named: "gradientBackground_3")
+        image.image = UIImage(named: "image_background")
         image.clipsToBounds = true
         image.contentMode = .scaleToFill
         return image
