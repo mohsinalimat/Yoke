@@ -496,6 +496,10 @@ class ProfileViewController: UIViewController, TTGTextTagCollectionViewDelegate 
         let view = UIView()
         view.backgroundColor = UIColor.white
         view.layer.cornerRadius = 5
+        view.layer.cornerRadius = 5
+        view.layer.shadowOffset = CGSize(width: 0, height: 2)
+        view.layer.shadowRadius = 2
+        view.layer.shadowOpacity = 0.2
         return view
     }()
     
