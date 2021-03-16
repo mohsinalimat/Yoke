@@ -55,14 +55,15 @@ class SuggestedChefsCollectionViewCell: UICollectionViewCell {
     func setupConstraints() {
         shadowView.anchor(top: topAnchor, left: leftAnchor, bottom: bottomAnchor, right: rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0)
         cellBackgroundImage.anchor(top: topAnchor, left: leftAnchor, bottom: bottomAnchor, right: rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0)
-        profileImage.anchor(top: topAnchor, left: nil, bottom: nil, right: nil, paddingTop: 5, paddingLeft: 5, paddingBottom: 0, paddingRight: 5, width: 120, height: 120)
-        profileImage.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
-        nameLabel.anchor(top: profileImage.bottomAnchor, left: nil, bottom: nil, right: nil, paddingTop: 5, paddingLeft: 0, paddingBottom: 0, paddingRight: 0)
-        nameLabel.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
-        ratingView.anchor(top: nameLabel.bottomAnchor, left: nil, bottom: nil, right: nil, paddingTop: 5, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 70, height: 15)
-        ratingView.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
-        locationLabel.anchor(top: ratingView.bottomAnchor, left: nil, bottom: nil, right: nil, paddingTop: 5, paddingLeft: 0, paddingBottom: 0, paddingRight: 0)
-        locationLabel.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
+        profileImage.anchor(top: topAnchor, left: leftAnchor, bottom: nil, right: nil, paddingTop: 5, paddingLeft: 5, paddingBottom: 5, paddingRight: 0, width: 80, height: 80)
+//        profileImage.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
+        nameLabel.anchor(top: profileImage.topAnchor, left: profileImage.rightAnchor, bottom: nil, right: nil, paddingTop: 10, paddingLeft: 5, paddingBottom: 0, paddingRight: 0)
+//        nameLabel.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
+        
+        ratingView.anchor(top: nameLabel.bottomAnchor, left: profileImage.rightAnchor, bottom: nil, right: nil, paddingTop: 5, paddingLeft: 5, paddingBottom: 0, paddingRight: 0, width: 70, height: 15)
+//        ratingView.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
+        locationLabel.anchor(top: ratingView.bottomAnchor, left: profileImage.rightAnchor, bottom: nil, right: nil, paddingTop: 5, paddingLeft: 5, paddingBottom: 0, paddingRight: 0)
+//        locationLabel.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
     }
     
     func handleRatingView(uid: String) {
@@ -70,7 +71,7 @@ class SuggestedChefsCollectionViewCell: UICollectionViewCell {
             var totalCount = 0.0
             var count = 0.0
             if error != nil {
-                print(error?.localizedDescription)
+                print(error?.localizedDescription ?? "")
             } else {
                 count = Double(querySnapshot?.count ?? 0)
                 for document in querySnapshot!.documents {
@@ -80,6 +81,7 @@ class SuggestedChefsCollectionViewCell: UICollectionViewCell {
                 }
             }
             let average = totalCount/count
+            print("stars \(uid), \(average)")
             self.ratingView.rating = average
         }
     }
@@ -91,7 +93,7 @@ class SuggestedChefsCollectionViewCell: UICollectionViewCell {
         image.image = UIImage(named: "image_background")
         image.translatesAutoresizingMaskIntoConstraints = false
         image.clipsToBounds = true
-        image.layer.cornerRadius = 60
+        image.layer.cornerRadius = 40
         image.layer.borderWidth = 1
         image.layer.borderColor = UIColor.white.cgColor
         return image
