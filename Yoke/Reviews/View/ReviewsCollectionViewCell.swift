@@ -111,8 +111,9 @@ class ReviewsCollectionViewCell: UICollectionViewCell {
         view.maxRating = 5
         view.rating = 0
         view.editable = false
-        view.emptyImage = UIImage(named: "star_unselected_color")
-        view.fullImage = UIImage(named: "star_selected_color")
+        view.emptyImage = UIImage(systemName: "star")
+        view.fullImage = UIImage(systemName: "star.fill")
+        view.tintColor = UIColor.orangeColor()
         return view
     }()
     

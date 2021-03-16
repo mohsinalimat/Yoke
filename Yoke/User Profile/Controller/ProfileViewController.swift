@@ -85,12 +85,12 @@ class ProfileViewController: UIViewController, TTGTextTagCollectionViewDelegate 
         blurredEffectView.alpha = 0.5
         infoView.addSubview(blurredEffectView)
         scrollView.addSubview(usernameLabel)
-        scrollView.addSubview(ratingView)
         scrollView.addSubview(locationLabel)
+        scrollView.addSubview(ratingView)
         scrollView.addSubview(statsStackView)
-//        statsStackView.addArrangedSubview(reviewCountLabel)
-//        statsStackView.addArrangedSubview(rebookCountLabel)
-//        statsStackView.addArrangedSubview(verifiedLabel)
+        statsStackView.addArrangedSubview(reviewCountLabel)
+        statsStackView.addArrangedSubview(rebookCountLabel)
+        statsStackView.addArrangedSubview(verifiedLabel)
 //        scrollView.addSubview(buttonStackView)
 //        buttonStackView.addArrangedSubview(reviewsButton)
 //        buttonStackView.addArrangedSubview(eventButton)
@@ -117,11 +117,11 @@ class ProfileViewController: UIViewController, TTGTextTagCollectionViewDelegate 
         profileImageView.anchor(top: bannerImageView.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: nil, paddingTop: -75, paddingLeft: 5, paddingBottom: 5, paddingRight: 0, width: 150, height: 150)
         profileImageView.layer.cornerRadius = 75
 
-        usernameLabel.anchor(top: nil, left: profileImageView.rightAnchor, bottom: bannerImageView.bottomAnchor, right: nil, paddingTop: 30, paddingLeft: 10, paddingBottom: 0, paddingRight: 5)
-        ratingView.anchor(top: bannerImageView.bottomAnchor, left: usernameLabel.leftAnchor, bottom: nil, right: nil, paddingTop: 5, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 80, height: 20)
-        locationLabel.anchor(top: ratingView.bottomAnchor, left: usernameLabel.leftAnchor, bottom: nil, right: nil, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0)
+        usernameLabel.anchor(top: nil, left: profileImageView.rightAnchor, bottom: bannerImageView.bottomAnchor, right: nil, paddingTop: 30, paddingLeft: 5, paddingBottom: 0, paddingRight: 5)
+        locationLabel.anchor(top: bannerImageView.bottomAnchor, left: profileImageView.rightAnchor, bottom: nil, right: nil, paddingTop: 5, paddingLeft: 5, paddingBottom: 0, paddingRight: 0)
+        ratingView.anchor(top: locationLabel.bottomAnchor, left: profileImageView.rightAnchor, bottom: nil, right: nil, paddingTop: 5, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 120, height: 50)
         
-        statsStackView.anchor(top: locationLabel.bottomAnchor, left: profileImageView.rightAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 0, paddingLeft: 40, paddingBottom: 0, paddingRight: 40, height: 35)
+        statsStackView.anchor(top: profileImageView.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 20, paddingLeft: 20, paddingBottom: 0, paddingRight: 20, height: 35)
         
         let uid = userId ?? (Auth.auth().currentUser?.uid ?? "")
         UserController.shared.fetchUserWithUID(uid: uid) { (user) in
@@ -266,18 +266,27 @@ class ProfileViewController: UIViewController, TTGTextTagCollectionViewDelegate 
     }
     
     func fetchUserAverageRating(uid: String) {
-        UserController.shared.fetchUserRatingWith(uid: uid) { (result) in
-            switch result {
-            case true:
-                self.ratingView.rating = UserController.shared.average
-                if UserController.shared.count <= 1 {
-                    self.reviewCountLabel.text = "\(Int(UserController.shared.count)) review"
-                } else {
-                    self.reviewCountLabel.text = "\(Int(UserController.shared.count)) reviews"
+        Firestore.firestore().collection(Constants.Users).document(uid).collection(Constants.Ratings).getDocuments() { (querySnapshot, error) in
+            var totalCount = 0.0
+            var count = 0.0
+            if error != nil {
+                print(error?.localizedDescription ?? "")
+            } else {
+                count = Double(querySnapshot?.count ?? 0)
+                for document in querySnapshot!.documents {
+                    if let rate = document.data()[Constants.Stars] as? Double {
+                        if count <= 1 {
+                            self.reviewCountLabel.text = "\(Int(count)) review"
+                        } else {
+                            self.reviewCountLabel.text = "\(Int(count)) reviews"
+                        }
+                        totalCount += rate
+                    }
                 }
-            case false:
-                print("Failed to fetch rating")
             }
+            let average = totalCount/count
+            print("stars \(uid), \(average)")
+            self.ratingView.rating = average
         }
     }
     
@@ -368,7 +377,7 @@ class ProfileViewController: UIViewController, TTGTextTagCollectionViewDelegate 
     
     let locationLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont.systemFont(ofSize: 15)
+        label.font = UIFont.boldSystemFont(ofSize: 15)
         label.textColor = UIColor.gray
         label.textAlignment = .left
         return label
@@ -381,8 +390,9 @@ class ProfileViewController: UIViewController, TTGTextTagCollectionViewDelegate 
         view.maxRating = 5
         view.rating = 2.5
         view.editable = false
-        view.emptyImage = UIImage(named: "star_unselected_color")
-        view.fullImage = UIImage(named: "star_selected_color")
+        view.emptyImage = UIImage(systemName: "star")
+        view.fullImage = UIImage(systemName: "star.fill")
+        view.tintColor = UIColor.orangeColor()
         return view
     }()
     
@@ -392,6 +402,10 @@ class ProfileViewController: UIViewController, TTGTextTagCollectionViewDelegate 
         stackView.distribution = .fillEqually
         stackView.spacing = 1
         stackView.backgroundColor = .lightGray
+        stackView.layer.cornerRadius = 5
+        stackView.layer.shadowOffset = CGSize(width: 0, height: 4)
+        stackView.layer.shadowRadius = 4
+        stackView.layer.shadowOpacity = 0.1
         return stackView
     }()
 

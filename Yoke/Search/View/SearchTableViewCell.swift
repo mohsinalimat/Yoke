@@ -64,40 +64,27 @@ class SearchTableViewCell: UITableViewCell {
     }
     
     func fetchUserAverageRating(uid: String) {
-        UserController.shared.fetchUserRatingWith(uid: uid) { (result) in
-            switch result {
-            case true:
-                self.ratingView.rating = UserController.shared.average
-                if UserController.shared.count <= 1 {
-                    self.reviewCountLabel.text = "\(Int(UserController.shared.count)) review"
-                } else {
-                    self.reviewCountLabel.text = "\(Int(UserController.shared.count)) reviews"
+        Firestore.firestore().collection(Constants.Users).document(uid).collection(Constants.Ratings).getDocuments() { (querySnapshot, error) in
+            var totalCount = 0.0
+            var count = 0.0
+            if error != nil {
+                print(error?.localizedDescription ?? "")
+            } else {
+                count = Double(querySnapshot?.count ?? 0)
+                for document in querySnapshot!.documents {
+                    if let rate = document.data()[Constants.Stars] as? Double {
+                        totalCount += rate
+                        if count <= 1 {
+                            self.reviewCountLabel.text = "\(Int(count)) review"
+                        } else {
+                            self.reviewCountLabel.text = "\(Int(count)) reviews"
+                        }
+                    }
                 }
-            case false:
-                print("Failed to fetch rating")
             }
+            let average = totalCount/count
+            self.ratingView.rating = average
         }
-//        Firestore.firestore().collection(Constants.Users).document(uid).collection(Constants.Ratings).getDocuments() { (querySnapshot, error) in
-//            var totalCount = 0.0
-//            var count = 0.0
-//            if error != nil {
-//                print(error?.localizedDescription)
-//            } else {
-//                count = Double(querySnapshot?.count ?? 0)
-//                for document in querySnapshot!.documents {
-//                    if let rate = document.data()[Constants.Stars] as? Double {
-//                        totalCount += rate
-//                        if count <= 1 {
-//                            self.reviewCountLabel.text = "\(Int(count)) review"
-//                        } else {
-//                            self.reviewCountLabel.text = "\(Int(count)) reviews"
-//                        }
-//                    }
-//                }
-//            }
-//            let average = totalCount/count
-//            self.ratingView.rating = average
-//        }
     }
     
     //MARK: - Views
@@ -148,8 +135,9 @@ class SearchTableViewCell: UITableViewCell {
         view.maxRating = 5
         view.rating = 2.5
         view.editable = false
-        view.emptyImage = UIImage(named: "star_unselected_white")
-        view.fullImage = UIImage(named: "star_selected_white")
+        view.emptyImage = UIImage(systemName: "star")
+        view.fullImage = UIImage(systemName: "star.fill")
+        view.tintColor = UIColor.white
         return view
     }()
     

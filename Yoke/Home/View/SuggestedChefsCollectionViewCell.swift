@@ -115,8 +115,9 @@ class SuggestedChefsCollectionViewCell: UICollectionViewCell {
         view.maxRating = 5
         view.rating = 2.5
         view.editable = false
-        view.emptyImage = UIImage(named: "star_unselected_white")
-        view.fullImage = UIImage(named: "star_selected_white")
+        view.emptyImage = UIImage(systemName: "star")
+        view.fullImage = UIImage(systemName: "star.fill")
+        view.tintColor = UIColor.white
         return view
     }()
     
