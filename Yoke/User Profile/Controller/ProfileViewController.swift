@@ -64,6 +64,7 @@ class ProfileViewController: UIViewController, TTGTextTagCollectionViewDelegate 
     func setupViews() {
         view.addSubview(scrollView)
         scrollView.addSubview(bannerImageView)
+        scrollView.addSubview(bannerLayerImageView)
         scrollView.addSubview(profileImageView)
         scrollView.addSubview(infoView)
         scrollView.addSubview(usernameLabel)
@@ -99,14 +100,16 @@ class ProfileViewController: UIViewController, TTGTextTagCollectionViewDelegate 
     
     func constrainViewsForChef() {
         scrollView.anchor(top: safeArea.topAnchor, left: safeArea.leftAnchor, bottom: safeArea.bottomAnchor, right: safeArea.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0)
-
+        
         bannerImageView.anchor(top: scrollView.topAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, height: 250)
         
-        profileImageView.anchor(top: scrollView.topAnchor, left: nil, bottom: nil, right: nil, paddingTop: 125, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 150, height: 150)
-        profileImageView.layer.cornerRadius = 75
-        profileImageView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        bannerLayerImageView.anchor(top: scrollView.topAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, height: 250)
+        profileImageView.anchor(top: scrollView.topAnchor, left: safeArea.leftAnchor, bottom: nil, right: nil, paddingTop: 125, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 100, height: 100)
+//        profileImageView.anchor(top: scrollView.topAnchor, left: nil, bottom: nil, right: nil, paddingTop: 125, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 150, height: 150)
+        profileImageView.layer.cornerRadius = 50
+//        profileImageView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         
-        infoView.anchor(top: profileImageView.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 5, paddingLeft: 15, paddingBottom: 0, paddingRight: 15, height: 110)
+        infoView.anchor(top: profileImageView.topAnchor, left: profileImageView.rightAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 5, paddingLeft: 15, paddingBottom: 0, paddingRight: 15, height: 110)
 
         usernameLabel.anchor(top: infoView.topAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 10, paddingLeft: 40, paddingBottom: 0, paddingRight: 40)
         locationLabel.anchor(top: usernameLabel.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 0, paddingLeft: 40, paddingBottom: 0, paddingRight: 40)
@@ -293,7 +296,7 @@ class ProfileViewController: UIViewController, TTGTextTagCollectionViewDelegate 
     let bannerLayerImageView: UIView = {
         let view = UIView()
         view.backgroundColor = UIColor.black
-        view.layer.opacity = 0.1
+        view.layer.opacity = 0.3
         return view
     }()
     

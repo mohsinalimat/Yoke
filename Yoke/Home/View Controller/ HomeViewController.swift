@@ -422,9 +422,9 @@ class HomeViewController: UIViewController {
         stackView.spacing = 0
         stackView.backgroundColor = .white
         stackView.layer.cornerRadius = 5
-        stackView.layer.shadowOffset = CGSize(width: 0, height: 2)
-        stackView.layer.shadowRadius = 2
-        stackView.layer.shadowOpacity = 0.2
+        stackView.layer.shadowOffset = CGSize(width: 0, height: 4)
+        stackView.layer.shadowRadius = 4
+        stackView.layer.shadowOpacity = 0.1
         return stackView
     }()
     
@@ -432,6 +432,9 @@ class HomeViewController: UIViewController {
         let view = UIView()
         view.backgroundColor = UIColor.white
         view.layer.cornerRadius = 5
+        view.layer.shadowOffset = CGSize(width: 0, height: 4)
+        view.layer.shadowRadius = 4
+        view.layer.shadowOpacity = 0.1
         return view
     }()
     
