@@ -231,34 +231,9 @@ class HomeViewController: UIViewController {
         navigationController?.pushViewController(reviewsVC, animated: true)
     }
     
-    func viewEvents(user: User) {
-        let editEventVC = EditEventVC(collectionViewLayout: UICollectionViewFlowLayout())
-        editEventVC.user = user
-        navigationController?.pushViewController(editEventVC, animated: true)
-    }
-    
-    func addPhotos(user: User) {
-//        let addPhotosVC = AddPhotoVC(collectionViewLayout: UICollectionViewFlowLayout())
-        let addPhotosVC = AddPhotoVC()
-        addPhotosVC.user = user
-        navigationController?.pushViewController(addPhotosVC, animated: true)
-    }
-    
-    func viewCalendar(user: User) {
-        let calendarVC = CalendarVC()
-        calendarVC.user = user
-        navigationController?.pushViewController(calendarVC, animated: true)
-    }
-    
     @objc func handleSettings() {
         let editProfile = SettingsViewController()
         present(editProfile, animated: true)
-    }
-    
-    func viewBookmarked(user: User) {
-        let bookmarkedVC = BookmarkedVC(collectionViewLayout: UICollectionViewFlowLayout())
-        bookmarkedVC.user = user
-        navigationController?.pushViewController(bookmarkedVC, animated: true)
     }
 
     @objc func handleAddMenu() {

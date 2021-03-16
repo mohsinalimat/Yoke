@@ -61,33 +61,49 @@ class ProfileViewController: UIViewController, TTGTextTagCollectionViewDelegate 
         contactButton.alignImageTextVertical()
     }
     
+    let blurView: UIVisualEffectView = {
+        let blurEffect = UIBlurEffect(style: .dark)
+        let view = UIVisualEffectView(effect: blurEffect)
+        view.layer.masksToBounds = true
+        view.layer.cornerRadius = 10
+        view.alpha = 0.5
+        return view
+    }()
+    
     func setupViews() {
         view.addSubview(scrollView)
         scrollView.addSubview(bannerImageView)
         scrollView.addSubview(bannerLayerImageView)
         scrollView.addSubview(profileImageView)
         scrollView.addSubview(infoView)
+        let blurEffect = UIBlurEffect(style: .dark)
+        let blurredEffectView = UIVisualEffectView(effect: blurEffect)
+        blurredEffectView.layer.masksToBounds = true
+        blurredEffectView.layer.cornerRadius = 5
+        blurredEffectView.frame = infoView.bounds
+        blurredEffectView.alpha = 0.5
+        infoView.addSubview(blurredEffectView)
         scrollView.addSubview(usernameLabel)
         scrollView.addSubview(locationLabel)
         scrollView.addSubview(ratingView)
-        scrollView.addSubview(statsStackView)
-        statsStackView.addArrangedSubview(reviewCountLabel)
-        statsStackView.addArrangedSubview(rebookCountLabel)
-        statsStackView.addArrangedSubview(verifiedLabel)
-        scrollView.addSubview(buttonStackView)
-        buttonStackView.addArrangedSubview(reviewsButton)
-        buttonStackView.addArrangedSubview(eventButton)
-        buttonStackView.addArrangedSubview(contactButton)
-        buttonStackView.addArrangedSubview(bookmarkButton)
-        scrollView.addSubview(bioLabel)
-        scrollView.addSubview(bioTextLabel)
-        scrollView.addSubview(cusineLabel)
-        scrollView.addSubview(seperatorView)
-        scrollView.addSubview(cusineCollectionView)
-        scrollView.addSubview(collectionViewBG)
-        scrollView.addSubview(menuViewBG)
-        scrollView.addSubview(menuLabel)
-        scrollView.addSubview(menuCollectionView)
+//        scrollView.addSubview(statsStackView)
+//        statsStackView.addArrangedSubview(reviewCountLabel)
+//        statsStackView.addArrangedSubview(rebookCountLabel)
+//        statsStackView.addArrangedSubview(verifiedLabel)
+//        scrollView.addSubview(buttonStackView)
+//        buttonStackView.addArrangedSubview(reviewsButton)
+//        buttonStackView.addArrangedSubview(eventButton)
+//        buttonStackView.addArrangedSubview(contactButton)
+//        buttonStackView.addArrangedSubview(bookmarkButton)
+//        scrollView.addSubview(bioLabel)
+//        scrollView.addSubview(bioTextLabel)
+//        scrollView.addSubview(cusineLabel)
+//        scrollView.addSubview(seperatorView)
+//        scrollView.addSubview(cusineCollectionView)
+//        scrollView.addSubview(collectionViewBG)
+//        scrollView.addSubview(menuViewBG)
+//        scrollView.addSubview(menuLabel)
+//        scrollView.addSubview(menuCollectionView)
         let uid = userId ?? (Auth.auth().currentUser?.uid ?? "")
         UserController.shared.fetchUserWithUID(uid: uid) { (user) in
             if user.isChef == false {
@@ -103,40 +119,40 @@ class ProfileViewController: UIViewController, TTGTextTagCollectionViewDelegate 
         
         bannerImageView.anchor(top: scrollView.topAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, height: 250)
         
-        bannerLayerImageView.anchor(top: scrollView.topAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, height: 250)
-        profileImageView.anchor(top: scrollView.topAnchor, left: safeArea.leftAnchor, bottom: nil, right: nil, paddingTop: 125, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 100, height: 100)
+//        bannerLayerImageView.anchor(top: scrollView.topAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, height: 250)
+        profileImageView.anchor(top: scrollView.topAnchor, left: safeArea.leftAnchor, bottom: nil, right: nil, paddingTop: 150, paddingLeft: 5, paddingBottom: 0, paddingRight: 0, width: 150, height: 150)
 //        profileImageView.anchor(top: scrollView.topAnchor, left: nil, bottom: nil, right: nil, paddingTop: 125, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 150, height: 150)
         profileImageView.layer.cornerRadius = 50
 //        profileImageView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         
-        infoView.anchor(top: profileImageView.topAnchor, left: profileImageView.rightAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 5, paddingLeft: 15, paddingBottom: 0, paddingRight: 15, height: 110)
+        infoView.anchor(top: profileImageView.topAnchor, left: usernameLabel.leftAnchor, bottom: nil, right: usernameLabel.rightAnchor, paddingTop: 0, paddingLeft: -5, paddingBottom: 0, paddingRight: -10, height: 100)
 
-        usernameLabel.anchor(top: infoView.topAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 10, paddingLeft: 40, paddingBottom: 0, paddingRight: 40)
-        locationLabel.anchor(top: usernameLabel.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 0, paddingLeft: 40, paddingBottom: 0, paddingRight: 40)
-        ratingView.anchor(top: locationLabel.bottomAnchor, left: nil, bottom: nil, right: nil, paddingTop: 5, paddingLeft: 5, paddingBottom: 0, paddingRight: 0, width: 80, height: 20)
-        ratingView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        usernameLabel.anchor(top: profileImageView.topAnchor, left: profileImageView.rightAnchor, bottom: nil, right: nil, paddingTop: 10, paddingLeft: 10, paddingBottom: 0, paddingRight: 5)
+        locationLabel.anchor(top: usernameLabel.bottomAnchor, left: infoView.leftAnchor, bottom: nil, right: infoView.rightAnchor, paddingTop: 0, paddingLeft: 5, paddingBottom: 0, paddingRight: 5)
+        ratingView.anchor(top: locationLabel.bottomAnchor, left: infoView.leftAnchor, bottom: nil, right: nil, paddingTop: 5, paddingLeft: 5, paddingBottom: 0, paddingRight: 0, width: 80, height: 20)
+//        ratingView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         
-        statsStackView.anchor(top: ratingView.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 0, paddingLeft: 40, paddingBottom: 0, paddingRight: 40, height: 35)
-        
-        setupButtonImages()
-        buttonStackView.anchor(top: infoView.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 10, paddingLeft: 15, paddingBottom: 0, paddingRight: 15, height: 50)
-        
-        bioLabel.anchor(top: buttonStackView.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 10, paddingLeft: 15, paddingBottom: 0, paddingRight: 5)
-        
-        bioTextLabel.anchor(top: bioLabel.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 10, paddingLeft: 15, paddingBottom: 0, paddingRight: 15)
-        
-        seperatorView.anchor(top: bioTextLabel.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 20, paddingLeft: 15, paddingBottom: 0, paddingRight: 15, height: 0.5)
-        
-        cusineLabel.anchor(top: seperatorView.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: nil, paddingTop: 20, paddingLeft: 15, paddingBottom: 0, paddingRight: 0)
-        cusineCollectionView.anchor(top: cusineLabel.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 10, paddingLeft: 15, paddingBottom: 0, paddingRight: 5, height: 45)
-        
-        collectionViewBG.anchor(top: cusineCollectionView.bottomAnchor, left: safeArea.leftAnchor, bottom: scrollView.bottomAnchor, right: safeArea.rightAnchor, paddingTop: 20, paddingLeft: 5, paddingBottom: 8, paddingRight: 5, height: view.frame.width - 150)
-        
-        menuViewBG.anchor(top: collectionViewBG.topAnchor, left: collectionViewBG.leftAnchor, bottom: nil, right: collectionViewBG.rightAnchor, paddingTop: 5, paddingLeft: 5, paddingBottom: 0, paddingRight: 5, height: 50)
-
-        menuLabel.anchor(top: menuViewBG.topAnchor, left: menuViewBG.leftAnchor, bottom: menuViewBG.bottomAnchor, right: nil, paddingTop: 5, paddingLeft: 5, paddingBottom: 5, paddingRight: 5)
-
-        menuCollectionView.anchor(top: menuViewBG.bottomAnchor, left: collectionViewBG.leftAnchor, bottom: collectionViewBG.bottomAnchor, right: collectionViewBG.rightAnchor, paddingTop: -50, paddingLeft: 5, paddingBottom: 5, paddingRight: 5)
+//        statsStackView.anchor(top: ratingView.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 0, paddingLeft: 40, paddingBottom: 0, paddingRight: 40, height: 35)
+//
+//        setupButtonImages()
+//        buttonStackView.anchor(top: infoView.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 10, paddingLeft: 15, paddingBottom: 0, paddingRight: 15, height: 50)
+//
+//        bioLabel.anchor(top: buttonStackView.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 10, paddingLeft: 15, paddingBottom: 0, paddingRight: 5)
+//
+//        bioTextLabel.anchor(top: bioLabel.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 10, paddingLeft: 15, paddingBottom: 0, paddingRight: 15)
+//
+//        seperatorView.anchor(top: bioTextLabel.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 20, paddingLeft: 15, paddingBottom: 0, paddingRight: 15, height: 0.5)
+//
+//        cusineLabel.anchor(top: seperatorView.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: nil, paddingTop: 20, paddingLeft: 15, paddingBottom: 0, paddingRight: 0)
+//        cusineCollectionView.anchor(top: cusineLabel.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 10, paddingLeft: 15, paddingBottom: 0, paddingRight: 5, height: 45)
+//
+//        collectionViewBG.anchor(top: cusineCollectionView.bottomAnchor, left: safeArea.leftAnchor, bottom: scrollView.bottomAnchor, right: safeArea.rightAnchor, paddingTop: 20, paddingLeft: 5, paddingBottom: 8, paddingRight: 5, height: view.frame.width - 150)
+//
+//        menuViewBG.anchor(top: collectionViewBG.topAnchor, left: collectionViewBG.leftAnchor, bottom: nil, right: collectionViewBG.rightAnchor, paddingTop: 5, paddingLeft: 5, paddingBottom: 0, paddingRight: 5, height: 50)
+//
+//        menuLabel.anchor(top: menuViewBG.topAnchor, left: menuViewBG.leftAnchor, bottom: menuViewBG.bottomAnchor, right: nil, paddingTop: 5, paddingLeft: 5, paddingBottom: 5, paddingRight: 5)
+//
+//        menuCollectionView.anchor(top: menuViewBG.bottomAnchor, left: collectionViewBG.leftAnchor, bottom: collectionViewBG.bottomAnchor, right: collectionViewBG.rightAnchor, paddingTop: -50, paddingLeft: 5, paddingBottom: 5, paddingRight: 5)
     }
     
     func constrainViewsForUser() {
@@ -295,8 +311,7 @@ class ProfileViewController: UIViewController, TTGTextTagCollectionViewDelegate 
     
     let bannerLayerImageView: UIView = {
         let view = UIView()
-        view.backgroundColor = UIColor.black
-        view.layer.opacity = 0.3
+        view.backgroundColor = UIColor.black.withAlphaComponent(0.2)
         return view
     }()
     
@@ -311,20 +326,34 @@ class ProfileViewController: UIViewController, TTGTextTagCollectionViewDelegate 
         image.layer.borderWidth = 2
         return image
     }()
+    
+    let infoView: UIView = {
+        let view = UIView()
+        view.backgroundColor = UIColor.clear
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.layer.cornerRadius = 5
+        let blurEffect = UIBlurEffect(style: .dark)
+        let blurView = UIVisualEffectView(effect: blurEffect)
+        blurView.layer.masksToBounds = true
+        blurView.layer.cornerRadius = 5
+        blurView.alpha = 0.5
+        view.addSubview(blurView)
+        return view
+    }()
 
     let usernameLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont.boldSystemFont(ofSize: 17)
-        label.textColor = UIColor.gray
-        label.textAlignment = .center
+        label.font = UIFont.boldSystemFont(ofSize: 20)
+        label.textColor = UIColor.white
+        label.textAlignment = .left
         return label
     }()
     
     let locationLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.systemFont(ofSize: 13)
-        label.textColor = UIColor.gray
-        label.textAlignment = .center
+        label.textColor = UIColor.white
+        label.textAlignment = .left
         return label
     }()
     
@@ -335,8 +364,8 @@ class ProfileViewController: UIViewController, TTGTextTagCollectionViewDelegate 
         view.maxRating = 5
         view.rating = 2.5
         view.editable = false
-        view.emptyImage = UIImage(named: "star_unselected_color")
-        view.fullImage = UIImage(named: "star_selected_color")
+        view.emptyImage = UIImage(named: "star_unselected_white")
+        view.fullImage = UIImage(named: "star_selected_white")
         return view
     }()
     
@@ -377,16 +406,6 @@ class ProfileViewController: UIViewController, TTGTextTagCollectionViewDelegate 
         label.textAlignment = .center
         label.backgroundColor = .white
         return label
-    }()
-    
-    let infoView: UIView = {
-        let view = UIView()
-        view.backgroundColor = UIColor.white
-        view.layer.cornerRadius = 5
-        view.layer.shadowOffset = CGSize(width: 0, height: 2)
-        view.layer.shadowRadius = 2
-        view.layer.shadowOpacity = 0.2
-        return view
     }()
     
     let buttonStackView: UIStackView = {
@@ -557,9 +576,8 @@ extension ProfileViewController: UICollectionViewDelegate, UICollectionViewDataS
         if collectionView == self.menuCollectionView {
             if MenuController.shared.menus.count == 0 {
                 let noCell = collectionView.dequeueReusableCell(withReuseIdentifier: noCellId, for: indexPath) as! EmptyCell
-                noCell.photoImageView.image = UIImage(named: "no_post_background")!
                 noCell.noPostLabel.text = "Coming soon!"
-                noCell.noPostLabel.font = UIFont.boldSystemFont(ofSize: 17)
+                noCell.noPostLabel.font = UIFont.systemFont(ofSize: 15)
                 return noCell
             }
             
