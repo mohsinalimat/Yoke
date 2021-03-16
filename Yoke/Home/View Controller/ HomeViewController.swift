@@ -83,7 +83,7 @@ class HomeViewController: UIViewController {
         profileImageView.anchor(top: scrollView.topAnchor, left: safeArea.leftAnchor, bottom: nil, right: nil, paddingTop: 30, paddingLeft: 15, paddingBottom: 0, paddingRight: 0, width: 150, height: 150)
         profileImageView.layer.cornerRadius = 150 / 2
         
-        usernameLabel.anchor(top: profileImageView.topAnchor, left: profileImageView.rightAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 40, paddingLeft: 5, paddingBottom: 0, paddingRight: 15)
+        usernameLabel.anchor(top: profileImageView.topAnchor, left: profileImageView.rightAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 50, paddingLeft: 5, paddingBottom: 0, paddingRight: 15)
         viewProfileButton.anchor(top: usernameLabel.bottomAnchor, left: usernameLabel.leftAnchor, bottom: nil, right: nil, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0)
 
         reviewsButton.alignImageTextVertical()
@@ -106,8 +106,6 @@ class HomeViewController: UIViewController {
     
     fileprivate func setupBottomToolbarChef() {
         collectionViewBG.anchor(top: buttonStackView.bottomAnchor, left: safeArea.leftAnchor, bottom: scrollView.bottomAnchor, right: safeArea.rightAnchor, paddingTop: 20, paddingLeft: 5, paddingBottom: 0, paddingRight: 5, height: 250)
-        
-//        menuViewBG.anchor(top: collectionViewBG.topAnchor, left: collectionViewBG.leftAnchor, bottom: nil, right: collectionViewBG.rightAnchor, paddingTop: 5, paddingLeft: 5, paddingBottom: 0, paddingRight: 5, height: 50)
 
         menuLabel.anchor(top: collectionViewBG.topAnchor, left: collectionViewBG.leftAnchor, bottom: nil, right: nil, paddingTop: 5, paddingLeft: 10, paddingBottom: 0, paddingRight: 0)
 
@@ -123,7 +121,7 @@ class HomeViewController: UIViewController {
 
         menuLabel.anchor(top: collectionViewBG.topAnchor, left: collectionViewBG.leftAnchor, bottom: nil, right: nil, paddingTop: 5, paddingLeft: 10, paddingBottom: 0, paddingRight: 0)
         
-        suggestedChefCollectionView.anchor(top: menuLabel.bottomAnchor, left: collectionViewBG.leftAnchor, bottom: nil, right: collectionViewBG.rightAnchor, paddingTop: 0, paddingLeft: 5, paddingBottom: 5, paddingRight: 5, height: 110)
+        suggestedChefCollectionView.anchor(top: menuLabel.bottomAnchor, left: collectionViewBG.leftAnchor, bottom: nil, right: collectionViewBG.rightAnchor, paddingTop: 0, paddingLeft: 5, paddingBottom: 0, paddingRight: 5, height: 120)
     }
     
     func setupCollectionView() {
@@ -496,9 +494,8 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
         if collectionView == self.menuCollectionView {
             if MenuController.shared.menus.count == 0 {
                 let noCell = collectionView.dequeueReusableCell(withReuseIdentifier: noCellId, for: indexPath) as! EmptyCell
-                noCell.photoImageView.image = UIImage(named: "no_post_background")!
-                noCell.noPostLabel.text = "Hey there chef, Let's add a menu item to your profile."
-                noCell.noPostLabel.font = UIFont.boldSystemFont(ofSize: 17)
+                noCell.noPostLabel.text = "Hey chef, Add a menu to your profile."
+                noCell.noPostLabel.font = UIFont.boldSystemFont(ofSize: 15)
                 return noCell
             }
             
@@ -510,9 +507,8 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
         let cellB = collectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath) as! SuggestedChefsCollectionViewCell
         if SuggestedChefController.shared.chefs.count == 0 {
             let noCell = collectionView.dequeueReusableCell(withReuseIdentifier: noCellId, for: indexPath) as! EmptyCell
-            noCell.photoImageView.image = UIImage(named: "no_post_background")!
             noCell.noPostLabel.text = "Sorry, there are currently no chefs in your area"
-            noCell.noPostLabel.font = UIFont.boldSystemFont(ofSize: 17)
+            noCell.noPostLabel.font = UIFont.boldSystemFont(ofSize: 15)
             return noCell
         } else {
             cellB.chef = SuggestedChefController.shared.chefs[indexPath.item]
@@ -524,15 +520,14 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         if collectionView == self.menuCollectionView {
             if MenuController.shared.menus.count == 0 {
-                return CGSize(width: view.frame.width - 20, height: 200)
+                return CGSize(width: view.frame.width - 20, height: 100)
             } else {
                 return CGSize(width: view.frame.width - 20, height: 180)
-//                return CGSize(width: view.frame.width / 2, height: 200)
             }
         }
         
         if SuggestedChefController.shared.chefs.count == 0 {
-            return CGSize(width: view.frame.width - 20, height: 200)
+            return CGSize(width: view.frame.width - 20, height: 100)
         } else {
             return CGSize(width: view.frame.width - 100, height: 90)
         }

@@ -346,7 +346,6 @@ class CalendarVC: UIViewController, UICollectionViewDataSource, UICollectionView
         if schedules.count == 0 {
             let noCell = collectionView.dequeueReusableCell(withReuseIdentifier: noCellId, for: indexPath) as! EmptyCell
             noCell.noPostLabel.text = "You have nothing scheduled"
-            noCell.noPostSub.text = "Click 'Add' button to add new event"
             return noCell
         }
         

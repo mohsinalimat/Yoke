@@ -25,26 +25,23 @@ class EmptyCell: UICollectionViewCell {
         addSubview(cellBackgroundView)
         addSubview(photoImageView)
         addSubview(noPostLabel)
-        addSubview(noPostSub)
     }
     
     func setupConstraints() {
-        shadowView.anchor(top: topAnchor, left: leftAnchor, bottom: bottomAnchor, right: rightAnchor, paddingTop: 10, paddingLeft: 0, paddingBottom: -15, paddingRight: 0)
-//        shadowView.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
-        cellBackgroundView.anchor(top: topAnchor, left: leftAnchor, bottom: bottomAnchor, right: rightAnchor, paddingTop: 10, paddingLeft: 0, paddingBottom: -15, paddingRight: 0)
-//        cellBackgroundView.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
+        shadowView.anchor(top: topAnchor, left: leftAnchor, bottom: bottomAnchor, right: rightAnchor, paddingTop: 5, paddingLeft: 10, paddingBottom: 0, paddingRight: 5)
+        cellBackgroundView.anchor(top: topAnchor, left: leftAnchor, bottom: bottomAnchor, right: rightAnchor, paddingTop: 5, paddingLeft: 5, paddingBottom: 0, paddingRight: 5)
         
-        photoImageView.anchor(top: topAnchor, left: nil, bottom: nil, right: nil, paddingTop: 25, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 100, height: 100)
+        photoImageView.anchor(top: cellBackgroundView.topAnchor, left: nil, bottom: cellBackgroundView.bottomAnchor, right: nil, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0)
         photoImageView.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
         
-        noPostLabel.anchor(top: photoImageView.bottomAnchor, left: leftAnchor, bottom: nil, right: rightAnchor, paddingTop: 10, paddingLeft: 0, paddingBottom: 0, paddingRight: 0)
-        
-        noPostSub.anchor(top: noPostLabel.bottomAnchor, left: leftAnchor, bottom: nil, right: rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0)
+        noPostLabel.anchor(top: cellBackgroundView.topAnchor, left: cellBackgroundView.leftAnchor, bottom: cellBackgroundView.bottomAnchor, right: cellBackgroundView.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0)
     }
     
     let photoImageView: UIImageView = {
         let image = UIImageView()
-        image.contentMode = .scaleAspectFill
+        image.image = UIImage(named: "no_post_background")
+        image.alpha = 0.5
+        image.contentMode = .scaleAspectFit
         image.clipsToBounds = true
         return image
     }()
@@ -53,17 +50,9 @@ class EmptyCell: UICollectionViewCell {
         let label = UILabel()
         label.font = UIFont.boldSystemFont(ofSize: 16)
         label.textAlignment = .center
-        label.textColor = UIColor.lightGray
+        label.textColor = UIColor.gray
         label.lineBreakMode = .byWordWrapping
         label.numberOfLines = 0
-        return label
-    }()
-    
-    let noPostSub: UILabel = {
-        let label = UILabel()
-        label.font = UIFont.systemFont(ofSize: 14)
-        label.textColor = UIColor.lightGray
-        label.textAlignment = .center
         return label
     }()
     

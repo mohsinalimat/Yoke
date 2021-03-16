@@ -559,9 +559,7 @@ extension ProfileViewController: UICollectionViewDelegate, UICollectionViewDataS
                 let noCell = collectionView.dequeueReusableCell(withReuseIdentifier: noCellId, for: indexPath) as! EmptyCell
                 noCell.photoImageView.image = UIImage(named: "no_post_background")!
                 noCell.noPostLabel.text = "Coming soon!"
-                noCell.noPostSub.text = "Chef is working on those menus now."
                 noCell.noPostLabel.font = UIFont.boldSystemFont(ofSize: 17)
-                noCell.noPostSub.font = UIFont.boldSystemFont(ofSize: 13)
                 return noCell
             }
             
