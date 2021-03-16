@@ -35,6 +35,7 @@ class ProfileViewController: UIViewController, TTGTextTagCollectionViewDelegate 
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         setupViews()
+        constrainViews()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -74,8 +75,8 @@ class ProfileViewController: UIViewController, TTGTextTagCollectionViewDelegate 
         view.addSubview(scrollView)
         scrollView.addSubview(bannerImageView)
         scrollView.addSubview(bannerLayerImageView)
-        scrollView.addSubview(profileImageView)
         scrollView.addSubview(infoView)
+        scrollView.addSubview(profileImageView)
         let blurEffect = UIBlurEffect(style: .dark)
         let blurredEffectView = UIVisualEffectView(effect: blurEffect)
         blurredEffectView.layer.masksToBounds = true
@@ -104,33 +105,45 @@ class ProfileViewController: UIViewController, TTGTextTagCollectionViewDelegate 
 //        scrollView.addSubview(menuViewBG)
 //        scrollView.addSubview(menuLabel)
 //        scrollView.addSubview(menuCollectionView)
+    }
+    
+    func constrainViews() {
+        scrollView.anchor(top: safeArea.topAnchor, left: safeArea.leftAnchor, bottom: safeArea.bottomAnchor, right: safeArea.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0)
+        
+        bannerImageView.anchor(top: scrollView.topAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, height: 200)
+        
+        infoView.anchor(top: usernameLabel.topAnchor, left: safeArea.leftAnchor, bottom: bannerImageView.bottomAnchor, right: usernameLabel.rightAnchor, paddingTop: -10, paddingLeft: 50, paddingBottom: 0, paddingRight: -10)
+        
+        profileImageView.anchor(top: bannerImageView.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: nil, paddingTop: -75, paddingLeft: 5, paddingBottom: 5, paddingRight: 0, width: 150, height: 150)
+        profileImageView.layer.cornerRadius = 75
+
+        usernameLabel.anchor(top: nil, left: profileImageView.rightAnchor, bottom: bannerImageView.bottomAnchor, right: nil, paddingTop: 30, paddingLeft: 10, paddingBottom: 0, paddingRight: 5)
+        locationLabel.anchor(top: bannerImageView.bottomAnchor, left: usernameLabel.leftAnchor, bottom: nil, right: nil, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0)
+        ratingView.anchor(top: locationLabel.bottomAnchor, left: usernameLabel.leftAnchor, bottom: nil, right: nil, paddingTop: 5, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 80, height: 20)
+        
         let uid = userId ?? (Auth.auth().currentUser?.uid ?? "")
         UserController.shared.fetchUserWithUID(uid: uid) { (user) in
             if user.isChef == false {
-                self.constrainViewsForUser()
+//                self.constrainViewsForUser()
             } else {
-                self.constrainViewsForChef()
+//                self.constrainViewsForChef()
             }
         }
     }
     
     func constrainViewsForChef() {
-        scrollView.anchor(top: safeArea.topAnchor, left: safeArea.leftAnchor, bottom: safeArea.bottomAnchor, right: safeArea.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0)
-        
-        bannerImageView.anchor(top: scrollView.topAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, height: 250)
-        
-//        bannerLayerImageView.anchor(top: scrollView.topAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, height: 250)
-        profileImageView.anchor(top: scrollView.topAnchor, left: safeArea.leftAnchor, bottom: nil, right: nil, paddingTop: 150, paddingLeft: 5, paddingBottom: 0, paddingRight: 0, width: 150, height: 150)
-//        profileImageView.anchor(top: scrollView.topAnchor, left: nil, bottom: nil, right: nil, paddingTop: 125, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 150, height: 150)
-        profileImageView.layer.cornerRadius = 50
-//        profileImageView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        
-        infoView.anchor(top: profileImageView.topAnchor, left: usernameLabel.leftAnchor, bottom: nil, right: usernameLabel.rightAnchor, paddingTop: 0, paddingLeft: -5, paddingBottom: 0, paddingRight: -10, height: 100)
-
-        usernameLabel.anchor(top: profileImageView.topAnchor, left: profileImageView.rightAnchor, bottom: nil, right: nil, paddingTop: 10, paddingLeft: 10, paddingBottom: 0, paddingRight: 5)
-        locationLabel.anchor(top: usernameLabel.bottomAnchor, left: infoView.leftAnchor, bottom: nil, right: infoView.rightAnchor, paddingTop: 0, paddingLeft: 5, paddingBottom: 0, paddingRight: 5)
-        ratingView.anchor(top: locationLabel.bottomAnchor, left: infoView.leftAnchor, bottom: nil, right: nil, paddingTop: 5, paddingLeft: 5, paddingBottom: 0, paddingRight: 0, width: 80, height: 20)
-//        ratingView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+//        scrollView.anchor(top: safeArea.topAnchor, left: safeArea.leftAnchor, bottom: safeArea.bottomAnchor, right: safeArea.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0)
+//
+//        bannerImageView.anchor(top: scrollView.topAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, height: 200)
+//
+//        infoView.anchor(top: usernameLabel.topAnchor, left: safeArea.leftAnchor, bottom: bannerImageView.bottomAnchor, right: usernameLabel.rightAnchor, paddingTop: -10, paddingLeft: 50, paddingBottom: 0, paddingRight: -10)
+//
+//        profileImageView.anchor(top: bannerImageView.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: nil, paddingTop: -75, paddingLeft: 5, paddingBottom: 5, paddingRight: 0, width: 150, height: 150)
+//        profileImageView.layer.cornerRadius = 75
+//
+//        usernameLabel.anchor(top: nil, left: profileImageView.rightAnchor, bottom: bannerImageView.bottomAnchor, right: nil, paddingTop: 30, paddingLeft: 10, paddingBottom: 0, paddingRight: 5)
+//        locationLabel.anchor(top: bannerImageView.topAnchor, left: infoView.leftAnchor, bottom: nil, right: infoView.rightAnchor, paddingTop: 0, paddingLeft: 5, paddingBottom: 0, paddingRight: 5)
+//        ratingView.anchor(top: usernameLabel.bottomAnchor, left: usernameLabel.leftAnchor, bottom: nil, right: nil, paddingTop: 0, paddingLeft: 5, paddingBottom: 10, paddingRight: 0, width: 80, height: 20)
         
 //        statsStackView.anchor(top: ratingView.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 0, paddingLeft: 40, paddingBottom: 0, paddingRight: 40, height: 35)
 //
@@ -343,16 +356,18 @@ class ProfileViewController: UIViewController, TTGTextTagCollectionViewDelegate 
 
     let usernameLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont.boldSystemFont(ofSize: 20)
+        label.font = UIFont.boldSystemFont(ofSize: 25)
         label.textColor = UIColor.white
+        label.lineBreakMode = .byWordWrapping
+        label.numberOfLines = 0
         label.textAlignment = .left
         return label
     }()
     
     let locationLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont.systemFont(ofSize: 13)
-        label.textColor = UIColor.white
+        label.font = UIFont.systemFont(ofSize: 15)
+        label.textColor = UIColor.gray
         label.textAlignment = .left
         return label
     }()
@@ -364,8 +379,8 @@ class ProfileViewController: UIViewController, TTGTextTagCollectionViewDelegate 
         view.maxRating = 5
         view.rating = 2.5
         view.editable = false
-        view.emptyImage = UIImage(named: "star_unselected_white")
-        view.fullImage = UIImage(named: "star_selected_white")
+        view.emptyImage = UIImage(named: "star_unselected_color")
+        view.fullImage = UIImage(named: "star_selected_color")
         return view
     }()
     
