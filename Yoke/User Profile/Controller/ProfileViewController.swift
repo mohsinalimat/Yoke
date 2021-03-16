@@ -85,9 +85,9 @@ class ProfileViewController: UIViewController, TTGTextTagCollectionViewDelegate 
         blurredEffectView.alpha = 0.5
         infoView.addSubview(blurredEffectView)
         scrollView.addSubview(usernameLabel)
-        scrollView.addSubview(locationLabel)
         scrollView.addSubview(ratingView)
-//        scrollView.addSubview(statsStackView)
+        scrollView.addSubview(locationLabel)
+        scrollView.addSubview(statsStackView)
 //        statsStackView.addArrangedSubview(reviewCountLabel)
 //        statsStackView.addArrangedSubview(rebookCountLabel)
 //        statsStackView.addArrangedSubview(verifiedLabel)
@@ -118,8 +118,10 @@ class ProfileViewController: UIViewController, TTGTextTagCollectionViewDelegate 
         profileImageView.layer.cornerRadius = 75
 
         usernameLabel.anchor(top: nil, left: profileImageView.rightAnchor, bottom: bannerImageView.bottomAnchor, right: nil, paddingTop: 30, paddingLeft: 10, paddingBottom: 0, paddingRight: 5)
-        locationLabel.anchor(top: bannerImageView.bottomAnchor, left: usernameLabel.leftAnchor, bottom: nil, right: nil, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0)
-        ratingView.anchor(top: locationLabel.bottomAnchor, left: usernameLabel.leftAnchor, bottom: nil, right: nil, paddingTop: 5, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 80, height: 20)
+        ratingView.anchor(top: bannerImageView.bottomAnchor, left: usernameLabel.leftAnchor, bottom: nil, right: nil, paddingTop: 5, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 80, height: 20)
+        locationLabel.anchor(top: ratingView.bottomAnchor, left: usernameLabel.leftAnchor, bottom: nil, right: nil, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0)
+        
+        statsStackView.anchor(top: locationLabel.bottomAnchor, left: profileImageView.rightAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 0, paddingLeft: 40, paddingBottom: 0, paddingRight: 40, height: 35)
         
         let uid = userId ?? (Auth.auth().currentUser?.uid ?? "")
         UserController.shared.fetchUserWithUID(uid: uid) { (user) in
