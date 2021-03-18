@@ -66,15 +66,15 @@ class ProfileViewController: UIViewController, TTGTextTagCollectionViewDelegate 
         view.addSubview(scrollView)
         scrollView.addSubview(bannerImageView)
         scrollView.addSubview(bannerLayerImageView)
-        scrollView.addSubview(infoView)
+        scrollView.addSubview(usernameView)
         scrollView.addSubview(profileImageView)
         let blurEffect = UIBlurEffect(style: .dark)
         let blurredEffectView = UIVisualEffectView(effect: blurEffect)
         blurredEffectView.layer.masksToBounds = true
         blurredEffectView.layer.cornerRadius = 5
-        blurredEffectView.frame = infoView.bounds
+        blurredEffectView.frame = usernameView.bounds
         blurredEffectView.alpha = 0.2
-        infoView.addSubview(blurredEffectView)
+        usernameView.addSubview(blurredEffectView)
         scrollView.addSubview(usernameLabel)
         scrollView.addSubview(locationLabel)
         scrollView.addSubview(ratingView)
@@ -87,15 +87,16 @@ class ProfileViewController: UIViewController, TTGTextTagCollectionViewDelegate 
         buttonStackView.addArrangedSubview(eventButton)
         buttonStackView.addArrangedSubview(contactButton)
         buttonStackView.addArrangedSubview(bookmarkButton)
-//        scrollView.addSubview(bioLabel)
-//        scrollView.addSubview(bioTextLabel)
-//        scrollView.addSubview(cusineLabel)
-//        scrollView.addSubview(seperatorView)
-//        scrollView.addSubview(cusineCollectionView)
-//        scrollView.addSubview(collectionViewBG)
-//        scrollView.addSubview(menuViewBG)
-//        scrollView.addSubview(menuLabel)
-//        scrollView.addSubview(menuCollectionView)
+        scrollView.addSubview(bioView)
+        scrollView.addSubview(bioLabel)
+        scrollView.addSubview(bioTextLabel)
+        scrollView.addSubview(cusineLabel)
+        scrollView.addSubview(seperatorView)
+        scrollView.addSubview(cusineCollectionView)
+        scrollView.addSubview(collectionViewBG)
+        scrollView.addSubview(menuViewBG)
+        scrollView.addSubview(menuLabel)
+        scrollView.addSubview(menuCollectionView)
     }
     
     func constrainViews() {
@@ -103,7 +104,7 @@ class ProfileViewController: UIViewController, TTGTextTagCollectionViewDelegate 
         
         bannerImageView.anchor(top: scrollView.topAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, height: 200)
         
-        infoView.anchor(top: usernameLabel.topAnchor, left: safeArea.leftAnchor, bottom: bannerImageView.bottomAnchor, right: usernameLabel.rightAnchor, paddingTop: -10, paddingLeft: 50, paddingBottom: 0, paddingRight: -10)
+        usernameView.anchor(top: usernameLabel.topAnchor, left: safeArea.leftAnchor, bottom: bannerImageView.bottomAnchor, right: usernameLabel.rightAnchor, paddingTop: -10, paddingLeft: 50, paddingBottom: 0, paddingRight: -10)
         
         profileImageView.anchor(top: bannerImageView.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: nil, paddingTop: -75, paddingLeft: 5, paddingBottom: 5, paddingRight: 0, width: 150, height: 150)
         profileImageView.layer.cornerRadius = 75
@@ -127,8 +128,10 @@ class ProfileViewController: UIViewController, TTGTextTagCollectionViewDelegate 
     func constrainViewsForChef() {
         setupButtonImages()
         buttonStackView.anchor(top: statsStackView.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 10, paddingLeft: 15, paddingBottom: 0, paddingRight: 15, height: 60)
+        
+        bioView.anchor(top: bioLabel.topAnchor, left: safeArea.leftAnchor, bottom: bioTextLabel.bottomAnchor, right: safeArea.rightAnchor, paddingTop: -10, paddingLeft: 5, paddingBottom: -10, paddingRight: 5)
 
-        bioLabel.anchor(top: buttonStackView.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 10, paddingLeft: 15, paddingBottom: 0, paddingRight: 5)
+        bioLabel.anchor(top: buttonStackView.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 25, paddingLeft: 15, paddingBottom: 0, paddingRight: 5)
 
         bioTextLabel.anchor(top: bioLabel.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 10, paddingLeft: 15, paddingBottom: 0, paddingRight: 15)
 //
@@ -327,17 +330,11 @@ class ProfileViewController: UIViewController, TTGTextTagCollectionViewDelegate 
         return image
     }()
     
-    let infoView: UIView = {
+    let usernameView: UIView = {
         let view = UIView()
         view.backgroundColor = UIColor.clear
         view.translatesAutoresizingMaskIntoConstraints = false
         view.layer.cornerRadius = 5
-        let blurEffect = UIBlurEffect(style: .dark)
-        let blurView = UIVisualEffectView(effect: blurEffect)
-        blurView.layer.masksToBounds = true
-        blurView.layer.cornerRadius = 5
-        blurView.alpha = 0.5
-        view.addSubview(blurView)
         return view
     }()
 
@@ -504,6 +501,16 @@ class ProfileViewController: UIViewController, TTGTextTagCollectionViewDelegate 
         label.textColor = UIColor.gray
         label.textAlignment = .center
         return label
+    }()
+    
+    let bioView: UIView = {
+        let view = UIView()
+        view.backgroundColor = .white
+        view.layer.cornerRadius = 5
+        view.layer.shadowOffset = CGSize(width: 0, height: 4)
+        view.layer.shadowRadius = 4
+        view.layer.shadowOpacity = 0.1
+        return view
     }()
     
     let bioLabel: UILabel = {
