@@ -398,6 +398,7 @@ class HomeViewController: UIViewController {
         stackView.layer.shadowOffset = CGSize(width: 0, height: 4)
         stackView.layer.shadowRadius = 4
         stackView.layer.shadowOpacity = 0.1
+        stackView.layer.shadowColor = UIColor.gray.cgColor
         return stackView
     }()
     
@@ -408,6 +409,7 @@ class HomeViewController: UIViewController {
         view.layer.shadowOffset = CGSize(width: 0, height: 4)
         view.layer.shadowRadius = 4
         view.layer.shadowOpacity = 0.1
+        view.layer.shadowColor = UIColor.gray.cgColor
         return view
     }()
     

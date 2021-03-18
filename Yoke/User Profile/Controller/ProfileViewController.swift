@@ -91,7 +91,6 @@ class ProfileViewController: UIViewController, TTGTextTagCollectionViewDelegate 
         scrollView.addSubview(bioLabel)
         scrollView.addSubview(bioTextLabel)
         scrollView.addSubview(cusineLabel)
-        scrollView.addSubview(seperatorView)
         scrollView.addSubview(cusineCollectionView)
         scrollView.addSubview(collectionViewBG)
         scrollView.addSubview(menuViewBG)
@@ -134,19 +133,17 @@ class ProfileViewController: UIViewController, TTGTextTagCollectionViewDelegate 
         bioLabel.anchor(top: buttonStackView.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 25, paddingLeft: 15, paddingBottom: 0, paddingRight: 5)
 
         bioTextLabel.anchor(top: bioLabel.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 10, paddingLeft: 15, paddingBottom: 0, paddingRight: 15)
-//
-//        seperatorView.anchor(top: bioTextLabel.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 20, paddingLeft: 15, paddingBottom: 0, paddingRight: 15, height: 0.5)
-//
-//        cusineLabel.anchor(top: seperatorView.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: nil, paddingTop: 20, paddingLeft: 15, paddingBottom: 0, paddingRight: 0)
-//        cusineCollectionView.anchor(top: cusineLabel.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 10, paddingLeft: 15, paddingBottom: 0, paddingRight: 5, height: 45)
-//
-//        collectionViewBG.anchor(top: cusineCollectionView.bottomAnchor, left: safeArea.leftAnchor, bottom: scrollView.bottomAnchor, right: safeArea.rightAnchor, paddingTop: 20, paddingLeft: 5, paddingBottom: 8, paddingRight: 5, height: view.frame.width - 150)
-//
-//        menuViewBG.anchor(top: collectionViewBG.topAnchor, left: collectionViewBG.leftAnchor, bottom: nil, right: collectionViewBG.rightAnchor, paddingTop: 5, paddingLeft: 5, paddingBottom: 0, paddingRight: 5, height: 50)
-//
-//        menuLabel.anchor(top: menuViewBG.topAnchor, left: menuViewBG.leftAnchor, bottom: menuViewBG.bottomAnchor, right: nil, paddingTop: 5, paddingLeft: 5, paddingBottom: 5, paddingRight: 5)
-//
-//        menuCollectionView.anchor(top: menuViewBG.bottomAnchor, left: collectionViewBG.leftAnchor, bottom: collectionViewBG.bottomAnchor, right: collectionViewBG.rightAnchor, paddingTop: -50, paddingLeft: 5, paddingBottom: 5, paddingRight: 5)
+        
+        cusineLabel.anchor(top: bioView.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: nil, paddingTop: 20, paddingLeft: 15, paddingBottom: 0, paddingRight: 0)
+        cusineCollectionView.anchor(top: cusineLabel.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 10, paddingLeft: 15, paddingBottom: 0, paddingRight: 5, height: 45)
+
+        collectionViewBG.anchor(top: cusineCollectionView.bottomAnchor, left: safeArea.leftAnchor, bottom: scrollView.bottomAnchor, right: safeArea.rightAnchor, paddingTop: 20, paddingLeft: 5, paddingBottom: 8, paddingRight: 5, height: view.frame.width - 150)
+
+        menuViewBG.anchor(top: collectionViewBG.topAnchor, left: collectionViewBG.leftAnchor, bottom: nil, right: collectionViewBG.rightAnchor, paddingTop: 5, paddingLeft: 5, paddingBottom: 0, paddingRight: 5, height: 50)
+
+        menuLabel.anchor(top: menuViewBG.topAnchor, left: menuViewBG.leftAnchor, bottom: menuViewBG.bottomAnchor, right: nil, paddingTop: 5, paddingLeft: 5, paddingBottom: 5, paddingRight: 5)
+
+        menuCollectionView.anchor(top: menuViewBG.bottomAnchor, left: collectionViewBG.leftAnchor, bottom: collectionViewBG.bottomAnchor, right: collectionViewBG.rightAnchor, paddingTop: -50, paddingLeft: 5, paddingBottom: 5, paddingRight: 5)
     }
     
     func constrainViewsForUser() {
@@ -193,6 +190,9 @@ class ProfileViewController: UIViewController, TTGTextTagCollectionViewDelegate 
         let config = TTGTextTagConfig()
         config.backgroundColor = UIColor.orangeColor()
         config.textColor = UIColor.white
+        config.shadowRadius = 4
+        config.shadowOpacity = 0.1
+        config.shadowColor = UIColor.gray
         Firestore.firestore().collection(Constants.Chefs).document(uid).getDocument { (document, error) in
             if let document = document, document.exists {
                 guard let array = document.data()?["cusine"] as? [String] else { return }
@@ -327,6 +327,7 @@ class ProfileViewController: UIViewController, TTGTextTagCollectionViewDelegate 
         image.tintColor = UIColor.orangeColor()
         image.backgroundColor = .white
         image.layer.borderWidth = 2
+        image.layer.shadowColor = UIColor.gray.cgColor
         return image
     }()
     
@@ -379,6 +380,7 @@ class ProfileViewController: UIViewController, TTGTextTagCollectionViewDelegate 
         stackView.layer.shadowOffset = CGSize(width: 0, height: 4)
         stackView.layer.shadowRadius = 4
         stackView.layer.shadowOpacity = 0.1
+        stackView.layer.shadowColor = UIColor.gray.cgColor
         return stackView
     }()
 
@@ -491,6 +493,7 @@ class ProfileViewController: UIViewController, TTGTextTagCollectionViewDelegate 
         stackView.layer.shadowOffset = CGSize(width: 0, height: 4)
         stackView.layer.shadowRadius = 4
         stackView.layer.shadowOpacity = 0.1
+        stackView.layer.shadowColor = UIColor.gray.cgColor
         return stackView
     }()
     
@@ -510,6 +513,7 @@ class ProfileViewController: UIViewController, TTGTextTagCollectionViewDelegate 
         view.layer.shadowOffset = CGSize(width: 0, height: 4)
         view.layer.shadowRadius = 4
         view.layer.shadowOpacity = 0.1
+        view.layer.shadowColor = UIColor.gray.cgColor
         return view
     }()
     
@@ -534,20 +538,14 @@ class ProfileViewController: UIViewController, TTGTextTagCollectionViewDelegate 
         return label
     }()
     
-    let seperatorView: UIView = {
-        let view = UIView()
-        view.backgroundColor = .lightGray
-        return view
-    }()
-    
     let collectionViewBG: UIView = {
         let view = UIView()
         view.backgroundColor = UIColor.white
         view.layer.cornerRadius = 5
-        view.layer.cornerRadius = 5
-        view.layer.shadowOffset = CGSize(width: 0, height: 2)
-        view.layer.shadowRadius = 2
-        view.layer.shadowOpacity = 0.2
+        view.layer.shadowOffset = CGSize(width: 0, height: 4)
+        view.layer.shadowRadius = 4
+        view.layer.shadowOpacity = 0.1
+        view.layer.shadowColor = UIColor.gray.cgColor
         return view
     }()
     
