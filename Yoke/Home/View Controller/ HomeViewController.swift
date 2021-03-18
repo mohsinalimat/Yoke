@@ -224,7 +224,7 @@ class HomeViewController: UIViewController {
     }
     
     @objc func viewReviews() {
-        let reviewsVC = NewReviewVC()
+        let reviewsVC = ReviewsCollectionViewController(collectionViewLayout: UICollectionViewFlowLayout())
         reviewsVC.userId = userId
         navigationController?.pushViewController(reviewsVC, animated: true)
     }
@@ -504,7 +504,7 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
         if SuggestedChefController.shared.chefs.count == 0 {
             return CGSize(width: view.frame.width - 20, height: 100)
         } else {
-            return CGSize(width: view.frame.width - 100, height: 90)
+            return CGSize(width: view.frame.width - 130, height: 90)
         }
     }
     

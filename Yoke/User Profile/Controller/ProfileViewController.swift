@@ -375,22 +375,13 @@ class ProfileViewController: UIViewController, TTGTextTagCollectionViewDelegate 
         stackView.axis = .horizontal
         stackView.distribution = .fillEqually
         stackView.spacing = 1
-        stackView.backgroundColor = .lightGray
-        stackView.layer.cornerRadius = 5
-        stackView.layer.shadowOffset = CGSize(width: 0, height: 4)
-        stackView.layer.shadowRadius = 4
-        stackView.layer.shadowOpacity = 0.1
-        stackView.layer.shadowColor = UIColor.gray.cgColor
+        stackView.backgroundColor = UIColor.clear
+//        stackView.layer.cornerRadius = 5
+//        stackView.layer.shadowOffset = CGSize(width: 0, height: 4)
+//        stackView.layer.shadowRadius = 4
+//        stackView.layer.shadowOpacity = 0.1
+//        stackView.layer.shadowColor = UIColor.gray.cgColor
         return stackView
-    }()
-
-    let reviewCountLabel: UILabel = {
-        let label = UILabel()
-        label.font = UIFont.systemFont(ofSize: 13)
-        label.textColor = UIColor.gray
-        label.textAlignment = .center
-        label.backgroundColor = .white
-        return label
     }()
     
     let rebookCountLabel: UILabel = {
@@ -399,7 +390,7 @@ class ProfileViewController: UIViewController, TTGTextTagCollectionViewDelegate 
         label.text = "7 rebooks"
         label.textColor = UIColor.gray
         label.textAlignment = .center
-        label.backgroundColor = .white
+        label.backgroundColor = .clear
         return label
     }()
     
@@ -409,7 +400,7 @@ class ProfileViewController: UIViewController, TTGTextTagCollectionViewDelegate 
         label.text = "Verified Chef"
         label.textColor = UIColor.gray
         label.textAlignment = .center
-        label.backgroundColor = .white
+        label.backgroundColor = .clear
         return label
     }()
     

@@ -11,15 +11,21 @@ import FirebaseAuth
 
 class ReviewsCollectionViewController: UICollectionViewController, UICollectionViewDelegateFlowLayout, FloatRatingViewDelegate {
 
+    //MARK: Properties
     let cellId = "cellId"
     let noCellId = "noCellId"
     var userId: String?
+    
+    //MARK: Lifecycle Methods
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        configureNavigationBar()
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         setupCollectionView()
         fetchReviews()
-        addBackgroundGradient()
     }
     
     //MARK: - Helper Functions
@@ -32,17 +38,6 @@ class ReviewsCollectionViewController: UICollectionViewController, UICollectionV
         collectionView.backgroundColor = .white
         collectionView.register(ReviewsCollectionViewCell.self, forCellWithReuseIdentifier: cellId)
         collectionView.register(EmptyCell.self, forCellWithReuseIdentifier: noCellId)
-    }
-    
-    private func addBackgroundGradient() {
-        let collectionViewBackgroundView = UIView()
-        let gradientLayer = CAGradientLayer()
-        gradientLayer.frame.size = view.frame.size
-        gradientLayer.startPoint = CGPoint(x: 0.0, y: 0.5)
-        gradientLayer.endPoint = CGPoint(x: 1.0, y: 0.5)
-        gradientLayer.colors = [UIColor.orangeColor()?.withAlphaComponent(1).cgColor ?? "", UIColor.yellowColor()?.withAlphaComponent(1).cgColor ?? ""]
-        collectionView.backgroundView = collectionViewBackgroundView
-        collectionView.backgroundView?.layer.addSublayer(gradientLayer)
     }
     
     //MARK: - Selectors

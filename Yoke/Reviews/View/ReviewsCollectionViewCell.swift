@@ -90,7 +90,7 @@ class ReviewsCollectionViewCell: UICollectionViewCell {
     let profileImageView: CustomImageView = {
         let image = CustomImageView()
         image.clipsToBounds = true
-        image.backgroundColor = .green
+        image.image = UIImage(named: "image_background")
         image.contentMode = .scaleAspectFill
         return image
     }()
