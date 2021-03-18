@@ -62,15 +62,6 @@ class ProfileViewController: UIViewController, TTGTextTagCollectionViewDelegate 
         contactButton.alignImageTextVertical()
     }
     
-    let blurView: UIVisualEffectView = {
-        let blurEffect = UIBlurEffect(style: .dark)
-        let view = UIVisualEffectView(effect: blurEffect)
-        view.layer.masksToBounds = true
-        view.layer.cornerRadius = 10
-        view.alpha = 0.5
-        return view
-    }()
-    
     func setupViews() {
         view.addSubview(scrollView)
         scrollView.addSubview(bannerImageView)
@@ -82,20 +73,20 @@ class ProfileViewController: UIViewController, TTGTextTagCollectionViewDelegate 
         blurredEffectView.layer.masksToBounds = true
         blurredEffectView.layer.cornerRadius = 5
         blurredEffectView.frame = infoView.bounds
-        blurredEffectView.alpha = 0.5
+        blurredEffectView.alpha = 0.2
         infoView.addSubview(blurredEffectView)
         scrollView.addSubview(usernameLabel)
         scrollView.addSubview(locationLabel)
         scrollView.addSubview(ratingView)
         scrollView.addSubview(statsStackView)
-        statsStackView.addArrangedSubview(reviewCountLabel)
+//        statsStackView.addArrangedSubview(reviewCountLabel)
         statsStackView.addArrangedSubview(rebookCountLabel)
         statsStackView.addArrangedSubview(verifiedLabel)
-//        scrollView.addSubview(buttonStackView)
-//        buttonStackView.addArrangedSubview(reviewsButton)
-//        buttonStackView.addArrangedSubview(eventButton)
-//        buttonStackView.addArrangedSubview(contactButton)
-//        buttonStackView.addArrangedSubview(bookmarkButton)
+        scrollView.addSubview(buttonStackView)
+        buttonStackView.addArrangedSubview(reviewsButton)
+        buttonStackView.addArrangedSubview(eventButton)
+        buttonStackView.addArrangedSubview(contactButton)
+        buttonStackView.addArrangedSubview(bookmarkButton)
 //        scrollView.addSubview(bioLabel)
 //        scrollView.addSubview(bioTextLabel)
 //        scrollView.addSubview(cusineLabel)
@@ -119,42 +110,27 @@ class ProfileViewController: UIViewController, TTGTextTagCollectionViewDelegate 
 
         usernameLabel.anchor(top: nil, left: profileImageView.rightAnchor, bottom: bannerImageView.bottomAnchor, right: nil, paddingTop: 30, paddingLeft: 5, paddingBottom: 0, paddingRight: 5)
         locationLabel.anchor(top: bannerImageView.bottomAnchor, left: profileImageView.rightAnchor, bottom: nil, right: nil, paddingTop: 5, paddingLeft: 5, paddingBottom: 0, paddingRight: 0)
-        ratingView.anchor(top: locationLabel.bottomAnchor, left: profileImageView.rightAnchor, bottom: nil, right: nil, paddingTop: 5, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 120, height: 50)
+        ratingView.anchor(top: locationLabel.bottomAnchor, left: profileImageView.rightAnchor, bottom: nil, right: nil, paddingTop: 5, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 120, height: 25)
         
-        statsStackView.anchor(top: profileImageView.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 20, paddingLeft: 20, paddingBottom: 0, paddingRight: 20, height: 35)
+        statsStackView.anchor(top: ratingView.bottomAnchor, left: profileImageView.rightAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 5, paddingLeft: 0, paddingBottom: 0, paddingRight: 15, height: 25)
         
         let uid = userId ?? (Auth.auth().currentUser?.uid ?? "")
         UserController.shared.fetchUserWithUID(uid: uid) { (user) in
             if user.isChef == false {
 //                self.constrainViewsForUser()
             } else {
-//                self.constrainViewsForChef()
+                self.constrainViewsForChef()
             }
         }
     }
     
     func constrainViewsForChef() {
-//        scrollView.anchor(top: safeArea.topAnchor, left: safeArea.leftAnchor, bottom: safeArea.bottomAnchor, right: safeArea.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0)
-//
-//        bannerImageView.anchor(top: scrollView.topAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, height: 200)
-//
-//        infoView.anchor(top: usernameLabel.topAnchor, left: safeArea.leftAnchor, bottom: bannerImageView.bottomAnchor, right: usernameLabel.rightAnchor, paddingTop: -10, paddingLeft: 50, paddingBottom: 0, paddingRight: -10)
-//
-//        profileImageView.anchor(top: bannerImageView.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: nil, paddingTop: -75, paddingLeft: 5, paddingBottom: 5, paddingRight: 0, width: 150, height: 150)
-//        profileImageView.layer.cornerRadius = 75
-//
-//        usernameLabel.anchor(top: nil, left: profileImageView.rightAnchor, bottom: bannerImageView.bottomAnchor, right: nil, paddingTop: 30, paddingLeft: 10, paddingBottom: 0, paddingRight: 5)
-//        locationLabel.anchor(top: bannerImageView.topAnchor, left: infoView.leftAnchor, bottom: nil, right: infoView.rightAnchor, paddingTop: 0, paddingLeft: 5, paddingBottom: 0, paddingRight: 5)
-//        ratingView.anchor(top: usernameLabel.bottomAnchor, left: usernameLabel.leftAnchor, bottom: nil, right: nil, paddingTop: 0, paddingLeft: 5, paddingBottom: 10, paddingRight: 0, width: 80, height: 20)
-        
-//        statsStackView.anchor(top: ratingView.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 0, paddingLeft: 40, paddingBottom: 0, paddingRight: 40, height: 35)
-//
-//        setupButtonImages()
-//        buttonStackView.anchor(top: infoView.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 10, paddingLeft: 15, paddingBottom: 0, paddingRight: 15, height: 50)
-//
-//        bioLabel.anchor(top: buttonStackView.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 10, paddingLeft: 15, paddingBottom: 0, paddingRight: 5)
-//
-//        bioTextLabel.anchor(top: bioLabel.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 10, paddingLeft: 15, paddingBottom: 0, paddingRight: 15)
+        setupButtonImages()
+        buttonStackView.anchor(top: statsStackView.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 10, paddingLeft: 15, paddingBottom: 0, paddingRight: 15, height: 60)
+
+        bioLabel.anchor(top: buttonStackView.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 10, paddingLeft: 15, paddingBottom: 0, paddingRight: 5)
+
+        bioTextLabel.anchor(top: bioLabel.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 10, paddingLeft: 15, paddingBottom: 0, paddingRight: 15)
 //
 //        seperatorView.anchor(top: bioTextLabel.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 20, paddingLeft: 15, paddingBottom: 0, paddingRight: 15, height: 0.5)
 //
@@ -189,7 +165,7 @@ class ProfileViewController: UIViewController, TTGTextTagCollectionViewDelegate 
         statsStackView.anchor(top: ratingView.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 0, paddingLeft: 40, paddingBottom: 0, paddingRight: 40, height: 35)
         
         setupButtonImages()
-        buttonStackView.anchor(top: statsStackView.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 10, paddingLeft: 15, paddingBottom: 0, paddingRight: 15, height: 50)
+        buttonStackView.anchor(top: statsStackView.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 20, paddingLeft: 15, paddingBottom: 0, paddingRight: 15, width: 0, height: 60)
         
         bioLabel.anchor(top: buttonStackView.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 10, paddingLeft: 15, paddingBottom: 0, paddingRight: 5)
         
@@ -276,9 +252,9 @@ class ProfileViewController: UIViewController, TTGTextTagCollectionViewDelegate 
                 for document in querySnapshot!.documents {
                     if let rate = document.data()[Constants.Stars] as? Double {
                         if count <= 1 {
-                            self.reviewCountLabel.text = "\(Int(count)) review"
+                            self.reviewsButton.setTitle("\(Int(count)) review", for: .normal)
                         } else {
-                            self.reviewCountLabel.text = "\(Int(count)) reviews"
+                            self.reviewsButton.setTitle("\(Int(count)) reviews", for: .normal)
                         }
                         totalCount += rate
                     }
@@ -411,7 +387,6 @@ class ProfileViewController: UIViewController, TTGTextTagCollectionViewDelegate 
 
     let reviewCountLabel: UILabel = {
         let label = UILabel()
-        label.text = "55 reviews"
         label.font = UIFont.systemFont(ofSize: 13)
         label.textColor = UIColor.gray
         label.textAlignment = .center
@@ -439,28 +414,22 @@ class ProfileViewController: UIViewController, TTGTextTagCollectionViewDelegate 
         return label
     }()
     
-    let buttonStackView: UIStackView = {
-        let stackView = UIStackView()
-        stackView.axis = .horizontal
-        stackView.distribution = .fillEqually
-        stackView.spacing = 4
-        return stackView
-    }()
-    
     lazy var reviewsButton: UIButton = {
         let button = UIButton(type: .custom)
 //        button.setImage(UIImage(named: "reviews"), for: .normal)
         let image = UIImage(named: "reviews")?.withRenderingMode(.alwaysTemplate)
         button.setImage(image, for: .normal)
-        button.tintColor = UIColor.white
+        button.tintColor = UIColor.orangeColor()
         button.setTitle("Reviews", for: .normal)
         button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 10)
-        button.setTitleColor(UIColor.white, for: .normal)
+        button.setTitleColor(UIColor.orangeColor(), for: .normal)
         button.imageEdgeInsets = UIEdgeInsets.init(top: 0,left: 45,bottom: 20,right: 0)
         button.titleEdgeInsets = UIEdgeInsets.init(top: 20,left: -25,bottom: 0,right: 0)
         button.addTarget(self, action: #selector(viewReviews), for: .touchUpInside)
-        button.backgroundColor = UIColor.orangeColor()
-        button.layer.cornerRadius = 8
+//        button.backgroundColor = UIColor.orangeColor()
+        button.layer.cornerRadius = 5
+//        button.layer.borderColor = UIColor.orangeColor()?.cgColor
+//        button.layer.borderWidth = 0.5
         return button
     }()
     
@@ -469,13 +438,32 @@ class ProfileViewController: UIViewController, TTGTextTagCollectionViewDelegate 
 //        button.setImage(UIImage(named: "event_full"), for: .normal)
         let image = UIImage(named: "event_full")?.withRenderingMode(.alwaysTemplate)
         button.setImage(image, for: .normal)
-        button.tintColor = UIColor.white
+        button.tintColor = UIColor.orangeColor()
         button.setTitle("Events", for: .normal)
         button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 10)
-        button.setTitleColor(UIColor.white, for: .normal)
+        button.setTitleColor(UIColor.orangeColor(), for: .normal)
 //        button.addTarget(self, action: #selector(handleEvents), for: .touchUpInside)
-        button.backgroundColor = UIColor.orangeColor()
-        button.layer.cornerRadius = 8
+//        button.backgroundColor = UIColor.orangeColor()
+        button.layer.cornerRadius = 5
+//        button.layer.borderColor = UIColor.orangeColor()?.cgColor
+//        button.layer.borderWidth = 0.5
+        return button
+    }()
+    
+    lazy var contactButton: UIButton = {
+        let button = UIButton(type: .custom)
+//        button.setImage(UIImage(named: "calendar"), for: .normal)
+        let image = UIImage(named: "message_selected")?.withRenderingMode(.alwaysTemplate)
+        button.setImage(image, for: .normal)
+        button.tintColor = UIColor.orangeColor()
+        button.setTitle("Message", for: .normal)
+        button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 10)
+        button.setTitleColor(UIColor.orangeColor(), for: .normal)
+//        button.addTarget(self, action: #selector(handleCalendar), for: .touchUpInside)
+//        button.backgroundColor = UIColor.orangeColor()
+        button.layer.cornerRadius = 5
+//        button.layer.borderColor = UIColor.orangeColor()?.cgColor
+//        button.layer.borderWidth = 0.5
         return button
     }()
     
@@ -484,29 +472,29 @@ class ProfileViewController: UIViewController, TTGTextTagCollectionViewDelegate 
 //        button.setImage(UIImage(named: "bookmark_selected"), for: .normal)
         let image = UIImage(named: "bookmark_selected")?.withRenderingMode(.alwaysTemplate)
         button.setImage(image, for: .normal)
-        button.tintColor = UIColor.white
+        button.tintColor = UIColor.orangeColor()
         button.setTitle("Bookmarked", for: .normal)
         button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 10)
-        button.setTitleColor(UIColor.white, for: .normal)
+        button.setTitleColor(UIColor.orangeColor(), for: .normal)
 //        button.addTarget(self, action: #selector(handleBookmarked), for: .touchUpInside)
-        button.backgroundColor = UIColor.orangeColor()
-        button.layer.cornerRadius = 8
+//        button.backgroundColor = UIColor.orangeColor()
+        button.layer.cornerRadius = 5
+//        button.layer.borderColor = UIColor.orangeColor()?.cgColor
+//        button.layer.borderWidth = 0.5
         return button
     }()
     
-    lazy var contactButton: UIButton = {
-        let button = UIButton(type: .custom)
-//        button.setImage(UIImage(named: "add_image"), for: .normal)
-        let image = UIImage(named: "message_full")?.withRenderingMode(.alwaysTemplate)
-        button.setImage(image, for: .normal)
-        button.tintColor = UIColor.white
-        button.setTitle("Contact Me", for: .normal)
-        button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 10)
-        button.setTitleColor(UIColor.white, for: .normal)
-        button.addTarget(self, action: #selector(handleSendMessage), for: .touchUpInside)
-        button.backgroundColor = UIColor.orangeColor()
-        button.layer.cornerRadius = 8
-        return button
+    let buttonStackView: UIStackView = {
+        let stackView = UIStackView()
+        stackView.axis = .horizontal
+        stackView.distribution = .fillEqually
+        stackView.spacing = 0
+        stackView.backgroundColor = .white
+        stackView.layer.cornerRadius = 5
+        stackView.layer.shadowOffset = CGSize(width: 0, height: 4)
+        stackView.layer.shadowRadius = 4
+        stackView.layer.shadowOpacity = 0.1
+        return stackView
     }()
     
     let cusineLabel: UILabel = {
