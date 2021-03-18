@@ -90,10 +90,10 @@ class ProfileViewController: UIViewController, TTGTextTagCollectionViewDelegate 
         scrollView.addSubview(bioView)
         scrollView.addSubview(bioLabel)
         scrollView.addSubview(bioTextLabel)
+        scrollView.addSubview(cusineView)
         scrollView.addSubview(cusineLabel)
         scrollView.addSubview(cusineCollectionView)
         scrollView.addSubview(collectionViewBG)
-        scrollView.addSubview(menuViewBG)
         scrollView.addSubview(menuLabel)
         scrollView.addSubview(menuCollectionView)
     }
@@ -134,16 +134,16 @@ class ProfileViewController: UIViewController, TTGTextTagCollectionViewDelegate 
 
         bioTextLabel.anchor(top: bioLabel.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 10, paddingLeft: 15, paddingBottom: 0, paddingRight: 15)
         
+        cusineView.anchor(top: bioView.bottomAnchor, left: safeArea.leftAnchor, bottom: cusineCollectionView.bottomAnchor, right: safeArea.rightAnchor, paddingTop: -10, paddingLeft: 5, paddingBottom: -10, paddingRight: 5)
+        
         cusineLabel.anchor(top: bioView.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: nil, paddingTop: 20, paddingLeft: 15, paddingBottom: 0, paddingRight: 0)
         cusineCollectionView.anchor(top: cusineLabel.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 10, paddingLeft: 15, paddingBottom: 0, paddingRight: 5, height: 45)
 
-        collectionViewBG.anchor(top: cusineCollectionView.bottomAnchor, left: safeArea.leftAnchor, bottom: scrollView.bottomAnchor, right: safeArea.rightAnchor, paddingTop: 20, paddingLeft: 5, paddingBottom: 8, paddingRight: 5, height: view.frame.width - 150)
+        collectionViewBG.anchor(top: cusineCollectionView.bottomAnchor, left: safeArea.leftAnchor, bottom: scrollView.bottomAnchor, right: safeArea.rightAnchor, paddingTop: 20, paddingLeft: 5, paddingBottom: 8, paddingRight: 5, height: 200)
 
-        menuViewBG.anchor(top: collectionViewBG.topAnchor, left: collectionViewBG.leftAnchor, bottom: nil, right: collectionViewBG.rightAnchor, paddingTop: 5, paddingLeft: 5, paddingBottom: 0, paddingRight: 5, height: 50)
+        menuLabel.anchor(top: collectionViewBG.topAnchor, left: collectionViewBG.leftAnchor, bottom: nil, right: nil, paddingTop: 10, paddingLeft: 10, paddingBottom: 0, paddingRight: 5)
 
-        menuLabel.anchor(top: menuViewBG.topAnchor, left: menuViewBG.leftAnchor, bottom: menuViewBG.bottomAnchor, right: nil, paddingTop: 5, paddingLeft: 5, paddingBottom: 5, paddingRight: 5)
-
-        menuCollectionView.anchor(top: menuViewBG.bottomAnchor, left: collectionViewBG.leftAnchor, bottom: collectionViewBG.bottomAnchor, right: collectionViewBG.rightAnchor, paddingTop: -50, paddingLeft: 5, paddingBottom: 5, paddingRight: 5)
+        menuCollectionView.anchor(top: menuLabel.bottomAnchor, left: collectionViewBG.leftAnchor, bottom: collectionViewBG.bottomAnchor, right: collectionViewBG.rightAnchor, paddingTop: -30, paddingLeft: 5, paddingBottom: 5, paddingRight: 5)
     }
     
     func constrainViewsForUser() {
@@ -190,8 +190,9 @@ class ProfileViewController: UIViewController, TTGTextTagCollectionViewDelegate 
         let config = TTGTextTagConfig()
         config.backgroundColor = UIColor.orangeColor()
         config.textColor = UIColor.white
+        config.borderColor = .clear
         config.shadowRadius = 4
-        config.shadowOpacity = 0.1
+        config.shadowOpacity = 0.5
         config.shadowColor = UIColor.gray
         Firestore.firestore().collection(Constants.Chefs).document(uid).getDocument { (document, error) in
             if let document = document, document.exists {
@@ -497,15 +498,6 @@ class ProfileViewController: UIViewController, TTGTextTagCollectionViewDelegate 
         return stackView
     }()
     
-    let cusineLabel: UILabel = {
-        let label = UILabel()
-        label.text = "What I'm know for:"
-        label.font = UIFont.boldSystemFont(ofSize: 17)
-        label.textColor = UIColor.gray
-        label.textAlignment = .center
-        return label
-    }()
-    
     let bioView: UIView = {
         let view = UIView()
         view.backgroundColor = .white
@@ -538,6 +530,26 @@ class ProfileViewController: UIViewController, TTGTextTagCollectionViewDelegate 
         return label
     }()
     
+    let cusineView: UIView = {
+        let view = UIView()
+        view.backgroundColor = .white
+        view.layer.cornerRadius = 5
+        view.layer.shadowOffset = CGSize(width: 0, height: 4)
+        view.layer.shadowRadius = 4
+        view.layer.shadowOpacity = 0.1
+        view.layer.shadowColor = UIColor.gray.cgColor
+        return view
+    }()
+    
+    let cusineLabel: UILabel = {
+        let label = UILabel()
+        label.text = "What I'm know for:"
+        label.font = UIFont.boldSystemFont(ofSize: 17)
+        label.textColor = UIColor.gray
+        label.textAlignment = .center
+        return label
+    }()
+    
     let collectionViewBG: UIView = {
         let view = UIView()
         view.backgroundColor = UIColor.white
@@ -559,7 +571,7 @@ class ProfileViewController: UIViewController, TTGTextTagCollectionViewDelegate 
     let menuLabel: UILabel = {
         let label = UILabel()
         label.text = "Menus"
-        label.textColor = UIColor.orangeColor()
+        label.textColor = .gray
         label.font = UIFont.boldSystemFont(ofSize: 20)
         return label
     }()
