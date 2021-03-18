@@ -79,7 +79,6 @@ class ProfileViewController: UIViewController, TTGTextTagCollectionViewDelegate 
         scrollView.addSubview(locationLabel)
         scrollView.addSubview(ratingView)
         scrollView.addSubview(statsStackView)
-//        statsStackView.addArrangedSubview(reviewCountLabel)
         statsStackView.addArrangedSubview(rebookCountLabel)
         statsStackView.addArrangedSubview(verifiedLabel)
         scrollView.addSubview(buttonStackView)
@@ -114,17 +113,6 @@ class ProfileViewController: UIViewController, TTGTextTagCollectionViewDelegate 
         
         statsStackView.anchor(top: ratingView.bottomAnchor, left: profileImageView.rightAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 5, paddingLeft: 0, paddingBottom: 0, paddingRight: 15, height: 25)
         
-        let uid = userId ?? (Auth.auth().currentUser?.uid ?? "")
-        UserController.shared.fetchUserWithUID(uid: uid) { (user) in
-            if user.isChef == false {
-//                self.constrainViewsForUser()
-            } else {
-                self.constrainViewsForChef()
-            }
-        }
-    }
-    
-    func constrainViewsForChef() {
         setupButtonImages()
         buttonStackView.anchor(top: statsStackView.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 10, paddingLeft: 15, paddingBottom: 0, paddingRight: 15, height: 60)
         
@@ -134,6 +122,17 @@ class ProfileViewController: UIViewController, TTGTextTagCollectionViewDelegate 
 
         bioTextLabel.anchor(top: bioLabel.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 10, paddingLeft: 15, paddingBottom: 0, paddingRight: 15)
         
+        let uid = userId ?? (Auth.auth().currentUser?.uid ?? "")
+        UserController.shared.fetchUserWithUID(uid: uid) { (user) in
+            if user.isChef == false {
+                self.contactButton.isHidden = true
+            } else {
+                self.constrainViewsForChef()
+            }
+        }
+    }
+    
+    func constrainViewsForChef() {
         cusineView.anchor(top: cusineLabel.topAnchor, left: safeArea.leftAnchor, bottom: cusineCollectionView.bottomAnchor, right: safeArea.rightAnchor, paddingTop: -10, paddingLeft: 5, paddingBottom: -10, paddingRight: 5)
         cusineLabel.anchor(top: bioView.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: nil, paddingTop: 20, paddingLeft: 15, paddingBottom: 0, paddingRight: 0)
         cusineCollectionView.anchor(top: cusineLabel.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 10, paddingLeft: 15, paddingBottom: 0, paddingRight: 5, height: 45)
@@ -143,32 +142,6 @@ class ProfileViewController: UIViewController, TTGTextTagCollectionViewDelegate 
         menuLabel.anchor(top: collectionViewBG.topAnchor, left: collectionViewBG.leftAnchor, bottom: nil, right: nil, paddingTop: 10, paddingLeft: 10, paddingBottom: 0, paddingRight: 5)
 
         menuCollectionView.anchor(top: menuLabel.bottomAnchor, left: collectionViewBG.leftAnchor, bottom: collectionViewBG.bottomAnchor, right: collectionViewBG.rightAnchor, paddingTop: -30, paddingLeft: 5, paddingBottom: 5, paddingRight: 5)
-    }
-    
-    func constrainViewsForUser() {
-        scrollView.contentSize = CGSize(width: view.frame.width, height: view.frame.height)
-        
-        scrollView.anchor(top: safeArea.topAnchor, left: safeArea.leftAnchor, bottom: safeArea.bottomAnchor, right: safeArea.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0)
-
-        bannerImageView.anchor(top: scrollView.topAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, height: 250)
-        
-        profileImageView.anchor(top: scrollView.topAnchor, left: nil, bottom: nil, right: nil, paddingTop: 125, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 150, height: 150)
-        profileImageView.layer.cornerRadius = 75
-        profileImageView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-
-        usernameLabel.anchor(top: profileImageView.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 0, paddingLeft: 40, paddingBottom: 0, paddingRight: 40)
-        locationLabel.anchor(top: usernameLabel.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 0, paddingLeft: 40, paddingBottom: 0, paddingRight: 40)
-        ratingView.anchor(top: locationLabel.bottomAnchor, left: nil, bottom: nil, right: nil, paddingTop: 5, paddingLeft: 5, paddingBottom: 0, paddingRight: 0, width: 80, height: 20)
-        ratingView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        
-        statsStackView.anchor(top: ratingView.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 0, paddingLeft: 40, paddingBottom: 0, paddingRight: 40, height: 35)
-        
-        setupButtonImages()
-        buttonStackView.anchor(top: statsStackView.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 20, paddingLeft: 15, paddingBottom: 0, paddingRight: 15, width: 0, height: 60)
-        
-        bioLabel.anchor(top: buttonStackView.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 10, paddingLeft: 15, paddingBottom: 0, paddingRight: 5)
-        
-        bioTextLabel.anchor(top: bioLabel.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 10, paddingLeft: 15, paddingBottom: 0, paddingRight: 15)
     }
     
     func setupCollectionView() {
@@ -224,6 +197,13 @@ class ProfileViewController: UIViewController, TTGTextTagCollectionViewDelegate 
             self.bioTextLabel.text = bio
             if self.bioTextLabel.text == "" {
                 self.bioTextLabel.text = "Full bio coming soon"
+            }
+            if user.isChef == true {
+                self.rebookCountLabel.text = "7 rebooks"
+                self.verifiedLabel.text = "Verified Chef"
+            } else {
+                self.rebookCountLabel.text = ""
+                self.verifiedLabel.text = ""
             }
             self.fetchUserAverageRating(uid: uid)
             self.setupCusineCollectionView(uid: uid)
@@ -387,9 +367,8 @@ class ProfileViewController: UIViewController, TTGTextTagCollectionViewDelegate 
     let rebookCountLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.systemFont(ofSize: 13)
-        label.text = "7 rebooks"
         label.textColor = UIColor.gray
-        label.textAlignment = .center
+        label.textAlignment = .left
         label.backgroundColor = .clear
         return label
     }()
@@ -397,9 +376,8 @@ class ProfileViewController: UIViewController, TTGTextTagCollectionViewDelegate 
     let verifiedLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.systemFont(ofSize: 13)
-        label.text = "Verified Chef"
         label.textColor = UIColor.gray
-        label.textAlignment = .center
+        label.textAlignment = .left
         label.backgroundColor = .clear
         return label
     }()

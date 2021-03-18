@@ -33,9 +33,10 @@ class ReviewsCollectionViewController: UICollectionViewController, UICollectionV
         guard let orange = UIColor.orangeColor() else { return }
         configureNavigationBar(withTitle: "Reviews", largeTitle: true, backgroundColor: UIColor.white, titleColor: orange)
     }
+    
     func setupCollectionView() {
+        collectionView.backgroundColor = UIColor.LightGrayBg()
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "new", style: .plain, target: self, action: #selector(newReview))
-        collectionView.backgroundColor = .white
         collectionView.register(ReviewsCollectionViewCell.self, forCellWithReuseIdentifier: cellId)
         collectionView.register(EmptyCell.self, forCellWithReuseIdentifier: noCellId)
     }
@@ -45,7 +46,6 @@ class ReviewsCollectionViewController: UICollectionViewController, UICollectionV
         let reviewsVC = NewReviewViewController()
         reviewsVC.userId = userId
         present(reviewsVC, animated: true)
-//        navigationController?.pushViewController(reviewsVC, animated: true)
     }
     
     //MARK: - API
@@ -94,23 +94,8 @@ class ReviewsCollectionViewController: UICollectionViewController, UICollectionV
         }
         if let reviewText = ReviewController.shared.reviews[indexPath.item].review {
             let rect = NSString(string: reviewText).boundingRect(with: CGSize(width: view.frame.width, height: 1000), options: NSStringDrawingOptions.usesFontLeading.union(NSStringDrawingOptions.usesLineFragmentOrigin), attributes: [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 17)], context: nil)
-            return CGSize(width: view.frame.width, height: rect.height + 80)
+            return CGSize(width: view.frame.width, height: rect.height + 90)
         }
-//        else {
-//            let frame = CGRect(x: 0, y: 0, width: view.frame.width, height: 50)
-//            let dummyCell = ReviewsCollectionViewCell(frame: frame)
-//            dummyCell.review = ReviewController.shared.reviews[indexPath.item]
-//
-////            dummyCell.layoutIfNeeded()
-////
-////            let targetSize = CGSize(width: view.frame.width, height: 1000)
-////            let estimatedSize = dummyCell.systemLayoutSizeFitting(targetSize)
-////
-////            let height = max(40 + 8 + 8, estimatedSize.height)
-////            return CGSize(width: view.frame.width, height: height)
-//        }
         return CGSize(width: view.frame.width, height: 500)
-    
     }
-
 }
