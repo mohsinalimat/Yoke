@@ -14,14 +14,15 @@ class Review {
     var username: String?
     var review: String?
     var stars: Double?
-    var timestamp: String?
+    var timestamp: Date
 
     init(dictionary: [String: Any]) {
         self.uid = dictionary[Constants.Uid] as? String ?? ""
         self.username = dictionary[Constants.Username] as? String ?? ""
         self.review = dictionary[Constants.Review] as? String ?? ""
         self.stars = dictionary[Constants.Ratings] as? Double ?? 0.0
-        self.timestamp = dictionary[Constants.Timestamp] as? String ?? ""
+        let secondsFrom1970 = dictionary[Constants.Timestamp] as? Double ?? 0
+        self.timestamp = Date(timeIntervalSince1970: secondsFrom1970)
     }
 }
 

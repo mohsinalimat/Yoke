@@ -77,6 +77,7 @@ class SuggestedChefsCollectionViewCell: UICollectionViewCell {
                 for document in querySnapshot!.documents {
                     if let rate = document.data()[Constants.Stars] as? Double {
                         totalCount += rate
+                        print("stars total count \(totalCount), rate \(rate)")
                     }
                 }
             }

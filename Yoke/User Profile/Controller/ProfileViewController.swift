@@ -59,7 +59,7 @@ class ProfileViewController: UIViewController, TTGTextTagCollectionViewDelegate 
         reviewsButton.alignImageTextVertical()
         eventButton.alignImageTextVertical()
         bookmarkButton.alignImageTextVertical()
-        contactButton.alignImageTextVertical()
+        messageButton.alignImageTextVertical()
     }
     
     func setupViews() {
@@ -82,9 +82,10 @@ class ProfileViewController: UIViewController, TTGTextTagCollectionViewDelegate 
         statsStackView.addArrangedSubview(rebookCountLabel)
         statsStackView.addArrangedSubview(verifiedLabel)
         scrollView.addSubview(buttonStackView)
+        scrollView.addSubview(reviewsButton)
         buttonStackView.addArrangedSubview(reviewsButton)
         buttonStackView.addArrangedSubview(eventButton)
-        buttonStackView.addArrangedSubview(contactButton)
+        buttonStackView.addArrangedSubview(messageButton)
         buttonStackView.addArrangedSubview(bookmarkButton)
         scrollView.addSubview(bioView)
         scrollView.addSubview(bioLabel)
@@ -111,8 +112,18 @@ class ProfileViewController: UIViewController, TTGTextTagCollectionViewDelegate 
         locationLabel.anchor(top: bannerImageView.bottomAnchor, left: profileImageView.rightAnchor, bottom: nil, right: nil, paddingTop: 5, paddingLeft: 5, paddingBottom: 0, paddingRight: 0)
         ratingView.anchor(top: locationLabel.bottomAnchor, left: profileImageView.rightAnchor, bottom: nil, right: nil, paddingTop: 5, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 120, height: 25)
         
+        let uid = userId ?? (Auth.auth().currentUser?.uid ?? "")
+        UserController.shared.fetchUserWithUID(uid: uid) { (user) in
+            if user.isChef == false {
+                self.constrainViewsForUser()
+            } else {
+                self.constrainViewsForChef()
+            }
+        }
+    }
+    
+    func constrainViewsForChef() {
         statsStackView.anchor(top: ratingView.bottomAnchor, left: profileImageView.rightAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 5, paddingLeft: 0, paddingBottom: 0, paddingRight: 15, height: 25)
-        
         setupButtonImages()
         buttonStackView.anchor(top: statsStackView.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 10, paddingLeft: 15, paddingBottom: 0, paddingRight: 15, height: 60)
         
@@ -122,17 +133,6 @@ class ProfileViewController: UIViewController, TTGTextTagCollectionViewDelegate 
 
         bioTextLabel.anchor(top: bioLabel.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 10, paddingLeft: 15, paddingBottom: 0, paddingRight: 15)
         
-        let uid = userId ?? (Auth.auth().currentUser?.uid ?? "")
-        UserController.shared.fetchUserWithUID(uid: uid) { (user) in
-            if user.isChef == false {
-                self.contactButton.isHidden = true
-            } else {
-                self.constrainViewsForChef()
-            }
-        }
-    }
-    
-    func constrainViewsForChef() {
         cusineView.anchor(top: cusineLabel.topAnchor, left: safeArea.leftAnchor, bottom: cusineCollectionView.bottomAnchor, right: safeArea.rightAnchor, paddingTop: -10, paddingLeft: 5, paddingBottom: -10, paddingRight: 5)
         cusineLabel.anchor(top: bioView.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: nil, paddingTop: 20, paddingLeft: 15, paddingBottom: 0, paddingRight: 0)
         cusineCollectionView.anchor(top: cusineLabel.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 10, paddingLeft: 15, paddingBottom: 0, paddingRight: 5, height: 45)
@@ -142,6 +142,21 @@ class ProfileViewController: UIViewController, TTGTextTagCollectionViewDelegate 
         menuLabel.anchor(top: collectionViewBG.topAnchor, left: collectionViewBG.leftAnchor, bottom: nil, right: nil, paddingTop: 10, paddingLeft: 10, paddingBottom: 0, paddingRight: 5)
 
         menuCollectionView.anchor(top: menuLabel.bottomAnchor, left: collectionViewBG.leftAnchor, bottom: collectionViewBG.bottomAnchor, right: collectionViewBG.rightAnchor, paddingTop: -30, paddingLeft: 5, paddingBottom: 5, paddingRight: 5)
+    }
+    
+    func constrainViewsForUser() {
+        eventButton.isHidden = true
+        messageButton.isHidden = true
+        bookmarkButton.isHidden = true
+        reviewsButton.alignImageTextVertical()
+        reviewsButton.anchor(top: bannerImageView.bottomAnchor, left: ratingView.rightAnchor, bottom: nil, right: nil, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, height: 100)
+        reviewsButton.backgroundColor = .yellow
+        
+        bioView.anchor(top: bioLabel.topAnchor, left: safeArea.leftAnchor, bottom: bioTextLabel.bottomAnchor, right: safeArea.rightAnchor, paddingTop: -10, paddingLeft: 5, paddingBottom: -10, paddingRight: 5)
+
+        bioLabel.anchor(top: reviewsButton.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 25, paddingLeft: 15, paddingBottom: 0, paddingRight: 5)
+
+        bioTextLabel.anchor(top: bioLabel.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 10, paddingLeft: 15, paddingBottom: 0, paddingRight: 15)
     }
     
     func setupCollectionView() {
@@ -234,12 +249,16 @@ class ProfileViewController: UIViewController, TTGTextTagCollectionViewDelegate 
                 count = Double(querySnapshot?.count ?? 0)
                 for document in querySnapshot!.documents {
                     if let rate = document.data()[Constants.Stars] as? Double {
-                        if count <= 1 {
-                            self.reviewsButton.setTitle("\(Int(count)) review", for: .normal)
+                        if count == 1 {
+                            self.reviewsButton.setTitle("\(Int(count)) Review", for: .normal)
+                        } else if count > 1 {
+                            self.reviewsButton.setTitle("\(Int(count)) Reviews", for: .normal)
                         } else {
-                            self.reviewsButton.setTitle("\(Int(count)) reviews", for: .normal)
+                            self.reviewsButton.setTitle("0 Reviews", for: .normal)
+                            print("empty")
                         }
                         totalCount += rate
+                        print("stars total count \(totalCount), rate \(rate)")
                     }
                 }
             }
@@ -418,7 +437,7 @@ class ProfileViewController: UIViewController, TTGTextTagCollectionViewDelegate 
         return button
     }()
     
-    lazy var contactButton: UIButton = {
+    lazy var messageButton: UIButton = {
         let button = UIButton(type: .custom)
 //        button.setImage(UIImage(named: "calendar"), for: .normal)
         let image = UIImage(named: "message_selected")?.withRenderingMode(.alwaysTemplate)

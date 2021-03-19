@@ -32,8 +32,7 @@ class ReviewsCollectionViewCell: UICollectionViewCell {
         guard let review = review else { return }
         guard let username = review.username,
               let reviewText = review.review,
-              let uid = review.uid,
-              let date = review.timestamp else { return }
+              let uid = review.uid else { return }
         
         let paragraphStyle = NSMutableParagraphStyle()
         paragraphStyle.alignment = NSTextAlignment.justified
@@ -54,7 +53,7 @@ class ReviewsCollectionViewCell: UICollectionViewCell {
         
         guard let rating = review.stars else { return }
         self.ratingView.rating = rating
-        timestampLabel.text = date
+        timestampLabel.text = review.timestamp.timeAgoDisplay()
     }
     
     func setupViews() {
