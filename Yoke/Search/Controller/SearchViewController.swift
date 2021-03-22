@@ -67,6 +67,7 @@ class SearchViewController: UIViewController {
         tableView.register(SearchTableViewCell.self, forCellReuseIdentifier: "cell")
         tableView.dataSource = self
         tableView.delegate = self
+        tableView.separatorStyle = .none
     }
     
     func setupNavigationAndBarButtons() {
