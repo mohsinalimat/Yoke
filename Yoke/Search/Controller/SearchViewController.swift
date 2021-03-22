@@ -45,8 +45,8 @@ class SearchViewController: UIViewController {
     
     //MARK: - Helper Functions
     func setupViews() {
+        view.backgroundColor = UIColor.LightGrayBg()
         tableView.backgroundColor = UIColor.LightGrayBg()
-        view.backgroundColor = .white
         view.addSubview(searchBar)
         view.addSubview(tableView)
     }
@@ -81,15 +81,6 @@ class SearchViewController: UIViewController {
         let tap = UITapGestureRecognizer(target: self.view, action: #selector(UIView.endEditing(_:)))
         tap.cancelsTouchesInView = false
         view.addGestureRecognizer(tap)
-    }
-    
-    func gradient(frame:CGRect) -> CAGradientLayer {
-        let layer = CAGradientLayer()
-        layer.frame = frame
-        layer.startPoint = CGPoint(x: 0.0, y: 0.5)
-        layer.endPoint = CGPoint(x: 1.0, y: 0.5)
-        layer.colors = [UIColor.orangeColor()?.cgColor ?? "", UIColor.yellowColor()?.cgColor ?? ""]
-        return layer
     }
     
     //MARK: - API
@@ -139,9 +130,8 @@ extension SearchViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as? SearchTableViewCell else { return UITableViewCell() }
         let user = UserController.shared.filteredUsers[indexPath.row]
-        cell.backgroundColor = .white
+        cell.backgroundColor = UIColor.LightGrayBg()
         cell.selectionStyle = .none
-        cell.cellBackgroundView.layer.insertSublayer(gradient(frame: cell.bounds), at:0)
         cell.user = user
         return cell
     }

@@ -92,7 +92,7 @@ class SearchTableViewCell: UITableViewCell {
         let view = UIView()
         view.layer.cornerRadius = 8
         view.layer.masksToBounds = true
-        view.backgroundColor = UIColor.clear
+        view.backgroundColor = UIColor.white
         return view
     }()
     
@@ -109,21 +109,19 @@ class SearchTableViewCell: UITableViewCell {
         image.translatesAutoresizingMaskIntoConstraints = false
         image.clipsToBounds = true
         image.layer.cornerRadius = 60
-        image.layer.borderWidth = 1
-        image.layer.borderColor = UIColor.white.cgColor
         return image
     }()
     
     let usernameLabel: UILabel = {
         let label = UILabel()
-        label.textColor = .white
+        label.textColor = .gray
         label.font = UIFont.boldSystemFont(ofSize: 20)
         return label
     }()
     
     let locationLabel: UILabel = {
         let label = UILabel()
-        label.textColor = .white
+        label.textColor = .gray
         label.font = UIFont.systemFont(ofSize: 13)
         return label
     }()
@@ -137,14 +135,14 @@ class SearchTableViewCell: UITableViewCell {
         view.editable = false
         view.emptyImage = UIImage(systemName: "star")
         view.fullImage = UIImage(systemName: "star.fill")
-        view.tintColor = UIColor.white
+        view.tintColor = UIColor.orangeColor()
         return view
     }()
     
     let reviewCountLabel: UILabel = {
         let label = UILabel()
         label.text = "0 reviews"
-        label.textColor = .white
+        label.textColor = .lightGray
         label.font = UIFont.systemFont(ofSize: 13)
         return label
     }()
