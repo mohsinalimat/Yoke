@@ -381,11 +381,11 @@ class CalendarVC: UIViewController, UICollectionViewDataSource, UICollectionView
                     guard let uid = dictionary[Constants.Uid] as? String else {return}
                     
                     Database.fetchUserWithUID(uid: uid, completion: { (user) in
-                        let event = Event(user: user, dictionary: dictionary, snapshot: snapshot)
-                        self.events.append(event)
-                        let eventDetailVC = EventDetailVC(collectionViewLayout: UICollectionViewFlowLayout())
-                        eventDetailVC.event = event
-                        self.navigationController?.pushViewController(eventDetailVC, animated: true)
+//                        let event = Event(user: user, dictionary: dictionary, snapshot: snapshot)
+//                        self.events.append(event)
+//                        let eventDetailVC = EventDetailVC(collectionViewLayout: UICollectionViewFlowLayout())
+//                        eventDetailVC.event = event
+//                        self.navigationController?.pushViewController(eventDetailVC, animated: true)
                     })
                 })
                 

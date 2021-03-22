@@ -104,11 +104,11 @@ class BookmarkedVC: UICollectionViewController, UICollectionViewDelegateFlowLayo
                     guard let uid = dictionary[Constants.Uid] as? String else {return}
                     
                     Database.fetchUserWithUID(uid: uid, completion: { (user) in
-                        let event = Event(user: user, dictionary: dictionary, snapshot: snapshot)
-                        self.events.append(event)
-                        self.events.sort(by: { (event1, event2) -> Bool in
-                            return event1.eventDate?.compare(event2.eventDate!) == .orderedAscending
-                        })
+//                        let event = Event(user: user, dictionary: dictionary, snapshot: snapshot)
+//                        self.events.append(event)
+//                        self.events.sort(by: { (event1, event2) -> Bool in
+//                            return event1.eventDate?.compare(event2.eventDate!) == .orderedAscending
+//                        })
                         DispatchQueue.main.async {
                             self.collectionView?.reloadData()
                         }
@@ -206,10 +206,10 @@ class BookmarkedVC: UICollectionViewController, UICollectionViewDelegateFlowLayo
             userProfileVC.userId = user.uid
             navigationController?.pushViewController(userProfileVC, animated: true)
         } else if segmentedControl.selectedSegmentIndex == 1 {
-            let event = events[indexPath.row]
-            let eventDetailVC = EventDetailVC(collectionViewLayout: UICollectionViewFlowLayout())
-            eventDetailVC.event = event
-            navigationController?.pushViewController(eventDetailVC, animated: true)
+//            let event = events[indexPath.row]
+//            let eventDetailVC = EventDetailVC(collectionViewLayout: UICollectionViewFlowLayout())
+//            eventDetailVC.event = event
+//            navigationController?.pushViewController(eventDetailVC, animated: true)
         }
         
     }

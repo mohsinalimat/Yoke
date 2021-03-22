@@ -517,7 +517,7 @@ class EditScheduleVC: UIViewController, UITextViewDelegate {
                 }
             }
             self.navigationController?.popViewController(animated: true)
-            NotificationCenter.default.post(name: EditEventDetailVC.updateNotificationName, object: nil)
+//            NotificationCenter.default.post(name: EditEventDetailVC.updateNotificationName, object: nil)
         }
     }
     

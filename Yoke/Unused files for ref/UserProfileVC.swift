@@ -213,9 +213,9 @@ class UserProfileVC: UICollectionViewController, UICollectionViewDelegateFlowLay
     }
     
     func viewEvents(user: User) {
-        let userEventVC = UserEventVC(collectionViewLayout: UICollectionViewFlowLayout())
-        userEventVC.user = user
-        navigationController?.pushViewController(userEventVC, animated: true)
+//        let userEventVC = UserEventVC(collectionViewLayout: UICollectionViewFlowLayout())
+//        userEventVC.user = user
+//        navigationController?.pushViewController(userEventVC, animated: true)
     }
     
     @objc func handleUserCalendar() {

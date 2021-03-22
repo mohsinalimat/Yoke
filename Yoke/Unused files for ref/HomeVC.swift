@@ -185,9 +185,9 @@ class HomeVC: UICollectionViewController, UICollectionViewDelegateFlowLayout, Ho
     }
     
     func viewEvents(user: User) {
-        let editEventVC = EditEventVC(collectionViewLayout: UICollectionViewFlowLayout())
-        editEventVC.user = user
-        navigationController?.pushViewController(editEventVC, animated: true)
+//        let editEventVC = EditEventVC(collectionViewLayout: UICollectionViewFlowLayout())
+//        editEventVC.user = user
+//        navigationController?.pushViewController(editEventVC, animated: true)
     }
     
     func addPhotos(user: User) {

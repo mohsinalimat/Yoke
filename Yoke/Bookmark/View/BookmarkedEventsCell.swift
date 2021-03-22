@@ -16,9 +16,9 @@ class BookmarkedEventsCell: UICollectionViewCell {
         didSet {
             guard let event = event else { return }
 //            profileImageView.loadImage(urlString: event.user.profileImageUrl)
-            usernameLabel.text = event.user.username
-            captionLabel.text = event.caption
-            usernameLabel.text = "Posted by: \(event.user.username)"
+//            usernameLabel.text = event.user.username
+//            captionLabel.text = event.caption
+//            usernameLabel.text = "Posted by: \(event.user.username)"
             
             
             let dateString = NSMutableAttributedString(string: "")
@@ -27,7 +27,7 @@ class BookmarkedEventsCell: UICollectionViewCell {
             imageDateString.setImageHeight(height: 15)
             let image2String = NSAttributedString(attachment: imageDateString)
             dateString.append(image2String)
-            dateString.append(NSAttributedString(string: " \(event.eventDate ?? "")"))
+//            dateString.append(NSAttributedString(string: " \(event.eventDate ?? "")"))
             dateLabel.attributedText = dateString
    
             setupBookmarkButton()

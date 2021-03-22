@@ -58,7 +58,7 @@ class MainTabBarController: UITabBarController, UITabBarControllerDelegate {
         let searchNavController = templateNavController(unselectedImage: UIImage(named: "search_unselected")!, selectedImage: UIImage(named: "search_selected")!,rootViewController: SearchViewController())
         searchNavController.title = "Search"
         
-        let eventsNavController = templateNavController(unselectedImage: #imageLiteral(resourceName: "event_unselected"), selectedImage: #imageLiteral(resourceName: "event_selected"), rootViewController: EventsVC(collectionViewLayout: UICollectionViewFlowLayout()))
+        let eventsNavController = templateNavController(unselectedImage: #imageLiteral(resourceName: "event_unselected"), selectedImage: #imageLiteral(resourceName: "event_selected"), rootViewController: EventsCollectionViewController(collectionViewLayout: UICollectionViewFlowLayout()))
         eventsNavController.title = "Events"
                 
         let paymentController = self.templateNavController(unselectedImage: UIImage(named: "payment_unselected")!, selectedImage: UIImage(named: "payment_selected")!, rootViewController: PaymentsVC(collectionViewLayout: UICollectionViewFlowLayout()))
