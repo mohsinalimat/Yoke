@@ -8,7 +8,7 @@
 
 import UIKit
 
-class EventsCollectionViewController: UICollectionViewController {
+class EventsCollectionViewController: UICollectionViewController, UICollectionViewDelegateFlowLayout {
 
     //MARK: Properties
     let cellId = "cellId"
@@ -18,6 +18,7 @@ class EventsCollectionViewController: UICollectionViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         configureNavigationBar()
+        setupCollectionView()
     }
     
     //MARK: - Helper Functions
@@ -35,50 +36,38 @@ class EventsCollectionViewController: UICollectionViewController {
 
     // MARK: UICollectionViewDataSource
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 0
+        return 1
+//        return EventController.shared.events.count
     }
 
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath) as! EventCollectionViewCell
-        if ReviewController.shared.reviews.count == 0 {
+        if EventController.shared.events.count == 0 {
             let noCell = collectionView.dequeueReusableCell(withReuseIdentifier: noCellId, for: indexPath) as! EmptyCell
             noCell.photoImageView.image = UIImage(named: "no_post_background")!
-            noCell.noPostLabel.text = "No Reviews yet"
+            noCell.noPostLabel.text = "No events"
             return noCell
         }
+        cell.event = EventController.shared.events[indexPath.item]
     
         return cell
     }
 
     // MARK: UICollectionViewDelegate
-
-    /*
-    // Uncomment this method to specify if the specified item should be highlighted during tracking
-    override func collectionView(_ collectionView: UICollectionView, shouldHighlightItemAt indexPath: IndexPath) -> Bool {
-        return true
+    override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+//        return
     }
-    */
-
-    /*
-    // Uncomment this method to specify if the specified item should be selected
-    override func collectionView(_ collectionView: UICollectionView, shouldSelectItemAt indexPath: IndexPath) -> Bool {
-        return true
-    }
-    */
-
-    /*
-    // Uncomment these methods to specify if an action menu should be displayed for the specified item, and react to actions performed on the item
-    override func collectionView(_ collectionView: UICollectionView, shouldShowMenuForItemAt indexPath: IndexPath) -> Bool {
-        return false
-    }
-
-    override func collectionView(_ collectionView: UICollectionView, canPerformAction action: Selector, forItemAt indexPath: IndexPath, withSender sender: Any?) -> Bool {
-        return false
-    }
-
-    override func collectionView(_ collectionView: UICollectionView, performAction action: Selector, forItemAt indexPath: IndexPath, withSender sender: Any?) {
     
+    // MARK: UICollectionViewDelegateFlowLayout
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        
+        if EventController.shared.events.count == 0 {
+            return CGSize(width: view.frame.width, height: 200)
+        }
+        if let reviewText = EventController.shared.events[indexPath.item].detail {
+            let rect = NSString(string: reviewText).boundingRect(with: CGSize(width: view.frame.width, height: 1000), options: NSStringDrawingOptions.usesFontLeading.union(NSStringDrawingOptions.usesLineFragmentOrigin), attributes: [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 17)], context: nil)
+            return CGSize(width: view.frame.width, height: rect.height + 90)
+        }
+        return CGSize(width: view.frame.width, height: 500)
     }
-    */
-
 }
