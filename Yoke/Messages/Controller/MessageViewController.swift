@@ -1,5 +1,5 @@
 //
-//  ConversationsViewController.swift
+//  MessageViewController.swift
 //  Yoke
 //
 //  Created by LAURA JELENICH on 2/20/21.
@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ConversationsViewController: UIViewController {
+class MessageViewController: UIViewController {
 
     //MARK: - Properties
     var safeArea: UILayoutGuide {
@@ -56,33 +56,13 @@ class ConversationsViewController: UIViewController {
     }
     
     func configureTableView() {
-        tableView.backgroundColor = UIColor.white
+        tableView.backgroundColor = UIColor.LightGrayBg()
         tableView.rowHeight = 80
-        tableView.register(ConversationTableViewCell.self, forCellReuseIdentifier: cellId)
+        tableView.register(MessageTableViewCell.self, forCellReuseIdentifier: cellId)
         tableView.tableFooterView = UIView()
         tableView.delegate = self
         tableView.dataSource = self
         tableView.separatorStyle = .none
-    }
-    
-    private func addBackgroundGradient() {
-        let collectionViewBackgroundView = UIView()
-        let gradientLayer = CAGradientLayer()
-        gradientLayer.frame.size = view.frame.size
-        gradientLayer.startPoint = CGPoint(x: 0.0, y: 0.5)
-        gradientLayer.endPoint = CGPoint(x: 1.0, y: 0.5)
-        gradientLayer.colors = [UIColor.orangeColor()?.withAlphaComponent(0.5).cgColor ?? "", UIColor.yellowColor()?.withAlphaComponent(0.2).cgColor ?? ""]
-        tableView.backgroundView = collectionViewBackgroundView
-        tableView.backgroundView?.layer.addSublayer(gradientLayer)
-    }
-    
-    func gradient(frame:CGRect) -> CAGradientLayer {
-        let layer = CAGradientLayer()
-        layer.frame = frame
-        layer.startPoint = CGPoint(x: 0.0, y: 0.5)
-        layer.endPoint = CGPoint(x: 1.0, y: 0.5)
-        layer.colors = [UIColor.orangeColor()?.cgColor ?? "", UIColor.yellowColor()?.cgColor ?? ""]
-        return layer
     }
     
     //MARK: - API
@@ -98,22 +78,21 @@ class ConversationsViewController: UIViewController {
     }
 }
 //MARK: - TableView DataSource
-extension ConversationsViewController: UITableViewDataSource {
+extension MessageViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return conversations.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: cellId, for: indexPath) as! ConversationTableViewCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: cellId, for: indexPath) as! MessageTableViewCell
         cell.conversation = conversations[indexPath.row]
-        cell.backgroundColor = .clear
         cell.selectionStyle = .none
-        cell.cellBackgroundView.layer.insertSublayer(gradient(frame: cell.bounds), at:0)
+        cell.backgroundColor = UIColor.LightGrayBg()
         return cell
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 100
+        return 110
     }
     
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
@@ -136,7 +115,7 @@ extension ConversationsViewController: UITableViewDataSource {
 }
 
 //MARK: - TableView Delegate
-extension ConversationsViewController: UITableViewDelegate {
+extension MessageViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let user = conversations[indexPath.row].message.chatPartnerId
         let chatVC = ChatCollectionViewController(collectionViewLayout: UICollectionViewFlowLayout())

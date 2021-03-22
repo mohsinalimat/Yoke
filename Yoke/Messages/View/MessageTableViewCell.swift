@@ -1,5 +1,5 @@
 //
-//  ConversationTableViewCell.swift
+//  MessageTableViewCell.swift
 //  Yoke
 //
 //  Created by LAURA JELENICH on 2/26/21.
@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ConversationTableViewCell: UITableViewCell {
+class MessageTableViewCell: UITableViewCell {
 
     //MARK: - Properties
     var conversation: Conversation? {
@@ -50,7 +50,7 @@ class ConversationTableViewCell: UITableViewCell {
     func setupConstraints() {
         shadowView.anchor(top: topAnchor, left: leftAnchor, bottom: bottomAnchor, right: rightAnchor, paddingTop: 10, paddingLeft: 10, paddingBottom: 10, paddingRight: 10)
         cellBackgroundView.anchor(top: topAnchor, left: leftAnchor, bottom: bottomAnchor, right: rightAnchor, paddingTop: 10, paddingLeft: 10, paddingBottom: 10, paddingRight: 10)
-        profileImage.anchor(top: nil, left: cellBackgroundView.leftAnchor, bottom: nil, right: nil, paddingTop: 5, paddingLeft: 5, paddingBottom: 0, paddingRight: 5, width: 50, height: 50)
+        profileImage.anchor(top: nil, left: cellBackgroundView.leftAnchor, bottom: nil, right: nil, paddingTop: 5, paddingLeft: 5, paddingBottom: 0, paddingRight: 5, width: 75, height: 75)
         profileImage.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
         nameLabel.anchor(top: profileImage.topAnchor, left: profileImage.rightAnchor, bottom: nil, right: cellBackgroundView.rightAnchor, paddingTop: 5, paddingLeft: 5, paddingBottom: 0, paddingRight: 5)
         textView.anchor(top: nameLabel.bottomAnchor, left: profileImage.rightAnchor, bottom: cellBackgroundView.bottomAnchor, right: cellBackgroundView.rightAnchor, paddingTop: -6, paddingLeft: 2, paddingBottom: 0, paddingRight: 5)
@@ -62,7 +62,7 @@ class ConversationTableViewCell: UITableViewCell {
         let view = UIView()
         view.layer.cornerRadius = 8
         view.layer.masksToBounds = true
-        view.backgroundColor = UIColor.clear
+        view.backgroundColor = UIColor.white
         return view
     }()
     
@@ -78,7 +78,7 @@ class ConversationTableViewCell: UITableViewCell {
         image.image = UIImage(named: "image_background")
         image.translatesAutoresizingMaskIntoConstraints = false
         image.clipsToBounds = true
-        image.layer.cornerRadius = 50 / 2
+        image.layer.cornerRadius = 75 / 2
         image.layer.borderWidth = 0.5
         image.layer.borderColor = UIColor.white.cgColor
         return image
@@ -87,7 +87,7 @@ class ConversationTableViewCell: UITableViewCell {
     var nameLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.boldSystemFont(ofSize: 17)
-        label.textColor = .white
+        label.textColor = .gray
         label.lineBreakMode = .byWordWrapping
         label.numberOfLines = 0
         return label
@@ -99,14 +99,14 @@ class ConversationTableViewCell: UITableViewCell {
         text.font = UIFont.systemFont(ofSize: 15)
         text.isScrollEnabled = false
         text.isEditable = false
-        text.textColor = .white
+        text.textColor = .gray
         return text
     }()
     
     private let timestampLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.systemFont(ofSize: 13)
-        label.textColor = .white
+        label.textColor = .lightGray
         return label
     }()
 

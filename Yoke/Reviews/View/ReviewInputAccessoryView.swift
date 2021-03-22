@@ -16,6 +16,54 @@ class ReviewInputAccessoryView: UIView {
     
     var delegate: ReviewInputAccessoryViewDelegate?
     
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        setupViews()
+        constrainViews()
+    }
+    
+    func setupViews() {
+        autoresizingMask = .flexibleHeight
+        
+        backgroundColor = UIColor.orangeColor()
+        
+        addSubview(submitButton)
+        addSubview(reviewTextView)
+    
+    }
+    
+    func constrainViews() {
+        if #available(iOS 11.0, *) {
+            reviewTextView.anchor(top: topAnchor, left: leftAnchor, bottom: safeAreaLayoutGuide.bottomAnchor, right: submitButton.leftAnchor, paddingTop: 50, paddingLeft: 8, paddingBottom: 8, paddingRight: 8, width: 0, height: 0)
+        } else {
+            // Fallback on earlier versions
+        }
+        
+        submitButton.anchor(top: reviewTextView.topAnchor, left: nil, bottom: reviewTextView.bottomAnchor, right: rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 12, width: 0, height: 0)
+        
+        setupLineSeparatorView()
+    }
+ 
+    override var intrinsicContentSize: CGSize {
+        return .zero
+    }
+    
+    fileprivate func setupLineSeparatorView() {
+        let lineSeparatorView = UIView()
+        lineSeparatorView.backgroundColor = UIColor.rgb(red: 230, green: 230, blue: 230)
+        addSubview(lineSeparatorView)
+        lineSeparatorView.anchor(top: topAnchor, left: leftAnchor, bottom: nil, right: rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0.5)
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    @objc func handleSubmit() {
+        guard let reviewText = reviewTextView.text else { return }
+        delegate?.didSubmit(for: reviewText)
+    }
+    
     func clearReviewTextField() {
         reviewTextView.text = nil
 //        reviewTextView.showPlaceholderLabel()
@@ -41,44 +89,4 @@ class ReviewInputAccessoryView: UIView {
         sb.addTarget(self, action: #selector(handleSubmit), for: .touchUpInside)
         return sb
     }()
-    
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-        autoresizingMask = .flexibleHeight
-        
-        backgroundColor = UIColor.orangeColor()
-        
-        addSubview(submitButton)
-        addSubview(reviewTextView)
-        
-        if #available(iOS 11.0, *) {
-            reviewTextView.anchor(top: topAnchor, left: leftAnchor, bottom: safeAreaLayoutGuide.bottomAnchor, right: submitButton.leftAnchor, paddingTop: 50, paddingLeft: 8, paddingBottom: 8, paddingRight: 8, width: 0, height: 0)
-        } else {
-            // Fallback on earlier versions
-        }
-        
-        submitButton.anchor(top: reviewTextView.topAnchor, left: nil, bottom: reviewTextView.bottomAnchor, right: rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 12, width: 0, height: 0)
-        
-        setupLineSeparatorView()
-    }
- 
-    override var intrinsicContentSize: CGSize {
-        return .zero
-    }
-    
-    fileprivate func setupLineSeparatorView() {
-        let lineSeparatorView = UIView()
-        lineSeparatorView.backgroundColor = UIColor.rgb(red: 230, green: 230, blue: 230)
-        addSubview(lineSeparatorView)
-        lineSeparatorView.anchor(top: topAnchor, left: leftAnchor, bottom: nil, right: rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0.5)
-    }
-    
-    @objc func handleSubmit() {
-        guard let reviewText = reviewTextView.text else { return }
-        delegate?.didSubmit(for: reviewText)
-    }
-    
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
 }

@@ -35,7 +35,7 @@ class ProfileViewController: UIViewController, TTGTextTagCollectionViewDelegate 
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         setupViews()
-        constrainViews()
+//        constrainViews()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -78,24 +78,55 @@ class ProfileViewController: UIViewController, TTGTextTagCollectionViewDelegate 
         scrollView.addSubview(usernameLabel)
         scrollView.addSubview(locationLabel)
         scrollView.addSubview(ratingView)
-        scrollView.addSubview(statsStackView)
-        statsStackView.addArrangedSubview(rebookCountLabel)
-        statsStackView.addArrangedSubview(verifiedLabel)
-        scrollView.addSubview(buttonStackView)
-        scrollView.addSubview(reviewsButton)
-        buttonStackView.addArrangedSubview(reviewsButton)
-        buttonStackView.addArrangedSubview(eventButton)
-        buttonStackView.addArrangedSubview(messageButton)
-        buttonStackView.addArrangedSubview(bookmarkButton)
-        scrollView.addSubview(bioView)
-        scrollView.addSubview(bioLabel)
-        scrollView.addSubview(bioTextLabel)
-        scrollView.addSubview(cusineView)
-        scrollView.addSubview(cusineLabel)
-        scrollView.addSubview(cusineCollectionView)
-        scrollView.addSubview(collectionViewBG)
-        scrollView.addSubview(menuLabel)
-        scrollView.addSubview(menuCollectionView)
+//        scrollView.addSubview(statsStackView)
+//        statsStackView.addArrangedSubview(rebookCountLabel)
+//        statsStackView.addArrangedSubview(verifiedLabel)
+//        scrollView.addSubview(buttonStackView)
+//        scrollView.addSubview(reviewsButton)
+//        buttonStackView.addArrangedSubview(reviewsButton)
+//        buttonStackView.addArrangedSubview(eventButton)
+//        buttonStackView.addArrangedSubview(messageButton)
+//        buttonStackView.addArrangedSubview(bookmarkButton)
+//        scrollView.addSubview(bioView)
+//        scrollView.addSubview(bioLabel)
+//        scrollView.addSubview(bioTextLabel)
+//        scrollView.addSubview(cusineView)
+//        scrollView.addSubview(cusineLabel)
+//        scrollView.addSubview(cusineCollectionView)
+//        scrollView.addSubview(collectionViewBG)
+//        scrollView.addSubview(menuLabel)
+//        scrollView.addSubview(menuCollectionView)
+        let uid = userId ?? (Auth.auth().currentUser?.uid ?? "")
+        UserController.shared.fetchUserWithUID(uid: uid) { (user) in
+            if user.isChef == false {
+                self.scrollView.addSubview(self.reviewsButton)
+                self.scrollView.addSubview(self.bioView)
+                self.scrollView.addSubview(self.bioLabel)
+                self.scrollView.addSubview(self.bioTextLabel)
+                self.constrainViews()
+                self.constrainViewsForUser()
+            } else {
+                self.scrollView.addSubview(self.statsStackView)
+                self.statsStackView.addArrangedSubview(self.rebookCountLabel)
+                self.statsStackView.addArrangedSubview(self.verifiedLabel)
+                self.scrollView.addSubview(self.buttonStackView)
+                self.buttonStackView.addArrangedSubview(self.reviewsButton)
+                self.buttonStackView.addArrangedSubview(self.eventButton)
+                self.buttonStackView.addArrangedSubview(self.messageButton)
+                self.buttonStackView.addArrangedSubview(self.bookmarkButton)
+                self.scrollView.addSubview(self.bioView)
+                self.scrollView.addSubview(self.bioLabel)
+                self.scrollView.addSubview(self.bioTextLabel)
+                self.scrollView.addSubview(self.cusineView)
+                self.scrollView.addSubview(self.cusineLabel)
+                self.scrollView.addSubview(self.cusineCollectionView)
+                self.scrollView.addSubview(self.collectionViewBG)
+                self.scrollView.addSubview(self.menuLabel)
+                self.scrollView.addSubview(self.menuCollectionView)
+                self.constrainViews()
+                self.constrainViewsForChef()
+            }
+        }
     }
     
     func constrainViews() {
@@ -111,15 +142,6 @@ class ProfileViewController: UIViewController, TTGTextTagCollectionViewDelegate 
         usernameLabel.anchor(top: nil, left: profileImageView.rightAnchor, bottom: bannerImageView.bottomAnchor, right: nil, paddingTop: 30, paddingLeft: 5, paddingBottom: 0, paddingRight: 5)
         locationLabel.anchor(top: bannerImageView.bottomAnchor, left: profileImageView.rightAnchor, bottom: nil, right: nil, paddingTop: 5, paddingLeft: 5, paddingBottom: 0, paddingRight: 0)
         ratingView.anchor(top: locationLabel.bottomAnchor, left: profileImageView.rightAnchor, bottom: nil, right: nil, paddingTop: 5, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 120, height: 25)
-        
-        let uid = userId ?? (Auth.auth().currentUser?.uid ?? "")
-        UserController.shared.fetchUserWithUID(uid: uid) { (user) in
-            if user.isChef == false {
-                self.constrainViewsForUser()
-            } else {
-                self.constrainViewsForChef()
-            }
-        }
     }
     
     func constrainViewsForChef() {
@@ -145,16 +167,12 @@ class ProfileViewController: UIViewController, TTGTextTagCollectionViewDelegate 
     }
     
     func constrainViewsForUser() {
-        eventButton.isHidden = true
-        messageButton.isHidden = true
-        bookmarkButton.isHidden = true
         reviewsButton.alignImageTextVertical()
-        reviewsButton.anchor(top: bannerImageView.bottomAnchor, left: ratingView.rightAnchor, bottom: nil, right: nil, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, height: 100)
-        reviewsButton.backgroundColor = .yellow
+        reviewsButton.anchor(top: locationLabel.topAnchor, left: ratingView.rightAnchor, bottom: ratingView.bottomAnchor, right: nil, paddingTop: 5, paddingLeft: 10, paddingBottom: 0, paddingRight: 0)
         
         bioView.anchor(top: bioLabel.topAnchor, left: safeArea.leftAnchor, bottom: bioTextLabel.bottomAnchor, right: safeArea.rightAnchor, paddingTop: -10, paddingLeft: 5, paddingBottom: -10, paddingRight: 5)
 
-        bioLabel.anchor(top: reviewsButton.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 25, paddingLeft: 15, paddingBottom: 0, paddingRight: 5)
+        bioLabel.anchor(top: profileImageView.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 20, paddingLeft: 15, paddingBottom: 0, paddingRight: 5)
 
         bioTextLabel.anchor(top: bioLabel.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 10, paddingLeft: 15, paddingBottom: 0, paddingRight: 15)
     }
@@ -253,9 +271,6 @@ class ProfileViewController: UIViewController, TTGTextTagCollectionViewDelegate 
                             self.reviewsButton.setTitle("\(Int(count)) Review", for: .normal)
                         } else if count > 1 {
                             self.reviewsButton.setTitle("\(Int(count)) Reviews", for: .normal)
-                        } else {
-                            self.reviewsButton.setTitle("0 Reviews", for: .normal)
-                            print("empty")
                         }
                         totalCount += rate
                         print("stars total count \(totalCount), rate \(rate)")

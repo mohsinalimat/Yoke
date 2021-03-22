@@ -31,15 +31,7 @@ class ReviewController {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "EEEE, MMM d, yyyy"
         let dateString = dateFormatter.string(from: todayDateAndHour)
-        let values = [Constants.Review: review, Constants.Timestamp: dateString, Constants.Uid: currentUserUid, Constants.Ratings: liveRate, Constants.Key: key, Constants.Username: username] as [String : Any]
-        
-        firestoreDB.document(currentUserUid).collection(Constants.Reviews).document(key).setData(values) { (error) in
-            if let error = error {
-                print(error.localizedDescription)
-                completion(false)
-            }
-            completion(true)
-        }
+        let values = [Constants.Review: review, Constants.Timestamp: dateString, Constants.Uid: currentUserUid, Constants.ReviewedUserUid: reviewedUserUid, Constants.Ratings: liveRate, Constants.Key: key, Constants.Username: username] as [String : Any]
         
         firestoreDB.document(reviewedUserUid).collection(Constants.Reviews).document(key).setData(values) { (error) in
             if let error = error {
@@ -67,9 +59,11 @@ class ReviewController {
             self.reviews = []
             for document in snapshot!.documents {
                 let dictionary = document.data()
-                let review = Review(dictionary: dictionary)
-                self.reviews.append(review)
-                completion(true)
+                if uid != Constants.ReviewedUserUid {
+                    let review = Review(dictionary: dictionary)
+                    self.reviews.append(review)
+                    completion(true)
+                }
             }
         }
     }

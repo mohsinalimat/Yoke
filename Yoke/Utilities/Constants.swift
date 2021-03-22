@@ -57,6 +57,7 @@ class Constants {
     static let Bookmarks = "bookmarks"
     static let Ratings = "ratings"
     static let Rate = "rate"
+    static let ReviewedUserUid = "reviewedUserUid"
     static let Stars = "stars"
     static let StarsCount = "starsCount"
     static let Messages = "messages"

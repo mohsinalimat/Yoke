@@ -52,7 +52,7 @@ class MainTabBarController: UITabBarController, UITabBarControllerDelegate {
         let homeNavController = templateNavController(unselectedImage: #imageLiteral(resourceName: "home_unselected"), selectedImage: #imageLiteral(resourceName: "home_selected"), rootViewController: HomeViewController())
         homeNavController.title = "Home"
         
-        let messageNavController = templateNavController(unselectedImage: #imageLiteral(resourceName: "message_unselected"), selectedImage: #imageLiteral(resourceName: "message_selected"), rootViewController: ConversationsViewController())
+        let messageNavController = templateNavController(unselectedImage: #imageLiteral(resourceName: "message_unselected"), selectedImage: #imageLiteral(resourceName: "message_selected"), rootViewController: MessageViewController())
         messageNavController.title = "Messages"
         
         let searchNavController = templateNavController(unselectedImage: UIImage(named: "search_unselected")!, selectedImage: UIImage(named: "search_selected")!,rootViewController: SearchViewController())

@@ -86,8 +86,8 @@ class NewReviewViewController: UIViewController {
     //MARK: - API
     @objc func didSubmit() {
         guard let currentUserUid = Auth.auth().currentUser?.uid else {return}
-        let profileUserUid = userId ?? (Auth.auth().currentUser?.uid ?? "")
-        guard let reviewText = reviewField.text else { return }
+        guard let reviewText = reviewField.text,
+              let profileUserUid = userId else { return }
         let liveRate = self.ratingView.rating
         myActivityIndicator.startAnimating()
         UserController.shared.fetchUserWithUID(uid: currentUserUid) { (user) in
