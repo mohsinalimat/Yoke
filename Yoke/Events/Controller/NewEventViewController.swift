@@ -43,18 +43,12 @@ class NewEventViewController: UIViewController {
         view.addSubview(swipeIndicator)
         view.addSubview(saveButton)
         view.addSubview(deleteButton)
-        view.addSubview(menuLabel)
+        view.addSubview(eventLabel)
         view.addSubview(scrollView)
-        scrollView.addSubview(menuImageView)
-        scrollView.addSubview(menuAddImageButton)
-        scrollView.addSubview(dishNameTextField)
-        scrollView.addSubview(dishDetailTextField)
-        scrollView.addSubview(courseView)
-        scrollView.addSubview(courseLabel)
-        scrollView.addSubview(courseSegmentedControl)
-        scrollView.addSubview(fixedView)
-        scrollView.addSubview(fixedLabel)
-        scrollView.addSubview(fixedSegmentedControl)
+        scrollView.addSubview(eventImageView)
+        scrollView.addSubview(eventAddImageButton)
+        scrollView.addSubview(captionTextField)
+        scrollView.addSubview(eventDetailTextField)
         view.addSubview(myActivityIndicator)
     }
     
@@ -63,20 +57,15 @@ class NewEventViewController: UIViewController {
         swipeIndicator.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         saveButton.anchor(top: swipeIndicator.bottomAnchor, left: nil, bottom: nil, right: safeArea.rightAnchor, paddingTop: 15, paddingLeft: 0, paddingBottom: 0, paddingRight: 20)
         deleteButton.anchor(top: swipeIndicator.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: nil, paddingTop: 15, paddingLeft: 20, paddingBottom: 0, paddingRight: 0)
-        menuLabel.anchor(top: swipeIndicator.bottomAnchor, left: nil, bottom: nil, right: nil, paddingTop: 20, paddingLeft: 0, paddingBottom: 0, paddingRight: 0)
-        menuLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        eventLabel.anchor(top: swipeIndicator.bottomAnchor, left: nil, bottom: nil, right: nil, paddingTop: 20, paddingLeft: 0, paddingBottom: 0, paddingRight: 0)
+        eventLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         scrollView.contentSize = CGSize(width: view.frame.width, height: view.frame.height + 100)
-        scrollView.anchor(top: menuLabel.bottomAnchor, left: safeArea.leftAnchor, bottom: safeArea.bottomAnchor, right: safeArea.rightAnchor, paddingTop: 20, paddingLeft: 0, paddingBottom: 0, paddingRight: 0)
-        menuImageView.anchor(top: scrollView.topAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 20, paddingLeft: 8, paddingBottom: 0, paddingRight: 8, width: view.frame.width / 2, height: 300)
-        menuAddImageButton.anchor(top: scrollView.topAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 20, paddingLeft: 8, paddingBottom: 0, paddingRight: 8, width: view.frame.width / 2, height: 300)
-        dishNameTextField.anchor(top: menuImageView.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 20, paddingLeft: 8, paddingBottom: 8, paddingRight: 8, height: 45)
-        dishDetailTextField.anchor(top: dishNameTextField.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 5, paddingLeft: 8, paddingBottom: 8, paddingRight: 8, height: 150)
-        courseView.anchor(top: dishDetailTextField.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 5, paddingLeft: 8, paddingBottom: 8, paddingRight: 8, height: 80)
-        courseLabel.anchor(top: courseView.topAnchor, left: courseView.leftAnchor, bottom: nil, right: courseView.rightAnchor, paddingTop: 0, paddingLeft: 8, paddingBottom: 0, paddingRight: 8, height: 45)
-        courseSegmentedControl.anchor(top: courseLabel.bottomAnchor, left: courseView.leftAnchor, bottom: nil, right: courseView.rightAnchor, paddingTop: 0, paddingLeft: 5, paddingBottom: 5, paddingRight: 5, height: 30)
-        fixedView.anchor(top: courseView.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 5, paddingLeft: 8, paddingBottom: 8, paddingRight: 8, height: 80)
-        fixedLabel.anchor(top: fixedView.topAnchor, left: fixedView.leftAnchor, bottom: nil, right: fixedView.rightAnchor, paddingTop: 0, paddingLeft: 8, paddingBottom: 0, paddingRight: 8, height: 45)
-        fixedSegmentedControl.anchor(top: fixedLabel.bottomAnchor, left: fixedView.leftAnchor, bottom: nil, right: fixedView.rightAnchor, paddingTop: 0, paddingLeft: 5, paddingBottom: 5, paddingRight: 5, height: 30)
+        scrollView.anchor(top: eventLabel.bottomAnchor, left: safeArea.leftAnchor, bottom: safeArea.bottomAnchor, right: safeArea.rightAnchor, paddingTop: 20, paddingLeft: 0, paddingBottom: 0, paddingRight: 0)
+        eventImageView.anchor(top: scrollView.topAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 20, paddingLeft: 8, paddingBottom: 0, paddingRight: 8, width: view.frame.width / 2, height: 300)
+        eventAddImageButton.anchor(top: scrollView.topAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 20, paddingLeft: 8, paddingBottom: 0, paddingRight: 8, width: view.frame.width / 2, height: 300)
+        captionTextField.anchor(top: eventImageView.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 20, paddingLeft: 8, paddingBottom: 8, paddingRight: 8, height: 45)
+        eventDetailTextField.anchor(top: captionTextField.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 5, paddingLeft: 8, paddingBottom: 8, paddingRight: 8, height: 150)
+ 
         myActivityIndicator.center = view.center
     }
     
@@ -112,7 +101,7 @@ class NewEventViewController: UIViewController {
     @objc func handleAddImage() {
         let alertVC = UIAlertController(title: "Add a Photo", message: nil, preferredStyle: .alert)
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel) { (_) in
-            self.menuImagePicker.dismiss(animated: true)
+            self.eventImagePicker.dismiss(animated: true)
         }
         let cameraAction = UIAlertAction(title: "Camera", style: .default) { (_) in
             self.openCamera()
@@ -129,7 +118,7 @@ class NewEventViewController: UIViewController {
     
     @objc func handleSave() {
         guard let caption = captionTextField.text, !caption.isEmpty,
-              let detail = eventDetailTextField.text !detail.isEmpty else { return }
+              let detail = eventDetailTextField.text, !detail.isEmpty else { return }
         let image = eventImageView.image
         myActivityIndicator.startAnimating()
         if eventExist == true {

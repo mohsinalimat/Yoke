@@ -37,6 +37,8 @@ class EventsCollectionViewController: UICollectionViewController, UICollectionVi
     //MARK: - Selectors
     @objc func newEvent() {
         print("new")
+        let addEvent = NewEventViewController()
+        present(addEvent, animated: true)
     }
 
     // MARK: UICollectionViewDataSource
