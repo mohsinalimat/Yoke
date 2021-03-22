@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import FirebaseAuth
 
 class EventsCollectionViewController: UICollectionViewController, UICollectionViewDelegateFlowLayout {
 
@@ -19,6 +20,7 @@ class EventsCollectionViewController: UICollectionViewController, UICollectionVi
         super.viewDidLoad()
         configureNavigationBar()
         setupCollectionView()
+        fetchEvents()
     }
     
     //MARK: - Helper Functions
@@ -32,6 +34,18 @@ class EventsCollectionViewController: UICollectionViewController, UICollectionVi
         collectionView.backgroundColor = UIColor.LightGrayBg()
         collectionView.register(EventCollectionViewCell.self, forCellWithReuseIdentifier: cellId)
         collectionView.register(EmptyCell.self, forCellWithReuseIdentifier: noCellId)
+    }
+    
+    func fetchEvents() {
+        let uid = userId ?? (Auth.auth().currentUser?.uid ?? "")
+        EventController.shared.fetchEventWith(uid: uid) { (result) in
+            switch result {
+            case true:
+                self.dismiss(animated: true)
+            case false:
+                print("failed to fetch")
+            }
+        }
     }
     
     //MARK: - Selectors

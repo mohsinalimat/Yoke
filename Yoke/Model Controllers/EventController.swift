@@ -9,6 +9,7 @@
 import UIKit
 import FirebaseFirestore
 import FirebaseStorage
+import FirebaseAuth
 
 class EventController {
     
@@ -43,7 +44,7 @@ class EventController {
     }
     
     func fetchEventWith(uid: String, completion: @escaping (Bool) -> Void) {
-        firestoreDB.document(uid).collection(Constants.Menu).addSnapshotListener { (snap, error) in
+        firestoreDB.document(uid).collection(Constants.Event).addSnapshotListener { (snap, error) in
             if let error = error {
                 print(error.localizedDescription)
                 completion(false)
@@ -59,6 +60,20 @@ class EventController {
         }
     }
     
-    
+    func fetchEvents(completion: @escaping (Event) -> Void) {
+        firestoreDB.getDocuments { (snapshot, error) in
+            if let error = error {
+                print(error.localizedDescription)
+                completion(error as! Event)
+            }
+            self.events = []
+            snapshot?.documents.forEach({ (document) in
+                let dictionary = document.data()
+                let event = Event(dictionary: dictionary)
+                self.events.append(event)
+                completion(event)
+            })
+        }
+    }
     
 }
