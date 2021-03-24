@@ -84,10 +84,11 @@ class EventsCollectionViewController: UICollectionViewController, UICollectionVi
         if EventController.shared.events.count == 0 {
             return CGSize(width: view.frame.width, height: 200)
         }
-//        if let captionText = EventController.shared.events[indexPath.item].caption {
-//            let rect = NSString(string: captionText).boundingRect(with: CGSize(width: view.frame.width, height: 1000), options: NSStringDrawingOptions.usesFontLeading.union(NSStringDrawingOptions.usesLineFragmentOrigin), attributes: [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 17)], context: nil)
-//            return CGSize(width: view.frame.width, height: rect.height + 90)
-//        }
+        if let captionText = EventController.shared.events[indexPath.item].caption {
+            let rect = NSString(string: captionText).boundingRect(with: CGSize(width: view.frame.width, height: 1000), options: NSStringDrawingOptions.usesFontLeading.union(NSStringDrawingOptions.usesLineFragmentOrigin), attributes: [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 20)], context: nil)
+            let imageHeight = view.frame.width / 2
+            return CGSize(width: view.frame.width, height: imageHeight + rect.height + 235)
+        }
         return CGSize(width: view.frame.width, height: 400)
     }
 }

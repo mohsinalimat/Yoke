@@ -78,7 +78,7 @@ class EventCollectionViewCell: UICollectionViewCell {
         timeIcon.anchor(top: dateIcon.bottomAnchor, left: cellBackgroundView.leftAnchor, bottom: nil, right: nil, paddingTop: 10, paddingLeft: 5, paddingBottom: 0, paddingRight: 0, width: 15, height: 15)
         timeLabel.anchor(top: timeIcon.topAnchor, left: dateIcon.rightAnchor, bottom: nil, right: nil, paddingTop: 0, paddingLeft: 5, paddingBottom: 0, paddingRight: 0)
         timeLabel.centerYAnchor.constraint(equalTo: timeIcon.centerYAnchor).isActive = true
-        moreIcon.anchor(top: nil, left: nil, bottom: cellBackgroundView.bottomAnchor, right: cellBackgroundView.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 5, paddingRight: 5, width: 30, height: 30)
+        moreIcon.anchor(top: nil, left: nil, bottom: cellBackgroundView.bottomAnchor, right: cellBackgroundView.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 10, paddingRight: 5, width: 30, height: 30)
     }
     
     //MARK: Views
@@ -114,6 +114,9 @@ class EventCollectionViewCell: UICollectionViewCell {
         let label = UILabel()
         label.textColor = UIColor.gray
         label.font = UIFont.boldSystemFont(ofSize: 20)
+        label.lineBreakMode = .byWordWrapping
+        label.numberOfLines = 0
+        label.textAlignment = .left
         return label
     }()
     
