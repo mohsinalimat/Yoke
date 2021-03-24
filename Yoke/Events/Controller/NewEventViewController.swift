@@ -50,6 +50,8 @@ class NewEventViewController: UIViewController {
         scrollView.addSubview(captionTextField)
         scrollView.addSubview(eventDetailTextField)
         scrollView.addSubview(datePickerView)
+        scrollView.addSubview(startTimePickerView)
+        scrollView.addSubview(endTimePickerView)
         view.addSubview(myActivityIndicator)
     }
     
@@ -67,6 +69,8 @@ class NewEventViewController: UIViewController {
         captionTextField.anchor(top: eventImageView.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 20, paddingLeft: 8, paddingBottom: 8, paddingRight: 8, height: 45)
         eventDetailTextField.anchor(top: captionTextField.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 5, paddingLeft: 8, paddingBottom: 8, paddingRight: 8, height: 150)
         datePickerView.anchor(top: eventDetailTextField.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 10, paddingLeft: 10, paddingBottom: 0, paddingRight: 10)
+        startTimePickerView.anchor(top: datePickerView.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 10, paddingLeft: 10, paddingBottom: 0, paddingRight: 10)
+        endTimePickerView.anchor(top: startTimePickerView.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 10, paddingLeft: 10, paddingBottom: 0, paddingRight: 10)
  
         myActivityIndicator.center = view.center
     }
@@ -176,8 +180,10 @@ class NewEventViewController: UIViewController {
     }
     
     @objc func handleDateSelection() {
-        let picker = datePickerView
-        print("Selected date:", picker.date)
+        let datePicker = datePickerView
+        let startPicker = startTimePickerView
+        let endPicker = endTimePickerView
+        print("Selected date:", datePicker.date, startPicker.date, endPicker.date)
     }
     
     @objc func handleDismiss() {
@@ -289,7 +295,25 @@ class NewEventViewController: UIViewController {
         return datePicker
     }()
     
+    let startTimePickerView: UIDatePicker = {
+        let datePicker = UIDatePicker()
+        datePicker.date = Date()
+        datePicker.locale = .current
+        datePicker.datePickerMode = .time
+        datePicker.preferredDatePickerStyle = .compact
+        datePicker.addTarget(self, action: #selector(handleDateSelection), for: .valueChanged)
+        return datePicker
+    }()
     
+    let endTimePickerView: UIDatePicker = {
+        let datePicker = UIDatePicker()
+        datePicker.date = Date()
+        datePicker.locale = .current
+        datePicker.datePickerMode = .time
+        datePicker.preferredDatePickerStyle = .compact
+        datePicker.addTarget(self, action: #selector(handleDateSelection), for: .valueChanged)
+        return datePicker
+    }()
 
 }
 
