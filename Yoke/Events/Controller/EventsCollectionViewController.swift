@@ -70,7 +70,6 @@ class EventsCollectionViewController: UICollectionViewController, UICollectionVi
             return noCell
         }
         cell.event = EventController.shared.events[indexPath.item]
-    
         return cell
     }
 
@@ -89,6 +88,6 @@ class EventsCollectionViewController: UICollectionViewController, UICollectionVi
 //            let rect = NSString(string: captionText).boundingRect(with: CGSize(width: view.frame.width, height: 1000), options: NSStringDrawingOptions.usesFontLeading.union(NSStringDrawingOptions.usesLineFragmentOrigin), attributes: [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 17)], context: nil)
 //            return CGSize(width: view.frame.width, height: rect.height + 90)
 //        }
-        return CGSize(width: view.frame.width, height: 300)
+        return CGSize(width: view.frame.width, height: 400)
     }
 }

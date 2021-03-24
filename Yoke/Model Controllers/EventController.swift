@@ -61,7 +61,7 @@ class EventController {
     }
     
     func fetchEvents(completion: @escaping (Event) -> Void) {
-        firestoreDB.getDocuments { (snapshot, error) in
+        firestoreDB.addSnapshotListener { (snapshot, error) in
             if let error = error {
                 print(error.localizedDescription)
                 completion(error as! Event)

@@ -30,14 +30,18 @@ class EventCollectionViewCell: UICollectionViewCell {
         guard let event = event,
               let uid = event.uid else { return }
         UserController.shared.fetchUserWithUID(uid: uid) { (user) in
-            guard let image = user.profileImageUrl else { return }
+            guard let image = user.profileImageUrl,
+                  let username = user.username else { return }
             self.profileImage.loadImage(urlString: image)
-            self.usernameLabel.text = user.username
+            self.usernameLabel.text = "Posted by: \(username)"
         }
         guard let eventImg = event.eventImageUrl else { return }
         print("event image url \(eventImg)")
         eventImage.loadImage(urlString: eventImg)
         captionLabel.text = event.caption
+        locationLabel.text = "453 12th street, Brooklyn NY"
+        dateLabel.text = "July 4 2021"
+        timeLabel.text = "11:00am - 5:00pm"
     }
     
     func setupViews() {
@@ -47,6 +51,13 @@ class EventCollectionViewCell: UICollectionViewCell {
         addSubview(usernameLabel)
         addSubview(eventImage)
         addSubview(captionLabel)
+        addSubview(locationIcon)
+        addSubview(locationLabel)
+        addSubview(dateIcon)
+        addSubview(dateLabel)
+        addSubview(timeIcon)
+        addSubview(timeLabel)
+        addSubview(moreIcon)
     }
     
     func setupConstraints() {
@@ -55,8 +66,19 @@ class EventCollectionViewCell: UICollectionViewCell {
         
         profileImage.anchor(top: cellBackgroundView.topAnchor, left: cellBackgroundView.leftAnchor, bottom: nil, right: nil, paddingTop: 5, paddingLeft: 5, paddingBottom: 0, paddingRight: 0, width: 50, height: 50)
         usernameLabel.anchor(top: cellBackgroundView.topAnchor, left: profileImage.rightAnchor, bottom: nil, right: cellBackgroundView.rightAnchor, paddingTop: 10, paddingLeft: 5, paddingBottom: 0, paddingRight: 0)
-        eventImage.anchor(top: profileImage.bottomAnchor, left: cellBackgroundView.leftAnchor, bottom: nil, right: cellBackgroundView.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, height: frame.width / 2)
-        captionLabel.anchor(top: eventImage.bottomAnchor, left: cellBackgroundView.leftAnchor, bottom: nil, right: cellBackgroundView.rightAnchor, paddingTop: 20, paddingLeft: 5, paddingBottom: 0, paddingRight: 5)
+        usernameLabel.centerYAnchor.constraint(equalTo: profileImage.centerYAnchor).isActive = true
+        eventImage.anchor(top: profileImage.bottomAnchor, left: cellBackgroundView.leftAnchor, bottom: nil, right: cellBackgroundView.rightAnchor, paddingTop: 10, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, height: frame.width / 2)
+        captionLabel.anchor(top: eventImage.bottomAnchor, left: cellBackgroundView.leftAnchor, bottom: nil, right: cellBackgroundView.rightAnchor, paddingTop: 10, paddingLeft: 5, paddingBottom: 0, paddingRight: 5)
+        locationIcon.anchor(top: captionLabel.bottomAnchor, left: cellBackgroundView.leftAnchor, bottom: nil, right: nil, paddingTop: 10, paddingLeft: 5, paddingBottom: 0, paddingRight: 0, width: 15, height: 18)
+        locationLabel.anchor(top: nil, left: locationIcon.rightAnchor, bottom: nil, right: nil, paddingTop: 0, paddingLeft: 5, paddingBottom: 0, paddingRight: 0)
+        locationLabel.centerYAnchor.constraint(equalTo: locationIcon.centerYAnchor).isActive = true
+        dateIcon.anchor(top: locationIcon.bottomAnchor, left: cellBackgroundView.leftAnchor, bottom: nil, right: nil, paddingTop: 10, paddingLeft: 5, paddingBottom: 0, paddingRight: 0, width: 15, height: 15)
+        dateLabel.anchor(top: dateIcon.topAnchor, left: dateIcon.rightAnchor, bottom: nil, right: nil, paddingTop: 0, paddingLeft: 5, paddingBottom: 0, paddingRight: 0)
+        dateLabel.centerYAnchor.constraint(equalTo: dateIcon.centerYAnchor).isActive = true
+        timeIcon.anchor(top: dateIcon.bottomAnchor, left: cellBackgroundView.leftAnchor, bottom: nil, right: nil, paddingTop: 10, paddingLeft: 5, paddingBottom: 0, paddingRight: 0, width: 15, height: 15)
+        timeLabel.anchor(top: timeIcon.topAnchor, left: dateIcon.rightAnchor, bottom: nil, right: nil, paddingTop: 0, paddingLeft: 5, paddingBottom: 0, paddingRight: 0)
+        timeLabel.centerYAnchor.constraint(equalTo: timeIcon.centerYAnchor).isActive = true
+        moreIcon.anchor(top: nil, left: nil, bottom: cellBackgroundView.bottomAnchor, right: cellBackgroundView.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 5, paddingRight: 5, width: 30, height: 30)
     }
     
     //MARK: Views
@@ -74,10 +96,8 @@ class EventCollectionViewCell: UICollectionViewCell {
     
     var usernameLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont.boldSystemFont(ofSize: 15)
+        label.font = UIFont.boldSystemFont(ofSize: 13)
         label.textColor = .gray
-        label.lineBreakMode = .byWordWrapping
-        label.numberOfLines = 0
         return label
     }()
     
@@ -97,11 +117,49 @@ class EventCollectionViewCell: UICollectionViewCell {
         return label
     }()
     
+    var locationIcon: UIImageView = {
+        let image = UIImageView()
+        image.image = UIImage(named: "locationPinOrange")
+        return image
+    }()
+    
     var locationLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont.boldSystemFont(ofSize: 13)
+        label.font = UIFont.boldSystemFont(ofSize: 15)
         label.textColor = .gray
         return label
+    }()
+    
+    var dateIcon: UIImageView = {
+        let image = UIImageView()
+        image.image = UIImage(named: "calendarOrange")
+        return image
+    }()
+    
+    var dateLabel: UILabel = {
+        let label = UILabel()
+        label.font = UIFont.boldSystemFont(ofSize: 15)
+        label.textColor = .gray
+        return label
+    }()
+    
+    var timeIcon: UIImageView = {
+        let image = UIImageView()
+        image.image = UIImage(named: "timeOrange")
+        return image
+    }()
+    
+    var timeLabel: UILabel = {
+        let label = UILabel()
+        label.font = UIFont.boldSystemFont(ofSize: 15)
+        label.textColor = .gray
+        return label
+    }()
+    
+    var moreIcon: UIImageView = {
+        let image = UIImageView()
+        image.image = UIImage(named: "arrow-right-circle-fill")
+        return image
     }()
     
     let cellBackgroundView: UIView = {
