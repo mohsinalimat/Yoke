@@ -372,7 +372,7 @@ class ProfileViewController: UIViewController, TTGTextTagCollectionViewDelegate 
         stackView.distribution = .fillEqually
         stackView.spacing = 1
         stackView.backgroundColor = UIColor.clear
-//        stackView.layer.cornerRadius = 5
+        stackView.layer.cornerRadius = 5
 //        stackView.layer.shadowOffset = CGSize(width: 0, height: 4)
 //        stackView.layer.shadowRadius = 4
 //        stackView.layer.shadowOpacity = 0.1
