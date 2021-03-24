@@ -349,11 +349,6 @@ class NewEventViewController: UIViewController {
         stackView.axis = .horizontal
         stackView.distribution = .fill
         stackView.backgroundColor = .white
-        stackView.layer.cornerRadius = 5
-        stackView.layer.shadowOffset = CGSize(width: 0, height: 4)
-        stackView.layer.shadowRadius = 4
-        stackView.layer.shadowOpacity = 0.1
-        stackView.layer.shadowColor = UIColor.gray.cgColor
         return stackView
     }()
     
