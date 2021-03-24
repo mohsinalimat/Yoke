@@ -17,7 +17,7 @@ class EventController {
     static let shared = EventController()
     
     //MARK: - Firebase Firestore Database
-    let firestoreDB = Firestore.firestore().collection(Constants.Event)
+    let firestoreDB = Firestore.firestore().collection(Constants.Events)
     let storageRef = Storage.storage().reference().child(Constants.EventImages)
     
     //MARK: - Source of truth
@@ -37,7 +37,7 @@ class EventController {
             }
             self.storageRef.child(filename).downloadURL(completion: { (downloadURL, err) in
                 guard let imageUrl = downloadURL?.absoluteString else { return }
-                self.firestoreDB.document(uid).collection(Constants.Event).document(eventId).setData([Constants.ImageUrl: imageUrl, Constants.Caption: caption, Constants.Detail: detailText, Constants.Date: date, Constants.Time: time, Constants.Id: eventId, Constants.Location: location, Constants.ImageId: filename, Constants.Uid: uid], merge: true)
+                self.firestoreDB.document(eventId).setData([Constants.EventImageUrl: imageUrl, Constants.Caption: caption, Constants.Detail: detailText, Constants.Date: date, Constants.Time: time, Constants.Id: eventId, Constants.Location: location, Constants.ImageId: filename, Constants.Uid: uid, Constants.Timestamp: Date().timeIntervalSince1970], merge: true)
                 completion(true)
             })
         })

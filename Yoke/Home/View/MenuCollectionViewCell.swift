@@ -7,12 +7,8 @@
 //
 
 import UIKit
-import Kingfisher
-import FirebaseStorage
 
 class MenuCollectionViewCell: UICollectionViewCell {
-    
-    let imageStorageRef = Storage.storage().reference()
     
     var menu: Menu? {
         didSet {

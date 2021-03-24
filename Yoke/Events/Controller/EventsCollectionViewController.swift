@@ -37,13 +37,10 @@ class EventsCollectionViewController: UICollectionViewController, UICollectionVi
     }
     
     func fetchEvents() {
-        let uid = userId ?? (Auth.auth().currentUser?.uid ?? "")
-        EventController.shared.fetchEventWith(uid: uid) { (result) in
+        EventController.shared.fetchEvents() { (result) in
             switch result {
-            case true:
-                self.dismiss(animated: true)
-            case false:
-                print("failed to fetch")
+            default:
+                self.collectionView.reloadData()
             }
         }
     }
@@ -57,8 +54,11 @@ class EventsCollectionViewController: UICollectionViewController, UICollectionVi
 
     // MARK: UICollectionViewDataSource
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 1
-//        return EventController.shared.events.count
+        if EventController.shared.events.count == 0 {
+            return 1
+        } else {
+            return EventController.shared.events.count
+        }
     }
 
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -82,13 +82,13 @@ class EventsCollectionViewController: UICollectionViewController, UICollectionVi
     // MARK: UICollectionViewDelegateFlowLayout
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         
-//        if EventController.shared.events.count == 0 {
-//            return CGSize(width: view.frame.width, height: 200)
-//        }
-//        if let reviewText = EventController.shared.events[indexPath.item].detail {
-//            let rect = NSString(string: reviewText).boundingRect(with: CGSize(width: view.frame.width, height: 1000), options: NSStringDrawingOptions.usesFontLeading.union(NSStringDrawingOptions.usesLineFragmentOrigin), attributes: [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 17)], context: nil)
+        if EventController.shared.events.count == 0 {
+            return CGSize(width: view.frame.width, height: 200)
+        }
+//        if let captionText = EventController.shared.events[indexPath.item].caption {
+//            let rect = NSString(string: captionText).boundingRect(with: CGSize(width: view.frame.width, height: 1000), options: NSStringDrawingOptions.usesFontLeading.union(NSStringDrawingOptions.usesLineFragmentOrigin), attributes: [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 17)], context: nil)
 //            return CGSize(width: view.frame.width, height: rect.height + 90)
 //        }
-        return CGSize(width: view.frame.width, height: 500)
+        return CGSize(width: view.frame.width, height: 300)
     }
 }

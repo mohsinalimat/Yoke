@@ -35,21 +35,28 @@ class EventCollectionViewCell: UICollectionViewCell {
             self.usernameLabel.text = user.username
         }
         guard let eventImg = event.eventImageUrl else { return }
-        self.eventImage.loadImage(urlString: eventImg)
-
+        print("event image url \(eventImg)")
+        eventImage.loadImage(urlString: eventImg)
+        captionLabel.text = event.caption
     }
     
     func setupViews() {
+        addSubview(shadowView)
+        addSubview(cellBackgroundView)
         addSubview(profileImage)
         addSubview(usernameLabel)
         addSubview(eventImage)
-        
+        addSubview(captionLabel)
     }
     
     func setupConstraints() {
-        profileImage.anchor(top: topAnchor, left: leftAnchor, bottom: nil, right: nil, paddingTop: 5, paddingLeft: 5, paddingBottom: 0, paddingRight: 0, width: 50, height: 50)
-        usernameLabel.anchor(top: topAnchor, left: profileImage.rightAnchor, bottom: nil, right: rightAnchor, paddingTop: 10, paddingLeft: 5, paddingBottom: 0, paddingRight: 0)
-        eventImage.anchor(top: profileImage.bottomAnchor, left: leftAnchor, bottom: nil, right: rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, height: frame.width / 2)
+        shadowView.anchor(top: topAnchor, left: leftAnchor, bottom: bottomAnchor, right: rightAnchor, paddingTop: 10, paddingLeft: 10, paddingBottom: 10, paddingRight: 10)
+        cellBackgroundView.anchor(top: topAnchor, left: leftAnchor, bottom: bottomAnchor, right: rightAnchor, paddingTop: 10, paddingLeft: 10, paddingBottom: 10, paddingRight: 10)
+        
+        profileImage.anchor(top: cellBackgroundView.topAnchor, left: cellBackgroundView.leftAnchor, bottom: nil, right: nil, paddingTop: 5, paddingLeft: 5, paddingBottom: 0, paddingRight: 0, width: 50, height: 50)
+        usernameLabel.anchor(top: cellBackgroundView.topAnchor, left: profileImage.rightAnchor, bottom: nil, right: cellBackgroundView.rightAnchor, paddingTop: 10, paddingLeft: 5, paddingBottom: 0, paddingRight: 0)
+        eventImage.anchor(top: profileImage.bottomAnchor, left: cellBackgroundView.leftAnchor, bottom: nil, right: cellBackgroundView.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, height: frame.width / 2)
+        captionLabel.anchor(top: eventImage.bottomAnchor, left: cellBackgroundView.leftAnchor, bottom: nil, right: cellBackgroundView.rightAnchor, paddingTop: 20, paddingLeft: 5, paddingBottom: 0, paddingRight: 5)
     }
     
     //MARK: Views
@@ -59,7 +66,7 @@ class EventCollectionViewCell: UICollectionViewCell {
         image.image = UIImage(named: "image_background")
         image.translatesAutoresizingMaskIntoConstraints = false
         image.clipsToBounds = true
-        image.layer.cornerRadius = 20
+        image.layer.cornerRadius = 25
         image.layer.borderWidth = 1
         image.layer.borderColor = UIColor.white.cgColor
         return image
@@ -68,7 +75,7 @@ class EventCollectionViewCell: UICollectionViewCell {
     var usernameLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.boldSystemFont(ofSize: 15)
-        label.textColor = .white
+        label.textColor = .gray
         label.lineBreakMode = .byWordWrapping
         label.numberOfLines = 0
         return label
@@ -80,31 +87,34 @@ class EventCollectionViewCell: UICollectionViewCell {
         image.image = UIImage(named: "image_background")
         image.translatesAutoresizingMaskIntoConstraints = false
         image.clipsToBounds = true
-        image.layer.cornerRadius = 20
-        image.layer.borderWidth = 1
-        image.layer.borderColor = UIColor.white.cgColor
         return image
+    }()
+    
+    let captionLabel: UILabel = {
+        let label = UILabel()
+        label.textColor = UIColor.gray
+        label.font = UIFont.boldSystemFont(ofSize: 20)
+        return label
     }()
     
     var locationLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.boldSystemFont(ofSize: 13)
-        label.textColor = .white
+        label.textColor = .gray
         return label
     }()
     
-    let cellBackgroundImage: UIImageView = {
-        let view = UIImageView()
-        view.image = UIImage(named: "image_background")
+    let cellBackgroundView: UIView = {
+        let view = UIView()
         view.layer.cornerRadius = 8
         view.layer.masksToBounds = true
-//        view.backgroundColor = UIColor.white.withAlphaComponent(0.9)
+        view.backgroundColor = UIColor.white
         return view
     }()
     
     let shadowView: ShadowView = {
         let view = ShadowView()
-//        view.backgroundColor = .white
+        view.backgroundColor = .white
         return view
     }()
 }

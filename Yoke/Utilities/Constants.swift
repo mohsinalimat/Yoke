@@ -66,6 +66,7 @@ class Constants {
     static let Message = "message"
     static let UserMessages = "user_messages"
     static let Event = "event"
+    static let Events = "events"
     static let Reviews = "reviews"
     static let Review = "review"
     static let BookmarkedUsers = "bookmarkedUsers"
