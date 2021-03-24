@@ -49,6 +49,7 @@ class NewEventViewController: UIViewController {
         scrollView.addSubview(eventAddImageButton)
         scrollView.addSubview(captionTextField)
         scrollView.addSubview(eventDetailTextField)
+        scrollView.addSubview(datePickerView)
         view.addSubview(myActivityIndicator)
     }
     
@@ -59,12 +60,13 @@ class NewEventViewController: UIViewController {
         deleteButton.anchor(top: swipeIndicator.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: nil, paddingTop: 15, paddingLeft: 20, paddingBottom: 0, paddingRight: 0)
         eventLabel.anchor(top: swipeIndicator.bottomAnchor, left: nil, bottom: nil, right: nil, paddingTop: 20, paddingLeft: 0, paddingBottom: 0, paddingRight: 0)
         eventLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        scrollView.contentSize = CGSize(width: view.frame.width, height: view.frame.height + 100)
+        scrollView.contentSize = CGSize(width: view.frame.width, height: view.frame.height + 200)
         scrollView.anchor(top: eventLabel.bottomAnchor, left: safeArea.leftAnchor, bottom: safeArea.bottomAnchor, right: safeArea.rightAnchor, paddingTop: 20, paddingLeft: 0, paddingBottom: 0, paddingRight: 0)
         eventImageView.anchor(top: scrollView.topAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 20, paddingLeft: 8, paddingBottom: 0, paddingRight: 8, width: view.frame.width / 2, height: 300)
         eventAddImageButton.anchor(top: scrollView.topAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 20, paddingLeft: 8, paddingBottom: 0, paddingRight: 8, width: view.frame.width / 2, height: 300)
         captionTextField.anchor(top: eventImageView.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 20, paddingLeft: 8, paddingBottom: 8, paddingRight: 8, height: 45)
         eventDetailTextField.anchor(top: captionTextField.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 5, paddingLeft: 8, paddingBottom: 8, paddingRight: 8, height: 150)
+        datePickerView.anchor(top: eventDetailTextField.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 10, paddingLeft: 10, paddingBottom: 0, paddingRight: 10)
  
         myActivityIndicator.center = view.center
     }
@@ -173,6 +175,11 @@ class NewEventViewController: UIViewController {
 //        }
     }
     
+    @objc func handleDateSelection() {
+        let picker = datePickerView
+        print("Selected date:", picker.date)
+    }
+    
     @objc func handleDismiss() {
         dismiss(animated: true, completion: nil)
     }
@@ -271,6 +278,18 @@ class NewEventViewController: UIViewController {
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
+    
+    let datePickerView: UIDatePicker = {
+        let datePicker = UIDatePicker()
+        datePicker.date = Date()
+        datePicker.locale = .current
+        datePicker.datePickerMode = .date
+        datePicker.preferredDatePickerStyle = .compact
+        datePicker.addTarget(self, action: #selector(handleDateSelection), for: .valueChanged)
+        return datePicker
+    }()
+    
+    
 
 }
 
