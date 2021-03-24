@@ -35,8 +35,9 @@ class EventCollectionViewCell: UICollectionViewCell {
             self.profileImage.loadImage(urlString: image)
             self.usernameLabel.text = "Posted by: \(username)"
         }
+        let timestamp = event.timestamp.timeAgoDisplay()
+        timestampLabel.text = "\(timestamp)"
         guard let eventImg = event.eventImageUrl else { return }
-        print("event image url \(eventImg)")
         eventImage.loadImage(urlString: eventImg)
         captionLabel.text = event.caption
         locationLabel.text = "453 12th street, Brooklyn NY"
@@ -49,6 +50,7 @@ class EventCollectionViewCell: UICollectionViewCell {
         addSubview(cellBackgroundView)
         addSubview(profileImage)
         addSubview(usernameLabel)
+        addSubview(timestampLabel)
         addSubview(eventImage)
         addSubview(captionLabel)
         addSubview(locationIcon)
@@ -65,9 +67,9 @@ class EventCollectionViewCell: UICollectionViewCell {
         cellBackgroundView.anchor(top: topAnchor, left: leftAnchor, bottom: bottomAnchor, right: rightAnchor, paddingTop: 10, paddingLeft: 10, paddingBottom: 10, paddingRight: 10)
         
         profileImage.anchor(top: cellBackgroundView.topAnchor, left: cellBackgroundView.leftAnchor, bottom: nil, right: nil, paddingTop: 5, paddingLeft: 5, paddingBottom: 0, paddingRight: 0, width: 50, height: 50)
-        usernameLabel.anchor(top: cellBackgroundView.topAnchor, left: profileImage.rightAnchor, bottom: nil, right: cellBackgroundView.rightAnchor, paddingTop: 10, paddingLeft: 5, paddingBottom: 0, paddingRight: 0)
-        usernameLabel.centerYAnchor.constraint(equalTo: profileImage.centerYAnchor).isActive = true
-        eventImage.anchor(top: profileImage.bottomAnchor, left: cellBackgroundView.leftAnchor, bottom: nil, right: cellBackgroundView.rightAnchor, paddingTop: 10, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, height: frame.width / 2)
+        usernameLabel.anchor(top: cellBackgroundView.topAnchor, left: profileImage.rightAnchor, bottom: nil, right: cellBackgroundView.rightAnchor, paddingTop: 15, paddingLeft: 5, paddingBottom: 0, paddingRight: 0)
+        timestampLabel.anchor(top: usernameLabel.bottomAnchor, left: usernameLabel.leftAnchor, bottom: nil, right: nil, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0)
+        eventImage.anchor(top: profileImage.bottomAnchor, left: cellBackgroundView.leftAnchor, bottom: nil, right: cellBackgroundView.rightAnchor, paddingTop: 10, paddingLeft: 5, paddingBottom: 0, paddingRight: 5, height: frame.width)
         captionLabel.anchor(top: eventImage.bottomAnchor, left: cellBackgroundView.leftAnchor, bottom: nil, right: cellBackgroundView.rightAnchor, paddingTop: 10, paddingLeft: 5, paddingBottom: 0, paddingRight: 5)
         locationIcon.anchor(top: captionLabel.bottomAnchor, left: cellBackgroundView.leftAnchor, bottom: nil, right: nil, paddingTop: 10, paddingLeft: 5, paddingBottom: 0, paddingRight: 0, width: 15, height: 18)
         locationLabel.anchor(top: nil, left: locationIcon.rightAnchor, bottom: nil, right: nil, paddingTop: 0, paddingLeft: 5, paddingBottom: 0, paddingRight: 0)
@@ -101,12 +103,22 @@ class EventCollectionViewCell: UICollectionViewCell {
         return label
     }()
     
+    var timestampLabel: UILabel = {
+        let label = UILabel()
+        label.font = UIFont.boldSystemFont(ofSize: 13)
+        label.textColor = .lightGray
+        return label
+    }()
+    
     var eventImage: CustomImageView = {
         let image = CustomImageView()
         image.contentMode = .scaleAspectFill
         image.image = UIImage(named: "image_background")
         image.translatesAutoresizingMaskIntoConstraints = false
         image.clipsToBounds = true
+        image.layer.borderColor = UIColor.white.cgColor
+        image.layer.borderWidth = 2
+        image.layer.cornerRadius = 5
         return image
     }()
     
@@ -128,7 +140,7 @@ class EventCollectionViewCell: UICollectionViewCell {
     
     var locationLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont.boldSystemFont(ofSize: 15)
+        label.font = UIFont.boldSystemFont(ofSize: 13)
         label.textColor = .gray
         return label
     }()
@@ -141,7 +153,7 @@ class EventCollectionViewCell: UICollectionViewCell {
     
     var dateLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont.boldSystemFont(ofSize: 15)
+        label.font = UIFont.boldSystemFont(ofSize: 13)
         label.textColor = .gray
         return label
     }()
@@ -154,7 +166,7 @@ class EventCollectionViewCell: UICollectionViewCell {
     
     var timeLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont.boldSystemFont(ofSize: 15)
+        label.font = UIFont.boldSystemFont(ofSize: 13)
         label.textColor = .gray
         return label
     }()
