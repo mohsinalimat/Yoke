@@ -16,7 +16,8 @@ class Event {
     var caption: String?
     var detail: String?
     var date: String?
-    var time: String?
+    var startTime: String?
+    var endTime: String?
     var location: String?
     var timestamp: Date
 
@@ -27,7 +28,8 @@ class Event {
         self.caption = dictionary[Constants.Caption] as? String ?? ""
         self.detail = dictionary[Constants.Detail] as? String ?? ""
         self.date = dictionary[Constants.Date] as? String ?? ""
-        self.time = dictionary[Constants.Time] as? String ?? ""
+        self.startTime = dictionary[Constants.StartTime] as? String ?? ""
+        self.endTime = dictionary[Constants.EndTime] as? String ?? ""
         self.location = dictionary[Constants.Location] as? String ?? ""
         let secondsFrom1970 = dictionary[Constants.Timestamp] as? Double ?? 0
         self.timestamp = Date(timeIntervalSince1970: secondsFrom1970)

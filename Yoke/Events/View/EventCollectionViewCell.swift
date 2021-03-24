@@ -28,7 +28,10 @@ class EventCollectionViewCell: UICollectionViewCell {
     //MARK: - Helper Funtions
     func configure() {
         guard let event = event,
-              let uid = event.uid else { return }
+              let uid = event.uid,
+              let start = event.startTime,
+              let end = event.endTime,
+              let eventImg = event.eventImageUrl else { return }
         UserController.shared.fetchUserWithUID(uid: uid) { (user) in
             guard let image = user.profileImageUrl,
                   let username = user.username else { return }
@@ -37,12 +40,11 @@ class EventCollectionViewCell: UICollectionViewCell {
         }
         let timestamp = event.timestamp.timeAgoDisplay()
         timestampLabel.text = "\(timestamp)"
-        guard let eventImg = event.eventImageUrl else { return }
         eventImage.loadImage(urlString: eventImg)
         captionLabel.text = event.caption
         locationLabel.text = "453 12th street, Brooklyn NY"
-        dateLabel.text = "July 4 2021"
-        timeLabel.text = "11:00am - 5:00pm"
+        dateLabel.text = event.date
+        timeLabel.text = "\(start) - \(end)"
     }
     
     func setupViews() {

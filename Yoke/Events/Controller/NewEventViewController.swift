@@ -19,6 +19,9 @@ class NewEventViewController: UIViewController {
     var uid = Auth.auth().currentUser?.uid ?? ""
     var eventExist: Bool = false
     let myActivityIndicator = UIActivityIndicatorView(style: UIActivityIndicatorView.Style.large)
+    var eventDate: String = ""
+    var startTime: String = ""
+    var endTime: String = ""
     var event: Event? {
         didSet {
             fetchEvent()
@@ -149,13 +152,13 @@ class NewEventViewController: UIViewController {
 //                }
 //            }
         } else {
-            EventController.shared.createEventWith(uid: uid, image: image, caption: caption, detailText: detail, date: "", time: "", location: "") { (result) in
+            EventController.shared.createEventWith(uid: uid, image: image, caption: caption, detailText: detail, date: eventDate, startTime: startTime, endTime: endTime, location: "") { (result) in
                 switch result {
-                case true:
-                    self.myActivityIndicator.stopAnimating()
-                    self.saveSuccessful()
-                case false:
-                    print("failed to save")
+                    case true:
+                        self.myActivityIndicator.stopAnimating()
+                        self.saveSuccessful()
+                    case false:
+                        print("failed to save")
                 }
             }
 //            EventController.shared.createEventWith(uid: self.uid, name: name, detail: detail, courseType: self.courseType, menuType: self.menuType, image: image) { (result) in
@@ -191,7 +194,18 @@ class NewEventViewController: UIViewController {
         let datePicker = datePickerView
         let startPicker = startTimePickerView
         let endPicker = endTimePickerView
-        print("Selected date:", datePicker.date, startPicker.date, endPicker.date)
+        
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "EEEE, MMM d, yyyy"
+        eventDate = dateFormatter.string(from: datePicker.date)
+        
+        let startTimeFormatter = DateFormatter()
+        startTimeFormatter.timeStyle = .medium
+        startTime = startTimeFormatter.string(from: startPicker.date)
+        
+        let endTimeFormatter = DateFormatter()
+        endTimeFormatter.timeStyle = .medium
+        endTime = endTimeFormatter.string(from: endPicker.date)
 
     }
     

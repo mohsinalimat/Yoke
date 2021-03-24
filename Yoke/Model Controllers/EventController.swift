@@ -24,7 +24,7 @@ class EventController {
     var events: [Event] = []
     
     //MARK: - CRUD Functions
-    func createEventWith(uid: String, image: UIImage?, caption: String, detailText: String, date: String, time: String, location: String, completion: @escaping (Bool) -> Void) {
+    func createEventWith(uid: String, image: UIImage?, caption: String, detailText: String, date: String, startTime: String, endTime: String, location: String, completion: @escaping (Bool) -> Void) {
         guard let eventImage = image else { return }
         guard let uploadData = eventImage.jpegData(compressionQuality: 0.5) else {return}
         let filename = NSUUID().uuidString
@@ -37,7 +37,7 @@ class EventController {
             }
             self.storageRef.child(filename).downloadURL(completion: { (downloadURL, err) in
                 guard let imageUrl = downloadURL?.absoluteString else { return }
-                self.firestoreDB.document(eventId).setData([Constants.EventImageUrl: imageUrl, Constants.Caption: caption, Constants.Detail: detailText, Constants.Date: date, Constants.Time: time, Constants.Id: eventId, Constants.Location: location, Constants.ImageId: filename, Constants.Uid: uid, Constants.Timestamp: Date().timeIntervalSince1970], merge: true)
+                self.firestoreDB.document(eventId).setData([Constants.EventImageUrl: imageUrl, Constants.Caption: caption, Constants.Detail: detailText, Constants.Date: date, Constants.StartTime: startTime, Constants.EndTime: endTime, Constants.Id: eventId, Constants.Location: location, Constants.ImageId: filename, Constants.Uid: uid, Constants.Timestamp: Date().timeIntervalSince1970], merge: true)
                 completion(true)
             })
         })
