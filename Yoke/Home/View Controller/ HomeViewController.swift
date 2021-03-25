@@ -53,6 +53,13 @@ class HomeViewController: UIViewController {
         scrollView.alwaysBounceHorizontal = true
         scrollView.bounces = true
         scrollView.addSubview(bannerImageView)
+        scrollView.addSubview(bannerLayerImageView)
+        let blurEffect = UIBlurEffect(style: .dark)
+        let blurredEffectView = UIVisualEffectView(effect: blurEffect)
+        blurredEffectView.layer.masksToBounds = true
+        blurredEffectView.frame = bannerLayerImageView.bounds
+        blurredEffectView.alpha = 0.2
+        bannerLayerImageView.insertSubview(blurredEffectView, at: 0)
         scrollView.addSubview(profileImageView)
         scrollView.addSubview(usernameLabel)
         scrollView.addSubview(viewProfileButton)
@@ -79,6 +86,7 @@ class HomeViewController: UIViewController {
         scrollView.contentSize = CGSize(width: view.frame.width, height: view.frame.height)
         scrollView.anchor(top: safeArea.topAnchor, left: safeArea.leftAnchor, bottom: safeArea.bottomAnchor, right: safeArea.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0)
 
+        bannerLayerImageView.anchor(top: scrollView.topAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, height: 230)
         bannerImageView.anchor(top: scrollView.topAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, height: 230)
         profileImageView.anchor(top: scrollView.topAnchor, left: safeArea.leftAnchor, bottom: nil, right: nil, paddingTop: 30, paddingLeft: 15, paddingBottom: 0, paddingRight: 0, width: 150, height: 150)
         profileImageView.layer.cornerRadius = 150 / 2
@@ -181,6 +189,12 @@ class HomeViewController: UIViewController {
                     self.profileImageView.image = UIImage(data: data)
                 }
             }
+            let bannerStorageRef = Storage.storage().reference().child("profileBannerUrl/\(uid)")
+            bannerStorageRef.getData(maxSize: 2 * 1024 * 1024) { data, error in
+                if error == nil, let data = data {
+                    self.bannerImageView.image = UIImage(data: data)
+                }
+            }
         }
     }
     
@@ -266,20 +280,19 @@ class HomeViewController: UIViewController {
         return view
     }()
     
-    let bannerImageView: CustomImageView = {
-        let image = CustomImageView()
-//        image.image = UIImage(named: "gradientBackground_3")
-        image.image = UIImage(named: "image_background")
-        image.clipsToBounds = true
-        image.contentMode = .scaleToFill
-        return image
-    }()
-    
     let bannerLayerImageView: UIView = {
         let view = UIView()
-        view.backgroundColor = UIColor.black
-        view.layer.opacity = 0.3
+        view.backgroundColor = UIColor.clear
+        view.translatesAutoresizingMaskIntoConstraints = false
         return view
+    }()
+    
+    let bannerImageView: CustomImageView = {
+        let image = CustomImageView()
+        image.image = UIImage(named: "image_background")
+        image.clipsToBounds = true
+        image.contentMode = .scaleAspectFill
+        return image
     }()
     
     let profileImageView: CustomImageView = {
@@ -296,22 +309,26 @@ class HomeViewController: UIViewController {
 
     let usernameLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont.boldSystemFont(ofSize: 20)
+        label.font = UIFont.boldSystemFont(ofSize: 24)
         label.textColor = UIColor.white
         label.textAlignment = .left
+        label.layer.shadowOffset = CGSize(width: 0, height: 4)
+        label.layer.shadowRadius = 4
+        label.layer.shadowOpacity = 0.4
+        label.layer.shadowColor = UIColor.black.cgColor
         return label
     }()
     
     lazy var viewProfileButton: UIButton = {
         let button = UIButton(type: .custom)
         button.setTitle("View Profile", for: .normal)
-        button.titleLabel?.font = UIFont.systemFont(ofSize: 17)
+        button.titleLabel?.font = UIFont.systemFont(ofSize: 18)
         button.setTitleColor(UIColor.white, for: .normal)
         button.contentHorizontalAlignment = UIControl.ContentHorizontalAlignment.left
-//        button.backgroundColor = UIColor.orangeColor()
-//        button.layer.cornerRadius = 5
-//        button.layer.borderWidth = 0.5
-//        button.layer.borderColor = UIColor.white.cgColor
+        button.layer.shadowOffset = CGSize(width: 0, height: 4)
+        button.layer.shadowRadius = 4
+        button.layer.shadowOpacity = 0.4
+        button.layer.shadowColor = UIColor.black.cgColor
         button.addTarget(self, action: #selector(handleViewProfile), for: .touchUpInside)
         return button
     }()
