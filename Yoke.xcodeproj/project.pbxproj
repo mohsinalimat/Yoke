@@ -723,7 +723,6 @@
 			isa = PBXGroup;
 			children = (
 				6C8DB62424B3C1B9003D06FF /* Controller */,
-				6C8DB62724B3C1B9003D06FF /* Model */,
 				6C8DB62924B3C1B9003D06FF /* View */,
 			);
 			path = Search;
@@ -736,13 +735,6 @@
 				6C29312025D48D2500A36B64 /* SearchFilterViewController.swift */,
 			);
 			path = Controller;
-			sourceTree = "<group>";
-		};
-		6C8DB62724B3C1B9003D06FF /* Model */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Model;
 			sourceTree = "<group>";
 		};
 		6C8DB62924B3C1B9003D06FF /* View */ = {

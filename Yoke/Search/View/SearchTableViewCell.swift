@@ -90,7 +90,7 @@ class SearchTableViewCell: UITableViewCell {
     //MARK: - Views
     var cellBackgroundView: UIView = {
         let view = UIView()
-        view.layer.cornerRadius = 8
+        view.layer.cornerRadius = 10
         view.layer.masksToBounds = true
         view.backgroundColor = UIColor.white
         return view

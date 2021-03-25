@@ -82,7 +82,7 @@ class ReviewsCollectionViewCell: UICollectionViewCell {
     //MARK: - Views
     let cellBackgroundView: UIView = {
         let view = UIView()
-        view.layer.cornerRadius = 8
+        view.layer.cornerRadius = 10
         view.layer.masksToBounds = true
         view.backgroundColor = UIColor.white
         return view
@@ -100,7 +100,7 @@ class ReviewsCollectionViewCell: UICollectionViewCell {
         textView.backgroundColor = .clear
         textView.isScrollEnabled = false
         textView.isEditable = false
-        textView.layer.cornerRadius = 5
+        textView.layer.cornerRadius = 10
         return textView
     }()
     

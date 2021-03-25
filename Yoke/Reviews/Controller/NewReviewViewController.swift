@@ -126,7 +126,7 @@ class NewReviewViewController: UIViewController {
         textView.font = UIFont.systemFont(ofSize: 15)
         textView.backgroundColor = UIColor.LightGrayBg()
         textView.textColor = UIColor.darkGray
-        textView.layer.cornerRadius = 5
+        textView.layer.cornerRadius = 10
         textView.placeholder = "Enter your review..."
         return textView
     }()
@@ -158,7 +158,7 @@ class NewReviewViewController: UIViewController {
         button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 17)
         button.backgroundColor = UIColor.orangeColor()
         button.setTitleColor(UIColor.white, for: .normal)
-        button.layer.cornerRadius = 2
+        button.layer.cornerRadius = 10
         button.addTarget(self, action: #selector(didSubmit), for: .touchUpInside)
         return button
     }()

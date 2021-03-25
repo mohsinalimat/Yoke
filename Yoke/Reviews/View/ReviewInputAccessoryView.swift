@@ -75,7 +75,7 @@ class ReviewInputAccessoryView: UIView {
         textView.translatesAutoresizingMaskIntoConstraints = false
         textView.textColor = UIColor.black
         textView.backgroundColor = .white
-        textView.layer.cornerRadius = 5
+        textView.layer.cornerRadius = 10
         textView.isScrollEnabled = false
         textView.font = UIFont.systemFont(ofSize: 16)
         return textView
