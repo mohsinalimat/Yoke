@@ -62,6 +62,7 @@ class EventCollectionViewCell: UICollectionViewCell {
         addSubview(dateLabel)
         addSubview(timeIcon)
         addSubview(timeLabel)
+        addSubview(moreShadowView)
         addSubview(moreIcon)
     }
     
@@ -84,6 +85,8 @@ class EventCollectionViewCell: UICollectionViewCell {
         timeIcon.anchor(top: dateIcon.bottomAnchor, left: cellBackgroundView.leftAnchor, bottom: nil, right: nil, paddingTop: 10, paddingLeft: 5, paddingBottom: 0, paddingRight: 0, width: 15, height: 15)
         timeLabel.anchor(top: timeIcon.topAnchor, left: dateIcon.rightAnchor, bottom: nil, right: nil, paddingTop: 0, paddingLeft: 5, paddingBottom: 0, paddingRight: 0)
         timeLabel.centerYAnchor.constraint(equalTo: timeIcon.centerYAnchor).isActive = true
+        moreShadowView.anchor(top: moreIcon.topAnchor, left: moreIcon.leftAnchor, bottom: moreIcon.bottomAnchor, right: moreIcon.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 30, height: 30)
+        moreShadowView.layer.cornerRadius = 30 / 2
         moreIcon.anchor(top: nil, left: nil, bottom: cellBackgroundView.bottomAnchor, right: cellBackgroundView.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 10, paddingRight: 5, width: 30, height: 30)
     }
     
@@ -114,14 +117,9 @@ class EventCollectionViewCell: UICollectionViewCell {
         return label
     }()
     
-    let imageShadowView: UIView = {
-        let view = UIView()
+    let imageShadowView: ShadowView = {
+        let view = ShadowView()
         view.backgroundColor = .white
-        view.layer.cornerRadius = 5
-        view.layer.shadowOffset = CGSize(width: 0, height: 4)
-        view.layer.shadowRadius = 4
-        view.layer.shadowOpacity = 0.4
-        view.layer.shadowColor = UIColor.gray.cgColor
         return view
     }()
     
@@ -132,7 +130,7 @@ class EventCollectionViewCell: UICollectionViewCell {
         image.translatesAutoresizingMaskIntoConstraints = false
         image.clipsToBounds = true
         image.layer.borderColor = UIColor.white.cgColor
-        image.layer.cornerRadius = 5
+        image.layer.cornerRadius = 10
         return image
     }()
     
@@ -185,6 +183,16 @@ class EventCollectionViewCell: UICollectionViewCell {
         return label
     }()
     
+    let moreShadowView: UIView = {
+        let view = UIView()
+        view.backgroundColor = .white
+        view.layer.shadowOffset = CGSize(width: 0, height: 4)
+        view.layer.shadowRadius = 4
+        view.layer.shadowOpacity = 0.5
+        view.layer.shadowColor = UIColor.gray.cgColor
+        return view
+    }()
+    
     var moreIcon: UIImageView = {
         let image = UIImageView()
         image.image = UIImage(named: "arrow-right-circle-fill")
@@ -193,7 +201,7 @@ class EventCollectionViewCell: UICollectionViewCell {
     
     let cellBackgroundView: UIView = {
         let view = UIView()
-        view.layer.cornerRadius = 8
+        view.layer.cornerRadius = 10
         view.layer.masksToBounds = true
         view.backgroundColor = UIColor.white
         return view
