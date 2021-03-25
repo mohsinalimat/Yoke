@@ -57,7 +57,7 @@ class HomeViewController: UIViewController {
         let blurEffect = UIBlurEffect(style: .dark)
         let blurredEffectView = UIVisualEffectView(effect: blurEffect)
         blurredEffectView.layer.masksToBounds = true
-        blurredEffectView.frame = bannerLayerImageView.bounds
+        blurredEffectView.frame = bannerImageView.bounds
         blurredEffectView.alpha = 0.2
         bannerLayerImageView.insertSubview(blurredEffectView, at: 0)
         scrollView.addSubview(profileImageView)

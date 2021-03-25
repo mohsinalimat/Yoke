@@ -10,17 +10,21 @@ import UIKit
 import FirebaseAuth
 
 class EventsCollectionViewController: UICollectionViewController, UICollectionViewDelegateFlowLayout {
+    
 
     //MARK: Properties
     let cellId = "cellId"
     let noCellId = "noCellId"
     var userId: String?
+    var searchController = UISearchController()
     
+    //MARK: - Lifecycle Methods
     override func viewDidLoad() {
         super.viewDidLoad()
         configureNavigationBar()
         setupCollectionView()
         fetchEvents()
+        setupSearch()
     }
     
     //MARK: - Helper Functions
@@ -28,6 +32,22 @@ class EventsCollectionViewController: UICollectionViewController, UICollectionVi
         guard let orange = UIColor.orangeColor() else { return }
         configureNavigationBar(withTitle: "Events", largeTitle: true, backgroundColor: UIColor.white, titleColor: orange)
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "new", style: .plain, target: self, action: #selector(newEvent))
+    }
+    
+    func setupSearch() {
+        navigationItem.searchController = searchController
+        searchController.searchResultsUpdater = self
+        searchController.delegate = self
+        searchController.searchBar.delegate = self
+
+        searchController.hidesNavigationBarDuringPresentation = false
+        searchController.obscuresBackgroundDuringPresentation = false
+        searchController.searchBar.placeholder = "Search for tools and resources"
+        searchController.searchBar.sizeToFit()
+
+        searchController.searchBar.becomeFirstResponder()
+
+        navigationItem.titleView = searchController.searchBar
     }
     
     func setupCollectionView() {
@@ -90,5 +110,25 @@ class EventsCollectionViewController: UICollectionViewController, UICollectionVi
             return CGSize(width: view.frame.width, height: imageHeight + rect.height + 190)
         }
         return CGSize(width: view.frame.width, height: 400)
+    }
+}
+
+extension EventsCollectionViewController: UISearchResultsUpdating, UISearchControllerDelegate, UISearchBarDelegate {
+    
+    func updateSearchResults(for searchController: UISearchController) {
+        guard let searchText = searchController.searchBar.text else { return }
+        print(searchText)
+        if searchText.isEmpty {
+            UserController.shared.filteredUsers = UserController.shared.users
+        } else {
+            UserController.shared.filteredUsers = UserController.shared.users.filter { (user) -> Bool in
+                guard let username = user.username,
+                      let location = user.location else { return false }
+                return username.lowercased().contains(searchText.lowercased()) || location.lowercased().contains(searchText.lowercased())
+            }
+        }
+        DispatchQueue.main.async {
+            self.collectionView.reloadData()
+        }
     }
 }
