@@ -8,7 +8,6 @@
 
 import UIKit
 import Firebase
-import JTAppleCalendar
 
 class NewScheduleEventVC: UIViewController {
     

@@ -13,14 +13,11 @@ target 'Yoke' do
   pod 'Firebase/Firestore'
   pod 'Firebase/Functions'
   pod 'Geofirestore'
-  pod 'JTAppleCalendar', '~> 7.0'
   pod 'IQKeyboardManagerSwift'
-  pod 'Kingfisher', '~> 5.0'
   pod 'Stripe' , '~> 19.0.1'
   pod 'GoogleSignIn'
   pod 'TTGTagCollectionView'
-  pod 'MessageKit'
-  pod 'SDWebImage'
+  pod 'RSKImageCropper'
 
   target 'YokeTests' do
     inherit! :search_paths

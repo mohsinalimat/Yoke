@@ -9,7 +9,7 @@
 import UIKit
 import Firebase
 import FirebaseFirestore
-import Kingfisher
+import RSKImageCropper
 
 //https://medium.com/@mattkopacz/handling-text-fields-in-table-view-7d50f051368b
 
@@ -618,7 +618,7 @@ extension SettingsViewController: UIImagePickerControllerDelegate, UINavigationC
         if isProfileImagePicker {
             if UIImagePickerController.isSourceTypeAvailable(.camera) {
                 profileImagePicker.sourceType = .camera
-                profileImagePicker.allowsEditing = false
+                profileImagePicker.allowsEditing = true
                 self.present(profileImagePicker, animated: true)
             } else {
                 let alertVC = UIAlertController(title: "No Camera Acccess", message: "Please allow access to the camera to use this feature", preferredStyle: .alert)
@@ -629,7 +629,7 @@ extension SettingsViewController: UIImagePickerControllerDelegate, UINavigationC
         } else {
             if UIImagePickerController.isSourceTypeAvailable(.camera) {
                 bannerImagePicker.sourceType = .camera
-                bannerImagePicker.allowsEditing = false
+                bannerImagePicker.allowsEditing = true
                 self.present(bannerImagePicker, animated: true)
             } else {
                 let alertVC = UIAlertController(title: "No Camera Acccess", message: "Please allow access to the camera to use this feature", preferredStyle: .alert)
