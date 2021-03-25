@@ -54,12 +54,12 @@ class HomeViewController: UIViewController {
         scrollView.bounces = true
         scrollView.addSubview(bannerImageView)
         scrollView.addSubview(bannerLayerImageView)
-        let blurEffect = UIBlurEffect(style: .dark)
-        let blurredEffectView = UIVisualEffectView(effect: blurEffect)
-        blurredEffectView.layer.masksToBounds = true
-        blurredEffectView.frame = bannerImageView.bounds
-        blurredEffectView.alpha = 0.2
-        bannerLayerImageView.insertSubview(blurredEffectView, at: 0)
+//        let blurEffect = UIBlurEffect(style: .light)
+//        let blurredEffectView = UIVisualEffectView(effect: blurEffect)
+//        blurredEffectView.layer.masksToBounds = true
+//        blurredEffectView.frame = bannerImageView.bounds
+//        blurredEffectView.alpha = 0.1
+//        bannerLayerImageView.addSubview(blurredEffectView)
         scrollView.addSubview(profileImageView)
         scrollView.addSubview(usernameLabel)
         scrollView.addSubview(viewProfileButton)
@@ -282,7 +282,7 @@ class HomeViewController: UIViewController {
     
     let bannerLayerImageView: UIView = {
         let view = UIView()
-        view.backgroundColor = UIColor.clear
+        view.backgroundColor = UIColor.black.withAlphaComponent(0.4)
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
