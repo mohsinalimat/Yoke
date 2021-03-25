@@ -22,6 +22,7 @@ class EventController {
     
     //MARK: - Source of truth
     var events: [Event] = []
+    var filteredEvents = [Event]()
     
     //MARK: - CRUD Functions
     func createEventWith(uid: String, image: UIImage?, caption: String, detailText: String, date: String, startTime: String, endTime: String, location: String, completion: @escaping (Bool) -> Void) {
@@ -71,6 +72,10 @@ class EventController {
                 let dictionary = document.data()
                 let event = Event(dictionary: dictionary)
                 self.events.append(event)
+                self.events.sort(by: { (u1, u2) -> Bool in
+                    return u1.timestamp.compare(u2.timestamp) == .orderedAscending
+                })
+                self.filteredEvents = self.events
                 completion(event)
             })
         }

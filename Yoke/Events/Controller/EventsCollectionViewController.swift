@@ -31,7 +31,10 @@ class EventsCollectionViewController: UICollectionViewController, UICollectionVi
     func configureNavigationBar() {
         guard let orange = UIColor.orangeColor() else { return }
         configureNavigationBar(withTitle: "Events", largeTitle: true, backgroundColor: UIColor.white, titleColor: orange)
-        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "new", style: .plain, target: self, action: #selector(newEvent))
+        let filterIcon = UIImage(named: "filterOrange")
+        let imageView = UIImageView(frame: CGRect(x: 0, y: 0, width: 10, height: 10))
+        imageView.image = filterIcon
+        navigationItem.rightBarButtonItem = UIBarButtonItem(image: filterIcon, style: .plain, target: self, action: #selector(handleFilter))
     }
     
     func setupSearch() {
@@ -39,14 +42,20 @@ class EventsCollectionViewController: UICollectionViewController, UICollectionVi
         searchController.searchResultsUpdater = self
         searchController.delegate = self
         searchController.searchBar.delegate = self
-
         searchController.hidesNavigationBarDuringPresentation = false
         searchController.obscuresBackgroundDuringPresentation = false
         searchController.searchBar.placeholder = "Search for tools and resources"
         searchController.searchBar.sizeToFit()
-
+        
+        guard let orange = UIColor.orangeColor() else { return }
+        searchController.searchBar.tintColor = orange
+        searchController.searchBar.barTintColor = orange
+        searchController.searchBar.setImage(UIImage(named: "searchOrange"), for: UISearchBar.Icon.search, state: .normal)
+        searchController.searchBar.setImage(UIImage(named: "clearOrangeFill"), for: UISearchBar.Icon.clear, state: .normal)
+        UITextField.appearance(whenContainedInInstancesOf: [UISearchBar.self]).defaultTextAttributes = [NSAttributedString.Key.foregroundColor: orange]
+        UITextField.appearance(whenContainedInInstancesOf: [UISearchBar.self]).attributedPlaceholder = NSAttributedString(string: "Search key words", attributes: [NSAttributedString.Key.foregroundColor: UIColor.gray])
         searchController.searchBar.becomeFirstResponder()
-
+        
         navigationItem.titleView = searchController.searchBar
     }
     
@@ -71,25 +80,29 @@ class EventsCollectionViewController: UICollectionViewController, UICollectionVi
         let addEvent = NewEventViewController()
         present(addEvent, animated: true)
     }
+    
+    @objc func handleFilter() {
+        
+    }
 
     // MARK: UICollectionViewDataSource
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         if EventController.shared.events.count == 0 {
             return 1
         } else {
-            return EventController.shared.events.count
+            return EventController.shared.filteredEvents.count
         }
     }
 
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath) as! EventCollectionViewCell
-        if EventController.shared.events.count == 0 {
+        if EventController.shared.filteredEvents.count == 0 {
             let noCell = collectionView.dequeueReusableCell(withReuseIdentifier: noCellId, for: indexPath) as! EmptyCell
             noCell.photoImageView.image = UIImage(named: "no_post_background")!
             noCell.noPostLabel.text = "No events in your area"
             return noCell
         }
-        cell.event = EventController.shared.events[indexPath.item]
+        cell.event = EventController.shared.filteredEvents[indexPath.item]
         return cell
     }
 
@@ -101,10 +114,10 @@ class EventsCollectionViewController: UICollectionViewController, UICollectionVi
     // MARK: UICollectionViewDelegateFlowLayout
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         
-        if EventController.shared.events.count == 0 {
+        if EventController.shared.filteredEvents.count == 0 {
             return CGSize(width: view.frame.width, height: 200)
         }
-        if let captionText = EventController.shared.events[indexPath.item].caption {
+        if let captionText = EventController.shared.filteredEvents[indexPath.item].caption {
             let rect = NSString(string: captionText).boundingRect(with: CGSize(width: view.frame.width, height: 1000), options: NSStringDrawingOptions.usesFontLeading.union(NSStringDrawingOptions.usesLineFragmentOrigin), attributes: [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 20)], context: nil)
             let imageHeight = view.frame.width
             return CGSize(width: view.frame.width, height: imageHeight + rect.height + 190)
@@ -119,13 +132,12 @@ extension EventsCollectionViewController: UISearchResultsUpdating, UISearchContr
         guard let searchText = searchController.searchBar.text else { return }
         print(searchText)
         if searchText.isEmpty {
-            UserController.shared.filteredUsers = UserController.shared.users
+            EventController.shared.filteredEvents = EventController.shared.events
         } else {
-            UserController.shared.filteredUsers = UserController.shared.users.filter { (user) -> Bool in
-                guard let username = user.username,
-                      let location = user.location else { return false }
-                return username.lowercased().contains(searchText.lowercased()) || location.lowercased().contains(searchText.lowercased())
-            }
+            EventController.shared.filteredEvents = EventController.shared.events.filter({ (event) -> Bool in
+                guard let caption = event.caption else { return false }
+                return caption.lowercased().contains(searchText.lowercased())
+            })
         }
         DispatchQueue.main.async {
             self.collectionView.reloadData()
