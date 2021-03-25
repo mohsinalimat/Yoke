@@ -199,18 +199,18 @@ class BookmarkedVC: UICollectionViewController, UICollectionViewDelegateFlowLayo
     }
     
     override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        
-        if segmentedControl.selectedSegmentIndex == 0 {
-            let user = users[indexPath.row]
-            let userProfileVC = UserProfileVC(collectionViewLayout: UICollectionViewFlowLayout())
-            userProfileVC.userId = user.uid
-            navigationController?.pushViewController(userProfileVC, animated: true)
-        } else if segmentedControl.selectedSegmentIndex == 1 {
+//        
+//        if segmentedControl.selectedSegmentIndex == 0 {
+//            let user = users[indexPath.row]
+//            let userProfileVC = UserProfileVC(collectionViewLayout: UICollectionViewFlowLayout())
+//            userProfileVC.userId = user.uid
+//            navigationController?.pushViewController(userProfileVC, animated: true)
+//        } else if segmentedControl.selectedSegmentIndex == 1 {
 //            let event = events[indexPath.row]
 //            let eventDetailVC = EventDetailVC(collectionViewLayout: UICollectionViewFlowLayout())
 //            eventDetailVC.event = event
 //            navigationController?.pushViewController(eventDetailVC, animated: true)
-        }
+//        }
         
     }
     

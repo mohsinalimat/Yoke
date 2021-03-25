@@ -26,7 +26,7 @@ class PaymentsVC: UICollectionViewController, UICollectionViewDelegateFlowLayout
         collectionView?.alwaysBounceVertical = true
 
         collectionView?.register(PaymentHeaderCell.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: headerId)
-        self.collectionView!.register(InvoiceCell.self, forCellWithReuseIdentifier: reuseIdentifier)
+//        self.collectionView!.register(InvoiceCell.self, forCellWithReuseIdentifier: reuseIdentifier)
         self.collectionView!.register(PaymentCell.self, forCellWithReuseIdentifier: cellId)
 
         setupViews()
@@ -116,8 +116,8 @@ class PaymentsVC: UICollectionViewController, UICollectionViewDelegateFlowLayout
             
         docRef.getDocument { (document, error) in
             if let document = document, document.exists {
-                let invoice = CreateInvoiceVC()
-                self.navigationController?.pushViewController(invoice, animated: true)
+//                let invoice = CreateInvoiceVC()
+//                self.navigationController?.pushViewController(invoice, animated: true)
 
             } else {
                 let vc = StripeSignupVC()
@@ -157,10 +157,10 @@ class PaymentsVC: UICollectionViewController, UICollectionViewDelegateFlowLayout
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, for: indexPath)
 
         if segmentedControl.selectedSegmentIndex == 0 {
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, for: indexPath) as! InvoiceCell
-            cell.payment = earnings[indexPath.item]
-            cell.user = self.user
-            return cell
+//            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, for: indexPath) as! InvoiceCell
+//            cell.payment = earnings[indexPath.item]
+//            cell.user = self.user
+//            return cell
         } else if segmentedControl.selectedSegmentIndex == 1 {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath) as! PaymentCell
             cell.payment = payments[indexPath.item]

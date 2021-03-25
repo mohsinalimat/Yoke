@@ -217,7 +217,7 @@ class NewEventViewController: UIViewController {
     let swipeIndicator: UIView = {
         let view = UIView()
         view.backgroundColor = UIColor.gray
-        view.layer.cornerRadius = 5
+        view.layer.cornerRadius = 10
         return view
     }()
     
@@ -251,7 +251,7 @@ class NewEventViewController: UIViewController {
     lazy var scrollView: UIScrollView = {
         let view = UIScrollView()
         view.backgroundColor = UIColor.LightGrayBg()
-        view.layer.cornerRadius = 5
+        view.layer.cornerRadius = 10
         view.layer.borderColor = UIColor.LightGrayBg()?.cgColor
         view.layer.borderWidth = 5
         view.translatesAutoresizingMaskIntoConstraints = false
@@ -265,7 +265,7 @@ class NewEventViewController: UIViewController {
         image.contentMode = .scaleAspectFill
         image.layer.borderColor = UIColor.white.cgColor
         image.layer.borderWidth = 2
-        image.layer.cornerRadius = 5
+        image.layer.cornerRadius = 10
         image.backgroundColor = UIColor.orangeColor()
         return image
     }()
