@@ -47,19 +47,20 @@ class SearchViewController: UIViewController {
     func setupViews() {
         view.backgroundColor = UIColor.LightGrayBg()
         tableView.backgroundColor = UIColor.LightGrayBg()
-        view.addSubview(searchBar)
+//        view.addSubview(searchBar)
         view.addSubview(tableView)
     }
     
     func constrainViews() {
-        searchBar.anchor(top: safeArea.topAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, height: 45)
-        tableView.anchor(top: searchBar.bottomAnchor, left: safeArea.leftAnchor, bottom: safeArea.bottomAnchor, right: safeArea.rightAnchor, paddingTop: 0, paddingLeft: 8, paddingBottom: 0, paddingRight: 0)
+//        searchBar.anchor(top: safeArea.topAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, height: 45)
+        tableView.anchor(top: safeArea.topAnchor, left: safeArea.leftAnchor, bottom: safeArea.bottomAnchor, right: safeArea.rightAnchor, paddingTop: 0, paddingLeft: 8, paddingBottom: 0, paddingRight: 0)
 
     }
     
     func configureNavigationBar() {
         guard let orange = UIColor.orangeColor() else { return }
         configureNavigationBar(withTitle: "Search", largeTitle: true, backgroundColor: UIColor.white, titleColor: orange)
+        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .search, target: self, action: #selector(handleShowFilter))
     }
     
     func setupTableView() {
@@ -71,9 +72,9 @@ class SearchViewController: UIViewController {
     }
     
     func setupNavigationAndBarButtons() {
-        navigationItem.title = "Search"
-        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .search, target: self, action: #selector(handleShowFilter))
-        navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .close, target: self, action: #selector(handleClear))
+//        navigationItem.title = "Search"
+//        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .search, target: self, action: #selector(handleShowFilter))
+//        navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .close, target: self, action: #selector(handleClear))
 //        self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for: UIBarMetrics.default)
 //        self.navigationController?.navigationBar.isTranslucent = false
     }
@@ -82,6 +83,28 @@ class SearchViewController: UIViewController {
         let tap = UITapGestureRecognizer(target: self.view, action: #selector(UIView.endEditing(_:)))
         tap.cancelsTouchesInView = false
         view.addGestureRecognizer(tap)
+    }
+    
+    func setupSearch() {
+        navigationItem.searchController = searchController
+        searchController.searchResultsUpdater = self
+        searchController.delegate = self
+        searchController.searchBar.delegate = self
+        searchController.hidesNavigationBarDuringPresentation = false
+        searchController.obscuresBackgroundDuringPresentation = false
+        searchController.searchBar.placeholder = "Search for tools and resources"
+        searchController.searchBar.sizeToFit()
+        
+        guard let orange = UIColor.orangeColor() else { return }
+        searchController.searchBar.tintColor = orange
+        searchController.searchBar.barTintColor = orange
+        searchController.searchBar.setImage(UIImage(named: "searchOrange"), for: UISearchBar.Icon.search, state: .normal)
+        searchController.searchBar.setImage(UIImage(named: "clearOrangeFill"), for: UISearchBar.Icon.clear, state: .normal)
+        UITextField.appearance(whenContainedInInstancesOf: [UISearchBar.self]).defaultTextAttributes = [NSAttributedString.Key.foregroundColor: orange]
+        UITextField.appearance(whenContainedInInstancesOf: [UISearchBar.self]).attributedPlaceholder = NSAttributedString(string: "Search key words", attributes: [NSAttributedString.Key.foregroundColor: UIColor.gray])
+        searchController.searchBar.becomeFirstResponder()
+        
+        navigationItem.titleView = searchController.searchBar
     }
     
     //MARK: - API
@@ -97,10 +120,10 @@ class SearchViewController: UIViewController {
     }
     
     //MARK: - Selectors
-    @objc func handleClear() {
-        UserController.shared.filteredUsers = UserController.shared.users
-        tableView.reloadData()
-    }
+//    @objc func handleClear() {
+//        UserController.shared.filteredUsers = UserController.shared.users
+//        tableView.reloadData()
+//    }
     
     @objc func handleShowFilter() {
 //        let filterVC = UserFilterViewController()
@@ -110,16 +133,35 @@ class SearchViewController: UIViewController {
     }
     
     //MARK: - Views
-    var searchBar: UISearchBar = {
-        let search = UISearchBar()
-        search.placeholder = "Search by name or location"
-        search.searchTextField.textColor = UIColor.white
-        search.searchTextField.backgroundColor = UIColor.white
-        search.tintColor = UIColor.white
-        search.backgroundColor = UIColor.white
-        search.barTintColor = UIColor.white
-        return search
-    }()
+//    var searchBar: UISearchBar = {
+//        let search = UISearchBar()
+//        search.placeholder = "Search by name or location"
+//        search.searchTextField.textColor = UIColor.white
+//        search.searchTextField.backgroundColor = UIColor.white
+//        search.tintColor = UIColor.white
+//        search.backgroundColor = UIColor.white
+//        search.barTintColor = UIColor.white
+//        return search
+//    }()
+}
+extension SearchViewController: UISearchResultsUpdating, UISearchControllerDelegate, UISearchBarDelegate {
+    
+    func updateSearchResults(for searchController: UISearchController) {
+        guard let searchText = searchController.searchBar.text else { return }
+        print(searchText)
+        if searchText.isEmpty {
+            UserController.shared.filteredUsers = UserController.shared.users
+        } else {
+            UserController.shared.filteredUsers = UserController.shared.users.filter { (user) -> Bool in
+                guard let username = user.username,
+                      let location = user.location else { return false }
+                return username.lowercased().contains(searchText.lowercased()) || location.lowercased().contains(searchText.lowercased())
+            }
+        }
+        DispatchQueue.main.async {
+            self.tableView.reloadData()
+        }
+    }
 }
 
 extension SearchViewController: UITableViewDataSource, UITableViewDelegate {
@@ -149,37 +191,44 @@ extension SearchViewController: UITableViewDataSource, UITableViewDelegate {
     }
 }
 
-extension SearchViewController: UISearchBarDelegate {
-
-    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-        
-        if searchText.isEmpty {
-            UserController.shared.filteredUsers = UserController.shared.users
-        } else {
-            UserController.shared.filteredUsers = UserController.shared.users.filter { (user) -> Bool in
-                guard let username = user.username,
-                      let location = user.location else { return false }
-                return username.lowercased().contains(searchText.lowercased()) || location.lowercased().contains(searchText.lowercased())
-            }
-        }
-        DispatchQueue.main.async {
-            self.tableView.reloadData()
-        }
-    }
-    
-    func setupSearch() {
-        searchBar.delegate = self
-    }
-}
-
-//extension SearchUsersViewController: SearchUsersFilterDelegate {
-//    func searchFilterController(_ searchFilterController: UserFilterViewController, didSaveSearch location: String, activies: String) {
-//        filteredUsers = self.users.filter({ user -> Bool in
-//            guard let result = user.location?.hasPrefix(location) else { return false }
-//            return result
-//        })
+//extension SearchViewController: UISearchBarDelegate {
+//
+//    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+//
+//        if searchText.isEmpty {
+//            UserController.shared.filteredUsers = UserController.shared.users
+//        } else {
+//            UserController.shared.filteredUsers = UserController.shared.users.filter { (user) -> Bool in
+//                guard let username = user.username,
+//                      let location = user.location else { return false }
+//                return username.lowercased().contains(searchText.lowercased()) || location.lowercased().contains(searchText.lowercased())
+//            }
+//        }
 //        DispatchQueue.main.async {
 //            self.tableView.reloadData()
 //        }
 //    }
+//
+//    func setupSearch() {
+//        navigationItem.searchController = searchController
+//        searchController.searchResultsUpdater = self
+//        searchController.delegate = self
+//        searchController.searchBar.delegate = self
+//        searchController.hidesNavigationBarDuringPresentation = false
+//        searchController.obscuresBackgroundDuringPresentation = false
+//        searchController.searchBar.placeholder = "Search for tools and resources"
+//        searchController.searchBar.sizeToFit()
+//
+//        guard let orange = UIColor.orangeColor() else { return }
+//        searchController.searchBar.tintColor = orange
+//        searchController.searchBar.barTintColor = orange
+//        searchController.searchBar.setImage(UIImage(named: "searchOrange"), for: UISearchBar.Icon.search, state: .normal)
+//        searchController.searchBar.setImage(UIImage(named: "clearOrangeFill"), for: UISearchBar.Icon.clear, state: .normal)
+//        UITextField.appearance(whenContainedInInstancesOf: [UISearchBar.self]).defaultTextAttributes = [NSAttributedString.Key.foregroundColor: orange]
+//        UITextField.appearance(whenContainedInInstancesOf: [UISearchBar.self]).attributedPlaceholder = NSAttributedString(string: "Search key words", attributes: [NSAttributedString.Key.foregroundColor: UIColor.gray])
+//        searchController.searchBar.becomeFirstResponder()
+//
+//        navigationItem.titleView = searchController.searchBar
+//    }
 //}
+
