@@ -56,7 +56,7 @@ class MenuCollectionViewCell: UICollectionViewCell {
         image.image = UIImage(named: "gradientBackground")
         image.translatesAutoresizingMaskIntoConstraints = false
         image.clipsToBounds = true
-        image.layer.cornerRadius = 5
+        image.layer.cornerRadius = 10
         return image
     }()
     
@@ -64,7 +64,7 @@ class MenuCollectionViewCell: UICollectionViewCell {
         let view = UIView()
         view.backgroundColor = UIColor.black
         view.layer.opacity = 0.5
-        view.layer.cornerRadius = 5
+        view.layer.cornerRadius = 10
         return view
     }()
     
@@ -79,7 +79,7 @@ class MenuCollectionViewCell: UICollectionViewCell {
     
     let cellBackgroundView: UIView = {
         let view = UIView()
-        view.layer.cornerRadius = 8
+        view.layer.cornerRadius = 10
         view.layer.masksToBounds = true
         view.backgroundColor = UIColor.white
         return view

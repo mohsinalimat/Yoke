@@ -78,7 +78,7 @@ class MenuViewController: UIViewController {
     lazy var scrollView: UIScrollView = {
         let view = UIScrollView()
         view.backgroundColor = UIColor.LightGrayBg()
-        view.layer.cornerRadius = 5
+        view.layer.cornerRadius = 10
         view.layer.borderColor = UIColor.LightGrayBg()?.cgColor
         view.layer.borderWidth = 5
         view.translatesAutoresizingMaskIntoConstraints = false
@@ -92,7 +92,7 @@ class MenuViewController: UIViewController {
         image.contentMode = .scaleAspectFill
         image.layer.borderColor = UIColor.white.cgColor
         image.layer.borderWidth = 1
-        image.layer.cornerRadius = 15
+        image.layer.cornerRadius = 10
         return image
     }()
     
@@ -109,7 +109,7 @@ class MenuViewController: UIViewController {
         text.textColor = .darkGray
         text.isEditable = false
         text.isScrollEnabled = true
-        text.layer.cornerRadius = 5
+        text.layer.cornerRadius = 10
         text.textContainer.lineBreakMode = .byWordWrapping
         text.font = UIFont.systemFont(ofSize: 15)
         return text

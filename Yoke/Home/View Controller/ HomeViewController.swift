@@ -329,7 +329,7 @@ class HomeViewController: UIViewController {
         button.titleEdgeInsets = UIEdgeInsets.init(top: 20,left: -25,bottom: 0,right: 0)
         button.addTarget(self, action: #selector(viewReviews), for: .touchUpInside)
 //        button.backgroundColor = UIColor.orangeColor()
-        button.layer.cornerRadius = 5
+        button.layer.cornerRadius = 10
 //        button.layer.borderColor = UIColor.orangeColor()?.cgColor
 //        button.layer.borderWidth = 0.5
         return button
@@ -346,7 +346,7 @@ class HomeViewController: UIViewController {
         button.setTitleColor(UIColor.orangeColor(), for: .normal)
 //        button.addTarget(self, action: #selector(handleEvents), for: .touchUpInside)
 //        button.backgroundColor = UIColor.orangeColor()
-        button.layer.cornerRadius = 5
+        button.layer.cornerRadius = 10
 //        button.layer.borderColor = UIColor.orangeColor()?.cgColor
 //        button.layer.borderWidth = 0.5
         return button
@@ -363,9 +363,7 @@ class HomeViewController: UIViewController {
         button.setTitleColor(UIColor.orangeColor(), for: .normal)
 //        button.addTarget(self, action: #selector(handleCalendar), for: .touchUpInside)
 //        button.backgroundColor = UIColor.orangeColor()
-        button.layer.cornerRadius = 5
-//        button.layer.borderColor = UIColor.orangeColor()?.cgColor
-//        button.layer.borderWidth = 0.5
+        button.layer.cornerRadius = 10
         return button
     }()
     
@@ -380,7 +378,7 @@ class HomeViewController: UIViewController {
         button.setTitleColor(UIColor.orangeColor(), for: .normal)
 //        button.addTarget(self, action: #selector(handleBookmarked), for: .touchUpInside)
 //        button.backgroundColor = UIColor.orangeColor()
-        button.layer.cornerRadius = 5
+        button.layer.cornerRadius = 10
 //        button.layer.borderColor = UIColor.orangeColor()?.cgColor
 //        button.layer.borderWidth = 0.5
         return button
@@ -392,7 +390,7 @@ class HomeViewController: UIViewController {
         stackView.distribution = .fillEqually
         stackView.spacing = 0
         stackView.backgroundColor = .white
-        stackView.layer.cornerRadius = 5
+        stackView.layer.cornerRadius = 10
         stackView.layer.shadowOffset = CGSize(width: 0, height: 4)
         stackView.layer.shadowRadius = 4
         stackView.layer.shadowOpacity = 0.1
@@ -403,7 +401,7 @@ class HomeViewController: UIViewController {
     let collectionViewBG: UIView = {
         let view = UIView()
         view.backgroundColor = UIColor.white
-        view.layer.cornerRadius = 5
+        view.layer.cornerRadius = 10
         view.layer.shadowOffset = CGSize(width: 0, height: 4)
         view.layer.shadowRadius = 4
         view.layer.shadowOpacity = 0.1

@@ -132,7 +132,7 @@ class SuggestedChefsCollectionViewCell: UICollectionViewCell {
     let cellBackgroundImage: UIImageView = {
         let view = UIImageView()
         view.image = UIImage(named: "image_background")
-        view.layer.cornerRadius = 8
+        view.layer.cornerRadius = 10
         view.layer.masksToBounds = true
 //        view.backgroundColor = UIColor.white.withAlphaComponent(0.9)
         return view

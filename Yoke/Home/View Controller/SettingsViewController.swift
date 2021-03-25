@@ -381,7 +381,7 @@ class SettingsViewController: UIViewController  {
     lazy var scrollView: UIScrollView = {
         let view = UIScrollView()
         view.backgroundColor = UIColor.LightGrayBg()
-        view.layer.cornerRadius = 5
+        view.layer.cornerRadius = 10
         view.layer.borderColor = UIColor.LightGrayBg()?.cgColor
         view.layer.borderWidth = 5
         view.translatesAutoresizingMaskIntoConstraints = false
@@ -446,7 +446,7 @@ class SettingsViewController: UIViewController  {
     let usernameView: UIView = {
         let view = UIView()
         view.backgroundColor = .white
-        view.layer.cornerRadius = 5
+        view.layer.cornerRadius = 10
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
@@ -472,7 +472,7 @@ class SettingsViewController: UIViewController  {
     let locationView: UIView = {
         let view = UIView()
         view.backgroundColor = .white
-        view.layer.cornerRadius = 5
+        view.layer.cornerRadius = 10
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
@@ -504,7 +504,7 @@ class SettingsViewController: UIViewController  {
     let bioView: UIView = {
         let view = UIView()
         view.backgroundColor = .white
-        view.layer.cornerRadius = 5
+        view.layer.cornerRadius = 10
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
@@ -531,7 +531,7 @@ class SettingsViewController: UIViewController  {
     let chefView: UIView = {
         let view = UIView()
         view.backgroundColor = .white
-        view.layer.cornerRadius = 5
+        view.layer.cornerRadius = 10
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
@@ -565,7 +565,7 @@ class SettingsViewController: UIViewController  {
         button.setTitle("Chef Settings", for: .normal)
         button.setTitleColor(UIColor.orangeColor(), for: .normal)
         button.backgroundColor = .white
-        button.layer.cornerRadius = 5
+        button.layer.cornerRadius = 10
         button.addTarget(self, action: #selector(handleChefPreference), for: .touchUpInside)
         return button
     }()
@@ -575,7 +575,7 @@ class SettingsViewController: UIViewController  {
         button.setTitle("Change Password", for: .normal)
         button.setTitleColor(UIColor.orangeColor(), for: .normal)
         button.backgroundColor = .white
-        button.layer.cornerRadius = 5
+        button.layer.cornerRadius = 10
         button.addTarget(self, action: #selector(handleEmailPassword), for: .touchUpInside)
         return button
     }()
@@ -585,7 +585,7 @@ class SettingsViewController: UIViewController  {
         button.setTitle("Privacy Policy", for: .normal)
         button.setTitleColor(UIColor.orangeColor(), for: .normal)
         button.backgroundColor = .white
-        button.layer.cornerRadius = 5
+        button.layer.cornerRadius = 10
 //        button.addTarget(self, action: #selector(handleLogout), for: .touchUpInside)
         return button
     }()
@@ -595,7 +595,7 @@ class SettingsViewController: UIViewController  {
         button.setTitle("Logout", for: .normal)
         button.setTitleColor(UIColor.orangeColor(), for: .normal)
         button.backgroundColor = UIColor.white
-        button.layer.cornerRadius = 5
+        button.layer.cornerRadius = 10
         button.addTarget(self, action: #selector(handleLogout), for: .touchUpInside)
         return button
     }()
@@ -605,7 +605,7 @@ class SettingsViewController: UIViewController  {
         button.setTitle("Delete Account", for: .normal)
         button.setTitleColor(.white, for: .normal)
         button.backgroundColor = UIColor.orangeColor()
-        button.layer.cornerRadius = 5
+        button.layer.cornerRadius = 10
         button.addTarget(self, action: #selector(handleDelete), for: .touchUpInside)
         return button
     }()

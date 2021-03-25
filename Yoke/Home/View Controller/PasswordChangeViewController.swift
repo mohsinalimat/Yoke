@@ -121,7 +121,7 @@ class PasswordChangeViewController: UIViewController {
         text.placeholder = "Old Password"
         text.textColor = UIColor.orangeColor()
         text.backgroundColor = UIColor.LightGrayBg()
-        text.layer.cornerRadius = 5
+        text.layer.cornerRadius = 10
         text.addTarget(self, action: #selector(handleTextInputChange), for: .editingChanged)
         return text
     }()
@@ -133,7 +133,7 @@ class PasswordChangeViewController: UIViewController {
         text.placeholder = "New Password"
         text.textColor = UIColor.orangeColor()
         text.backgroundColor = UIColor.LightGrayBg()
-        text.layer.cornerRadius = 5
+        text.layer.cornerRadius = 10
         text.addTarget(self, action: #selector(handleTextInputChange), for: .editingChanged)
         return text
     }()
@@ -143,7 +143,7 @@ class PasswordChangeViewController: UIViewController {
         button.setTitle("Save", for: .normal)
         button.setTitleColor(.white, for: .normal)
         button.backgroundColor = UIColor.orangeColor()?.withAlphaComponent(0.5)
-        button.layer.cornerRadius = 5
+        button.layer.cornerRadius = 10
         button.isEnabled = false
         button.addTarget(self, action: #selector(handleChangePassword), for: .touchUpInside)
         return button

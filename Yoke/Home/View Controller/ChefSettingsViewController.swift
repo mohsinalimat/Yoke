@@ -228,7 +228,7 @@ class ChefSettingsViewController: UIViewController, TTGTextTagCollectionViewDele
         text.font = UIFont.systemFont(ofSize: 17)
         text.textColor = UIColor.orangeColor()
         text.backgroundColor = UIColor.LightGrayBg()
-        text.layer.cornerRadius = 5
+        text.layer.cornerRadius = 10
         return text
     }()
     
@@ -237,7 +237,7 @@ class ChefSettingsViewController: UIViewController, TTGTextTagCollectionViewDele
         button.setTitle("Add", for: .normal)
         button.setTitleColor(.white, for: .normal)
         button.backgroundColor = UIColor.orangeColor()
-        button.layer.cornerRadius = 5
+        button.layer.cornerRadius = 10
         button.addTarget(self, action: #selector(handleAddTextField), for: .touchUpInside)
         return button
     }()
@@ -275,7 +275,7 @@ class ChefSettingsViewController: UIViewController, TTGTextTagCollectionViewDele
         button.setTitle("Done", for: .normal)
         button.setTitleColor(.white, for: .normal)
         button.backgroundColor = UIColor.orangeColor()
-        button.layer.cornerRadius = 5
+        button.layer.cornerRadius = 10
         button.titleLabel?.font = UIFont(name: "", size: 18)
         button.addTarget(self, action: #selector(handleHideCuisineList), for: .touchUpInside)
         return button

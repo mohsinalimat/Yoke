@@ -257,7 +257,7 @@ class LocationSettingsViewController: UIViewController, UISearchBarDelegate, UIS
         text.placeholder = "Street address"
         text.textColor = UIColor.orangeColor()
         text.backgroundColor = UIColor.LightGrayBg()
-        text.layer.cornerRadius = 5
+        text.layer.cornerRadius = 10
         return text
     }()
     
@@ -267,7 +267,7 @@ class LocationSettingsViewController: UIViewController, UISearchBarDelegate, UIS
         text.placeholder = "Apt #"
         text.textColor = UIColor.orangeColor()
         text.backgroundColor = UIColor.LightGrayBg()
-        text.layer.cornerRadius = 5
+        text.layer.cornerRadius = 10
         return text
     }()
     
@@ -277,7 +277,7 @@ class LocationSettingsViewController: UIViewController, UISearchBarDelegate, UIS
         text.placeholder = "City"
         text.textColor = UIColor.orangeColor()
         text.backgroundColor = UIColor.LightGrayBg()
-        text.layer.cornerRadius = 5
+        text.layer.cornerRadius = 10
         return text
     }()
     
@@ -287,7 +287,7 @@ class LocationSettingsViewController: UIViewController, UISearchBarDelegate, UIS
         text.placeholder = "State"
         text.textColor = UIColor.orangeColor()
         text.backgroundColor = UIColor.LightGrayBg()
-        text.layer.cornerRadius = 5
+        text.layer.cornerRadius = 10
         return text
     }()
     
@@ -297,7 +297,7 @@ class LocationSettingsViewController: UIViewController, UISearchBarDelegate, UIS
         button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 17)
         button.setTitleColor(UIColor.white, for: .normal)
         button.backgroundColor = UIColor.orangeColor()
-        button.layer.cornerRadius = 5
+        button.layer.cornerRadius = 10
         button.addTarget(self, action: #selector(handleSetUserLocation), for: .touchUpInside)
         return button
     }()

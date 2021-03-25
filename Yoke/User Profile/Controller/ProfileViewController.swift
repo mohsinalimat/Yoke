@@ -331,7 +331,7 @@ class ProfileViewController: UIViewController, TTGTextTagCollectionViewDelegate 
         let view = UIView()
         view.backgroundColor = UIColor.clear
         view.translatesAutoresizingMaskIntoConstraints = false
-        view.layer.cornerRadius = 5
+        view.layer.cornerRadius = 10
         return view
     }()
 
@@ -372,7 +372,7 @@ class ProfileViewController: UIViewController, TTGTextTagCollectionViewDelegate 
         stackView.distribution = .fillEqually
         stackView.spacing = 1
         stackView.backgroundColor = UIColor.clear
-        stackView.layer.cornerRadius = 5
+        stackView.layer.cornerRadius = 10
 //        stackView.layer.shadowOffset = CGSize(width: 0, height: 4)
 //        stackView.layer.shadowRadius = 4
 //        stackView.layer.shadowOpacity = 0.1
@@ -428,7 +428,7 @@ class ProfileViewController: UIViewController, TTGTextTagCollectionViewDelegate 
         button.setTitleColor(UIColor.orangeColor(), for: .normal)
 //        button.addTarget(self, action: #selector(handleEvents), for: .touchUpInside)
 //        button.backgroundColor = UIColor.orangeColor()
-        button.layer.cornerRadius = 5
+        button.layer.cornerRadius = 10
 //        button.layer.borderColor = UIColor.orangeColor()?.cgColor
 //        button.layer.borderWidth = 0.5
         return button
@@ -445,7 +445,7 @@ class ProfileViewController: UIViewController, TTGTextTagCollectionViewDelegate 
         button.setTitleColor(UIColor.orangeColor(), for: .normal)
 //        button.addTarget(self, action: #selector(handleCalendar), for: .touchUpInside)
 //        button.backgroundColor = UIColor.orangeColor()
-        button.layer.cornerRadius = 5
+        button.layer.cornerRadius = 10
 //        button.layer.borderColor = UIColor.orangeColor()?.cgColor
 //        button.layer.borderWidth = 0.5
         return button
@@ -462,7 +462,7 @@ class ProfileViewController: UIViewController, TTGTextTagCollectionViewDelegate 
         button.setTitleColor(UIColor.orangeColor(), for: .normal)
 //        button.addTarget(self, action: #selector(handleBookmarked), for: .touchUpInside)
 //        button.backgroundColor = UIColor.orangeColor()
-        button.layer.cornerRadius = 5
+        button.layer.cornerRadius = 10
 //        button.layer.borderColor = UIColor.orangeColor()?.cgColor
 //        button.layer.borderWidth = 0.5
         return button
@@ -474,7 +474,7 @@ class ProfileViewController: UIViewController, TTGTextTagCollectionViewDelegate 
         stackView.distribution = .fillEqually
         stackView.spacing = 0
         stackView.backgroundColor = .white
-        stackView.layer.cornerRadius = 5
+        stackView.layer.cornerRadius = 10
         stackView.layer.shadowOffset = CGSize(width: 0, height: 4)
         stackView.layer.shadowRadius = 4
         stackView.layer.shadowOpacity = 0.1
@@ -485,7 +485,7 @@ class ProfileViewController: UIViewController, TTGTextTagCollectionViewDelegate 
     let bioView: UIView = {
         let view = UIView()
         view.backgroundColor = .white
-        view.layer.cornerRadius = 5
+        view.layer.cornerRadius = 10
         view.layer.shadowOffset = CGSize(width: 0, height: 4)
         view.layer.shadowRadius = 4
         view.layer.shadowOpacity = 0.1
@@ -517,7 +517,7 @@ class ProfileViewController: UIViewController, TTGTextTagCollectionViewDelegate 
     let cusineView: UIView = {
         let view = UIView()
         view.backgroundColor = .white
-        view.layer.cornerRadius = 5
+        view.layer.cornerRadius = 10
         view.layer.shadowOffset = CGSize(width: 0, height: 4)
         view.layer.shadowRadius = 4
         view.layer.shadowOpacity = 0.1
@@ -537,7 +537,7 @@ class ProfileViewController: UIViewController, TTGTextTagCollectionViewDelegate 
     let collectionViewBG: UIView = {
         let view = UIView()
         view.backgroundColor = UIColor.white
-        view.layer.cornerRadius = 5
+        view.layer.cornerRadius = 10
         view.layer.shadowOffset = CGSize(width: 0, height: 4)
         view.layer.shadowRadius = 4
         view.layer.shadowOpacity = 0.1
@@ -548,7 +548,7 @@ class ProfileViewController: UIViewController, TTGTextTagCollectionViewDelegate 
     let menuViewBG: UIView = {
         let view = UIView()
         view.backgroundColor = UIColor.white
-        view.layer.cornerRadius = 5
+        view.layer.cornerRadius = 10
         return view
     }()
     

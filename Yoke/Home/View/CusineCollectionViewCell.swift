@@ -45,7 +45,7 @@ class CusineCollectionViewCell: UICollectionViewCell {
         let label = UILabel()
         label.textColor = UIColor.white
         label.backgroundColor = UIColor.orangeColor()
-        label.layer.cornerRadius = 2
+        label.layer.cornerRadius = 10
         label.textAlignment = .center
         return label
     }()

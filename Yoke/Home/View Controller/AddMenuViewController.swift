@@ -250,7 +250,7 @@ class AddMenuViewController: UIViewController {
     lazy var scrollView: UIScrollView = {
         let view = UIScrollView()
         view.backgroundColor = UIColor.LightGrayBg()
-        view.layer.cornerRadius = 5
+        view.layer.cornerRadius = 10
         view.layer.borderColor = UIColor.LightGrayBg()?.cgColor
         view.layer.borderWidth = 5
         view.translatesAutoresizingMaskIntoConstraints = false
@@ -264,7 +264,7 @@ class AddMenuViewController: UIViewController {
         image.contentMode = .scaleAspectFill
         image.layer.borderColor = UIColor.white.cgColor
         image.layer.borderWidth = 2
-        image.layer.cornerRadius = 5
+        image.layer.cornerRadius = 10
         image.backgroundColor = UIColor.orangeColor()
         return image
     }()
@@ -281,7 +281,7 @@ class AddMenuViewController: UIViewController {
         let text = UITextField()
         text.textColor = .darkGray
         text.attributedPlaceholder = NSAttributedString(string: " Enter dish name", attributes: [NSAttributedString.Key.foregroundColor: UIColor.lightGray])
-        text.layer.cornerRadius = 5
+        text.layer.cornerRadius = 10
         text.backgroundColor = .white
         return text
     }()
@@ -293,7 +293,7 @@ class AddMenuViewController: UIViewController {
         text.textColor = .darkGray
         text.isEditable = true
         text.isScrollEnabled = true
-        text.layer.cornerRadius = 5
+        text.layer.cornerRadius = 10
         text.textContainer.lineBreakMode = .byWordWrapping
         text.font = UIFont.systemFont(ofSize: 17)
         return text
@@ -302,7 +302,7 @@ class AddMenuViewController: UIViewController {
     let courseView: UIView = {
         let view = UIView()
         view.backgroundColor = .white
-        view.layer.cornerRadius = 5
+        view.layer.cornerRadius = 10
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
@@ -329,7 +329,7 @@ class AddMenuViewController: UIViewController {
     let fixedView: UIView = {
         let view = UIView()
         view.backgroundColor = .white
-        view.layer.cornerRadius = 5
+        view.layer.cornerRadius = 10
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
