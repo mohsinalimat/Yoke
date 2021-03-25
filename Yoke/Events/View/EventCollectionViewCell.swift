@@ -148,7 +148,7 @@ class EventCollectionViewCell: UICollectionViewCell {
     
     var locationIcon: UIImageView = {
         let image = UIImageView()
-        image.image = UIImage(named: "locationPinOrange")
+        image.image = UIImage(named: "location-pin-orange")
         return image
     }()
     
