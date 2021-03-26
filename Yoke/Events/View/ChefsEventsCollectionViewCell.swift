@@ -27,15 +27,10 @@ class ChefsEventsCollectionViewCell: UICollectionViewCell {
     
     //MARK: - Helper Funtions
     func configure() {
-        guard let event = event,
-              let start = event.startTime,
-              let end = event.endTime,
-              let date = event.date else { return }
+        guard let event = event else { return }
         let timestamp = event.timestamp.timeAgoDisplay()
         timestampLabel.text = "Posted \(timestamp) ago"
         captionLabel.text = event.caption
-        dateLabel.text = "Date: \(date)"
-        timeLabel.text = "Time: \(start) - \(end)"
     }
     
     func setupViews() {
@@ -43,24 +38,13 @@ class ChefsEventsCollectionViewCell: UICollectionViewCell {
         addSubview(cellBackgroundView)
         addSubview(timestampLabel)
         addSubview(captionLabel)
-        addSubview(dateIcon)
-        addSubview(dateLabel)
-        addSubview(timeIcon)
-        addSubview(timeLabel)
     }
     
     func setupConstraints() {
         shadowView.anchor(top: topAnchor, left: leftAnchor, bottom: bottomAnchor, right: rightAnchor, paddingTop: 10, paddingLeft: 10, paddingBottom: 10, paddingRight: 10)
         cellBackgroundView.anchor(top: topAnchor, left: leftAnchor, bottom: bottomAnchor, right: rightAnchor, paddingTop: 10, paddingLeft: 10, paddingBottom: 10, paddingRight: 10)
         timestampLabel.anchor(top: cellBackgroundView.topAnchor, left: nil, bottom: nil, right: cellBackgroundView.rightAnchor, paddingTop: 5, paddingLeft: 0, paddingBottom: 0, paddingRight: 5)
-        captionLabel.anchor(top: timestampLabel.bottomAnchor, left: cellBackgroundView.leftAnchor, bottom: nil, right: cellBackgroundView.leftAnchor, paddingTop: 5, paddingLeft: 5, paddingBottom: 0, paddingRight: 5)
-        dateIcon.anchor(top: captionLabel.bottomAnchor, left: cellBackgroundView.leftAnchor, bottom: nil, right: nil, paddingTop: 10, paddingLeft: 5, paddingBottom: 0, paddingRight: 0, width: 15, height: 15)
-        dateLabel.anchor(top: dateIcon.topAnchor, left: dateIcon.rightAnchor, bottom: nil, right: nil, paddingTop: 0, paddingLeft: 5, paddingBottom: 0, paddingRight: 0)
-        dateLabel.centerYAnchor.constraint(equalTo: dateIcon.centerYAnchor).isActive = true
-        timeIcon.anchor(top: dateIcon.bottomAnchor, left: cellBackgroundView.leftAnchor, bottom: nil, right: nil, paddingTop: 10, paddingLeft: 5, paddingBottom: 0, paddingRight: 0, width: 15, height: 15)
-        timeLabel.anchor(top: timeIcon.topAnchor, left: dateIcon.rightAnchor, bottom: nil, right: nil, paddingTop: 0, paddingLeft: 5, paddingBottom: 0, paddingRight: 0)
-        timeLabel.centerYAnchor.constraint(equalTo: timeIcon.centerYAnchor).isActive = true
-        
+        captionLabel.anchor(top: timestampLabel.bottomAnchor, left: cellBackgroundView.leftAnchor, bottom: nil, right: cellBackgroundView.rightAnchor, paddingTop: 5, paddingLeft: 5, paddingBottom: 0, paddingRight: 5)
     }
     
     //MARK: Views
@@ -90,32 +74,6 @@ class ChefsEventsCollectionViewCell: UICollectionViewCell {
         label.lineBreakMode = .byWordWrapping
         label.numberOfLines = 0
         label.textAlignment = .left
-        return label
-    }()
-    
-    var dateIcon: UIImageView = {
-        let image = UIImageView()
-        image.image = UIImage(named: "calendarOrange")
-        return image
-    }()
-    
-    var dateLabel: UILabel = {
-        let label = UILabel()
-        label.font = UIFont.boldSystemFont(ofSize: 13)
-        label.textColor = .gray
-        return label
-    }()
-    
-    var timeIcon: UIImageView = {
-        let image = UIImageView()
-        image.image = UIImage(named: "timeOrange")
-        return image
-    }()
-    
-    var timeLabel: UILabel = {
-        let label = UILabel()
-        label.font = UIFont.boldSystemFont(ofSize: 13)
-        label.textColor = .gray
         return label
     }()
 

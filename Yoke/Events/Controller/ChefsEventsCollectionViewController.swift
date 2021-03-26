@@ -92,7 +92,7 @@ class ChefsEventsCollectionViewController: UICollectionViewController, UICollect
         }
         if let captionText = EventController.shared.events[indexPath.item].caption {
             let rect = NSString(string: captionText).boundingRect(with: CGSize(width: view.frame.width, height: 1000), options: NSStringDrawingOptions.usesFontLeading.union(NSStringDrawingOptions.usesLineFragmentOrigin), attributes: [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 20)], context: nil)
-            return CGSize(width: view.frame.width, height: 25 + rect.height + 85)
+            return CGSize(width: view.frame.width, height: rect.height + 85)
         }
         return CGSize(width: view.frame.width, height: 400)
     }
