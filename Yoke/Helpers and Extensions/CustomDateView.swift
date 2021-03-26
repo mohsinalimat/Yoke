@@ -21,7 +21,6 @@ extension Date {
         
         
         if secondsAgo < minute {
-            //            return "Less then a minute"
             return "\(secondsAgo) seconds ago"
         } else if secondsAgo < hour {
             return "\(secondsAgo / minute) minutes"
@@ -32,6 +31,5 @@ extension Date {
         }
         
         return dateFormatter.string(from: date)
-        //        return "\(secondsAgo / week) weeks"
     }
 }
