@@ -39,22 +39,18 @@ class SearchViewController: UIViewController {
         super.viewDidLoad()
         fetchUsers()
         setupSearch()
-        setupNavigationAndBarButtons()
         dismissKeyboardOnTap()
     }
     
     //MARK: - Helper Functions
     func setupViews() {
-        view.backgroundColor = UIColor.LightGrayBg()
+//        view.backgroundColor = UIColor.LightGrayBg()
         tableView.backgroundColor = UIColor.LightGrayBg()
-//        view.addSubview(searchBar)
         view.addSubview(tableView)
     }
     
     func constrainViews() {
-//        searchBar.anchor(top: safeArea.topAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, height: 45)
-        tableView.anchor(top: safeArea.topAnchor, left: safeArea.leftAnchor, bottom: safeArea.bottomAnchor, right: safeArea.rightAnchor, paddingTop: 0, paddingLeft: 8, paddingBottom: 0, paddingRight: 0)
-
+        tableView.anchor(top: safeArea.topAnchor, left: safeArea.leftAnchor, bottom: safeArea.bottomAnchor, right: safeArea.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0)
     }
     
     func configureNavigationBar() {
@@ -71,14 +67,6 @@ class SearchViewController: UIViewController {
         tableView.separatorStyle = .none
     }
     
-    func setupNavigationAndBarButtons() {
-//        navigationItem.title = "Search"
-//        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .search, target: self, action: #selector(handleShowFilter))
-//        navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .close, target: self, action: #selector(handleClear))
-//        self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for: UIBarMetrics.default)
-//        self.navigationController?.navigationBar.isTranslucent = false
-    }
-    
     func dismissKeyboardOnTap() {
         let tap = UITapGestureRecognizer(target: self.view, action: #selector(UIView.endEditing(_:)))
         tap.cancelsTouchesInView = false
@@ -92,18 +80,15 @@ class SearchViewController: UIViewController {
         searchController.searchBar.delegate = self
         searchController.hidesNavigationBarDuringPresentation = false
         searchController.obscuresBackgroundDuringPresentation = false
-        searchController.searchBar.placeholder = "Search for tools and resources"
         searchController.searchBar.sizeToFit()
-        
         guard let orange = UIColor.orangeColor() else { return }
         searchController.searchBar.tintColor = orange
         searchController.searchBar.barTintColor = orange
         searchController.searchBar.setImage(UIImage(named: "searchOrange"), for: UISearchBar.Icon.search, state: .normal)
         searchController.searchBar.setImage(UIImage(named: "clearOrangeFill"), for: UISearchBar.Icon.clear, state: .normal)
         UITextField.appearance(whenContainedInInstancesOf: [UISearchBar.self]).defaultTextAttributes = [NSAttributedString.Key.foregroundColor: orange]
-        UITextField.appearance(whenContainedInInstancesOf: [UISearchBar.self]).attributedPlaceholder = NSAttributedString(string: "Search key words", attributes: [NSAttributedString.Key.foregroundColor: UIColor.gray])
+        UITextField.appearance(whenContainedInInstancesOf: [UISearchBar.self]).attributedPlaceholder = NSAttributedString(string: "Search by name or location", attributes: [NSAttributedString.Key.foregroundColor: UIColor.gray])
         searchController.searchBar.becomeFirstResponder()
-        
         navigationItem.titleView = searchController.searchBar
     }
     
