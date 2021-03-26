@@ -243,6 +243,12 @@ class HomeViewController: UIViewController {
         navigationController?.pushViewController(reviewsVC, animated: true)
     }
     
+    @objc func viewEvents() {
+        let eventsVC = ChefsEventsCollectionViewController(collectionViewLayout: UICollectionViewFlowLayout())
+        eventsVC.userId = userId
+        navigationController?.pushViewController(eventsVC, animated: true)
+    }
+    
     @objc func handleSettings() {
         let editProfile = SettingsViewController()
         present(editProfile, animated: true)
@@ -361,7 +367,7 @@ class HomeViewController: UIViewController {
         button.setTitle("Events", for: .normal)
         button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 10)
         button.setTitleColor(UIColor.orangeColor(), for: .normal)
-//        button.addTarget(self, action: #selector(handleEvents), for: .touchUpInside)
+        button.addTarget(self, action: #selector(viewEvents), for: .touchUpInside)
 //        button.backgroundColor = UIColor.orangeColor()
         button.layer.cornerRadius = 10
 //        button.layer.borderColor = UIColor.orangeColor()?.cgColor

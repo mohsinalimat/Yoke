@@ -45,7 +45,7 @@ class EventController {
     }
     
     func fetchEventWith(uid: String, completion: @escaping (Bool) -> Void) {
-        firestoreDB.document(uid).collection(Constants.Event).addSnapshotListener { (snap, error) in
+        firestoreDB.whereField(Constants.Uid, isEqualTo: uid).addSnapshotListener { (snap, error) in
             if let error = error {
                 print(error.localizedDescription)
                 completion(false)
