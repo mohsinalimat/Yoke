@@ -57,7 +57,7 @@ class SearchTableViewCell: UITableViewCell {
         profileImage.anchor(top: nil, left: cellBackgroundView.leftAnchor, bottom: nil, right: nil, paddingTop: 0, paddingLeft: 5, paddingBottom: 0, paddingRight: 0, width: 80, height: 80)
         profileImage.layer.cornerRadius = 40
         profileImage.centerYAnchor.constraint(equalTo: cellBackgroundView.centerYAnchor).isActive = true
-        usernameLabel.anchor(top: cellBackgroundView.topAnchor, left: profileImage.rightAnchor, bottom: nil, right: cellBackgroundView.rightAnchor, paddingTop: 10, paddingLeft: 5, paddingBottom: 0, paddingRight: 0)
+        usernameLabel.anchor(top: cellBackgroundView.topAnchor, left: profileImage.rightAnchor, bottom: nil, right: cellBackgroundView.rightAnchor, paddingTop: 15, paddingLeft: 5, paddingBottom: 0, paddingRight: 0)
         ratingView.anchor(top: usernameLabel.bottomAnchor, left: profileImage.rightAnchor, bottom: nil, right: nil, paddingTop: 5, paddingLeft: 5, paddingBottom: 0, paddingRight: 0, width: 70, height: 15)
         reviewCountLabel.anchor(top: ratingView.topAnchor, left: ratingView.rightAnchor, bottom: nil, right: nil, paddingTop: 0, paddingLeft: 5, paddingBottom: 0, paddingRight: 0)
         locationLabel.anchor(top: ratingView.bottomAnchor, left: profileImage.rightAnchor, bottom: nil, right: cellBackgroundView.rightAnchor, paddingTop: 5, paddingLeft: 5, paddingBottom: 0, paddingRight: 0)
@@ -115,7 +115,7 @@ class SearchTableViewCell: UITableViewCell {
     let usernameLabel: UILabel = {
         let label = UILabel()
         label.textColor = .gray
-        label.font = UIFont.boldSystemFont(ofSize: 20)
+        label.font = UIFont.boldSystemFont(ofSize: 17)
         return label
     }()
     

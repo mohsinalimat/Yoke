@@ -70,7 +70,7 @@ class ChefsEventsCollectionViewCell: UICollectionViewCell {
     let captionLabel: UILabel = {
         let label = UILabel()
         label.textColor = UIColor.gray
-        label.font = UIFont.boldSystemFont(ofSize: 20)
+        label.font = UIFont.boldSystemFont(ofSize: 17)
         label.lineBreakMode = .byWordWrapping
         label.numberOfLines = 0
         label.textAlignment = .left
