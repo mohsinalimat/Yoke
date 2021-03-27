@@ -11,13 +11,13 @@ import FirebaseFirestore
 import FirebaseStorage
 import FirebaseAuth
 
-class SearchViewController: UIViewController {
+class SearchViewController: UITableViewController {
 
     //MARK: - Properties
     var safeArea: UILayoutGuide {
         return self.view.safeAreaLayoutGuide
     }
-    let tableView = UITableView()
+//    let tableView = UITableView()
     var searchController = UISearchController()
     let firestoreDB = Firestore.firestore()
     var getLocation: String = ""
@@ -26,7 +26,7 @@ class SearchViewController: UIViewController {
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         setupViews()
-        constrainViews()
+//        constrainViews()
         setupTableView()
     }
     
@@ -46,12 +46,12 @@ class SearchViewController: UIViewController {
     func setupViews() {
 //        view.backgroundColor = UIColor.LightGrayBg()
         tableView.backgroundColor = UIColor.LightGrayBg()
-        view.addSubview(tableView)
+        
     }
     
-    func constrainViews() {
-        tableView.anchor(top: safeArea.topAnchor, left: safeArea.leftAnchor, bottom: safeArea.bottomAnchor, right: safeArea.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0)
-    }
+//    func constrainViews() {
+//        tableView.anchor(top: safeArea.topAnchor, left: safeArea.leftAnchor, bottom: safeArea.bottomAnchor, right: safeArea.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0)
+//    }
     
     func configureNavigationBar() {
         guard let orange = UIColor.orangeColor() else { return }
@@ -81,6 +81,7 @@ class SearchViewController: UIViewController {
         searchController.hidesNavigationBarDuringPresentation = false
         searchController.obscuresBackgroundDuringPresentation = false
         searchController.searchBar.sizeToFit()
+        
         guard let orange = UIColor.orangeColor() else { return }
         searchController.searchBar.tintColor = orange
         searchController.searchBar.barTintColor = orange
@@ -89,6 +90,7 @@ class SearchViewController: UIViewController {
         UITextField.appearance(whenContainedInInstancesOf: [UISearchBar.self]).defaultTextAttributes = [NSAttributedString.Key.foregroundColor: orange]
         UITextField.appearance(whenContainedInInstancesOf: [UISearchBar.self]).attributedPlaceholder = NSAttributedString(string: "Search by name or location", attributes: [NSAttributedString.Key.foregroundColor: UIColor.gray])
         searchController.searchBar.becomeFirstResponder()
+        
         navigationItem.titleView = searchController.searchBar
     }
     
@@ -105,29 +107,40 @@ class SearchViewController: UIViewController {
     }
     
     //MARK: - Selectors
-//    @objc func handleClear() {
-//        UserController.shared.filteredUsers = UserController.shared.users
-//        tableView.reloadData()
-//    }
-    
     @objc func handleShowFilter() {
-//        let filterVC = UserFilterViewController()
-//        filterVC.delegate = self
-//        let rootVC = UINavigationController(rootViewController: filterVC)
-//        present(rootVC, animated: true)
+        
     }
     
-    //MARK: - Views
-//    var searchBar: UISearchBar = {
-//        let search = UISearchBar()
-//        search.placeholder = "Search by name or location"
-//        search.searchTextField.textColor = UIColor.white
-//        search.searchTextField.backgroundColor = UIColor.white
-//        search.tintColor = UIColor.white
-//        search.backgroundColor = UIColor.white
-//        search.barTintColor = UIColor.white
-//        return search
-//    }()
+    
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return UserController.shared.filteredUsers.count
+    }
+    
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as? SearchTableViewCell else { return UITableViewCell() }
+        let user = UserController.shared.filteredUsers[indexPath.row]
+        cell.backgroundColor = UIColor.LightGrayBg()
+        cell.selectionStyle = .none
+        cell.user = user
+        return cell
+    }
+    
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let user = UserController.shared.filteredUsers[indexPath.row]
+        print(user.username)
+    }
+    
+//    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+//        print("selected")
+////        let user = UserController.shared.filteredUsers[indexPath.row]
+////        let userProfileVC = ProfileViewController()
+////        userProfileVC.userId = user.uid
+////        navigationController?.pushViewController(userProfileVC, animated: true)
+//    }
+    
+    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 120
+    }
 }
 extension SearchViewController: UISearchResultsUpdating, UISearchControllerDelegate, UISearchBarDelegate {
     
@@ -149,71 +162,31 @@ extension SearchViewController: UISearchResultsUpdating, UISearchControllerDeleg
     }
 }
 
-extension SearchViewController: UITableViewDataSource, UITableViewDelegate {
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        print("search count \(UserController.shared.filteredUsers.count)")
-        return UserController.shared.filteredUsers.count
-    }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as? SearchTableViewCell else { return UITableViewCell() }
-        let user = UserController.shared.filteredUsers[indexPath.row]
-        cell.backgroundColor = UIColor.LightGrayBg()
-        cell.selectionStyle = .none
-        cell.user = user
-        return cell
-    }
-    
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let user = UserController.shared.filteredUsers[indexPath.row]
-        let userProfileVC = ProfileViewController()
-        userProfileVC.userId = user.uid
-        navigationController?.pushViewController(userProfileVC, animated: true)
-    }
-    
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 120
-    }
-}
-
-//extension SearchViewController: UISearchBarDelegate {
+//extension SearchViewController: UITableViewDataSource, UITableViewDelegate {
 //
-//    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-//
-//        if searchText.isEmpty {
-//            UserController.shared.filteredUsers = UserController.shared.users
-//        } else {
-//            UserController.shared.filteredUsers = UserController.shared.users.filter { (user) -> Bool in
-//                guard let username = user.username,
-//                      let location = user.location else { return false }
-//                return username.lowercased().contains(searchText.lowercased()) || location.lowercased().contains(searchText.lowercased())
-//            }
-//        }
-//        DispatchQueue.main.async {
-//            self.tableView.reloadData()
-//        }
+//    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+//        return UserController.shared.filteredUsers.count
 //    }
 //
-//    func setupSearch() {
-//        navigationItem.searchController = searchController
-//        searchController.searchResultsUpdater = self
-//        searchController.delegate = self
-//        searchController.searchBar.delegate = self
-//        searchController.hidesNavigationBarDuringPresentation = false
-//        searchController.obscuresBackgroundDuringPresentation = false
-//        searchController.searchBar.placeholder = "Search for tools and resources"
-//        searchController.searchBar.sizeToFit()
+//    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+//        guard let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as? SearchTableViewCell else { return UITableViewCell() }
+//        let user = UserController.shared.filteredUsers[indexPath.row]
+//        cell.backgroundColor = UIColor.LightGrayBg()
+//        cell.selectionStyle = .none
+//        cell.user = user
+//        return cell
+//    }
 //
-//        guard let orange = UIColor.orangeColor() else { return }
-//        searchController.searchBar.tintColor = orange
-//        searchController.searchBar.barTintColor = orange
-//        searchController.searchBar.setImage(UIImage(named: "searchOrange"), for: UISearchBar.Icon.search, state: .normal)
-//        searchController.searchBar.setImage(UIImage(named: "clearOrangeFill"), for: UISearchBar.Icon.clear, state: .normal)
-//        UITextField.appearance(whenContainedInInstancesOf: [UISearchBar.self]).defaultTextAttributes = [NSAttributedString.Key.foregroundColor: orange]
-//        UITextField.appearance(whenContainedInInstancesOf: [UISearchBar.self]).attributedPlaceholder = NSAttributedString(string: "Search key words", attributes: [NSAttributedString.Key.foregroundColor: UIColor.gray])
-//        searchController.searchBar.becomeFirstResponder()
+//    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+//        print("selected")
+//        let user = UserController.shared.filteredUsers[indexPath.row]
+//        let userProfileVC = ProfileViewController()
+//        userProfileVC.userId = user.uid
+//        navigationController?.pushViewController(userProfileVC, animated: true)
+//    }
 //
-//        navigationItem.titleView = searchController.searchBar
+//    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+//        return 120
 //    }
 //}
 

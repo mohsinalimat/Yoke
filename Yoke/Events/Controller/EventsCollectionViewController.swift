@@ -44,7 +44,6 @@ class EventsCollectionViewController: UICollectionViewController, UICollectionVi
         searchController.searchBar.delegate = self
         searchController.hidesNavigationBarDuringPresentation = false
         searchController.obscuresBackgroundDuringPresentation = false
-        searchController.searchBar.placeholder = "Search for tools and resources"
         searchController.searchBar.sizeToFit()
         
         guard let orange = UIColor.orangeColor() else { return }
@@ -108,7 +107,7 @@ class EventsCollectionViewController: UICollectionViewController, UICollectionVi
 
     // MARK: UICollectionViewDelegate
     override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-//        return
+        print("selected")
     }
     
     // MARK: UICollectionViewDelegateFlowLayout
