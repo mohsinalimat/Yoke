@@ -94,13 +94,12 @@ class HomeViewController: UIViewController {
         profileImageView.anchor(top: scrollView.topAnchor, left: safeArea.leftAnchor, bottom: nil, right: nil, paddingTop: 30, paddingLeft: 15, paddingBottom: 0, paddingRight: 0, width: 150, height: 150)
         profileImageView.layer.cornerRadius = 150 / 2
         
-        usernameLabel.anchor(top: profileImageView.topAnchor, left: profileImageView.rightAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 50, paddingLeft: 5, paddingBottom: 0, paddingRight: 15)
-        viewProfileButton.anchor(top: usernameLabel.bottomAnchor, left: usernameLabel.leftAnchor, bottom: nil, right: nil, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0)
+        usernameLabel.anchor(top: profileImageView.topAnchor, left: profileImageView.rightAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 50, paddingLeft: 5, paddingBottom: 0, paddingRight: 5)
+        viewProfileButton.anchor(top: usernameLabel.bottomAnchor, left: usernameLabel.leftAnchor, bottom: nil, right: nil, paddingTop: 5, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 110, height: 35)
 
         reviewsButton.alignImageTextVertical()
         eventButton.alignImageTextVertical()
         bookmarkButton.alignImageTextVertical()
-//        addPhotosButton.alignImageTextVertical()
         calendarButton.alignImageTextVertical()
 
         buttonStackView.anchor(top: bannerImageView.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: -30, paddingLeft: 15, paddingBottom: 0, paddingRight: 15, width: 0, height: 60)
@@ -311,7 +310,7 @@ class HomeViewController: UIViewController {
         view.backgroundColor = .white
         view.layer.shadowOffset = CGSize(width: 0, height: 4)
         view.layer.shadowRadius = 4
-        view.layer.shadowOpacity = 0.1
+        view.layer.shadowOpacity = 0.2
         view.layer.shadowColor = UIColor.black.cgColor
         return view
     }()
@@ -330,12 +329,10 @@ class HomeViewController: UIViewController {
     let usernameLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.boldSystemFont(ofSize: 24)
-        label.textColor = UIColor.white
+        label.textColor = UIColor.orangeColor()
+        label.lineBreakMode = .byWordWrapping
+        label.numberOfLines = 0
         label.textAlignment = .left
-        label.layer.shadowOffset = CGSize(width: 0, height: 4)
-        label.layer.shadowRadius = 4
-        label.layer.shadowOpacity = 0.4
-        label.layer.shadowColor = UIColor.black.cgColor
         return label
     }()
     
@@ -344,11 +341,13 @@ class HomeViewController: UIViewController {
         button.setTitle("View Profile", for: .normal)
         button.titleLabel?.font = UIFont.systemFont(ofSize: 18)
         button.setTitleColor(UIColor.white, for: .normal)
-        button.contentHorizontalAlignment = UIControl.ContentHorizontalAlignment.left
+//        button.contentHorizontalAlignment = UIControl.ContentHorizontalAlignment.left
+        button.backgroundColor = UIColor.orangeColor()
+        button.layer.cornerRadius = 10
         button.layer.shadowOffset = CGSize(width: 0, height: 4)
         button.layer.shadowRadius = 4
-        button.layer.shadowOpacity = 0.4
-        button.layer.shadowColor = UIColor.black.cgColor
+        button.layer.shadowOpacity = 0.2
+        button.layer.shadowColor = UIColor.gray.cgColor
         button.addTarget(self, action: #selector(handleViewProfile), for: .touchUpInside)
         return button
     }()
