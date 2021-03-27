@@ -60,6 +60,7 @@ class HomeViewController: UIViewController {
 //        blurredEffectView.frame = bannerImageView.bounds
 //        blurredEffectView.alpha = 0.1
 //        bannerLayerImageView.addSubview(blurredEffectView)
+        scrollView.addSubview(profileImageShadowView)
         scrollView.addSubview(profileImageView)
         scrollView.addSubview(usernameLabel)
         scrollView.addSubview(viewProfileButton)
@@ -88,6 +89,8 @@ class HomeViewController: UIViewController {
 
         bannerLayerImageView.anchor(top: scrollView.topAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, height: 230)
         bannerImageView.anchor(top: scrollView.topAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, height: 230)
+        profileImageShadowView.anchor(top: scrollView.topAnchor, left: safeArea.leftAnchor, bottom: nil, right: nil, paddingTop: 30, paddingLeft: 15, paddingBottom: 0, paddingRight: 0, width: 150, height: 150)
+        profileImageShadowView.layer.cornerRadius = 150 / 2
         profileImageView.anchor(top: scrollView.topAnchor, left: safeArea.leftAnchor, bottom: nil, right: nil, paddingTop: 30, paddingLeft: 15, paddingBottom: 0, paddingRight: 0, width: 150, height: 150)
         profileImageView.layer.cornerRadius = 150 / 2
         
@@ -189,12 +192,12 @@ class HomeViewController: UIViewController {
                     self.profileImageView.image = UIImage(data: data)
                 }
             }
-            let bannerStorageRef = Storage.storage().reference().child("profileBannerUrl/\(uid)")
-            bannerStorageRef.getData(maxSize: 2 * 1024 * 1024) { data, error in
-                if error == nil, let data = data {
-                    self.bannerImageView.image = UIImage(data: data)
-                }
-            }
+//            let bannerStorageRef = Storage.storage().reference().child("profileBannerUrl/\(uid)")
+//            bannerStorageRef.getData(maxSize: 2 * 1024 * 1024) { data, error in
+//                if error == nil, let data = data {
+//                    self.bannerImageView.image = UIImage(data: data)
+//                }
+//            }
         }
     }
     
@@ -288,17 +291,29 @@ class HomeViewController: UIViewController {
     
     let bannerLayerImageView: UIView = {
         let view = UIView()
-        view.backgroundColor = UIColor.black.withAlphaComponent(0.4)
+//        view.backgroundColor = UIColor.black.withAlphaComponent(0.4)
+        view.backgroundColor = UIColor.LightGrayBg()
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
     
     let bannerImageView: CustomImageView = {
         let image = CustomImageView()
-        image.image = UIImage(named: "image_background")
+//        image.image = UIImage(named: "image_background")
+        image.backgroundColor = UIColor.LightGrayBg()
         image.clipsToBounds = true
         image.contentMode = .scaleAspectFill
         return image
+    }()
+    
+    let profileImageShadowView: UIView = {
+        let view = UIView()
+        view.backgroundColor = .white
+        view.layer.shadowOffset = CGSize(width: 0, height: 4)
+        view.layer.shadowRadius = 4
+        view.layer.shadowOpacity = 0.1
+        view.layer.shadowColor = UIColor.black.cgColor
+        return view
     }()
     
     let profileImageView: CustomImageView = {
@@ -307,9 +322,8 @@ class HomeViewController: UIViewController {
         image.contentMode = .scaleAspectFill
         image.layer.borderColor = UIColor.white.cgColor
         image.image = UIImage(named: "person.crop.circle.fill")
-        image.tintColor = UIColor.orangeColor()
         image.backgroundColor = .white
-        image.layer.borderWidth = 2
+//        image.layer.borderWidth = 2
         return image
     }()
 
