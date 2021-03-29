@@ -40,6 +40,19 @@ class EventDetailViewController: UIViewController {
         view.backgroundColor = UIColor.LightGrayBg()
         view.addSubview(swipeIndicator)
         view.addSubview(scrollView)
+        view.addSubview(profileImage)
+        view.addSubview(usernameLabel)
+        view.addSubview(timestampLabel)
+        view.addSubview(imageShadowView)
+        view.addSubview(eventImage)
+        view.addSubview(captionLabel)
+        view.addSubview(descriptionLabel)
+        view.addSubview(locationIcon)
+        view.addSubview(locationLabel)
+        view.addSubview(dateIcon)
+        view.addSubview(dateLabel)
+        view.addSubview(timeIcon)
+        view.addSubview(timeLabel)
     }
     
     func constrainViews() {
@@ -47,15 +60,44 @@ class EventDetailViewController: UIViewController {
         swipeIndicator.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         scrollView.contentSize = CGSize(width: view.frame.width, height: view.frame.height)
         scrollView.anchor(top: swipeIndicator.bottomAnchor, left: safeArea.leftAnchor, bottom: safeArea.bottomAnchor, right: safeArea.rightAnchor, paddingTop: 10, paddingLeft: 0, paddingBottom: 0, paddingRight: 0)
+        profileImage.anchor(top: scrollView.topAnchor, left: safeArea.leftAnchor, bottom: nil, right: nil, paddingTop: 5, paddingLeft: 5, paddingBottom: 0, paddingRight: 0, width: 50, height: 50)
+        usernameLabel.anchor(top: scrollView.topAnchor, left: profileImage.rightAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 15, paddingLeft: 5, paddingBottom: 0, paddingRight: 0)
+        timestampLabel.anchor(top: usernameLabel.bottomAnchor, left: usernameLabel.leftAnchor, bottom: nil, right: nil, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0)
+        imageShadowView.anchor(top: profileImage.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 10, paddingLeft: 5, paddingBottom: 0, paddingRight: 5, height: view.frame.width)
+        eventImage.anchor(top: profileImage.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 10, paddingLeft: 5, paddingBottom: 0, paddingRight: 5, height: view.frame.width)
+        captionLabel.anchor(top: eventImage.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 10, paddingLeft: 5, paddingBottom: 0, paddingRight: 5)
+        descriptionLabel.anchor(top: captionLabel.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 10, paddingLeft: 5, paddingBottom: 0, paddingRight: 5)
+        locationIcon.anchor(top: descriptionLabel.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: nil, paddingTop: 10, paddingLeft: 5, paddingBottom: 0, paddingRight: 0, width: 15, height: 18)
+        locationLabel.anchor(top: nil, left: locationIcon.rightAnchor, bottom: nil, right: nil, paddingTop: 0, paddingLeft: 5, paddingBottom: 0, paddingRight: 0)
+        locationLabel.centerYAnchor.constraint(equalTo: locationIcon.centerYAnchor).isActive = true
+        dateIcon.anchor(top: locationIcon.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: nil, paddingTop: 10, paddingLeft: 5, paddingBottom: 0, paddingRight: 0, width: 15, height: 15)
+        dateLabel.anchor(top: dateIcon.topAnchor, left: dateIcon.rightAnchor, bottom: nil, right: nil, paddingTop: 0, paddingLeft: 5, paddingBottom: 0, paddingRight: 0)
+        dateLabel.centerYAnchor.constraint(equalTo: dateIcon.centerYAnchor).isActive = true
+        timeIcon.anchor(top: dateIcon.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: nil, paddingTop: 10, paddingLeft: 5, paddingBottom: 0, paddingRight: 0, width: 15, height: 15)
+        timeLabel.anchor(top: timeIcon.topAnchor, left: dateIcon.rightAnchor, bottom: nil, right: nil, paddingTop: 0, paddingLeft: 5, paddingBottom: 0, paddingRight: 0)
+        timeLabel.centerYAnchor.constraint(equalTo: timeIcon.centerYAnchor).isActive = true
 
     }
     
     func fetchEvent() {
         let uid = userId ?? (Auth.auth().currentUser?.uid ?? "")
         UserController.shared.fetchUserWithUID(uid: uid) { (user) in
-            guard let event = self.event else { return }
-            print(user.uid)
-            print(event.caption)
+            guard let event = self.event,
+                  let start = event.startTime,
+                  let end = event.endTime,
+                  let eventImg = event.eventImageUrl,
+                  let image = user.profileImageUrl,
+                        let username = user.username else { return }
+            self.profileImage.loadImage(urlString: image)
+            self.usernameLabel.text = "Posted by: \(username)"
+            let timestamp = event.timestamp.timeAgoDisplay()
+            self.timestampLabel.text = "\(timestamp)"
+            self.eventImage.loadImage(urlString: eventImg)
+            self.captionLabel.text = event.caption
+            self.descriptionLabel.text = event.detail
+            self.locationLabel.text = "453 12th street, Brooklyn NY"
+            self.dateLabel.text = event.date
+            self.timeLabel.text = "\(start) - \(end)"
         }
     }
     
@@ -130,6 +172,16 @@ class EventDetailViewController: UIViewController {
         return label
     }()
     
+    let descriptionLabel: UILabel = {
+        let label = UILabel()
+        label.textColor = UIColor.gray
+        label.font = UIFont.systemFont(ofSize: 17)
+        label.lineBreakMode = .byWordWrapping
+        label.numberOfLines = 0
+        label.textAlignment = .left
+        return label
+    }()
+    
     var locationIcon: UIImageView = {
         let image = UIImageView()
         image.image = UIImage(named: "location-pin-orange")
@@ -167,21 +219,5 @@ class EventDetailViewController: UIViewController {
         label.font = UIFont.boldSystemFont(ofSize: 13)
         label.textColor = .gray
         return label
-    }()
-    
-    let moreShadowView: UIView = {
-        let view = UIView()
-        view.backgroundColor = .white
-        view.layer.shadowOffset = CGSize(width: 0, height: 4)
-        view.layer.shadowRadius = 4
-        view.layer.shadowOpacity = 0.5
-        view.layer.shadowColor = UIColor.gray.cgColor
-        return view
-    }()
-    
-    var moreIcon: UIImageView = {
-        let image = UIImageView()
-        image.image = UIImage(named: "arrow-right-circle-fill")
-        return image
     }()
 }
