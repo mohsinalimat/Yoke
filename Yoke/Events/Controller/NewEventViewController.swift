@@ -22,6 +22,8 @@ class NewEventViewController: UIViewController {
     var eventDate: String = ""
     var startTime: String = ""
     var endTime: String = ""
+    var rsvp: Bool = false
+    var contact: Bool = false
     var event: Event? {
         didSet {
             fetchEvent()
@@ -60,6 +62,10 @@ class NewEventViewController: UIViewController {
         scrollView.addSubview(timeStackView)
         timeStackView.addArrangedSubview(startTimePickerView)
         timeStackView.addArrangedSubview(endTimePickerView)
+        scrollView.addSubview(rsvpLabel)
+        scrollView.addSubview(rsvpSwitch)
+        scrollView.addSubview(contactLabel)
+        scrollView.addSubview(contactSwitch)
         view.addSubview(myActivityIndicator)
     }
     
@@ -70,7 +76,7 @@ class NewEventViewController: UIViewController {
         deleteButton.anchor(top: swipeIndicator.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: nil, paddingTop: 15, paddingLeft: 20, paddingBottom: 0, paddingRight: 0)
         eventLabel.anchor(top: swipeIndicator.bottomAnchor, left: nil, bottom: nil, right: nil, paddingTop: 20, paddingLeft: 0, paddingBottom: 0, paddingRight: 0)
         eventLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        scrollView.contentSize = CGSize(width: view.frame.width, height: view.frame.height + 250)
+        scrollView.contentSize = CGSize(width: view.frame.width, height: view.frame.height + 350)
         scrollView.anchor(top: eventLabel.bottomAnchor, left: safeArea.leftAnchor, bottom: safeArea.bottomAnchor, right: safeArea.rightAnchor, paddingTop: 20, paddingLeft: 0, paddingBottom: 0, paddingRight: 0)
         eventImageView.anchor(top: scrollView.topAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 20, paddingLeft: 8, paddingBottom: 0, paddingRight: 8, width: view.frame.width / 2, height: 300)
         eventAddImageButton.anchor(top: scrollView.topAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 20, paddingLeft: 8, paddingBottom: 0, paddingRight: 8, width: view.frame.width / 2, height: 300)
@@ -81,7 +87,13 @@ class NewEventViewController: UIViewController {
         timePickerViewBG.anchor(top: timeLabelStackView.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: -10, paddingLeft: 10, paddingBottom: 0, paddingRight: 10, height: 50)
         timeStackView.anchor(top: timeLabelStackView.bottomAnchor, left: nil, bottom: nil, right: nil, paddingTop: -10, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 260, height: 50)
         timeStackView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        rsvpLabel.anchor(top: timeStackView.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: nil, paddingTop: 20, paddingLeft: 10, paddingBottom: 0, paddingRight: 0)
+        rsvpSwitch.anchor(top: nil, left: nil, bottom: nil, right: safeArea.rightAnchor, paddingTop: 10, paddingLeft: 0, paddingBottom: 0, paddingRight: 10)
+        rsvpSwitch.centerYAnchor.constraint(equalTo: rsvpLabel.centerYAnchor).isActive = true
         
+        contactLabel.anchor(top: rsvpLabel.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: nil, paddingTop: 20, paddingLeft: 10, paddingBottom: 0, paddingRight: 0)
+        contactSwitch.anchor(top: nil, left: nil, bottom: nil, right: safeArea.rightAnchor, paddingTop: 10, paddingLeft: 0, paddingBottom: 0, paddingRight: 10)
+        contactSwitch.centerYAnchor.constraint(equalTo: contactLabel.centerYAnchor).isActive = true
  
         myActivityIndicator.center = view.center
     }
@@ -152,7 +164,7 @@ class NewEventViewController: UIViewController {
 //                }
 //            }
         } else {
-            EventController.shared.createEventWith(uid: uid, image: image, caption: caption, detailText: detail, date: eventDate, startTime: startTime, endTime: endTime, location: "") { (result) in
+            EventController.shared.createEventWith(uid: uid, image: image, caption: caption, detailText: detail, date: eventDate, startTime: startTime, endTime: endTime, location: "", allowsRSVP: contact, allowsContact: rsvp) { (result) in
                 switch result {
                     case true:
                         self.myActivityIndicator.stopAnimating()
@@ -211,6 +223,22 @@ class NewEventViewController: UIViewController {
     
     @objc func handleDismiss() {
         dismiss(animated: true, completion: nil)
+    }
+    
+    @objc func rsvpSwitch(rsvpSwitchChanged: UISwitch) {
+        if rsvpSwitch.isOn {
+            rsvp = true
+        } else {
+            rsvp = false
+        }
+    }
+    
+    @objc func contactSwitch(contactSwitchChanged: UISwitch) {
+        if contactSwitch.isOn {
+            contact = true
+        } else {
+            contact = false
+        }
     }
     
     //MARK: - Views
@@ -401,6 +429,40 @@ class NewEventViewController: UIViewController {
         datePicker.tintColor = UIColor.white
         datePicker.addTarget(self, action: #selector(handleDateSelection), for: .valueChanged)
         return datePicker
+    }()
+    
+    var rsvpLabel: UILabel = {
+        let label = UILabel()
+        label.text = "Allows RSVP?"
+        label.font = UIFont.boldSystemFont(ofSize: 17)
+        label.textColor = .gray
+        label.textAlignment = .center
+        return label
+    }()
+    
+    var rsvpSwitch: UISwitch = {
+        let switchBool = UISwitch()
+        switchBool.onTintColor = UIColor.orangeColor()
+        switchBool.setOn(false, animated: true)
+        switchBool.addTarget(self, action: #selector(rsvpSwitch(rsvpSwitchChanged:)), for: UIControl.Event.valueChanged)
+        return switchBool
+    }()
+    
+    var contactLabel: UILabel = {
+        let label = UILabel()
+        label.text = "Allows Contact?"
+        label.font = UIFont.boldSystemFont(ofSize: 17)
+        label.textColor = .gray
+        label.textAlignment = .center
+        return label
+    }()
+    
+    var contactSwitch: UISwitch = {
+        let switchBool = UISwitch()
+        switchBool.onTintColor = UIColor.orangeColor()
+        switchBool.setOn(false, animated: true)
+        switchBool.addTarget(self, action: #selector(contactSwitch(contactSwitchChanged:)), for: UIControl.Event.valueChanged)
+        return switchBool
     }()
 
 }

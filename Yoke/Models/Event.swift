@@ -20,6 +20,8 @@ class Event {
     var endTime: String?
     var location: String?
     var timestamp: Date
+    var allowsRSVP: Bool?
+    var allowsContact: Bool?
 
     init(dictionary: [String: Any]) {
         self.uid = dictionary[Constants.Uid] as? String ?? ""
@@ -33,6 +35,8 @@ class Event {
         self.location = dictionary[Constants.Location] as? String ?? ""
         let secondsFrom1970 = dictionary[Constants.Timestamp] as? Double ?? 0
         self.timestamp = Date(timeIntervalSince1970: secondsFrom1970)
+        self.allowsRSVP = dictionary[Constants.AllowsRSVP] as? Bool ?? false
+        self.allowsContact = dictionary[Constants.AllowsContact] as? Bool ?? false
     }
 }
 

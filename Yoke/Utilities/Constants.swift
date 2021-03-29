@@ -35,6 +35,8 @@ class Constants {
     static let ImageId = "imageId"
     static let Date = "date"
     static let Time = "time"
+    static let AllowsRSVP = "allowsRSVP"
+    static let AllowsContact = "allowsContact"
     
     static let SharedPhotos = "shared_photos"
     static let MessageMovies = "message_movies"
