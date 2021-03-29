@@ -38,24 +38,25 @@ class EventsCollectionViewController: UICollectionViewController, UICollectionVi
     }
     
     func setupSearch() {
-        navigationItem.searchController = searchController
+        let searchController = UISearchController(searchResultsController: nil)
         searchController.searchResultsUpdater = self
-        searchController.delegate = self
-        searchController.searchBar.delegate = self
-        searchController.hidesNavigationBarDuringPresentation = false
+        searchController.searchBar.autocapitalizationType = .none
         searchController.obscuresBackgroundDuringPresentation = false
-        searchController.searchBar.sizeToFit()
-        
+        searchController.searchBar.delegate = self
+
+        navigationItem.searchController = searchController
+        navigationItem.hidesSearchBarWhenScrolling = false
+        navigationController?.view.setNeedsLayout()
+        navigationController?.view.layoutIfNeeded()
+
         guard let orange = UIColor.orangeColor() else { return }
         searchController.searchBar.tintColor = orange
         searchController.searchBar.barTintColor = orange
         searchController.searchBar.setImage(UIImage(named: "searchOrange"), for: UISearchBar.Icon.search, state: .normal)
         searchController.searchBar.setImage(UIImage(named: "clearOrangeFill"), for: UISearchBar.Icon.clear, state: .normal)
         UITextField.appearance(whenContainedInInstancesOf: [UISearchBar.self]).defaultTextAttributes = [NSAttributedString.Key.foregroundColor: orange]
-        UITextField.appearance(whenContainedInInstancesOf: [UISearchBar.self]).attributedPlaceholder = NSAttributedString(string: "Search key words", attributes: [NSAttributedString.Key.foregroundColor: UIColor.gray])
+        UITextField.appearance(whenContainedInInstancesOf: [UISearchBar.self]).attributedPlaceholder = NSAttributedString(string: "Search by name or location", attributes: [NSAttributedString.Key.foregroundColor: UIColor.gray])
         searchController.searchBar.becomeFirstResponder()
-        
-        navigationItem.titleView = searchController.searchBar
     }
     
     func setupCollectionView() {

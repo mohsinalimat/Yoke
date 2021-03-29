@@ -35,7 +35,6 @@ class ProfileViewController: UIViewController, TTGTextTagCollectionViewDelegate 
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         setupViews()
-//        constrainViews()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -287,6 +286,7 @@ class ProfileViewController: UIViewController, TTGTextTagCollectionViewDelegate 
     
     @objc func handleSendMessage() {
         let chatVC = ChatCollectionViewController(collectionViewLayout: UICollectionViewFlowLayout())
+        print("pressed")
         chatVC.userId = userId
         navigationController?.pushViewController(chatVC, animated: true)
     }
@@ -443,28 +443,20 @@ class ProfileViewController: UIViewController, TTGTextTagCollectionViewDelegate 
         button.setTitle("Message", for: .normal)
         button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 10)
         button.setTitleColor(UIColor.orangeColor(), for: .normal)
-//        button.addTarget(self, action: #selector(handleCalendar), for: .touchUpInside)
-//        button.backgroundColor = UIColor.orangeColor()
+        button.addTarget(self, action: #selector(handleSendMessage), for: .touchUpInside)
         button.layer.cornerRadius = 10
-//        button.layer.borderColor = UIColor.orangeColor()?.cgColor
-//        button.layer.borderWidth = 0.5
         return button
     }()
     
     lazy var bookmarkButton: UIButton = {
         let button = UIButton(type: .custom)
-//        button.setImage(UIImage(named: "bookmark_selected"), for: .normal)
         let image = UIImage(named: "bookmark_selected")?.withRenderingMode(.alwaysTemplate)
         button.setImage(image, for: .normal)
         button.tintColor = UIColor.orangeColor()
         button.setTitle("Bookmarked", for: .normal)
         button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 10)
         button.setTitleColor(UIColor.orangeColor(), for: .normal)
-//        button.addTarget(self, action: #selector(handleBookmarked), for: .touchUpInside)
-//        button.backgroundColor = UIColor.orangeColor()
         button.layer.cornerRadius = 10
-//        button.layer.borderColor = UIColor.orangeColor()?.cgColor
-//        button.layer.borderWidth = 0.5
         return button
     }()
     
