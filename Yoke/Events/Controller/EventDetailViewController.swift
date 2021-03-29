@@ -54,14 +54,14 @@ class EventDetailViewController: UIViewController {
         scrollView.addSubview(timeIcon)
         scrollView.addSubview(timeLabel)
         scrollView.addSubview(descriptionLabel)
-        view.addSubview(rsvpButton)
+        scrollView.addSubview(rsvpButton)
     }
     
     func constrainViews() {
         swipeIndicator.anchor(top: safeArea.topAnchor, left: nil, bottom: nil, right: nil, paddingTop: 20, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 100, height: 5)
         swipeIndicator.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-//        scrollView.isScrollEnabled = true
-        let totalHeight = view.frame.height + captionLabel.frame.height + descriptionLabel.frame.height
+        scrollView.isScrollEnabled = true
+        let totalHeight = 250 + view.frame.width + captionLabel.frame.height + descriptionLabel.frame.height 
         scrollView.contentSize = CGSize(width: view.frame.width, height: totalHeight)
         scrollView.anchor(top: swipeIndicator.bottomAnchor, left: safeArea.leftAnchor, bottom: safeArea.bottomAnchor, right: safeArea.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0)
         profileImage.anchor(top: scrollView.topAnchor, left: safeArea.leftAnchor, bottom: nil, right: nil, paddingTop: 5, paddingLeft: 5, paddingBottom: 0, paddingRight: 0, width: 50, height: 50)
@@ -81,9 +81,9 @@ class EventDetailViewController: UIViewController {
         timeLabel.anchor(top: timeIcon.topAnchor, left: dateIcon.rightAnchor, bottom: nil, right: nil, paddingTop: 0, paddingLeft: 5, paddingBottom: 0, paddingRight: 0)
         timeLabel.centerYAnchor.constraint(equalTo: timeIcon.centerYAnchor).isActive = true
         descriptionLabel.anchor(top: timeLabel.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 10, paddingLeft: 10, paddingBottom: 0, paddingRight: 10)
-        rsvpButton.anchor(top: descriptionLabel.bottomAnchor, left: nil, bottom: nil, right: nil, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 20, height: 10)
+        rsvpButton.anchor(top: descriptionLabel.bottomAnchor, left: nil, bottom: nil, right: nil, paddingTop: 10, paddingLeft: 0, paddingBottom: 20, paddingRight: 0, width: 150, height: 45)
         rsvpButton.backgroundColor = .orange
-        rsvpButton.centerXAnchor.constraint(equalTo: scrollView.centerXAnchor).isActive = true
+//        rsvpButton.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
 
     }
     
