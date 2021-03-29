@@ -40,6 +40,7 @@ class NewEventViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupImagePicker()
+        showTimePicker()
     }
  
     //MARK: - Helper Functions
@@ -54,14 +55,16 @@ class NewEventViewController: UIViewController {
         scrollView.addSubview(eventAddImageButton)
         scrollView.addSubview(captionTextField)
         scrollView.addSubview(eventDetailTextField)
+        scrollView.addSubview(datePickerViewBG)
+        scrollView.addSubview(selectedDateLabel)
         scrollView.addSubview(datePickerView)
         scrollView.addSubview(timeLabelStackView)
         timeLabelStackView.addArrangedSubview(startLabel)
         timeLabelStackView.addArrangedSubview(endLabel)
         scrollView.addSubview(timePickerViewBG)
         scrollView.addSubview(timeStackView)
-        timeStackView.addArrangedSubview(startTimePickerView)
-        timeStackView.addArrangedSubview(endTimePickerView)
+        timeStackView.addArrangedSubview(startTimeTextField)
+        timeStackView.addArrangedSubview(endTimeTextField)
         scrollView.addSubview(rsvpLabel)
         scrollView.addSubview(rsvpSwitch)
         scrollView.addSubview(rsvpInfoLabel)
@@ -78,25 +81,27 @@ class NewEventViewController: UIViewController {
         deleteButton.anchor(top: swipeIndicator.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: nil, paddingTop: 15, paddingLeft: 20, paddingBottom: 0, paddingRight: 0)
         eventLabel.anchor(top: swipeIndicator.bottomAnchor, left: nil, bottom: nil, right: nil, paddingTop: 20, paddingLeft: 0, paddingBottom: 0, paddingRight: 0)
         eventLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        scrollView.contentSize = CGSize(width: view.frame.width, height: view.frame.height + 380)
+        scrollView.contentSize = CGSize(width: view.frame.width, height: view.frame.height + 450)
         scrollView.anchor(top: eventLabel.bottomAnchor, left: safeArea.leftAnchor, bottom: safeArea.bottomAnchor, right: safeArea.rightAnchor, paddingTop: 20, paddingLeft: 0, paddingBottom: 0, paddingRight: 0)
         eventImageView.anchor(top: scrollView.topAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 20, paddingLeft: 8, paddingBottom: 0, paddingRight: 8, width: view.frame.width / 2, height: 300)
         eventAddImageButton.anchor(top: scrollView.topAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 20, paddingLeft: 8, paddingBottom: 0, paddingRight: 8, width: view.frame.width / 2, height: 300)
         captionTextField.anchor(top: eventImageView.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 20, paddingLeft: 8, paddingBottom: 8, paddingRight: 8, height: 45)
         eventDetailTextField.anchor(top: captionTextField.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 5, paddingLeft: 8, paddingBottom: 8, paddingRight: 8, height: 150)
-        datePickerView.anchor(top: eventDetailTextField.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 10, paddingLeft: 10, paddingBottom: 0, paddingRight: 10, height: 350)
+        datePickerViewBG.anchor(top: eventDetailTextField.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 10, paddingLeft: 10, paddingBottom: 0, paddingRight: 10, height: 410)
+        selectedDateLabel.anchor(top: datePickerViewBG.topAnchor, left: datePickerViewBG.leftAnchor, bottom: nil, right: datePickerViewBG.rightAnchor, paddingTop: 5, paddingLeft: 5, paddingBottom: 0, paddingRight: 5, height: 50)
+        datePickerView.anchor(top: selectedDateLabel.bottomAnchor, left: datePickerViewBG.leftAnchor, bottom: nil, right: datePickerViewBG.rightAnchor, paddingTop: 0, paddingLeft: 5, paddingBottom: 0, paddingRight: 5, height: 350)
         timeLabelStackView.anchor(top: datePickerView.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 10, paddingLeft: 10, paddingBottom: 0, paddingRight: 10, height: 50)
-        timePickerViewBG.anchor(top: timeLabelStackView.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: -10, paddingLeft: 10, paddingBottom: 0, paddingRight: 10, height: 50)
-        timeStackView.anchor(top: timeLabelStackView.bottomAnchor, left: nil, bottom: nil, right: nil, paddingTop: -10, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 260, height: 50)
+        timePickerViewBG.anchor(top: timeLabelStackView.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: -10, paddingLeft: 10, paddingBottom: 0, paddingRight: 10, height: 55)
+        timeStackView.anchor(top: timeLabelStackView.bottomAnchor, left: timeLabelStackView.leftAnchor, bottom: nil, right: timeLabelStackView.rightAnchor, paddingTop: -10, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, height: 50)
         timeStackView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         rsvpLabel.anchor(top: timeStackView.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: nil, paddingTop: 20, paddingLeft: 10, paddingBottom: 0, paddingRight: 0)
-        rsvpSwitch.anchor(top: nil, left: nil, bottom: nil, right: safeArea.rightAnchor, paddingTop: 10, paddingLeft: 0, paddingBottom: 0, paddingRight: 10)
-        rsvpSwitch.centerYAnchor.constraint(equalTo: rsvpLabel.centerYAnchor).isActive = true
+        rsvpSwitch.anchor(top: rsvpLabel.topAnchor, left: nil, bottom: nil, right: safeArea.rightAnchor, paddingTop: 10, paddingLeft: 0, paddingBottom: 0, paddingRight: 10)
+//        rsvpSwitch.centerYAnchor.constraint(equalTo: rsvpLabel.centerYAnchor).isActive = true
         rsvpInfoLabel.anchor(top: rsvpLabel.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: nil, paddingTop: 5, paddingLeft: 10, paddingBottom: 0, paddingRight: 0)
         
-        contactLabel.anchor(top: rsvpInfoLabel.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: nil, paddingTop: 20, paddingLeft: 10, paddingBottom: 0, paddingRight: 0)
-        contactSwitch.anchor(top: nil, left: nil, bottom: nil, right: safeArea.rightAnchor, paddingTop: 10, paddingLeft: 0, paddingBottom: 0, paddingRight: 10)
-        contactSwitch.centerYAnchor.constraint(equalTo: contactLabel.centerYAnchor).isActive = true
+        contactLabel.anchor(top: rsvpInfoLabel.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: nil, paddingTop: 25, paddingLeft: 10, paddingBottom: 0, paddingRight: 0)
+        contactSwitch.anchor(top: contactLabel.topAnchor, left: nil, bottom: nil, right: safeArea.rightAnchor, paddingTop: 10, paddingLeft: 0, paddingBottom: 0, paddingRight: 10)
+//        contactSwitch.centerYAnchor.constraint(equalTo: contactLabel.centerYAnchor).isActive = true
         contactInfoLabel.anchor(top: contactLabel.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: nil, paddingTop: 5, paddingLeft: 10, paddingBottom: 0, paddingRight: 0)
  
         myActivityIndicator.center = view.center
@@ -206,23 +211,35 @@ class NewEventViewController: UIViewController {
 //        }
     }
     
+    func showTimePicker() {
+        startTimeTextField.inputView = startTimePickerView
+        endTimeTextField.inputView = endTimePickerView
+    }
+    
     @objc func handleDateSelection() {
         let datePicker = datePickerView
-        let startPicker = startTimePickerView
-        let endPicker = endTimePickerView
         
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "EEEE, MMM d, yyyy"
         eventDate = dateFormatter.string(from: datePicker.date)
-        
+        selectedDateLabel.text = eventDate
+        selectedDateLabel.font = UIFont.systemFont(ofSize: 17)
+    }
+    
+    @objc func handleStartSelection() {
+        let startPicker = startTimePickerView
         let startTimeFormatter = DateFormatter()
         startTimeFormatter.timeStyle = .medium
         startTime = startTimeFormatter.string(from: startPicker.date)
-        
+        startTimeTextField.text = startTime
+    }
+    
+    @objc func handleEndSelection() {
+        let endPicker = endTimePickerView
         let endTimeFormatter = DateFormatter()
         endTimeFormatter.timeStyle = .medium
         endTime = endTimeFormatter.string(from: endPicker.date)
-
+        endTimeTextField.text = endTime
     }
     
     @objc func handleDismiss() {
@@ -295,8 +312,6 @@ class NewEventViewController: UIViewController {
         image.image = UIImage(named: "image_background")
         image.clipsToBounds = true
         image.contentMode = .scaleAspectFill
-        image.layer.borderColor = UIColor.white.cgColor
-        image.layer.borderWidth = 2
         image.layer.cornerRadius = 10
         image.backgroundColor = UIColor.orangeColor()
         return image
@@ -314,7 +329,7 @@ class NewEventViewController: UIViewController {
         let text = UITextField()
         text.textColor = .darkGray
         text.attributedPlaceholder = NSAttributedString(string: " Enter Caption", attributes: [NSAttributedString.Key.foregroundColor: UIColor.lightGray])
-        text.layer.cornerRadius = 5
+        text.layer.cornerRadius = 10
         text.backgroundColor = .white
         return text
     }()
@@ -326,7 +341,7 @@ class NewEventViewController: UIViewController {
         text.textColor = .darkGray
         text.isEditable = true
         text.isScrollEnabled = true
-        text.layer.cornerRadius = 5
+        text.layer.cornerRadius = 10
         text.textContainer.lineBreakMode = .byWordWrapping
         text.font = UIFont.systemFont(ofSize: 17)
         return text
@@ -335,8 +350,19 @@ class NewEventViewController: UIViewController {
     let courseView: UIView = {
         let view = UIView()
         view.backgroundColor = .white
-        view.layer.cornerRadius = 5
+        view.layer.cornerRadius = 10
         view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
+    
+    let datePickerViewBG: UIView = {
+        let view = UIView()
+        view.layer.cornerRadius = 10
+        view.layer.shadowOffset = CGSize(width: 0, height: 4)
+        view.layer.shadowRadius = 4
+        view.layer.shadowOpacity = 0.1
+        view.layer.shadowColor = UIColor.gray.cgColor
+        view.backgroundColor = UIColor.white
         return view
     }()
     
@@ -349,13 +375,28 @@ class NewEventViewController: UIViewController {
         datePicker.backgroundColor = .white
         datePicker.tintColor = UIColor.orangeColor()
         datePicker.overrideUserInterfaceStyle = .light
-        datePicker.layer.cornerRadius = 5
-        datePicker.layer.shadowOffset = CGSize(width: 0, height: 4)
-        datePicker.layer.shadowRadius = 4
-        datePicker.layer.shadowOpacity = 0.1
-        datePicker.layer.shadowColor = UIColor.gray.cgColor
+//        datePicker.layer.cornerRadius = 5
+//        datePicker.layer.shadowOffset = CGSize(width: 0, height: 4)
+//        datePicker.layer.shadowRadius = 4
+//        datePicker.layer.shadowOpacity = 0.1
+//        datePicker.layer.shadowColor = UIColor.gray.cgColor
         datePicker.addTarget(self, action: #selector(handleDateSelection), for: .valueChanged)
         return datePicker
+    }()
+    
+    var selectedDateLabel: UILabel = {
+        let label = UILabel()
+        label.text = "Please choose a date"
+        label.font = UIFont.boldSystemFont(ofSize: 17)
+        label.textColor = UIColor.orangeColor()
+        label.textAlignment = .center
+        label.backgroundColor = .white
+//        label.layer.cornerRadius = 10
+//        label.layer.shadowOffset = CGSize(width: 0, height: 4)
+//        label.layer.shadowRadius = 4
+//        label.layer.shadowOpacity = 0.1
+//        label.layer.shadowColor = UIColor.gray.cgColor
+        return label
     }()
     
     let timeLabelStackView: UIStackView = {
@@ -364,7 +405,7 @@ class NewEventViewController: UIViewController {
         stackView.distribution = .fillEqually
         stackView.spacing = 0
         stackView.backgroundColor = .white
-        stackView.layer.cornerRadius = 5
+        stackView.layer.cornerRadius = 10
         stackView.layer.shadowOffset = CGSize(width: 0, height: 4)
         stackView.layer.shadowRadius = 4
         stackView.layer.shadowOpacity = 0.1
@@ -393,14 +434,14 @@ class NewEventViewController: UIViewController {
     let timeStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .horizontal
-        stackView.distribution = .fill
+        stackView.distribution = .fillEqually
         stackView.backgroundColor = .white
         return stackView
     }()
     
     let timePickerViewBG: UIView = {
         let view = UIView()
-        view.layer.cornerRadius = 5
+        view.layer.cornerRadius = 10
         view.layer.shadowOffset = CGSize(width: 0, height: 4)
         view.layer.shadowRadius = 4
         view.layer.shadowOpacity = 0.1
@@ -409,35 +450,47 @@ class NewEventViewController: UIViewController {
         return view
     }()
     
+    var startTimeTextField: UITextField = {
+        let textField = UITextField()
+        textField.text = "Select start time"
+        textField.backgroundColor = .white
+        textField.textColor = UIColor.orangeColor()
+        textField.textAlignment = .center
+        return textField
+    }()
+    
     let startTimePickerView: UIDatePicker = {
         let datePicker = UIDatePicker()
         datePicker.date = Date()
         datePicker.locale = .current
         datePicker.datePickerMode = .time
-        datePicker.preferredDatePickerStyle = .compact
-        datePicker.subviews[0].subviews[1].backgroundColor = UIColor.orangeColor()
-        datePicker.subviews[0].subviews[1].layer.cornerRadius = 5
-        datePicker.tintColor = UIColor.white
-        datePicker.addTarget(self, action: #selector(handleDateSelection), for: .valueChanged)
+        datePicker.preferredDatePickerStyle = .wheels
+        datePicker.addTarget(self, action: #selector(handleStartSelection), for: .valueChanged)
         return datePicker
     }()
     
+    var endTimeTextField: UITextField = {
+        let textField = UITextField()
+        textField.text = "Select end time"
+        textField.backgroundColor = .white
+        textField.textColor = UIColor.orangeColor()
+        textField.textAlignment = .center
+        return textField
+    }()
+    
     let endTimePickerView: UIDatePicker = {
-        let datePicker = UIDatePicker()
+        var datePicker = UIDatePicker()
         datePicker.date = Date()
         datePicker.locale = .current
         datePicker.datePickerMode = .time
-        datePicker.preferredDatePickerStyle = .compact
-        datePicker.subviews[0].subviews[1].backgroundColor = UIColor.orangeColor()
-        datePicker.subviews[0].subviews[1].layer.cornerRadius = 5
-        datePicker.tintColor = UIColor.white
-        datePicker.addTarget(self, action: #selector(handleDateSelection), for: .valueChanged)
+        datePicker.preferredDatePickerStyle = .wheels
+        datePicker.addTarget(self, action: #selector(handleEndSelection), for: .valueChanged)
         return datePicker
     }()
     
     var rsvpLabel: UILabel = {
         let label = UILabel()
-        label.text = "Allows RSVP?"
+        label.text = "Show RSVP?"
         label.font = UIFont.boldSystemFont(ofSize: 17)
         label.textColor = .gray
         label.textAlignment = .center
@@ -463,7 +516,7 @@ class NewEventViewController: UIViewController {
     
     var contactLabel: UILabel = {
         let label = UILabel()
-        label.text = "Allows Contact?"
+        label.text = "Show Contact?"
         label.font = UIFont.boldSystemFont(ofSize: 17)
         label.textColor = .gray
         label.textAlignment = .center
@@ -486,7 +539,6 @@ class NewEventViewController: UIViewController {
         switchBool.addTarget(self, action: #selector(contactSwitch(contactSwitchChanged:)), for: UIControl.Event.valueChanged)
         return switchBool
     }()
-
 }
 
 //MARK: - Image Picker
