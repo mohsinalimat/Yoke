@@ -64,8 +64,10 @@ class NewEventViewController: UIViewController {
         timeStackView.addArrangedSubview(endTimePickerView)
         scrollView.addSubview(rsvpLabel)
         scrollView.addSubview(rsvpSwitch)
+        scrollView.addSubview(rsvpInfoLabel)
         scrollView.addSubview(contactLabel)
         scrollView.addSubview(contactSwitch)
+        scrollView.addSubview(contactInfoLabel)
         view.addSubview(myActivityIndicator)
     }
     
@@ -76,7 +78,7 @@ class NewEventViewController: UIViewController {
         deleteButton.anchor(top: swipeIndicator.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: nil, paddingTop: 15, paddingLeft: 20, paddingBottom: 0, paddingRight: 0)
         eventLabel.anchor(top: swipeIndicator.bottomAnchor, left: nil, bottom: nil, right: nil, paddingTop: 20, paddingLeft: 0, paddingBottom: 0, paddingRight: 0)
         eventLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        scrollView.contentSize = CGSize(width: view.frame.width, height: view.frame.height + 350)
+        scrollView.contentSize = CGSize(width: view.frame.width, height: view.frame.height + 380)
         scrollView.anchor(top: eventLabel.bottomAnchor, left: safeArea.leftAnchor, bottom: safeArea.bottomAnchor, right: safeArea.rightAnchor, paddingTop: 20, paddingLeft: 0, paddingBottom: 0, paddingRight: 0)
         eventImageView.anchor(top: scrollView.topAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 20, paddingLeft: 8, paddingBottom: 0, paddingRight: 8, width: view.frame.width / 2, height: 300)
         eventAddImageButton.anchor(top: scrollView.topAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 20, paddingLeft: 8, paddingBottom: 0, paddingRight: 8, width: view.frame.width / 2, height: 300)
@@ -90,10 +92,12 @@ class NewEventViewController: UIViewController {
         rsvpLabel.anchor(top: timeStackView.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: nil, paddingTop: 20, paddingLeft: 10, paddingBottom: 0, paddingRight: 0)
         rsvpSwitch.anchor(top: nil, left: nil, bottom: nil, right: safeArea.rightAnchor, paddingTop: 10, paddingLeft: 0, paddingBottom: 0, paddingRight: 10)
         rsvpSwitch.centerYAnchor.constraint(equalTo: rsvpLabel.centerYAnchor).isActive = true
+        rsvpInfoLabel.anchor(top: rsvpLabel.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: nil, paddingTop: 5, paddingLeft: 10, paddingBottom: 0, paddingRight: 0)
         
-        contactLabel.anchor(top: rsvpLabel.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: nil, paddingTop: 20, paddingLeft: 10, paddingBottom: 0, paddingRight: 0)
+        contactLabel.anchor(top: rsvpInfoLabel.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: nil, paddingTop: 20, paddingLeft: 10, paddingBottom: 0, paddingRight: 0)
         contactSwitch.anchor(top: nil, left: nil, bottom: nil, right: safeArea.rightAnchor, paddingTop: 10, paddingLeft: 0, paddingBottom: 0, paddingRight: 10)
         contactSwitch.centerYAnchor.constraint(equalTo: contactLabel.centerYAnchor).isActive = true
+        contactInfoLabel.anchor(top: contactLabel.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: nil, paddingTop: 5, paddingLeft: 10, paddingBottom: 0, paddingRight: 0)
  
         myActivityIndicator.center = view.center
     }
@@ -440,6 +444,15 @@ class NewEventViewController: UIViewController {
         return label
     }()
     
+    var rsvpInfoLabel: UILabel = {
+        let label = UILabel()
+        label.text = "Allows users RSVP to your event"
+        label.font = UIFont.systemFont(ofSize: 13)
+        label.textColor = .gray
+        label.textAlignment = .center
+        return label
+    }()
+    
     var rsvpSwitch: UISwitch = {
         let switchBool = UISwitch()
         switchBool.onTintColor = UIColor.orangeColor()
@@ -452,6 +465,15 @@ class NewEventViewController: UIViewController {
         let label = UILabel()
         label.text = "Allows Contact?"
         label.font = UIFont.boldSystemFont(ofSize: 17)
+        label.textColor = .gray
+        label.textAlignment = .center
+        return label
+    }()
+    
+    var contactInfoLabel: UILabel = {
+        let label = UILabel()
+        label.text = "Allows users contact your about your event"
+        label.font = UIFont.systemFont(ofSize: 13)
         label.textColor = .gray
         label.textAlignment = .center
         return label
