@@ -32,11 +32,14 @@ class ChefsEventsCollectionViewController: UICollectionViewController, UICollect
     func configureNavigationBar() {
         guard let orange = UIColor.orangeColor() else { return }
         configureNavigationBar(withTitle: "Your Events", largeTitle: true, backgroundColor: UIColor.white, titleColor: orange)
+        let newIcon = UIImage(named: "add-filled")
+        let imageView = UIImageView(frame: CGRect(x: 0, y: 0, width: 10, height: 10))
+        imageView.image = newIcon
+        navigationItem.rightBarButtonItem = UIBarButtonItem(image: newIcon, style: .plain, target: self, action: #selector(newEvent))
     }
     
     func setupCollectionView() {
         collectionView.backgroundColor = UIColor.LightGrayBg()
-        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "new", style: .plain, target: self, action: #selector(newEvent))
         collectionView.register(ChefsEventsCollectionViewCell.self, forCellWithReuseIdentifier: cellId)
         collectionView.register(EmptyCell.self, forCellWithReuseIdentifier: noCellId)
     }
