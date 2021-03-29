@@ -73,7 +73,7 @@ class EventController {
                 let event = Event(dictionary: dictionary)
                 self.events.append(event)
                 self.events.sort(by: { (u1, u2) -> Bool in
-                    return u1.timestamp.compare(u2.timestamp) == .orderedAscending
+                    return u1.timestamp.compare(u2.timestamp) == .orderedDescending
                 })
                 self.filteredEvents = self.events
                 completion(event)

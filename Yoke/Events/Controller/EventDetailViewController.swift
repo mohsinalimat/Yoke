@@ -40,42 +40,50 @@ class EventDetailViewController: UIViewController {
         view.backgroundColor = UIColor.LightGrayBg()
         view.addSubview(swipeIndicator)
         view.addSubview(scrollView)
-        view.addSubview(profileImage)
-        view.addSubview(usernameLabel)
-        view.addSubview(timestampLabel)
-        view.addSubview(imageShadowView)
-        view.addSubview(eventImage)
-        view.addSubview(captionLabel)
-        view.addSubview(descriptionLabel)
-        view.addSubview(locationIcon)
-        view.addSubview(locationLabel)
-        view.addSubview(dateIcon)
-        view.addSubview(dateLabel)
-        view.addSubview(timeIcon)
-        view.addSubview(timeLabel)
+        scrollView.addSubview(profileImage)
+        scrollView.addSubview(usernameLabel)
+        scrollView.addSubview(timestampLabel)
+        scrollView.addSubview(imageShadowView)
+        scrollView.addSubview(eventImage)
+        scrollView.addSubview(captionLabel)
+//        view.addSubview(descriptionLabel)
+        scrollView.addSubview(locationIcon)
+        scrollView.addSubview(locationLabel)
+        scrollView.addSubview(dateIcon)
+        scrollView.addSubview(dateLabel)
+        scrollView.addSubview(timeIcon)
+        scrollView.addSubview(timeLabel)
+        scrollView.addSubview(descriptionLabel)
+        view.addSubview(rsvpButton)
     }
     
     func constrainViews() {
         swipeIndicator.anchor(top: safeArea.topAnchor, left: nil, bottom: nil, right: nil, paddingTop: 20, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 100, height: 5)
         swipeIndicator.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        scrollView.contentSize = CGSize(width: view.frame.width, height: view.frame.height)
-        scrollView.anchor(top: swipeIndicator.bottomAnchor, left: safeArea.leftAnchor, bottom: safeArea.bottomAnchor, right: safeArea.rightAnchor, paddingTop: 10, paddingLeft: 0, paddingBottom: 0, paddingRight: 0)
+//        scrollView.isScrollEnabled = true
+        let totalHeight = view.frame.height + captionLabel.frame.height + descriptionLabel.frame.height
+        scrollView.contentSize = CGSize(width: view.frame.width, height: totalHeight)
+        scrollView.anchor(top: swipeIndicator.bottomAnchor, left: safeArea.leftAnchor, bottom: safeArea.bottomAnchor, right: safeArea.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0)
         profileImage.anchor(top: scrollView.topAnchor, left: safeArea.leftAnchor, bottom: nil, right: nil, paddingTop: 5, paddingLeft: 5, paddingBottom: 0, paddingRight: 0, width: 50, height: 50)
-        usernameLabel.anchor(top: scrollView.topAnchor, left: profileImage.rightAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 15, paddingLeft: 5, paddingBottom: 0, paddingRight: 0)
-        timestampLabel.anchor(top: usernameLabel.bottomAnchor, left: usernameLabel.leftAnchor, bottom: nil, right: nil, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0)
+        usernameLabel.anchor(top: scrollView.topAnchor, left: profileImage.rightAnchor, bottom: nil, right: nil, paddingTop: 15, paddingLeft: 5, paddingBottom: 0, paddingRight: 0)
+        timestampLabel.anchor(top: usernameLabel.bottomAnchor, left: profileImage.rightAnchor, bottom: nil, right: nil, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0)
         imageShadowView.anchor(top: profileImage.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 10, paddingLeft: 5, paddingBottom: 0, paddingRight: 5, height: view.frame.width)
         eventImage.anchor(top: profileImage.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 10, paddingLeft: 5, paddingBottom: 0, paddingRight: 5, height: view.frame.width)
-        captionLabel.anchor(top: eventImage.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 10, paddingLeft: 5, paddingBottom: 0, paddingRight: 5)
-        descriptionLabel.anchor(top: captionLabel.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 10, paddingLeft: 5, paddingBottom: 0, paddingRight: 5)
-        locationIcon.anchor(top: descriptionLabel.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: nil, paddingTop: 10, paddingLeft: 5, paddingBottom: 0, paddingRight: 0, width: 15, height: 18)
+        captionLabel.anchor(top: eventImage.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 10, paddingLeft: 10, paddingBottom: 0, paddingRight: 10)
+//        descriptionLabel.anchor(top: captionLabel.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 10, paddingLeft: 10, paddingBottom: 0, paddingRight: 10)
+        locationIcon.anchor(top: captionLabel.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: nil, paddingTop: 10, paddingLeft: 10, paddingBottom: 0, paddingRight: 0, width: 15, height: 18)
         locationLabel.anchor(top: nil, left: locationIcon.rightAnchor, bottom: nil, right: nil, paddingTop: 0, paddingLeft: 5, paddingBottom: 0, paddingRight: 0)
         locationLabel.centerYAnchor.constraint(equalTo: locationIcon.centerYAnchor).isActive = true
-        dateIcon.anchor(top: locationIcon.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: nil, paddingTop: 10, paddingLeft: 5, paddingBottom: 0, paddingRight: 0, width: 15, height: 15)
+        dateIcon.anchor(top: locationIcon.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: nil, paddingTop: 10, paddingLeft: 10, paddingBottom: 0, paddingRight: 0, width: 15, height: 15)
         dateLabel.anchor(top: dateIcon.topAnchor, left: dateIcon.rightAnchor, bottom: nil, right: nil, paddingTop: 0, paddingLeft: 5, paddingBottom: 0, paddingRight: 0)
         dateLabel.centerYAnchor.constraint(equalTo: dateIcon.centerYAnchor).isActive = true
-        timeIcon.anchor(top: dateIcon.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: nil, paddingTop: 10, paddingLeft: 5, paddingBottom: 0, paddingRight: 0, width: 15, height: 15)
+        timeIcon.anchor(top: dateIcon.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: nil, paddingTop: 10, paddingLeft: 10, paddingBottom: 0, paddingRight: 0, width: 15, height: 15)
         timeLabel.anchor(top: timeIcon.topAnchor, left: dateIcon.rightAnchor, bottom: nil, right: nil, paddingTop: 0, paddingLeft: 5, paddingBottom: 0, paddingRight: 0)
         timeLabel.centerYAnchor.constraint(equalTo: timeIcon.centerYAnchor).isActive = true
+        descriptionLabel.anchor(top: timeLabel.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 10, paddingLeft: 10, paddingBottom: 0, paddingRight: 10)
+        rsvpButton.anchor(top: descriptionLabel.bottomAnchor, left: nil, bottom: nil, right: nil, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 20, height: 10)
+        rsvpButton.backgroundColor = .orange
+        rsvpButton.centerXAnchor.constraint(equalTo: scrollView.centerXAnchor).isActive = true
 
     }
     
@@ -219,5 +227,10 @@ class EventDetailViewController: UIViewController {
         label.font = UIFont.boldSystemFont(ofSize: 13)
         label.textColor = .gray
         return label
+    }()
+    
+    var rsvpButton: UIButton = {
+        let button = UIButton()
+        return button
     }()
 }
