@@ -61,7 +61,7 @@ class EventDetailViewController: UIViewController {
         swipeIndicator.anchor(top: safeArea.topAnchor, left: nil, bottom: nil, right: nil, paddingTop: 20, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 100, height: 5)
         swipeIndicator.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         scrollView.isScrollEnabled = true
-        let totalHeight = 250 + view.frame.width + captionLabel.frame.height + descriptionLabel.frame.height 
+        let totalHeight = 250 + view.frame.width + captionLabel.frame.height + descriptionLabel.frame.height
         scrollView.contentSize = CGSize(width: view.frame.width, height: totalHeight)
         scrollView.anchor(top: swipeIndicator.bottomAnchor, left: safeArea.leftAnchor, bottom: safeArea.bottomAnchor, right: safeArea.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0)
         profileImage.anchor(top: scrollView.topAnchor, left: safeArea.leftAnchor, bottom: nil, right: nil, paddingTop: 5, paddingLeft: 5, paddingBottom: 0, paddingRight: 0, width: 50, height: 50)
@@ -70,7 +70,6 @@ class EventDetailViewController: UIViewController {
         imageShadowView.anchor(top: profileImage.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 10, paddingLeft: 5, paddingBottom: 0, paddingRight: 5, height: view.frame.width)
         eventImage.anchor(top: profileImage.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 10, paddingLeft: 5, paddingBottom: 0, paddingRight: 5, height: view.frame.width)
         captionLabel.anchor(top: eventImage.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 10, paddingLeft: 10, paddingBottom: 0, paddingRight: 10)
-//        descriptionLabel.anchor(top: captionLabel.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 10, paddingLeft: 10, paddingBottom: 0, paddingRight: 10)
         locationIcon.anchor(top: captionLabel.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: nil, paddingTop: 10, paddingLeft: 10, paddingBottom: 0, paddingRight: 0, width: 15, height: 18)
         locationLabel.anchor(top: nil, left: locationIcon.rightAnchor, bottom: nil, right: nil, paddingTop: 0, paddingLeft: 5, paddingBottom: 0, paddingRight: 0)
         locationLabel.centerYAnchor.constraint(equalTo: locationIcon.centerYAnchor).isActive = true
@@ -82,8 +81,7 @@ class EventDetailViewController: UIViewController {
         timeLabel.centerYAnchor.constraint(equalTo: timeIcon.centerYAnchor).isActive = true
         descriptionLabel.anchor(top: timeLabel.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 10, paddingLeft: 10, paddingBottom: 0, paddingRight: 10)
         rsvpButton.anchor(top: descriptionLabel.bottomAnchor, left: nil, bottom: nil, right: nil, paddingTop: 10, paddingLeft: 0, paddingBottom: 20, paddingRight: 0, width: 150, height: 45)
-        rsvpButton.backgroundColor = .orange
-//        rsvpButton.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        rsvpButton.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
 
     }
     
@@ -165,7 +163,6 @@ class EventDetailViewController: UIViewController {
         image.image = UIImage(named: "image_background")
         image.translatesAutoresizingMaskIntoConstraints = false
         image.clipsToBounds = true
-        image.layer.borderColor = UIColor.white.cgColor
         image.layer.cornerRadius = 10
         return image
     }()
@@ -231,6 +228,14 @@ class EventDetailViewController: UIViewController {
     
     var rsvpButton: UIButton = {
         let button = UIButton()
+        button.setTitle("RSVP", for: .normal)
+        button.setTitleColor(.white, for: .normal)
+        button.backgroundColor = UIColor.orangeColor()
+        button.layer.cornerRadius = 10
+        button.layer.shadowOffset = CGSize(width: 0, height: 4)
+        button.layer.shadowRadius = 4
+        button.layer.shadowOpacity = 0.2
+        button.layer.shadowColor = UIColor.black.cgColor
         return button
     }()
 }
