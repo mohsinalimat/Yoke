@@ -108,7 +108,10 @@ class EventsCollectionViewController: UICollectionViewController, UICollectionVi
 
     // MARK: UICollectionViewDelegate
     override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        print("selected")
+        let event = EventController.shared.filteredEvents[indexPath.item]
+        let eventVC = EventDetailViewController()
+        eventVC.event = event
+        navigationController?.present(eventVC, animated: true)
     }
     
     // MARK: UICollectionViewDelegateFlowLayout

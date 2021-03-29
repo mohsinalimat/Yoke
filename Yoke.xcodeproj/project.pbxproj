@@ -27,6 +27,7 @@
 		6C5D5F8625AF8B1500ACF451 /* LocationSettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C5D5F8525AF8B1500ACF451 /* LocationSettingsViewController.swift */; };
 		6C5D5F8A25B0D68A00ACF451 /* PasswordChangeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C5D5F8925B0D68900ACF451 /* PasswordChangeViewController.swift */; };
 		6C5D5F8E25B0D6CE00ACF451 /* ChefSettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C5D5F8D25B0D6CE00ACF451 /* ChefSettingsViewController.swift */; };
+		6C5D985F26123B2B00F2E233 /* EventDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C5D985E26123B2B00F2E233 /* EventDetailViewController.swift */; };
 		6C718B7725A4D85D005EDC93 /*  HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C718B7625A4D85D005EDC93 /*  HomeViewController.swift */; };
 		6C85598625E0471D00E513BB /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C85598525E0471D00E513BB /* Message.swift */; };
 		6C8DB59925ED487300E6D1C4 /* CustomColorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C8DB59825ED487300E6D1C4 /* CustomColorView.swift */; };
@@ -152,6 +153,7 @@
 		6C5D5F8525AF8B1500ACF451 /* LocationSettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationSettingsViewController.swift; sourceTree = "<group>"; };
 		6C5D5F8925B0D68900ACF451 /* PasswordChangeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasswordChangeViewController.swift; sourceTree = "<group>"; };
 		6C5D5F8D25B0D6CE00ACF451 /* ChefSettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChefSettingsViewController.swift; sourceTree = "<group>"; };
+		6C5D985E26123B2B00F2E233 /* EventDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventDetailViewController.swift; sourceTree = "<group>"; };
 		6C718B7625A4D85D005EDC93 /*  HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = " HomeViewController.swift"; sourceTree = "<group>"; };
 		6C85598525E0471D00E513BB /* Message.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Message.swift; sourceTree = "<group>"; };
 		6C8DB59825ED487300E6D1C4 /* CustomColorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomColorView.swift; sourceTree = "<group>"; };
@@ -478,6 +480,7 @@
 			isa = PBXGroup;
 			children = (
 				6CF0DA3226091B7200C20D1C /* EventsCollectionViewController.swift */,
+				6C5D985E26123B2B00F2E233 /* EventDetailViewController.swift */,
 				6C3A782D260E429000093AE9 /* ChefsEventsCollectionViewController.swift */,
 				6CF0DA5A26092D6100C20D1C /* NewEventViewController.swift */,
 			);
@@ -985,6 +988,7 @@
 				6CF0DA392609207900C20D1C /* EventCollectionViewCell.swift in Sources */,
 				6C8DB6A924B3C1B9003D06FF /* BookmarkedUsersCell.swift in Sources */,
 				6C8DB5A925ED4B1000E6D1C4 /* CustomShadowView.swift in Sources */,
+				6C5D985F26123B2B00F2E233 /* EventDetailViewController.swift in Sources */,
 				6C01FCC025F25FD5009AC5B9 /* CustomNavBarView.swift in Sources */,
 				6C35F5BE25DED0550044E847 /* Review.swift in Sources */,
 				6CBDDE4724B3DBF30099A04C /* StripeApi.swift in Sources */,
