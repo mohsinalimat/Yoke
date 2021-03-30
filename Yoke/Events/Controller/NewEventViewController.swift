@@ -129,6 +129,11 @@ class NewEventViewController: UIViewController {
         startTimeTextField.inputView = startTimePickerView
         endTimeTextField.inputView = endTimePickerView
     }
+    
+    @objc func handleAddLocation() {
+        let chooseLocation = EventLocationViewController()
+        present(chooseLocation, animated: true)
+    }
 
     func saveSuccessful() {
         let alertVC = UIAlertController(title: "Success", message: "Your event has been added!", preferredStyle: .alert)
@@ -370,11 +375,13 @@ class NewEventViewController: UIViewController {
         return view
     }()
     
-    let locationLabel: UITextField = {
-        let text = UITextField()
-        text.text = "Choose Location"
-        text.textColor = .lightGray
-        text.isEnabled = false
+    let locationLabel: UIButton = {
+        let text = UIButton()
+        text.setTitle("choose", for: .normal)
+        text.setTitleColor(.blue, for: .normal)
+        text.addTarget(self, action: #selector(handleAddLocation), for: .touchUpInside)
+//        text.text = "Choose Location"
+//        text.textColor = .lightGray
         return text
     }()
     
