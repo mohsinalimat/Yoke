@@ -105,7 +105,7 @@ class EventDetailViewController: UIViewController {
             self.profileImage.loadImage(urlString: image)
             self.usernameLabel.text = "Posted by: \(username)"
             let timestamp = event.timestamp.timeAgoDisplay()
-            self.timestampLabel.text = "\(timestamp)"
+            self.timestampLabel.text = "Posted: \(timestamp) ago"
             self.eventImage.loadImage(urlString: eventImg)
             self.captionLabel.text = event.caption
             self.descriptionLabel.text = event.detail

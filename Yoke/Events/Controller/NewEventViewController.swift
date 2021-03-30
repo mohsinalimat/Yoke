@@ -55,6 +55,9 @@ class NewEventViewController: UIViewController {
         scrollView.addSubview(eventAddImageButton)
         scrollView.addSubview(captionTextField)
         scrollView.addSubview(eventDetailTextField)
+        scrollView.addSubview(locationViewBG)
+        scrollView.addSubview(locationIndicatorIconView)
+        scrollView.addSubview(locationLabel)
         scrollView.addSubview(datePickerViewBG)
         scrollView.addSubview(selectedDateLabel)
         scrollView.addSubview(datePickerView)
@@ -85,9 +88,13 @@ class NewEventViewController: UIViewController {
         scrollView.anchor(top: eventLabel.bottomAnchor, left: safeArea.leftAnchor, bottom: safeArea.bottomAnchor, right: safeArea.rightAnchor, paddingTop: 20, paddingLeft: 0, paddingBottom: 0, paddingRight: 0)
         eventImageView.anchor(top: scrollView.topAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 20, paddingLeft: 8, paddingBottom: 0, paddingRight: 8, width: view.frame.width / 2, height: 300)
         eventAddImageButton.anchor(top: scrollView.topAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 20, paddingLeft: 8, paddingBottom: 0, paddingRight: 8, width: view.frame.width / 2, height: 300)
-        captionTextField.anchor(top: eventImageView.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 20, paddingLeft: 8, paddingBottom: 8, paddingRight: 8, height: 45)
-        eventDetailTextField.anchor(top: captionTextField.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 5, paddingLeft: 8, paddingBottom: 8, paddingRight: 8, height: 150)
-        datePickerViewBG.anchor(top: eventDetailTextField.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 10, paddingLeft: 10, paddingBottom: 0, paddingRight: 10, height: 410)
+        captionTextField.anchor(top: eventImageView.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 20, paddingLeft: 10, paddingBottom: 8, paddingRight: 10, height: 45)
+        eventDetailTextField.anchor(top: captionTextField.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 10, paddingLeft: 10, paddingBottom: 10, paddingRight: 8, height: 150)
+        locationViewBG.anchor(top: eventDetailTextField.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 10, paddingLeft: 10, paddingBottom: 0, paddingRight: 10, height: 45)
+        locationLabel.anchor(top: locationViewBG.topAnchor, left: locationViewBG.leftAnchor, bottom: locationViewBG.bottomAnchor, right: locationIndicatorIconView.leftAnchor, paddingTop: 0, paddingLeft: 5, paddingBottom: 0, paddingRight: 0)
+        locationIndicatorIconView.anchor(top: nil, left: locationLabel.rightAnchor, bottom: nil, right: locationViewBG.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 10, width: 20, height: 20)
+        locationIndicatorIconView.centerYAnchor.constraint(equalTo: locationViewBG.centerYAnchor).isActive = true
+        datePickerViewBG.anchor(top: locationLabel.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 10, paddingLeft: 10, paddingBottom: 0, paddingRight: 10, height: 410)
         selectedDateLabel.anchor(top: datePickerViewBG.topAnchor, left: datePickerViewBG.leftAnchor, bottom: nil, right: datePickerViewBG.rightAnchor, paddingTop: 5, paddingLeft: 5, paddingBottom: 0, paddingRight: 5, height: 50)
         datePickerView.anchor(top: selectedDateLabel.bottomAnchor, left: datePickerViewBG.leftAnchor, bottom: nil, right: datePickerViewBG.rightAnchor, paddingTop: 0, paddingLeft: 5, paddingBottom: 0, paddingRight: 5, height: 350)
         timeLabelStackView.anchor(top: datePickerView.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 10, paddingLeft: 10, paddingBottom: 0, paddingRight: 10, height: 50)
@@ -330,29 +337,51 @@ class NewEventViewController: UIViewController {
         text.textColor = .darkGray
         text.attributedPlaceholder = NSAttributedString(string: " Enter Caption", attributes: [NSAttributedString.Key.foregroundColor: UIColor.lightGray])
         text.layer.cornerRadius = 10
-        text.backgroundColor = .white
+        text.layer.cornerRadius = 10
+        text.layer.shadowOffset = CGSize(width: 0, height: 4)
+        text.layer.shadowRadius = 4
+        text.layer.shadowOpacity = 0.1
+        text.layer.shadowColor = UIColor.gray.cgColor
+        text.backgroundColor = UIColor.white
         return text
     }()
     
     let eventDetailTextField: UITextView = {
         let text = UITextView()
         text.placeholder = "Enter event details"
-        text.backgroundColor = .white
         text.textColor = .darkGray
         text.isEditable = true
         text.isScrollEnabled = true
         text.layer.cornerRadius = 10
         text.textContainer.lineBreakMode = .byWordWrapping
         text.font = UIFont.systemFont(ofSize: 17)
+        text.layer.cornerRadius = 10
+        text.layer.shadowOffset = CGSize(width: 0, height: 4)
+        text.layer.shadowRadius = 4
+        text.layer.shadowOpacity = 0.1
+        text.layer.shadowColor = UIColor.gray.cgColor
+        text.backgroundColor = UIColor.white
         return text
     }()
     
-    let courseView: UIView = {
-        let view = UIView()
+    let locationViewBG: ShadowView = {
+        let view = ShadowView()
         view.backgroundColor = .white
-        view.layer.cornerRadius = 10
-        view.translatesAutoresizingMaskIntoConstraints = false
         return view
+    }()
+    
+    let locationLabel: UITextField = {
+        let text = UITextField()
+        text.text = "Choose Location"
+        text.textColor = .lightGray
+        text.isEnabled = false
+        return text
+    }()
+    
+    let locationIndicatorIconView: UIImageView = {
+        let image = UIImageView()
+        image.image = UIImage(named: "indicator")
+        return image
     }()
     
     let datePickerViewBG: UIView = {
