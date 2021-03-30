@@ -57,7 +57,7 @@ class NewEventViewController: UIViewController {
         scrollView.addSubview(eventDetailTextField)
         scrollView.addSubview(locationViewBG)
         scrollView.addSubview(locationIndicatorIconView)
-        scrollView.addSubview(locationLabel)
+        scrollView.addSubview(locationButton)
         scrollView.addSubview(datePickerViewBG)
         scrollView.addSubview(selectedDateLabel)
         scrollView.addSubview(datePickerView)
@@ -91,10 +91,10 @@ class NewEventViewController: UIViewController {
         captionTextField.anchor(top: eventImageView.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 20, paddingLeft: 10, paddingBottom: 8, paddingRight: 10, height: 45)
         eventDetailTextField.anchor(top: captionTextField.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 10, paddingLeft: 10, paddingBottom: 10, paddingRight: 8, height: 150)
         locationViewBG.anchor(top: eventDetailTextField.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 10, paddingLeft: 10, paddingBottom: 0, paddingRight: 10, height: 45)
-        locationLabel.anchor(top: locationViewBG.topAnchor, left: locationViewBG.leftAnchor, bottom: locationViewBG.bottomAnchor, right: locationIndicatorIconView.leftAnchor, paddingTop: 0, paddingLeft: 5, paddingBottom: 0, paddingRight: 0)
-        locationIndicatorIconView.anchor(top: nil, left: locationLabel.rightAnchor, bottom: nil, right: locationViewBG.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 10, width: 20, height: 20)
+        locationButton.anchor(top: locationViewBG.topAnchor, left: locationViewBG.leftAnchor, bottom: locationViewBG.bottomAnchor, right: locationIndicatorIconView.leftAnchor, paddingTop: 0, paddingLeft: 5, paddingBottom: 0, paddingRight: 0)
+        locationIndicatorIconView.anchor(top: nil, left: locationButton.rightAnchor, bottom: nil, right: locationViewBG.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 10, width: 20, height: 20)
         locationIndicatorIconView.centerYAnchor.constraint(equalTo: locationViewBG.centerYAnchor).isActive = true
-        datePickerViewBG.anchor(top: locationLabel.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 10, paddingLeft: 10, paddingBottom: 0, paddingRight: 10, height: 410)
+        datePickerViewBG.anchor(top: locationButton.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 10, paddingLeft: 10, paddingBottom: 0, paddingRight: 10, height: 410)
         selectedDateLabel.anchor(top: datePickerViewBG.topAnchor, left: datePickerViewBG.leftAnchor, bottom: nil, right: datePickerViewBG.rightAnchor, paddingTop: 5, paddingLeft: 5, paddingBottom: 0, paddingRight: 5, height: 50)
         datePickerView.anchor(top: selectedDateLabel.bottomAnchor, left: datePickerViewBG.leftAnchor, bottom: nil, right: datePickerViewBG.rightAnchor, paddingTop: 0, paddingLeft: 5, paddingBottom: 0, paddingRight: 5, height: 350)
         timeLabelStackView.anchor(top: datePickerView.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 10, paddingLeft: 10, paddingBottom: 0, paddingRight: 10, height: 50)
@@ -375,14 +375,14 @@ class NewEventViewController: UIViewController {
         return view
     }()
     
-    let locationLabel: UIButton = {
-        let text = UIButton()
-        text.setTitle("choose", for: .normal)
-        text.setTitleColor(.blue, for: .normal)
-        text.addTarget(self, action: #selector(handleAddLocation), for: .touchUpInside)
-//        text.text = "Choose Location"
-//        text.textColor = .lightGray
-        return text
+    let locationButton: UIButton = {
+        let button = UIButton()
+        button.setTitle("Add location", for: .normal)
+        button.setTitleColor(.gray, for: .normal)
+        button.addTarget(self, action: #selector(handleAddLocation), for: .touchUpInside)
+        button.contentHorizontalAlignment = .left
+        button.titleLabel?.font = .systemFont(ofSize: 15)
+        return button
     }()
     
     let locationIndicatorIconView: UIImageView = {
