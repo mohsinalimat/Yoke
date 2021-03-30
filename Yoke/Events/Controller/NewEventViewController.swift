@@ -84,7 +84,7 @@ class NewEventViewController: UIViewController {
         deleteButton.anchor(top: swipeIndicator.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: nil, paddingTop: 15, paddingLeft: 20, paddingBottom: 0, paddingRight: 0)
         eventLabel.anchor(top: swipeIndicator.bottomAnchor, left: nil, bottom: nil, right: nil, paddingTop: 20, paddingLeft: 0, paddingBottom: 0, paddingRight: 0)
         eventLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        scrollView.contentSize = CGSize(width: view.frame.width, height: view.frame.height + 450)
+        scrollView.contentSize = CGSize(width: view.frame.width, height: view.frame.height + 500)
         scrollView.anchor(top: eventLabel.bottomAnchor, left: safeArea.leftAnchor, bottom: safeArea.bottomAnchor, right: safeArea.rightAnchor, paddingTop: 20, paddingLeft: 0, paddingBottom: 0, paddingRight: 0)
         eventImageView.anchor(top: scrollView.topAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 20, paddingLeft: 8, paddingBottom: 0, paddingRight: 8, width: view.frame.width / 2, height: 300)
         eventAddImageButton.anchor(top: scrollView.topAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 20, paddingLeft: 8, paddingBottom: 0, paddingRight: 8, width: view.frame.width / 2, height: 300)
@@ -103,12 +103,10 @@ class NewEventViewController: UIViewController {
         timeStackView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         rsvpLabel.anchor(top: timeStackView.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: nil, paddingTop: 20, paddingLeft: 10, paddingBottom: 0, paddingRight: 0)
         rsvpSwitch.anchor(top: rsvpLabel.topAnchor, left: nil, bottom: nil, right: safeArea.rightAnchor, paddingTop: 10, paddingLeft: 0, paddingBottom: 0, paddingRight: 10)
-//        rsvpSwitch.centerYAnchor.constraint(equalTo: rsvpLabel.centerYAnchor).isActive = true
         rsvpInfoLabel.anchor(top: rsvpLabel.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: nil, paddingTop: 5, paddingLeft: 10, paddingBottom: 0, paddingRight: 0)
         
         contactLabel.anchor(top: rsvpInfoLabel.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: nil, paddingTop: 25, paddingLeft: 10, paddingBottom: 0, paddingRight: 0)
         contactSwitch.anchor(top: contactLabel.topAnchor, left: nil, bottom: nil, right: safeArea.rightAnchor, paddingTop: 10, paddingLeft: 0, paddingBottom: 0, paddingRight: 10)
-//        contactSwitch.centerYAnchor.constraint(equalTo: contactLabel.centerYAnchor).isActive = true
         contactInfoLabel.anchor(top: contactLabel.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: nil, paddingTop: 5, paddingLeft: 10, paddingBottom: 0, paddingRight: 0)
  
         myActivityIndicator.center = view.center

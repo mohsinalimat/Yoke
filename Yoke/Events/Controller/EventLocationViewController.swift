@@ -270,7 +270,7 @@ class EventLocationViewController: UIViewController, UISearchBarDelegate, UISear
         let cityTextField: UITextField = {
             let text = UITextField()
             text.font = UIFont.systemFont(ofSize: 17)
-            text.placeholder = "City"
+            text.placeholder = "City or Neighbourhood"
             text.textColor = UIColor.orangeColor()
             text.backgroundColor = UIColor.LightGrayBg()
             text.layer.cornerRadius = 10
