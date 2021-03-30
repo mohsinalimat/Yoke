@@ -218,7 +218,7 @@ class NewEventViewController: UIViewController {
     
     @objc func handleDateSelection() {
         let datePicker = datePickerView
-        
+        datePicker.minimumDate = Date()
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "EEEE, MMM d, yyyy"
         eventDate = dateFormatter.string(from: datePicker.date)
@@ -229,7 +229,7 @@ class NewEventViewController: UIViewController {
     @objc func handleStartSelection() {
         let startPicker = startTimePickerView
         let startTimeFormatter = DateFormatter()
-        startTimeFormatter.timeStyle = .medium
+        startTimeFormatter.timeStyle = .short
         startTime = startTimeFormatter.string(from: startPicker.date)
         startTimeTextField.text = startTime
     }
@@ -237,7 +237,7 @@ class NewEventViewController: UIViewController {
     @objc func handleEndSelection() {
         let endPicker = endTimePickerView
         let endTimeFormatter = DateFormatter()
-        endTimeFormatter.timeStyle = .medium
+        endTimeFormatter.timeStyle = .short
         endTime = endTimeFormatter.string(from: endPicker.date)
         endTimeTextField.text = endTime
     }

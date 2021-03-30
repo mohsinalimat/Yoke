@@ -21,6 +21,7 @@ class SearchFilterViewController: UIViewController {
         return self.view.safeAreaLayoutGuide
     }
     let mapView = MKMapView()
+    let locationMang = CLLocationManager()
     private let locationManager = LocationManager()
     var currentLocationStr = "Current location"
     var location: String = ""
@@ -38,6 +39,10 @@ class SearchFilterViewController: UIViewController {
         super.viewDidLoad()
         setupNavTitleAndBarButtonItems()
         setCurrentLocation()
+        locationMang.delegate = self
+        locationMang.desiredAccuracy = kCLLocationAccuracyBest
+        locationMang.requestWhenInUseAuthorization()
+        locationMang.requestLocation()
     }
     
     //MARK: - Helper Functions
@@ -134,4 +139,23 @@ class SearchFilterViewController: UIViewController {
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
+}
+
+extension SearchFilterViewController : CLLocationManagerDelegate {
+    func locationManager(manager: CLLocationManager, didChangeAuthorizationStatus status: CLAuthorizationStatus) {
+        if status == .authorizedWhenInUse {
+            locationMang.requestLocation()
+        }
+    }
+    func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        if let location = locations.first {
+//            let span = MKCoordinateSpanMake(0.05, 0.05)
+//            let region = MKCoordinateRegion(center: location.coordinate, span: span)
+//            mapView.setRegion(region, animated: true)
+        }
+    }
+    
+    func locationManager(manager: CLLocationManager, didFailWithError error: NSError) {
+            print("error:: (error)")
+        }
 }

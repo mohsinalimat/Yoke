@@ -121,9 +121,9 @@ class EventsCollectionViewController: UICollectionViewController, UICollectionVi
             return CGSize(width: view.frame.width, height: 200)
         }
         if let captionText = EventController.shared.filteredEvents[indexPath.item].caption {
-            let rect = NSString(string: captionText).boundingRect(with: CGSize(width: view.frame.width, height: 1000), options: NSStringDrawingOptions.usesFontLeading.union(NSStringDrawingOptions.usesLineFragmentOrigin), attributes: [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 20)], context: nil)
+            let rect = NSString(string: captionText).boundingRect(with: CGSize(width: view.frame.width, height: 1000), options: NSStringDrawingOptions.usesFontLeading.union(NSStringDrawingOptions.usesLineFragmentOrigin), attributes: [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 34)], context: nil)
             let imageHeight = view.frame.width
-            return CGSize(width: view.frame.width, height: imageHeight + rect.height + 190)
+            return CGSize(width: view.frame.width, height: imageHeight + rect.height + 230)
         }
         return CGSize(width: view.frame.width, height: 400)
     }
