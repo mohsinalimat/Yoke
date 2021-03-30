@@ -46,7 +46,6 @@ class EventDetailViewController: UIViewController {
         scrollView.addSubview(imageShadowView)
         scrollView.addSubview(eventImage)
         scrollView.addSubview(captionLabel)
-//        view.addSubview(descriptionLabel)
         scrollView.addSubview(locationIcon)
         scrollView.addSubview(locationLabel)
         scrollView.addSubview(dateIcon)
@@ -54,14 +53,24 @@ class EventDetailViewController: UIViewController {
         scrollView.addSubview(timeIcon)
         scrollView.addSubview(timeLabel)
         scrollView.addSubview(descriptionLabel)
-        scrollView.addSubview(rsvpButton)
+        scrollView.addSubview(buttonStackView)
+        buttonStackView.addArrangedSubview(rsvpButton)
+        buttonStackView.addArrangedSubview(contactButton)
+        guard let event = event else { return }
+        if event.allowsContact == false && event.allowsRSVP == false {
+            buttonStackView.isHidden = true
+        } else if event.allowsContact == false {
+            contactButton.isHidden = true
+        } else if event.allowsRSVP == false {
+            rsvpButton.isHidden = true
+        }
     }
     
     func constrainViews() {
         swipeIndicator.anchor(top: safeArea.topAnchor, left: nil, bottom: nil, right: nil, paddingTop: 20, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 100, height: 5)
         swipeIndicator.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         scrollView.isScrollEnabled = true
-        let totalHeight = 250 + view.frame.width + captionLabel.frame.height + descriptionLabel.frame.height
+        let totalHeight = 270 + view.frame.width + captionLabel.frame.height + descriptionLabel.frame.height
         scrollView.contentSize = CGSize(width: view.frame.width, height: totalHeight)
         scrollView.anchor(top: swipeIndicator.bottomAnchor, left: safeArea.leftAnchor, bottom: safeArea.bottomAnchor, right: safeArea.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0)
         profileImage.anchor(top: scrollView.topAnchor, left: safeArea.leftAnchor, bottom: nil, right: nil, paddingTop: 5, paddingLeft: 5, paddingBottom: 0, paddingRight: 0, width: 50, height: 50)
@@ -70,7 +79,7 @@ class EventDetailViewController: UIViewController {
         imageShadowView.anchor(top: profileImage.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 10, paddingLeft: 5, paddingBottom: 0, paddingRight: 5, height: view.frame.width)
         eventImage.anchor(top: profileImage.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 10, paddingLeft: 5, paddingBottom: 0, paddingRight: 5, height: view.frame.width)
         captionLabel.anchor(top: eventImage.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 10, paddingLeft: 10, paddingBottom: 0, paddingRight: 10)
-        locationIcon.anchor(top: captionLabel.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: nil, paddingTop: 10, paddingLeft: 10, paddingBottom: 0, paddingRight: 0, width: 15, height: 18)
+        locationIcon.anchor(top: captionLabel.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: nil, paddingTop: 20, paddingLeft: 10, paddingBottom: 0, paddingRight: 0, width: 15, height: 18)
         locationLabel.anchor(top: nil, left: locationIcon.rightAnchor, bottom: nil, right: nil, paddingTop: 0, paddingLeft: 5, paddingBottom: 0, paddingRight: 0)
         locationLabel.centerYAnchor.constraint(equalTo: locationIcon.centerYAnchor).isActive = true
         dateIcon.anchor(top: locationIcon.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: nil, paddingTop: 10, paddingLeft: 10, paddingBottom: 0, paddingRight: 0, width: 15, height: 15)
@@ -79,9 +88,8 @@ class EventDetailViewController: UIViewController {
         timeIcon.anchor(top: dateIcon.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: nil, paddingTop: 10, paddingLeft: 10, paddingBottom: 0, paddingRight: 0, width: 15, height: 15)
         timeLabel.anchor(top: timeIcon.topAnchor, left: dateIcon.rightAnchor, bottom: nil, right: nil, paddingTop: 0, paddingLeft: 5, paddingBottom: 0, paddingRight: 0)
         timeLabel.centerYAnchor.constraint(equalTo: timeIcon.centerYAnchor).isActive = true
-        descriptionLabel.anchor(top: timeLabel.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 10, paddingLeft: 10, paddingBottom: 0, paddingRight: 10)
-        rsvpButton.anchor(top: descriptionLabel.bottomAnchor, left: nil, bottom: nil, right: nil, paddingTop: 10, paddingLeft: 0, paddingBottom: 20, paddingRight: 0, width: 150, height: 45)
-        rsvpButton.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        descriptionLabel.anchor(top: timeLabel.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 20, paddingLeft: 10, paddingBottom: 0, paddingRight: 10)
+        buttonStackView.anchor(top: descriptionLabel.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 20, paddingLeft: 10, paddingBottom: 0, paddingRight: 10, height: 45)
 
     }
     
@@ -170,7 +178,7 @@ class EventDetailViewController: UIViewController {
     let captionLabel: UILabel = {
         let label = UILabel()
         label.textColor = UIColor.gray
-        label.font = UIFont.boldSystemFont(ofSize: 20)
+        label.font = UIFont.boldSystemFont(ofSize: 34)
         label.lineBreakMode = .byWordWrapping
         label.numberOfLines = 0
         label.textAlignment = .left
@@ -226,9 +234,30 @@ class EventDetailViewController: UIViewController {
         return label
     }()
     
+    let buttonStackView: UIStackView = {
+        let stackView = UIStackView()
+        stackView.axis = .horizontal
+        stackView.distribution = .fillEqually
+        stackView.spacing = 10
+        return stackView
+    }()
+    
     var rsvpButton: UIButton = {
         let button = UIButton()
         button.setTitle("RSVP", for: .normal)
+        button.setTitleColor(.white, for: .normal)
+        button.backgroundColor = UIColor.orangeColor()
+        button.layer.cornerRadius = 10
+        button.layer.shadowOffset = CGSize(width: 0, height: 4)
+        button.layer.shadowRadius = 4
+        button.layer.shadowOpacity = 0.2
+        button.layer.shadowColor = UIColor.black.cgColor
+        return button
+    }()
+    
+    var contactButton: UIButton = {
+        let button = UIButton()
+        button.setTitle("Contact", for: .normal)
         button.setTitleColor(.white, for: .normal)
         button.backgroundColor = UIColor.orangeColor()
         button.layer.cornerRadius = 10

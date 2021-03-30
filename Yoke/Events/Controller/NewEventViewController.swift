@@ -40,7 +40,7 @@ class NewEventViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupImagePicker()
-        showTimePicker()
+        setupPickerViews()
     }
  
     //MARK: - Helper Functions
@@ -115,6 +115,12 @@ class NewEventViewController: UIViewController {
     
     func setupImagePicker() {
         eventImagePicker.delegate = self
+    }
+    
+    func setupPickerViews() {
+        datePickerView.minimumDate = Date()
+        startTimeTextField.inputView = startTimePickerView
+        endTimeTextField.inputView = endTimePickerView
     }
 
     func saveSuccessful() {
@@ -211,14 +217,8 @@ class NewEventViewController: UIViewController {
 //        }
     }
     
-    func showTimePicker() {
-        startTimeTextField.inputView = startTimePickerView
-        endTimeTextField.inputView = endTimePickerView
-    }
-    
     @objc func handleDateSelection() {
         let datePicker = datePickerView
-        datePicker.minimumDate = Date()
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "EEEE, MMM d, yyyy"
         eventDate = dateFormatter.string(from: datePicker.date)
