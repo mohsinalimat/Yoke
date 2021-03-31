@@ -19,9 +19,6 @@ class NewEventViewController: UIViewController {
     var uid = Auth.auth().currentUser?.uid ?? ""
     var eventExist: Bool = false
     let myActivityIndicator = UIActivityIndicatorView(style: UIActivityIndicatorView.Style.large)
-    var eventDate: String = ""
-    var startTime: String = ""
-    var endTime: String = ""
     var rsvp: Bool = false
     var contact: Bool = false
     var event: Event? {
@@ -117,7 +114,18 @@ class NewEventViewController: UIViewController {
     func fetchEvent() {
         guard let image = event?.eventImageUrl else { return }
         eventImageView.loadImage(urlString: image)
-
+        captionTextField.text = event?.caption
+        eventDetailTextField.text = event?.detail
+        locationButton.titleLabel?.text = "button"
+        selectedDateLabel.text = event?.date
+        startTimeTextField.text = event?.startTime
+        endTimeTextField.text = event?.endTime
+        if event?.allowsRSVP == true {
+            rsvpSwitch.isOn = true
+        }
+        if event?.allowsContact == true {
+            contactSwitch.isOn = true
+        }
     }
     
     func setupImagePicker() {
@@ -174,24 +182,16 @@ class NewEventViewController: UIViewController {
     
     @objc func handleSave() {
         guard let caption = captionTextField.text, !caption.isEmpty,
-              let detail = eventDetailTextField.text, !detail.isEmpty else { return }
+              let detail = eventDetailTextField.text, !detail.isEmpty,
+              let date = selectedDateLabel.text,
+              let start = startTimeTextField.text,
+              let end = endTimeTextField.text else { return }
         let image = eventImageView.image
         myActivityIndicator.startAnimating()
         if eventExist == true {
             guard let  eventId = event?.id,
-                  let imageId = event?.eventImageUrl else { return }
-//            EventController.shared.updateMenuWith(uid: self.uid, menuId: menuId, imageId: imageId, name: name, detail: detail, courseType: self.courseType, menuType: self.menuType, image: image) { (result) in
-//                switch result {
-//                case true:
-//                    print("updated")
-//                    self.myActivityIndicator.stopAnimating()
-//                    self.saveSuccessful()
-//                case false:
-//                    print("false")
-//                }
-//            }
-        } else {
-            EventController.shared.createEventWith(uid: uid, image: image, caption: caption, detailText: detail, date: eventDate, startTime: startTime, endTime: endTime, location: "", allowsRSVP: contact, allowsContact: rsvp) { (result) in
+                  let uid = event?.uid else { return }
+            EventController.shared.updateEventWith(uid: uid, eventId: eventId, image: image, caption: caption, detailText: detail, date: date, startTime: start, endTime: end, location: "", allowsRSVP: rsvp, allowsContact: contact) { (result) in
                 switch result {
                     case true:
                         self.myActivityIndicator.stopAnimating()
@@ -200,16 +200,16 @@ class NewEventViewController: UIViewController {
                         print("failed to save")
                 }
             }
-//            EventController.shared.createEventWith(uid: self.uid, name: name, detail: detail, courseType: self.courseType, menuType: self.menuType, image: image) { (result) in
-//                switch result {
-//                case true:
-//                    print("saved")
-//                    self.myActivityIndicator.stopAnimating()
-//                    self.saveSuccessful()
-//                case false:
-//                    print("failed to save")
-//                }
-//            }
+        } else {
+            EventController.shared.createEventWith(uid: uid, image: image, caption: caption, detailText: detail, date: date, startTime: start, endTime: end, location: "", allowsRSVP: rsvp, allowsContact: contact) { (result) in
+                switch result {
+                    case true:
+                        self.myActivityIndicator.stopAnimating()
+                        self.saveSuccessful()
+                    case false:
+                        print("failed to save")
+                }
+            }
         }
     }
     
@@ -233,8 +233,7 @@ class NewEventViewController: UIViewController {
         let datePicker = datePickerView
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "EEEE, MMM d, yyyy"
-        eventDate = dateFormatter.string(from: datePicker.date)
-        selectedDateLabel.text = eventDate
+        selectedDateLabel.text = dateFormatter.string(from: datePicker.date)
         selectedDateLabel.font = UIFont.systemFont(ofSize: 17)
     }
     
@@ -242,16 +241,14 @@ class NewEventViewController: UIViewController {
         let startPicker = startTimePickerView
         let startTimeFormatter = DateFormatter()
         startTimeFormatter.timeStyle = .short
-        startTime = startTimeFormatter.string(from: startPicker.date)
-        startTimeTextField.text = startTime
+        startTimeTextField.text = startTimeFormatter.string(from: startPicker.date)
     }
     
     @objc func handleEndSelection() {
         let endPicker = endTimePickerView
         let endTimeFormatter = DateFormatter()
         endTimeFormatter.timeStyle = .short
-        endTime = endTimeFormatter.string(from: endPicker.date)
-        endTimeTextField.text = endTime
+        endTimeTextField.text = endTimeFormatter.string(from: endPicker.date)
     }
     
     @objc func handleDismiss() {

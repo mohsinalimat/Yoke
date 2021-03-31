@@ -84,6 +84,19 @@ class ChefsEventsCollectionViewController: UICollectionViewController, UICollect
 
     // MARK: UICollectionViewDelegate
     override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        if EventController.shared.events.count == 0 {
+            return
+        } else {
+            let event = EventController.shared.events[indexPath.item]
+            let eventVC = NewEventViewController()
+            eventVC.event = event
+            eventVC.eventLabel.text = "Edit Menu"
+            eventVC.eventDetailTextField.placeholder = ""
+            eventVC.deleteButton.isHidden = false
+            eventVC.eventExist = true
+            eventVC.saveButton.setTitle("Update", for: .normal)
+            present(eventVC, animated: true)
+        }
         
     }
     
