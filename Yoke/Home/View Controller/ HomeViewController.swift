@@ -52,8 +52,8 @@ class HomeViewController: UIViewController {
         view.addSubview(scrollView)
         scrollView.alwaysBounceHorizontal = true
         scrollView.bounces = true
-        scrollView.addSubview(bannerImageView)
-        scrollView.addSubview(bannerLayerImageView)
+//        scrollView.addSubview(bannerImageView)
+        scrollView.addSubview(bannerLayerView)
 //        let blurEffect = UIBlurEffect(style: .light)
 //        let blurredEffectView = UIVisualEffectView(effect: blurEffect)
 //        blurredEffectView.layer.masksToBounds = true
@@ -87,22 +87,23 @@ class HomeViewController: UIViewController {
         scrollView.contentSize = CGSize(width: view.frame.width, height: view.frame.height)
         scrollView.anchor(top: safeArea.topAnchor, left: safeArea.leftAnchor, bottom: safeArea.bottomAnchor, right: safeArea.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0)
 
-        bannerLayerImageView.anchor(top: scrollView.topAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, height: 230)
-        bannerImageView.anchor(top: scrollView.topAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, height: 230)
-        profileImageShadowView.anchor(top: scrollView.topAnchor, left: safeArea.leftAnchor, bottom: nil, right: nil, paddingTop: 30, paddingLeft: 15, paddingBottom: 0, paddingRight: 0, width: 150, height: 150)
+        bannerLayerView.anchor(top: scrollView.topAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, height: 200)
+//        bannerImageView.anchor(top: scrollView.topAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, height: 230)
+        profileImageShadowView.anchor(top: scrollView.topAnchor, left: safeArea.leftAnchor, bottom: nil, right: nil, paddingTop: 25, paddingLeft: 15, paddingBottom: 0, paddingRight: 0, width: 150, height: 150)
         profileImageShadowView.layer.cornerRadius = 150 / 2
-        profileImageView.anchor(top: scrollView.topAnchor, left: safeArea.leftAnchor, bottom: nil, right: nil, paddingTop: 30, paddingLeft: 15, paddingBottom: 0, paddingRight: 0, width: 150, height: 150)
+        profileImageView.anchor(top: scrollView.topAnchor, left: safeArea.leftAnchor, bottom: nil, right: nil, paddingTop: 25, paddingLeft: 15, paddingBottom: 0, paddingRight: 0, width: 150, height: 150)
         profileImageView.layer.cornerRadius = 150 / 2
         
-        usernameLabel.anchor(top: profileImageView.topAnchor, left: profileImageView.rightAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 30, paddingLeft: 5, paddingBottom: 0, paddingRight: 5)
-        viewProfileButton.anchor(top: usernameLabel.bottomAnchor, left: usernameLabel.leftAnchor, bottom: nil, right: nil, paddingTop: 5, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 110, height: 35)
+        usernameLabel.anchor(top: nil, left: profileImageView.rightAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 0, paddingLeft: 10, paddingBottom: 0, paddingRight: 5)
+        usernameLabel.centerYAnchor.constraint(equalTo: profileImageView.centerYAnchor).isActive = true
+        viewProfileButton.anchor(top: usernameLabel.bottomAnchor, left: usernameLabel.leftAnchor, bottom: nil, right: nil, paddingTop: 5, paddingLeft: 0, paddingBottom: 0, paddingRight: 0)
 
         reviewsButton.alignImageTextVertical()
         eventButton.alignImageTextVertical()
         bookmarkButton.alignImageTextVertical()
         calendarButton.alignImageTextVertical()
 
-        buttonStackView.anchor(top: bannerImageView.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: -30, paddingLeft: 15, paddingBottom: 0, paddingRight: 15, width: 0, height: 60)
+        buttonStackView.anchor(top: bannerLayerView.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 20, paddingLeft: 15, paddingBottom: 0, paddingRight: 15, width: 0, height: 60)
         
         let uid = userId ?? (Auth.auth().currentUser?.uid ?? "")
         UserController.shared.fetchUserWithUID(uid: uid) { (user) in
@@ -288,11 +289,9 @@ class HomeViewController: UIViewController {
         return view
     }()
     
-    let bannerLayerImageView: UIView = {
-        let view = UIView()
-//        view.backgroundColor = UIColor.black.withAlphaComponent(0.4)
-        view.backgroundColor = UIColor.LightGrayBg()
-        view.translatesAutoresizingMaskIntoConstraints = false
+    let bannerLayerView: ShadowView = {
+        let view = ShadowView()
+        view.backgroundColor = .white
         return view
     }()
     
@@ -328,7 +327,7 @@ class HomeViewController: UIViewController {
 
     let usernameLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont.boldSystemFont(ofSize: 20)
+        label.font = UIFont.boldSystemFont(ofSize: 28)
         label.textColor = UIColor.orangeColor()
         label.lineBreakMode = .byWordWrapping
         label.numberOfLines = 2
@@ -339,15 +338,16 @@ class HomeViewController: UIViewController {
     lazy var viewProfileButton: UIButton = {
         let button = UIButton(type: .custom)
         button.setTitle("View Profile", for: .normal)
-        button.titleLabel?.font = UIFont.systemFont(ofSize: 18)
-        button.setTitleColor(UIColor.white, for: .normal)
+        button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 15)
+        button.setTitleColor(UIColor.orangeColor(), for: .normal)
+        button.contentHorizontalAlignment = .left
 //        button.contentHorizontalAlignment = UIControl.ContentHorizontalAlignment.left
-        button.backgroundColor = UIColor.orangeColor()
-        button.layer.cornerRadius = 10
-        button.layer.shadowOffset = CGSize(width: 0, height: 4)
-        button.layer.shadowRadius = 4
-        button.layer.shadowOpacity = 0.2
-        button.layer.shadowColor = UIColor.gray.cgColor
+//        button.backgroundColor = .white
+//        button.layer.cornerRadius = 10
+//        button.layer.shadowOffset = CGSize(width: 0, height: 4)
+//        button.layer.shadowRadius = 4
+//        button.layer.shadowOpacity = 0.2
+//        button.layer.shadowColor = UIColor.gray.cgColor
         button.addTarget(self, action: #selector(handleViewProfile), for: .touchUpInside)
         return button
     }()
