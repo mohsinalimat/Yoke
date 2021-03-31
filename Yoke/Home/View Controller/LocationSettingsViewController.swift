@@ -82,12 +82,12 @@ class LocationSettingsViewController: UIViewController, UISearchBarDelegate, UIS
         setLocationLabel.anchor(top: swipeIndicator.bottomAnchor, left: nil, bottom: nil, right: nil, paddingTop: 20, paddingLeft: 0, paddingBottom: 0, paddingRight: 0)
         setLocationLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         
-        streetTextField.anchor(top: setLocationLabel.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 20, paddingLeft: 8, paddingBottom: 0, paddingRight: 8, height: 40)
-        apartmentTextField.anchor(top: streetTextField.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 5, paddingLeft: 8, paddingBottom: 0, paddingRight: 8, height: 40)
-        cityTextField.anchor(top: apartmentTextField.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 5, paddingLeft: 8, paddingBottom: 0, paddingRight: 8, height: 40)
-        stateTextField.anchor(top: cityTextField.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 5, paddingLeft: 8, paddingBottom: 0, paddingRight: 8, height: 40)
-        searchButton.anchor(top: stateTextField.bottomAnchor, left: nil, bottom: nil, right: safeArea.rightAnchor, paddingTop: 5, paddingLeft: 0, paddingBottom: 0, paddingRight: 8, width: 100, height: 35)
-        locationView.anchor(top: searchButton.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 10, paddingLeft: 8, paddingBottom: 0, paddingRight: -10)
+        streetTextField.anchor(top: setLocationLabel.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 20, paddingLeft: 10, paddingBottom: 0, paddingRight: 10, height: 45)
+        apartmentTextField.anchor(top: streetTextField.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 10, paddingLeft: 10, paddingBottom: 0, paddingRight: 10, height: 45)
+        cityTextField.anchor(top: apartmentTextField.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 10, paddingLeft: 10, paddingBottom: 0, paddingRight: 10, height: 45)
+        stateTextField.anchor(top: cityTextField.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 10, paddingLeft: 10, paddingBottom: 0, paddingRight: 10, height: 45)
+        searchButton.anchor(top: stateTextField.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 10, paddingLeft: 25, paddingBottom: 0, paddingRight: 25, height: 45)
+        locationView.anchor(top: searchButton.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 10, paddingLeft: 10, paddingBottom: 0, paddingRight: -10)
         mapView.anchor(top: locationView.bottomAnchor, left: safeArea.leftAnchor, bottom: safeArea.bottomAnchor, right: safeArea.rightAnchor, paddingTop: 20, paddingLeft: 0, paddingBottom: 0, paddingRight: 0)
     }
     
@@ -133,12 +133,10 @@ class LocationSettingsViewController: UIViewController, UISearchBarDelegate, UIS
                 // pulls to physical address on mapkit
             }
             if let postal = placemark.postalAddress {
-                output = output + "address \n\(postal.street)"
                 self.streetTextField.text = postal.street
                 self.cityTextField.text = postal.city
                 self.stateTextField.text = postal.state
             }
-            print(output)
             self.locationManager.getLocation(forPlaceCalled: output) { location in
                 guard let location = location else { return }
                 let center = CLLocationCoordinate2D(latitude: location.coordinate.latitude, longitude: location.coordinate.longitude)
@@ -159,9 +157,7 @@ class LocationSettingsViewController: UIViewController, UISearchBarDelegate, UIS
             var output = ""
             if let locationName = placemark.location {
                 output = output + "\n\(locationName)"
-                // pulls to physical address on mapkit
             }
-            print(output)
             self.locationManager.getLocation(forPlaceCalled: output) { location in
                 guard let location = location else { return }
                 let center = CLLocationCoordinate2D(latitude: location.coordinate.latitude, longitude: location.coordinate.longitude)
@@ -258,6 +254,10 @@ class LocationSettingsViewController: UIViewController, UISearchBarDelegate, UIS
         text.textColor = UIColor.orangeColor()
         text.backgroundColor = UIColor.LightGrayBg()
         text.layer.cornerRadius = 10
+        text.layer.shadowOffset = CGSize(width: 0, height: 4)
+        text.layer.shadowRadius = 4
+        text.layer.shadowOpacity = 0.1
+        text.layer.shadowColor = UIColor.gray.cgColor
         return text
     }()
     
@@ -268,6 +268,10 @@ class LocationSettingsViewController: UIViewController, UISearchBarDelegate, UIS
         text.textColor = UIColor.orangeColor()
         text.backgroundColor = UIColor.LightGrayBg()
         text.layer.cornerRadius = 10
+        text.layer.shadowOffset = CGSize(width: 0, height: 4)
+        text.layer.shadowRadius = 4
+        text.layer.shadowOpacity = 0.1
+        text.layer.shadowColor = UIColor.gray.cgColor
         return text
     }()
     
@@ -278,6 +282,10 @@ class LocationSettingsViewController: UIViewController, UISearchBarDelegate, UIS
         text.textColor = UIColor.orangeColor()
         text.backgroundColor = UIColor.LightGrayBg()
         text.layer.cornerRadius = 10
+        text.layer.shadowOffset = CGSize(width: 0, height: 4)
+        text.layer.shadowRadius = 4
+        text.layer.shadowOpacity = 0.1
+        text.layer.shadowColor = UIColor.gray.cgColor
         return text
     }()
     
@@ -288,6 +296,10 @@ class LocationSettingsViewController: UIViewController, UISearchBarDelegate, UIS
         text.textColor = UIColor.orangeColor()
         text.backgroundColor = UIColor.LightGrayBg()
         text.layer.cornerRadius = 10
+        text.layer.shadowOffset = CGSize(width: 0, height: 4)
+        text.layer.shadowRadius = 4
+        text.layer.shadowOpacity = 0.1
+        text.layer.shadowColor = UIColor.gray.cgColor
         return text
     }()
     
@@ -299,6 +311,10 @@ class LocationSettingsViewController: UIViewController, UISearchBarDelegate, UIS
         button.backgroundColor = UIColor.orangeColor()
         button.layer.cornerRadius = 10
         button.addTarget(self, action: #selector(handleSetUserLocation), for: .touchUpInside)
+        button.layer.shadowOffset = CGSize(width: 0, height: 4)
+        button.layer.shadowRadius = 4
+        button.layer.shadowOpacity = 0.2
+        button.layer.shadowColor = UIColor.gray.cgColor
         return button
     }()
     
