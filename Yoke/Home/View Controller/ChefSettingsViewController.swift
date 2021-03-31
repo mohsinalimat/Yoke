@@ -234,7 +234,7 @@ class ChefSettingsViewController: UIViewController, TTGTextTagCollectionViewDele
     var chefLabel: UILabel = {
         let label = UILabel()
         label.text = "Chef Settings"
-        label.font = UIFont.boldSystemFont(ofSize: 28)
+        label.font = UIFont.boldSystemFont(ofSize: 22)
         label.textColor = .gray
         return label
     }()
@@ -279,7 +279,7 @@ class ChefSettingsViewController: UIViewController, TTGTextTagCollectionViewDele
     var selectionLabel: UILabel = {
         let label = UILabel()
         label.text = "Your selection's"
-        label.font = UIFont.boldSystemFont(ofSize: 20)
+        label.font = UIFont.boldSystemFont(ofSize: 22)
         label.textColor = .gray
         return label
     }()

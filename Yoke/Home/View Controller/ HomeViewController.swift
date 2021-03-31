@@ -398,7 +398,7 @@ class HomeViewController: UIViewController {
     let menuLabel: UILabel = {
         let label = UILabel()
         label.textColor = UIColor.gray
-        label.font = UIFont.boldSystemFont(ofSize: 20)
+        label.font = UIFont.boldSystemFont(ofSize: 22)
         return label
     }()
     

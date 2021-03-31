@@ -234,7 +234,7 @@ class LocationSettingsViewController: UIViewController, UISearchBarDelegate, UIS
     var setLocationLabel: UILabel = {
         let label = UILabel()
         label.text = "Set Location"
-        label.font = UIFont.boldSystemFont(ofSize: 28)
+        label.font = UIFont.boldSystemFont(ofSize: 22)
         label.textColor = .gray
         return label
     }()
