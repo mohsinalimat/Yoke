@@ -215,19 +215,18 @@ class NewEventViewController: UIViewController {
     }
     
     @objc func handleDeleteMenu() {
-//        guard let menuId = menu?.id,
-//        let imageId = menu?.imageId else { return }
-//        self.myActivityIndicator.startAnimating()
-//        MenuController.shared.deleteMenuWith(uid: uid, menuId: menuId, imageId: imageId) { (result) in
-//            switch result {
-//            case true:
-//                print("deleted")
-//                self.myActivityIndicator.stopAnimating()
-//                self.deleteSuccessful()
-//            case false:
-//                print("error in delete menu")
-//            }
-//        }
+        guard let eventId = event?.id,
+              let imageId = event?.imageId else { return }
+        self.myActivityIndicator.startAnimating()
+        EventController.shared.deleteEventWith(eventId: eventId, imageId: imageId) { (result) in
+            switch result {
+            case true:
+                self.myActivityIndicator.stopAnimating()
+                self.deleteSuccessful()
+            case false:
+                print("error in delete menu")
+            }
+        }
     }
     
     @objc func handleDateSelection() {

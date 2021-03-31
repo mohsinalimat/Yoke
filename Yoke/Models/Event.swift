@@ -13,6 +13,7 @@ class Event {
     var uid: String?
     var username: String?
     var eventImageUrl: String?
+    var imageId: String?
     var caption: String?
     var detail: String?
     var date: String?
@@ -28,6 +29,7 @@ class Event {
         self.uid = dictionary[Constants.Uid] as? String ?? ""
         self.username = dictionary[Constants.Username] as? String ?? ""
         self.eventImageUrl = dictionary[Constants.EventImageUrl] as? String ?? ""
+        self.imageId = dictionary[Constants.Id] as? String ?? ""
         self.caption = dictionary[Constants.Caption] as? String ?? ""
         self.detail = dictionary[Constants.Detail] as? String ?? ""
         self.date = dictionary[Constants.Date] as? String ?? ""

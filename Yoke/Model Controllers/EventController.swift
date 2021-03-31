@@ -104,4 +104,21 @@ class EventController {
         }
     }
     
+    func deleteEventWith(eventId: String, imageId: String, completion: @escaping (Bool) -> Void) {
+        self.firestoreDB.document(eventId).delete { (error) in
+            if let error = error {
+                print("There was an error deleting the menu from deleteMenuWith in MenuController: \(error.localizedDescription)")
+                completion(false)
+                return
+            }
+            self.storageRef.child(imageId).delete { (error) in
+                if let error = error {
+                    print("error in deleting image from deleteMenuWith in MenuController: \(error.localizedDescription)")
+                }
+                completion(true)
+            }
+        }
+        
+    }
+    
 }
