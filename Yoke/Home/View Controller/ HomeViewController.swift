@@ -289,19 +289,14 @@ class HomeViewController: UIViewController {
         return view
     }()
     
-    let bannerLayerView: ShadowView = {
-        let view = ShadowView()
+    let bannerLayerView: UIView = {
+        let view = UIView()
         view.backgroundColor = .white
+        view.layer.shadowOffset = CGSize(width: 0, height: 4)
+        view.layer.shadowRadius = 4
+        view.layer.shadowOpacity = 0.1
+        view.layer.shadowColor = UIColor.black.cgColor
         return view
-    }()
-    
-    let bannerImageView: CustomImageView = {
-        let image = CustomImageView()
-//        image.image = UIImage(named: "image_background")
-        image.backgroundColor = UIColor.LightGrayBg()
-        image.clipsToBounds = true
-        image.contentMode = .scaleAspectFill
-        return image
     }()
     
     let profileImageShadowView: UIView = {
