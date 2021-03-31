@@ -24,6 +24,7 @@ class Event {
     var allowsContact: Bool?
 
     init(dictionary: [String: Any]) {
+        self.id = dictionary[Constants.Id] as? String ?? ""
         self.uid = dictionary[Constants.Uid] as? String ?? ""
         self.username = dictionary[Constants.Username] as? String ?? ""
         self.eventImageUrl = dictionary[Constants.EventImageUrl] as? String ?? ""

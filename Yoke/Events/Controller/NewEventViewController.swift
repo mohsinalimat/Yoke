@@ -112,18 +112,19 @@ class NewEventViewController: UIViewController {
     }
     
     func fetchEvent() {
-        guard let image = event?.eventImageUrl else { return }
+        guard let event = event,
+              let image = event.eventImageUrl else { return }
         eventImageView.loadImage(urlString: image)
-        captionTextField.text = event?.caption
-        eventDetailTextField.text = event?.detail
+        captionTextField.text = event.caption
+        eventDetailTextField.text = event.detail
         locationButton.titleLabel?.text = "button"
-        selectedDateLabel.text = event?.date
-        startTimeTextField.text = event?.startTime
-        endTimeTextField.text = event?.endTime
-        if event?.allowsRSVP == true {
+        selectedDateLabel.text = event.date
+        startTimeTextField.text = event.startTime
+        endTimeTextField.text = event.endTime
+        if event.allowsRSVP == true {
             rsvpSwitch.isOn = true
         }
-        if event?.allowsContact == true {
+        if event.allowsContact == true {
             contactSwitch.isOn = true
         }
     }

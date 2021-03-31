@@ -90,7 +90,7 @@ class ChefsEventsCollectionViewController: UICollectionViewController, UICollect
             let event = EventController.shared.events[indexPath.item]
             let eventVC = NewEventViewController()
             eventVC.event = event
-            eventVC.eventLabel.text = "Edit Menu"
+            eventVC.eventLabel.text = "Edit Event"
             eventVC.eventDetailTextField.placeholder = ""
             eventVC.deleteButton.isHidden = false
             eventVC.eventExist = true
