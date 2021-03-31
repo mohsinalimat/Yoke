@@ -51,6 +51,7 @@ class NewEventViewController: UIViewController {
         view.addSubview(deleteButton)
         view.addSubview(eventLabel)
         view.addSubview(scrollView)
+        scrollView.addSubview(eventImageShadowView)
         scrollView.addSubview(eventImageView)
         scrollView.addSubview(eventAddImageButton)
         scrollView.addSubview(captionTextField)
@@ -86,6 +87,7 @@ class NewEventViewController: UIViewController {
         eventLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         scrollView.contentSize = CGSize(width: view.frame.width, height: view.frame.height + 500)
         scrollView.anchor(top: eventLabel.bottomAnchor, left: safeArea.leftAnchor, bottom: safeArea.bottomAnchor, right: safeArea.rightAnchor, paddingTop: 20, paddingLeft: 0, paddingBottom: 0, paddingRight: 0)
+        eventImageShadowView.anchor(top: scrollView.topAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 20, paddingLeft: 8, paddingBottom: 0, paddingRight: 8, width: view.frame.width / 2, height: 300)
         eventImageView.anchor(top: scrollView.topAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 20, paddingLeft: 8, paddingBottom: 0, paddingRight: 8, width: view.frame.width / 2, height: 300)
         eventAddImageButton.anchor(top: scrollView.topAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 20, paddingLeft: 8, paddingBottom: 0, paddingRight: 8, width: view.frame.width / 2, height: 300)
         captionTextField.anchor(top: eventImageView.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 20, paddingLeft: 10, paddingBottom: 8, paddingRight: 10, height: 45)
@@ -283,7 +285,7 @@ class NewEventViewController: UIViewController {
     var eventLabel: UILabel = {
         let label = UILabel()
         label.text = "Create Event"
-        label.font = UIFont.boldSystemFont(ofSize: 17)
+        label.font = UIFont.boldSystemFont(ofSize: 22)
         label.textColor = .gray
         return label
     }()
@@ -317,13 +319,23 @@ class NewEventViewController: UIViewController {
         return view
     }()
     
+    let eventImageShadowView: UIView = {
+        let view = UIView()
+        view.backgroundColor = .white
+        view.layer.cornerRadius = 10
+        view.layer.shadowOffset = CGSize(width: 0, height: 4)
+        view.layer.shadowRadius = 4
+        view.layer.shadowOpacity = 0.2
+        view.layer.shadowColor = UIColor.gray.cgColor
+        return view
+    }()
+    
     let eventImageView: CustomImageView = {
         let image = CustomImageView()
         image.image = UIImage(named: "image_background")
         image.clipsToBounds = true
         image.contentMode = .scaleAspectFill
         image.layer.cornerRadius = 10
-        image.backgroundColor = UIColor.orangeColor()
         return image
     }()
     
@@ -340,7 +352,6 @@ class NewEventViewController: UIViewController {
         text.textColor = .darkGray
         text.attributedPlaceholder = NSAttributedString(string: " Enter Caption", attributes: [NSAttributedString.Key.foregroundColor: UIColor.lightGray])
         text.layer.cornerRadius = 10
-        text.layer.cornerRadius = 10
         text.layer.shadowOffset = CGSize(width: 0, height: 4)
         text.layer.shadowRadius = 4
         text.layer.shadowOpacity = 0.1
@@ -355,7 +366,6 @@ class NewEventViewController: UIViewController {
         text.textColor = .darkGray
         text.isEditable = true
         text.isScrollEnabled = true
-        text.layer.cornerRadius = 10
         text.textContainer.lineBreakMode = .byWordWrapping
         text.font = UIFont.systemFont(ofSize: 17)
         text.layer.cornerRadius = 10
