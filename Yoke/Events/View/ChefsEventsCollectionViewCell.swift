@@ -27,36 +27,43 @@ class ChefsEventsCollectionViewCell: UICollectionViewCell {
     
     //MARK: - Helper Funtions
     func configure() {
-        guard let event = event else { return }
+        guard let event = event,
+              let eventImg = event.eventImageUrl else { return }
         let timestamp = event.timestamp.timeAgoDisplay()
+        eventImage.loadImage(urlString: eventImg)
         timestampLabel.text = "Posted \(timestamp) ago"
         captionLabel.text = event.caption
+        dateLabel.text = event.date
     }
     
     func setupViews() {
         addSubview(shadowView)
-        addSubview(cellBackgroundView)
+        addSubview(eventImage)
         addSubview(timestampLabel)
         addSubview(captionLabel)
+        addSubview(dateIcon)
+        addSubview(dateLabel)
     }
     
     func setupConstraints() {
         shadowView.anchor(top: topAnchor, left: leftAnchor, bottom: bottomAnchor, right: rightAnchor, paddingTop: 10, paddingLeft: 10, paddingBottom: 10, paddingRight: 10)
-        cellBackgroundView.anchor(top: topAnchor, left: leftAnchor, bottom: bottomAnchor, right: rightAnchor, paddingTop: 10, paddingLeft: 10, paddingBottom: 10, paddingRight: 10)
-        timestampLabel.anchor(top: cellBackgroundView.topAnchor, left: nil, bottom: nil, right: cellBackgroundView.rightAnchor, paddingTop: 5, paddingLeft: 0, paddingBottom: 0, paddingRight: 5)
-        captionLabel.anchor(top: timestampLabel.bottomAnchor, left: cellBackgroundView.leftAnchor, bottom: nil, right: cellBackgroundView.rightAnchor, paddingTop: 5, paddingLeft: 5, paddingBottom: 0, paddingRight: 5)
+        eventImage.anchor(top: shadowView.topAnchor, left: shadowView.leftAnchor, bottom: nil, right: nil, paddingTop: 5, paddingLeft: 5, paddingBottom: 5, paddingRight: 0, width: 120, height: 120)
+        timestampLabel.anchor(top: shadowView.topAnchor, left: nil, bottom: nil, right: shadowView.rightAnchor, paddingTop: 5, paddingLeft: 0, paddingBottom: 0, paddingRight: 5)
+        captionLabel.anchor(top: eventImage.topAnchor, left: eventImage.rightAnchor, bottom: nil, right: shadowView.rightAnchor, paddingTop: 35, paddingLeft: 5, paddingBottom: 0, paddingRight: 10)
+//        captionLabel.centerYAnchor.constraint(equalTo: eventImage.centerYAnchor).isActive = true
+        dateIcon.anchor(top: captionLabel.bottomAnchor, left: eventImage.rightAnchor, bottom: nil, right: nil, paddingTop: 10, paddingLeft: 5, paddingBottom: 0, paddingRight: 0, width: 15, height: 15)
+        dateLabel.anchor(top: dateIcon.topAnchor, left: dateIcon.rightAnchor, bottom: nil, right: nil, paddingTop: 0, paddingLeft: 5, paddingBottom: 0, paddingRight: 0)
+        dateLabel.centerYAnchor.constraint(equalTo: dateIcon.centerYAnchor).isActive = true
     }
     
     //MARK: Views
-    var profileImage: CustomImageView = {
+    var eventImage: CustomImageView = {
         let image = CustomImageView()
         image.contentMode = .scaleAspectFill
         image.image = UIImage(named: "image_background")
+        image.layer.cornerRadius = 10
         image.translatesAutoresizingMaskIntoConstraints = false
         image.clipsToBounds = true
-        image.layer.cornerRadius = 25
-        image.layer.borderWidth = 1
-        image.layer.borderColor = UIColor.white.cgColor
         return image
     }()
     
@@ -70,19 +77,24 @@ class ChefsEventsCollectionViewCell: UICollectionViewCell {
     let captionLabel: UILabel = {
         let label = UILabel()
         label.textColor = UIColor.gray
-        label.font = UIFont.boldSystemFont(ofSize: 17)
-        label.lineBreakMode = .byWordWrapping
-        label.numberOfLines = 0
+        label.font = UIFont.boldSystemFont(ofSize: 20)
+//        label.lineBreakMode = .byWordWrapping
+//        label.numberOfLines = 2
         label.textAlignment = .left
         return label
     }()
-
-    let cellBackgroundView: UIView = {
-        let view = UIView()
-        view.layer.cornerRadius = 10
-        view.layer.masksToBounds = true
-        view.backgroundColor = UIColor.white
-        return view
+    
+    var dateIcon: UIImageView = {
+        let image = UIImageView()
+        image.image = UIImage(named: "calendarOrange")
+        return image
+    }()
+    
+    var dateLabel: UILabel = {
+        let label = UILabel()
+        label.font = UIFont.boldSystemFont(ofSize: 13)
+        label.textColor = .gray
+        return label
     }()
     
     let shadowView: ShadowView = {
