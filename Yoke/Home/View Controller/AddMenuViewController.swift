@@ -223,7 +223,7 @@ class AddMenuViewController: UIViewController {
     var menuLabel: UILabel = {
         let label = UILabel()
         label.text = "Add a menu"
-        label.font = UIFont.boldSystemFont(ofSize: 17)
+        label.font = UIFont.boldSystemFont(ofSize: 28)
         label.textColor = .gray
         return label
     }()
