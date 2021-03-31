@@ -54,6 +54,7 @@ class SettingsViewController: UIViewController  {
     func setupViews() {
         view.backgroundColor = UIColor.white
         view.addSubview(swipeIndicator)
+        view.addSubview(headerViewBg)
         view.addSubview(bannerImageView)
         view.addSubview(editBannerImageButton)
         view.addSubview(profileImageView)
@@ -85,6 +86,7 @@ class SettingsViewController: UIViewController  {
     func constrainViews() {
         swipeIndicator.anchor(top: safeArea.topAnchor, left: nil, bottom: nil, right: nil, paddingTop: 20, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 100, height: 5)
         swipeIndicator.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        headerViewBg.anchor(top: safeArea.topAnchor, left: safeArea.leftAnchor, bottom: scrollView.topAnchor, right: safeArea.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0)
         bannerImageView.anchor(top: swipeIndicator.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 20, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, height: view.frame.width / 3)
         editBannerImageButton.anchor(top: swipeIndicator.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 20, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, height: view.frame.width / 3)
         profileImageView.anchor(top: bannerImageView.bottomAnchor, left: nil, bottom: nil, right: nil, paddingTop: -40, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 120, height: 120)
@@ -97,32 +99,34 @@ class SettingsViewController: UIViewController  {
         settingsLabel.anchor(top: editProfileImageButton.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: nil, paddingTop: 5, paddingLeft: 10, paddingBottom: 0, paddingRight: 0)
         updateButton.anchor(top: editProfileImageButton.bottomAnchor, left: nil, bottom: nil, right: safeArea.rightAnchor, paddingTop: 5, paddingLeft: 0, paddingBottom: 0, paddingRight: 10)
         
-        scrollView.contentSize = CGSize(width: view.frame.width - 20, height: view.frame.height)
-        scrollView.anchor(top: settingsLabel.bottomAnchor, left: safeArea.leftAnchor, bottom: safeArea.bottomAnchor, right: safeArea.rightAnchor, paddingTop: 10, paddingLeft: 8, paddingBottom: 8, paddingRight: 8)
+        scrollView.contentSize = CGSize(width: view.frame.width, height: view.frame.height)
+        scrollView.anchor(top: settingsLabel.bottomAnchor, left: safeArea.leftAnchor, bottom: safeArea.bottomAnchor, right: safeArea.rightAnchor, paddingTop: 10, paddingLeft: 0, paddingBottom: 0, paddingRight: 0)
         
         usernameView.anchor(top: scrollView.topAnchor, left: scrollView.leftAnchor, bottom: nil, right: scrollView.rightAnchor, paddingTop: 10, paddingLeft: 8, paddingBottom: 0, paddingRight: 8, width: scrollView.frame.width - 20, height: 67)
-        usernameLabel.anchor(top: usernameView.topAnchor, left: usernameView.leftAnchor, bottom: nil, right: usernameView.rightAnchor, paddingTop: 8, paddingLeft: 8, paddingBottom: 8, paddingRight: 8, height: 15)
-        usernameTextField.anchor(top: usernameLabel.bottomAnchor, left: usernameView.leftAnchor, bottom: nil, right: usernameView.rightAnchor, paddingTop: 8, paddingLeft: 8, paddingBottom: 0, paddingRight: 8)
+        usernameLabel.anchor(top: usernameView.topAnchor, left: usernameView.leftAnchor, bottom: nil, right: usernameView.rightAnchor, paddingTop: 10, paddingLeft: 10, paddingBottom: 0, paddingRight: 10, height: 15)
+        usernameTextField.anchor(top: usernameLabel.bottomAnchor, left: usernameView.leftAnchor, bottom: nil, right: usernameView.rightAnchor, paddingTop: 10, paddingLeft: 10, paddingBottom: 10, paddingRight: 10)
         
-        locationView.anchor(top: usernameView.bottomAnchor, left: scrollView.leftAnchor, bottom: nil, right: scrollView.rightAnchor, paddingTop: 5, paddingLeft: 8, paddingBottom: 0, paddingRight: 8, width: scrollView.frame.width - 20, height: 67)
-        locationLabel.anchor(top: locationView.topAnchor, left: locationView.leftAnchor, bottom: nil, right: nil, paddingTop: 8, paddingLeft: 8, paddingBottom: 8, paddingRight: 8, width: 200, height: 15)
+        locationView.anchor(top: usernameView.bottomAnchor, left: scrollView.leftAnchor, bottom: nil, right: scrollView.rightAnchor, paddingTop: 10, paddingLeft: 10, paddingBottom: 0, paddingRight: 10, width: scrollView.frame.width - 20, height: 67)
+        locationLabel.anchor(top: locationView.topAnchor, left: locationView.leftAnchor, bottom: nil, right: nil, paddingTop: 8, paddingLeft: 10, paddingBottom: 10, paddingRight: 10, width: 200, height: 15)
         locationButton.anchor(top: locationView.topAnchor, left: nil, bottom: nil, right: locationView.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 10)
-        locationTextField.anchor(top: locationLabel.bottomAnchor, left: locationView.leftAnchor, bottom: nil, right: locationView.rightAnchor, paddingTop: 8, paddingLeft: 6, paddingBottom: 0, paddingRight: 8)
+        locationTextField.anchor(top: locationLabel.bottomAnchor, left: locationView.leftAnchor, bottom: nil, right: locationView.rightAnchor, paddingTop: 10, paddingLeft: 10, paddingBottom: 0, paddingRight: 10)
         
 
-        bioView.anchor(top: locationView.bottomAnchor, left: scrollView.leftAnchor, bottom: nil, right: scrollView.rightAnchor, paddingTop: 5, paddingLeft: 8, paddingBottom: 0, paddingRight: 8, width: view.frame.width - 20, height: 202)
-        bioLabel.anchor(top: bioView.topAnchor, left: bioView.leftAnchor, bottom: nil, right: bioView.rightAnchor, paddingTop: 5, paddingLeft: 8, paddingBottom: 5, paddingRight: 8, width: view.frame.width, height: 15)
-        bioTextView.anchor(top: bioLabel.bottomAnchor, left: bioView.leftAnchor, bottom: nil, right: bioView.rightAnchor, paddingTop: 0, paddingLeft: 3, paddingBottom: 8, paddingRight: 8, width: view.frame.width, height: 150)
+        bioView.anchor(top: locationView.bottomAnchor, left: scrollView.leftAnchor, bottom: nil, right: scrollView.rightAnchor, paddingTop: 10, paddingLeft: 10, paddingBottom: 0, paddingRight: 10, width: view.frame.width - 20, height: 202)
+        bioLabel.anchor(top: bioView.topAnchor, left: bioView.leftAnchor, bottom: nil, right: bioView.rightAnchor, paddingTop: 10, paddingLeft: 10, paddingBottom: 10, paddingRight: 10, width: view.frame.width, height: 15)
+        bioTextView.anchor(top: bioLabel.bottomAnchor, left: bioView.leftAnchor, bottom: nil, right: bioView.rightAnchor, paddingTop: 10, paddingLeft: 10, paddingBottom: 10, paddingRight: 10, width: view.frame.width, height: 150)
 
-        chefView.anchor(top: bioView.bottomAnchor, left: scrollView.leftAnchor, bottom: nil, right: scrollView.rightAnchor, paddingTop: 5, paddingLeft: 8, paddingBottom: 0, paddingRight: 8, width: view.frame.width - 20, height: 40)
-        chefLabel.anchor(top: chefView.topAnchor, left: chefView.leftAnchor, bottom: nil, right: nil, paddingTop: 8, paddingLeft: 8, paddingBottom: 8, paddingRight: 8, width: 200, height: 20)
-        chefSwitch.anchor(top: chefView.topAnchor, left: nil, bottom: chefView.bottomAnchor, right: chefView.rightAnchor, paddingTop: 4, paddingLeft: 0, paddingBottom: 0, paddingRight: 8)
-        chefInfoLabel.anchor(top: chefView.bottomAnchor, left: scrollView.leftAnchor, bottom: nil, right: nil, paddingTop: 0, paddingLeft: 8, paddingBottom: 0, paddingRight: 0, height: 20)
-        chefPreferenceButton.anchor(top: chefInfoLabel.bottomAnchor, left: scrollView.leftAnchor, bottom: nil, right: scrollView.rightAnchor, paddingTop: 5, paddingLeft: 8, paddingBottom: 0, paddingRight: 8, height: 45)
-        changePasswordButton.anchor(top: chefPreferenceButton.bottomAnchor, left: scrollView.leftAnchor, bottom: nil, right: scrollView.rightAnchor, paddingTop: 5, paddingLeft: 8, paddingBottom: 0, paddingRight: 8, height: 45)
-        privacyButton.anchor(top: changePasswordButton.bottomAnchor, left: scrollView.leftAnchor, bottom: nil, right: scrollView.rightAnchor, paddingTop: 5, paddingLeft: 8, paddingBottom: 0, paddingRight: 8, height: 45)
-        logoutButton.anchor(top: privacyButton.bottomAnchor, left: scrollView.leftAnchor, bottom: nil, right: scrollView.rightAnchor, paddingTop: 5, paddingLeft: 8, paddingBottom: 0, paddingRight: 8, height: 45)
-        deleteButton.anchor(top: logoutButton.bottomAnchor, left: scrollView.leftAnchor, bottom: nil, right: scrollView.rightAnchor, paddingTop: 5, paddingLeft: 8, paddingBottom: 0, paddingRight: 8, height: 45)
+        chefView.anchor(top: bioView.bottomAnchor, left: scrollView.leftAnchor, bottom: nil, right: scrollView.rightAnchor, paddingTop: 10, paddingLeft: 10, paddingBottom: 10, paddingRight: 10, width: view.frame.width - 20, height: 50)
+        chefLabel.anchor(top: nil, left: chefView.leftAnchor, bottom: nil, right: nil, paddingTop: 0, paddingLeft: 10, paddingBottom: 0, paddingRight: 0, width: 200)
+        chefLabel.centerYAnchor.constraint(equalTo: chefView.centerYAnchor).isActive = true
+        chefSwitch.anchor(top: nil, left: nil, bottom: nil, right: chefView.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 10)
+        chefSwitch.centerYAnchor.constraint(equalTo: chefView.centerYAnchor).isActive = true
+        chefInfoLabel.anchor(top: chefView.bottomAnchor, left: scrollView.leftAnchor, bottom: nil, right: nil, paddingTop: 0, paddingLeft: 10, paddingBottom: 0, paddingRight: 10, height: 20)
+        chefPreferenceButton.anchor(top: chefInfoLabel.bottomAnchor, left: scrollView.leftAnchor, bottom: nil, right: scrollView.rightAnchor, paddingTop: 10, paddingLeft: 10, paddingBottom: 0, paddingRight: 10, height: 45)
+        changePasswordButton.anchor(top: chefPreferenceButton.bottomAnchor, left: scrollView.leftAnchor, bottom: nil, right: scrollView.rightAnchor, paddingTop: 10, paddingLeft: 10, paddingBottom: 0, paddingRight: 10, height: 45)
+        privacyButton.anchor(top: changePasswordButton.bottomAnchor, left: scrollView.leftAnchor, bottom: nil, right: scrollView.rightAnchor, paddingTop: 10, paddingLeft: 10, paddingBottom: 10, paddingRight: 10, height: 45)
+        logoutButton.anchor(top: privacyButton.bottomAnchor, left: scrollView.leftAnchor, bottom: nil, right: scrollView.rightAnchor, paddingTop: 10, paddingLeft: 10, paddingBottom: 10, paddingRight: 10, height: 45)
+        deleteButton.anchor(top: logoutButton.bottomAnchor, left: scrollView.leftAnchor, bottom: nil, right: scrollView.rightAnchor, paddingTop: 10, paddingLeft: 10, paddingBottom: 0, paddingRight: 10, height: 45)
     }
     
     fileprivate func fetchUser() {
@@ -381,10 +385,19 @@ class SettingsViewController: UIViewController  {
     lazy var scrollView: UIScrollView = {
         let view = UIScrollView()
         view.backgroundColor = UIColor.LightGrayBg()
-        view.layer.cornerRadius = 10
-        view.layer.borderColor = UIColor.LightGrayBg()?.cgColor
-        view.layer.borderWidth = 5
         view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
+    
+    let headerViewBg: UIView = {
+        let view = UIView()
+        view.backgroundColor = .white
+        view.layer.shadowOffset = CGSize(width: 0, height: 4)
+        view.layer.shadowRadius = 4
+        view.layer.shadowOpacity = 0.2
+        view.layer.shadowColor = UIColor.gray.cgColor
+        view.layer.borderWidth = 2
+        view.layer.borderColor = UIColor.LightGrayBg()?.cgColor
         return view
     }()
     
@@ -412,7 +425,6 @@ class SettingsViewController: UIViewController  {
         image.contentMode = .scaleAspectFill
         image.layer.borderColor = UIColor.white.cgColor
         image.layer.borderWidth = 2
-        image.backgroundColor = UIColor.orangeColor()
         return image
     }()
     
@@ -430,7 +442,7 @@ class SettingsViewController: UIViewController  {
         let label = UILabel()
         label.text = "Settings"
         label.textColor = .gray
-        label.font = UIFont.boldSystemFont(ofSize: 20)
+        label.font = UIFont.boldSystemFont(ofSize: 28)
         return label
     }()
     
@@ -443,11 +455,9 @@ class SettingsViewController: UIViewController  {
         return button
     }()
 
-    let usernameView: UIView = {
-        let view = UIView()
+    let usernameView: ShadowView = {
+        let view = ShadowView()
         view.backgroundColor = .white
-        view.layer.cornerRadius = 10
-        view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
     
@@ -469,11 +479,9 @@ class SettingsViewController: UIViewController  {
         return text
     }()
     
-    let locationView: UIView = {
-        let view = UIView()
+    let locationView: ShadowView = {
+        let view = ShadowView()
         view.backgroundColor = .white
-        view.layer.cornerRadius = 10
-        view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
     
@@ -501,11 +509,9 @@ class SettingsViewController: UIViewController  {
         return button
     }()
     
-    let bioView: UIView = {
-        let view = UIView()
+    let bioView: ShadowView = {
+        let view = ShadowView()
         view.backgroundColor = .white
-        view.layer.cornerRadius = 10
-        view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
     
@@ -528,11 +534,9 @@ class SettingsViewController: UIViewController  {
         return text
     }()
     
-    let chefView: UIView = {
-        let view = UIView()
+    let chefView: ShadowView = {
+        let view = ShadowView()
         view.backgroundColor = .white
-        view.layer.cornerRadius = 10
-        view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
     
@@ -566,6 +570,10 @@ class SettingsViewController: UIViewController  {
         button.setTitleColor(UIColor.orangeColor(), for: .normal)
         button.backgroundColor = .white
         button.layer.cornerRadius = 10
+        button.layer.shadowOffset = CGSize(width: 0, height: 4)
+        button.layer.shadowRadius = 4
+        button.layer.shadowOpacity = 0.1
+        button.layer.shadowColor = UIColor.gray.cgColor
         button.addTarget(self, action: #selector(handleChefPreference), for: .touchUpInside)
         return button
     }()
@@ -576,6 +584,10 @@ class SettingsViewController: UIViewController  {
         button.setTitleColor(UIColor.orangeColor(), for: .normal)
         button.backgroundColor = .white
         button.layer.cornerRadius = 10
+        button.layer.shadowOffset = CGSize(width: 0, height: 4)
+        button.layer.shadowRadius = 4
+        button.layer.shadowOpacity = 0.1
+        button.layer.shadowColor = UIColor.gray.cgColor
         button.addTarget(self, action: #selector(handleEmailPassword), for: .touchUpInside)
         return button
     }()
@@ -586,6 +598,10 @@ class SettingsViewController: UIViewController  {
         button.setTitleColor(UIColor.orangeColor(), for: .normal)
         button.backgroundColor = .white
         button.layer.cornerRadius = 10
+        button.layer.shadowOffset = CGSize(width: 0, height: 4)
+        button.layer.shadowRadius = 4
+        button.layer.shadowOpacity = 0.1
+        button.layer.shadowColor = UIColor.gray.cgColor
 //        button.addTarget(self, action: #selector(handleLogout), for: .touchUpInside)
         return button
     }()
@@ -596,6 +612,10 @@ class SettingsViewController: UIViewController  {
         button.setTitleColor(UIColor.orangeColor(), for: .normal)
         button.backgroundColor = UIColor.white
         button.layer.cornerRadius = 10
+        button.layer.shadowOffset = CGSize(width: 0, height: 4)
+        button.layer.shadowRadius = 4
+        button.layer.shadowOpacity = 0.1
+        button.layer.shadowColor = UIColor.gray.cgColor
         button.addTarget(self, action: #selector(handleLogout), for: .touchUpInside)
         return button
     }()
@@ -606,6 +626,10 @@ class SettingsViewController: UIViewController  {
         button.setTitleColor(.white, for: .normal)
         button.backgroundColor = UIColor.orangeColor()
         button.layer.cornerRadius = 10
+        button.layer.shadowOffset = CGSize(width: 0, height: 4)
+        button.layer.shadowRadius = 4
+        button.layer.shadowOpacity = 0.1
+        button.layer.shadowColor = UIColor.gray.cgColor
         button.addTarget(self, action: #selector(handleDelete), for: .touchUpInside)
         return button
     }()

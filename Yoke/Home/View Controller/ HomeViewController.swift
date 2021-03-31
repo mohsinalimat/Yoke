@@ -52,14 +52,7 @@ class HomeViewController: UIViewController {
         view.addSubview(scrollView)
         scrollView.alwaysBounceHorizontal = true
         scrollView.bounces = true
-//        scrollView.addSubview(bannerImageView)
         scrollView.addSubview(bannerLayerView)
-//        let blurEffect = UIBlurEffect(style: .light)
-//        let blurredEffectView = UIVisualEffectView(effect: blurEffect)
-//        blurredEffectView.layer.masksToBounds = true
-//        blurredEffectView.frame = bannerImageView.bounds
-//        blurredEffectView.alpha = 0.1
-//        bannerLayerImageView.addSubview(blurredEffectView)
         scrollView.addSubview(profileImageShadowView)
         scrollView.addSubview(profileImageView)
         scrollView.addSubview(usernameLabel)
@@ -67,28 +60,19 @@ class HomeViewController: UIViewController {
         scrollView.addSubview(buttonStackView)
         buttonStackView.addArrangedSubview(reviewsButton)
         buttonStackView.addArrangedSubview(eventButton)
-//        buttonStackView.addArrangedSubview(addPhotosButton)
         buttonStackView.addArrangedSubview(bookmarkButton)
         buttonStackView.addArrangedSubview(calendarButton)
         scrollView.addSubview(collectionViewBG)
-//        scrollView.addSubview(menuViewBG)
         scrollView.addSubview(menuLabel)
         scrollView.addSubview(addMenuButton)
         scrollView.addSubview(menuCollectionView)
         scrollView.addSubview(suggestedChefCollectionView)
-//        if #available(iOS 10.0, *) {
-//            scrollView.refreshControl = refreshControl
-//        } else {
-//            scrollView.addSubview(refreshControl)
-//        }
     }
 
     func constrainViews() {
         scrollView.contentSize = CGSize(width: view.frame.width, height: view.frame.height)
         scrollView.anchor(top: safeArea.topAnchor, left: safeArea.leftAnchor, bottom: safeArea.bottomAnchor, right: safeArea.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0)
-
         bannerLayerView.anchor(top: scrollView.topAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, height: 200)
-//        bannerImageView.anchor(top: scrollView.topAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, height: 230)
         profileImageShadowView.anchor(top: scrollView.topAnchor, left: safeArea.leftAnchor, bottom: nil, right: nil, paddingTop: 25, paddingLeft: 15, paddingBottom: 0, paddingRight: 0, width: 150, height: 150)
         profileImageShadowView.layer.cornerRadius = 150 / 2
         profileImageView.anchor(top: scrollView.topAnchor, left: safeArea.leftAnchor, bottom: nil, right: nil, paddingTop: 25, paddingLeft: 15, paddingBottom: 0, paddingRight: 0, width: 150, height: 150)
@@ -192,12 +176,6 @@ class HomeViewController: UIViewController {
                     self.profileImageView.image = UIImage(data: data)
                 }
             }
-//            let bannerStorageRef = Storage.storage().reference().child("profileBannerUrl/\(uid)")
-//            bannerStorageRef.getData(maxSize: 2 * 1024 * 1024) { data, error in
-//                if error == nil, let data = data {
-//                    self.bannerImageView.image = UIImage(data: data)
-//                }
-//            }
         }
     }
     
@@ -295,7 +273,7 @@ class HomeViewController: UIViewController {
         view.layer.shadowOffset = CGSize(width: 0, height: 4)
         view.layer.shadowRadius = 4
         view.layer.shadowOpacity = 0.1
-        view.layer.shadowColor = UIColor.black.cgColor
+        view.layer.shadowColor = UIColor.gray.cgColor
         return view
     }()
     
@@ -305,7 +283,7 @@ class HomeViewController: UIViewController {
         view.layer.shadowOffset = CGSize(width: 0, height: 4)
         view.layer.shadowRadius = 4
         view.layer.shadowOpacity = 0.2
-        view.layer.shadowColor = UIColor.black.cgColor
+        view.layer.shadowColor = UIColor.gray.cgColor
         return view
     }()
     
@@ -316,7 +294,6 @@ class HomeViewController: UIViewController {
         image.layer.borderColor = UIColor.white.cgColor
         image.image = UIImage(named: "person.crop.circle.fill")
         image.backgroundColor = .white
-//        image.layer.borderWidth = 2
         return image
     }()
 
@@ -336,13 +313,6 @@ class HomeViewController: UIViewController {
         button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 15)
         button.setTitleColor(UIColor.orangeColor(), for: .normal)
         button.contentHorizontalAlignment = .left
-//        button.contentHorizontalAlignment = UIControl.ContentHorizontalAlignment.left
-//        button.backgroundColor = .white
-//        button.layer.cornerRadius = 10
-//        button.layer.shadowOffset = CGSize(width: 0, height: 4)
-//        button.layer.shadowRadius = 4
-//        button.layer.shadowOpacity = 0.2
-//        button.layer.shadowColor = UIColor.gray.cgColor
         button.addTarget(self, action: #selector(handleViewProfile), for: .touchUpInside)
         return button
     }()
@@ -359,16 +329,12 @@ class HomeViewController: UIViewController {
         button.imageEdgeInsets = UIEdgeInsets.init(top: 0,left: 45,bottom: 20,right: 0)
         button.titleEdgeInsets = UIEdgeInsets.init(top: 20,left: -25,bottom: 0,right: 0)
         button.addTarget(self, action: #selector(viewReviews), for: .touchUpInside)
-//        button.backgroundColor = UIColor.orangeColor()
         button.layer.cornerRadius = 10
-//        button.layer.borderColor = UIColor.orangeColor()?.cgColor
-//        button.layer.borderWidth = 0.5
         return button
     }()
     
     lazy var eventButton: UIButton = {
         let button = UIButton(type: .custom)
-//        button.setImage(UIImage(named: "event_full"), for: .normal)
         let image = UIImage(named: "event_full")?.withRenderingMode(.alwaysTemplate)
         button.setImage(image, for: .normal)
         button.tintColor = UIColor.orangeColor()
@@ -376,42 +342,31 @@ class HomeViewController: UIViewController {
         button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 10)
         button.setTitleColor(UIColor.orangeColor(), for: .normal)
         button.addTarget(self, action: #selector(viewEvents), for: .touchUpInside)
-//        button.backgroundColor = UIColor.orangeColor()
         button.layer.cornerRadius = 10
-//        button.layer.borderColor = UIColor.orangeColor()?.cgColor
-//        button.layer.borderWidth = 0.5
         return button
     }()
     
     lazy var calendarButton: UIButton = {
         let button = UIButton(type: .custom)
-//        button.setImage(UIImage(named: "calendar"), for: .normal)
         let image = UIImage(named: "calendar")?.withRenderingMode(.alwaysTemplate)
         button.setImage(image, for: .normal)
         button.tintColor = UIColor.orangeColor()
         button.setTitle("Calendar", for: .normal)
         button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 10)
         button.setTitleColor(UIColor.orangeColor(), for: .normal)
-//        button.addTarget(self, action: #selector(handleCalendar), for: .touchUpInside)
-//        button.backgroundColor = UIColor.orangeColor()
         button.layer.cornerRadius = 10
         return button
     }()
     
     lazy var bookmarkButton: UIButton = {
         let button = UIButton(type: .custom)
-//        button.setImage(UIImage(named: "bookmark_selected"), for: .normal)
         let image = UIImage(named: "bookmark_selected")?.withRenderingMode(.alwaysTemplate)
         button.setImage(image, for: .normal)
         button.tintColor = UIColor.orangeColor()
         button.setTitle("Bookmarked", for: .normal)
         button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 10)
         button.setTitleColor(UIColor.orangeColor(), for: .normal)
-//        button.addTarget(self, action: #selector(handleBookmarked), for: .touchUpInside)
-//        button.backgroundColor = UIColor.orangeColor()
         button.layer.cornerRadius = 10
-//        button.layer.borderColor = UIColor.orangeColor()?.cgColor
-//        button.layer.borderWidth = 0.5
         return button
     }()
     
@@ -439,12 +394,6 @@ class HomeViewController: UIViewController {
         view.layer.shadowColor = UIColor.gray.cgColor
         return view
     }()
-    
-//    let menuViewBG: UIView = {
-//        let view = UIView()
-//        view.backgroundColor = UIColor.clear
-//        return view
-//    }()
     
     let menuLabel: UILabel = {
         let label = UILabel()
