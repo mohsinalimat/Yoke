@@ -10,6 +10,8 @@ import UIKit
 import FirebaseFirestore
 import FirebaseStorage
 import FirebaseAuth
+import Geofirestore
+import MapKit
 
 class EventController {
     
@@ -18,11 +20,15 @@ class EventController {
     
     //MARK: - Firebase Firestore Database
     let firestoreDB = Firestore.firestore().collection(Constants.Events)
+    let geoRef = Firestore.firestore().collection("geoFireLocationEvents")
     let storageRef = Storage.storage().reference().child(Constants.EventImages)
     
     //MARK: - Source of truth
     var events: [Event] = []
     var filteredEvents = [Event]()
+    
+    //MARK: - Properties
+    private let locationManager = LocationManager()
     
     //MARK: - CRUD Functions
     func createEventWith(uid: String, image: UIImage?, caption: String, detailText: String, date: String, startTime: String, endTime: String, location: String, allowsRSVP: Bool, allowsContact: Bool, completion: @escaping (Bool) -> Void) {
@@ -39,6 +45,7 @@ class EventController {
             self.storageRef.child(filename).downloadURL(completion: { (downloadURL, err) in
                 guard let imageUrl = downloadURL?.absoluteString else { return }
                 self.firestoreDB.document(eventId).setData([Constants.EventImageUrl: imageUrl, Constants.Caption: caption, Constants.Detail: detailText, Constants.Date: date, Constants.StartTime: startTime, Constants.EndTime: endTime, Constants.Id: eventId, Constants.Location: location, Constants.ImageId: filename, Constants.Uid: uid, Constants.Timestamp: Date().timeIntervalSince1970, Constants.AllowsRSVP: allowsRSVP, Constants.AllowsContact: allowsContact], merge: true)
+                self.setupGeofirestore(eventId: eventId, location: location)
                 completion(true)
             })
         })
@@ -65,6 +72,24 @@ class EventController {
                 completion(true)
             })
         })
+    }
+    
+    func setupGeofirestore(eventId: String, location: String) {
+        self.locationManager.getLocation(forPlaceCalled: location) { location in
+            guard let location = location else { return }
+            let center = CLLocationCoordinate2D(latitude: location.coordinate.latitude, longitude: location.coordinate.longitude)
+            let latitude = center.latitude
+            let longitude = center.longitude
+            let geoFirestore = GeoFirestore(collectionRef: self.geoRef)
+            geoFirestore.setLocation(geopoint: GeoPoint(latitude: latitude, longitude: longitude), forDocumentWithID: eventId) { (error) in
+                if let error = error {
+                    print("An error occured: \(error)")
+                } else {
+                    print("Saved location successfully!")
+                }
+            }
+        }
+
     }
     
     func fetchEventWith(uid: String, completion: @escaping (Bool) -> Void) {

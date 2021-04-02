@@ -34,7 +34,7 @@ class UserController {
     
     //MARK: - Properties
     private let locationManager = LocationManager()
-    let mapView = MKMapView()
+//    let mapView = MKMapView()
     
     //MARK: - CRUD Functions
     func createUserWith(email: String, username: String, password: String = "", image: UIImage?, isChef: Bool, completion: @escaping (Bool) -> Void) {

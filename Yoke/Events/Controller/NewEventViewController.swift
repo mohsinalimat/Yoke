@@ -9,8 +9,8 @@
 import UIKit
 import FirebaseAuth
 
-class NewEventViewController: UIViewController {
-
+class NewEventViewController: UIViewController,  EventLocationDelegate {
+    
     //MARK: - Properties
     var safeArea: UILayoutGuide {
         return self.view.safeAreaLayoutGuide
@@ -21,6 +21,7 @@ class NewEventViewController: UIViewController {
     let myActivityIndicator = UIActivityIndicatorView(style: UIActivityIndicatorView.Style.large)
     var rsvp: Bool = false
     var contact: Bool = false
+    var selectedLocation: String = ""
     var event: Event? {
         didSet {
             fetchEvent()
@@ -138,11 +139,6 @@ class NewEventViewController: UIViewController {
         startTimeTextField.inputView = startTimePickerView
         endTimeTextField.inputView = endTimePickerView
     }
-    
-    @objc func handleAddLocation() {
-        let chooseLocation = EventLocationViewController()
-        present(chooseLocation, animated: true)
-    }
 
     func saveSuccessful() {
         let alertVC = UIAlertController(title: "Success", message: "Your event has been added!", preferredStyle: .alert)
@@ -160,6 +156,12 @@ class NewEventViewController: UIViewController {
         }
         alertVC.addAction(okAction)
         present(alertVC, animated: true)
+    }
+    
+    func eventLocationController(_ eventLocationController: EventLocationViewController, didSelectLocation location: String) {
+        selectedLocation = location
+        print("location \(location)")
+        locationButton.setTitle(location, for: .normal)
     }
     
     //MARK: - Selectors
@@ -192,7 +194,7 @@ class NewEventViewController: UIViewController {
         if eventExist == true {
             guard let  eventId = event?.id,
                   let uid = event?.uid else { return }
-            EventController.shared.updateEventWith(uid: uid, eventId: eventId, image: image, caption: caption, detailText: detail, date: date, startTime: start, endTime: end, location: "", allowsRSVP: rsvp, allowsContact: contact) { (result) in
+            EventController.shared.updateEventWith(uid: uid, eventId: eventId, image: image, caption: caption, detailText: detail, date: date, startTime: start, endTime: end, location: selectedLocation, allowsRSVP: rsvp, allowsContact: contact) { (result) in
                 switch result {
                     case true:
                         self.myActivityIndicator.stopAnimating()
@@ -202,7 +204,7 @@ class NewEventViewController: UIViewController {
                 }
             }
         } else {
-            EventController.shared.createEventWith(uid: uid, image: image, caption: caption, detailText: detail, date: date, startTime: start, endTime: end, location: "", allowsRSVP: rsvp, allowsContact: contact) { (result) in
+            EventController.shared.createEventWith(uid: uid, image: image, caption: caption, detailText: detail, date: date, startTime: start, endTime: end, location: selectedLocation, allowsRSVP: rsvp, allowsContact: contact) { (result) in
                 switch result {
                     case true:
                         self.myActivityIndicator.stopAnimating()
@@ -227,6 +229,12 @@ class NewEventViewController: UIViewController {
                 print("error in delete menu")
             }
         }
+    }
+    
+    @objc func handleAddLocation() {
+        let chooseLocation = EventLocationViewController()
+        chooseLocation.delegate = self
+        present(chooseLocation, animated: true)
     }
     
     @objc func handleDateSelection() {
