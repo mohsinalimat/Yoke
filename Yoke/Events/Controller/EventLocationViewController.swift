@@ -53,8 +53,6 @@ class EventLocationViewController: UIViewController {
             self.pin.title = "Event Location"
             self.addressTextField.text = user.street
             self.apartmentTextField.text = user.apartment
-            self.cityTextField.text = user.city
-            self.stateTextField.text = user.state
         }
     }
     
@@ -64,13 +62,8 @@ class EventLocationViewController: UIViewController {
         view.addSubview(saveButton)
         view.addSubview(setLocationLabel)
         view.addSubview(addressTextField)
-        //            view.addSubview(apartmentTextField)
-        //            view.addSubview(cityTextField)
-        //            view.addSubview(stateTextField)
+        view.addSubview(apartmentTextField)
         view.addSubview(searchButton)
-        //            view.addSubview(locationView)
-        //            locationView.addArrangedSubview(locationLabel)
-        //            locationView.addArrangedSubview(locationSwitch)
         view.addSubview(mapView)
     }
     
@@ -82,15 +75,14 @@ class EventLocationViewController: UIViewController {
         setLocationLabel.anchor(top: swipeIndicator.bottomAnchor, left: nil, bottom: nil, right: nil, paddingTop: 20, paddingLeft: 0, paddingBottom: 0, paddingRight: 0)
         setLocationLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         
-        addressTextField.anchor(top: setLocationLabel.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 20, paddingLeft: 8, paddingBottom: 0, paddingRight: 8, height: 40)
-        searchButton.anchor(top: addressTextField.bottomAnchor, left: nil, bottom: nil, right: safeArea.rightAnchor, paddingTop: 5, paddingLeft: 0, paddingBottom: 0, paddingRight: 8, width: 100, height: 35)
+        addressTextField.anchor(top: setLocationLabel.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 20, paddingLeft: 10, paddingBottom: 0, paddingRight: 10, height: 40)
+        apartmentTextField.anchor(top: addressTextField.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: nil, paddingTop: 20, paddingLeft: 10, paddingBottom: 0, paddingRight: 0, width: 200, height: 40)
+        searchButton.anchor(top: apartmentTextField.bottomAnchor, left: nil, bottom: nil, right: safeArea.rightAnchor, paddingTop: 5, paddingLeft: 0, paddingBottom: 0, paddingRight: 8, width: 100, height: 35)
         mapView.anchor(top: searchButton.bottomAnchor, left: safeArea.leftAnchor, bottom: safeArea.bottomAnchor, right: safeArea.rightAnchor, paddingTop: 20, paddingLeft: 0, paddingBottom: 0, paddingRight: 0)
     }
     
     private func fetchUserLocationFromSearch() {
         guard let address = addressTextField.text else { return }
-        selectedLocation = address
-        print("location \(address)")
         let geoCoder = CLGeocoder()
         geoCoder.geocodeAddressString(address) { (placemarks, error) in
             guard
@@ -100,15 +92,53 @@ class EventLocationViewController: UIViewController {
                 self.handleNoLocationFound()
                 return
             }
-            
             let center = CLLocationCoordinate2D(latitude: location.coordinate.latitude, longitude: location.coordinate.longitude)
+            let address = CLLocation(latitude: location.coordinate.latitude, longitude: location.coordinate.longitude)
+            self.getAdressName(coords: address)
             self.latitude = center.latitude
             self.longitude = center.longitude
             let region = MKCoordinateRegion(center: center, span: MKCoordinateSpan(latitudeDelta: 0.005, longitudeDelta: 0.005))
             self.pin.coordinate = CLLocationCoordinate2D(latitude: location.coordinate.latitude, longitude: location.coordinate.longitude)
-            print("location region\(region)")
             self.mapView.addAnnotation(self.pin)
             self.mapView.setRegion(region, animated: true)
+        }
+    }
+    
+    func getAdressName(coords: CLLocation) {
+        CLGeocoder().reverseGeocodeLocation(coords) { (placemark, error) in
+            if error != nil {
+                print("error")
+            } else {
+                
+                let place = placemark! as [CLPlacemark]
+                if place.count > 0 {
+                    let place = placemark![0]
+                    var addressString : String = ""
+                    let postal = place.postalAddress
+                    guard let street = postal?.street,
+                          let city = postal?.city,
+                          let state = postal?.state,
+                          let zipcode = postal?.postalCode,
+                          let apt = self.apartmentTextField.text else { return }
+                    if street != "" {
+                        addressString = addressString + street + ", "
+                    }
+                    if apt != "" {
+                        addressString = addressString + apt + ", "
+                    }
+                    if city != "" {
+                        addressString = addressString + city + ", "
+                    }
+                    if state != "" {
+                        addressString = addressString + state + " "
+                    }
+                    if zipcode != "" {
+                        addressString = addressString + zipcode
+                    }
+                    self.selectedLocation = addressString
+                    print(self.selectedLocation)
+                }
+            }
         }
     }
 
@@ -132,8 +162,6 @@ class EventLocationViewController: UIViewController {
         } else {
             addressTextField.text = ""
             apartmentTextField.text = ""
-            cityTextField.text = ""
-            stateTextField.text = ""
         }
     }
     
@@ -144,6 +172,7 @@ class EventLocationViewController: UIViewController {
     //MARK: - API
     @objc func handleSave() {
         guard let location = selectedLocation else { return }
+        print(location)
         delegate?.eventLocationController(self, didSelectLocation: location)
         handleDismiss()
     }
@@ -198,27 +227,7 @@ class EventLocationViewController: UIViewController {
     let apartmentTextField: UITextField = {
         let text = UITextField()
         text.font = UIFont.systemFont(ofSize: 17)
-        text.placeholder = "Apt #"
-        text.textColor = UIColor.orangeColor()
-        text.backgroundColor = UIColor.LightGrayBg()
-        text.layer.cornerRadius = 10
-        return text
-    }()
-    
-    let cityTextField: UITextField = {
-        let text = UITextField()
-        text.font = UIFont.systemFont(ofSize: 17)
-        text.placeholder = "City or Neighbourhood"
-        text.textColor = UIColor.orangeColor()
-        text.backgroundColor = UIColor.LightGrayBg()
-        text.layer.cornerRadius = 10
-        return text
-    }()
-    
-    let stateTextField: UITextField = {
-        let text = UITextField()
-        text.font = UIFont.systemFont(ofSize: 17)
-        text.placeholder = "State"
+        text.placeholder = "Apt, Suite or Floor"
         text.textColor = UIColor.orangeColor()
         text.backgroundColor = UIColor.LightGrayBg()
         text.layer.cornerRadius = 10

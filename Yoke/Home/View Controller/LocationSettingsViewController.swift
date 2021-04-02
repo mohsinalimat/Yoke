@@ -10,6 +10,7 @@ import UIKit
 import MapKit
 import FirebaseAuth
 
+
 //https://medium.com/@pravinbendre772/search-for-places-and-display-results-using-mapkit-a987bd6504df
 //https://www.thorntech.com/2016/01/how-to-search-for-location-using-apples-mapkit/
 //https://stackoverflow.com/questions/42091994/how-to-query-nearest-users-in-firebase-with-swift
@@ -158,6 +159,7 @@ class LocationSettingsViewController: UIViewController, UISearchBarDelegate, UIS
             if let locationName = placemark.location {
                 output = output + "\n\(locationName)"
             }
+      
             self.locationManager.getLocation(forPlaceCalled: output) { location in
                 guard let location = location else { return }
                 let center = CLLocationCoordinate2D(latitude: location.coordinate.latitude, longitude: location.coordinate.longitude)
