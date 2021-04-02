@@ -69,6 +69,7 @@ class EventController {
             self.storageRef.child(filename).downloadURL(completion: { (downloadURL, err) in
                 guard let imageUrl = downloadURL?.absoluteString else { return }
                 self.firestoreDB.document(eventId).setData([Constants.EventImageUrl: imageUrl, Constants.Caption: caption, Constants.Detail: detailText, Constants.Date: date, Constants.StartTime: startTime, Constants.EndTime: endTime, Constants.Id: eventId, Constants.Location: location, Constants.ImageId: filename, Constants.Uid: uid, Constants.AllowsRSVP: allowsRSVP, Constants.AllowsContact: allowsContact], merge: true)
+                self.setupGeofirestore(eventId: eventId, location: location)
                 completion(true)
             })
         })

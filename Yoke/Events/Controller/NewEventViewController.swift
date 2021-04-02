@@ -118,7 +118,7 @@ class NewEventViewController: UIViewController,  EventLocationDelegate {
         eventImageView.loadImage(urlString: image)
         captionTextField.text = event.caption
         eventDetailTextField.text = event.detail
-        locationButton.titleLabel?.text = "button"
+        locationButton.setTitle(event.location, for: .normal)
         selectedDateLabel.text = event.date
         startTimeTextField.text = event.startTime
         endTimeTextField.text = event.endTime
@@ -160,7 +160,6 @@ class NewEventViewController: UIViewController,  EventLocationDelegate {
     
     func eventLocationController(_ eventLocationController: EventLocationViewController, didSelectLocation location: String) {
         selectedLocation = location
-        print("location \(location)")
         locationButton.setTitle(location, for: .normal)
     }
     
@@ -190,6 +189,10 @@ class NewEventViewController: UIViewController,  EventLocationDelegate {
               let start = startTimeTextField.text,
               let end = endTimeTextField.text else { return }
         let image = eventImageView.image
+        if selectedLocation.isEmpty {
+            guard let location = event?.location else { return }
+            selectedLocation = location
+        }
         myActivityIndicator.startAnimating()
         if eventExist == true {
             guard let  eventId = event?.id,

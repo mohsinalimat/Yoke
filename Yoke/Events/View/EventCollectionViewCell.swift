@@ -42,7 +42,7 @@ class EventCollectionViewCell: UICollectionViewCell {
         timestampLabel.text = "\(timestamp)"
         eventImage.loadImage(urlString: eventImg)
         captionLabel.text = event.caption
-        locationLabel.text = "453 12th street, Brooklyn NY"
+        locationLabel.text = event.location
         dateLabel.text = event.date
         timeLabel.text = "\(start) - \(end)"
     }
