@@ -116,15 +116,21 @@ class EventLocationViewController: UIViewController {
                     var addressString : String = ""
                     let postal = place.postalAddress
                     guard let street = postal?.street,
+                          let neighbourhood = place.subLocality,
                           let city = postal?.city,
                           let state = postal?.state,
                           let zipcode = postal?.postalCode,
                           let apt = self.apartmentTextField.text else { return }
+                    
                     if street != "" {
                         addressString = addressString + street + ", "
                     }
                     if apt != "" {
                         addressString = addressString + apt + ", "
+                    }
+                    //
+                    if neighbourhood != "" {
+                        addressString = addressString + neighbourhood + ", "
                     }
                     if city != "" {
                         addressString = addressString + city + ", "
@@ -135,8 +141,13 @@ class EventLocationViewController: UIViewController {
                     if zipcode != "" {
                         addressString = addressString + zipcode
                     }
+//                    print("administrativeArea \(place.administrativeArea)")
+//                    print("locality \(place.locality)")
+//                    print("location \(place.location)")
+//                    print("name \(place.name)")
+//                    print("sub \(place.subLocality)")
                     self.selectedLocation = addressString
-                    print(self.selectedLocation)
+//                    print(self.selectedLocation)
                 }
             }
         }
