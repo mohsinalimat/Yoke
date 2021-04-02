@@ -76,7 +76,7 @@ class EventLocationViewController: UIViewController {
         setLocationLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         
         addressTextField.anchor(top: setLocationLabel.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 20, paddingLeft: 10, paddingBottom: 0, paddingRight: 10, height: 40)
-        apartmentTextField.anchor(top: addressTextField.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: nil, paddingTop: 20, paddingLeft: 10, paddingBottom: 0, paddingRight: 0, width: 200, height: 40)
+        apartmentTextField.anchor(top: addressTextField.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 20, paddingLeft: 10, paddingBottom: 0, paddingRight: 10, height: 40)
         searchButton.anchor(top: apartmentTextField.bottomAnchor, left: nil, bottom: nil, right: safeArea.rightAnchor, paddingTop: 5, paddingLeft: 0, paddingBottom: 0, paddingRight: 8, width: 100, height: 35)
         mapView.anchor(top: searchButton.bottomAnchor, left: safeArea.leftAnchor, bottom: safeArea.bottomAnchor, right: safeArea.rightAnchor, paddingTop: 20, paddingLeft: 0, paddingBottom: 0, paddingRight: 0)
     }
@@ -128,7 +128,6 @@ class EventLocationViewController: UIViewController {
                     if apt != "" {
                         addressString = addressString + apt + ", "
                     }
-                    //
                     if neighbourhood != "" {
                         addressString = addressString + neighbourhood + ", "
                     }
@@ -141,13 +140,7 @@ class EventLocationViewController: UIViewController {
                     if zipcode != "" {
                         addressString = addressString + zipcode
                     }
-//                    print("administrativeArea \(place.administrativeArea)")
-//                    print("locality \(place.locality)")
-//                    print("location \(place.location)")
-//                    print("name \(place.name)")
-//                    print("sub \(place.subLocality)")
                     self.selectedLocation = addressString
-//                    print(self.selectedLocation)
                 }
             }
         }
@@ -238,7 +231,7 @@ class EventLocationViewController: UIViewController {
     let apartmentTextField: UITextField = {
         let text = UITextField()
         text.font = UIFont.systemFont(ofSize: 17)
-        text.placeholder = "Apt, Suite or Floor"
+        text.placeholder = "Apt suite or floor #"
         text.textColor = UIColor.orangeColor()
         text.backgroundColor = UIColor.LightGrayBg()
         text.layer.cornerRadius = 10
