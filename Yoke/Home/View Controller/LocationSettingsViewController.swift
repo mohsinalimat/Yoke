@@ -60,7 +60,7 @@ class LocationSettingsViewController: UIViewController, UISearchBarDelegate, UIS
     }
     
     func setupViews() {
-        view.backgroundColor = .white
+        view.backgroundColor = UIColor.LightGrayBg()
         view.addSubview(swipeIndicator)
         view.addSubview(saveButton)
         view.addSubview(setLocationLabel)
@@ -88,7 +88,7 @@ class LocationSettingsViewController: UIViewController, UISearchBarDelegate, UIS
         cityTextField.anchor(top: apartmentTextField.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 10, paddingLeft: 10, paddingBottom: 0, paddingRight: 10, height: 45)
         stateTextField.anchor(top: cityTextField.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 10, paddingLeft: 10, paddingBottom: 0, paddingRight: 10, height: 45)
         searchButton.anchor(top: stateTextField.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 10, paddingLeft: 25, paddingBottom: 0, paddingRight: 25, height: 45)
-        locationView.anchor(top: searchButton.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 10, paddingLeft: 10, paddingBottom: 0, paddingRight: -10)
+        locationView.anchor(top: searchButton.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 10, paddingLeft: 25, paddingBottom: 0, paddingRight: 10)
         mapView.anchor(top: locationView.bottomAnchor, left: safeArea.leftAnchor, bottom: safeArea.bottomAnchor, right: safeArea.rightAnchor, paddingTop: 20, paddingLeft: 0, paddingBottom: 0, paddingRight: 0)
     }
     
@@ -254,7 +254,7 @@ class LocationSettingsViewController: UIViewController, UISearchBarDelegate, UIS
         text.font = UIFont.systemFont(ofSize: 17)
         text.placeholder = "Street address"
         text.textColor = UIColor.orangeColor()
-        text.backgroundColor = UIColor.LightGrayBg()
+        text.backgroundColor = UIColor.white
         text.layer.cornerRadius = 10
         text.layer.shadowOffset = CGSize(width: 0, height: 4)
         text.layer.shadowRadius = 4
@@ -268,7 +268,7 @@ class LocationSettingsViewController: UIViewController, UISearchBarDelegate, UIS
         text.font = UIFont.systemFont(ofSize: 17)
         text.placeholder = "Apt #"
         text.textColor = UIColor.orangeColor()
-        text.backgroundColor = UIColor.LightGrayBg()
+        text.backgroundColor = UIColor.white
         text.layer.cornerRadius = 10
         text.layer.shadowOffset = CGSize(width: 0, height: 4)
         text.layer.shadowRadius = 4
@@ -282,7 +282,7 @@ class LocationSettingsViewController: UIViewController, UISearchBarDelegate, UIS
         text.font = UIFont.systemFont(ofSize: 17)
         text.placeholder = "City"
         text.textColor = UIColor.orangeColor()
-        text.backgroundColor = UIColor.LightGrayBg()
+        text.backgroundColor = UIColor.white
         text.layer.cornerRadius = 10
         text.layer.shadowOffset = CGSize(width: 0, height: 4)
         text.layer.shadowRadius = 4
@@ -296,7 +296,7 @@ class LocationSettingsViewController: UIViewController, UISearchBarDelegate, UIS
         text.font = UIFont.systemFont(ofSize: 17)
         text.placeholder = "State"
         text.textColor = UIColor.orangeColor()
-        text.backgroundColor = UIColor.LightGrayBg()
+        text.backgroundColor = UIColor.white
         text.layer.cornerRadius = 10
         text.layer.shadowOffset = CGSize(width: 0, height: 4)
         text.layer.shadowRadius = 4
