@@ -315,7 +315,7 @@ class LocationSettingsViewController: UIViewController, UISearchBarDelegate, UIS
         button.addTarget(self, action: #selector(handleSetUserLocation), for: .touchUpInside)
         button.layer.shadowOffset = CGSize(width: 0, height: 4)
         button.layer.shadowRadius = 4
-        button.layer.shadowOpacity = 0.2
+        button.layer.shadowOpacity = 0.3
         button.layer.shadowColor = UIColor.gray.cgColor
         return button
     }()
