@@ -40,7 +40,7 @@ class NewEventViewController: UIViewController,  EventLocationDelegate {
         setupImagePicker()
         setupPickerViews()
     }
- 
+    
     //MARK: - Helper Functions
     func setupViews() {
         view.backgroundColor = UIColor.LightGrayBg()
@@ -108,7 +108,7 @@ class NewEventViewController: UIViewController,  EventLocationDelegate {
         contactLabel.anchor(top: rsvpInfoLabel.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: nil, paddingTop: 25, paddingLeft: 10, paddingBottom: 0, paddingRight: 0)
         contactSwitch.anchor(top: contactLabel.topAnchor, left: nil, bottom: nil, right: safeArea.rightAnchor, paddingTop: 10, paddingLeft: 0, paddingBottom: 0, paddingRight: 10)
         contactInfoLabel.anchor(top: contactLabel.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: nil, paddingTop: 5, paddingLeft: 10, paddingBottom: 0, paddingRight: 0)
- 
+        
         myActivityIndicator.center = view.center
     }
     
@@ -139,7 +139,7 @@ class NewEventViewController: UIViewController,  EventLocationDelegate {
         startTimeTextField.inputView = startTimePickerView
         endTimeTextField.inputView = endTimePickerView
     }
-
+    
     func saveSuccessful() {
         let alertVC = UIAlertController(title: "Success", message: "Your event has been added!", preferredStyle: .alert)
         let okAction = UIAlertAction(title: "Cool Beans", style: .default) { (_) in
@@ -148,7 +148,7 @@ class NewEventViewController: UIViewController,  EventLocationDelegate {
         alertVC.addAction(okAction)
         present(alertVC, animated: true)
     }
- 
+    
     func deleteSuccessful() {
         let alertVC = UIAlertController(title: "Success", message: "Your event has been deleted!", preferredStyle: .alert)
         let okAction = UIAlertAction(title: "Cool Beans", style: .default) { (_) in
@@ -199,21 +199,21 @@ class NewEventViewController: UIViewController,  EventLocationDelegate {
                   let uid = event?.uid else { return }
             EventController.shared.updateEventWith(uid: uid, eventId: eventId, image: image, caption: caption, detailText: detail, date: date, startTime: start, endTime: end, location: selectedLocation, allowsRSVP: rsvp, allowsContact: contact) { (result) in
                 switch result {
-                    case true:
-                        self.myActivityIndicator.stopAnimating()
-                        self.saveSuccessful()
-                    case false:
-                        print("failed to save")
+                case true:
+                    self.myActivityIndicator.stopAnimating()
+                    self.saveSuccessful()
+                case false:
+                    print("failed to save")
                 }
             }
         } else {
             EventController.shared.createEventWith(uid: uid, image: image, caption: caption, detailText: detail, date: date, startTime: start, endTime: end, location: selectedLocation, allowsRSVP: rsvp, allowsContact: contact) { (result) in
                 switch result {
-                    case true:
-                        self.myActivityIndicator.stopAnimating()
-                        self.saveSuccessful()
-                    case false:
-                        print("failed to save")
+                case true:
+                    self.myActivityIndicator.stopAnimating()
+                    self.saveSuccessful()
+                case false:
+                    print("failed to save")
                 }
             }
         }
@@ -353,7 +353,7 @@ class NewEventViewController: UIViewController,  EventLocationDelegate {
         button.addTarget(self, action: #selector(handleAddImage), for: .touchUpInside)
         return button
     }()
-
+    
     
     let captionTextField: UITextField = {
         let text = UITextField()
@@ -427,11 +427,11 @@ class NewEventViewController: UIViewController,  EventLocationDelegate {
         datePicker.backgroundColor = .white
         datePicker.tintColor = UIColor.orangeColor()
         datePicker.overrideUserInterfaceStyle = .light
-//        datePicker.layer.cornerRadius = 5
-//        datePicker.layer.shadowOffset = CGSize(width: 0, height: 4)
-//        datePicker.layer.shadowRadius = 4
-//        datePicker.layer.shadowOpacity = 0.1
-//        datePicker.layer.shadowColor = UIColor.gray.cgColor
+        //        datePicker.layer.cornerRadius = 5
+        //        datePicker.layer.shadowOffset = CGSize(width: 0, height: 4)
+        //        datePicker.layer.shadowRadius = 4
+        //        datePicker.layer.shadowOpacity = 0.1
+        //        datePicker.layer.shadowColor = UIColor.gray.cgColor
         datePicker.addTarget(self, action: #selector(handleDateSelection), for: .valueChanged)
         return datePicker
     }()
@@ -443,11 +443,11 @@ class NewEventViewController: UIViewController,  EventLocationDelegate {
         label.textColor = UIColor.orangeColor()
         label.textAlignment = .center
         label.backgroundColor = .white
-//        label.layer.cornerRadius = 10
-//        label.layer.shadowOffset = CGSize(width: 0, height: 4)
-//        label.layer.shadowRadius = 4
-//        label.layer.shadowOpacity = 0.1
-//        label.layer.shadowColor = UIColor.gray.cgColor
+        //        label.layer.cornerRadius = 10
+        //        label.layer.shadowOffset = CGSize(width: 0, height: 4)
+        //        label.layer.shadowRadius = 4
+        //        label.layer.shadowOpacity = 0.1
+        //        label.layer.shadowColor = UIColor.gray.cgColor
         return label
     }()
     
@@ -595,7 +595,7 @@ class NewEventViewController: UIViewController,  EventLocationDelegate {
 
 //MARK: - Image Picker
 extension NewEventViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
-
+    
     func openCamera() {
         if UIImagePickerController.isSourceTypeAvailable(.camera) {
             eventImagePicker.sourceType = .camera
@@ -608,7 +608,7 @@ extension NewEventViewController: UIImagePickerControllerDelegate, UINavigationC
             self.present(alertVC, animated: true)
         }
     }
-
+    
     func openPhotoLibrary() {
         if UIImagePickerController.isSourceTypeAvailable(.photoLibrary) {
             eventImagePicker.sourceType = .photoLibrary
@@ -632,13 +632,13 @@ extension NewEventViewController: UIImagePickerControllerDelegate, UINavigationC
 }
 
 extension UIDatePicker {
-
-var textColor: UIColor? {
-    set {
-        setValue(newValue, forKeyPath: "textColor")
+    
+    var textColor: UIColor? {
+        set {
+            setValue(newValue, forKeyPath: "textColor")
+        }
+        get {
+            return value(forKeyPath: "textColor") as? UIColor
+        }
     }
-    get {
-        return value(forKeyPath: "textColor") as? UIColor
-    }
-  }
 }

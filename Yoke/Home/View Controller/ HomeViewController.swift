@@ -13,7 +13,7 @@ import FirebaseAuth
 import FirebaseStorage
 
 class HomeViewController: UIViewController {
-
+    
     //MARK: - Properties
     var safeArea: UILayoutGuide {
         return self.view.safeAreaLayoutGuide
@@ -68,7 +68,7 @@ class HomeViewController: UIViewController {
         scrollView.addSubview(menuCollectionView)
         scrollView.addSubview(suggestedChefCollectionView)
     }
-
+    
     func constrainViews() {
         scrollView.contentSize = CGSize(width: view.frame.width, height: view.frame.height)
         scrollView.anchor(top: safeArea.topAnchor, left: safeArea.leftAnchor, bottom: safeArea.bottomAnchor, right: safeArea.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0)
@@ -81,12 +81,12 @@ class HomeViewController: UIViewController {
         usernameLabel.anchor(top: nil, left: profileImageView.rightAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 0, paddingLeft: 10, paddingBottom: 0, paddingRight: 5)
         usernameLabel.centerYAnchor.constraint(equalTo: profileImageView.centerYAnchor).isActive = true
         viewProfileButton.anchor(top: usernameLabel.bottomAnchor, left: usernameLabel.leftAnchor, bottom: nil, right: nil, paddingTop: 5, paddingLeft: 0, paddingBottom: 0, paddingRight: 0)
-
+        
         reviewsButton.alignImageTextVertical()
         eventButton.alignImageTextVertical()
         bookmarkButton.alignImageTextVertical()
         calendarButton.alignImageTextVertical()
-
+        
         buttonStackView.anchor(top: bannerLayerView.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 20, paddingLeft: 15, paddingBottom: 0, paddingRight: 15, width: 0, height: 60)
         
         let uid = userId ?? (Auth.auth().currentUser?.uid ?? "")
@@ -101,17 +101,17 @@ class HomeViewController: UIViewController {
     
     fileprivate func setupBottomToolbarChef() {
         collectionViewBG.anchor(top: buttonStackView.bottomAnchor, left: safeArea.leftAnchor, bottom: scrollView.bottomAnchor, right: safeArea.rightAnchor, paddingTop: 20, paddingLeft: 5, paddingBottom: 0, paddingRight: 5, height: 210)
-
+        
         menuLabel.anchor(top: collectionViewBG.topAnchor, left: collectionViewBG.leftAnchor, bottom: nil, right: nil, paddingTop: 5, paddingLeft: 10, paddingBottom: 0, paddingRight: 0)
-
+        
         addMenuButton.anchor(top: menuLabel.topAnchor, left: nil, bottom: nil, right: collectionViewBG.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 10)
-
+        
         menuCollectionView.anchor(top: menuLabel.bottomAnchor, left: collectionViewBG.leftAnchor, bottom: nil, right: collectionViewBG.rightAnchor, paddingTop: -10, paddingLeft: 5, paddingBottom: 5, paddingRight: 5, height: 175)
     }
     
     fileprivate func setupBottomToolbarUser() {
         collectionViewBG.anchor(top: buttonStackView.bottomAnchor, left: safeArea.leftAnchor, bottom: scrollView.bottomAnchor, right: safeArea.rightAnchor, paddingTop: 20, paddingLeft: 5, paddingBottom: 0, paddingRight: 5, height: 150)
-
+        
         menuLabel.anchor(top: collectionViewBG.topAnchor, left: collectionViewBG.leftAnchor, bottom: nil, right: nil, paddingTop: 5, paddingLeft: 10, paddingBottom: 0, paddingRight: 0)
         
         suggestedChefCollectionView.anchor(top: menuLabel.bottomAnchor, left: collectionViewBG.leftAnchor, bottom: nil, right: collectionViewBG.rightAnchor, paddingTop: 0, paddingLeft: 5, paddingBottom: 0, paddingRight: 5, height: 120)
@@ -134,7 +134,7 @@ class HomeViewController: UIViewController {
                 self.menuLabel.text = "Chef's near you"
             }
         }
-  
+        
         menuCollectionView.backgroundColor = UIColor.clear
         menuCollectionView.delegate = self
         menuCollectionView.dataSource = self
@@ -146,7 +146,7 @@ class HomeViewController: UIViewController {
         suggestedChefCollectionView.delegate = self
         suggestedChefCollectionView.dataSource = self
         suggestedChefCollectionView.translatesAutoresizingMaskIntoConstraints = false
-//        collectionView.register(MenuHeaderCollectionViewCell.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: headerId)
+        //        collectionView.register(MenuHeaderCollectionViewCell.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: headerId)
         suggestedChefCollectionView.register(SuggestedChefsCollectionViewCell.self, forCellWithReuseIdentifier: cellId)
         suggestedChefCollectionView.register(EmptyCell.self, forCellWithReuseIdentifier: noCellId)
     }
@@ -163,7 +163,7 @@ class HomeViewController: UIViewController {
     func handleUpdateObserverAndRefresh() {
         NotificationCenter.default.addObserver(self, selector: #selector(handleUpdate), name: SettingsViewController.updateNotificationName, object: nil)
     }
-
+    
     //MARK: - API
     fileprivate func fetchUser() {
         let uid = userId ?? (Auth.auth().currentUser?.uid ?? "")
@@ -234,7 +234,7 @@ class HomeViewController: UIViewController {
         let editProfile = SettingsViewController()
         present(editProfile, animated: true)
     }
-
+    
     @objc func handleAddMenu() {
         let addMenu = AddMenuViewController()
         present(addMenu, animated: true)
@@ -296,7 +296,7 @@ class HomeViewController: UIViewController {
         image.backgroundColor = .white
         return image
     }()
-
+    
     let usernameLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.boldSystemFont(ofSize: 28)
@@ -319,7 +319,7 @@ class HomeViewController: UIViewController {
     
     lazy var reviewsButton: UIButton = {
         let button = UIButton(type: .custom)
-//        button.setImage(UIImage(named: "reviews"), for: .normal)
+        //        button.setImage(UIImage(named: "reviews"), for: .normal)
         let image = UIImage(named: "reviews")?.withRenderingMode(.alwaysTemplate)
         button.setImage(image, for: .normal)
         button.tintColor = UIColor.orangeColor()
@@ -410,7 +410,7 @@ class HomeViewController: UIViewController {
         button.addTarget(self, action: #selector(handleAddMenu), for: .touchUpInside)
         return button
     }()
-
+    
     let menuCollectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal
@@ -456,7 +456,7 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
             cellA.menu = MenuController.shared.menus[indexPath.item]
             return cellA
         }
-
+        
         let cellB = collectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath) as! SuggestedChefsCollectionViewCell
         if SuggestedChefController.shared.chefs.count == 0 {
             let noCell = collectionView.dequeueReusableCell(withReuseIdentifier: noCellId, for: indexPath) as! EmptyCell
@@ -513,28 +513,28 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
             }
         }
     }
-
-//    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
-//        return 10
-//    }
-
+    
+    //    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
+    //        return 10
+    //    }
+    
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
         return 10
     }
     
-//    func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
-//        let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: headerId, for: indexPath) as! MenuHeaderCollectionViewCell
-//        header.frame = CGRect(x: 0, y: 0, width: collectionView.frame.width, height: 45)
-//        header.menuLabel.text = "Menus"
-//        header.backgroundColor = .white
-//        header.layer.cornerRadius = 5
-//        header.delegate = self
-//        return header
-//    }
-//
-//    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
-//        return CGSize(width: 100, height: 45)
-//    }
+    //    func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+    //        let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: headerId, for: indexPath) as! MenuHeaderCollectionViewCell
+    //        header.frame = CGRect(x: 0, y: 0, width: collectionView.frame.width, height: 45)
+    //        header.menuLabel.text = "Menus"
+    //        header.backgroundColor = .white
+    //        header.layer.cornerRadius = 5
+    //        header.delegate = self
+    //        return header
+    //    }
+    //
+    //    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
+    //        return CGSize(width: 100, height: 45)
+    //    }
 }
 
 //extension HomeViewController: MenuHeaderDelegate {
