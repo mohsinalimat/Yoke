@@ -50,14 +50,14 @@ class TodayCollectionViewCell: UICollectionViewCell {
         profileImage.anchor(top: shadowView.topAnchor, left: shadowView.leftAnchor, bottom: nil, right: nil, paddingTop: 5, paddingLeft: 5, paddingBottom: 0, paddingRight: 0, width: 50, height: 50)
         nameLabel.anchor(top: nil, left: profileImage.rightAnchor, bottom: nil, right: shadowView.rightAnchor, paddingTop: 0, paddingLeft: 5, paddingBottom: 0, paddingRight: 0)
         nameLabel.centerYAnchor.constraint(equalTo: profileImage.centerYAnchor).isActive = true
-        locationIcon.anchor(top: nameLabel.bottomAnchor, left: nameLabel.leftAnchor, bottom: nil, right: nil, paddingTop: 10, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 10, height: 15)
+        locationIcon.anchor(top: nameLabel.bottomAnchor, left: nameLabel.leftAnchor, bottom: nil, right: nil, paddingTop: 10, paddingLeft: 0, paddingBottom: 0, paddingRight: 10, width: 15, height: 18)
         locationLabel.anchor(top: nil, left: locationIcon.rightAnchor, bottom: nil, right: nil, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0)
         locationLabel.centerYAnchor.constraint(equalTo: locationIcon.centerYAnchor).isActive = true
-        dateIcon.anchor(top: locationIcon.bottomAnchor, left: nameLabel.leftAnchor, bottom: nil, right: nil, paddingTop: 10, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 10, height: 10)
+        dateIcon.anchor(top: locationIcon.bottomAnchor, left: nameLabel.leftAnchor, bottom: nil, right: nil, paddingTop: 10, paddingLeft: 0, paddingBottom: 0, paddingRight: 10, width: 15, height: 15)
         dateLabel.anchor(top: dateIcon.topAnchor, left: dateIcon.rightAnchor, bottom: nil, right: nil, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0)
         dateLabel.centerYAnchor.constraint(equalTo: dateIcon.centerYAnchor).isActive = true
-        timeIcon.anchor(top: dateIcon.bottomAnchor, left: nameLabel.leftAnchor, bottom: nil, right: nil, paddingTop: 10, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 10, height: 10)
-        timeLabel.anchor(top: timeIcon.topAnchor, left: dateIcon.rightAnchor, bottom: nil, right: nil, paddingTop: 0, paddingLeft: 5, paddingBottom: 0, paddingRight: 0)
+        timeIcon.anchor(top: dateIcon.bottomAnchor, left: nameLabel.leftAnchor, bottom: nil, right: nil, paddingTop: 10, paddingLeft: 0, paddingBottom: 0, paddingRight: 10, width: 15, height: 15)
+        timeLabel.anchor(top: timeIcon.topAnchor, left: dateIcon.rightAnchor, bottom: nil, right: nil, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0)
         timeLabel.centerYAnchor.constraint(equalTo: timeIcon.centerYAnchor).isActive = true
         
     }
@@ -90,6 +90,7 @@ class TodayCollectionViewCell: UICollectionViewCell {
     
     var locationLabel: UILabel = {
         let label = UILabel()
+        label.text = "453 12th Street, Brooklyn NY"
         label.font = UIFont.boldSystemFont(ofSize: 13)
         label.textColor = .gray
         return label
@@ -103,6 +104,7 @@ class TodayCollectionViewCell: UICollectionViewCell {
     
     var dateLabel: UILabel = {
         let label = UILabel()
+        label.text = "Friday, Apr 16, 2021"
         label.font = UIFont.boldSystemFont(ofSize: 13)
         label.textColor = .gray
         return label
@@ -116,6 +118,7 @@ class TodayCollectionViewCell: UICollectionViewCell {
     
     var timeLabel: UILabel = {
         let label = UILabel()
+        label.text = "5:00 PM - 8:00 PM"
         label.font = UIFont.boldSystemFont(ofSize: 13)
         label.textColor = .gray
         return label
@@ -127,7 +130,7 @@ class TodayCollectionViewCell: UICollectionViewCell {
         view.layer.cornerRadius = 10
         view.layer.shadowOffset = CGSize(width: 0, height: 4)
         view.layer.shadowRadius = 4
-        view.layer.shadowOpacity = 0.2
+        view.layer.shadowOpacity = 0.1
         view.layer.shadowColor = UIColor.gray.cgColor
         return view
     }()
