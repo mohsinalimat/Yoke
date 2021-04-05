@@ -61,7 +61,9 @@ class EventLocationViewController: UIViewController {
         view.addSubview(swipeIndicator)
         view.addSubview(saveButton)
         view.addSubview(setLocationLabel)
+        view.addSubview(addressView)
         view.addSubview(addressTextField)
+        view.addSubview(apartmentView)
         view.addSubview(apartmentTextField)
         view.addSubview(searchButton)
         view.addSubview(mapView)
@@ -74,10 +76,11 @@ class EventLocationViewController: UIViewController {
         
         setLocationLabel.anchor(top: swipeIndicator.bottomAnchor, left: nil, bottom: nil, right: nil, paddingTop: 20, paddingLeft: 0, paddingBottom: 0, paddingRight: 0)
         setLocationLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        
-        addressTextField.anchor(top: setLocationLabel.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 20, paddingLeft: 10, paddingBottom: 0, paddingRight: 10, height: 40)
-        apartmentTextField.anchor(top: addressTextField.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 20, paddingLeft: 10, paddingBottom: 0, paddingRight: 10, height: 40)
-        searchButton.anchor(top: apartmentTextField.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 10, paddingLeft: 25, paddingBottom: 0, paddingRight: 25, height: 45)
+        addressView.anchor(top: setLocationLabel.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 20, paddingLeft: 10, paddingBottom: 0, paddingRight: 10, height: 40)
+        addressTextField.anchor(top: addressView.topAnchor, left: addressView.leftAnchor, bottom: addressView.bottomAnchor, right: addressView.rightAnchor, paddingTop: 0, paddingLeft: 10, paddingBottom: 0, paddingRight: 10)
+        apartmentView.anchor(top: addressTextField.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 20, paddingLeft: 10, paddingBottom: 0, paddingRight: 10, height: 40)
+        apartmentTextField.anchor(top: apartmentView.topAnchor, left: apartmentView.leftAnchor, bottom: apartmentView.bottomAnchor, right: apartmentView.rightAnchor, paddingTop: 0, paddingLeft: 10, paddingBottom: 0, paddingRight: 10)
+        searchButton.anchor(top: apartmentView.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 10, paddingLeft: 25, paddingBottom: 0, paddingRight: 25, height: 45)
         mapView.anchor(top: searchButton.bottomAnchor, left: safeArea.leftAnchor, bottom: safeArea.bottomAnchor, right: safeArea.rightAnchor, paddingTop: 20, paddingLeft: 0, paddingBottom: 0, paddingRight: 0)
     }
     
@@ -220,18 +223,25 @@ class EventLocationViewController: UIViewController {
         return label
     }()
     
+    let addressView: ShadowView = {
+        let view = ShadowView()
+        view.backgroundColor = .white
+        return view
+    }()
+    
     let addressTextField: UITextField = {
         let text = UITextField()
         text.font = UIFont.systemFont(ofSize: 17)
         text.placeholder = "Address"
         text.textColor = UIColor.orangeColor()
         text.backgroundColor = UIColor.white
-        text.layer.cornerRadius = 10
-        text.layer.shadowOffset = CGSize(width: 0, height: 4)
-        text.layer.shadowRadius = 4
-        text.layer.shadowOpacity = 0.1
-        text.layer.shadowColor = UIColor.gray.cgColor
         return text
+    }()
+    
+    let apartmentView: ShadowView = {
+        let view = ShadowView()
+        view.backgroundColor = .white
+        return view
     }()
     
     let apartmentTextField: UITextField = {
@@ -239,12 +249,6 @@ class EventLocationViewController: UIViewController {
         text.font = UIFont.systemFont(ofSize: 17)
         text.placeholder = "Apt suite or floor #"
         text.textColor = UIColor.orangeColor()
-        text.backgroundColor = UIColor.white
-        text.layer.cornerRadius = 10
-        text.layer.shadowOffset = CGSize(width: 0, height: 4)
-        text.layer.shadowRadius = 4
-        text.layer.shadowOpacity = 0.1
-        text.layer.shadowColor = UIColor.gray.cgColor
         return text
     }()
     
