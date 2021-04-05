@@ -61,7 +61,7 @@ class HomeViewController: UIViewController {
         buttonStackView.addArrangedSubview(reviewsButton)
         buttonStackView.addArrangedSubview(eventButton)
         buttonStackView.addArrangedSubview(bookmarkButton)
-        buttonStackView.addArrangedSubview(calendarButton)
+        buttonStackView.addArrangedSubview(bookingButton)
         scrollView.addSubview(collectionViewBG)
         scrollView.addSubview(menuLabel)
         scrollView.addSubview(addMenuButton)
@@ -85,7 +85,7 @@ class HomeViewController: UIViewController {
         reviewsButton.alignImageTextVertical()
         eventButton.alignImageTextVertical()
         bookmarkButton.alignImageTextVertical()
-        calendarButton.alignImageTextVertical()
+        bookingButton.alignImageTextVertical()
         
         buttonStackView.anchor(top: bannerLayerView.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 20, paddingLeft: 15, paddingBottom: 0, paddingRight: 15, width: 0, height: 60)
         
@@ -94,7 +94,7 @@ class HomeViewController: UIViewController {
             if user.isChef == false {
                 self.setupBottomToolbarUser()
                 self.eventButton.isHidden = true
-                self.calendarButton.isHidden = true
+                self.bookingButton.isHidden = true
             } else {
                 self.setupBottomToolbarChef()
             }
@@ -232,6 +232,11 @@ class HomeViewController: UIViewController {
         navigationController?.pushViewController(eventsVC, animated: true)
     }
     
+    @objc func viewBookings() {
+        let bookingsVC = BookingsViewController()
+        navigationController?.pushViewController(bookingsVC, animated: true)
+    }
+    
     @objc func handleSettings() {
         let editProfile = SettingsViewController()
         present(editProfile, animated: true)
@@ -348,15 +353,16 @@ class HomeViewController: UIViewController {
         return button
     }()
     
-    lazy var calendarButton: UIButton = {
+    lazy var bookingButton: UIButton = {
         let button = UIButton(type: .custom)
         let image = UIImage(named: "calendar")?.withRenderingMode(.alwaysTemplate)
         button.setImage(image, for: .normal)
         button.tintColor = UIColor.orangeColor()
-        button.setTitle("Calendar", for: .normal)
+        button.setTitle("Bookings", for: .normal)
         button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 10)
         button.setTitleColor(UIColor.orangeColor(), for: .normal)
         button.layer.cornerRadius = 10
+        button.addTarget(self, action: #selector(viewBookings), for: .touchUpInside)
         return button
     }()
     
