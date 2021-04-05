@@ -37,14 +37,28 @@ class TodayCollectionViewCell: UICollectionViewCell {
         addSubview(shadowView)
         addSubview(profileImage)
         addSubview(nameLabel)
+        addSubview(locationIcon)
+        addSubview(locationLabel)
+        addSubview(dateIcon)
+        addSubview(dateLabel)
+        addSubview(timeIcon)
+        addSubview(timeLabel)
     }
     
     func setupConstraints() {
         shadowView.anchor(top: topAnchor, left: leftAnchor, bottom: bottomAnchor, right: rightAnchor, paddingTop: 10, paddingLeft: 10, paddingBottom: 10, paddingRight: 10)
-        shadowView.backgroundColor = .green
         profileImage.anchor(top: shadowView.topAnchor, left: shadowView.leftAnchor, bottom: nil, right: nil, paddingTop: 5, paddingLeft: 5, paddingBottom: 0, paddingRight: 0, width: 50, height: 50)
-        nameLabel.anchor(top: nil, left: profileImage.rightAnchor, bottom: nil, right: shadowView.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0)
+        nameLabel.anchor(top: nil, left: profileImage.rightAnchor, bottom: nil, right: shadowView.rightAnchor, paddingTop: 0, paddingLeft: 5, paddingBottom: 0, paddingRight: 0)
         nameLabel.centerYAnchor.constraint(equalTo: profileImage.centerYAnchor).isActive = true
+        locationIcon.anchor(top: nameLabel.bottomAnchor, left: nameLabel.leftAnchor, bottom: nil, right: nil, paddingTop: 10, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 10, height: 15)
+        locationLabel.anchor(top: nil, left: locationIcon.rightAnchor, bottom: nil, right: nil, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0)
+        locationLabel.centerYAnchor.constraint(equalTo: locationIcon.centerYAnchor).isActive = true
+        dateIcon.anchor(top: locationIcon.bottomAnchor, left: nameLabel.leftAnchor, bottom: nil, right: nil, paddingTop: 10, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 10, height: 10)
+        dateLabel.anchor(top: dateIcon.topAnchor, left: dateIcon.rightAnchor, bottom: nil, right: nil, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0)
+        dateLabel.centerYAnchor.constraint(equalTo: dateIcon.centerYAnchor).isActive = true
+        timeIcon.anchor(top: dateIcon.bottomAnchor, left: nameLabel.leftAnchor, bottom: nil, right: nil, paddingTop: 10, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 10, height: 10)
+        timeLabel.anchor(top: timeIcon.topAnchor, left: dateIcon.rightAnchor, bottom: nil, right: nil, paddingTop: 0, paddingLeft: 5, paddingBottom: 0, paddingRight: 0)
+        timeLabel.centerYAnchor.constraint(equalTo: timeIcon.centerYAnchor).isActive = true
         
     }
     
@@ -65,6 +79,45 @@ class TodayCollectionViewCell: UICollectionViewCell {
         label.textColor = UIColor.orangeColor()
 //        label.lineBreakMode = .byWordWrapping
 //        label.numberOfLines = 0
+        return label
+    }()
+    
+    var locationIcon: UIImageView = {
+        let image = UIImageView()
+        image.image = UIImage(named: "location-pin-orange")
+        return image
+    }()
+    
+    var locationLabel: UILabel = {
+        let label = UILabel()
+        label.font = UIFont.boldSystemFont(ofSize: 13)
+        label.textColor = .gray
+        return label
+    }()
+    
+    var dateIcon: UIImageView = {
+        let image = UIImageView()
+        image.image = UIImage(named: "calendarOrange")
+        return image
+    }()
+    
+    var dateLabel: UILabel = {
+        let label = UILabel()
+        label.font = UIFont.boldSystemFont(ofSize: 13)
+        label.textColor = .gray
+        return label
+    }()
+    
+    var timeIcon: UIImageView = {
+        let image = UIImageView()
+        image.image = UIImage(named: "timeOrange")
+        return image
+    }()
+    
+    var timeLabel: UILabel = {
+        let label = UILabel()
+        label.font = UIFont.boldSystemFont(ofSize: 13)
+        label.textColor = .gray
         return label
     }()
     
