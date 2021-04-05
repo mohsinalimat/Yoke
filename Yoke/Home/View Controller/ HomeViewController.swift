@@ -93,6 +93,8 @@ class HomeViewController: UIViewController {
         UserController.shared.fetchUserWithUID(uid: uid) { (user) in
             if user.isChef == false {
                 self.setupBottomToolbarUser()
+                self.eventButton.isHidden = true
+                self.calendarButton.isHidden = true
             } else {
                 self.setupBottomToolbarChef()
             }
