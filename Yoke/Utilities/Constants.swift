@@ -14,6 +14,7 @@ class Constants {
     
     static let Users = "users"
     static let Uid = "uid"
+    static let FromUid = "fromUid"
     static let Id = "id"
     static let Key = "key"
     static let Email = "email"
