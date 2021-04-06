@@ -50,6 +50,7 @@ class BookingsViewController: UIViewController {
         scrollView.addSubview(todayLabel)
         scrollView.addSubview(viewAllTodayButton)
         scrollView.addSubview(todaysCollectionView)
+        scrollView.addSubview(bookingSegmentedControl)
     }
     
     func constrainViews() {
@@ -60,6 +61,7 @@ class BookingsViewController: UIViewController {
         viewAllTodayButton.anchor(top: nil, left: todayLabel.rightAnchor, bottom: nil, right: todaysViews.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 10)
         viewAllTodayButton.centerYAnchor.constraint(equalTo: todayLabel.centerYAnchor).isActive = true
         todaysCollectionView.anchor(top: todayLabel.bottomAnchor, left: todaysViews.leftAnchor, bottom: nil, right: todaysViews.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, height: 150)
+        bookingSegmentedControl.anchor(top: todaysViews.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 20, paddingLeft: 25, paddingBottom: 0, paddingRight: 25, height: 45)
     }
     
     func setupCollectionViews() {
@@ -111,6 +113,16 @@ class BookingsViewController: UIViewController {
         layout.scrollDirection = .horizontal
         let cv = UICollectionView(frame: .zero, collectionViewLayout: layout)
         return cv
+    }()
+    
+    let bookingSegmentedControl: UISegmentedControl = {
+        let seg = UISegmentedControl(items: ["Upcoming", "Archived"])
+        seg.selectedSegmentIndex = 0
+        seg.backgroundColor = UIColor.orangeColor()
+        seg.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor.orangeColor()!], for: UIControl.State.selected)
+        seg.setTitleTextAttributes([NSAttributedString.Key.font : UIFont.boldSystemFont(ofSize: 17), NSAttributedString.Key.foregroundColor: UIColor.white], for: UIControl.State.normal)
+//        seg.addTarget(self, action: #selector(handleCourseType), for: .valueChanged)
+        return seg
     }()
     
 }
