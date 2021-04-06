@@ -48,6 +48,7 @@ class BookingsViewController: UIViewController {
         view.addSubview(scrollView)
         scrollView.addSubview(todaysViews)
         scrollView.addSubview(todayLabel)
+        scrollView.addSubview(viewAllTodayButton)
         scrollView.addSubview(todaysCollectionView)
     }
     
@@ -55,7 +56,9 @@ class BookingsViewController: UIViewController {
         scrollView.contentSize = CGSize(width: view.frame.width, height: view.frame.height)
         scrollView.anchor(top: safeArea.topAnchor, left: safeArea.leftAnchor, bottom: safeArea.bottomAnchor, right: safeArea.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0)
         todaysViews.anchor(top: scrollView.topAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 20, paddingLeft: 10, paddingBottom: 50, paddingRight: 10, height: 200)
-        todayLabel.anchor(top: todaysViews.topAnchor, left: todaysViews.leftAnchor, bottom: nil, right: todaysViews.rightAnchor, paddingTop: 10, paddingLeft: 10, paddingBottom: 0, paddingRight: 10)
+        todayLabel.anchor(top: todaysViews.topAnchor, left: todaysViews.leftAnchor, bottom: nil, right: viewAllTodayButton.leftAnchor, paddingTop: 10, paddingLeft: 10, paddingBottom: 0, paddingRight: 0)
+        viewAllTodayButton.anchor(top: nil, left: todayLabel.rightAnchor, bottom: nil, right: todaysViews.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 10)
+        viewAllTodayButton.centerYAnchor.constraint(equalTo: todayLabel.centerYAnchor).isActive = true
         todaysCollectionView.anchor(top: todayLabel.bottomAnchor, left: todaysViews.leftAnchor, bottom: nil, right: todaysViews.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, height: 150)
     }
     
@@ -93,6 +96,14 @@ class BookingsViewController: UIViewController {
         label.textColor = UIColor.orangeColor()
         label.font = UIFont.boldSystemFont(ofSize: 28)
         return label
+    }()
+    
+    var viewAllTodayButton: UIButton = {
+        let button = UIButton()
+        button.setTitle("View all", for: .normal)
+        button.setTitleColor(UIColor.orangeColor(), for: .normal)
+        button.titleLabel?.font = .systemFont(ofSize: 15)
+        return button
     }()
     
     let todaysCollectionView: UICollectionView = {
