@@ -84,7 +84,7 @@ class BookingsViewController: UIViewController {
         upcomingCollectionView.delegate = self
         upcomingCollectionView.dataSource = self
         upcomingCollectionView.translatesAutoresizingMaskIntoConstraints = false
-        upcomingCollectionView.register(TodayCollectionViewCell.self, forCellWithReuseIdentifier: cellId2)
+        upcomingCollectionView.register(BookingsCollectionViewCell.self, forCellWithReuseIdentifier: cellId2)
         upcomingCollectionView.register(EmptyCell.self, forCellWithReuseIdentifier: noCellId)
         upcomingCollectionView.isHidden = false
         
@@ -92,7 +92,7 @@ class BookingsViewController: UIViewController {
         archivedCollectionView.delegate = self
         archivedCollectionView.dataSource = self
         archivedCollectionView.translatesAutoresizingMaskIntoConstraints = false
-        archivedCollectionView.register(TodayCollectionViewCell.self, forCellWithReuseIdentifier: cellId3)
+        archivedCollectionView.register(BookingsCollectionViewCell.self, forCellWithReuseIdentifier: cellId3)
         archivedCollectionView.register(EmptyCell.self, forCellWithReuseIdentifier: noCellId)
         archivedCollectionView.isHidden = true
     }
@@ -206,10 +206,10 @@ extension BookingsViewController: UICollectionViewDelegate, UICollectionViewData
             return cell
         }
         if collectionView == self.upcomingCollectionView {
-            let cellA = collectionView.dequeueReusableCell(withReuseIdentifier: cellId2, for: indexPath) as! TodayCollectionViewCell
+            let cellA = collectionView.dequeueReusableCell(withReuseIdentifier: cellId2, for: indexPath) as! BookingsCollectionViewCell
             return cellA
         }
-        let cellB = collectionView.dequeueReusableCell(withReuseIdentifier: cellId3, for: indexPath) as! TodayCollectionViewCell
+        let cellB = collectionView.dequeueReusableCell(withReuseIdentifier: cellId3, for: indexPath) as! BookingsCollectionViewCell
         return cellB
     }
     
