@@ -78,15 +78,13 @@ class TodayCollectionViewCell: UICollectionViewCell {
         let label = UILabel()
         label.font = UIFont.boldSystemFont(ofSize: 25)
         label.text = "Usernamex"
-        label.textColor = UIColor.orangeColor()
-//        label.lineBreakMode = .byWordWrapping
-//        label.numberOfLines = 0
+        label.textColor = UIColor.white
         return label
     }()
     
     var locationIcon: UIImageView = {
         let image = UIImageView()
-        image.image = UIImage(named: "location-pin-orange")
+        image.image = UIImage(named: "location-pin-white")
         return image
     }()
     
@@ -94,13 +92,13 @@ class TodayCollectionViewCell: UICollectionViewCell {
         let label = UILabel()
         label.text = "453 12th Street, Brooklyn NY"
         label.font = UIFont.boldSystemFont(ofSize: 13)
-        label.textColor = .gray
+        label.textColor = .white
         return label
     }()
     
     var dateIcon: UIImageView = {
         let image = UIImageView()
-        image.image = UIImage(named: "calendarOrange")
+        image.image = UIImage(named: "calendarWhite")
         return image
     }()
     
@@ -108,14 +106,13 @@ class TodayCollectionViewCell: UICollectionViewCell {
         let label = UILabel()
         label.text = "Friday, Apr 16, 2021"
         label.font = UIFont.boldSystemFont(ofSize: 13)
-        label.textColor = .gray
+        label.textColor = .white
         return label
     }()
     
     var timeIcon: UIImageView = {
         let image = UIImageView()
-        image.image = UIImage(named: "timeOrange")
-        image.tintColor = .white
+        image.image = UIImage(named: "timeWhite")
         return image
     }()
     
