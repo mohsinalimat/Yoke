@@ -90,8 +90,8 @@ class BookingsViewController: UIViewController {
     let todayLabel: UILabel = {
         let label = UILabel()
         label.text = "Today's Schedule"
-        label.textColor = UIColor.gray
-        label.font = UIFont.boldSystemFont(ofSize: 22)
+        label.textColor = UIColor.orangeColor()
+        label.font = UIFont.boldSystemFont(ofSize: 28)
         return label
     }()
     
@@ -165,7 +165,7 @@ extension BookingsViewController: UICollectionViewDelegate, UICollectionViewData
 //        } else {
 //            return CGSize(width: view.frame.width - 130, height: 90)
 //        }
-        return CGSize(width: view.frame.width - 20, height: 150)
+        return CGSize(width: view.frame.width - 75, height: 150)
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {

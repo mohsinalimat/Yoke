@@ -35,6 +35,7 @@ class TodayCollectionViewCell: UICollectionViewCell {
     
     func setupViews() {
         addSubview(shadowView)
+        addSubview(cellBackgroundImage)
         addSubview(profileImage)
         addSubview(nameLabel)
         addSubview(locationIcon)
@@ -47,17 +48,18 @@ class TodayCollectionViewCell: UICollectionViewCell {
     
     func setupConstraints() {
         shadowView.anchor(top: topAnchor, left: leftAnchor, bottom: bottomAnchor, right: rightAnchor, paddingTop: 10, paddingLeft: 10, paddingBottom: 10, paddingRight: 10)
+        cellBackgroundImage.anchor(top: topAnchor, left: leftAnchor, bottom: bottomAnchor, right: rightAnchor, paddingTop: 10, paddingLeft: 10, paddingBottom: 10, paddingRight: 10)
         profileImage.anchor(top: shadowView.topAnchor, left: shadowView.leftAnchor, bottom: nil, right: nil, paddingTop: 5, paddingLeft: 5, paddingBottom: 0, paddingRight: 0, width: 50, height: 50)
-        nameLabel.anchor(top: nil, left: profileImage.rightAnchor, bottom: nil, right: shadowView.rightAnchor, paddingTop: 0, paddingLeft: 5, paddingBottom: 0, paddingRight: 0)
+        nameLabel.anchor(top: nil, left: profileImage.rightAnchor, bottom: nil, right: shadowView.rightAnchor, paddingTop: 0, paddingLeft: 5, paddingBottom: 0, paddingRight: 10)
         nameLabel.centerYAnchor.constraint(equalTo: profileImage.centerYAnchor).isActive = true
         locationIcon.anchor(top: nameLabel.bottomAnchor, left: nameLabel.leftAnchor, bottom: nil, right: nil, paddingTop: 5, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 15, height: 18)
-        locationLabel.anchor(top: nil, left: locationIcon.rightAnchor, bottom: nil, right: nil, paddingTop: 0, paddingLeft: 5, paddingBottom: 0, paddingRight: 0)
+        locationLabel.anchor(top: nil, left: locationIcon.rightAnchor, bottom: nil, right: nil, paddingTop: 0, paddingLeft: 5, paddingBottom: 0, paddingRight: 10)
         locationLabel.centerYAnchor.constraint(equalTo: locationIcon.centerYAnchor).isActive = true
         dateIcon.anchor(top: locationIcon.bottomAnchor, left: nameLabel.leftAnchor, bottom: nil, right: nil, paddingTop: 10, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 15, height: 15)
-        dateLabel.anchor(top: dateIcon.topAnchor, left: dateIcon.rightAnchor, bottom: nil, right: nil, paddingTop: 0, paddingLeft: 5, paddingBottom: 0, paddingRight: 0)
+        dateLabel.anchor(top: dateIcon.topAnchor, left: dateIcon.rightAnchor, bottom: nil, right: nil, paddingTop: 0, paddingLeft: 5, paddingBottom: 0, paddingRight: 10)
         dateLabel.centerYAnchor.constraint(equalTo: dateIcon.centerYAnchor).isActive = true
         timeIcon.anchor(top: dateIcon.bottomAnchor, left: nameLabel.leftAnchor, bottom: nil, right: nil, paddingTop: 10, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 15, height: 15)
-        timeLabel.anchor(top: timeIcon.topAnchor, left: dateIcon.rightAnchor, bottom: nil, right: nil, paddingTop: 0, paddingLeft: 5, paddingBottom: 0, paddingRight: 0)
+        timeLabel.anchor(top: timeIcon.topAnchor, left: dateIcon.rightAnchor, bottom: nil, right: nil, paddingTop: 0, paddingLeft: 5, paddingBottom: 0, paddingRight: 10)
         timeLabel.centerYAnchor.constraint(equalTo: timeIcon.centerYAnchor).isActive = true
         
     }
@@ -113,6 +115,7 @@ class TodayCollectionViewCell: UICollectionViewCell {
     var timeIcon: UIImageView = {
         let image = UIImageView()
         image.image = UIImage(named: "timeOrange")
+        image.tintColor = .white
         return image
     }()
     
@@ -120,8 +123,16 @@ class TodayCollectionViewCell: UICollectionViewCell {
         let label = UILabel()
         label.text = "5:00 PM - 8:00 PM"
         label.font = UIFont.boldSystemFont(ofSize: 13)
-        label.textColor = .gray
+        label.textColor = .white
         return label
+    }()
+    
+    let cellBackgroundImage: UIImageView = {
+        let view = UIImageView()
+        view.image = UIImage(named: "image_background")
+        view.layer.cornerRadius = 10
+        view.layer.masksToBounds = true
+        return view
     }()
     
     let shadowView: UIView = {
