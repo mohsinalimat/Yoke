@@ -16,6 +16,8 @@ class BookingsViewController: UIViewController {
     }
     let noCellId = "noCellId"
     let cellId = "cellId"
+    let cellId2 = "cellId2"
+    let cellId3 = "cellId3"
     
     //MARK: - Lifecycle Methods
     override func viewDidLayoutSubviews() {
@@ -52,6 +54,8 @@ class BookingsViewController: UIViewController {
         scrollView.addSubview(todaysCollectionView)
         scrollView.addSubview(upcomingArchivedViews)
         scrollView.addSubview(bookingSegmentedControl)
+        scrollView.addSubview(upcomingCollectionView)
+        scrollView.addSubview(archivedCollectionView)
     }
     
     func constrainViews() {
@@ -64,6 +68,8 @@ class BookingsViewController: UIViewController {
         todaysCollectionView.anchor(top: todayLabel.bottomAnchor, left: todaysViews.leftAnchor, bottom: nil, right: todaysViews.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, height: 150)
         upcomingArchivedViews.anchor(top: todaysViews.bottomAnchor, left: safeArea.leftAnchor, bottom: safeArea.bottomAnchor, right: safeArea.rightAnchor, paddingTop: 20, paddingLeft: 10, paddingBottom: 10, paddingRight: 10)
         bookingSegmentedControl.anchor(top: upcomingArchivedViews.topAnchor, left: upcomingArchivedViews.leftAnchor, bottom: nil, right: upcomingArchivedViews.rightAnchor, paddingTop: 20, paddingLeft: 10, paddingBottom: 0, paddingRight: 10, height: 35)
+        upcomingCollectionView.anchor(top: bookingSegmentedControl.bottomAnchor, left: upcomingArchivedViews.leftAnchor, bottom: upcomingArchivedViews.bottomAnchor, right: upcomingArchivedViews.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0)
+        archivedCollectionView.anchor(top: bookingSegmentedControl.bottomAnchor, left: upcomingArchivedViews.leftAnchor, bottom: upcomingArchivedViews.bottomAnchor, right: upcomingArchivedViews.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0)
     }
     
     func setupCollectionViews() {
@@ -73,11 +79,37 @@ class BookingsViewController: UIViewController {
         todaysCollectionView.translatesAutoresizingMaskIntoConstraints = false
         todaysCollectionView.register(TodayCollectionViewCell.self, forCellWithReuseIdentifier: cellId)
         todaysCollectionView.register(EmptyCell.self, forCellWithReuseIdentifier: noCellId)
+        
+        upcomingCollectionView.backgroundColor = UIColor.clear
+        upcomingCollectionView.delegate = self
+        upcomingCollectionView.dataSource = self
+        upcomingCollectionView.translatesAutoresizingMaskIntoConstraints = false
+        upcomingCollectionView.register(TodayCollectionViewCell.self, forCellWithReuseIdentifier: cellId2)
+        upcomingCollectionView.register(EmptyCell.self, forCellWithReuseIdentifier: noCellId)
+        upcomingCollectionView.isHidden = false
+        
+        archivedCollectionView.backgroundColor = UIColor.clear
+        archivedCollectionView.delegate = self
+        archivedCollectionView.dataSource = self
+        archivedCollectionView.translatesAutoresizingMaskIntoConstraints = false
+        archivedCollectionView.register(TodayCollectionViewCell.self, forCellWithReuseIdentifier: cellId3)
+        archivedCollectionView.register(EmptyCell.self, forCellWithReuseIdentifier: noCellId)
+        archivedCollectionView.isHidden = true
     }
     
     //MARK: - Selectors
     @objc func handleNew() {
         
+    }
+    
+    @objc func handleSegSelection(index: Int) {
+        if bookingSegmentedControl.selectedSegmentIndex == 0 {
+            archivedCollectionView.isHidden = true
+            upcomingCollectionView.isHidden = false
+        } else if bookingSegmentedControl.selectedSegmentIndex == 1 {
+            upcomingCollectionView.isHidden = true
+            archivedCollectionView.isHidden = false
+        }
     }
     
     //MARK: - Views
@@ -129,8 +161,22 @@ class BookingsViewController: UIViewController {
         seg.backgroundColor = UIColor.orangeColor()
         seg.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor.orangeColor()!], for: UIControl.State.selected)
         seg.setTitleTextAttributes([NSAttributedString.Key.font : UIFont.boldSystemFont(ofSize: 17), NSAttributedString.Key.foregroundColor: UIColor.white], for: UIControl.State.normal)
-//        seg.addTarget(self, action: #selector(handleCourseType), for: .valueChanged)
+        seg.addTarget(self, action: #selector(handleSegSelection), for: .valueChanged)
         return seg
+    }()
+    
+    let upcomingCollectionView: UICollectionView = {
+        let layout = UICollectionViewFlowLayout()
+        layout.scrollDirection = .vertical
+        let cv = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        return cv
+    }()
+    
+    let archivedCollectionView: UICollectionView = {
+        let layout = UICollectionViewFlowLayout()
+        layout.scrollDirection = .vertical
+        let cv = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        return cv
     }()
     
 }
@@ -138,65 +184,40 @@ class BookingsViewController: UIViewController {
 // MARK: - CollectionView
 extension BookingsViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 2
-//        if collectionView == self.menuCollectionView {
-//            if MenuController.shared.menus.count == 0 {
-//                return 1
-//            } else {
-//                return MenuController.shared.menus.count
-//            }
+//        if collectionView == self.todaysCollectionView {
+//            return 2
 //        }
-//        if SuggestedChefController.shared.chefs.count == 0 {
+//        if collectionView == self.upcomingArchivedViews {
 //            return 1
-//        } else {
-//            return SuggestedChefController.shared.chefs.count
 //        }
+        return 3
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-//        if collectionView == self.menuCollectionView {
+        if collectionView == self.todaysCollectionView {
 //            if MenuController.shared.menus.count == 0 {
 //                let noCell = collectionView.dequeueReusableCell(withReuseIdentifier: noCellId, for: indexPath) as! EmptyCell
 //                noCell.noPostLabel.text = "Hey chef, Add a menu to your profile."
 //                noCell.noPostLabel.font = UIFont.boldSystemFont(ofSize: 15)
 //                return noCell
 //            }
-//
-//            let cellA = collectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath) as! MenuCollectionViewCell
-//            cellA.menu = MenuController.shared.menus[indexPath.item]
-//            return cellA
-//        }
-        
-//        let cellB = collectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath) as! SuggestedChefsCollectionViewCell
-//        if SuggestedChefController.shared.chefs.count == 0 {
-//            let noCell = collectionView.dequeueReusableCell(withReuseIdentifier: noCellId, for: indexPath) as! EmptyCell
-//            noCell.noPostLabel.text = "Sorry, there are currently no chefs in your area"
-//            noCell.noPostLabel.font = UIFont.boldSystemFont(ofSize: 15)
-//            return noCell
-//        } else {
-//            cellB.chef = SuggestedChefController.shared.chefs[indexPath.item]
-//            return cellB
-//        }
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath) as! TodayCollectionViewCell
-//        cell.review = ReviewController.shared.reviews[indexPath.item]
-        return cell
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath) as! TodayCollectionViewCell
+    //        cell.review = ReviewController.shared.reviews[indexPath.item]
+            return cell
+        }
+        if collectionView == self.upcomingCollectionView {
+            let cellA = collectionView.dequeueReusableCell(withReuseIdentifier: cellId2, for: indexPath) as! TodayCollectionViewCell
+            return cellA
+        }
+        let cellB = collectionView.dequeueReusableCell(withReuseIdentifier: cellId3, for: indexPath) as! TodayCollectionViewCell
+        return cellB
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-//        if collectionView == self.menuCollectionView {
-//            if MenuController.shared.menus.count == 0 {
-//                return CGSize(width: view.frame.width - 20, height: 100)
-//            } else {
-//                return CGSize(width: view.frame.width - 20, height: 180)
-//            }
-//        }
-//
-//        if SuggestedChefController.shared.chefs.count == 0 {
-//            return CGSize(width: view.frame.width - 20, height: 100)
-//        } else {
-//            return CGSize(width: view.frame.width - 130, height: 90)
-//        }
-        return CGSize(width: view.frame.width - 75, height: 150)
+        if collectionView == self.todaysCollectionView {
+            return CGSize(width: view.frame.width - 75, height: 150)
+        }
+        return CGSize(width: view.frame.width - 25, height: 150)
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
