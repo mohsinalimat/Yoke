@@ -34,6 +34,7 @@ class Constants {
     static let IsBooked = "isBooked"
     static let InvoiceSent = "invoiceSent"
     static let InvoicePaid = "invoicePaid"
+    static let Bookings = "bookings"
     
     static let Detail = "detail"
     static let CourseType = "courseType"
