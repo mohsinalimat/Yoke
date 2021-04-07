@@ -37,8 +37,8 @@ class BookingController {
         completion(true)
     }
     
-    func updateBookingWith(bookingId: String, chefUid: String, completion: @escaping (Bool) -> Void) {
-        self.firestoreDB.document(bookingId).setData([Constants.ChefUid: chefUid], merge: true)
+    func updateBookingWith(bookingId: String, chefUid: String, location: String, date: String, startTime: String, endTime: String, numberOfPeople: Int, numberOfCourses: Int, typeOfCuisine: String, details: String, completion: @escaping (Bool) -> Void) {
+        self.firestoreDB.document(bookingId).setData([Constants.Location: location, Constants.Date: date, Constants.StartTime: startTime, Constants.EndTime: endTime, Constants.NumberOfPeople: numberOfPeople, Constants.NumberOfCourses: numberOfCourses, Constants.Detail: details], merge: true)
 //        self.setupGeofirestore(eventId: eventId, location: location)
         completion(true)
     }
