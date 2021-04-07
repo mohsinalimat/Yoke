@@ -14,7 +14,8 @@ class Constants {
     
     static let Users = "users"
     static let Uid = "uid"
-    static let FromUid = "fromUid"
+    static let ChefUid = "chefUid"
+    static let UserUid = "userUid"
     static let Id = "id"
     static let Key = "key"
     static let Email = "email"
@@ -28,7 +29,12 @@ class Constants {
     
     static let Menu = "menu"
     static let Cuisine = "cuisine"
+    static let CuisineType = "cuisineType"
     static let CuisineList = "cuisineList"
+    static let IsBooked = "isBooked"
+    static let InvoiceSent = "invoiceSent"
+    static let InvoicePaid = "invoicePaid"
+    
     static let Detail = "detail"
     static let CourseType = "courseType"
     static let MenuType = "menuType"
@@ -38,6 +44,8 @@ class Constants {
     static let Time = "time"
     static let AllowsRSVP = "allowsRSVP"
     static let AllowsContact = "allowsContact"
+    static let NumberOfPeople = "numberOfPeople"
+    static let NumberOfCourses = "numberOfCourses"
     
     static let SharedPhotos = "shared_photos"
     static let MessageMovies = "message_movies"
