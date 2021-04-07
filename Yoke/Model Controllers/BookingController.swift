@@ -30,9 +30,9 @@ class BookingController {
     private let locationManager = LocationManager()
     
     //MARK: - CRUD Functions
-    func createBookingWith(chefUid: String, completion: @escaping (Bool) -> Void) {
+    func createBookingWith(chefUid: String, userUid: String, location: String, date: String, startTime: String, endTime: String, numberOfPeople: Int, numberOfCourses: Int, typeOfCuisine: String, details: String, completion: @escaping (Bool) -> Void) {
         let bookingId = NSUUID().uuidString
-        self.firestoreDB.document(bookingId).setData([Constants.ChefUid: chefUid], merge: true)
+        self.firestoreDB.document(bookingId).setData([Constants.ChefUid: chefUid, Constants.Id: bookingId, Constants.UserUid: userUid, Constants.Location: location, Constants.Date: date, Constants.StartTime: startTime, Constants.EndTime: endTime, Constants.NumberOfPeople: numberOfPeople, Constants.NumberOfCourses: numberOfCourses, Constants.Detail: details, Constants.InvoiceSent: false, Constants.InvoicePaid: false, Constants.IsBooked: false], merge: true)
 //        self.setupGeofirestore(eventId: eventId, location: location)
         completion(true)
     }
