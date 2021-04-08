@@ -71,8 +71,8 @@ class BookingRequestViewController: UIViewController {
         scrollView.anchor(top: safeArea.topAnchor, left: safeArea.leftAnchor, bottom: safeArea.bottomAnchor, right: safeArea.rightAnchor, paddingTop: 20, paddingLeft: 0, paddingBottom: 0, paddingRight: 0)
         peopleCountViewBG.anchor(top: scrollView.topAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 10, paddingLeft: 10, paddingBottom: 0, paddingRight: 10, height: 50)
         numberOfPeopleLabel.anchor(top: peopleCountViewBG.topAnchor, left: peopleCountViewBG.leftAnchor, bottom: peopleCountViewBG.bottomAnchor, right: nil, paddingTop: 0, paddingLeft: 5, paddingBottom: 0, paddingRight: 0)
-        peopleCountStackView.anchor(top: peopleCountViewBG.topAnchor, left: nil, bottom: peopleCountViewBG.bottomAnchor, right: peopleCountViewBG.rightAnchor, paddingTop: 5, paddingLeft: 0, paddingBottom: 5, paddingRight: 5, width: 100)
-        peopleCountStackView.backgroundColor = .green
+        peopleCountStackView.anchor(top: nil, left: nil, bottom: nil, right: peopleCountViewBG.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 5, width: 110, height: 25)
+        peopleCountStackView.centerYAnchor.constraint(equalTo: numberOfPeopleLabel.centerYAnchor).isActive = true
         locationViewBG.anchor(top: peopleCountViewBG.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 10, paddingLeft: 10, paddingBottom: 0, paddingRight: 10, height: 45)
         locationButton.anchor(top: locationViewBG.topAnchor, left: locationViewBG.leftAnchor, bottom: locationViewBG.bottomAnchor, right: locationIndicatorIconView.leftAnchor, paddingTop: 0, paddingLeft: 5, paddingBottom: 0, paddingRight: 0)
         locationIndicatorIconView.anchor(top: nil, left: locationButton.rightAnchor, bottom: nil, right: locationViewBG.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 10, width: 20, height: 20)
