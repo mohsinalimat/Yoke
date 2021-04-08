@@ -47,9 +47,15 @@ class BookingRequestViewController: UIViewController {
         scrollView.addSubview(peopleCountViewBG)
         scrollView.addSubview(numberOfPeopleLabel)
         scrollView.addSubview(peopleCountStackView)
-        peopleCountStackView.addArrangedSubview(countMinusButton)
+        peopleCountStackView.addArrangedSubview(peopleCountMinusButton)
         peopleCountStackView.addArrangedSubview(peopleCountTextField)
-        peopleCountStackView.addArrangedSubview(countPlusButton)
+        peopleCountStackView.addArrangedSubview(peopleCountPlusButton)
+        scrollView.addSubview(courseCountViewBG)
+        scrollView.addSubview(numberOfCourseLabel)
+        scrollView.addSubview(courseCountStackView)
+        courseCountStackView.addArrangedSubview(courseCountMinusButton)
+        courseCountStackView.addArrangedSubview(courseCountTextField)
+        courseCountStackView.addArrangedSubview(courseCountPlusButton)
         scrollView.addSubview(locationViewBG)
         scrollView.addSubview(locationIndicatorIconView)
         scrollView.addSubview(locationButton)
@@ -75,7 +81,12 @@ class BookingRequestViewController: UIViewController {
         numberOfPeopleLabel.anchor(top: peopleCountViewBG.topAnchor, left: peopleCountViewBG.leftAnchor, bottom: peopleCountViewBG.bottomAnchor, right: nil, paddingTop: 0, paddingLeft: 5, paddingBottom: 0, paddingRight: 0)
         peopleCountStackView.anchor(top: nil, left: nil, bottom: nil, right: peopleCountViewBG.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 5, width: 110, height: 30)
         peopleCountStackView.centerYAnchor.constraint(equalTo: numberOfPeopleLabel.centerYAnchor).isActive = true
-        locationViewBG.anchor(top: peopleCountViewBG.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 10, paddingLeft: 10, paddingBottom: 0, paddingRight: 10, height: 45)
+        
+        courseCountViewBG.anchor(top: peopleCountViewBG.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 10, paddingLeft: 10, paddingBottom: 0, paddingRight: 10, height: 50)
+        numberOfCourseLabel.anchor(top: courseCountViewBG.topAnchor, left: courseCountViewBG.leftAnchor, bottom: courseCountViewBG.bottomAnchor, right: nil, paddingTop: 0, paddingLeft: 5, paddingBottom: 0, paddingRight: 0)
+        courseCountStackView.anchor(top: nil, left: nil, bottom: nil, right: courseCountViewBG.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 5, width: 110, height: 30)
+        courseCountStackView.centerYAnchor.constraint(equalTo: numberOfCourseLabel.centerYAnchor).isActive = true
+        locationViewBG.anchor(top: courseCountViewBG.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 10, paddingLeft: 10, paddingBottom: 0, paddingRight: 10, height: 45)
         locationButton.anchor(top: locationViewBG.topAnchor, left: locationViewBG.leftAnchor, bottom: locationViewBG.bottomAnchor, right: locationIndicatorIconView.leftAnchor, paddingTop: 0, paddingLeft: 5, paddingBottom: 0, paddingRight: 0)
         locationIndicatorIconView.anchor(top: nil, left: locationButton.rightAnchor, bottom: nil, right: locationViewBG.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 10, width: 20, height: 20)
         locationIndicatorIconView.centerYAnchor.constraint(equalTo: locationViewBG.centerYAnchor).isActive = true
@@ -179,7 +190,7 @@ class BookingRequestViewController: UIViewController {
             print("You cannot add a value less then 1")
         }
         let newValue = addValue + 1
-        peopleCountTextField.text! = String(newValue)
+        peopleCountTextField.text = String(newValue)
         peopleCounter = newValue
     }
     
@@ -189,7 +200,29 @@ class BookingRequestViewController: UIViewController {
             print("You cannot add a value less then 1")
         } else if minusValue > 1 {
             let newValue = minusValue - 1
-            peopleCountTextField.text! = String(newValue)
+            peopleCountTextField.text = String(newValue)
+            peopleCounter = newValue
+        }
+
+    }
+    
+    @objc func handleAddCourseCount() {
+        guard let addValue = Int(courseCountTextField.text!) else { return }
+        if addValue < 0 {
+            print("You cannot add a value less then 1")
+        }
+        let newValue = addValue + 1
+        courseCountTextField.text = String(newValue)
+        peopleCounter = newValue
+    }
+    
+    @objc func handleMinusCourseCount() {
+        guard let minusValue = Int(courseCountTextField.text!) else { return }
+        if minusValue < 0 {
+            print("You cannot add a value less then 1")
+        } else if minusValue > 1 {
+            let newValue = minusValue - 1
+            courseCountTextField.text = String(newValue)
             peopleCounter = newValue
         }
 
@@ -204,6 +237,7 @@ class BookingRequestViewController: UIViewController {
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
+    
     let peopleCountViewBG: ShadowView = {
         let view = ShadowView()
         view.backgroundColor = .white
@@ -234,7 +268,7 @@ class BookingRequestViewController: UIViewController {
         return text
     }()
     
-    var countPlusButton: UIButton = {
+    var peopleCountPlusButton: UIButton = {
         let button = UIButton(type: .custom)
         let image = UIImage(named: "addButton")
         button.setImage(image, for: .normal)
@@ -242,11 +276,57 @@ class BookingRequestViewController: UIViewController {
         return button
     }()
     
-    var countMinusButton: UIButton = {
+    var peopleCountMinusButton: UIButton = {
         let button = UIButton(type: .custom)
         let image = UIImage(named: "minusButton")
         button.setImage(image, for: .normal)
         button.addTarget(self, action: #selector(handleMinusPeopleCount), for: .touchUpInside)
+        return button
+    }()
+    
+    let courseCountViewBG: ShadowView = {
+        let view = ShadowView()
+        view.backgroundColor = .white
+        return view
+    }()
+    
+    var numberOfCourseLabel: UILabel = {
+        let label = UILabel()
+        label.text = "How many courses?"
+        label.font = UIFont.boldSystemFont(ofSize: 17)
+        label.textColor = .gray
+        return label
+    }()
+    
+    let courseCountStackView: UIStackView = {
+        let stackView = UIStackView()
+        stackView.axis = .horizontal
+        stackView.distribution = .fillEqually
+        stackView.spacing = 0
+        stackView.backgroundColor = .white
+        return stackView
+    }()
+    
+    var courseCountTextField: UITextField = {
+        let text = UITextField()
+        text.text = "1"
+        text.textAlignment = .center
+        return text
+    }()
+    
+    var courseCountPlusButton: UIButton = {
+        let button = UIButton(type: .custom)
+        let image = UIImage(named: "addButton")
+        button.setImage(image, for: .normal)
+        button.addTarget(self, action: #selector(handleAddCourseCount), for: .touchUpInside)
+        return button
+    }()
+    
+    var courseCountMinusButton: UIButton = {
+        let button = UIButton(type: .custom)
+        let image = UIImage(named: "minusButton")
+        button.setImage(image, for: .normal)
+        button.addTarget(self, action: #selector(handleMinusCourseCount), for: .touchUpInside)
         return button
     }()
     
