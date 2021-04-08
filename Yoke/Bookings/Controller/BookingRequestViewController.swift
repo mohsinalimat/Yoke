@@ -56,6 +56,8 @@ class BookingRequestViewController: UIViewController {
         courseCountStackView.addArrangedSubview(courseCountMinusButton)
         courseCountStackView.addArrangedSubview(courseCountTextField)
         courseCountStackView.addArrangedSubview(courseCountPlusButton)
+        scrollView.addSubview(cuisineView)
+        scrollView.addSubview(cuisineTextField)
         scrollView.addSubview(locationViewBG)
         scrollView.addSubview(locationIndicatorIconView)
         scrollView.addSubview(locationButton)
@@ -86,7 +88,11 @@ class BookingRequestViewController: UIViewController {
         numberOfCourseLabel.anchor(top: courseCountViewBG.topAnchor, left: courseCountViewBG.leftAnchor, bottom: courseCountViewBG.bottomAnchor, right: nil, paddingTop: 0, paddingLeft: 5, paddingBottom: 0, paddingRight: 0)
         courseCountStackView.anchor(top: nil, left: nil, bottom: nil, right: courseCountViewBG.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 5, width: 110, height: 30)
         courseCountStackView.centerYAnchor.constraint(equalTo: numberOfCourseLabel.centerYAnchor).isActive = true
-        locationViewBG.anchor(top: courseCountViewBG.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 10, paddingLeft: 10, paddingBottom: 0, paddingRight: 10, height: 45)
+        cuisineView.anchor(top: courseCountViewBG.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 10, paddingLeft: 10, paddingBottom: 0, paddingRight: 10, height: 50)
+        cuisineTextField.anchor(top: nil, left: cuisineView.leftAnchor, bottom: nil, right: cuisineView.rightAnchor, paddingTop: 0, paddingLeft: 5, paddingBottom: 0, paddingRight: 5)
+        cuisineTextField.centerYAnchor.constraint(equalTo: cuisineView.centerYAnchor).isActive = true
+        
+        locationViewBG.anchor(top: cuisineView.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 10, paddingLeft: 10, paddingBottom: 0, paddingRight: 10, height: 45)
         locationButton.anchor(top: locationViewBG.topAnchor, left: locationViewBG.leftAnchor, bottom: locationViewBG.bottomAnchor, right: locationIndicatorIconView.leftAnchor, paddingTop: 0, paddingLeft: 5, paddingBottom: 0, paddingRight: 0)
         locationIndicatorIconView.anchor(top: nil, left: locationButton.rightAnchor, bottom: nil, right: locationViewBG.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 10, width: 20, height: 20)
         locationIndicatorIconView.centerYAnchor.constraint(equalTo: locationViewBG.centerYAnchor).isActive = true
@@ -328,6 +334,20 @@ class BookingRequestViewController: UIViewController {
         button.setImage(image, for: .normal)
         button.addTarget(self, action: #selector(handleMinusCourseCount), for: .touchUpInside)
         return button
+    }()
+    
+    let cuisineView: ShadowView = {
+        let view = ShadowView()
+        view.backgroundColor = .white
+        return view
+    }()
+    
+    let cuisineTextField: UITextField = {
+        let text = UITextField()
+        text.font = UIFont.systemFont(ofSize: 17)
+        text.placeholder = "Enter cuisine preference here..."
+        text.textColor = UIColor.orangeColor()
+        return text
     }()
     
     let locationViewBG: ShadowView = {
