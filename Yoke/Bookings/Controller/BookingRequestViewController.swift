@@ -19,6 +19,7 @@ class BookingRequestViewController: UIViewController {
     var userId: String?
     let myActivityIndicator = UIActivityIndicatorView(style: UIActivityIndicatorView.Style.large)
     var selectedLocation: String = ""
+    var peopleCounter: Int = 0
     
     //MARK: - Lifecycle Methods
     override func viewDidLayoutSubviews() {
@@ -36,6 +37,7 @@ class BookingRequestViewController: UIViewController {
         super.viewDidLoad()
         setupPickerViews()
         fetchChef()
+        print("people count \(peopleCounter)")
     }
     
     //MARK: - Helper Functions
@@ -71,7 +73,7 @@ class BookingRequestViewController: UIViewController {
         scrollView.anchor(top: safeArea.topAnchor, left: safeArea.leftAnchor, bottom: safeArea.bottomAnchor, right: safeArea.rightAnchor, paddingTop: 20, paddingLeft: 0, paddingBottom: 0, paddingRight: 0)
         peopleCountViewBG.anchor(top: scrollView.topAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 10, paddingLeft: 10, paddingBottom: 0, paddingRight: 10, height: 50)
         numberOfPeopleLabel.anchor(top: peopleCountViewBG.topAnchor, left: peopleCountViewBG.leftAnchor, bottom: peopleCountViewBG.bottomAnchor, right: nil, paddingTop: 0, paddingLeft: 5, paddingBottom: 0, paddingRight: 0)
-        peopleCountStackView.anchor(top: nil, left: nil, bottom: nil, right: peopleCountViewBG.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 5, width: 110, height: 25)
+        peopleCountStackView.anchor(top: nil, left: nil, bottom: nil, right: peopleCountViewBG.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 5, width: 110, height: 30)
         peopleCountStackView.centerYAnchor.constraint(equalTo: numberOfPeopleLabel.centerYAnchor).isActive = true
         locationViewBG.anchor(top: peopleCountViewBG.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 10, paddingLeft: 10, paddingBottom: 0, paddingRight: 10, height: 45)
         locationButton.anchor(top: locationViewBG.topAnchor, left: locationViewBG.leftAnchor, bottom: locationViewBG.bottomAnchor, right: locationIndicatorIconView.leftAnchor, paddingTop: 0, paddingLeft: 5, paddingBottom: 0, paddingRight: 0)
@@ -171,6 +173,27 @@ class BookingRequestViewController: UIViewController {
         dismiss(animated: true, completion: nil)
     }
     
+    @objc func handleAddPeopleCount() {
+        guard let addValue = Int(peopleCountTextField.text!) else { return }
+        if addValue < 0 {
+            print("You cannot add a value less then 1")
+        }
+        let newValue = addValue + 1
+        peopleCountTextField.text! = String(newValue)
+        peopleCounter = newValue
+    }
+    
+    @objc func handleMinusPeopleCount() {
+        guard let minusValue = Int(peopleCountTextField.text!) else { return }
+        if minusValue < 0 {
+            print("You cannot add a value less then 1")
+        } else if minusValue > 1 {
+            let newValue = minusValue - 1
+            peopleCountTextField.text! = String(newValue)
+            peopleCounter = newValue
+        }
+
+    }
     //MARK: - Views
     lazy var scrollView: UIScrollView = {
         let view = UIScrollView()
@@ -206,7 +229,7 @@ class BookingRequestViewController: UIViewController {
     
     var peopleCountTextField: UITextField = {
         let text = UITextField()
-        text.text = "0"
+        text.text = "1"
         text.textAlignment = .center
         return text
     }()
@@ -217,6 +240,7 @@ class BookingRequestViewController: UIViewController {
         button.setTitleColor(.white, for: .normal)
         button.backgroundColor = UIColor.orangeColor()
         button.layer.cornerRadius = 10
+        button.addTarget(self, action: #selector(handleAddPeopleCount), for: .touchUpInside)
         return button
     }()
     
@@ -226,6 +250,7 @@ class BookingRequestViewController: UIViewController {
         button.setTitleColor(.white, for: .normal)
         button.backgroundColor = UIColor.orangeColor()
         button.layer.cornerRadius = 10
+        button.addTarget(self, action: #selector(handleMinusPeopleCount), for: .touchUpInside)
         return button
     }()
     
