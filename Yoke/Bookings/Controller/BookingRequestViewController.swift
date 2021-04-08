@@ -44,6 +44,7 @@ class BookingRequestViewController: UIViewController {
     func setupViews() {
         view.backgroundColor = UIColor.LightGrayBg()
         view.addSubview(scrollView)
+        scrollView.addSubview(introLabel)
         scrollView.addSubview(peopleCountViewBG)
         scrollView.addSubview(numberOfPeopleLabel)
         scrollView.addSubview(peopleCountStackView)
@@ -73,13 +74,15 @@ class BookingRequestViewController: UIViewController {
         timeStackView.addArrangedSubview(endTimeTextField)
         scrollView.addSubview(detailView)
         scrollView.addSubview(detailTextField)
+        scrollView.addSubview(submitButton)
         view.addSubview(myActivityIndicator)
     }
     
     func constrainViews() {
         scrollView.contentSize = CGSize(width: view.frame.width, height: view.frame.height + 500)
         scrollView.anchor(top: safeArea.topAnchor, left: safeArea.leftAnchor, bottom: safeArea.bottomAnchor, right: safeArea.rightAnchor, paddingTop: 20, paddingLeft: 0, paddingBottom: 0, paddingRight: 0)
-        peopleCountViewBG.anchor(top: scrollView.topAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 10, paddingLeft: 10, paddingBottom: 0, paddingRight: 10, height: 50)
+        introLabel.anchor(top: scrollView.topAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 0, paddingLeft: 10, paddingBottom: 0, paddingRight: 10, height: 60)
+        peopleCountViewBG.anchor(top: introLabel.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 10, paddingLeft: 10, paddingBottom: 0, paddingRight: 10, height: 50)
         numberOfPeopleLabel.anchor(top: peopleCountViewBG.topAnchor, left: peopleCountViewBG.leftAnchor, bottom: peopleCountViewBG.bottomAnchor, right: nil, paddingTop: 0, paddingLeft: 5, paddingBottom: 0, paddingRight: 0)
         peopleCountStackView.anchor(top: nil, left: nil, bottom: nil, right: peopleCountViewBG.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 5, width: 110, height: 30)
         peopleCountStackView.centerYAnchor.constraint(equalTo: numberOfPeopleLabel.centerYAnchor).isActive = true
@@ -106,7 +109,7 @@ class BookingRequestViewController: UIViewController {
 
         detailView.anchor(top: timeStackView.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 20, paddingLeft: 10, paddingBottom: 0, paddingRight: 10, height: 300)
         detailTextField.anchor(top: detailView.topAnchor, left: detailView.leftAnchor, bottom: detailView.bottomAnchor, right: detailView.rightAnchor, paddingTop: 5, paddingLeft: 5, paddingBottom: 0, paddingRight: 5)
-        
+        submitButton.anchor(top: detailView.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 20, paddingLeft: 10, paddingBottom: 0, paddingRight: 10, height: 50)
         myActivityIndicator.center = view.center
     }
     
@@ -144,7 +147,7 @@ class BookingRequestViewController: UIViewController {
     
     //MARK: - Selectors
     
-    @objc func handleSend() {
+    @objc func handleSubmit() {
 //        guard let caption = captionTextField.text, !caption.isEmpty,
 //              let detail = eventDetailTextField.text, !detail.isEmpty,
 //              let date = selectedDateLabel.text,
@@ -242,6 +245,16 @@ class BookingRequestViewController: UIViewController {
         view.layer.borderWidth = 5
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
+    }()
+    
+    var introLabel: UITextView = {
+        let text = UITextView()
+        text.text = "Please fill out the form below and submit it so the chef can review it."
+        text.textAlignment = .center
+        text.backgroundColor = .clear
+        text.font = UIFont.boldSystemFont(ofSize: 18)
+        text.textColor = UIColor.orangeColor()
+        return text
     }()
     
     let peopleCountViewBG: ShadowView = {
@@ -347,7 +360,7 @@ class BookingRequestViewController: UIViewController {
     let cuisineTextField: UITextField = {
         let text = UITextField()
         text.font = UIFont.systemFont(ofSize: 17)
-        text.placeholder = "Enter cuisine or preference from chef's menu here..."
+        text.placeholder = "Enter cuisine preference here..."
         text.textColor = UIColor.orangeColor()
         return text
     }()
@@ -512,5 +525,19 @@ class BookingRequestViewController: UIViewController {
         text.textContainer.lineBreakMode = .byWordWrapping
         text.font = UIFont.systemFont(ofSize: 17)
         return text
+    }()
+    
+    let submitButton: UIButton = {
+        let button = UIButton()
+        button.setTitle("Submit Request", for: .normal)
+        button.setTitleColor(.white, for: .normal)
+        button.backgroundColor = UIColor.orangeColor()
+        button.layer.cornerRadius = 10
+        button.layer.shadowOffset = CGSize(width: 0, height: 4)
+        button.layer.shadowRadius = 4
+        button.layer.shadowOpacity = 0.1
+        button.layer.shadowColor = UIColor.gray.cgColor
+        button.addTarget(self, action: #selector(handleSubmit), for: .touchUpInside)
+        return button
     }()
 }
