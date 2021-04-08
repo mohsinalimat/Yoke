@@ -271,6 +271,7 @@ class BookingRequestViewController: UIViewController {
         let text = UITextField()
         text.text = "1"
         text.textAlignment = .center
+        text.isUserInteractionEnabled = false
         return text
     }()
     
@@ -317,6 +318,7 @@ class BookingRequestViewController: UIViewController {
         let text = UITextField()
         text.text = "1"
         text.textAlignment = .center
+        text.isUserInteractionEnabled = false
         return text
     }()
     
@@ -345,7 +347,7 @@ class BookingRequestViewController: UIViewController {
     let cuisineTextField: UITextField = {
         let text = UITextField()
         text.font = UIFont.systemFont(ofSize: 17)
-        text.placeholder = "Enter cuisine preference here..."
+        text.placeholder = "Enter cuisine or preference from chef's menu here..."
         text.textColor = UIColor.orangeColor()
         return text
     }()
