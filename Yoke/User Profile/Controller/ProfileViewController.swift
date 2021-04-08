@@ -284,11 +284,14 @@ class ProfileViewController: UIViewController, TTGTextTagCollectionViewDelegate 
         navigationController?.pushViewController(reviewsVC, animated: true)
     }
     
-    @objc func handleSendMessage() {
-        let chatVC = ChatCollectionViewController(collectionViewLayout: UICollectionViewFlowLayout())
-        print("pressed")
-        chatVC.userId = userId
-        navigationController?.pushViewController(chatVC, animated: true)
+    @objc func handleSendRequest() {
+        let requestVC = BookingRequestViewController()
+        requestVC.userId = userId
+        navigationController?.pushViewController(requestVC, animated: true)
+//        let chatVC = ChatCollectionViewController(collectionViewLayout: UICollectionViewFlowLayout())
+//        print("pressed")
+//        chatVC.userId = userId
+//        navigationController?.pushViewController(chatVC, animated: true)
     }
 
     //MARK: - Views
@@ -440,10 +443,10 @@ class ProfileViewController: UIViewController, TTGTextTagCollectionViewDelegate 
         let image = UIImage(named: "message_selected")?.withRenderingMode(.alwaysTemplate)
         button.setImage(image, for: .normal)
         button.tintColor = UIColor.orangeColor()
-        button.setTitle("Message", for: .normal)
+        button.setTitle("Request Chef", for: .normal)
         button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 10)
         button.setTitleColor(UIColor.orangeColor(), for: .normal)
-        button.addTarget(self, action: #selector(handleSendMessage), for: .touchUpInside)
+        button.addTarget(self, action: #selector(handleSendRequest), for: .touchUpInside)
         button.layer.cornerRadius = 10
         return button
     }()

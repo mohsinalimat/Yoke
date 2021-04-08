@@ -36,6 +36,7 @@
 		6C718B7725A4D85D005EDC93 /*  HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C718B7625A4D85D005EDC93 /*  HomeViewController.swift */; };
 		6C85598625E0471D00E513BB /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C85598525E0471D00E513BB /* Message.swift */; };
 		6C871682261E0B2E003FE22F /* BookingController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C871681261E0B2E003FE22F /* BookingController.swift */; };
+		6C87168A261F6282003FE22F /* BookingRequestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C871689261F6282003FE22F /* BookingRequestViewController.swift */; };
 		6C8DB59925ED487300E6D1C4 /* CustomColorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C8DB59825ED487300E6D1C4 /* CustomColorView.swift */; };
 		6C8DB59D25ED4A4700E6D1C4 /* CustomButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C8DB59C25ED4A4700E6D1C4 /* CustomButtonView.swift */; };
 		6C8DB5A325ED4AA600E6D1C4 /* CustomDateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C8DB5A225ED4AA600E6D1C4 /* CustomDateView.swift */; };
@@ -168,6 +169,7 @@
 		6C718B7625A4D85D005EDC93 /*  HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = " HomeViewController.swift"; sourceTree = "<group>"; };
 		6C85598525E0471D00E513BB /* Message.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Message.swift; sourceTree = "<group>"; };
 		6C871681261E0B2E003FE22F /* BookingController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookingController.swift; sourceTree = "<group>"; };
+		6C871689261F6282003FE22F /* BookingRequestViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookingRequestViewController.swift; sourceTree = "<group>"; };
 		6C8DB59825ED487300E6D1C4 /* CustomColorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomColorView.swift; sourceTree = "<group>"; };
 		6C8DB59C25ED4A4700E6D1C4 /* CustomButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomButtonView.swift; sourceTree = "<group>"; };
 		6C8DB5A225ED4AA600E6D1C4 /* CustomDateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomDateView.swift; sourceTree = "<group>"; };
@@ -353,6 +355,7 @@
 			isa = PBXGroup;
 			children = (
 				6C3F1B61261BABDC00B02901 /* BookingsViewController.swift */,
+				6C871689261F6282003FE22F /* BookingRequestViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -1077,6 +1080,7 @@
 				6CFDB3A825B79114007261D1 /* CusineCollectionViewCell.swift in Sources */,
 				6C3F1B6C261CFDDF00B02901 /* BookingsCollectionViewCell.swift in Sources */,
 				6C8DB67624B3C1B9003D06FF /* ScheduleCell.swift in Sources */,
+				6C87168A261F6282003FE22F /* BookingRequestViewController.swift in Sources */,
 				6C3F1B70261CFF1A00B02901 /* Booking.swift in Sources */,
 				6C5D5F8A25B0D68A00ACF451 /* PasswordChangeViewController.swift in Sources */,
 				6C8DB59925ED487300E6D1C4 /* CustomColorView.swift in Sources */,

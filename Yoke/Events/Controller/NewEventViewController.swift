@@ -219,7 +219,7 @@ class NewEventViewController: UIViewController,  EventLocationDelegate {
         }
     }
     
-    @objc func handleDeleteMenu() {
+    @objc func handleDeleteEvent() {
         guard let eventId = event?.id,
               let imageId = event?.imageId else { return }
         self.myActivityIndicator.startAnimating()
@@ -313,7 +313,7 @@ class NewEventViewController: UIViewController,  EventLocationDelegate {
         button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 17)
         button.setTitleColor(UIColor.orangeColor(), for: .normal)
         button.isHidden = true
-        button.addTarget(self, action: #selector(handleDeleteMenu), for: .touchUpInside)
+        button.addTarget(self, action: #selector(handleDeleteEvent), for: .touchUpInside)
         return button
     }()
     

@@ -62,20 +62,20 @@ class BookingController {
     }
     
     func fetchBookingWith(uid: String, completion: @escaping (Bool) -> Void) {
-//        firestoreDB.whereField(Constants.Uid, isEqualTo: uid).addSnapshotListener { (snap, error) in
-//            if let error = error {
-//                print(error.localizedDescription)
-//                completion(false)
-//            } else {
-//                self.events = []
-//                for document in snap!.documents {
-//                    let dictionary = document.data()
-//                    let event = Event(dictionary: dictionary)
-//                    self.events.append(event)
-//                }
-//                completion(true)
-//            }
-//        }
+        firestoreDB.whereField(Constants.Uid, isEqualTo: uid).addSnapshotListener { (snap, error) in
+            if let error = error {
+                print(error.localizedDescription)
+                completion(false)
+            } else {
+                self.bookings = []
+                for document in snap!.documents {
+                    let dictionary = document.data()
+                    let booking = Booking(dictionary: dictionary)
+                    self.bookings.append(booking)
+                }
+                completion(true)
+            }
+        }
     }
     
     func fetchBookings(completion: @escaping (Event) -> Void) {
