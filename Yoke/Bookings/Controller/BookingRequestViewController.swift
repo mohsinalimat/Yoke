@@ -47,9 +47,9 @@ class BookingRequestViewController: UIViewController {
         scrollView.addSubview(peopleCountViewBG)
         scrollView.addSubview(numberOfPeopleLabel)
         scrollView.addSubview(peopleCountStackView)
-        peopleCountStackView.addArrangedSubview(countPlusButton)
-        peopleCountStackView.addArrangedSubview(peopleCountTextField)
         peopleCountStackView.addArrangedSubview(countMinusButton)
+        peopleCountStackView.addArrangedSubview(peopleCountTextField)
+        peopleCountStackView.addArrangedSubview(countPlusButton)
         scrollView.addSubview(locationViewBG)
         scrollView.addSubview(locationIndicatorIconView)
         scrollView.addSubview(locationButton)
@@ -235,21 +235,17 @@ class BookingRequestViewController: UIViewController {
     }()
     
     var countPlusButton: UIButton = {
-        let button = UIButton()
-        button.setTitle("+", for: .normal)
-        button.setTitleColor(.white, for: .normal)
-        button.backgroundColor = UIColor.orangeColor()
-        button.layer.cornerRadius = 10
+        let button = UIButton(type: .custom)
+        let image = UIImage(named: "addButton")
+        button.setImage(image, for: .normal)
         button.addTarget(self, action: #selector(handleAddPeopleCount), for: .touchUpInside)
         return button
     }()
     
     var countMinusButton: UIButton = {
-        let button = UIButton()
-        button.setTitle("-", for: .normal)
-        button.setTitleColor(.white, for: .normal)
-        button.backgroundColor = UIColor.orangeColor()
-        button.layer.cornerRadius = 10
+        let button = UIButton(type: .custom)
+        let image = UIImage(named: "minusButton")
+        button.setImage(image, for: .normal)
         button.addTarget(self, action: #selector(handleMinusPeopleCount), for: .touchUpInside)
         return button
     }()
