@@ -155,6 +155,8 @@ class BookingRequestViewController: UIViewController {
               let start = startTimeTextField.text,
               let end = endTimeTextField.text,
               let chefUid = userId else { return }
+        print("chef uid \(chefUid)")
+        print("current uid \(currentUserUid)")
         if selectedLocation.isEmpty {
 //            guard let location = event?.location else { return }
 //            selectedLocation = location

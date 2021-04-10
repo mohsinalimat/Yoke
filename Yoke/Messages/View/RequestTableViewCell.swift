@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import FirebaseAuth
 
 class RequestTableViewCell: UITableViewCell {
 
@@ -31,8 +32,23 @@ class RequestTableViewCell: UITableViewCell {
     //MARK: - Helper Functions
     func configure() {
         guard let booking = booking else { return }
+        if booking.chefUid == Auth.auth().currentUser?.uid ?? "" {
+            UserController.shared.fetchUsers(uid: booking.userUid) { (user) in
+                print("username \(user.username)")
+                self.nameLabel.text = user.username
+                guard let image = user.profileImageUrl else { return }
+                self.profileImage.loadImage(urlString: image)
+            }
+        } else if booking.userUid == Auth.auth().currentUser?.uid ?? "" {
+            UserController.shared.fetchUsers(uid: booking.chefUid ?? "") { (user) in
+                print("username \(user.username)")
+                self.nameLabel.text = user.username
+                guard let image = user.profileImageUrl else { return }
+                self.profileImage.loadImage(urlString: image)
+            }
+        }
         
-//        timestampLabel.text = conversation.message.timestamp.timeAgoDisplay()
+        timestampLabel.text = booking.timestamp.timeAgoDisplay()
     }
 
     func setupViews() {

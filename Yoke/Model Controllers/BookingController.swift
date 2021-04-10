@@ -19,7 +19,7 @@ class BookingController {
     static let shared = BookingController()
     
     //MARK: - Firebase Firestore Database
-    let firestoreDB = Firestore.firestore().collection(Constants.Bookings)
+    let firestoreDB = Firestore.firestore().collection(Constants.Users)
     let geoRef = Firestore.firestore().collection("geoFireLocationEvents")
     
     //MARK: - Source of truth
@@ -32,7 +32,9 @@ class BookingController {
     //MARK: - CRUD Functions
     func createBookingWith(chefUid: String, userUid: String, location: String, date: String, startTime: String, endTime: String, numberOfPeople: Int, numberOfCourses: Int, typeOfCuisine: String, details: String, completion: @escaping (Bool) -> Void) {
         let bookingId = NSUUID().uuidString
-        self.firestoreDB.document(bookingId).setData([Constants.ChefUid: chefUid, Constants.Id: bookingId, Constants.UserUid: userUid, Constants.Location: location, Constants.Date: date, Constants.StartTime: startTime, Constants.EndTime: endTime, Constants.NumberOfPeople: numberOfPeople, Constants.NumberOfCourses: numberOfCourses, Constants.Detail: details, Constants.InvoiceSent: false, Constants.InvoicePaid: false, Constants.IsBooked: false], merge: true)
+        self.firestoreDB.document(chefUid).collection(Constants.Bookings).document(bookingId).setData([Constants.ChefUid: chefUid, Constants.Id: bookingId, Constants.UserUid: userUid, Constants.Location: location, Constants.Date: date, Constants.StartTime: startTime, Constants.EndTime: endTime, Constants.NumberOfPeople: numberOfPeople, Constants.NumberOfCourses: numberOfCourses, Constants.Detail: details, Constants.InvoiceSent: false, Constants.InvoicePaid: false, Constants.IsBooked: false], merge: true)
+        self.firestoreDB.document(userUid).collection(Constants.Bookings).document(bookingId).setData([Constants.ChefUid: chefUid, Constants.Id: bookingId, Constants.UserUid: userUid, Constants.Location: location, Constants.Date: date, Constants.StartTime: startTime, Constants.EndTime: endTime, Constants.NumberOfPeople: numberOfPeople, Constants.NumberOfCourses: numberOfCourses, Constants.Detail: details, Constants.InvoiceSent: false, Constants.InvoicePaid: false, Constants.IsBooked: false], merge: true)
+//        self.firestoreDB.document(bookingId).setData([Constants.ChefUid: chefUid, Constants.Id: bookingId, Constants.UserUid: userUid, Constants.Location: location, Constants.Date: date, Constants.StartTime: startTime, Constants.EndTime: endTime, Constants.NumberOfPeople: numberOfPeople, Constants.NumberOfCourses: numberOfCourses, Constants.Detail: details, Constants.InvoiceSent: false, Constants.InvoicePaid: false, Constants.IsBooked: false], merge: true)
 //        self.setupGeofirestore(eventId: eventId, location: location)
         completion(true)
     }
@@ -62,7 +64,7 @@ class BookingController {
     }
     
     func fetchBookingWith(uid: String, completion: @escaping (Bool) -> Void) {
-        firestoreDB.whereField(Constants.Uid, isEqualTo: uid).addSnapshotListener { (snap, error) in
+        firestoreDB.document(uid).collection(Constants.Bookings).addSnapshotListener { (snap, error) in
             if let error = error {
                 print(error.localizedDescription)
                 completion(false)
@@ -78,24 +80,23 @@ class BookingController {
         }
     }
     
-    func fetchBookings(completion: @escaping (Event) -> Void) {
-//        firestoreDB.addSnapshotListener { (snapshot, error) in
-//            if let error = error {
-//                print(error.localizedDescription)
-//                completion(error as! Event)
-//            }
-//            self.events = []
-//            snapshot?.documents.forEach({ (document) in
-//                let dictionary = document.data()
-//                let event = Event(dictionary: dictionary)
-//                self.events.append(event)
-//                self.events.sort(by: { (u1, u2) -> Bool in
-//                    return u1.timestamp.compare(u2.timestamp) == .orderedDescending
-//                })
-//                self.filteredEvents = self.events
-//                completion(event)
-//            })
-//        }
+    func fetchBookingsWith(uid: String, completion: @escaping (Booking) -> Void) {
+        firestoreDB.document(uid).collection(Constants.Bookings).addSnapshotListener { (snapshot, error) in
+            if let error = error {
+                print(error.localizedDescription)
+                completion(error as! Booking)
+            }
+            self.bookings = []
+            snapshot?.documents.forEach({ (document) in
+                let dictionary = document.data()
+                let booking = Booking(dictionary: dictionary)
+                self.bookings.append(booking)
+                self.bookings.sort(by: { (u1, u2) -> Bool in
+                    return u1.timestamp.compare(u2.timestamp) == .orderedDescending
+                })
+                completion(booking)
+            })
+        }
     }
     
     func deleteBookingWith(eventId: String, imageId: String, completion: @escaping (Bool) -> Void) {

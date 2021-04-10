@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import FirebaseAuth
 
 class MessageViewController: UIViewController {
 
@@ -38,6 +39,7 @@ class MessageViewController: UIViewController {
         super.viewDidLoad()
         configureTableView()
         fetchConversations()
+        fetchBookings()
     }
     
     //MARK: - Helper Functions
@@ -88,7 +90,22 @@ class MessageViewController: UIViewController {
                 self.conversationDictionary[message.chatPartnerId] = conversation
             }
             self.conversations = Array(self.conversationDictionary.values)
-            self.messageTableView.reloadData()
+            DispatchQueue.main.async {
+                self.messageTableView.reloadData()
+            }
+        }
+    }
+    
+    func fetchBookings() {
+        guard let currentUserUid = Auth.auth().currentUser?.uid else { return }
+        BookingController.shared.fetchBookingsWith(uid: currentUserUid) { (result) in
+            switch result {
+            default:
+                DispatchQueue.main.async {
+                    self.requestTableView.reloadData()
+                }
+                
+            }
         }
     }
     
@@ -120,7 +137,7 @@ extension MessageViewController: UITableViewDataSource {
         if tableView == messageTableView {
             return conversations.count
         }
-        return 2
+        return BookingController.shared.bookings.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -132,7 +149,7 @@ extension MessageViewController: UITableViewDataSource {
             return cell
         }
         let cell2 = tableView.dequeueReusableCell(withIdentifier: cellId2, for: indexPath) as! RequestTableViewCell
-//        cell2.booking = conversations[indexPath.row]
+        cell2.booking = BookingController.shared.bookings[indexPath.row]
         cell2.selectionStyle = .none
         cell2.backgroundColor = UIColor.LightGrayBg()
         return cell2
@@ -172,6 +189,8 @@ extension MessageViewController: UITableViewDelegate {
             chatVC.userId = user
             navigationController?.pushViewController(chatVC, animated: true)
         }
+        let request = BookingController.shared.bookings[indexPath.row].id
+        print(request)
     }
 
 }
