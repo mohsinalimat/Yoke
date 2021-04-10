@@ -33,27 +33,23 @@ class RequestTableViewCell: UITableViewCell {
     func configure() {
         guard let booking = booking else { return }
         if booking.chefUid == Auth.auth().currentUser?.uid ?? "" {
-            UserController.shared.fetchUsers(uid: booking.userUid) { (user) in
-                print("username \(user.username)")
+            guard let uid = booking.userUid else { return }
+            UserController.shared.fetchUserWithUID(uid: uid) { (user) in
                 self.nameLabel.text = user.username
-                guard let image = user.profileImageUrl else { return }
-                self.profileImage.loadImage(urlString: image)
             }
-        } else if booking.userUid == Auth.auth().currentUser?.uid ?? "" {
-            UserController.shared.fetchUsers(uid: booking.chefUid ?? "") { (user) in
-                print("username \(user.username)")
+        } else {
+            guard let uid = booking.chefUid else { return }
+            UserController.shared.fetchUserWithUID(uid: uid) { (user) in
                 self.nameLabel.text = user.username
-                guard let image = user.profileImageUrl else { return }
-                self.profileImage.loadImage(urlString: image)
             }
         }
-        
+        textView.text = booking.detail
         timestampLabel.text = booking.timestamp.timeAgoDisplay()
     }
 
     func setupViews() {
         addSubview(shadowView)
-        addSubview(profileImage)
+//        addSubview(profileImage)
         addSubview(nameLabel)
         addSubview(textView)
         addSubview(timestampLabel)
@@ -61,8 +57,8 @@ class RequestTableViewCell: UITableViewCell {
     
     func setupConstraints() {
         shadowView.anchor(top: topAnchor, left: leftAnchor, bottom: bottomAnchor, right: rightAnchor, paddingTop: 10, paddingLeft: 10, paddingBottom: 10, paddingRight: 10)
-        profileImage.anchor(top: nil, left: shadowView.leftAnchor, bottom: nil, right: nil, paddingTop: 5, paddingLeft: 5, paddingBottom: 0, paddingRight: 5, width: 75, height: 75)
-        profileImage.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
+//        profileImage.anchor(top: nil, left: shadowView.leftAnchor, bottom: nil, right: nil, paddingTop: 5, paddingLeft: 5, paddingBottom: 0, paddingRight: 5, width: 75, height: 75)
+//        profileImage.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
         nameLabel.anchor(top: profileImage.topAnchor, left: profileImage.rightAnchor, bottom: nil, right: shadowView.rightAnchor, paddingTop: 10, paddingLeft: 5, paddingBottom: 0, paddingRight: 5)
         textView.anchor(top: nameLabel.bottomAnchor, left: profileImage.rightAnchor, bottom: shadowView.bottomAnchor, right: shadowView.rightAnchor, paddingTop: -6, paddingLeft: 2, paddingBottom: 0, paddingRight: 5)
         timestampLabel.anchor(top: shadowView.topAnchor, left: nil, bottom: nil, right: shadowView.rightAnchor, paddingTop: 5, paddingLeft: 0, paddingBottom: 0, paddingRight: 5)

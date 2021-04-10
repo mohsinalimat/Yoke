@@ -11,7 +11,7 @@ import Foundation
 class Booking {
     var id: String?
     var chefUid: String?
-    var userUid: String
+    var userUid: String?
     var detail: String?
     var date: String?
     var startTime: String?
