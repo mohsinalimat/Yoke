@@ -15,11 +15,12 @@ class BookingRequestViewController: UIViewController {
     var safeArea: UILayoutGuide {
         return self.view.safeAreaLayoutGuide
     }
-    var uid = Auth.auth().currentUser?.uid ?? ""
+    var currentUserUid = Auth.auth().currentUser?.uid ?? ""
     var userId: String?
     let myActivityIndicator = UIActivityIndicatorView(style: UIActivityIndicatorView.Style.large)
     var selectedLocation: String = ""
     var peopleCounter: Int = 0
+    var courseCounter: Int = 0
     
     //MARK: - Lifecycle Methods
     override func viewDidLayoutSubviews() {
@@ -127,7 +128,7 @@ class BookingRequestViewController: UIViewController {
     func fetchChef() {
         let uid = userId ?? (Auth.auth().currentUser?.uid ?? "")
         UserController.shared.fetchUserWithUID(uid: uid) { (user) in
-            print("Chef \(user.username)")
+            print("Chef \(user.uid)")
         }
     }
     
@@ -148,17 +149,26 @@ class BookingRequestViewController: UIViewController {
     //MARK: - Selectors
     
     @objc func handleSubmit() {
-//        guard let caption = captionTextField.text, !caption.isEmpty,
-//              let detail = eventDetailTextField.text, !detail.isEmpty,
-//              let date = selectedDateLabel.text,
-//              let start = startTimeTextField.text,
-//              let end = endTimeTextField.text else { return }
+        guard let cuisine = cuisineTextField.text, !cuisine.isEmpty,
+              let detail = detailTextField.text, !detail.isEmpty,
+              let date = selectedDateLabel.text,
+              let start = startTimeTextField.text,
+              let end = endTimeTextField.text,
+              let chefUid = userId else { return }
         if selectedLocation.isEmpty {
 //            guard let location = event?.location else { return }
 //            selectedLocation = location
         }
         myActivityIndicator.startAnimating()
-        
+        BookingController.shared.createBookingWith(chefUid: chefUid, userUid: currentUserUid, location: "", date: date, startTime: start, endTime: end, numberOfPeople: peopleCounter, numberOfCourses: courseCounter, typeOfCuisine: cuisine, details: detail) { (result) in
+            switch result {
+            case true:
+                self.myActivityIndicator.stopAnimating()
+                self.sentSuccessful()
+            case false:
+                print("error")
+            }
+        }
     }
     
     @objc func handleAddLocation() {
@@ -222,7 +232,7 @@ class BookingRequestViewController: UIViewController {
         }
         let newValue = addValue + 1
         courseCountTextField.text = String(newValue)
-        peopleCounter = newValue
+        courseCounter = newValue
     }
     
     @objc func handleMinusCourseCount() {
@@ -232,7 +242,7 @@ class BookingRequestViewController: UIViewController {
         } else if minusValue > 1 {
             let newValue = minusValue - 1
             courseCountTextField.text = String(newValue)
-            peopleCounter = newValue
+            courseCounter = newValue
         }
 
     }

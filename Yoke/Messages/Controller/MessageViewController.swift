@@ -72,7 +72,7 @@ class MessageViewController: UIViewController {
         
         requestTableView.backgroundColor = UIColor.LightGrayBg()
         requestTableView.rowHeight = 80
-        requestTableView.register(MessageTableViewCell.self, forCellReuseIdentifier: cellId2)
+        requestTableView.register(RequestTableViewCell.self, forCellReuseIdentifier: cellId2)
         requestTableView.tableFooterView = UIView()
         requestTableView.delegate = self
         requestTableView.dataSource = self
@@ -120,7 +120,7 @@ extension MessageViewController: UITableViewDataSource {
         if tableView == messageTableView {
             return conversations.count
         }
-        return 5
+        return 2
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -131,10 +131,10 @@ extension MessageViewController: UITableViewDataSource {
             cell.backgroundColor = UIColor.LightGrayBg()
             return cell
         }
-        let cell2 = tableView.dequeueReusableCell(withIdentifier: cellId2, for: indexPath) as! MessageTableViewCell
-//        cell.conversation = conversations[indexPath.row]
-//        cell.selectionStyle = .none
-//        cell.backgroundColor = UIColor.LightGrayBg()
+        let cell2 = tableView.dequeueReusableCell(withIdentifier: cellId2, for: indexPath) as! RequestTableViewCell
+//        cell2.booking = conversations[indexPath.row]
+        cell2.selectionStyle = .none
+        cell2.backgroundColor = UIColor.LightGrayBg()
         return cell2
     }
     
