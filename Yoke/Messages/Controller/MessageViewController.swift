@@ -131,11 +131,11 @@ extension MessageViewController: UITableViewDataSource {
             cell.backgroundColor = UIColor.LightGrayBg()
             return cell
         }
-        let cell = tableView.dequeueReusableCell(withIdentifier: cellId2, for: indexPath) as! MessageTableViewCell
-        cell.conversation = conversations[indexPath.row]
-        cell.selectionStyle = .none
-        cell.backgroundColor = UIColor.LightGrayBg()
-        return cell
+        let cell2 = tableView.dequeueReusableCell(withIdentifier: cellId2, for: indexPath) as! MessageTableViewCell
+//        cell.conversation = conversations[indexPath.row]
+//        cell.selectionStyle = .none
+//        cell.backgroundColor = UIColor.LightGrayBg()
+        return cell2
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
