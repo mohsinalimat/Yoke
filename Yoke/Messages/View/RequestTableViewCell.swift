@@ -38,6 +38,16 @@ class RequestTableViewCell: UITableViewCell {
                 guard let name = user.username else { return }
                 self.nameLabel.text = "\(name) has requested a booking"
             }
+            if booking.invoiceSent == true {
+                invoiceLabel.text = "Invoice has been sent"
+            } else {
+                invoiceLabel.text = "Invoice has not been sent"
+            }
+            if booking.invoicePaid == true {
+                paidLabel.text = "Paid"
+            } else {
+                paidLabel.text = "Not Paid"
+            }
         } else {
             guard let uid = booking.chefUid else { return }
             UserController.shared.fetchUserWithUID(uid: uid) { (user) in
@@ -45,28 +55,36 @@ class RequestTableViewCell: UITableViewCell {
                 self.nameLabel.text = "You sent a request to \(name)"
             }
         }
+        if booking.isBooked == false {
+            bookedLabel.text = "Not booked"
+        } else {
+            bookedLabel.text = "Booked"
+        }
         timestampLabel.text = booking.timestamp.timeAgoDisplay()
         dateLabel.text = booking.date
     }
 
     func setupViews() {
         addSubview(shadowView)
-//        addSubview(profileImage)
         addSubview(timestampLabel)
         addSubview(nameLabel)
         addSubview(dateIcon)
         addSubview(dateLabel)
+        addSubview(bookedLabel)
+        addSubview(invoiceLabel)
+        addSubview(paidLabel)
     }
     
     func setupConstraints() {
         shadowView.anchor(top: topAnchor, left: leftAnchor, bottom: bottomAnchor, right: rightAnchor, paddingTop: 10, paddingLeft: 10, paddingBottom: 10, paddingRight: 10)
-//        profileImage.anchor(top: nil, left: shadowView.leftAnchor, bottom: nil, right: nil, paddingTop: 5, paddingLeft: 5, paddingBottom: 0, paddingRight: 5, width: 75, height: 75)
-//        profileImage.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
         timestampLabel.anchor(top: shadowView.topAnchor, left: nil, bottom: nil, right: shadowView.rightAnchor, paddingTop: 5, paddingLeft: 0, paddingBottom: 0, paddingRight: 5)
         nameLabel.anchor(top: timestampLabel.bottomAnchor, left: shadowView.leftAnchor, bottom: nil, right: shadowView.rightAnchor, paddingTop: 5, paddingLeft: 10, paddingBottom: 0, paddingRight: 10)
         dateIcon.anchor(top: nameLabel.bottomAnchor, left: shadowView.leftAnchor, bottom: nil, right: nil, paddingTop: 10, paddingLeft: 10, paddingBottom: 0, paddingRight: 0, width: 15, height: 15)
         dateLabel.anchor(top: dateIcon.topAnchor, left: dateIcon.rightAnchor, bottom: nil, right: nil, paddingTop: 0, paddingLeft: 5, paddingBottom: 0, paddingRight: 10)
         dateLabel.centerYAnchor.constraint(equalTo: dateIcon.centerYAnchor).isActive = true
+        bookedLabel.anchor(top: dateLabel.bottomAnchor, left: shadowView.leftAnchor, bottom: nil, right: shadowView.rightAnchor, paddingTop: 10, paddingLeft: 10, paddingBottom: 0, paddingRight: 10)
+        invoiceLabel.anchor(top: bookedLabel.bottomAnchor, left: shadowView.leftAnchor, bottom: nil, right: shadowView.rightAnchor, paddingTop: 10, paddingLeft: 10, paddingBottom: 0, paddingRight: 10)
+        paidLabel.anchor(top: invoiceLabel.bottomAnchor, left: shadowView.leftAnchor, bottom: nil, right: shadowView.rightAnchor, paddingTop: 10, paddingLeft: 10, paddingBottom: 0, paddingRight: 10)
     }
     
     //MARK: - Views
@@ -74,18 +92,6 @@ class RequestTableViewCell: UITableViewCell {
         let view = ShadowView()
         view.backgroundColor = UIColor.white
         return view
-    }()
-    
-    private let profileImage: CustomImageView = {
-        let image = CustomImageView()
-        image.contentMode = .scaleAspectFill
-        image.image = UIImage(named: "image_background")
-        image.translatesAutoresizingMaskIntoConstraints = false
-        image.clipsToBounds = true
-        image.layer.cornerRadius = 75 / 2
-        image.layer.borderWidth = 0.5
-        image.layer.borderColor = UIColor.white.cgColor
-        return image
     }()
     
     var nameLabel: UILabel = {
@@ -107,6 +113,27 @@ class RequestTableViewCell: UITableViewCell {
         let label = UILabel()
         label.font = UIFont.boldSystemFont(ofSize: 13)
         label.textColor = .gray
+        return label
+    }()
+    
+    var bookedLabel: UILabel = {
+        let label = UILabel()
+        label.font = UIFont.systemFont(ofSize: 15)
+        label.textColor = UIColor.orangeColor()
+        return label
+    }()
+    
+    var invoiceLabel: UILabel = {
+        let label = UILabel()
+        label.font = UIFont.systemFont(ofSize: 15)
+        label.textColor = UIColor.orangeColor()
+        return label
+    }()
+    
+    var paidLabel: UILabel = {
+        let label = UILabel()
+        label.font = UIFont.systemFont(ofSize: 15)
+        label.textColor = UIColor.orangeColor()
         return label
     }()
     
