@@ -48,33 +48,29 @@ class RequestForChefViewController: UIViewController {
         scrollView.addSubview(profileImage)
         scrollView.addSubview(usernameLabel)
         scrollView.addSubview(timestampLabel)
-        scrollView.addSubview(captionLabel)
         scrollView.addSubview(locationIcon)
         scrollView.addSubview(locationLabel)
         scrollView.addSubview(dateIcon)
         scrollView.addSubview(dateLabel)
         scrollView.addSubview(timeIcon)
         scrollView.addSubview(timeLabel)
-        scrollView.addSubview(descriptionLabel)
-        scrollView.addSubview(buttonStackView)
-        buttonStackView.addArrangedSubview(rsvpButton)
-        buttonStackView.addArrangedSubview(contactButton)
-    }
+        scrollView.addSubview(numberOfCoursesLabel)
+        scrollView.addSubview(numberOfPeopleLabel)
+        scrollView.addSubview(descriptionLabel)    }
     
     func constrainViews() {
         scrollView.isScrollEnabled = true
-        let totalHeight = 270 + view.frame.width + captionLabel.frame.height + descriptionLabel.frame.height
+        let totalHeight = 270 + view.frame.width + descriptionLabel.frame.height
         scrollView.contentSize = CGSize(width: view.frame.width, height: totalHeight)
         scrollView.anchor(top: safeArea.topAnchor, left: safeArea.leftAnchor, bottom: safeArea.bottomAnchor, right: safeArea.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0)
         imageShadowView.anchor(top: scrollView.topAnchor, left: nil, bottom: nil, right: nil, paddingTop: 5, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 100, height: 100)
         imageShadowView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         profileImage.anchor(top: scrollView.topAnchor, left: nil, bottom: nil, right: nil, paddingTop: 5, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 100, height: 100)
         profileImage.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        usernameLabel.anchor(top: profileImage.bottomAnchor, left: nil, bottom: nil, right: nil, paddingTop: 15, paddingLeft: 10, paddingBottom: 0, paddingRight: 0)
+        usernameLabel.anchor(top: profileImage.bottomAnchor, left: nil, bottom: nil, right: nil, paddingTop: 5, paddingLeft: 10, paddingBottom: 0, paddingRight: 0)
         usernameLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         timestampLabel.anchor(top: usernameLabel.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 0, paddingLeft: 10, paddingBottom: 0, paddingRight: 0)
-        captionLabel.anchor(top: timestampLabel.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 10, paddingLeft: 10, paddingBottom: 0, paddingRight: 10)
-        locationIcon.anchor(top: captionLabel.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: nil, paddingTop: 20, paddingLeft: 10, paddingBottom: 0, paddingRight: 0, width: 15, height: 18)
+        locationIcon.anchor(top: timestampLabel.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: nil, paddingTop: 5, paddingLeft: 10, paddingBottom: 0, paddingRight: 0, width: 15, height: 18)
         locationLabel.anchor(top: nil, left: locationIcon.rightAnchor, bottom: nil, right: nil, paddingTop: 0, paddingLeft: 5, paddingBottom: 0, paddingRight: 0)
         locationLabel.centerYAnchor.constraint(equalTo: locationIcon.centerYAnchor).isActive = true
         dateIcon.anchor(top: locationIcon.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: nil, paddingTop: 10, paddingLeft: 10, paddingBottom: 0, paddingRight: 0, width: 15, height: 15)
@@ -83,7 +79,9 @@ class RequestForChefViewController: UIViewController {
         timeIcon.anchor(top: dateIcon.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: nil, paddingTop: 10, paddingLeft: 10, paddingBottom: 0, paddingRight: 0, width: 15, height: 15)
         timeLabel.anchor(top: timeIcon.topAnchor, left: dateIcon.rightAnchor, bottom: nil, right: nil, paddingTop: 0, paddingLeft: 5, paddingBottom: 0, paddingRight: 0)
         timeLabel.centerYAnchor.constraint(equalTo: timeIcon.centerYAnchor).isActive = true
-        descriptionLabel.anchor(top: timeLabel.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 20, paddingLeft: 10, paddingBottom: 0, paddingRight: 10)
+        numberOfCoursesLabel.anchor(top: timeLabel.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: nil, paddingTop: 10, paddingLeft: 10, paddingBottom: 0, paddingRight: 0)
+        numberOfPeopleLabel.anchor(top: numberOfCoursesLabel.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: nil, paddingTop: 10, paddingLeft: 10, paddingBottom: 0, paddingRight: 0)
+        descriptionLabel.anchor(top: numberOfPeopleLabel.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 20, paddingLeft: 10, paddingBottom: 0, paddingRight: 10)
 
     }
     
@@ -103,10 +101,15 @@ class RequestForChefViewController: UIViewController {
             self.profileImage.loadImage(urlString: image)
             self.usernameLabel.text = username
             let timestamp = booking.timestamp.timeAgoDisplay()
-            self.timestampLabel.text = "Sent: \(timestamp) ago"
+            self.timestampLabel.text = "Sent: \(timestamp)"
             self.locationLabel.text = "453 12th street, Brooklyn NY"
             self.dateLabel.text = booking.date
             self.timeLabel.text = "\(start) - \(end)"
+            self.numberOfCoursesLabel.text = "Number of courses: \(booking.numberOfCourses ?? 0)"
+            self.numberOfPeopleLabel.text = "Number of guest: \(booking.numberOfPeople ?? 0)"
+            self.descriptionLabel.text = "Details: \(booking.detail ?? "")"
+            //add cusine
+            
         }
     }
     
@@ -149,44 +152,30 @@ class RequestForChefViewController: UIViewController {
     
     var usernameLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont.boldSystemFont(ofSize: 20)
+        label.font = UIFont.boldSystemFont(ofSize: 22)
         label.textColor = UIColor.orangeColor()
         return label
     }()
     
     var timestampLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont.boldSystemFont(ofSize: 13)
+        label.font = UIFont.boldSystemFont(ofSize: 15)
         label.textColor = .lightGray
         return label
     }()
     
-    var eventImage: CustomImageView = {
-        let image = CustomImageView()
-        image.contentMode = .scaleAspectFill
-        image.image = UIImage(named: "image_background")
-        image.translatesAutoresizingMaskIntoConstraints = false
-        image.clipsToBounds = true
-        image.layer.cornerRadius = 10
-        return image
-    }()
-    
-    let captionLabel: UILabel = {
+    let numberOfPeopleLabel: UILabel = {
         let label = UILabel()
         label.textColor = UIColor.gray
-        label.font = UIFont.boldSystemFont(ofSize: 34)
-        label.lineBreakMode = .byWordWrapping
-        label.numberOfLines = 0
+        label.font = UIFont.boldSystemFont(ofSize: 15)
         label.textAlignment = .left
         return label
     }()
     
-    let descriptionLabel: UILabel = {
+    let numberOfCoursesLabel: UILabel = {
         let label = UILabel()
         label.textColor = UIColor.gray
-        label.font = UIFont.systemFont(ofSize: 17)
-        label.lineBreakMode = .byWordWrapping
-        label.numberOfLines = 0
+        label.font = UIFont.boldSystemFont(ofSize: 15)
         label.textAlignment = .left
         return label
     }()
@@ -199,7 +188,7 @@ class RequestForChefViewController: UIViewController {
     
     var locationLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont.boldSystemFont(ofSize: 13)
+        label.font = UIFont.boldSystemFont(ofSize: 15)
         label.textColor = .gray
         return label
     }()
@@ -212,7 +201,7 @@ class RequestForChefViewController: UIViewController {
     
     var dateLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont.boldSystemFont(ofSize: 13)
+        label.font = UIFont.boldSystemFont(ofSize: 15)
         label.textColor = .gray
         return label
     }()
@@ -225,8 +214,18 @@ class RequestForChefViewController: UIViewController {
     
     var timeLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont.boldSystemFont(ofSize: 13)
+        label.font = UIFont.boldSystemFont(ofSize: 15)
         label.textColor = .gray
+        return label
+    }()
+    
+    let descriptionLabel: UILabel = {
+        let label = UILabel()
+        label.textColor = UIColor.gray
+        label.font = UIFont.systemFont(ofSize: 15)
+        label.lineBreakMode = .byWordWrapping
+        label.numberOfLines = 0
+        label.textAlignment = .left
         return label
     }()
     
