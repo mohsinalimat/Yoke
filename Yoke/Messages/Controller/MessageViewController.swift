@@ -131,6 +131,7 @@ class MessageViewController: UIViewController {
         return seg
     }()
 }
+
 //MARK: - TableView DataSource
 extension MessageViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -192,8 +193,13 @@ extension MessageViewController: UITableViewDelegate {
             chatVC.userId = user
             navigationController?.pushViewController(chatVC, animated: true)
         }
-        let request = BookingController.shared.bookings[indexPath.row].id
-        print(request)
+        if tableView == requestTableView {
+            let request = BookingController.shared.bookings[indexPath.row]
+            let requestVC = RequestForChefViewController()
+            requestVC.booking = request
+            print(request)
+            navigationController?.pushViewController(requestVC, animated: true)
+        }
     }
 
 }

@@ -1,0 +1,266 @@
+//
+//  RequestForChefViewController.swift
+//  Yoke
+//
+//  Created by LAURA JELENICH on 4/13/21.
+//  Copyright © 2021 LAURA JELENICH. All rights reserved.
+//
+
+import UIKit
+import FirebaseAuth
+
+class RequestForChefViewController: UIViewController {
+    //MARK: - Properties
+    var safeArea: UILayoutGuide {
+        return self.view.safeAreaLayoutGuide
+    }
+    var userId: String?
+    let myActivityIndicator = UIActivityIndicatorView(style: UIActivityIndicatorView.Style.large)
+    
+    var booking: Booking? {
+        didSet {
+            fetchRequest()
+        }
+    }
+    
+    //MARK: - Lifecycle Methods
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        setupViews()
+        constrainViews()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        configureNavigationBar()
+    }
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        print("booking \(booking?.id)")
+    }
+ 
+    //MARK: - Helper Functions
+    func setupViews() {
+        view.backgroundColor = UIColor.LightGrayBg()
+        view.addSubview(scrollView)
+        scrollView.addSubview(imageShadowView)
+        scrollView.addSubview(profileImage)
+        scrollView.addSubview(usernameLabel)
+        scrollView.addSubview(timestampLabel)
+        scrollView.addSubview(captionLabel)
+        scrollView.addSubview(locationIcon)
+        scrollView.addSubview(locationLabel)
+        scrollView.addSubview(dateIcon)
+        scrollView.addSubview(dateLabel)
+        scrollView.addSubview(timeIcon)
+        scrollView.addSubview(timeLabel)
+        scrollView.addSubview(descriptionLabel)
+        scrollView.addSubview(buttonStackView)
+        buttonStackView.addArrangedSubview(rsvpButton)
+        buttonStackView.addArrangedSubview(contactButton)
+    }
+    
+    func constrainViews() {
+        scrollView.isScrollEnabled = true
+        let totalHeight = 270 + view.frame.width + captionLabel.frame.height + descriptionLabel.frame.height
+        scrollView.contentSize = CGSize(width: view.frame.width, height: totalHeight)
+        scrollView.anchor(top: safeArea.topAnchor, left: safeArea.leftAnchor, bottom: safeArea.bottomAnchor, right: safeArea.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0)
+        imageShadowView.anchor(top: scrollView.topAnchor, left: nil, bottom: nil, right: nil, paddingTop: 5, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 100, height: 100)
+        imageShadowView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        profileImage.anchor(top: scrollView.topAnchor, left: nil, bottom: nil, right: nil, paddingTop: 5, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 100, height: 100)
+        profileImage.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        usernameLabel.anchor(top: profileImage.bottomAnchor, left: nil, bottom: nil, right: nil, paddingTop: 15, paddingLeft: 10, paddingBottom: 0, paddingRight: 0)
+        usernameLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        timestampLabel.anchor(top: usernameLabel.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 0, paddingLeft: 10, paddingBottom: 0, paddingRight: 0)
+        captionLabel.anchor(top: timestampLabel.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 10, paddingLeft: 10, paddingBottom: 0, paddingRight: 10)
+        locationIcon.anchor(top: captionLabel.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: nil, paddingTop: 20, paddingLeft: 10, paddingBottom: 0, paddingRight: 0, width: 15, height: 18)
+        locationLabel.anchor(top: nil, left: locationIcon.rightAnchor, bottom: nil, right: nil, paddingTop: 0, paddingLeft: 5, paddingBottom: 0, paddingRight: 0)
+        locationLabel.centerYAnchor.constraint(equalTo: locationIcon.centerYAnchor).isActive = true
+        dateIcon.anchor(top: locationIcon.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: nil, paddingTop: 10, paddingLeft: 10, paddingBottom: 0, paddingRight: 0, width: 15, height: 15)
+        dateLabel.anchor(top: dateIcon.topAnchor, left: dateIcon.rightAnchor, bottom: nil, right: nil, paddingTop: 0, paddingLeft: 5, paddingBottom: 0, paddingRight: 0)
+        dateLabel.centerYAnchor.constraint(equalTo: dateIcon.centerYAnchor).isActive = true
+        timeIcon.anchor(top: dateIcon.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: nil, paddingTop: 10, paddingLeft: 10, paddingBottom: 0, paddingRight: 0, width: 15, height: 15)
+        timeLabel.anchor(top: timeIcon.topAnchor, left: dateIcon.rightAnchor, bottom: nil, right: nil, paddingTop: 0, paddingLeft: 5, paddingBottom: 0, paddingRight: 0)
+        timeLabel.centerYAnchor.constraint(equalTo: timeIcon.centerYAnchor).isActive = true
+        descriptionLabel.anchor(top: timeLabel.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 20, paddingLeft: 10, paddingBottom: 0, paddingRight: 10)
+
+    }
+    
+    func configureNavigationBar() {
+        guard let orange = UIColor.orangeColor() else { return }
+        configureNavigationBar(withTitle: "Booking Request", largeTitle: false, backgroundColor: .white, titleColor: orange)
+    }
+    
+    func fetchRequest() {
+        guard let booking = booking,
+              let uid = booking.userUid else { return }
+        UserController.shared.fetchUserWithUID(uid: uid) { (user) in
+            guard let start = booking.startTime,
+                  let end = booking.endTime,
+                  let image = user.profileImageUrl,
+                  let username = user.username else { return }
+            self.profileImage.loadImage(urlString: image)
+            self.usernameLabel.text = username
+            let timestamp = booking.timestamp.timeAgoDisplay()
+            self.timestampLabel.text = "Sent: \(timestamp) ago"
+            self.locationLabel.text = "453 12th street, Brooklyn NY"
+            self.dateLabel.text = booking.date
+            self.timeLabel.text = "\(start) - \(end)"
+        }
+    }
+    
+    //MARK: - Views
+    let swipeIndicator: UIView = {
+        let view = UIView()
+        view.backgroundColor = UIColor.gray
+        view.layer.cornerRadius = 5
+        return view
+    }()
+    
+    var scrollView: UIScrollView = {
+        let view = UIScrollView()
+        view.backgroundColor = UIColor.LightGrayBg()
+        view.layer.cornerRadius = 10
+        view.layer.borderColor = UIColor.LightGrayBg()?.cgColor
+        view.layer.borderWidth = 5
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
+    
+    let imageShadowView: ShadowView = {
+        let view = ShadowView()
+        view.backgroundColor = .white
+        view.layer.cornerRadius = 25
+        return view
+    }()
+    
+    var profileImage: CustomImageView = {
+        let image = CustomImageView()
+        image.contentMode = .scaleAspectFill
+        image.image = UIImage(named: "image_background")
+        image.translatesAutoresizingMaskIntoConstraints = false
+        image.clipsToBounds = true
+        image.layer.cornerRadius = 25
+        image.layer.borderWidth = 1
+        image.layer.borderColor = UIColor.white.cgColor
+        return image
+    }()
+    
+    var usernameLabel: UILabel = {
+        let label = UILabel()
+        label.font = UIFont.boldSystemFont(ofSize: 20)
+        label.textColor = UIColor.orangeColor()
+        return label
+    }()
+    
+    var timestampLabel: UILabel = {
+        let label = UILabel()
+        label.font = UIFont.boldSystemFont(ofSize: 13)
+        label.textColor = .lightGray
+        return label
+    }()
+    
+    var eventImage: CustomImageView = {
+        let image = CustomImageView()
+        image.contentMode = .scaleAspectFill
+        image.image = UIImage(named: "image_background")
+        image.translatesAutoresizingMaskIntoConstraints = false
+        image.clipsToBounds = true
+        image.layer.cornerRadius = 10
+        return image
+    }()
+    
+    let captionLabel: UILabel = {
+        let label = UILabel()
+        label.textColor = UIColor.gray
+        label.font = UIFont.boldSystemFont(ofSize: 34)
+        label.lineBreakMode = .byWordWrapping
+        label.numberOfLines = 0
+        label.textAlignment = .left
+        return label
+    }()
+    
+    let descriptionLabel: UILabel = {
+        let label = UILabel()
+        label.textColor = UIColor.gray
+        label.font = UIFont.systemFont(ofSize: 17)
+        label.lineBreakMode = .byWordWrapping
+        label.numberOfLines = 0
+        label.textAlignment = .left
+        return label
+    }()
+    
+    var locationIcon: UIImageView = {
+        let image = UIImageView()
+        image.image = UIImage(named: "location-pin-orange")
+        return image
+    }()
+    
+    var locationLabel: UILabel = {
+        let label = UILabel()
+        label.font = UIFont.boldSystemFont(ofSize: 13)
+        label.textColor = .gray
+        return label
+    }()
+    
+    var dateIcon: UIImageView = {
+        let image = UIImageView()
+        image.image = UIImage(named: "calendarOrange")
+        return image
+    }()
+    
+    var dateLabel: UILabel = {
+        let label = UILabel()
+        label.font = UIFont.boldSystemFont(ofSize: 13)
+        label.textColor = .gray
+        return label
+    }()
+    
+    var timeIcon: UIImageView = {
+        let image = UIImageView()
+        image.image = UIImage(named: "timeOrange")
+        return image
+    }()
+    
+    var timeLabel: UILabel = {
+        let label = UILabel()
+        label.font = UIFont.boldSystemFont(ofSize: 13)
+        label.textColor = .gray
+        return label
+    }()
+    
+    let buttonStackView: UIStackView = {
+        let stackView = UIStackView()
+        stackView.axis = .horizontal
+        stackView.distribution = .fillEqually
+        stackView.spacing = 10
+        return stackView
+    }()
+    
+    var rsvpButton: UIButton = {
+        let button = UIButton()
+        button.setTitle("RSVP", for: .normal)
+        button.setTitleColor(.white, for: .normal)
+        button.backgroundColor = UIColor.orangeColor()
+        button.layer.cornerRadius = 10
+        button.layer.shadowOffset = CGSize(width: 0, height: 4)
+        button.layer.shadowRadius = 4
+        button.layer.shadowOpacity = 0.2
+        button.layer.shadowColor = UIColor.black.cgColor
+        return button
+    }()
+    
+    var contactButton: UIButton = {
+        let button = UIButton()
+        button.setTitle("Contact", for: .normal)
+        button.setTitleColor(.white, for: .normal)
+        button.backgroundColor = UIColor.orangeColor()
+        button.layer.cornerRadius = 10
+        button.layer.shadowOffset = CGSize(width: 0, height: 4)
+        button.layer.shadowRadius = 4
+        button.layer.shadowOpacity = 0.2
+        button.layer.shadowColor = UIColor.black.cgColor
+        return button
+    }()
+}

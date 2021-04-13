@@ -46,7 +46,7 @@ class RequestTableViewCell: UITableViewCell {
             if booking.invoicePaid == true {
                 paidLabel.text = "Paid"
             } else {
-                paidLabel.text = "Not Paid"
+                paidLabel.text = "Paid: Pending"
             }
         } else {
             guard let uid = booking.chefUid else { return }
@@ -56,9 +56,9 @@ class RequestTableViewCell: UITableViewCell {
             }
         }
         if booking.isBooked == false {
-            bookedLabel.text = "Not booked"
+            bookedLabel.text = "Booked: Pending"
         } else {
-            bookedLabel.text = "Booked"
+            bookedLabel.text = "Booked: Approved"
         }
         timestampLabel.text = booking.timestamp.timeAgoDisplay()
         dateLabel.text = booking.date

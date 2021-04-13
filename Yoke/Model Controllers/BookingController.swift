@@ -80,11 +80,11 @@ class BookingController {
         }
     }
     
-    func fetchBookingsWith(uid: String, completion: @escaping (Booking) -> Void) {
+    func fetchBookingsWith(uid: String, completion: @escaping (Bool) -> Void) {
         firestoreDB.document(uid).collection(Constants.Bookings).addSnapshotListener { (snapshot, error) in
             if let error = error {
                 print(error.localizedDescription)
-                completion(error as! Booking)
+                completion(false)
             }
             self.bookings = []
             snapshot?.documents.forEach({ (document) in
@@ -94,7 +94,7 @@ class BookingController {
                 self.bookings.sort(by: { (u1, u2) -> Bool in
                     return u1.timestamp.compare(u2.timestamp) == .orderedDescending
                 })
-                completion(booking)
+                completion(true)
             })
         }
     }
