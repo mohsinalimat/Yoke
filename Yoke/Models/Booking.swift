@@ -36,8 +36,8 @@ class Booking {
         self.location = dictionary[Constants.Location] as? String ?? ""
         let secondsFrom1970 = dictionary[Constants.Timestamp] as? Double ?? 0
         self.timestamp = Date(timeIntervalSince1970: secondsFrom1970)
-        self.numberOfPeople = dictionary[Constants.NumberOfPeople] as? Int ?? 0
-        self.numberOfCourses = dictionary[Constants.NumberOfCourses] as? Int ?? 0
+        self.numberOfPeople = dictionary[Constants.NumberOfPeople] as? Int ?? 1
+        self.numberOfCourses = dictionary[Constants.NumberOfCourses] as? Int ?? 1
         self.cusineType = dictionary[Constants.CuisineType] as? String ?? ""
         self.isBooked = dictionary[Constants.IsBooked] as? Bool ?? false
         self.invoiceSent = dictionary[Constants.InvoiceSent] as? Bool ?? false

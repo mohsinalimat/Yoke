@@ -63,27 +63,27 @@ class RequestForChefViewController: UIViewController {
         scrollView.isScrollEnabled = true
         let totalHeight = 270 + view.frame.width + descriptionLabel.frame.height
         scrollView.contentSize = CGSize(width: view.frame.width, height: totalHeight)
-        scrollView.anchor(top: safeArea.topAnchor, left: safeArea.leftAnchor, bottom: safeArea.bottomAnchor, right: safeArea.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0)
-        imageShadowView.anchor(top: scrollView.topAnchor, left: nil, bottom: nil, right: nil, paddingTop: 5, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 100, height: 100)
+        scrollView.anchor(top: safeArea.topAnchor, left: safeArea.leftAnchor, bottom: safeArea.bottomAnchor, right: safeArea.rightAnchor, paddingTop: 10, paddingLeft: 10, paddingBottom: 10, paddingRight: 10)
+        imageShadowView.anchor(top: scrollView.topAnchor, left: nil, bottom: nil, right: nil, paddingTop: 15, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 100, height: 100)
         imageShadowView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         profileImage.anchor(top: scrollView.topAnchor, left: nil, bottom: nil, right: nil, paddingTop: 5, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 100, height: 100)
         profileImage.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         usernameLabel.anchor(top: profileImage.bottomAnchor, left: nil, bottom: nil, right: nil, paddingTop: 5, paddingLeft: 10, paddingBottom: 0, paddingRight: 0)
         usernameLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        cuisineLabel.anchor(top: usernameLabel.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 20, paddingLeft: 10, paddingBottom: 0, paddingRight: 10)
-        timestampLabel.anchor(top: cuisineLabel.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 5, paddingLeft: 10, paddingBottom: 0, paddingRight: 0)
-        locationIcon.anchor(top: timestampLabel.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: nil, paddingTop: 5, paddingLeft: 10, paddingBottom: 0, paddingRight: 0, width: 15, height: 18)
+        cuisineLabel.anchor(top: usernameLabel.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 20, paddingLeft: 20, paddingBottom: 0, paddingRight: 20)
+        timestampLabel.anchor(top: cuisineLabel.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 10, paddingLeft: 20, paddingBottom: 0, paddingRight: 0)
+        locationIcon.anchor(top: timestampLabel.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: nil, paddingTop: 10, paddingLeft: 20, paddingBottom: 0, paddingRight: 0, width: 15, height: 18)
         locationLabel.anchor(top: nil, left: locationIcon.rightAnchor, bottom: nil, right: nil, paddingTop: 0, paddingLeft: 5, paddingBottom: 0, paddingRight: 0)
         locationLabel.centerYAnchor.constraint(equalTo: locationIcon.centerYAnchor).isActive = true
-        dateIcon.anchor(top: locationIcon.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: nil, paddingTop: 10, paddingLeft: 10, paddingBottom: 0, paddingRight: 0, width: 15, height: 15)
+        dateIcon.anchor(top: locationIcon.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: nil, paddingTop: 10, paddingLeft: 20, paddingBottom: 0, paddingRight: 0, width: 15, height: 15)
         dateLabel.anchor(top: dateIcon.topAnchor, left: dateIcon.rightAnchor, bottom: nil, right: nil, paddingTop: 0, paddingLeft: 5, paddingBottom: 0, paddingRight: 0)
         dateLabel.centerYAnchor.constraint(equalTo: dateIcon.centerYAnchor).isActive = true
-        timeIcon.anchor(top: dateIcon.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: nil, paddingTop: 10, paddingLeft: 10, paddingBottom: 0, paddingRight: 0, width: 15, height: 15)
+        timeIcon.anchor(top: dateIcon.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: nil, paddingTop: 10, paddingLeft: 20, paddingBottom: 0, paddingRight: 0, width: 15, height: 15)
         timeLabel.anchor(top: timeIcon.topAnchor, left: dateIcon.rightAnchor, bottom: nil, right: nil, paddingTop: 0, paddingLeft: 5, paddingBottom: 0, paddingRight: 0)
         timeLabel.centerYAnchor.constraint(equalTo: timeIcon.centerYAnchor).isActive = true
-        numberOfCoursesLabel.anchor(top: timeLabel.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: nil, paddingTop: 5, paddingLeft: 10, paddingBottom: 0, paddingRight: 0)
-        numberOfPeopleLabel.anchor(top: numberOfCoursesLabel.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: nil, paddingTop: 5, paddingLeft: 10, paddingBottom: 0, paddingRight: 0)
-        descriptionLabel.anchor(top: numberOfPeopleLabel.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 5, paddingLeft: 10, paddingBottom: 0, paddingRight: 10)
+        numberOfCoursesLabel.anchor(top: timeLabel.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: nil, paddingTop: 10, paddingLeft: 20, paddingBottom: 0, paddingRight: 0)
+        numberOfPeopleLabel.anchor(top: numberOfCoursesLabel.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: nil, paddingTop: 10, paddingLeft: 20, paddingBottom: 0, paddingRight: 0)
+        descriptionLabel.anchor(top: numberOfPeopleLabel.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 10, paddingLeft: 20, paddingBottom: 0, paddingRight: 20)
 
     }
     
@@ -112,7 +112,7 @@ class RequestForChefViewController: UIViewController {
             self.numberOfPeopleLabel.text = "Number of guest: \(booking.numberOfPeople ?? 0)"
             guard let details = booking.detail else { return }
             let attributedText = NSMutableAttributedString(string: "Details:", attributes: [NSAttributedString.Key.font: UIFont.boldSystemFont(ofSize: 15), NSAttributedString.Key.foregroundColor: UIColor.gray])
-            attributedText.append(NSAttributedString(string: " " + details, attributes: [NSAttributedString.Key.font: UIFont(name: "Avenir-BookOblique", size: 15)!, NSAttributedString.Key.foregroundColor: UIColor.darkGray]))
+            attributedText.append(NSAttributedString(string: " " + details, attributes: [NSAttributedString.Key.font: UIFont(name: "Avenir", size: 15)!, NSAttributedString.Key.foregroundColor: UIColor.gray]))
             self.descriptionLabel.attributedText = attributedText
             //add cusine
             
@@ -129,10 +129,12 @@ class RequestForChefViewController: UIViewController {
     
     var scrollView: UIScrollView = {
         let view = UIScrollView()
-        view.backgroundColor = UIColor.LightGrayBg()
+        view.backgroundColor = .white
         view.layer.cornerRadius = 10
-        view.layer.borderColor = UIColor.LightGrayBg()?.cgColor
-        view.layer.borderWidth = 5
+        view.layer.shadowOffset = CGSize(width: 0, height: 4)
+        view.layer.shadowRadius = 4
+        view.layer.shadowOpacity = 0.3
+        view.layer.shadowColor = UIColor.gray.cgColor
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()

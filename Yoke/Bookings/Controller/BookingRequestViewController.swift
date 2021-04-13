@@ -213,7 +213,6 @@ class BookingRequestViewController: UIViewController {
         let newValue = addValue + 1
         peopleCountTextField.text = String(newValue)
         peopleCounter = newValue
-        print(peopleCounter)
     }
     
     @objc func handleMinusPeopleCount() {
@@ -224,7 +223,6 @@ class BookingRequestViewController: UIViewController {
             let newValue = minusValue - 1
             peopleCountTextField.text = String(newValue)
             peopleCounter = newValue
-            print(peopleCounter)
         }
 
     }
@@ -237,7 +235,6 @@ class BookingRequestViewController: UIViewController {
         let newValue = addValue + 1
         courseCountTextField.text = String(newValue)
         courseCounter = newValue
-        print(courseCounter)
     }
     
     @objc func handleMinusCourseCount() {
@@ -248,7 +245,6 @@ class BookingRequestViewController: UIViewController {
             let newValue = minusValue - 1
             courseCountTextField.text = String(newValue)
             courseCounter = newValue
-            print(courseCounter)
         }
 
     }
