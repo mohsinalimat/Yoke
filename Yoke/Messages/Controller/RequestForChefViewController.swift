@@ -47,6 +47,7 @@ class RequestForChefViewController: UIViewController {
         scrollView.addSubview(imageShadowView)
         scrollView.addSubview(profileImage)
         scrollView.addSubview(usernameLabel)
+        scrollView.addSubview(cuisineLabel)
         scrollView.addSubview(timestampLabel)
         scrollView.addSubview(locationIcon)
         scrollView.addSubview(locationLabel)
@@ -69,7 +70,8 @@ class RequestForChefViewController: UIViewController {
         profileImage.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         usernameLabel.anchor(top: profileImage.bottomAnchor, left: nil, bottom: nil, right: nil, paddingTop: 5, paddingLeft: 10, paddingBottom: 0, paddingRight: 0)
         usernameLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        timestampLabel.anchor(top: usernameLabel.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 0, paddingLeft: 10, paddingBottom: 0, paddingRight: 0)
+        cuisineLabel.anchor(top: usernameLabel.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 20, paddingLeft: 10, paddingBottom: 0, paddingRight: 10)
+        timestampLabel.anchor(top: cuisineLabel.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 5, paddingLeft: 10, paddingBottom: 0, paddingRight: 0)
         locationIcon.anchor(top: timestampLabel.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: nil, paddingTop: 5, paddingLeft: 10, paddingBottom: 0, paddingRight: 0, width: 15, height: 18)
         locationLabel.anchor(top: nil, left: locationIcon.rightAnchor, bottom: nil, right: nil, paddingTop: 0, paddingLeft: 5, paddingBottom: 0, paddingRight: 0)
         locationLabel.centerYAnchor.constraint(equalTo: locationIcon.centerYAnchor).isActive = true
@@ -79,9 +81,9 @@ class RequestForChefViewController: UIViewController {
         timeIcon.anchor(top: dateIcon.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: nil, paddingTop: 10, paddingLeft: 10, paddingBottom: 0, paddingRight: 0, width: 15, height: 15)
         timeLabel.anchor(top: timeIcon.topAnchor, left: dateIcon.rightAnchor, bottom: nil, right: nil, paddingTop: 0, paddingLeft: 5, paddingBottom: 0, paddingRight: 0)
         timeLabel.centerYAnchor.constraint(equalTo: timeIcon.centerYAnchor).isActive = true
-        numberOfCoursesLabel.anchor(top: timeLabel.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: nil, paddingTop: 10, paddingLeft: 10, paddingBottom: 0, paddingRight: 0)
-        numberOfPeopleLabel.anchor(top: numberOfCoursesLabel.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: nil, paddingTop: 10, paddingLeft: 10, paddingBottom: 0, paddingRight: 0)
-        descriptionLabel.anchor(top: numberOfPeopleLabel.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 20, paddingLeft: 10, paddingBottom: 0, paddingRight: 10)
+        numberOfCoursesLabel.anchor(top: timeLabel.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: nil, paddingTop: 5, paddingLeft: 10, paddingBottom: 0, paddingRight: 0)
+        numberOfPeopleLabel.anchor(top: numberOfCoursesLabel.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: nil, paddingTop: 5, paddingLeft: 10, paddingBottom: 0, paddingRight: 0)
+        descriptionLabel.anchor(top: numberOfPeopleLabel.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 5, paddingLeft: 10, paddingBottom: 0, paddingRight: 10)
 
     }
     
@@ -100,6 +102,7 @@ class RequestForChefViewController: UIViewController {
                   let username = user.username else { return }
             self.profileImage.loadImage(urlString: image)
             self.usernameLabel.text = username
+            self.cuisineLabel.text = booking.cusineType
             let timestamp = booking.timestamp.timeAgoDisplay()
             self.timestampLabel.text = "Sent: \(timestamp)"
             self.locationLabel.text = "453 12th street, Brooklyn NY"
@@ -107,7 +110,10 @@ class RequestForChefViewController: UIViewController {
             self.timeLabel.text = "\(start) - \(end)"
             self.numberOfCoursesLabel.text = "Number of courses: \(booking.numberOfCourses ?? 0)"
             self.numberOfPeopleLabel.text = "Number of guest: \(booking.numberOfPeople ?? 0)"
-            self.descriptionLabel.text = "Details: \(booking.detail ?? "")"
+            guard let details = booking.detail else { return }
+            let attributedText = NSMutableAttributedString(string: "Details:", attributes: [NSAttributedString.Key.font: UIFont.boldSystemFont(ofSize: 15), NSAttributedString.Key.foregroundColor: UIColor.gray])
+            attributedText.append(NSAttributedString(string: " " + details, attributes: [NSAttributedString.Key.font: UIFont(name: "Avenir-BookOblique", size: 15)!, NSAttributedString.Key.foregroundColor: UIColor.darkGray]))
+            self.descriptionLabel.attributedText = attributedText
             //add cusine
             
         }
@@ -160,7 +166,14 @@ class RequestForChefViewController: UIViewController {
     var timestampLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.boldSystemFont(ofSize: 15)
-        label.textColor = .lightGray
+        label.textColor = UIColor.orangeColor()
+        return label
+    }()
+    
+    var cuisineLabel: UILabel = {
+        let label = UILabel()
+        label.font = UIFont.boldSystemFont(ofSize: 20)
+        label.textColor = UIColor.orangeColor()
         return label
     }()
     
