@@ -50,11 +50,13 @@ class CreateInvoiceViewController: UIViewController {
         backgroundView.addSubview(amountTextField)
         backgroundView.addSubview(serviceFeeLabel)
         backgroundView.addSubview(totalLabel)
+        backgroundView.addSubview(messageShadow)
+        backgroundView.addSubview(messageTextField)
         backgroundView.addSubview(sendButton)
     }
     
     func constrainViews() {
-        backgroundView.anchor(top: safeArea.topAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 10, paddingLeft: 10, paddingBottom: 10, paddingRight: 10, height: 500)
+        backgroundView.anchor(top: safeArea.topAnchor, left: safeArea.leftAnchor, bottom: sendButton.bottomAnchor, right: safeArea.rightAnchor, paddingTop: 10, paddingLeft: 10, paddingBottom: -20, paddingRight: 10)
         toLabel.anchor(top: backgroundView.topAnchor, left: backgroundView.leftAnchor, bottom: nil, right: nil, paddingTop: 10, paddingLeft: 10, paddingBottom: 0, paddingRight: 0)
         dateLabel.anchor(top: toLabel.bottomAnchor, left: backgroundView.leftAnchor, bottom: nil, right: nil, paddingTop: 10, paddingLeft: 10, paddingBottom: 0, paddingRight: 0)
         amountLabel.anchor(top: dateLabel.bottomAnchor, left: backgroundView.leftAnchor, bottom: nil, right: nil, paddingTop: 10, paddingLeft: 10, paddingBottom: 0, paddingRight: 0, height: 45)
@@ -63,7 +65,9 @@ class CreateInvoiceViewController: UIViewController {
         
         serviceFeeLabel.anchor(top: amountLabel.bottomAnchor, left: backgroundView.leftAnchor, bottom: nil, right: nil, paddingTop: 10, paddingLeft: 10, paddingBottom: 0, paddingRight: 0)
         totalLabel.anchor(top: serviceFeeLabel.bottomAnchor, left: backgroundView.leftAnchor, bottom: nil, right: nil, paddingTop: 10, paddingLeft: 10, paddingBottom: 0, paddingRight: 0)
-        sendButton.anchor(top: totalLabel.bottomAnchor, left: backgroundView.leftAnchor, bottom: nil, right: backgroundView.rightAnchor, paddingTop: 20, paddingLeft: 25, paddingBottom: 0, paddingRight: 25, height: 45)
+        messageShadow.anchor(top: totalLabel.bottomAnchor, left: backgroundView.leftAnchor, bottom: nil, right: backgroundView.rightAnchor, paddingTop: 10, paddingLeft: 10, paddingBottom: 0, paddingRight: 10, height: 200)
+        messageTextField.anchor(top: totalLabel.bottomAnchor, left: backgroundView.leftAnchor, bottom: nil, right: backgroundView.rightAnchor, paddingTop: 10, paddingLeft: 10, paddingBottom: 0, paddingRight: 10, height: 200)
+        sendButton.anchor(top: messageTextField.bottomAnchor, left: backgroundView.leftAnchor, bottom: nil, right: backgroundView.rightAnchor, paddingTop: 20, paddingLeft: 25, paddingBottom: 0, paddingRight: 25, height: 45)
     }
     
     func fetchRequest() {
@@ -150,6 +154,25 @@ class CreateInvoiceViewController: UIViewController {
         label.font = UIFont.boldSystemFont(ofSize: 15)
         label.textAlignment = .left
         return label
+    }()
+    
+    let messageShadow: ShadowView = {
+        let view = ShadowView()
+        view.backgroundColor = UIColor.white
+        return view
+    }()
+    
+    let messageTextField: UITextView = {
+        let text = UITextView()
+        text.placeholder = "Enter additional information ..."
+        text.textColor = .darkGray
+        text.isEditable = true
+        text.isScrollEnabled = true
+        text.textContainer.lineBreakMode = .byWordWrapping
+        text.font = UIFont.systemFont(ofSize: 17)
+        text.layer.cornerRadius = 10
+        text.backgroundColor = UIColor.lightGray.withAlphaComponent(0.1)
+        return text
     }()
     
     var sendButton: UIButton = {
