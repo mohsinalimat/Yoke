@@ -36,7 +36,7 @@ class CreateInvoiceViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        fetchRequest()
         
     }
     
@@ -44,12 +44,26 @@ class CreateInvoiceViewController: UIViewController {
     func setupViews() {
         view.backgroundColor = UIColor.LightGrayBg()
         view.addSubview(backgroundView)
-        
-        
+        backgroundView.addSubview(toLabel)
+        backgroundView.addSubview(dateLabel)
+        backgroundView.addSubview(amountLabel)
+        backgroundView.addSubview(amountTextField)
+        backgroundView.addSubview(serviceFeeLabel)
+        backgroundView.addSubview(totalLabel)
+        backgroundView.addSubview(sendButton)
     }
     
     func constrainViews() {
         backgroundView.anchor(top: safeArea.topAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 10, paddingLeft: 10, paddingBottom: 10, paddingRight: 10, height: 500)
+        toLabel.anchor(top: backgroundView.topAnchor, left: backgroundView.leftAnchor, bottom: nil, right: nil, paddingTop: 10, paddingLeft: 10, paddingBottom: 0, paddingRight: 0)
+        dateLabel.anchor(top: toLabel.bottomAnchor, left: backgroundView.leftAnchor, bottom: nil, right: nil, paddingTop: 10, paddingLeft: 10, paddingBottom: 0, paddingRight: 0)
+        amountLabel.anchor(top: dateLabel.bottomAnchor, left: backgroundView.leftAnchor, bottom: nil, right: nil, paddingTop: 10, paddingLeft: 10, paddingBottom: 0, paddingRight: 0, height: 45)
+        amountTextField.anchor(top: nil, left: nil, bottom: nil, right: backgroundView.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 10, width: 100, height: 45)
+        amountTextField.centerYAnchor.constraint(equalTo: amountLabel.centerYAnchor).isActive = true
+        
+        serviceFeeLabel.anchor(top: amountLabel.bottomAnchor, left: backgroundView.leftAnchor, bottom: nil, right: nil, paddingTop: 10, paddingLeft: 10, paddingBottom: 0, paddingRight: 0)
+        totalLabel.anchor(top: serviceFeeLabel.bottomAnchor, left: backgroundView.leftAnchor, bottom: nil, right: nil, paddingTop: 10, paddingLeft: 10, paddingBottom: 0, paddingRight: 0)
+        sendButton.anchor(top: totalLabel.bottomAnchor, left: backgroundView.leftAnchor, bottom: nil, right: backgroundView.rightAnchor, paddingTop: 20, paddingLeft: 25, paddingBottom: 0, paddingRight: 25, height: 45)
     }
     
     func fetchRequest() {
@@ -109,7 +123,7 @@ class CreateInvoiceViewController: UIViewController {
     let amountTextField: UITextField = {
         let text = UITextField()
         text.textColor = .darkGray
-        text.attributedPlaceholder = NSAttributedString(string: " Enter amount", attributes: [NSAttributedString.Key.foregroundColor: UIColor.lightGray])
+        text.attributedPlaceholder = NSAttributedString(string: "$$", attributes: [NSAttributedString.Key.foregroundColor: UIColor.lightGray])
         text.keyboardType = .decimalPad
         text.layer.cornerRadius = 10
         text.layer.shadowOffset = CGSize(width: 0, height: 4)
@@ -131,6 +145,7 @@ class CreateInvoiceViewController: UIViewController {
     
     let totalLabel: UILabel = {
         let label = UILabel()
+        label.text = "Total: "
         label.textColor = UIColor.gray
         label.font = UIFont.boldSystemFont(ofSize: 15)
         label.textAlignment = .left
