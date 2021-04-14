@@ -106,6 +106,7 @@ class EventLocationViewController: UIViewController {
             self.pin.coordinate = CLLocationCoordinate2D(latitude: location.coordinate.latitude, longitude: location.coordinate.longitude)
             self.mapView.addAnnotation(self.pin)
             self.mapView.setRegion(region, animated: true)
+            self.saveButton.isEnabled = true
         }
     }
     

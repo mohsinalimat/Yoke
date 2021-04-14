@@ -104,6 +104,7 @@ class BookingLocationViewController: UIViewController {
             self.pin.coordinate = CLLocationCoordinate2D(latitude: location.coordinate.latitude, longitude: location.coordinate.longitude)
             self.mapView.addAnnotation(self.pin)
             self.mapView.setRegion(region, animated: true)
+            self.saveButton.isEnabled = true
         }
     }
     
@@ -163,15 +164,6 @@ class BookingLocationViewController: UIViewController {
     }
     
     //MARK: - Selectors
-    @objc func locationSwitch(locationSwitchChanged: UISwitch) {
-        if locationSwitch.isOn {
-            
-        } else {
-            addressTextField.text = ""
-            apartmentTextField.text = ""
-        }
-    }
-    
     @objc func handleSetUserLocation() {
         fetchUserLocationFromSearch()
     }
@@ -263,14 +255,6 @@ class BookingLocationViewController: UIViewController {
         button.layer.shadowColor = UIColor.gray.cgColor
         button.addTarget(self, action: #selector(handleSetUserLocation), for: .touchUpInside)
         return button
-    }()
-    
-    var locationSwitch: UISwitch = {
-        let switchBool = UISwitch()
-        switchBool.onTintColor = UIColor.orangeColor()
-        switchBool.setOn(false, animated: true)
-        switchBool.addTarget(self, action: #selector(locationSwitch(locationSwitchChanged:)), for: UIControl.Event.valueChanged)
-        return switchBool
     }()
     
     let locationView: UIStackView = {
