@@ -136,7 +136,9 @@ class BookingRequestDetailViewController: UIViewController {
     
     @objc func handleAccept() {
         //Alert prompts letting chef know they will be sending invoice to user with total
-        
+        let invoiceVC = CreateInvoiceViewController()
+        invoiceVC.booking = booking
+        navigationController?.pushViewController(invoiceVC, animated: true)
     }
     
     @objc func handleDecline() {
@@ -153,13 +155,6 @@ class BookingRequestDetailViewController: UIViewController {
     }
     
     //MARK: - Views
-    let swipeIndicator: UIView = {
-        let view = UIView()
-        view.backgroundColor = UIColor.gray
-        view.layer.cornerRadius = 5
-        return view
-    }()
-    
     var scrollView: UIScrollView = {
         let view = UIScrollView()
         view.backgroundColor = .white
