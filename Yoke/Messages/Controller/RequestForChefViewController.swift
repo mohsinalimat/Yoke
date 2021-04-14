@@ -66,7 +66,7 @@ class RequestForChefViewController: UIViewController {
         scrollView.anchor(top: safeArea.topAnchor, left: safeArea.leftAnchor, bottom: safeArea.bottomAnchor, right: safeArea.rightAnchor, paddingTop: 10, paddingLeft: 10, paddingBottom: 10, paddingRight: 10)
         imageShadowView.anchor(top: scrollView.topAnchor, left: nil, bottom: nil, right: nil, paddingTop: 15, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 100, height: 100)
         imageShadowView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        profileImage.anchor(top: scrollView.topAnchor, left: nil, bottom: nil, right: nil, paddingTop: 5, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 100, height: 100)
+        profileImage.anchor(top: scrollView.topAnchor, left: nil, bottom: nil, right: nil, paddingTop: 15, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 100, height: 100)
         profileImage.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         usernameLabel.anchor(top: profileImage.bottomAnchor, left: nil, bottom: nil, right: nil, paddingTop: 5, paddingLeft: 10, paddingBottom: 0, paddingRight: 0)
         usernameLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
@@ -139,10 +139,14 @@ class RequestForChefViewController: UIViewController {
         return view
     }()
     
-    let imageShadowView: ShadowView = {
-        let view = ShadowView()
+    let imageShadowView: UIView = {
+        let view = UIView()
         view.backgroundColor = .white
         view.layer.cornerRadius = 25
+        view.layer.shadowOffset = CGSize(width: 0, height: 4)
+        view.layer.shadowRadius = 4
+        view.layer.shadowOpacity = 0.2
+        view.layer.shadowColor = UIColor.gray.cgColor
         return view
     }()
     
@@ -153,12 +157,17 @@ class RequestForChefViewController: UIViewController {
         image.translatesAutoresizingMaskIntoConstraints = false
         image.clipsToBounds = true
         image.layer.cornerRadius = 25
-        image.layer.borderWidth = 1
-        image.layer.borderColor = UIColor.white.cgColor
         return image
     }()
     
     var usernameLabel: UILabel = {
+        let label = UILabel()
+        label.font = UIFont.boldSystemFont(ofSize: 28)
+        label.textColor = UIColor.orangeColor()
+        return label
+    }()
+    
+    var cuisineLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.boldSystemFont(ofSize: 22)
         label.textColor = UIColor.orangeColor()
@@ -168,13 +177,6 @@ class RequestForChefViewController: UIViewController {
     var timestampLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.boldSystemFont(ofSize: 15)
-        label.textColor = UIColor.orangeColor()
-        return label
-    }()
-    
-    var cuisineLabel: UILabel = {
-        let label = UILabel()
-        label.font = UIFont.boldSystemFont(ofSize: 20)
         label.textColor = UIColor.orangeColor()
         return label
     }()

@@ -9,7 +9,7 @@
 import UIKit
 import FirebaseAuth
 
-class BookingRequestViewController: UIViewController {
+class BookingRequestViewController: UIViewController, BookingLocationDelegate {
 
     //MARK: - Properties
     var safeArea: UILayoutGuide {
@@ -19,8 +19,8 @@ class BookingRequestViewController: UIViewController {
     var userId: String?
     let myActivityIndicator = UIActivityIndicatorView(style: UIActivityIndicatorView.Style.large)
     var selectedLocation: String = ""
-    var peopleCounter: Int = 0
-    var courseCounter: Int = 0
+    var peopleCounter: Int = 1
+    var courseCounter: Int = 1
     
     //MARK: - Lifecycle Methods
     override func viewDidLayoutSubviews() {
@@ -141,10 +141,10 @@ class BookingRequestViewController: UIViewController {
         present(alertVC, animated: true)
     }
     
-//    func eventLocationController(_ eventLocationController: EventLocationViewController, didSelectLocation location: String) {
-//        selectedLocation = location
-//        locationButton.setTitle(location, for: .normal)
-//    }
+    func bookingLocationController(_ bookingLocationController: BookingLocationViewController, didSelectLocation location: String) {
+        selectedLocation = location
+        locationButton.setTitle(location, for: .normal)
+    }
     
     //MARK: - Selectors
     
@@ -158,11 +158,11 @@ class BookingRequestViewController: UIViewController {
         print("chef uid \(chefUid)")
         print("current uid \(currentUserUid)")
         if selectedLocation.isEmpty {
-//            guard let location = event?.location else { return }
+//            guard let location = booking?.location else { return }
 //            selectedLocation = location
         }
         myActivityIndicator.startAnimating()
-        BookingController.shared.createBookingWith(chefUid: chefUid, userUid: currentUserUid, location: "", date: date, startTime: start, endTime: end, numberOfPeople: peopleCounter, numberOfCourses: courseCounter, typeOfCuisine: cuisine, details: detail) { (result) in
+        BookingController.shared.createBookingWith(chefUid: chefUid, userUid: currentUserUid, location: selectedLocation, date: date, startTime: start, endTime: end, numberOfPeople: peopleCounter, numberOfCourses: courseCounter, typeOfCuisine: cuisine, details: detail) { (result) in
             switch result {
             case true:
                 self.myActivityIndicator.stopAnimating()
@@ -174,9 +174,9 @@ class BookingRequestViewController: UIViewController {
     }
     
     @objc func handleAddLocation() {
-//        let chooseLocation = EventLocationViewController()
-//        chooseLocation.delegate = self
-//        present(chooseLocation, animated: true)
+        let chooseLocation = BookingLocationViewController()
+        chooseLocation.delegate = self
+        present(chooseLocation, animated: true)
     }
     
     @objc func handleDateSelection() {
