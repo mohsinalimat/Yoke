@@ -27,6 +27,7 @@ class Constants {
     static let LocationShort = "locationShort"
     static let Bio = "bio"
     static let CoverImages = "Cover_Images"
+    static let Archive = "archive"
     
     static let Menu = "menu"
     static let Cuisine = "cuisine"

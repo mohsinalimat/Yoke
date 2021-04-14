@@ -18,7 +18,6 @@ class ChatCollectionViewController: UICollectionViewController, UICollectionView
     private var messages = [Message]()
     var fromCurrentUser = false
 
-    
     //MARK: - Lifecycle Methods
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)

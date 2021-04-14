@@ -32,16 +32,22 @@ class BookingController {
     //MARK: - CRUD Functions
     func createBookingWith(chefUid: String, userUid: String, location: String, locationShort: String, date: String, startTime: String, endTime: String, numberOfPeople: Int, numberOfCourses: Int, typeOfCuisine: String, details: String, completion: @escaping (Bool) -> Void) {
         let bookingId = NSUUID().uuidString
-        self.firestoreDB.document(chefUid).collection(Constants.Bookings).document(bookingId).setData([Constants.ChefUid: chefUid, Constants.Id: bookingId, Constants.UserUid: userUid, Constants.Location: location, Constants.LocationShort: locationShort, Constants.Date: date, Constants.StartTime: startTime, Constants.EndTime: endTime, Constants.NumberOfPeople: numberOfPeople, Constants.NumberOfCourses: numberOfCourses, Constants.Detail: details, Constants.InvoiceSent: false, Constants.InvoicePaid: false, Constants.IsBooked: false, Constants.CuisineType: typeOfCuisine], merge: true)
-        self.firestoreDB.document(userUid).collection(Constants.Bookings).document(bookingId).setData([Constants.ChefUid: chefUid, Constants.Id: bookingId, Constants.UserUid: userUid, Constants.Location: location, Constants.LocationShort: locationShort, Constants.Date: date, Constants.StartTime: startTime, Constants.EndTime: endTime, Constants.NumberOfPeople: numberOfPeople, Constants.NumberOfCourses: numberOfCourses, Constants.Detail: details, Constants.InvoiceSent: false, Constants.InvoicePaid: false, Constants.IsBooked: false, Constants.CuisineType: typeOfCuisine], merge: true)
+        self.firestoreDB.document(chefUid).collection(Constants.Bookings).document(bookingId).setData([Constants.ChefUid: chefUid, Constants.Id: bookingId, Constants.UserUid: userUid, Constants.Location: location, Constants.LocationShort: locationShort, Constants.Date: date, Constants.StartTime: startTime, Constants.EndTime: endTime, Constants.NumberOfPeople: numberOfPeople, Constants.NumberOfCourses: numberOfCourses, Constants.Detail: details, Constants.InvoiceSent: false, Constants.InvoicePaid: false, Constants.IsBooked: false, Constants.CuisineType: typeOfCuisine, Constants.Archive: false], merge: true)
+        self.firestoreDB.document(userUid).collection(Constants.Bookings).document(bookingId).setData([Constants.ChefUid: chefUid, Constants.Id: bookingId, Constants.UserUid: userUid, Constants.Location: location, Constants.LocationShort: locationShort, Constants.Date: date, Constants.StartTime: startTime, Constants.EndTime: endTime, Constants.NumberOfPeople: numberOfPeople, Constants.NumberOfCourses: numberOfCourses, Constants.Detail: details, Constants.InvoiceSent: false, Constants.InvoicePaid: false, Constants.IsBooked: false, Constants.CuisineType: typeOfCuisine, Constants.Archive: false], merge: true)
 //        self.firestoreDB.document(bookingId).setData([Constants.ChefUid: chefUid, Constants.Id: bookingId, Constants.UserUid: userUid, Constants.Location: location, Constants.Date: date, Constants.StartTime: startTime, Constants.EndTime: endTime, Constants.NumberOfPeople: numberOfPeople, Constants.NumberOfCourses: numberOfCourses, Constants.Detail: details, Constants.InvoiceSent: false, Constants.InvoicePaid: false, Constants.IsBooked: false], merge: true)
 //        self.setupGeofirestore(eventId: eventId, location: location)
         completion(true)
     }
     
     func updateBookingWith(bookingId: String, chefUid: String, location: String, date: String, startTime: String, endTime: String, numberOfPeople: Int, numberOfCourses: Int, typeOfCuisine: String, details: String, completion: @escaping (Bool) -> Void) {
-        self.firestoreDB.document(bookingId).setData([Constants.Location: location, Constants.Date: date, Constants.StartTime: startTime, Constants.EndTime: endTime, Constants.NumberOfPeople: numberOfPeople, Constants.NumberOfCourses: numberOfCourses, Constants.Detail: details], merge: true)
+        self.firestoreDB.document(bookingId).setData([Constants.Location: location, Constants.Date: date, Constants.StartTime: startTime, Constants.EndTime: endTime, Constants.NumberOfPeople: numberOfPeople, Constants.NumberOfCourses: numberOfCourses, Constants.Detail: details, ], merge: true)
 //        self.setupGeofirestore(eventId: eventId, location: location)
+        completion(true)
+    }
+    
+    func updateBookingPaymentRequestWith(bookingId: String, chefUid: String, userUid: String, isBooked: Bool, invoiceSent: Bool, invoicePaid: Bool, archive: Bool, completion: @escaping (Bool) -> Void) {
+        self.firestoreDB.document(chefUid).collection(Constants.Bookings).document(bookingId).setData([Constants.InvoiceSent: invoiceSent, Constants.InvoicePaid: invoicePaid, Constants.IsBooked: isBooked, Constants.Archive: archive], merge: true)
+        self.firestoreDB.document(userUid).collection(Constants.Bookings).document(bookingId).setData([Constants.InvoiceSent: invoiceSent, Constants.InvoicePaid: invoicePaid, Constants.IsBooked: isBooked, Constants.Archive: archive], merge: true)
         completion(true)
     }
     

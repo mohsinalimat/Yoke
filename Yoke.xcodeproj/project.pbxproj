@@ -116,8 +116,8 @@
 		6CF0DA3D260920EB00C20D1C /* Event.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CF0DA3C260920EB00C20D1C /* Event.swift */; };
 		6CF0DA53260924E100C20D1C /* EventController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CF0DA52260924E100C20D1C /* EventController.swift */; };
 		6CF0DA5B26092D6100C20D1C /* NewEventViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CF0DA5A26092D6100C20D1C /* NewEventViewController.swift */; };
-		6CF572012626166E00AAB1B7 /* RequestForChefViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CF572002626166E00AAB1B7 /* RequestForChefViewController.swift */; };
 		6CF5720726274F0C00AAB1B7 /* BookingLocationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CF5720626274F0C00AAB1B7 /* BookingLocationViewController.swift */; };
+		6CF5722F26276ADD00AAB1B7 /* BookingRequestDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CF5722E26276ADD00AAB1B7 /* BookingRequestDetailViewController.swift */; };
 		6CFDB39525B738FA007261D1 /* Cusine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CFDB39425B738FA007261D1 /* Cusine.swift */; };
 		6CFDB39B25B7425A007261D1 /* CuisineController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CFDB39A25B7425A007261D1 /* CuisineController.swift */; };
 		6CFDB3A825B79114007261D1 /* CusineCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CFDB3A725B79114007261D1 /* CusineCollectionViewCell.swift */; };
@@ -253,8 +253,8 @@
 		6CF0DA3C260920EB00C20D1C /* Event.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Event.swift; sourceTree = "<group>"; };
 		6CF0DA52260924E100C20D1C /* EventController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventController.swift; sourceTree = "<group>"; };
 		6CF0DA5A26092D6100C20D1C /* NewEventViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewEventViewController.swift; sourceTree = "<group>"; };
-		6CF572002626166E00AAB1B7 /* RequestForChefViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestForChefViewController.swift; sourceTree = "<group>"; };
 		6CF5720626274F0C00AAB1B7 /* BookingLocationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookingLocationViewController.swift; sourceTree = "<group>"; };
+		6CF5722E26276ADD00AAB1B7 /* BookingRequestDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookingRequestDetailViewController.swift; sourceTree = "<group>"; };
 		6CFDB39425B738FA007261D1 /* Cusine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Cusine.swift; sourceTree = "<group>"; };
 		6CFDB39A25B7425A007261D1 /* CuisineController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CuisineController.swift; sourceTree = "<group>"; };
 		6CFDB3A725B79114007261D1 /* CusineCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CusineCollectionViewCell.swift; sourceTree = "<group>"; };
@@ -361,6 +361,7 @@
 				6C3F1B61261BABDC00B02901 /* BookingsViewController.swift */,
 				6C871689261F6282003FE22F /* BookingRequestViewController.swift */,
 				6CF5720626274F0C00AAB1B7 /* BookingLocationViewController.swift */,
+				6CF5722E26276ADD00AAB1B7 /* BookingRequestDetailViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -419,7 +420,6 @@
 			children = (
 				6CD806EE25E1608F00BC51B6 /* MessageViewController.swift */,
 				6C411C1625E801E6003426FC /* ChatCollectionViewController.swift */,
-				6CF572002626166E00AAB1B7 /* RequestForChefViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -1032,11 +1032,11 @@
 				6CD806EF25E1608F00BC51B6 /* MessageViewController.swift in Sources */,
 				6C8DB69324B3C1B9003D06FF /* SignupVC.swift in Sources */,
 				6C8DB6A024B3C1B9003D06FF /* ReviewInputAccessoryView.swift in Sources */,
+				6CF5722F26276ADD00AAB1B7 /* BookingRequestDetailViewController.swift in Sources */,
 				6C8DB6A724B3C1B9003D06FF /* BookmarkedVC.swift in Sources */,
 				6CC8CBB325C33BD900C3F24D /* MenuCollectionViewCell.swift in Sources */,
 				6CB2AA30258D62140062BDBE /* WelcomeVC.swift in Sources */,
 				6C29312125D48D2500A36B64 /* SearchFilterViewController.swift in Sources */,
-				6CF572012626166E00AAB1B7 /* RequestForChefViewController.swift in Sources */,
 				6C8DB66124B3C1B9003D06FF /* FirebaseUtil.swift in Sources */,
 				6C8DB5A325ED4AA600E6D1C4 /* CustomDateView.swift in Sources */,
 				6C411C5425E85681003426FC /* ConversationController.swift in Sources */,

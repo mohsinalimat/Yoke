@@ -1,15 +1,16 @@
 //
-//  RequestForChefViewController.swift
+//  BookingRequestDetailViewController.swift
 //  Yoke
 //
-//  Created by LAURA JELENICH on 4/13/21.
+//  Created by LAURA JELENICH on 4/14/21.
 //  Copyright © 2021 LAURA JELENICH. All rights reserved.
 //
 
 import UIKit
 import FirebaseAuth
 
-class RequestForChefViewController: UIViewController {
+class BookingRequestDetailViewController: UIViewController {
+    
     //MARK: - Properties
     var safeArea: UILayoutGuide {
         return self.view.safeAreaLayoutGuide
@@ -37,7 +38,6 @@ class RequestForChefViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        print("booking \(booking?.id)")
     }
  
     //MARK: - Helper Functions
@@ -57,7 +57,13 @@ class RequestForChefViewController: UIViewController {
         scrollView.addSubview(timeLabel)
         scrollView.addSubview(numberOfCoursesLabel)
         scrollView.addSubview(numberOfPeopleLabel)
-        scrollView.addSubview(descriptionLabel)    }
+        scrollView.addSubview(descriptionLabel)
+        scrollView.addSubview(additionalInfoButton)
+        scrollView.addSubview(buttonStackView)
+        buttonStackView.addArrangedSubview(acceptButton)
+        buttonStackView.addArrangedSubview(declineButton)
+        
+    }
     
     func constrainViews() {
         scrollView.isScrollEnabled = true
@@ -84,7 +90,8 @@ class RequestForChefViewController: UIViewController {
         numberOfCoursesLabel.anchor(top: timeLabel.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: nil, paddingTop: 10, paddingLeft: 20, paddingBottom: 0, paddingRight: 0)
         numberOfPeopleLabel.anchor(top: numberOfCoursesLabel.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: nil, paddingTop: 10, paddingLeft: 20, paddingBottom: 0, paddingRight: 0)
         descriptionLabel.anchor(top: numberOfPeopleLabel.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 10, paddingLeft: 20, paddingBottom: 0, paddingRight: 20)
-
+        additionalInfoButton.anchor(top: descriptionLabel.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 5, paddingLeft: 20, paddingBottom: 0, paddingRight: 20)
+        buttonStackView.anchor(top: additionalInfoButton.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 10, paddingLeft: 20, paddingBottom: 0, paddingRight: 20, height: 45)
     }
     
     func configureNavigationBar() {
@@ -95,6 +102,7 @@ class RequestForChefViewController: UIViewController {
     func fetchRequest() {
         guard let booking = booking,
               let uid = booking.userUid else { return }
+        userId = uid
         UserController.shared.fetchUserWithUID(uid: uid) { (user) in
             guard let start = booking.startTime,
                   let end = booking.endTime,
@@ -114,8 +122,32 @@ class RequestForChefViewController: UIViewController {
             let attributedText = NSMutableAttributedString(string: "Details:", attributes: [NSAttributedString.Key.font: UIFont.boldSystemFont(ofSize: 15), NSAttributedString.Key.foregroundColor: UIColor.gray])
             attributedText.append(NSAttributedString(string: " " + details, attributes: [NSAttributedString.Key.font: UIFont(name: "Avenir", size: 15)!, NSAttributedString.Key.foregroundColor: UIColor.gray]))
             self.descriptionLabel.attributedText = attributedText
-            //add cusine
+            self.additionalInfoButton.setTitle("Need more information from \(username)?", for: .normal)
             
+        }
+    }
+    
+    //MARK: - Selectors
+    @objc func handleSendMessage() {
+        let chatVC = ChatCollectionViewController(collectionViewLayout: UICollectionViewFlowLayout())
+        chatVC.userId = userId
+        navigationController?.pushViewController(chatVC, animated: true)
+    }
+    
+    @objc func handleAccept() {
+        //Alert prompts letting chef know they will be sending invoice to user with total
+    }
+    
+    @objc func handleDecline() {
+        guard let booking = booking,
+              let id = booking.id,
+              let chefUid = booking.chefUid,
+              let userUid = booking.userUid else { return }
+        BookingController.shared.updateBookingPaymentRequestWith(bookingId: id, chefUid: chefUid, userUid: userUid, isBooked: false, invoiceSent: false, invoicePaid: false, archive: true) { (result) in
+            switch result {
+            default:
+                print("comlete")
+            }
         }
     }
     
@@ -254,9 +286,10 @@ class RequestForChefViewController: UIViewController {
         return stackView
     }()
     
-    var rsvpButton: UIButton = {
+    var acceptButton: UIButton = {
         let button = UIButton()
-        button.setTitle("RSVP", for: .normal)
+        //add checkmark
+        button.setTitle("Accept Request", for: .normal)
         button.setTitleColor(.white, for: .normal)
         button.backgroundColor = UIColor.orangeColor()
         button.layer.cornerRadius = 10
@@ -264,12 +297,14 @@ class RequestForChefViewController: UIViewController {
         button.layer.shadowRadius = 4
         button.layer.shadowOpacity = 0.2
         button.layer.shadowColor = UIColor.black.cgColor
+        button.addTarget(self, action: #selector(handleAccept), for: .touchUpInside)
         return button
     }()
     
-    var contactButton: UIButton = {
+    var declineButton: UIButton = {
         let button = UIButton()
-        button.setTitle("Contact", for: .normal)
+        // add decline X
+        button.setTitle("Decline Request", for: .normal)
         button.setTitleColor(.white, for: .normal)
         button.backgroundColor = UIColor.orangeColor()
         button.layer.cornerRadius = 10
@@ -277,6 +312,17 @@ class RequestForChefViewController: UIViewController {
         button.layer.shadowRadius = 4
         button.layer.shadowOpacity = 0.2
         button.layer.shadowColor = UIColor.black.cgColor
+        button.addTarget(self, action: #selector(handleDecline), for: .touchUpInside)
+        return button
+    }()
+    
+    var additionalInfoButton: UIButton = {
+        let button = UIButton()
+        button.contentHorizontalAlignment = .left
+        button.titleLabel?.font =  UIFont(name: "", size: 13)
+        button.setTitleColor(.white, for: .normal)
+        button.setTitleColor(UIColor.orangeColor(), for: .normal)
+        button.addTarget(self, action: #selector(handleSendMessage), for: .touchUpInside)
         return button
     }()
 }

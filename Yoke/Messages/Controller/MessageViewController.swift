@@ -195,7 +195,7 @@ extension MessageViewController: UITableViewDelegate {
         }
         if tableView == requestTableView {
             let request = BookingController.shared.bookings[indexPath.row]
-            let requestVC = RequestForChefViewController()
+            let requestVC = BookingRequestDetailViewController()
             requestVC.booking = request
             print(request)
             navigationController?.pushViewController(requestVC, animated: true)
