@@ -55,7 +55,12 @@ class CreateInvoiceViewController: UIViewController {
     func fetchRequest() {
         guard let booking = booking,
               let uid = booking.userUid else { return }
-        
+        UserController.shared.fetchUserWithUID(uid: uid) { (user) in
+            guard let username = user.username,
+                  let date = booking.date else { return }
+            self.toLabel.text = "Send to: \(username)"
+            self.dateLabel.text = "Date of event: \(date)"
+        }
         
     }
     
@@ -94,14 +99,30 @@ class CreateInvoiceViewController: UIViewController {
     
     let amountLabel: UILabel = {
         let label = UILabel()
+        label.text = "Amount:"
         label.textColor = UIColor.gray
         label.font = UIFont.boldSystemFont(ofSize: 15)
         label.textAlignment = .left
         return label
     }()
     
+    let amountTextField: UITextField = {
+        let text = UITextField()
+        text.textColor = .darkGray
+        text.attributedPlaceholder = NSAttributedString(string: " Enter amount", attributes: [NSAttributedString.Key.foregroundColor: UIColor.lightGray])
+        text.keyboardType = .decimalPad
+        text.layer.cornerRadius = 10
+        text.layer.shadowOffset = CGSize(width: 0, height: 4)
+        text.layer.shadowRadius = 4
+        text.layer.shadowOpacity = 0.1
+        text.layer.shadowColor = UIColor.gray.cgColor
+        text.backgroundColor = UIColor.white
+        return text
+    }()
+    
     let serviceFeeLabel: UILabel = {
         let label = UILabel()
+        label.text = "Fees"
         label.textColor = UIColor.gray
         label.font = UIFont.boldSystemFont(ofSize: 15)
         label.textAlignment = .left
