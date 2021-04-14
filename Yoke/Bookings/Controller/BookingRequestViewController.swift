@@ -19,6 +19,7 @@ class BookingRequestViewController: UIViewController, BookingLocationDelegate {
     var userId: String?
     let myActivityIndicator = UIActivityIndicatorView(style: UIActivityIndicatorView.Style.large)
     var selectedLocation: String = ""
+    var selectedLocationShort: String = ""
     var peopleCounter: Int = 1
     var courseCounter: Int = 1
     
@@ -37,7 +38,7 @@ class BookingRequestViewController: UIViewController, BookingLocationDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupPickerViews()
-        fetchChef()
+        fetchUserLocation()
         print("people count \(peopleCounter)")
     }
     
@@ -125,10 +126,29 @@ class BookingRequestViewController: UIViewController, BookingLocationDelegate {
         endTimeTextField.inputView = endTimePickerView
     }
     
-    func fetchChef() {
+    func fetchUserLocation() {
         let uid = userId ?? (Auth.auth().currentUser?.uid ?? "")
         UserController.shared.fetchUserWithUID(uid: uid) { (user) in
-            print("Chef \(user.uid)")
+            var addressString : String = ""
+            guard let street = user.street,
+                  let apartment = user.apartment,
+                  let city = user.city,
+                  let state =  user.state else { return }
+            
+            if street != "" {
+                addressString = addressString + street + ", "
+            }
+            if apartment != "" {
+                addressString = addressString + apartment + ", "
+            }
+            if city != "" {
+                addressString = addressString + city + ", "
+            }
+            if state != "" {
+                addressString = addressString + state + " "
+            }
+            self.selectedLocation = addressString
+            self.locationButton.setTitle(addressString, for: .normal)
         }
     }
     
@@ -141,8 +161,9 @@ class BookingRequestViewController: UIViewController, BookingLocationDelegate {
         present(alertVC, animated: true)
     }
     
-    func bookingLocationController(_ bookingLocationController: BookingLocationViewController, didSelectLocation location: String) {
+    func bookingLocationController(_ bookingLocationController: BookingLocationViewController, didSelectLocation location: String, locationShort: String) {
         selectedLocation = location
+        selectedLocationShort = locationShort
         locationButton.setTitle(location, for: .normal)
     }
     
@@ -162,7 +183,7 @@ class BookingRequestViewController: UIViewController, BookingLocationDelegate {
 //            selectedLocation = location
         }
         myActivityIndicator.startAnimating()
-        BookingController.shared.createBookingWith(chefUid: chefUid, userUid: currentUserUid, location: selectedLocation, date: date, startTime: start, endTime: end, numberOfPeople: peopleCounter, numberOfCourses: courseCounter, typeOfCuisine: cuisine, details: detail) { (result) in
+        BookingController.shared.createBookingWith(chefUid: chefUid, userUid: currentUserUid, location: selectedLocation, locationShort: selectedLocationShort, date: date, startTime: start, endTime: end, numberOfPeople: peopleCounter, numberOfCourses: courseCounter, typeOfCuisine: cuisine, details: detail) { (result) in
             switch result {
             case true:
                 self.myActivityIndicator.stopAnimating()

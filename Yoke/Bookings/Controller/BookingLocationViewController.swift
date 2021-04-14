@@ -11,7 +11,7 @@ import MapKit
 import FirebaseAuth
 
 protocol BookingLocationDelegate {
-    func bookingLocationController(_ bookingLocationController: BookingLocationViewController, didSelectLocation location: String)
+    func bookingLocationController(_ bookingLocationController: BookingLocationViewController, didSelectLocation location: String, locationShort: String)
 }
 
 class BookingLocationViewController: UIViewController {
@@ -30,6 +30,7 @@ class BookingLocationViewController: UIViewController {
     var latitude: Double = 0.0
     var longitude: Double = 0.0
     var selectedLocation: String?
+    var selectedLocationShort: String?
     let uid = Auth.auth().currentUser?.uid ?? ""
     static let updateNotificationName = NSNotification.Name(rawValue: "Update")
     
@@ -117,7 +118,7 @@ class BookingLocationViewController: UIViewController {
                 let place = placemark! as [CLPlacemark]
                 if place.count > 0 {
                     let place = placemark![0]
-                    var addressString : String = ""
+                    var addressString: String = ""
                     let postal = place.postalAddress
                     guard let street = postal?.street,
                           let neighbourhood = place.subLocality,
@@ -144,6 +145,7 @@ class BookingLocationViewController: UIViewController {
                     if zipcode != "" {
                         addressString = addressString + zipcode
                     }
+                    self.selectedLocationShort = "\(city), \(state)"
                     self.selectedLocation = addressString
                 }
             }
@@ -170,8 +172,9 @@ class BookingLocationViewController: UIViewController {
     
     //MARK: - API
     @objc func handleSave() {
-        guard let location = selectedLocation else { return }
-        delegate?.bookingLocationController(self, didSelectLocation: location)
+        guard let location = selectedLocation,
+              let locationShort = selectedLocationShort else { return }
+        delegate?.bookingLocationController(self, didSelectLocation: location, locationShort: locationShort)
         handleDismiss()
     }
     

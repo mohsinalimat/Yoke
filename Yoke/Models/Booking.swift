@@ -17,6 +17,7 @@ class Booking {
     var startTime: String?
     var endTime: String?
     var location: String?
+    var locationShort: String?
     var timestamp: Date
     var numberOfPeople: Int?
     var numberOfCourses: Int?
@@ -34,6 +35,7 @@ class Booking {
         self.startTime = dictionary[Constants.StartTime] as? String ?? ""
         self.endTime = dictionary[Constants.EndTime] as? String ?? ""
         self.location = dictionary[Constants.Location] as? String ?? ""
+        self.locationShort = dictionary[Constants.LocationShort] as? String ?? ""
         let secondsFrom1970 = dictionary[Constants.Timestamp] as? Double ?? 0
         self.timestamp = Date(timeIntervalSince1970: secondsFrom1970)
         self.numberOfPeople = dictionary[Constants.NumberOfPeople] as? Int ?? 1

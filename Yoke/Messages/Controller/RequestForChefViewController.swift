@@ -105,7 +105,7 @@ class RequestForChefViewController: UIViewController {
             self.cuisineLabel.text = booking.cusineType
             let timestamp = booking.timestamp.timeAgoDisplay()
             self.timestampLabel.text = "Sent: \(timestamp)"
-            self.locationLabel.text = "453 12th street, Brooklyn NY"
+            self.locationLabel.text = booking.locationShort
             self.dateLabel.text = booking.date
             self.timeLabel.text = "\(start) - \(end)"
             self.numberOfCoursesLabel.text = "Number of courses: \(booking.numberOfCourses ?? 0)"
