@@ -136,6 +136,7 @@ class BookingRequestDetailViewController: UIViewController {
     
     @objc func handleAccept() {
         //Alert prompts letting chef know they will be sending invoice to user with total
+        
     }
     
     @objc func handleDecline() {
