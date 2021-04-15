@@ -50,6 +50,8 @@ class CreateInvoiceViewController: UIViewController {
         backgroundView.addSubview(amountTextField)
         backgroundView.addSubview(serviceFeeLabel)
         backgroundView.addSubview(totalLabel)
+        backgroundView.addSubview(referenceShadow)
+        backgroundView.addSubview(referenceTextField)
         backgroundView.addSubview(messageShadow)
         backgroundView.addSubview(messageTextField)
         backgroundView.addSubview(sendButton)
@@ -65,8 +67,10 @@ class CreateInvoiceViewController: UIViewController {
         
         serviceFeeLabel.anchor(top: amountLabel.bottomAnchor, left: backgroundView.leftAnchor, bottom: nil, right: nil, paddingTop: 10, paddingLeft: 10, paddingBottom: 0, paddingRight: 0)
         totalLabel.anchor(top: serviceFeeLabel.bottomAnchor, left: backgroundView.leftAnchor, bottom: nil, right: nil, paddingTop: 10, paddingLeft: 10, paddingBottom: 0, paddingRight: 0)
-        messageShadow.anchor(top: totalLabel.bottomAnchor, left: backgroundView.leftAnchor, bottom: nil, right: backgroundView.rightAnchor, paddingTop: 10, paddingLeft: 10, paddingBottom: 0, paddingRight: 10, height: 200)
-        messageTextField.anchor(top: totalLabel.bottomAnchor, left: backgroundView.leftAnchor, bottom: nil, right: backgroundView.rightAnchor, paddingTop: 10, paddingLeft: 10, paddingBottom: 0, paddingRight: 10, height: 200)
+        referenceShadow.anchor(top: totalLabel.bottomAnchor, left: backgroundView.leftAnchor, bottom: nil, right: backgroundView.rightAnchor, paddingTop: 10, paddingLeft: 10, paddingBottom: 0, paddingRight: 10, height: 45)
+        referenceTextField.anchor(top: totalLabel.bottomAnchor, left: backgroundView.leftAnchor, bottom: nil, right: backgroundView.rightAnchor, paddingTop: 10, paddingLeft: 10, paddingBottom: 0, paddingRight: 10, height: 45)
+        messageShadow.anchor(top: referenceShadow.bottomAnchor, left: backgroundView.leftAnchor, bottom: nil, right: backgroundView.rightAnchor, paddingTop: 10, paddingLeft: 10, paddingBottom: 0, paddingRight: 10, height: 150)
+        messageTextField.anchor(top: referenceShadow.bottomAnchor, left: backgroundView.leftAnchor, bottom: nil, right: backgroundView.rightAnchor, paddingTop: 10, paddingLeft: 10, paddingBottom: 0, paddingRight: 10, height: 150)
         sendButton.anchor(top: messageTextField.bottomAnchor, left: backgroundView.leftAnchor, bottom: nil, right: backgroundView.rightAnchor, paddingTop: 20, paddingLeft: 25, paddingBottom: 0, paddingRight: 25, height: 45)
     }
     
@@ -101,6 +105,7 @@ class CreateInvoiceViewController: UIViewController {
                 print("fail")
             }
         }
+        
         BookingController.shared.updateBookingPaymentRequestWith(bookingId: bookingId, chefUid: chefUid, userUid: uid, isBooked: false, invoiceSent: true, invoicePaid: false, archive: false) { (result) in
             switch result {
             case true:
@@ -160,6 +165,8 @@ class CreateInvoiceViewController: UIViewController {
         text.layer.shadowOpacity = 0.1
         text.layer.shadowColor = UIColor.gray.cgColor
         text.backgroundColor = UIColor.white
+        text.layer.borderWidth = 0.5
+        text.layer.borderColor = UIColor.LightGrayBg()?.cgColor
         return text
     }()
     
@@ -181,6 +188,26 @@ class CreateInvoiceViewController: UIViewController {
         return label
     }()
     
+    let referenceShadow: ShadowView = {
+        let view = ShadowView()
+        view.backgroundColor = UIColor.white
+        return view
+    }()
+    
+    let referenceTextField: UITextView = {
+        let text = UITextView()
+        text.placeholder = "Enter reference here..."
+        text.textColor = .darkGray
+        text.isEditable = true
+        text.isScrollEnabled = true
+        text.textContainer.lineBreakMode = .byWordWrapping
+        text.font = UIFont.systemFont(ofSize: 17)
+        text.layer.cornerRadius = 10
+        text.layer.borderWidth = 0.5
+        text.layer.borderColor = UIColor.LightGrayBg()?.cgColor
+        return text
+    }()
+    
     let messageShadow: ShadowView = {
         let view = ShadowView()
         view.backgroundColor = UIColor.white
@@ -196,7 +223,8 @@ class CreateInvoiceViewController: UIViewController {
         text.textContainer.lineBreakMode = .byWordWrapping
         text.font = UIFont.systemFont(ofSize: 17)
         text.layer.cornerRadius = 10
-        text.backgroundColor = UIColor.lightGray.withAlphaComponent(0.1)
+        text.layer.borderWidth = 0.5
+        text.layer.borderColor = UIColor.LightGrayBg()?.cgColor
         return text
     }()
     
