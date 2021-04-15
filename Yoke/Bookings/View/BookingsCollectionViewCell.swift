@@ -128,6 +128,8 @@ class BookingsCollectionViewCell: UICollectionViewCell {
             view.layer.shadowRadius = 4
             view.layer.shadowOpacity = 0.1
             view.layer.shadowColor = UIColor.gray.cgColor
+            view.layer.borderWidth = 0.5
+            view.layer.borderColor = UIColor.LightGrayBg()?.cgColor
             return view
         }()
 }

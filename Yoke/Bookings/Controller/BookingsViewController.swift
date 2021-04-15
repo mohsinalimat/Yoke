@@ -53,6 +53,7 @@ class BookingsViewController: UIViewController {
         scrollView.addSubview(viewAllTodayButton)
         scrollView.addSubview(todaysCollectionView)
         scrollView.addSubview(upcomingArchivedViews)
+        scrollView.addSubview(segmentShadowView)
         scrollView.addSubview(bookingSegmentedControl)
         scrollView.addSubview(upcomingCollectionView)
         scrollView.addSubview(archivedCollectionView)
@@ -67,9 +68,10 @@ class BookingsViewController: UIViewController {
         viewAllTodayButton.centerYAnchor.constraint(equalTo: todayLabel.centerYAnchor).isActive = true
         todaysCollectionView.anchor(top: todayLabel.bottomAnchor, left: todaysViews.leftAnchor, bottom: nil, right: todaysViews.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, height: 150)
         upcomingArchivedViews.anchor(top: todaysViews.bottomAnchor, left: safeArea.leftAnchor, bottom: safeArea.bottomAnchor, right: safeArea.rightAnchor, paddingTop: 20, paddingLeft: 10, paddingBottom: 10, paddingRight: 10)
-        bookingSegmentedControl.anchor(top: upcomingArchivedViews.topAnchor, left: upcomingArchivedViews.leftAnchor, bottom: nil, right: upcomingArchivedViews.rightAnchor, paddingTop: 20, paddingLeft: 10, paddingBottom: 0, paddingRight: 10, height: 35)
-        upcomingCollectionView.anchor(top: bookingSegmentedControl.bottomAnchor, left: upcomingArchivedViews.leftAnchor, bottom: upcomingArchivedViews.bottomAnchor, right: upcomingArchivedViews.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0)
-        archivedCollectionView.anchor(top: bookingSegmentedControl.bottomAnchor, left: upcomingArchivedViews.leftAnchor, bottom: upcomingArchivedViews.bottomAnchor, right: upcomingArchivedViews.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0)
+        segmentShadowView.anchor(top: upcomingArchivedViews.topAnchor, left: upcomingArchivedViews.leftAnchor, bottom: nil, right: upcomingArchivedViews.rightAnchor, paddingTop: 5, paddingLeft: 5, paddingBottom: 0, paddingRight: 5, height: 45)
+        bookingSegmentedControl.anchor(top: upcomingArchivedViews.topAnchor, left: upcomingArchivedViews.leftAnchor, bottom: nil, right: upcomingArchivedViews.rightAnchor, paddingTop: 5, paddingLeft: 5, paddingBottom: 0, paddingRight: 5, height: 45)
+        upcomingCollectionView.anchor(top: bookingSegmentedControl.bottomAnchor, left: upcomingArchivedViews.leftAnchor, bottom: upcomingArchivedViews.bottomAnchor, right: upcomingArchivedViews.rightAnchor, paddingTop: 10, paddingLeft: 0, paddingBottom: 0, paddingRight: 0)
+        archivedCollectionView.anchor(top: bookingSegmentedControl.bottomAnchor, left: upcomingArchivedViews.leftAnchor, bottom: upcomingArchivedViews.bottomAnchor, right: upcomingArchivedViews.rightAnchor, paddingTop: 10, paddingLeft: 0, paddingBottom: 0, paddingRight: 0)
     }
     
     func setupCollectionViews() {
@@ -155,12 +157,21 @@ class BookingsViewController: UIViewController {
         return view
     }()
     
+    let segmentShadowView: ShadowView = {
+        let view = ShadowView()
+        return view
+    }()
+    
     let bookingSegmentedControl: UISegmentedControl = {
         let seg = UISegmentedControl(items: ["Upcoming", "Archived"])
         seg.selectedSegmentIndex = 0
-        seg.backgroundColor = UIColor.orangeColor()
+        seg.layer.cornerRadius = 10
+        seg.layer.borderWidth = 0.5
+        seg.layer.borderColor = UIColor.LightGrayBg()?.cgColor
+        let image = UIImage(named: "whiteBG")
+        seg.setBackgroundImage(image, for: .normal, barMetrics: .default)
         seg.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor.orangeColor()!], for: UIControl.State.selected)
-        seg.setTitleTextAttributes([NSAttributedString.Key.font : UIFont.boldSystemFont(ofSize: 17), NSAttributedString.Key.foregroundColor: UIColor.white], for: UIControl.State.normal)
+        seg.setTitleTextAttributes([NSAttributedString.Key.font : UIFont.boldSystemFont(ofSize: 17), NSAttributedString.Key.foregroundColor: UIColor.gray.withAlphaComponent(0.5)], for: UIControl.State.normal)
         seg.addTarget(self, action: #selector(handleSegSelection), for: .valueChanged)
         return seg
     }()
