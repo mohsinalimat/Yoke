@@ -70,6 +70,12 @@ class CreateInvoiceViewController: UIViewController {
         sendButton.anchor(top: messageTextField.bottomAnchor, left: backgroundView.leftAnchor, bottom: nil, right: backgroundView.rightAnchor, paddingTop: 20, paddingLeft: 25, paddingBottom: 0, paddingRight: 25, height: 45)
     }
     
+    func configureNavigationBar() {
+        guard let orange = UIColor.orangeColor() else { return }
+        configureNavigationBar(withTitle: "Create Invoice", largeTitle: false, backgroundColor: .white, titleColor: orange)
+    }
+    
+    //MARK: - API
     func fetchRequest() {
         guard let booking = booking,
               let uid = booking.userUid else { return }
@@ -79,14 +85,11 @@ class CreateInvoiceViewController: UIViewController {
             self.toLabel.text = "Send to: \(username)"
             self.dateLabel.text = "Date of event: \(date)"
         }
-        
     }
     
-    func configureNavigationBar() {
-        guard let orange = UIColor.orangeColor() else { return }
-        configureNavigationBar(withTitle: "Create Invoice", largeTitle: false, backgroundColor: .white, titleColor: orange)
-    }
+    //MARK: - Selectors
     
+    //MARK: - Views
     var backgroundView: UIView = {
         let view = UIView()
         view.backgroundColor = .white
