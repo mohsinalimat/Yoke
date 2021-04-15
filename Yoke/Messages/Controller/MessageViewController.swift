@@ -62,6 +62,10 @@ class MessageViewController: UIViewController {
     func configureNavigationBar() {
         guard let orange = UIColor.orangeColor() else { return }
         configureNavigationBar(withTitle: "Messages", largeTitle: true, backgroundColor: .white, titleColor: orange)
+        let archiveIcon = UIImage(named: "archive")
+        let imageView = UIImageView(frame: CGRect(x: 0, y: 0, width: 10, height: 10))
+        imageView.image = archiveIcon
+        navigationItem.rightBarButtonItem = UIBarButtonItem(image: archiveIcon, style: .plain, target: self, action: #selector(handleArchive))
     }
     
     func configureTableView() {
@@ -120,6 +124,10 @@ class MessageViewController: UIViewController {
             messageTableView.isHidden = true
             requestTableView.isHidden = false
         }
+    }
+    
+    @objc func handleArchive() {
+        
     }
     
     //MARK: - Views
