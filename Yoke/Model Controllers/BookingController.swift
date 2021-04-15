@@ -86,23 +86,6 @@ class BookingController {
 
     }
     
-    func fetchBookingWith(uid: String, completion: @escaping (Bool) -> Void) {
-        firestoreDB.document(uid).collection(Constants.Bookings).addSnapshotListener { (snap, error) in
-            if let error = error {
-                print(error.localizedDescription)
-                completion(false)
-            } else {
-                self.bookings = []
-                for document in snap!.documents {
-                    let dictionary = document.data()
-                    let booking = Booking(dictionary: dictionary)
-                    self.bookings.append(booking)
-                }
-                completion(true)
-            }
-        }
-    }
-    
     func fetchBookingsWith(uid: String, completion: @escaping (Bool) -> Void) {
         firestoreDB.document(uid).collection(Constants.Bookings).addSnapshotListener { (snapshot, error) in
             if let error = error {
@@ -112,12 +95,21 @@ class BookingController {
             self.bookings = []
             snapshot?.documents.forEach({ (document) in
                 let dictionary = document.data()
-                let booking = Booking(dictionary: dictionary)
-                self.bookings.append(booking)
-                self.bookings.sort(by: { (u1, u2) -> Bool in
-                    return u1.timestamp.compare(u2.timestamp) == .orderedDescending
-                })
-                completion(true)
+                let isArchive = dictionary[Constants.Archive] as? Bool
+                if isArchive == false {
+                    let booking = Booking(dictionary: dictionary)
+                    self.bookings.append(booking)
+                    self.bookings.sort(by: { (u1, u2) -> Bool in
+                        return u1.timestamp.compare(u2.timestamp) == .orderedDescending
+                    })
+                    completion(true)
+                }
+//                let booking = Booking(dictionary: dictionary)
+//                self.bookings.append(booking)
+//                self.bookings.sort(by: { (u1, u2) -> Bool in
+//                    return u1.timestamp.compare(u2.timestamp) == .orderedDescending
+//                })
+//                completion(true)
             })
         }
     }
