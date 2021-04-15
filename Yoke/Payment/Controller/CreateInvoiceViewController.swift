@@ -103,11 +103,10 @@ class CreateInvoiceViewController: UIViewController {
         }
         BookingController.shared.updateBookingPaymentRequestWith(bookingId: bookingId, chefUid: chefUid, userUid: uid, isBooked: false, invoiceSent: true, invoicePaid: false, archive: false) { (result) in
             switch result {
-            
             case true:
-                <#code#>
+                print("success")
             case false:
-                <#code#>
+                print("fail")
             }
         }
     }
