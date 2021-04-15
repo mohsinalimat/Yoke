@@ -9,11 +9,11 @@
 import UIKit
 
 class BookingsCollectionViewCell: UICollectionViewCell {
-    //    var menu: Menu? {
-    //        didSet {
-    //            configure()
-    //        }
-    //    }
+        var booking: Booking? {
+            didSet {
+                configure()
+            }
+        }
         
         override init(frame: CGRect) {
             super.init(frame: frame)
@@ -26,12 +26,10 @@ class BookingsCollectionViewCell: UICollectionViewCell {
         }
         
         //MARK: - Helper Funtions
-    //    func configure() {
-    //        guard let menu = menu else { return }
-    //        nameLabel.text = menu.name
-    //        guard let image = menu.imageUrl else { return }
-    //        menuImage.loadImage(urlString: image)
-    //    }
+        func configure() {
+//            guard let booking = booking else { return }
+//            UserController.shared.fetchUserWithUID(uid: , completion: <#T##(User) -> ()#>)
+        }
         
         func setupViews() {
             addSubview(shadowView)
