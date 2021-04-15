@@ -34,10 +34,10 @@ class PaymentController {
     var payments: [Payment] = []
     
     //MARK: - CRUD Functions
-    func createPaymentWith(bookingId: String, chefUid: String, userUid: String, amount: Double, fees: Double, total: Double, reference: String, description: String, paid: Bool, completion: @escaping (Bool) -> Void) {
+    func createPaymentWith(bookingId: String, chefUid: String, userUid: String, amount: Double, fees: Double, total: Double, reference: String, text: String, paid: Bool, completion: @escaping (Bool) -> Void) {
         
         let paymentId = NSUUID().uuidString
-        firestoreDB.document(chefUid).collection(Constants.Payments).document(paymentId).setData([Constants.BookingId: bookingId, Constants.ChefUid: chefUid, Constants.UserUid: userUid, Constants.Amount: amount, Constants.Fees: fees, Constants.Total: total, Constants.InvoicePaid: paid], merge: true) { error in
+        firestoreDB.document(chefUid).collection(Constants.Payments).document(paymentId).setData([Constants.BookingId: bookingId, Constants.ChefUid: chefUid, Constants.UserUid: userUid, Constants.Amount: amount, Constants.Fees: fees, Constants.Total: total, Constants.InvoicePaid: paid, Constants.Text: text, Constants.Reference: reference], merge: true) { error in
             if let error = error {
                 print("There was an error updating data: \(error.localizedDescription)")
                 completion(false)
@@ -47,7 +47,7 @@ class PaymentController {
                 print("Document successfully updated")
             }
         }
-        firestoreDB.document(userUid).collection(Constants.Payments).document(paymentId).setData([Constants.BookingId: bookingId, Constants.ChefUid: chefUid, Constants.UserUid: userUid, Constants.Amount: amount, Constants.Fees: fees, Constants.Total: total, Constants.InvoicePaid: paid], merge: true) { error in
+        firestoreDB.document(userUid).collection(Constants.Payments).document(paymentId).setData([Constants.BookingId: bookingId, Constants.ChefUid: chefUid, Constants.UserUid: userUid, Constants.Amount: amount, Constants.Fees: fees, Constants.Total: total, Constants.InvoicePaid: paid, Constants.Text: text, Constants.Reference: reference], merge: true) { error in
             if let error = error {
                 print("There was an error updating data: \(error.localizedDescription)")
                 completion(false)

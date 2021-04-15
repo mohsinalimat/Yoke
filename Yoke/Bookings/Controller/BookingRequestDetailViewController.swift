@@ -59,6 +59,7 @@ class BookingRequestDetailViewController: UIViewController {
         scrollView.addSubview(numberOfPeopleLabel)
         scrollView.addSubview(descriptionLabel)
         scrollView.addSubview(additionalInfoButton)
+        scrollView.addSubview(payButton)
         scrollView.addSubview(buttonStackView)
         buttonStackView.addArrangedSubview(acceptButton)
         buttonStackView.addArrangedSubview(declineButton)
@@ -90,8 +91,26 @@ class BookingRequestDetailViewController: UIViewController {
         numberOfCoursesLabel.anchor(top: timeLabel.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: nil, paddingTop: 10, paddingLeft: 20, paddingBottom: 0, paddingRight: 0)
         numberOfPeopleLabel.anchor(top: numberOfCoursesLabel.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: nil, paddingTop: 10, paddingLeft: 20, paddingBottom: 0, paddingRight: 0)
         descriptionLabel.anchor(top: numberOfPeopleLabel.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 10, paddingLeft: 20, paddingBottom: 0, paddingRight: 20)
-        additionalInfoButton.anchor(top: descriptionLabel.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 5, paddingLeft: 20, paddingBottom: 0, paddingRight: 20)
-        buttonStackView.anchor(top: additionalInfoButton.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 10, paddingLeft: 20, paddingBottom: 0, paddingRight: 20, height: 45)
+        
+        guard let booking = booking,
+              let userUid = booking.userUid else { return }
+        if userUid == Auth.auth().currentUser?.uid ?? "" {
+            additionalInfoButton.isHidden = true
+            buttonStackView.isHidden = true
+            if booking.invoiceSent == true {
+                payButton.anchor(top: descriptionLabel.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 10, paddingLeft: 20, paddingBottom: 0, paddingRight: 20, height: 45)
+            } else {
+                payButton.isHidden = true
+            }
+
+        } else {
+            payButton.isHidden = true
+            additionalInfoButton.anchor(top: descriptionLabel.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 5, paddingLeft: 20, paddingBottom: 0, paddingRight: 20)
+            buttonStackView.anchor(top: additionalInfoButton.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 10, paddingLeft: 20, paddingBottom: 0, paddingRight: 20, height: 45)
+        }
+        
+//        additionalInfoButton.anchor(top: descriptionLabel.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 5, paddingLeft: 20, paddingBottom: 0, paddingRight: 20)
+//        buttonStackView.anchor(top: additionalInfoButton.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 10, paddingLeft: 20, paddingBottom: 0, paddingRight: 20, height: 45)
     }
     
     func configureNavigationBar() {
@@ -101,30 +120,56 @@ class BookingRequestDetailViewController: UIViewController {
     
     func fetchRequest() {
         guard let booking = booking,
-              let uid = booking.userUid else { return }
-        userId = uid
-        UserController.shared.fetchUserWithUID(uid: uid) { (user) in
-            guard let start = booking.startTime,
-                  let end = booking.endTime,
-                  let image = user.profileImageUrl,
-                  let username = user.username else { return }
-            self.profileImage.loadImage(urlString: image)
-            self.usernameLabel.text = username
-            self.cuisineLabel.text = booking.cusineType
-            let timestamp = booking.timestamp.timeAgoDisplay()
-            self.timestampLabel.text = "Sent: \(timestamp)"
-            self.locationLabel.text = booking.locationShort
-            self.dateLabel.text = booking.date
-            self.timeLabel.text = "\(start) - \(end)"
-            self.numberOfCoursesLabel.text = "Number of courses: \(booking.numberOfCourses ?? 0)"
-            self.numberOfPeopleLabel.text = "Number of guest: \(booking.numberOfPeople ?? 0)"
-            guard let details = booking.detail else { return }
-            let attributedText = NSMutableAttributedString(string: "Details:", attributes: [NSAttributedString.Key.font: UIFont.boldSystemFont(ofSize: 15), NSAttributedString.Key.foregroundColor: UIColor.gray])
-            attributedText.append(NSAttributedString(string: " " + details, attributes: [NSAttributedString.Key.font: UIFont(name: "Avenir", size: 15)!, NSAttributedString.Key.foregroundColor: UIColor.gray]))
-            self.descriptionLabel.attributedText = attributedText
-            self.additionalInfoButton.setTitle("Need more information from \(username)?", for: .normal)
-            
+              let userUid = booking.userUid,
+              let chefUid = booking.chefUid else { return }
+        if userUid == Auth.auth().currentUser?.uid ?? "" {
+            UserController.shared.fetchUserWithUID(uid: chefUid) { (user) in
+                self.userId = chefUid
+                guard let start = booking.startTime,
+                      let end = booking.endTime,
+                      let image = user.profileImageUrl,
+                      let username = user.username else { return }
+                self.profileImage.loadImage(urlString: image)
+                self.usernameLabel.text = username
+                self.cuisineLabel.text = booking.cusineType
+                let timestamp = booking.timestamp.timeAgoDisplay()
+                self.timestampLabel.text = "Sent: \(timestamp)"
+                self.locationLabel.text = booking.locationShort
+                self.dateLabel.text = booking.date
+                self.timeLabel.text = "\(start) - \(end)"
+                self.numberOfCoursesLabel.text = "Number of courses: \(booking.numberOfCourses ?? 0)"
+                self.numberOfPeopleLabel.text = "Number of guest: \(booking.numberOfPeople ?? 0)"
+                guard let details = booking.detail else { return }
+                let attributedText = NSMutableAttributedString(string: "Details:", attributes: [NSAttributedString.Key.font: UIFont.boldSystemFont(ofSize: 15), NSAttributedString.Key.foregroundColor: UIColor.gray])
+                attributedText.append(NSAttributedString(string: " " + details, attributes: [NSAttributedString.Key.font: UIFont(name: "Avenir", size: 15)!, NSAttributedString.Key.foregroundColor: UIColor.gray]))
+                self.descriptionLabel.attributedText = attributedText
+                
+            }
+        } else {
+            UserController.shared.fetchUserWithUID(uid: userUid) { (user) in
+                self.userId = userUid
+                guard let start = booking.startTime,
+                      let end = booking.endTime,
+                      let image = user.profileImageUrl,
+                      let username = user.username else { return }
+                self.profileImage.loadImage(urlString: image)
+                self.usernameLabel.text = username
+                self.cuisineLabel.text = booking.cusineType
+                let timestamp = booking.timestamp.timeAgoDisplay()
+                self.timestampLabel.text = "Sent: \(timestamp)"
+                self.locationLabel.text = booking.locationShort
+                self.dateLabel.text = booking.date
+                self.timeLabel.text = "\(start) - \(end)"
+                self.numberOfCoursesLabel.text = "Number of courses: \(booking.numberOfCourses ?? 0)"
+                self.numberOfPeopleLabel.text = "Number of guest: \(booking.numberOfPeople ?? 0)"
+                guard let details = booking.detail else { return }
+                let attributedText = NSMutableAttributedString(string: "Details:", attributes: [NSAttributedString.Key.font: UIFont.boldSystemFont(ofSize: 15), NSAttributedString.Key.foregroundColor: UIColor.gray])
+                attributedText.append(NSAttributedString(string: " " + details, attributes: [NSAttributedString.Key.font: UIFont(name: "Avenir", size: 15)!, NSAttributedString.Key.foregroundColor: UIColor.gray]))
+                self.descriptionLabel.attributedText = attributedText
+                self.additionalInfoButton.setTitle("Need more information from \(username)?", for: .normal)
+            }
         }
+
     }
     
     //MARK: - Selectors
@@ -274,6 +319,16 @@ class BookingRequestDetailViewController: UIViewController {
         return label
     }()
     
+    var additionalInfoButton: UIButton = {
+        let button = UIButton()
+        button.contentHorizontalAlignment = .left
+        button.titleLabel?.font =  UIFont(name: "", size: 13)
+        button.setTitleColor(.white, for: .normal)
+        button.setTitleColor(UIColor.orangeColor(), for: .normal)
+        button.addTarget(self, action: #selector(handleSendMessage), for: .touchUpInside)
+        return button
+    }()
+    
     let buttonStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .horizontal
@@ -312,13 +367,19 @@ class BookingRequestDetailViewController: UIViewController {
         return button
     }()
     
-    var additionalInfoButton: UIButton = {
+    var payButton: UIButton = {
         let button = UIButton()
-        button.contentHorizontalAlignment = .left
-        button.titleLabel?.font =  UIFont(name: "", size: 13)
+        // add decline X
+        button.setTitle("Pay", for: .normal)
         button.setTitleColor(.white, for: .normal)
-        button.setTitleColor(UIColor.orangeColor(), for: .normal)
-        button.addTarget(self, action: #selector(handleSendMessage), for: .touchUpInside)
+        button.backgroundColor = UIColor.orangeColor()
+        button.layer.cornerRadius = 10
+        button.layer.shadowOffset = CGSize(width: 0, height: 4)
+        button.layer.shadowRadius = 4
+        button.layer.shadowOpacity = 0.2
+        button.layer.shadowColor = UIColor.black.cgColor
+        button.addTarget(self, action: #selector(handleDecline), for: .touchUpInside)
         return button
     }()
+
 }

@@ -13,11 +13,16 @@ class Payment {
     var paymentId: String
     var total: Double
     var reference: String
+    var text: String
+    var timestamp: Date
     
     init(dictionary: [String: Any]) {
         self.paymentId = dictionary[Constants.PaymentId] as? String ?? ""
         self.total = dictionary[Constants.Total] as? Double ?? 0.0
         self.reference = dictionary[Constants.Reference] as? String ?? ""
+        self.text = dictionary[Constants.Text] as? String ?? ""
+        let secondsFrom1970 = dictionary[Constants.Timestamp] as? Double ?? 0
+        self.timestamp = Date(timeIntervalSince1970: secondsFrom1970)
     }
 }
 

@@ -96,8 +96,11 @@ class CreateInvoiceViewController: UIViewController {
         guard let booking = booking,
               let bookingId = booking.id,
               let uid = booking.userUid,
-              let chefUid = booking.chefUid else { return }
-        PaymentController.shared.createPaymentWith(bookingId: bookingId, chefUid: chefUid, userUid: uid, amount: 0.0, fees: 0.0, total: 0.0, reference: "", description: "", paid: false) { (result) in
+              let chefUid = booking.chefUid,
+              let amount = Double(amountTextField.text ?? ""),
+              let ref = referenceTextField.text,
+              let text = messageTextField.text else { return }
+        PaymentController.shared.createPaymentWith(bookingId: bookingId, chefUid: chefUid, userUid: uid, amount: amount, fees: 0.0, total: 0.0, reference: ref, text: text, paid: false) { (result) in
             switch result {
             case true:
                 print("success")
@@ -216,7 +219,7 @@ class CreateInvoiceViewController: UIViewController {
     
     let messageTextField: UITextView = {
         let text = UITextView()
-        text.placeholder = "Enter additional information ..."
+        text.placeholder = "Enter message here ..."
         text.textColor = .darkGray
         text.isEditable = true
         text.isScrollEnabled = true
