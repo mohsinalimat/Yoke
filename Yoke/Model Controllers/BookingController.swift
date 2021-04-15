@@ -24,7 +24,7 @@ class BookingController {
     
     //MARK: - Source of truth
     var bookings: [Booking] = []
-    var archive: [Booking] = []
+    var archives: [Booking] = []
     
     //MARK: - Properties
     private let locationManager = LocationManager()
@@ -93,6 +93,7 @@ class BookingController {
                 completion(false)
             }
             self.bookings = []
+            self.archives = []
             snapshot?.documents.forEach({ (document) in
                 let dictionary = document.data()
                 let isArchive = dictionary[Constants.Archive] as? Bool
@@ -105,8 +106,8 @@ class BookingController {
                     completion(true)
                 } else {
                     let booking = Booking(dictionary: dictionary)
-                    self.archive.append(booking)
-                    self.archive.sort(by: { (u1, u2) -> Bool in
+                    self.archives.append(booking)
+                    self.archives.sort(by: { (u1, u2) -> Bool in
                         return u1.timestamp.compare(u2.timestamp) == .orderedDescending
                     })
                     completion(true)
