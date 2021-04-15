@@ -45,12 +45,14 @@ class MessageViewController: UIViewController {
     //MARK: - Helper Functions
     func setupViews() {
         view.backgroundColor = .white
+        view.addSubview(segmentShadowView)
         view.addSubview(segmentedControl)
         view.addSubview(messageTableView)
         view.addSubview(requestTableView)
     }
     
     func constrainViews() {
+        segmentShadowView.anchor(top: safeArea.topAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, height: 45)
         segmentedControl.anchor(top: safeArea.topAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, height: 45)
         messageTableView.anchor(top: segmentedControl.bottomAnchor, left: safeArea.leftAnchor, bottom: safeArea.bottomAnchor, right: safeArea.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0)
         requestTableView.anchor(top: segmentedControl.bottomAnchor, left: safeArea.leftAnchor, bottom: safeArea.bottomAnchor, right: safeArea.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0)
@@ -121,9 +123,17 @@ class MessageViewController: UIViewController {
     }
     
     //MARK: - Views
+    let segmentShadowView: ShadowView = {
+        let view = ShadowView()
+        return view
+    }()
+    
     let segmentedControl: UISegmentedControl = {
         let seg = UISegmentedControl(items: ["Messages", "Request"])
         seg.selectedSegmentIndex = 0
+        seg.layer.cornerRadius = 10
+        seg.layer.borderWidth = 0.5
+        seg.layer.borderColor = UIColor.LightGrayBg()?.cgColor
         let image = UIImage(named: "whiteBG")
         seg.setBackgroundImage(image, for: .normal, barMetrics: .default)
         seg.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor.orangeColor()!], for: UIControl.State.selected)
