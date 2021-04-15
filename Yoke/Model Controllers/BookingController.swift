@@ -24,7 +24,7 @@ class BookingController {
     
     //MARK: - Source of truth
     var bookings: [Booking] = []
-//    var filteredEvents = [Event]()
+    var archive: [Booking] = []
     
     //MARK: - Properties
     private let locationManager = LocationManager()
@@ -103,13 +103,14 @@ class BookingController {
                         return u1.timestamp.compare(u2.timestamp) == .orderedDescending
                     })
                     completion(true)
+                } else {
+                    let booking = Booking(dictionary: dictionary)
+                    self.archive.append(booking)
+                    self.archive.sort(by: { (u1, u2) -> Bool in
+                        return u1.timestamp.compare(u2.timestamp) == .orderedDescending
+                    })
+                    completion(true)
                 }
-//                let booking = Booking(dictionary: dictionary)
-//                self.bookings.append(booking)
-//                self.bookings.sort(by: { (u1, u2) -> Bool in
-//                    return u1.timestamp.compare(u2.timestamp) == .orderedDescending
-//                })
-//                completion(true)
             })
         }
     }
