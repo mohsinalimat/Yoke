@@ -29,11 +29,11 @@ class MakePaymentVC: UIViewController, STPPaymentContextDelegate {
     
     var payment: Payment? {
         didSet {
-            let amount = payment?.amount
-            totalAmount = amount!
-            chefUID = payment?.fromUser ?? ""
-            customerUID = payment?.toUser ?? ""
-            paymentId = payment?.key ?? ""
+//            let amount = payment?.amount
+//            totalAmount = amount!
+//            chefUID = payment?.fromUser ?? ""
+//            customerUID = payment?.toUser ?? ""
+//            paymentId = payment?.key ?? ""
         }
     }
     
@@ -353,12 +353,12 @@ class MakePaymentVC: UIViewController, STPPaymentContextDelegate {
     }
     
     func paymentStatus() {
-        guard let paymentId = payment?.key else { return  }
-        let ref = Database.database().reference().child(Constants.Payments).child(paymentId)
-        ref.observe(.value) { (snapshot) in
-            let values = [Constants.Status: "Payment Approved"]
-            ref.updateChildValues(values)
-        }
+//        guard let paymentId = payment?.key else { return  }
+//        let ref = Database.database().reference().child(Constants.Payments).child(paymentId)
+//        ref.observe(.value) { (snapshot) in
+//            let values = [Constants.Status: "Payment Approved"]
+//            ref.updateChildValues(values)
+//        }
     }
     
     func paymentContextDidChange(_ paymentContext: STPPaymentContext) {

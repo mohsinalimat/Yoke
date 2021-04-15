@@ -46,9 +46,26 @@ class BookingController {
     }
     
     func updateBookingPaymentRequestWith(bookingId: String, chefUid: String, userUid: String, isBooked: Bool, invoiceSent: Bool, invoicePaid: Bool, archive: Bool, completion: @escaping (Bool) -> Void) {
-        self.firestoreDB.document(chefUid).collection(Constants.Bookings).document(bookingId).setData([Constants.InvoiceSent: invoiceSent, Constants.InvoicePaid: invoicePaid, Constants.IsBooked: isBooked, Constants.Archive: archive], merge: true)
-        self.firestoreDB.document(userUid).collection(Constants.Bookings).document(bookingId).setData([Constants.InvoiceSent: invoiceSent, Constants.InvoicePaid: invoicePaid, Constants.IsBooked: isBooked, Constants.Archive: archive], merge: true)
-        completion(true)
+        self.firestoreDB.document(chefUid).collection(Constants.Bookings).document(bookingId).setData([Constants.InvoiceSent: invoiceSent, Constants.InvoicePaid: invoicePaid, Constants.IsBooked: isBooked, Constants.Archive: archive], merge: true) { error in
+            if let error = error {
+                print("There was an error updating data: \(error.localizedDescription)")
+                completion(false)
+                return
+            } else {
+                completion(true)
+                print("Document successfully updated")
+            }
+        }
+        self.firestoreDB.document(userUid).collection(Constants.Bookings).document(bookingId).setData([Constants.InvoiceSent: invoiceSent, Constants.InvoicePaid: invoicePaid, Constants.IsBooked: isBooked, Constants.Archive: archive], merge: true) { error in
+            if let error = error {
+                print("There was an error updating data: \(error.localizedDescription)")
+                completion(false)
+                return
+            } else {
+                completion(true)
+                print("Document successfully updated")
+            }
+        }
     }
     
     func setupGeofirestore(eventId: String, location: String) {

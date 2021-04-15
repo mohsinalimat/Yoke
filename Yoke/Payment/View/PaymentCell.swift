@@ -20,17 +20,17 @@ class PaymentCell: UICollectionViewCell {
     var user: User?
     var payment: Payment? {
         didSet {
-            guard let payment = payment else { return }
-            fromLabel.text = "Created by: \(payment.user.username)"
-            referenceLabel.text = "reference: \(payment.reference)"
-            eventDateLabel.text = payment.eventDate
-            statusLabel.text = payment.status
-            
-            let amount = payment.currency
-            totalAmount = Double(amount)
-            
-            getToUserUsername()
-            getTotal()
+//            guard let payment = payment else { return }
+//            fromLabel.text = "Created by: \(payment.user.username)"
+//            referenceLabel.text = "reference: \(payment.reference)"
+//            eventDateLabel.text = payment.eventDate
+//            statusLabel.text = payment.status
+//
+//            let amount = payment.currency
+//            totalAmount = Double(amount)
+//
+//            getToUserUsername()
+//            getTotal()
         }
     }
     
@@ -51,13 +51,13 @@ class PaymentCell: UICollectionViewCell {
     
     func getTotal() {
         
-        guard let uid = Auth.auth().currentUser?.uid else {return}
-        if uid == payment?.fromUser {
-            amountLabel.text = "\(total.penniesToFormattedCurrency())"
-        } else {
-            guard let amount = payment?.currency else {return}
-            amountLabel.text = "\(amount)"
-        }
+//        guard let uid = Auth.auth().currentUser?.uid else {return}
+//        if uid == payment?.fromUser {
+//            amountLabel.text = "\(total.penniesToFormattedCurrency())"
+//        } else {
+//            guard let amount = payment?.currency else {return}
+//            amountLabel.text = "\(amount)"
+//        }
         
         
         
@@ -67,15 +67,15 @@ class PaymentCell: UICollectionViewCell {
     }
     
     func getToUserUsername() {
-        Database.database().reference().child(Constants.Payments).child(payment!.key).observe(.value) { (snapshot) in
-            guard let dictionary = snapshot.value as? [String: Any] else {return}
-            guard let uid = dictionary[Constants.ToUser] as? String else {return}
-            Database.database().reference().child(Constants.Users).child(uid).observe(.value, with: { (snapshot) in
-                guard let dictionary = snapshot.value as? [String: Any] else {return}
-                guard let username = dictionary[Constants.Username] as? String else {return}
-                self.toLabel.text = "Sent to: \(username)"
-            })
-        }
+//        Database.database().reference().child(Constants.Payments).child(payment!.key).observe(.value) { (snapshot) in
+//            guard let dictionary = snapshot.value as? [String: Any] else {return}
+//            guard let uid = dictionary[Constants.ToUser] as? String else {return}
+//            Database.database().reference().child(Constants.Users).child(uid).observe(.value, with: { (snapshot) in
+//                guard let dictionary = snapshot.value as? [String: Any] else {return}
+//                guard let username = dictionary[Constants.Username] as? String else {return}
+//                self.toLabel.text = "Sent to: \(username)"
+//            })
+//        }
     }
     
     let fromLabel: UILabel = {

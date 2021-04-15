@@ -75,34 +75,34 @@ class PaymentsVC: UICollectionViewController, UICollectionViewDelegateFlowLayout
     var earnings = [Payment]()
     var payments = [Payment]()
     fileprivate func fetchInvoices() {
-        guard let currentUserId = Auth.auth().currentUser?.uid else {return}
-        let ref = Database.database().reference().child(Constants.Invoices).child(currentUserId)
-        ref.observeSingleEvent(of: .value, with: { (snapshot) in
-            for child in snapshot.children {
-                let invoiceKey = (child as AnyObject).key as String
-                Database.database().reference().child(Constants.Payments).child(invoiceKey).observeSingleEvent(of: .value, with: { (snapshot) in
-
-                    guard let dictionary = snapshot.value as? [String: Any] else {return}
-                    guard let uid = dictionary[Constants.FromUser] as? String else {return}
-
-                    Database.fetchUserWithUID(uid: uid, completion: { (user) in
-                        let payment = Payment(user: user, dictionary: dictionary, snapshot: snapshot)
-                        self.payments.append(payment)
-
-                        self.payments.sort(by: { (event1, event2) -> Bool in
-                            return event1.eventDate?.compare(event2.eventDate!) == .orderedAscending
-                        })
-
-                        self.earnings = self.payments
-                        DispatchQueue.main.async {
-                            self.collectionView?.reloadData()
-                        }
-
-                    })
-
-                })
-            }
-        })
+//        guard let currentUserId = Auth.auth().currentUser?.uid else {return}
+//        let ref = Database.database().reference().child(Constants.Invoices).child(currentUserId)
+//        ref.observeSingleEvent(of: .value, with: { (snapshot) in
+//            for child in snapshot.children {
+//                let invoiceKey = (child as AnyObject).key as String
+//                Database.database().reference().child(Constants.Payments).child(invoiceKey).observeSingleEvent(of: .value, with: { (snapshot) in
+//
+//                    guard let dictionary = snapshot.value as? [String: Any] else {return}
+//                    guard let uid = dictionary[Constants.FromUser] as? String else {return}
+//
+//                    Database.fetchUserWithUID(uid: uid, completion: { (user) in
+//                        let payment = Payment(user: user, dictionary: dictionary, snapshot: snapshot)
+//                        self.payments.append(payment)
+//
+//                        self.payments.sort(by: { (event1, event2) -> Bool in
+//                            return event1.eventDate?.compare(event2.eventDate!) == .orderedAscending
+//                        })
+//
+//                        self.earnings = self.payments
+//                        DispatchQueue.main.async {
+//                            self.collectionView?.reloadData()
+//                        }
+//
+//                    })
+//
+//                })
+//            }
+//        })
     }
 
     func viewHandleStripe() {
@@ -129,15 +129,15 @@ class PaymentsVC: UICollectionViewController, UICollectionViewDelegateFlowLayout
     }
 
     func paymentsView(text: String) {
-        payments = self.payments.filter({ (payments) -> Bool in
-            payments.toUser.lowercased().contains(text.lowercased())
-        })
+//        payments = self.payments.filter({ (payments) -> Bool in
+//            payments.toUser.lowercased().contains(text.lowercased())
+//        })
     }
 
     func earningsView(text: String) {
-        earnings = self.earnings.filter({ (earnings) -> Bool in
-            earnings.fromUser.lowercased().contains(text.lowercased())
-        })
+//        earnings = self.earnings.filter({ (earnings) -> Bool in
+//            earnings.fromUser.lowercased().contains(text.lowercased())
+//        })
     }
 
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -183,17 +183,17 @@ class PaymentsVC: UICollectionViewController, UICollectionViewDelegateFlowLayout
     override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         guard let uid = Auth.auth().currentUser?.uid else {return}
 
-        if uid == payments[indexPath.item].fromUser {
-            let data = earnings[indexPath.item]
-            let vc = PaymentDetailVC()
-            vc.payment = data
-            self.navigationController?.pushViewController(vc, animated: true)
-        } else {
-            let data = payments[indexPath.item]
-            let vc = MakePaymentVC()
-            vc.payment = data
-            self.navigationController?.pushViewController(vc, animated: true)
-        }
+//        if uid == payments[indexPath.item].fromUser {
+//            let data = earnings[indexPath.item]
+//            let vc = PaymentDetailVC()
+//            vc.payment = data
+//            self.navigationController?.pushViewController(vc, animated: true)
+//        } else {
+//            let data = payments[indexPath.item]
+//            let vc = MakePaymentVC()
+//            vc.payment = data
+//            self.navigationController?.pushViewController(vc, animated: true)
+//        }
 
     }
 

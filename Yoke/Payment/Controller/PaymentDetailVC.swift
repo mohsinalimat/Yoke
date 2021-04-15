@@ -12,7 +12,7 @@ class PaymentDetailVC: UIViewController {
     
     var payment: Payment? {
         didSet {
-            print(payment?.amount)
+//            print(payment?.amount)
         }
     }
     

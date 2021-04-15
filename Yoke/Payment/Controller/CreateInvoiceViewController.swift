@@ -88,6 +88,29 @@ class CreateInvoiceViewController: UIViewController {
     }
     
     //MARK: - Selectors
+    @objc func handleSend() {
+        guard let booking = booking,
+              let bookingId = booking.id,
+              let uid = booking.userUid,
+              let chefUid = booking.chefUid else { return }
+        PaymentController.shared.createPaymentWith(bookingId: bookingId, chefUid: chefUid, userUid: uid, amount: 0.0, fees: 0.0, total: 0.0, reference: "", description: "", paid: false) { (result) in
+            switch result {
+            case true:
+                print("success")
+            case false:
+                print("fail")
+            }
+        }
+        BookingController.shared.updateBookingPaymentRequestWith(bookingId: bookingId, chefUid: chefUid, userUid: uid, isBooked: false, invoiceSent: true, invoicePaid: false, archive: false) { (result) in
+            switch result {
+            
+            case true:
+                <#code#>
+            case false:
+                <#code#>
+            }
+        }
+    }
     
     //MARK: - Views
     var backgroundView: UIView = {
@@ -189,7 +212,7 @@ class CreateInvoiceViewController: UIViewController {
         button.layer.shadowRadius = 4
         button.layer.shadowOpacity = 0.2
         button.layer.shadowColor = UIColor.black.cgColor
-//        button.addTarget(self, action: #selector(handleDecline), for: .touchUpInside)
+        button.addTarget(self, action: #selector(handleSend), for: .touchUpInside)
         return button
     }()
 
