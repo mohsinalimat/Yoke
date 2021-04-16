@@ -44,7 +44,7 @@ class LoginVC: UIViewController {
     //MARK: - Helper Functions
     fileprivate func setupViews() {
         navigationController?.isNavigationBarHidden = true
-        view.backgroundColor = UIColor.LightGrayBg()
+        view.backgroundColor = UIColor.white
 //        view.addSubview(backgroundView)
         view.addSubview(logoView)
         view.addSubview(introductionLabel)
@@ -173,13 +173,13 @@ class LoginVC: UIViewController {
 //        return view
 //    }()
     
-    var backgroundView: UIImageView = {
-        let imageView = UIImageView()
-        imageView.image = UIImage(named: "gradientBackground")
-        imageView.contentMode = .scaleAspectFit
-        imageView.translatesAutoresizingMaskIntoConstraints = false
-        return imageView
-    }()
+//    var backgroundView: UIImageView = {
+//        let imageView = UIImageView()
+//        imageView.image = UIImage(named: "gradientBackground")
+//        imageView.contentMode = .scaleAspectFit
+//        imageView.translatesAutoresizingMaskIntoConstraints = false
+//        return imageView
+//    }()
     
     var logoView: UIImageView = {
         let imageView = UIImageView()
@@ -187,6 +187,10 @@ class LoginVC: UIViewController {
         imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.contentMode = .scaleAspectFit
         imageView.layer.cornerRadius = 30
+        imageView.layer.shadowOffset = CGSize(width: 0, height: 4)
+        imageView.layer.shadowRadius = 4
+        imageView.layer.shadowOpacity = 0.2
+        imageView.layer.shadowColor = UIColor.gray.cgColor
         return imageView
     }()
     
@@ -248,6 +252,15 @@ class LoginVC: UIViewController {
         return textField
     }()
     
+    let forgotPasswordButton: UIButton = {
+        let button = UIButton(type: .system)
+        button.setTitle("Forgot Password?", for: .normal)
+        button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 13)
+        button.setTitleColor(UIColor.orangeColor(), for: .normal)
+        button.addTarget(self, action: #selector(handleForgotPassword), for: .touchUpInside)
+        return button
+    }()
+    
     let stackView: UIStackView = {
         let view = UIStackView()
         view.axis = .vertical
@@ -270,8 +283,8 @@ class LoginVC: UIViewController {
     
     let dontHaveAccountButton: UIButton = {
         let button = UIButton(type: .system)
-        let attributedTitle = NSMutableAttributedString(string: "Don't have an account?  ", attributes: [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 15), NSAttributedString.Key.foregroundColor: UIColor.white])
-        attributedTitle.append(NSAttributedString(string: "Sign up with email", attributes: [NSAttributedString.Key.font: UIFont.boldSystemFont(ofSize: 15), NSAttributedString.Key.foregroundColor: UIColor.white
+        let attributedTitle = NSMutableAttributedString(string: "Don't have an account?  ", attributes: [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 15), NSAttributedString.Key.foregroundColor: UIColor.gray])
+        attributedTitle.append(NSAttributedString(string: "Sign up with email", attributes: [NSAttributedString.Key.font: UIFont.boldSystemFont(ofSize: 15), NSAttributedString.Key.foregroundColor: UIColor.orangeColor()
             ]))
         button.setAttributedTitle(attributedTitle, for: .normal)
         button.addTarget(self, action: #selector(handleShowSignUp), for: .touchUpInside)
@@ -281,10 +294,14 @@ class LoginVC: UIViewController {
     let signInButton: UIButton = {
         let button = UIButton(type: .custom)
         button.setTitle("Sign in", for: .normal)
+        button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 17)
+        button.setTitleColor(UIColor.white, for: .normal)
         button.backgroundColor = UIColor.orangeColor()
-        button.layer.cornerRadius = 5
-        button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 20)
-        button.setTitleColor(.white, for: .normal)
+        button.layer.cornerRadius = 10
+        button.layer.shadowOffset = CGSize(width: 0, height: 4)
+        button.layer.shadowRadius = 4
+        button.layer.shadowOpacity = 0.3
+        button.layer.shadowColor = UIColor.gray.cgColor
         button.addTarget(self, action: #selector(handleSignIn), for: .touchUpInside)
         return button
     }()
@@ -308,15 +325,6 @@ class LoginVC: UIViewController {
         button.layer.cornerRadius = 5
         button.layer.masksToBounds = true
         button.addTarget(self, action: #selector(handleAppleSignIn), for: .touchUpInside)
-        return button
-    }()
-    
-    let forgotPasswordButton: UIButton = {
-        let button = UIButton(type: .system)
-        button.setTitle("Forgot Password?", for: .normal)
-        button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 13)
-        button.setTitleColor(UIColor.white, for: .normal)
-        button.addTarget(self, action: #selector(handleForgotPassword), for: .touchUpInside)
         return button
     }()
 }
