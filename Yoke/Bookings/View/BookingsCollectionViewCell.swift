@@ -63,7 +63,7 @@ class BookingsCollectionViewCell: UICollectionViewCell {
         var profileImage: CustomImageView = {
             let image = CustomImageView()
             image.contentMode = .scaleAspectFill
-            image.image = UIImage(named: "image_background")
+            image.image = UIImage(named: "gradientBackgroundHalf")
             image.translatesAutoresizingMaskIntoConstraints = false
             image.clipsToBounds = true
             image.layer.cornerRadius = 25

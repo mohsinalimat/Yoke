@@ -67,7 +67,7 @@ class TodayCollectionViewCell: UICollectionViewCell {
     var profileImage: CustomImageView = {
         let image = CustomImageView()
         image.contentMode = .scaleAspectFill
-        image.image = UIImage(named: "image_background")
+        image.image = UIImage(named: "gradientBackgroundHalf")
         image.translatesAutoresizingMaskIntoConstraints = false
         image.clipsToBounds = true
         image.layer.cornerRadius = 25
@@ -126,7 +126,7 @@ class TodayCollectionViewCell: UICollectionViewCell {
     
     let cellBackgroundImage: UIImageView = {
         let view = UIImageView()
-        view.image = UIImage(named: "image_background")
+        view.image = UIImage(named: "gradientBackgroundHalf")
         view.layer.cornerRadius = 10
         view.layer.masksToBounds = true
         return view

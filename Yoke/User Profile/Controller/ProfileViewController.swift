@@ -307,7 +307,7 @@ class ProfileViewController: UIViewController, TTGTextTagCollectionViewDelegate 
         image.clipsToBounds = true
         image.contentMode = .scaleAspectFill
         image.backgroundColor = .white
-        image.image = UIImage(named: "image_background")
+        image.image = UIImage(named: "gradientBackgroundHalf")
         return image
     }()
     

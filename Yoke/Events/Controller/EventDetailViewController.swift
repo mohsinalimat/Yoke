@@ -136,7 +136,7 @@ class EventDetailViewController: UIViewController {
     var profileImage: CustomImageView = {
         let image = CustomImageView()
         image.contentMode = .scaleAspectFill
-        image.image = UIImage(named: "image_background")
+        image.image = UIImage(named: "gradientBackgroundHalf")
         image.translatesAutoresizingMaskIntoConstraints = false
         image.clipsToBounds = true
         image.layer.cornerRadius = 25
@@ -168,7 +168,7 @@ class EventDetailViewController: UIViewController {
     var eventImage: CustomImageView = {
         let image = CustomImageView()
         image.contentMode = .scaleAspectFill
-        image.image = UIImage(named: "image_background")
+        image.image = UIImage(named: "gradientBackgroundHalf")
         image.translatesAutoresizingMaskIntoConstraints = false
         image.clipsToBounds = true
         image.layer.cornerRadius = 10

@@ -340,7 +340,7 @@ class NewEventViewController: UIViewController,  EventLocationDelegate {
     
     let eventImageView: CustomImageView = {
         let image = CustomImageView()
-        image.image = UIImage(named: "image_background")
+        image.image = UIImage(named: "gradientBackgroundHalf")
         image.clipsToBounds = true
         image.contentMode = .scaleAspectFill
         image.layer.cornerRadius = 10

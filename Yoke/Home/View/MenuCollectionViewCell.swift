@@ -53,7 +53,7 @@ class MenuCollectionViewCell: UICollectionViewCell {
     var menuImage: CustomImageView = {
         let image = CustomImageView()
         image.contentMode = .scaleAspectFill
-        image.image = UIImage(named: "gradientBackground")
+        image.image = UIImage(named: "gradientBackgroundHalf")
         image.translatesAutoresizingMaskIntoConstraints = false
         image.clipsToBounds = true
         image.layer.cornerRadius = 10

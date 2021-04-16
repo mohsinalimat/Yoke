@@ -91,7 +91,7 @@ class SuggestedChefsCollectionViewCell: UICollectionViewCell {
     var profileImage: CustomImageView = {
         let image = CustomImageView()
         image.contentMode = .scaleAspectFill
-        image.image = UIImage(named: "image_background")
+        image.image = UIImage(named: "gradientBackgroundHalf")
         image.translatesAutoresizingMaskIntoConstraints = false
         image.clipsToBounds = true
         image.layer.cornerRadius = 40
@@ -131,7 +131,7 @@ class SuggestedChefsCollectionViewCell: UICollectionViewCell {
     
     let cellBackgroundImage: UIImageView = {
         let view = UIImageView()
-        view.image = UIImage(named: "image_background")
+        view.image = UIImage(named: "gradientBackgroundHalf")
         view.layer.cornerRadius = 10
         view.layer.masksToBounds = true
 //        view.backgroundColor = UIColor.white.withAlphaComponent(0.9)

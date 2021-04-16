@@ -60,7 +60,7 @@ class ChefsEventsCollectionViewCell: UICollectionViewCell {
     var eventImage: CustomImageView = {
         let image = CustomImageView()
         image.contentMode = .scaleAspectFill
-        image.image = UIImage(named: "image_background")
+        image.image = UIImage(named: "gradientBackgroundHalf")
         image.layer.cornerRadius = 10
         image.translatesAutoresizingMaskIntoConstraints = false
         image.clipsToBounds = true

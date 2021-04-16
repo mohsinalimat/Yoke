@@ -405,7 +405,7 @@ class SettingsViewController: UIViewController  {
         let image = CustomImageView()
         image.clipsToBounds = true
         image.contentMode = .scaleAspectFill
-        image.image = UIImage(named: "image_background")
+        image.image = UIImage(named: "gradientBackgroundHalf")
         return image
     }()
     
