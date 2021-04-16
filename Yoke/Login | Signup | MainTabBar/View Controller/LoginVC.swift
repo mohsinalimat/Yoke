@@ -44,9 +44,11 @@ class LoginVC: UIViewController {
     //MARK: - Helper Functions
     fileprivate func setupViews() {
         navigationController?.isNavigationBarHidden = true
-        view.layer.addSublayer(backgroundView)
+        view.backgroundColor = .white
+//        view.addSubview(backgroundView)
         view.addSubview(logoView)
         view.addSubview(introductionLabel)
+        view.addSubview(emailView)
         view.addSubview(emailTextField)
         view.addSubview(passwordTextField)
         view.addSubview(forgotPasswordButton)
@@ -61,10 +63,11 @@ class LoginVC: UIViewController {
     }
     
     func constrainViews() {
-        backgroundView.frame = view.frame
+//        backgroundView.frame = view.frame
         logoView.anchor(top: safeArea.topAnchor, left: nil, bottom: nil, right: nil, paddingTop: 75, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 100, height: 100)
         logoView.centerXAnchor.constraint(equalTo: safeArea.centerXAnchor).isActive = true
         introductionLabel.anchor(top: logoView.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 20, paddingLeft: 20, paddingBottom: 0, paddingRight: 20)
+        emailView.anchor(top: introductionLabel.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 10, paddingLeft: 40, paddingBottom: 0, paddingRight: 40, height: 45)
         emailTextField.anchor(top: introductionLabel.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 10, paddingLeft: 40, paddingBottom: 0, paddingRight: 40, height: 45)
         passwordTextField.anchor(top: emailTextField.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 10, paddingLeft: 40, paddingBottom: 0, paddingRight: 40, height: 45)
         forgotPasswordButton.anchor(top: passwordTextField.bottomAnchor, left: nil, bottom: nil, right: safeArea.rightAnchor, paddingTop: 5, paddingLeft: 0, paddingBottom: 0, paddingRight: 40)
@@ -161,16 +164,24 @@ class LoginVC: UIViewController {
     }
     
     //MARK: - Views
-    var backgroundView: CAGradientLayer = {
-        let view = CAGradientLayer()
-        view.colors = [UIColor.orangeColor()?.cgColor ?? "", UIColor.yellowColor()?.cgColor ?? ""]
-        view.locations = [0, 1]
-        return view
+//    var backgroundView: CAGradientLayer = {
+//        let view = CAGradientLayer()
+//        view.colors = [UIColor.orangeColor()?.cgColor ?? "", UIColor.yellowColor()?.cgColor ?? ""]
+//        view.locations = [0, 1]
+//        return view
+//    }()
+    
+    var backgroundView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.image = UIImage(named: "gradientBackground")
+        imageView.contentMode = .scaleAspectFit
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        return imageView
     }()
     
     var logoView: UIImageView = {
         let imageView = UIImageView()
-        imageView.image = UIImage(named: "YokeLogo-1")
+        imageView.image = UIImage(named: "YokeLogoGradient")
         imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.contentMode = .scaleAspectFit
         imageView.layer.cornerRadius = 30
@@ -183,7 +194,7 @@ class LoginVC: UIViewController {
         label.lineBreakMode = NSLineBreakMode.byWordWrapping
         label.numberOfLines = 0
         label.font = UIFont.boldSystemFont(ofSize: 15)
-        label.textColor = UIColor.white
+        label.textColor = UIColor.gray
         label.textAlignment = .center
         return label
     }()
@@ -194,21 +205,26 @@ class LoginVC: UIViewController {
         label.lineBreakMode = NSLineBreakMode.byWordWrapping
         label.numberOfLines = 0
         label.font = UIFont.boldSystemFont(ofSize: 15)
-        label.textColor = UIColor.white
+        label.textColor = UIColor.gray
         label.textAlignment = .center
         return label
     }()
     
+    let emailView: ShadowView = {
+        let view = ShadowView()
+        view.backgroundColor = .white
+        return view
+    }()
+    
     let emailTextField: UITextField = {
         let textField = UITextField()
-        let placeholderText = NSAttributedString(string: "Email",
-                                                 attributes: [NSAttributedString.Key.foregroundColor: UIColor.white as Any])
-        textField.attributedPlaceholder = placeholderText
-        textField.backgroundColor = UIColor.white.withAlphaComponent(0.4)
-        textField.borderStyle = .roundedRect
         textField.font = UIFont.systemFont(ofSize: 17)
-        textField.textColor = UIColor.gray
+        textField.placeholder = "Email"
+        textField.textColor = UIColor.orangeColor()
         textField.keyboardType = UIKeyboardType.emailAddress
+        textField.layer.cornerRadius = 10
+        textField.layer.borderWidth = 0.5
+        textField.layer.borderColor = UIColor.LightGrayBg()?.cgColor
         return textField
     }()
     
