@@ -292,7 +292,7 @@ class HomeViewController: UIViewController {
         image.clipsToBounds = true
         image.contentMode = .scaleToFill
         image.backgroundColor = .white
-        image.image = UIImage(named: "gradientBackground")
+        image.image = UIImage(named: "gradientBackgroundHalf")
         return image
     }()
     
@@ -319,7 +319,7 @@ class HomeViewController: UIViewController {
     let usernameLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.boldSystemFont(ofSize: 28)
-        label.textColor = UIColor.gray
+        label.textColor = UIColor.white
         label.lineBreakMode = .byWordWrapping
         label.numberOfLines = 2
         label.textAlignment = .left
