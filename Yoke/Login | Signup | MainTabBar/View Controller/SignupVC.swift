@@ -39,6 +39,7 @@ class SignupVC: UIViewController {
 
     //MARK: - Helper Functions
     fileprivate func setupViews() {
+        view.addSubview(imageView)
         view.addSubview(addImageButton)
         view.addSubview(isChefView)
         isChefView.addArrangedSubview(chefLabel)
@@ -58,11 +59,13 @@ class SignupVC: UIViewController {
     }
     
     func constrainViews() {
-//        backgroundView.frame = view.frame
+        imageView.anchor(top: safeArea.topAnchor, left: nil, bottom: nil, right: nil, paddingTop: 50, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 150, height: 150)
+        imageView.layer.cornerRadius = 75
+        imageView.centerXAnchor.constraint(equalTo: safeArea.centerXAnchor).isActive = true
         addImageButton.anchor(top: safeArea.topAnchor, left: nil, bottom: nil, right: nil, paddingTop: 50, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 150, height: 150)
         addImageButton.layer.cornerRadius = 75
         addImageButton.centerXAnchor.constraint(equalTo: safeArea.centerXAnchor).isActive = true
-        isChefView.anchor(top: addImageButton.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 10, paddingLeft: 40, paddingBottom: 0, paddingRight: 35, height: 45)
+        isChefView.anchor(top: addImageButton.bottomAnchor, left: usernameView.leftAnchor, bottom: nil, right: usernameView.rightAnchor, paddingTop: 10, paddingLeft: 0, paddingBottom: 0, paddingRight: 0)
         usernameView.anchor(top: isChefView.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 10, paddingLeft: 40, paddingBottom: 0, paddingRight: 40, height: 45)
         usernameTextField.anchor(top: usernameView.topAnchor, left: usernameView.leftAnchor, bottom: usernameView.bottomAnchor, right: usernameView.rightAnchor, paddingTop: 5, paddingLeft: 5, paddingBottom: 5, paddingRight: 5)
         emailView.anchor(top: usernameView.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 20, paddingLeft: 40, paddingBottom: 0, paddingRight: 40, height: 45)
@@ -71,7 +74,7 @@ class SignupVC: UIViewController {
         passwordTextField.anchor(top: passwordView.topAnchor, left: passwordView.leftAnchor, bottom: passwordView.bottomAnchor, right: passwordView.rightAnchor, paddingTop: 5, paddingLeft: 5, paddingBottom: 5, paddingRight: 5)
         confirmPasswordView.anchor(top: passwordView.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 20, paddingLeft: 40, paddingBottom: 0, paddingRight: 40, height: 45)
         confirmPasswordTextField.anchor(top: confirmPasswordView.topAnchor, left: confirmPasswordView.leftAnchor, bottom: confirmPasswordView.bottomAnchor, right: confirmPasswordView.rightAnchor, paddingTop: 5, paddingLeft: 5, paddingBottom: 5, paddingRight: 5)
-        signUpButton.anchor(top: confirmPasswordView.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 10, paddingLeft: 40, paddingBottom: 0, paddingRight: 40, height: 45)
+        signUpButton.anchor(top: confirmPasswordView.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 20, paddingLeft: 40, paddingBottom: 0, paddingRight: 40, height: 45)
         alreadyHaveAccountButton.anchor(top: signUpButton.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 10, paddingLeft: 40, paddingBottom: 0, paddingRight: 40, height: 45)
         myActivityIndicator.center = view.center
     }
@@ -179,18 +182,27 @@ class SignupVC: UIViewController {
 //        view.locations = [0, 1]
 //        return view
 //    }()
+    let imageView: UIView = {
+        let view = UIView()
+        view.backgroundColor = .white
+        view.layer.shadowOffset = CGSize(width: 0, height: 4)
+        view.layer.shadowRadius = 4
+        view.layer.shadowOpacity = 0.2
+        view.layer.shadowColor = UIColor.gray.cgColor
+        return view
+    }()
     
     let addImageButton: UIButton = {
         let button = UIButton(type: .custom)
         button.setTitle("Add Photo", for: .normal)
         button.setTitleColor(UIColor.orangeColor(), for: .normal)
         button.titleLabel?.font = UIFont.systemFont(ofSize: 20)
-        button.addTarget(self, action: #selector(handleAddProfileImageViewTapped), for: .touchUpInside)
-        button.backgroundColor = UIColor.white.withAlphaComponent(0.8)
+        button.backgroundColor = UIColor.LightGrayBg()
         button.layer.masksToBounds = true
-        button.layer.borderColor = UIColor.green.cgColor
-        button.layer.borderWidth = 3
+        button.layer.borderColor = UIColor.LightGrayBg()?.cgColor
+        button.layer.borderWidth = 0.5
         button.contentMode = .scaleAspectFill
+        button.addTarget(self, action: #selector(handleAddProfileImageViewTapped), for: .touchUpInside)
         return button
     }()
     
@@ -215,9 +227,8 @@ class SignupVC: UIViewController {
     let isChefView: UIStackView = {
         let view = UIStackView()
         view.axis = .horizontal
-        view.alignment = .center
-        view.distribution = .fillProportionally
-        view.spacing = 5
+        view.distribution = .fill
+        view.spacing = 0
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
@@ -296,7 +307,7 @@ class SignupVC: UIViewController {
         button.layer.cornerRadius = 10
         button.layer.shadowOffset = CGSize(width: 0, height: 4)
         button.layer.shadowRadius = 4
-        button.layer.shadowOpacity = 0.3
+        button.layer.shadowOpacity = 0.2
         button.layer.shadowColor = UIColor.gray.cgColor
         button.addTarget(self, action: #selector(handleSignUp), for: .touchUpInside)
         return button
