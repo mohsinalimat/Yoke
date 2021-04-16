@@ -53,6 +53,7 @@ class HomeViewController: UIViewController {
         scrollView.alwaysBounceHorizontal = true
         scrollView.bounces = true
         scrollView.addSubview(bannerLayerView)
+        scrollView.addSubview(backgroundView)
         scrollView.addSubview(profileImageShadowView)
         scrollView.addSubview(profileImageView)
         scrollView.addSubview(usernameLabel)
@@ -73,6 +74,7 @@ class HomeViewController: UIViewController {
         scrollView.contentSize = CGSize(width: view.frame.width, height: view.frame.height)
         scrollView.anchor(top: safeArea.topAnchor, left: safeArea.leftAnchor, bottom: safeArea.bottomAnchor, right: safeArea.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0)
         bannerLayerView.anchor(top: scrollView.topAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, height: 200)
+        backgroundView.anchor(top: scrollView.topAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, height: 200)
         profileImageShadowView.anchor(top: scrollView.topAnchor, left: safeArea.leftAnchor, bottom: nil, right: nil, paddingTop: 25, paddingLeft: 15, paddingBottom: 0, paddingRight: 0, width: 150, height: 150)
         profileImageShadowView.layer.cornerRadius = 150 / 2
         profileImageView.anchor(top: scrollView.topAnchor, left: safeArea.leftAnchor, bottom: nil, right: nil, paddingTop: 25, paddingLeft: 15, paddingBottom: 0, paddingRight: 0, width: 150, height: 150)
@@ -285,6 +287,15 @@ class HomeViewController: UIViewController {
         return view
     }()
     
+    var backgroundView: CustomImageView = {
+        let image = CustomImageView()
+        image.clipsToBounds = true
+        image.contentMode = .scaleToFill
+        image.backgroundColor = .white
+        image.image = UIImage(named: "gradientBackground")
+        return image
+    }()
+    
     let profileImageShadowView: UIView = {
         let view = UIView()
         view.backgroundColor = .white
@@ -308,7 +319,7 @@ class HomeViewController: UIViewController {
     let usernameLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.boldSystemFont(ofSize: 28)
-        label.textColor = UIColor.orangeColor()
+        label.textColor = UIColor.gray
         label.lineBreakMode = .byWordWrapping
         label.numberOfLines = 2
         label.textAlignment = .left
@@ -319,7 +330,7 @@ class HomeViewController: UIViewController {
         let button = UIButton(type: .custom)
         button.setTitle("View Profile", for: .normal)
         button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 15)
-        button.setTitleColor(UIColor.orangeColor(), for: .normal)
+        button.setTitleColor(UIColor.white, for: .normal)
         button.contentHorizontalAlignment = .left
         button.addTarget(self, action: #selector(handleViewProfile), for: .touchUpInside)
         return button

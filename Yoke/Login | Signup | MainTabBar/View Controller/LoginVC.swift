@@ -76,7 +76,7 @@ class LoginVC: UIViewController {
         signInButton.anchor(top: forgotPasswordButton.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 10, paddingLeft: 40, paddingBottom: 0, paddingRight: 40, height: 45)
         dontHaveAccountButton.anchor(top: signInButton.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 20, paddingLeft: 0, paddingBottom: 0, paddingRight: 0)
         signInOptionLabel.anchor(top: dontHaveAccountButton.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 20, paddingLeft: 0, paddingBottom: 0, paddingRight: 0)
-        googleSignUpButton.anchor(top: signInOptionLabel.bottomAnchor, left: nil, bottom: nil, right: nil, paddingTop: 10, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 45, height: 45)
+        googleSignUpButton.anchor(top: signInOptionLabel.bottomAnchor, left: nil, bottom: nil, right: nil, paddingTop: 10, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 75, height: 75)
         googleSignUpButton.centerXAnchor.constraint(equalTo: safeArea.centerXAnchor).isActive = true
 //        appleSignUpButton.anchor(top: googleSignUpButton.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 10, paddingLeft: 40, paddingBottom: 0, paddingRight: 40, height: 45)
         
@@ -310,7 +310,7 @@ class LoginVC: UIViewController {
     let googleSignUpButton: UIButton = {
         let button = UIButton(type: .custom)
         button.setImage(UIImage(named: "btn_google_light_normal_ios"), for: .normal)
-        button.imageView?.contentMode = .scaleAspectFit
+        button.imageView?.contentMode = .scaleToFill
         button.backgroundColor = UIColor.white
         button.layer.cornerRadius = 5
         button.layer.masksToBounds = true
