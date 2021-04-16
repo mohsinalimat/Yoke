@@ -39,37 +39,46 @@ class SignupVC: UIViewController {
 
     //MARK: - Helper Functions
     fileprivate func setupViews() {
-        self.view.backgroundColor = UIColor(patternImage: UIImage(named: "gradientBackground")!)
-//        view.layer.addSublayer(backgroundView)
         view.addSubview(addImageButton)
-        view.addSubview(stackView)
-        view.addSubview(alreadyHaveAccountButton)
         view.addSubview(isChefView)
         isChefView.addArrangedSubview(chefLabel)
         isChefView.addArrangedSubview(chefSwitch)
-        stackView.addArrangedSubview(isChefView)
-        stackView.addArrangedSubview(usernameTextField)
-        stackView.addArrangedSubview(emailTextField)
-        stackView.addArrangedSubview(passwordTextField)
-        stackView.addArrangedSubview(confirmPasswordTextField)
-        stackView.addArrangedSubview(signUpButton)
+        view.addSubview(usernameView)
+        view.addSubview(usernameTextField)
+        view.addSubview(emailView)
+        view.addSubview(emailTextField)
+        view.addSubview(passwordView)
+        view.addSubview(passwordTextField)
+        view.addSubview(confirmPasswordView)
+        view.addSubview(confirmPasswordTextField)
+        view.addSubview(signUpButton)
+        view.addSubview(alreadyHaveAccountButton)
         view.addSubview(myActivityIndicator)
         constrainViews()
     }
     
     func constrainViews() {
 //        backgroundView.frame = view.frame
-        addImageButton.anchor(top: safeArea.topAnchor, left: nil, bottom: nil, right: nil, paddingTop: 75, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 200, height: 200)
-        addImageButton.layer.cornerRadius = 100
+        addImageButton.anchor(top: safeArea.topAnchor, left: nil, bottom: nil, right: nil, paddingTop: 50, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 150, height: 150)
+        addImageButton.layer.cornerRadius = 75
         addImageButton.centerXAnchor.constraint(equalTo: safeArea.centerXAnchor).isActive = true
-        stackView.anchor(top: addImageButton.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 20, paddingLeft: 40, paddingBottom: 0, paddingRight: 40, height: 300)
-        alreadyHaveAccountButton.anchor(top: stackView.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 5, paddingLeft: 0, paddingBottom: 0, paddingRight: 0)
+        isChefView.anchor(top: addImageButton.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 10, paddingLeft: 40, paddingBottom: 0, paddingRight: 35, height: 45)
+        usernameView.anchor(top: isChefView.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 10, paddingLeft: 40, paddingBottom: 0, paddingRight: 40, height: 45)
+        usernameTextField.anchor(top: usernameView.topAnchor, left: usernameView.leftAnchor, bottom: usernameView.bottomAnchor, right: usernameView.rightAnchor, paddingTop: 5, paddingLeft: 5, paddingBottom: 5, paddingRight: 5)
+        emailView.anchor(top: usernameView.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 20, paddingLeft: 40, paddingBottom: 0, paddingRight: 40, height: 45)
+        emailTextField.anchor(top: emailView.topAnchor, left: emailView.leftAnchor, bottom: emailView.bottomAnchor, right: emailView.rightAnchor, paddingTop: 5, paddingLeft: 5, paddingBottom: 5, paddingRight: 5)
+        passwordView.anchor(top: emailView.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 20, paddingLeft: 40, paddingBottom: 0, paddingRight: 40, height: 45)
+        passwordTextField.anchor(top: passwordView.topAnchor, left: passwordView.leftAnchor, bottom: passwordView.bottomAnchor, right: passwordView.rightAnchor, paddingTop: 5, paddingLeft: 5, paddingBottom: 5, paddingRight: 5)
+        confirmPasswordView.anchor(top: passwordView.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 20, paddingLeft: 40, paddingBottom: 0, paddingRight: 40, height: 45)
+        confirmPasswordTextField.anchor(top: confirmPasswordView.topAnchor, left: confirmPasswordView.leftAnchor, bottom: confirmPasswordView.bottomAnchor, right: confirmPasswordView.rightAnchor, paddingTop: 5, paddingLeft: 5, paddingBottom: 5, paddingRight: 5)
+        signUpButton.anchor(top: confirmPasswordView.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 10, paddingLeft: 40, paddingBottom: 0, paddingRight: 40, height: 45)
+        alreadyHaveAccountButton.anchor(top: signUpButton.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 10, paddingLeft: 40, paddingBottom: 0, paddingRight: 40, height: 45)
         myActivityIndicator.center = view.center
     }
     
     func setupBackground() {
         navigationController?.isNavigationBarHidden = true
-        self.view.backgroundColor = UIColor.orangeColor()
+        self.view.backgroundColor = UIColor.white
     }
     
     func changeColor(sender: UISegmentedControl) {
@@ -179,7 +188,7 @@ class SignupVC: UIViewController {
         button.addTarget(self, action: #selector(handleAddProfileImageViewTapped), for: .touchUpInside)
         button.backgroundColor = UIColor.white.withAlphaComponent(0.8)
         button.layer.masksToBounds = true
-        button.layer.borderColor = UIColor.white.cgColor
+        button.layer.borderColor = UIColor.green.cgColor
         button.layer.borderWidth = 3
         button.contentMode = .scaleAspectFill
         return button
@@ -188,16 +197,16 @@ class SignupVC: UIViewController {
     let chefLabel: UILabel = {
         let label = UILabel()
         label.text = "Sign up as a chef?"
-        label.textColor = UIColor.white
+        label.textColor = UIColor.orangeColor()
         label.textAlignment = .left
-        label.font = UIFont.boldSystemFont(ofSize: 18)
+        label.font = UIFont.boldSystemFont(ofSize: 17)
         return label
     }()
     
     var chefSwitch: UISwitch = {
         let switchBool = UISwitch()
-        switchBool.tintColor = UIColor.yellowColor()
-        switchBool.onTintColor = UIColor.yellowColor()
+        switchBool.tintColor = UIColor.orangeColor()
+        switchBool.onTintColor = UIColor.orangeColor()
         switchBool.setOn(false, animated: true)
         switchBool.addTarget(self, action: #selector(chefSwitch(chefSwitchChanged:)), for: UIControl.Event.valueChanged)
         return switchBool
@@ -213,86 +222,82 @@ class SignupVC: UIViewController {
         return view
     }()
     
-    let stackView: UIStackView = {
-        let view = UIStackView()
-        view.axis = .vertical
-        view.alignment = .fill
-        view.distribution = .fillEqually
-        view.spacing = 5
-        view.translatesAutoresizingMaskIntoConstraints = false
+    let usernameView: ShadowView = {
+        let view = ShadowView()
+        view.backgroundColor = UIColor.LightGrayBg()
         return view
     }()
     
     let usernameTextField: UITextField = {
         let textField = UITextField()
-        let placeholderText = NSAttributedString(string: "Name",
-                                                 attributes: [NSAttributedString.Key.foregroundColor: UIColor.orangeColor() as Any])
-        textField.attributedPlaceholder = placeholderText
-        textField.backgroundColor = UIColor.white
-        textField.borderStyle = .roundedRect
-        textField.font = UIFont.systemFont(ofSize: 16)
-        textField.textColor = UIColor.darkGray
+        textField.font = UIFont.systemFont(ofSize: 17)
+        textField.placeholder = "Name"
+        textField.textColor = UIColor.orangeColor()
+        textField.keyboardType = UIKeyboardType.emailAddress
+        textField.layer.cornerRadius = 10
         return textField
+    }()
+    
+    let emailView: ShadowView = {
+        let view = ShadowView()
+        view.backgroundColor = UIColor.LightGrayBg()
+        return view
     }()
     
     let emailTextField: UITextField = {
         let textField = UITextField()
-        let placeholderText = NSAttributedString(string: "Email",
-                                                 attributes: [NSAttributedString.Key.foregroundColor: UIColor.orangeColor() as Any])
-        textField.attributedPlaceholder = placeholderText
-        textField.backgroundColor = UIColor.white
-        textField.borderStyle = .roundedRect
-        textField.font = UIFont.systemFont(ofSize: 16)
-        textField.textColor = UIColor.darkGray
+        textField.font = UIFont.systemFont(ofSize: 17)
+        textField.placeholder = "Email"
+        textField.textColor = UIColor.orangeColor()
+        textField.keyboardType = UIKeyboardType.emailAddress
+        textField.layer.cornerRadius = 10
         textField.keyboardType = UIKeyboardType.emailAddress
         return textField
     }()
     
+    let passwordView: ShadowView = {
+        let view = ShadowView()
+        view.backgroundColor = UIColor.LightGrayBg()
+        return view
+    }()
+    
     let passwordTextField: UITextField = {
         let textField = UITextField()
-        let placeholderText = NSAttributedString(string: "Password",
-                                                 attributes: [NSAttributedString.Key.foregroundColor: UIColor.orangeColor() as Any])
-        textField.attributedPlaceholder = placeholderText
-        textField.isSecureTextEntry = true
-        textField.backgroundColor = UIColor.white
-        textField.borderStyle = .roundedRect
-        textField.font = UIFont.systemFont(ofSize: 16)
-        textField.textColor = UIColor.darkGray
+        textField.font = UIFont.systemFont(ofSize: 17)
+        textField.placeholder = "password"
+        textField.textColor = UIColor.orangeColor()
+        textField.keyboardType = UIKeyboardType.emailAddress
+        textField.layer.cornerRadius = 10
         return textField
+    }()
+    
+    let confirmPasswordView: ShadowView = {
+        let view = ShadowView()
+        view.backgroundColor = UIColor.LightGrayBg()
+        return view
     }()
 
     let confirmPasswordTextField: UITextField = {
         let textField = UITextField()
-        let placeholderText = NSAttributedString(string: "Confirm Password",
-                                                 attributes: [NSAttributedString.Key.foregroundColor: UIColor.orangeColor() as Any])
-        textField.attributedPlaceholder = placeholderText
-        textField.isSecureTextEntry = true
-        textField.backgroundColor = UIColor.white
-        textField.borderStyle = .roundedRect
-        textField.font = UIFont.systemFont(ofSize: 16)
-        textField.textColor = UIColor.darkGray
-        return textField
-    }()
-
-    let locationTextField: UITextView = {
-        let textField = UITextView()
-        textField.placeholder = "Location"
-        textField.isSecureTextEntry = true
-        textField.backgroundColor = UIColor.white
-        textField.layer.cornerRadius = 2
-        textField.font = UIFont.systemFont(ofSize: 16)
-        textField.textColor = UIColor.darkGray
-        textField.isEditable = false
+        textField.font = UIFont.systemFont(ofSize: 17)
+        textField.placeholder = "Confirm Password"
+        textField.textColor = UIColor.orangeColor()
+        textField.keyboardType = UIKeyboardType.emailAddress
+        textField.layer.cornerRadius = 10
         return textField
     }()
 
     let signUpButton: UIButton = {
         let button = UIButton(type: .system)
         button.setTitle("Sign Up", for: .normal)
-        button.backgroundColor = UIColor.yellowColor()?.withAlphaComponent(0.8)
-        button.layer.cornerRadius = 5
-        button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 18)
-        button.setTitleColor(.white, for: .normal)
+        button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 17)
+        button.setTitleColor(UIColor.white, for: .normal)
+        button.backgroundColor = UIColor.orangeColor()
+        button.layer.cornerRadius = 10
+        button.layer.shadowOffset = CGSize(width: 0, height: 4)
+        button.layer.shadowRadius = 4
+        button.layer.shadowOpacity = 0.3
+        button.layer.shadowColor = UIColor.gray.cgColor
         button.addTarget(self, action: #selector(handleSignUp), for: .touchUpInside)
         return button
     }()
@@ -300,9 +305,9 @@ class SignupVC: UIViewController {
     let alreadyHaveAccountButton: UIButton = {
         let button = UIButton(type: .system)
             
-        let attributedTitle = NSMutableAttributedString(string: "Already have an account?  ", attributes: [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 16), NSAttributedString.Key.foregroundColor: UIColor.white])
+        let attributedTitle = NSMutableAttributedString(string: "Already have an account?  ", attributes: [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 16), NSAttributedString.Key.foregroundColor: UIColor.gray])
             
-        attributedTitle.append(NSAttributedString(string: "Sign In", attributes: [NSAttributedString.Key.font: UIFont.boldSystemFont(ofSize: 16), NSAttributedString.Key.foregroundColor: UIColor.white
+        attributedTitle.append(NSAttributedString(string: "Sign In", attributes: [NSAttributedString.Key.font: UIFont.boldSystemFont(ofSize: 16), NSAttributedString.Key.foregroundColor: UIColor.orangeColor()
                 ]))
             
         button.setAttributedTitle(attributedTitle, for: .normal)

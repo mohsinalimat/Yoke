@@ -65,19 +65,20 @@ class LoginVC: UIViewController {
     
     func constrainViews() {
 //        backgroundView.frame = view.frame
-        logoView.anchor(top: safeArea.topAnchor, left: nil, bottom: nil, right: nil, paddingTop: 75, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 100, height: 100)
+        logoView.anchor(top: safeArea.topAnchor, left: nil, bottom: nil, right: nil, paddingTop: 50, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 150, height: 150)
         logoView.centerXAnchor.constraint(equalTo: safeArea.centerXAnchor).isActive = true
         introductionLabel.anchor(top: logoView.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 20, paddingLeft: 20, paddingBottom: 0, paddingRight: 20)
         emailView.anchor(top: introductionLabel.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 10, paddingLeft: 40, paddingBottom: 0, paddingRight: 40, height: 45)
         emailTextField.anchor(top: emailView.topAnchor, left: emailView.leftAnchor, bottom: emailView.bottomAnchor, right: emailView.rightAnchor, paddingTop: 5, paddingLeft: 5, paddingBottom: 5, paddingRight: 5)
-        passwordView.anchor(top: emailTextField.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 10, paddingLeft: 40, paddingBottom: 0, paddingRight: 40, height: 45)
+        passwordView.anchor(top: emailTextField.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 20, paddingLeft: 40, paddingBottom: 0, paddingRight: 40, height: 45)
         passwordTextField.anchor(top: passwordView.topAnchor, left: passwordView.leftAnchor, bottom: passwordView.bottomAnchor, right: passwordView.rightAnchor, paddingTop: 5, paddingLeft: 5, paddingBottom: 5, paddingRight: 5)
         forgotPasswordButton.anchor(top: passwordTextField.bottomAnchor, left: nil, bottom: nil, right: safeArea.rightAnchor, paddingTop: 5, paddingLeft: 0, paddingBottom: 0, paddingRight: 40)
         signInButton.anchor(top: forgotPasswordButton.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 10, paddingLeft: 40, paddingBottom: 0, paddingRight: 40, height: 45)
         dontHaveAccountButton.anchor(top: signInButton.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 5, paddingLeft: 0, paddingBottom: 0, paddingRight: 0)
         signInOptionLabel.anchor(top: dontHaveAccountButton.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 20, paddingLeft: 0, paddingBottom: 0, paddingRight: 0)
-        googleSignUpButton.anchor(top: signInOptionLabel.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 10, paddingLeft: 40, paddingBottom: 0, paddingRight: 40, height: 45)
-        appleSignUpButton.anchor(top: googleSignUpButton.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 10, paddingLeft: 40, paddingBottom: 0, paddingRight: 40, height: 45)
+        googleSignUpButton.anchor(top: signInOptionLabel.bottomAnchor, left: nil, bottom: nil, right: nil, paddingTop: 10, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 45, height: 45)
+        googleSignUpButton.centerXAnchor.constraint(equalTo: safeArea.centerXAnchor).isActive = true
+//        appleSignUpButton.anchor(top: googleSignUpButton.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 10, paddingLeft: 40, paddingBottom: 0, paddingRight: 40, height: 45)
         
         myActivityIndicator.center = view.center
     }
@@ -218,7 +219,7 @@ class LoginVC: UIViewController {
     
     let emailView: ShadowView = {
         let view = ShadowView()
-        view.backgroundColor = .white
+        view.backgroundColor = UIColor.LightGrayBg()
         view.layer.borderWidth = 0.5
         view.layer.borderColor = UIColor.LightGrayBg()?.cgColor
         return view
@@ -236,7 +237,7 @@ class LoginVC: UIViewController {
     
     let passwordView: ShadowView = {
         let view = ShadowView()
-        view.backgroundColor = .white
+        view.backgroundColor = UIColor.LightGrayBg()
         view.layer.borderWidth = 0.5
         view.layer.borderColor = UIColor.LightGrayBg()?.cgColor
         return view
