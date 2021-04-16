@@ -44,12 +44,13 @@ class LoginVC: UIViewController {
     //MARK: - Helper Functions
     fileprivate func setupViews() {
         navigationController?.isNavigationBarHidden = true
-        view.backgroundColor = .white
+        view.backgroundColor = UIColor.LightGrayBg()
 //        view.addSubview(backgroundView)
         view.addSubview(logoView)
         view.addSubview(introductionLabel)
         view.addSubview(emailView)
         view.addSubview(emailTextField)
+        view.addSubview(passwordView)
         view.addSubview(passwordTextField)
         view.addSubview(forgotPasswordButton)
         view.addSubview(signInButton)
@@ -68,8 +69,9 @@ class LoginVC: UIViewController {
         logoView.centerXAnchor.constraint(equalTo: safeArea.centerXAnchor).isActive = true
         introductionLabel.anchor(top: logoView.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 20, paddingLeft: 20, paddingBottom: 0, paddingRight: 20)
         emailView.anchor(top: introductionLabel.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 10, paddingLeft: 40, paddingBottom: 0, paddingRight: 40, height: 45)
-        emailTextField.anchor(top: introductionLabel.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 10, paddingLeft: 40, paddingBottom: 0, paddingRight: 40, height: 45)
-        passwordTextField.anchor(top: emailTextField.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 10, paddingLeft: 40, paddingBottom: 0, paddingRight: 40, height: 45)
+        emailTextField.anchor(top: emailView.topAnchor, left: emailView.leftAnchor, bottom: emailView.bottomAnchor, right: emailView.rightAnchor, paddingTop: 5, paddingLeft: 5, paddingBottom: 5, paddingRight: 5)
+        passwordView.anchor(top: emailTextField.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 10, paddingLeft: 40, paddingBottom: 0, paddingRight: 40, height: 45)
+        passwordTextField.anchor(top: passwordView.topAnchor, left: passwordView.leftAnchor, bottom: passwordView.bottomAnchor, right: passwordView.rightAnchor, paddingTop: 5, paddingLeft: 5, paddingBottom: 5, paddingRight: 5)
         forgotPasswordButton.anchor(top: passwordTextField.bottomAnchor, left: nil, bottom: nil, right: safeArea.rightAnchor, paddingTop: 5, paddingLeft: 0, paddingBottom: 0, paddingRight: 40)
         signInButton.anchor(top: forgotPasswordButton.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 10, paddingLeft: 40, paddingBottom: 0, paddingRight: 40, height: 45)
         dontHaveAccountButton.anchor(top: signInButton.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 5, paddingLeft: 0, paddingBottom: 0, paddingRight: 0)
@@ -213,6 +215,8 @@ class LoginVC: UIViewController {
     let emailView: ShadowView = {
         let view = ShadowView()
         view.backgroundColor = .white
+        view.layer.borderWidth = 0.5
+        view.layer.borderColor = UIColor.LightGrayBg()?.cgColor
         return view
     }()
     
@@ -223,21 +227,24 @@ class LoginVC: UIViewController {
         textField.textColor = UIColor.orangeColor()
         textField.keyboardType = UIKeyboardType.emailAddress
         textField.layer.cornerRadius = 10
-        textField.layer.borderWidth = 0.5
-        textField.layer.borderColor = UIColor.LightGrayBg()?.cgColor
         return textField
+    }()
+    
+    let passwordView: ShadowView = {
+        let view = ShadowView()
+        view.backgroundColor = .white
+        view.layer.borderWidth = 0.5
+        view.layer.borderColor = UIColor.LightGrayBg()?.cgColor
+        return view
     }()
     
     let passwordTextField: UITextField = {
         let textField = UITextField()
-        let placeholderText = NSAttributedString(string: "Password",
-                                                 attributes: [NSAttributedString.Key.foregroundColor: UIColor.white as Any])
-        textField.attributedPlaceholder = placeholderText
-        textField.isSecureTextEntry = true
-        textField.backgroundColor = UIColor.white.withAlphaComponent(0.4)
-        textField.borderStyle = .roundedRect
         textField.font = UIFont.systemFont(ofSize: 17)
-        textField.textColor = UIColor.gray
+        textField.placeholder = "Password"
+        textField.textColor = UIColor.orangeColor()
+        textField.keyboardType = UIKeyboardType.emailAddress
+        textField.layer.cornerRadius = 10
         return textField
     }()
     
