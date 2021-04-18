@@ -22,15 +22,15 @@ class SearchLocationViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        locationManager.delegate = self
-        locationManager.desiredAccuracy = kCLLocationAccuracyBest
-        locationManager.requestWhenInUseAuthorization()
-        locationManager.requestLocation()
-        view.addSubview(mapView)
-        mapView.anchor(top: view.topAnchor, left: view.leftAnchor, bottom: view.bottomAnchor, right: view.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0)
+//        locationManager.delegate = self
+//        locationManager.desiredAccuracy = kCLLocationAccuracyBest
+//        locationManager.requestWhenInUseAuthorization()
+//        locationManager.requestLocation()
+//        view.addSubview(mapView)
+//        mapView.anchor(top: view.topAnchor, left: view.leftAnchor, bottom: view.bottomAnchor, right: view.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0)
         let locationSearchTable = LocationSearchTableViewController()
         resultSearchController = UISearchController(searchResultsController: locationSearchTable)
-        resultSearchController?.searchResultsUpdater = locationSearchTable as? UISearchResultsUpdating
+        resultSearchController?.searchResultsUpdater = locationSearchTable
         
         let searchBar = resultSearchController!.searchBar
         searchBar.sizeToFit()
@@ -47,29 +47,28 @@ class SearchLocationViewController: UIViewController {
 
 }
 
-extension SearchLocationViewController: CLLocationManagerDelegate {
-    private func locationManager(manager: CLLocationManager, didChangeAuthorizationStatus status: CLAuthorizationStatus) {
-        if status == .authorizedWhenInUse {
-            locationManager.requestLocation()
-        }
-    }
+//extension SearchLocationViewController: CLLocationManagerDelegate {
+//
+////    private func locationManager(manager: CLLocationManager, didChangeAuthorizationStatus status: CLAuthorizationStatus) {
+////        if status == .authorizedWhenInUse {
+////            locationManager.requestLocation()
+////        }
+////    }
+//
+//    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+//        if let location = locations.first {
+//            let span = MKCoordinateSpan(latitudeDelta: 0.05, longitudeDelta: 0.05)
+//            let region = MKCoordinateRegion(center: location.coordinate, span: span)
+//            mapView.setRegion(region, animated: true)
+//        }
+//
+//    }
+//
+//    private func locationManager(manager: CLLocationManager, didFailWithError error: NSError) {
+//        print("error:: (error)")
+//    }
+//}
 
-    private func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        let location = locations[0]
-        
-        let span = MKCoordinateSpan(latitudeDelta: 0.01, longitudeDelta: 0.01)
-        let myLocation = location.coordinate
-        let region = MKCoordinateRegion(center: myLocation, span: span)
-        
-        mapView.setRegion(region, animated: true)
-        
-        self.mapView.showsUserLocation = true
-    }
-
-    private func locationManager(manager: CLLocationManager, didFailWithError error: NSError) {
-        print("error:: (error)")
-    }
-}
 extension SearchLocationViewController: HandleMapSearch {
     func dropPinZoomIn(placemark:MKPlacemark){
         // cache the pin

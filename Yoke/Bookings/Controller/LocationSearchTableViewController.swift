@@ -24,15 +24,16 @@ class LocationSearchTableViewController: UITableViewController {
     // MARK: - Table view data source
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // #warning Incomplete implementation, return the number of rows
-        return matchingItems.count
+//        return matchingItems.count
+        return 5
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "cell")!
-        let selectedItem = matchingItems[indexPath.row].placemark
-        cell.textLabel?.text = selectedItem.name
-        let address = "\(selectedItem.thoroughfare ?? ""), \(selectedItem.locality ?? ""), \(selectedItem.subLocality ?? ""), \(selectedItem.administrativeArea ?? ""), \(selectedItem.postalCode ?? ""), \(selectedItem.country ?? "")";cell.detailTextLabel?.text = address
+        let cell = tableView.dequeueReusableCell(withIdentifier: "cell")! as UITableViewCell
+//        let selectedItem = matchingItems[indexPath.row].placemark
+        cell.textLabel?.text = "selectedItem.name"
+//        let address = "\(selectedItem.thoroughfare ?? ""), \(selectedItem.locality ?? ""), \(selectedItem.subLocality ?? ""), \(selectedItem.administrativeArea ?? ""), \(selectedItem.postalCode ?? ""), \(selectedItem.country ?? "")";cell.detailTextLabel?.text = address
+//        print(address)
         return cell
     }
     
@@ -65,6 +66,7 @@ extension LocationSearchTableViewController: UISearchResultsUpdating {
 //              let searchBarText = searchController.searchBar.text else { return }
 //        let request = MKLocalSearch.Request()
 //        request.naturalLanguageQuery = searchBarText
+//        print(searchBarText)
 //        request.region = mapView.region
 //        let search = MKLocalSearch(request: request)
 //        search.start { response, _ in
