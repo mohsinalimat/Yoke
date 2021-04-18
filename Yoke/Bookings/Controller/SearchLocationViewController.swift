@@ -13,7 +13,7 @@ class SearchLocationViewController: UIViewController {
 
     let locationManager = CLLocationManager()
     var mapView: MKMapView!
-    
+    var resultSearchController:UISearchController? = nil
     override func viewDidLoad() {
         super.viewDidLoad()
         locationManager.delegate = self
@@ -22,6 +22,9 @@ class SearchLocationViewController: UIViewController {
         locationManager.requestLocation()
         view.addSubview(mapView)
         mapView.anchor(top: view.topAnchor, left: view.leftAnchor, bottom: view.bottomAnchor, right: view.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0)
+        let locationSearchTable = LocationSearchTableViewController()
+        resultSearchController = UISearchController(searchResultsController: locationSearchTable)
+        resultSearchController?.searchResultsUpdater = locationSearchTable as! UISearchResultsUpdating
 
     }
 

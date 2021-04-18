@@ -9,7 +9,7 @@
 import UIKit
 
 class LocationSearchTableViewController: UITableViewController {
-
+    var resultSearchController: UISearchController? = nil
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
