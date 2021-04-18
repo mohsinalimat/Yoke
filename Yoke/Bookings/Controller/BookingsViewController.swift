@@ -101,7 +101,7 @@ class BookingsViewController: UIViewController {
     
     //MARK: - Selectors
     @objc func handleNew() {
-        let requestVC = CustomBookingViewController()
+        let requestVC = SearchLocationViewController()
         navigationController?.pushViewController(requestVC, animated: true)
     }
     
