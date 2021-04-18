@@ -10,6 +10,7 @@
 		2F6CBC4B9CA2F859DCAE6A2D /* Pods_YokeTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6A8E36B9FA1B6F243ABB5524 /* Pods_YokeTests.framework */; };
 		6C01FCC025F25FD5009AC5B9 /* CustomNavBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C01FCBF25F25FD5009AC5B9 /* CustomNavBarView.swift */; };
 		6C080CDA2613B7050049A179 /* EventLocationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C080CD92613B7050049A179 /* EventLocationViewController.swift */; };
+		6C1188EE262C820300614608 /* LocationSearchTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C1188ED262C820300614608 /* LocationSearchTableViewController.swift */; };
 		6C29312125D48D2500A36B64 /* SearchFilterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C29312025D48D2500A36B64 /* SearchFilterViewController.swift */; };
 		6C296DD224B3BE6A008E33ED /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C296DD124B3BE6A008E33ED /* AppDelegate.swift */; };
 		6C296DD824B3BE6F008E33ED /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6C296DD724B3BE6F008E33ED /* Assets.xcassets */; };
@@ -112,6 +113,8 @@
 		6CDCD7DE258159BB002CE767 /* UserController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CDCD7DD258159BB002CE767 /* UserController.swift */; };
 		6CDCD7EA2581649E002CE767 /* Colors.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6CDCD7E92581649E002CE767 /* Colors.xcassets */; };
 		6CDCD7F225818067002CE767 /* KeyboardExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CDCD7F125818067002CE767 /* KeyboardExtension.swift */; };
+		6CDF2FCE262C719700B7BCFA /* CustomBookingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CDF2FCD262C719700B7BCFA /* CustomBookingViewController.swift */; };
+		6CDF2FD2262C79F000B7BCFA /* SearchLocationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CDF2FD1262C79F000B7BCFA /* SearchLocationViewController.swift */; };
 		6CE3C91E262213D400E511A6 /* RequestTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CE3C91D262213D400E511A6 /* RequestTableViewCell.swift */; };
 		6CE86E3125C08A7C002C81F5 /* AddMenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CE86E3025C08A7C002C81F5 /* AddMenuViewController.swift */; };
 		6CF0DA3326091B7200C20D1C /* EventsCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CF0DA3226091B7200C20D1C /* EventsCollectionViewController.swift */; };
@@ -145,6 +148,7 @@
 		6A8E36B9FA1B6F243ABB5524 /* Pods_YokeTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_YokeTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		6C01FCBF25F25FD5009AC5B9 /* CustomNavBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomNavBarView.swift; sourceTree = "<group>"; };
 		6C080CD92613B7050049A179 /* EventLocationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventLocationViewController.swift; sourceTree = "<group>"; };
+		6C1188ED262C820300614608 /* LocationSearchTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationSearchTableViewController.swift; sourceTree = "<group>"; };
 		6C29312025D48D2500A36B64 /* SearchFilterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchFilterViewController.swift; sourceTree = "<group>"; };
 		6C296DCE24B3BE6A008E33ED /* Yoke.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Yoke.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6C296DD124B3BE6A008E33ED /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -253,6 +257,8 @@
 		6CDCD7DD258159BB002CE767 /* UserController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserController.swift; sourceTree = "<group>"; };
 		6CDCD7E92581649E002CE767 /* Colors.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Colors.xcassets; sourceTree = "<group>"; };
 		6CDCD7F125818067002CE767 /* KeyboardExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardExtension.swift; sourceTree = "<group>"; };
+		6CDF2FCD262C719700B7BCFA /* CustomBookingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomBookingViewController.swift; sourceTree = "<group>"; };
+		6CDF2FD1262C79F000B7BCFA /* SearchLocationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchLocationViewController.swift; sourceTree = "<group>"; };
 		6CE3C91D262213D400E511A6 /* RequestTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestTableViewCell.swift; sourceTree = "<group>"; };
 		6CE86E3025C08A7C002C81F5 /* AddMenuViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddMenuViewController.swift; sourceTree = "<group>"; };
 		6CF0DA3226091B7200C20D1C /* EventsCollectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventsCollectionViewController.swift; sourceTree = "<group>"; };
@@ -370,6 +376,9 @@
 				6C871689261F6282003FE22F /* BookingRequestViewController.swift */,
 				6CF5720626274F0C00AAB1B7 /* BookingLocationViewController.swift */,
 				6CF5722E26276ADD00AAB1B7 /* BookingRequestDetailViewController.swift */,
+				6CDF2FCD262C719700B7BCFA /* CustomBookingViewController.swift */,
+				6CDF2FD1262C79F000B7BCFA /* SearchLocationViewController.swift */,
+				6C1188ED262C820300614608 /* LocationSearchTableViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -1001,6 +1010,7 @@
 				6C411C1725E801E6003426FC /* ChatCollectionViewController.swift in Sources */,
 				6C8DB69924B3C1B9003D06FF /* CustomImageView.swift in Sources */,
 				6C8DB65B24B3C1B9003D06FF /* NotificationCell.swift in Sources */,
+				6C1188EE262C820300614608 /* LocationSearchTableViewController.swift in Sources */,
 				6C8DB65E24B3C1B9003D06FF /* ChatCell.swift in Sources */,
 				6CC8CBAB25C0D09700C3F24D /* MenuController.swift in Sources */,
 				6C3F1B62261BABDC00B02901 /* BookingsViewController.swift in Sources */,
@@ -1017,6 +1027,7 @@
 				6C6F9C982628B3A7004FAA12 /* PaymentViewController.swift in Sources */,
 				6CC8CBAF25C0D0A100C3F24D /* Menu.swift in Sources */,
 				6CBDDE5424B3DC000099A04C /* WithdrawlVC.swift in Sources */,
+				6CDF2FD2262C79F000B7BCFA /* SearchLocationViewController.swift in Sources */,
 				6C3A7832260E42F200093AE9 /* ChefsEventsCollectionViewCell.swift in Sources */,
 				6C8DB69824B3C1B9003D06FF /* TextViewPlaceholder.swift in Sources */,
 				6C8DB67724B3C1B9003D06FF /* WeekdayView.swift in Sources */,
@@ -1042,6 +1053,7 @@
 				6C6F9C8E262896EE004FAA12 /* Payment.swift in Sources */,
 				6CE86E3125C08A7C002C81F5 /* AddMenuViewController.swift in Sources */,
 				6C8DB65C24B3C1B9003D06FF /* ChatHeaderCell.swift in Sources */,
+				6CDF2FCE262C719700B7BCFA /* CustomBookingViewController.swift in Sources */,
 				6C35F5BA25DED0350044E847 /* ReviewController.swift in Sources */,
 				6CD806EF25E1608F00BC51B6 /* MessageViewController.swift in Sources */,
 				6C8DB69324B3C1B9003D06FF /* SignupVC.swift in Sources */,
