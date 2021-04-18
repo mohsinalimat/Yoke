@@ -39,10 +39,6 @@ class BookingsViewController: UIViewController {
     func configureNavigationBar() {
         guard let orange = UIColor.orangeColor() else { return }
         configureNavigationBar(withTitle: "Bookings", largeTitle: true, backgroundColor: UIColor.white, titleColor: orange)
-        let filterIcon = UIImage(named: "add-filled")
-        let imageView = UIImageView(frame: CGRect(x: 0, y: 0, width: 10, height: 10))
-        imageView.image = filterIcon
-        navigationItem.rightBarButtonItem = UIBarButtonItem(image: filterIcon, style: .plain, target: self, action: #selector(handleNew))
     }
     
     func setupViews() {
@@ -100,11 +96,6 @@ class BookingsViewController: UIViewController {
     }
     
     //MARK: - Selectors
-    @objc func handleNew() {
-        let requestVC = SearchLocationViewController()
-        navigationController?.pushViewController(requestVC, animated: true)
-    }
-    
     @objc func handleSegSelection(index: Int) {
         if bookingSegmentedControl.selectedSegmentIndex == 0 {
             archivedCollectionView.isHidden = true
@@ -196,13 +187,16 @@ class BookingsViewController: UIViewController {
 // MARK: - CollectionView
 extension BookingsViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-//        if collectionView == self.todaysCollectionView {
-//            return 2
-//        }
-//        if collectionView == self.upcomingArchivedViews {
-//            return 1
-//        }
-        return 3
+        if collectionView == self.todaysCollectionView {
+            return 2
+        }
+        if collectionView == self.upcomingCollectionView {
+            return 1
+        }
+        if collectionView == self.archivedCollectionView {
+            return 3
+        }
+        return 0
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {

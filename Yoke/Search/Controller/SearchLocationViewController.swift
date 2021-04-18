@@ -17,7 +17,7 @@ class SearchLocationViewController: UIViewController {
 
     let locationManager1 = CLLocationManager()
     var mapView = MKMapView()
-    var resultSearchController:UISearchController? = nil
+    var resultSearchController: UISearchController? = nil
     var selectedPin:MKPlacemark? = nil
     
     override func viewDidLoad() {
