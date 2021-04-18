@@ -24,14 +24,16 @@ class LocationSearchTableViewController: UITableViewController {
     // MARK: - Table view data source
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-//        return matchingItems.count
-        return 5
+        return matchingItems.count
+//        return 5
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "cell")! as UITableViewCell
-//        let selectedItem = matchingItems[indexPath.row].placemark
-        cell.textLabel?.text = "selectedItem.name"
+        let cell = tableView.dequeueReusableCell(withIdentifier: "cell")!
+        let selectedItem = matchingItems[indexPath.row].placemark
+        cell.textLabel?.text = selectedItem.name
+        cell.detailTextLabel?.text = ""
+//        cell.textLabel?.text = "selectedItem.name"
 //        let address = "\(selectedItem.thoroughfare ?? ""), \(selectedItem.locality ?? ""), \(selectedItem.subLocality ?? ""), \(selectedItem.administrativeArea ?? ""), \(selectedItem.postalCode ?? ""), \(selectedItem.country ?? "")";cell.detailTextLabel?.text = address
 //        print(address)
         return cell
