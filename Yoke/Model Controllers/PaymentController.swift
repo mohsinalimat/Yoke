@@ -9,20 +9,6 @@
 import Foundation
 import FirebaseFirestore
 
-enum UserError: LocalizedError {
-    case fbUserError(Error)
-    case unwrapError
-    
-    var errorDescription: String {
-        switch self {
-        case .fbUserError(let error):
-            return "There was an error: \(error.localizedDescription)"
-        case .unwrapError:
-            return "Unable to unwrap this user."
-        }
-    }
-}
-
 class PaymentController {
     //MARK: - Shared Instance
     static let shared = PaymentController()
@@ -55,6 +41,19 @@ class PaymentController {
             } else {
                 completion(true)
                 print("Document successfully updated")
+            }
+        }
+    }
+    
+    func fetchPaymentWith(uid: String, paymentId: String, completion: @escaping (Payment) -> Void) {
+        firestoreDB.document(uid).collection(Constants.Payments).document(paymentId).getDocument { (document, error) in
+            if let document = document, document.exists {
+                guard let dictionary = document.data() else { return }
+                let payment = Payment(dictionary: dictionary)
+                completion(payment)
+            } else {
+                completion(error as! Payment)
+                print("Document does not exist")
             }
         }
     }

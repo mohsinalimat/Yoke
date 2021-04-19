@@ -106,7 +106,7 @@ class PaymentsVC: UICollectionViewController, UICollectionViewDelegateFlowLayout
     }
 
     func viewHandleStripe() {
-        let withdrawl = WithdrawlVC()
+        let withdrawl = StripeSignupVC()
         navigationController?.pushViewController(withdrawl, animated: true)
     }
     

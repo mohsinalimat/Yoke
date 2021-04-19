@@ -93,7 +93,6 @@ class BookingController {
                 completion(false)
             }
             self.bookings = []
-            self.archives = []
             snapshot?.documents.forEach({ (document) in
                 let dictionary = document.data()
                 let isArchive = dictionary[Constants.Archive] as? Bool
@@ -104,10 +103,25 @@ class BookingController {
                         return u1.timestamp.compare(u2.timestamp) == .orderedDescending
                     })
                     completion(true)
-                } else {
+                }
+            })
+        }
+    }
+    
+    func fetchArchivesWith(uid: String, completion: @escaping (Bool) -> Void) {
+        firestoreDB.document(uid).collection(Constants.Bookings).addSnapshotListener { (snapshot, error) in
+            if let error = error {
+                print(error.localizedDescription)
+                completion(false)
+            }
+            self.bookings = []
+            snapshot?.documents.forEach({ (document) in
+                let dictionary = document.data()
+                let isArchive = dictionary[Constants.Archive] as? Bool
+                if isArchive == true {
                     let booking = Booking(dictionary: dictionary)
-                    self.archives.append(booking)
-                    self.archives.sort(by: { (u1, u2) -> Bool in
+                    self.bookings.append(booking)
+                    self.bookings.sort(by: { (u1, u2) -> Bool in
                         return u1.timestamp.compare(u2.timestamp) == .orderedDescending
                     })
                     completion(true)

@@ -152,6 +152,7 @@ class SignupVC: UIViewController {
             switch result {
             case true:
                 self.handleLoginToHome()
+                
                 print("success")
             case false:
                 print("error in signup: \(Error.self)")

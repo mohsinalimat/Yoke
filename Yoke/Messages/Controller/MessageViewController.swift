@@ -127,7 +127,8 @@ class MessageViewController: UIViewController {
     }
     
     @objc func handleArchive() {
-        
+        let archiveVC = BookingArchiveTableViewController()
+        navigationController?.pushViewController(archiveVC, animated: true)
     }
     
     //MARK: - Views
