@@ -34,5 +34,4 @@ class StripeUser {
         let data : [String: Any] = [Constants.Id: customer_id.id, Constants.Email: customer_id.email, "customer_id": customer_id.customer_id]
         return data
     }
-    
 }

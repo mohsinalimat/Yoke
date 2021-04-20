@@ -36,7 +36,7 @@ app.set('view engine', 'pug');
 app.set('views', path.join(__dirname, 'views'));
 
 const db = admin.firestore();
-let docRef = db.collection('StripeAccounts');
+let docRef = db.collection('stripeAccounts');
 
 app.get('/', (req, res) => {
   res.render('index');
@@ -129,61 +129,61 @@ request.post(
 
 
 
-exports.createStripeCustomer = functions.firestore.document('stripe_customers/{userId}').onCreate(async (snap, context) => {
-  const data = snap.data();
-  const email = data['email'];
-  const customer = await stripe.customers.create({ email: email });
-  return admin.firestore().collection('stripe_customers').doc(data['id']).update({ customer_id: customer.id });
-});
+// exports.createStripeCustomer = functions.firestore.document('stripe_customers/{userId}').onCreate(async (snap, context) => {
+//   const data = snap.data();
+//   const email = data['email'];
+//   const customer = await stripe.customers.create({ email: email });
+//   return admin.firestore().collection('stripe_customers').doc(data['id']).update({ customer_id: customer.id });
+// });
 
-exports.createEphemeralKey = functions.https.onCall(async (data, context) => {
+// exports.createEphemeralKey = functions.https.onCall(async (data, context) => {
 
-    const customerId = data.customer_id;
-    const stripeVersion = data.stripe_version;
+//     const customerId = data.customer_id;
+//     const stripeVersion = data.stripe_version;
 
-    return stripe.ephemeralKeys.create(
-        { customer: customerId },
-        { stripe_version: stripeVersion }
-    ).then((key) => {
-        return key
-    }).catch((err) => {
-        console.log(err)
-        throw new functions.https.HttpsError('internal', ' Unable to create ephemeral key: ' + err);
-    });
-});
+//     return stripe.ephemeralKeys.create(
+//         { customer: customerId },
+//         { stripe_version: stripeVersion }
+//     ).then((key) => {
+//         return key
+//     }).catch((err) => {
+//         console.log(err)
+//         throw new functions.https.HttpsError('internal', ' Unable to create ephemeral key: ' + err);
+//     });
+// });
   
-// This is the method used for credit cards and uses the new Payment Methods API.
-exports.createCharge = functions.https.onCall(async (data, context) => {
+// // This is the method used for credit cards and uses the new Payment Methods API.
+// exports.createCharge = functions.https.onCall(async (data, context) => {
 
-    const customerId = data.customer_id;
-    const paymentMethodId = data.payment_method_id;
-    const totalAmount = data.total_amount;
-    const idempotency = data.idempotency;
-    const destination = data.destination;
-    const uid = context.auth.uid;
+//     const customerId = data.customer_id;
+//     const paymentMethodId = data.payment_method_id;
+//     const totalAmount = data.total_amount;
+//     const idempotency = data.idempotency;
+//     const destination = data.destination;
+//     const uid = context.auth.uid;
 
-    return stripe.paymentIntents.create({
-        payment_method: paymentMethodId,
-        customer: customerId,
-        amount: totalAmount,
-        currency: 'usd',
-        confirm: true,
-        payment_method_types: ['card'],
-        transfer_data: {
-          destination: destination,
-        },
-    }, {
-            idempotency_key: idempotency
-        }).then(intent => {
-            // const charge = db.collection('stripe_charges').doc(intent.id).set({ intent })
-            const charge = db.collection('stripe_customers').doc(uid).collection('charges').doc(intent.id).set({ intent })
-            console.log('uid user', context.auth.uid)
-            console.log('Charge Success: ', intent)
-            return charge
-        }).catch(err => {
-            console.log(err);
-            throw new functions.https.HttpsError('internal', ' Unable to create charge: ' + err);
-        });
-});
+//     return stripe.paymentIntents.create({
+//         payment_method: paymentMethodId,
+//         customer: customerId,
+//         amount: totalAmount,
+//         currency: 'usd',
+//         confirm: true,
+//         payment_method_types: ['card'],
+//         transfer_data: {
+//           destination: destination,
+//         },
+//     }, {
+//             idempotency_key: idempotency
+//         }).then(intent => {
+//             // const charge = db.collection('stripe_charges').doc(intent.id).set({ intent })
+//             const charge = db.collection('stripe_customers').doc(uid).collection('charges').doc(intent.id).set({ intent })
+//             console.log('uid user', context.auth.uid)
+//             console.log('Charge Success: ', intent)
+//             return charge
+//         }).catch(err => {
+//             console.log(err);
+//             throw new functions.https.HttpsError('internal', ' Unable to create charge: ' + err);
+//         });
+// });
 
 exports.app = functions.https.onRequest(app);
