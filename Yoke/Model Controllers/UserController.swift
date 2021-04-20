@@ -64,10 +64,23 @@ class UserController {
                     let getUser = StripeUser.init(id: uid, customer_id: "", email: email)
                     self.createFirestoreUser(stripeUser: getUser)
                     self.setupGeofirestore(uid: uid)
+                    let getStripeUser = StripeUser.init(id: uid, customer_id: "", email: email)
+                    self.createFirestoreUser(stripeUser: getStripeUser)
                     completion(true)
                 })
             })
         })
+    }
+    
+    func createFirestoreUser(stripeUser: StripeUser) {
+        let ref = Firestore.firestore().collection("stripe_customers").document(stripeUser.id)
+        let data = StripeUser.modelToData(customer_id: stripeUser)
+        
+        ref.setData(data) { (error) in
+            if let error = error {
+                print(error)
+            }
+        }
     }
     
     func setupGeofirestore(uid: String) {
@@ -108,17 +121,6 @@ class UserController {
         let getUser = StripeUser.init(id: uid, customer_id: "", email: email)
         self.createFirestoreUser(stripeUser: getUser)
         completion(true)
-    }
-    
-    func createFirestoreUser(stripeUser: StripeUser) {
-        let ref = Firestore.firestore().collection("stripe_customers").document(stripeUser.id)
-        let data = StripeUser.modelToData(customer_id: stripeUser)
-        ref.setData(data) { (error) in
-            if let error = error {
-                print(error.localizedDescription)
-//                Auth.auth().handleFirebaseErrors(error: error, vc: self)
-            }
-        }
     }
     
     func checkIfUserExist(uid: String, completion: @escaping (Bool) -> Void) {

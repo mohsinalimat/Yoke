@@ -1,0 +1,86 @@
+html, body {
+  font-family: 'Roboto', 'Helvetica', sans-serif;
+}
+p {
+  text-align: center;
+}
+#stripe-button, #demo-sign-out-button, #sign-in-button {
+  color: white;
+}
+#sign-in-button {
+  margin-left: 30%;  
+  margin-right: 30%;
+}
+#forgot-password-link {
+  color: #757575;
+  margin-left: 30%;  
+  margin-right: 30%;
+  padding: 5; 
+  margin-top: 10px;
+  margin-bottom: 10px;
+  border-radius: 5px;
+  color:rgba(232,108,106);
+  background-color: white;
+  border: none;
+}
+.mdl-grid {
+  max-width: 1024px;
+  margin: auto;
+}
+.mdl-layout__header {
+  background-color: rgb(255, 255, 255);
+  /* background-color: rgba(251,213,14); */
+}
+.mdl-button--raised {
+  background-color: rgb(255, 91, 57);
+  border-radius: 5px;
+}
+.mdl-card {
+  min-height: 0;
+  padding-bottom: 5px;
+}
+.mdl-layout__header-row {
+  padding: 0;
+}
+#demo-signed-in-card {
+  box-shadow: none;
+}
+#demo-signed-out-card {
+  box-shadow: none;
+}
+h3 {
+  background: url('firebase-logo.png') no-repeat;
+  background-size: 40px;
+  padding-left: 35%;
+}
+#demo-signed-out-card,
+#demo-signed-in-card {
+  display: none;
+}
+#demo-url,
+#demo-response,
+#demo-url-cookie,
+#demo-response-cookie {
+  font-weight: bold;
+}
+#demo-signed-in-card {
+  width: 600px;
+}
+#stripe-dashboard {
+  background-color:white;
+  /* border-color: rgba(232,108,106); */
+  height: 20px;
+  border-radius: 5px;
+  color:rgba(232,108,106);
+  font-size: 12;
+  border: none;
+}
+
+#sign-in-email, #sign-in-password {
+  background-color: white;
+  border-radius: 5px;
+  height: 36px;
+  margin-bottom: 5px;
+  padding: 5px;
+  border-color: white;
+}
