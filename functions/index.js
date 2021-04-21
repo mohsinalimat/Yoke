@@ -88,6 +88,53 @@ app.use(cors);
 app.use(cookieParser);
 app.use(validateFirebaseIdToken);
 
+
+exports.createConnectAccount = functions.https.onRequest((req, res) => {
+    var data = req.body
+    var email = data.email
+    var response = {}  
+    stripe.accounts.create (
+      {
+        type: 'custom',
+        country: 'US',
+        requested_capabilities: [
+          'transfers',
+        ],
+        business_type: 'individual',
+      },
+        function(err, account) {
+          if (err) {
+            console.log("Couldn't create stripe account: " + err)
+            return res.send(err)
+        }      console.log("ACCOUNT: " + account.id)
+        response.body = {success: account.id}
+        return res.send(response)
+      }
+    );
+  });
+
+  exports.createStripeAccountLink = functions.https.onRequest((req, res) => {
+    var data = req.body
+    var accountID = data.accountID  
+    var response = {}  
+    stripe.accountLinks.create({
+      account: accountID,
+      failure_url: 'https://example.com/failure',
+      success_url: 'https://example.com/success',
+      type: 'custom_account_verification',
+      collect: 'eventually_due',
+    }, function(err, accountLink) {
+      if (err) {
+        console.log(err)
+        response.body = {failure: err}
+        return res.send(response)
+      }  console.log(accountLink.url)
+      response.body = {success: accountLink.url}
+      return res.send(response)
+    });
+  });
+
+
 app.get('/token', async (req, res, next) => {
 // Post the authorization code to Stripe to complete the Express onboarding flow
 
@@ -121,6 +168,22 @@ request.post(
           }
         }
       );
+      stripe.accountLinks.create({
+        account: connected_account_id,
+        failure_url: 'https://example.com/failure',
+        success_url: 'https://example.com/success',
+        type: 'custom_account_verification',
+        collect: 'eventually_due',
+      }, function(err, accountLink) {
+        if (err) {
+          console.log(err)
+          response.body = {failure: err}
+          return res.send(response)
+        }  console.log(accountLink.url)
+        response.body = {success: accountLink.url}
+        docRef.doc(req.user.uid).set({stripeId : connected_account_id, stripeLoginLink : accountLink.url});
+        return res.send(response)
+      });
     }
 
   }
