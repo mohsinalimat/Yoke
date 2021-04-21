@@ -11,6 +11,7 @@
 		6C01FCC025F25FD5009AC5B9 /* CustomNavBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C01FCBF25F25FD5009AC5B9 /* CustomNavBarView.swift */; };
 		6C080CDA2613B7050049A179 /* EventLocationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C080CD92613B7050049A179 /* EventLocationViewController.swift */; };
 		6C1188EE262C820300614608 /* LocationSearchTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C1188ED262C820300614608 /* LocationSearchTableViewController.swift */; };
+		6C1477DC26308EB2006CB4AA /* StripeAccountApi.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C1477DB26308EB2006CB4AA /* StripeAccountApi.swift */; };
 		6C29312125D48D2500A36B64 /* SearchFilterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C29312025D48D2500A36B64 /* SearchFilterViewController.swift */; };
 		6C296DD224B3BE6A008E33ED /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C296DD124B3BE6A008E33ED /* AppDelegate.swift */; };
 		6C296DD824B3BE6F008E33ED /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6C296DD724B3BE6F008E33ED /* Assets.xcassets */; };
@@ -149,6 +150,7 @@
 		6C01FCBF25F25FD5009AC5B9 /* CustomNavBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomNavBarView.swift; sourceTree = "<group>"; };
 		6C080CD92613B7050049A179 /* EventLocationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventLocationViewController.swift; sourceTree = "<group>"; };
 		6C1188ED262C820300614608 /* LocationSearchTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationSearchTableViewController.swift; sourceTree = "<group>"; };
+		6C1477DB26308EB2006CB4AA /* StripeAccountApi.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StripeAccountApi.swift; sourceTree = "<group>"; };
 		6C29312025D48D2500A36B64 /* SearchFilterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchFilterViewController.swift; sourceTree = "<group>"; };
 		6C296DCE24B3BE6A008E33ED /* Yoke.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Yoke.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6C296DD124B3BE6A008E33ED /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -747,6 +749,7 @@
 			children = (
 				6CBDDE4524B3DBF30099A04C /* StripeApi.swift */,
 				6CBDDE4624B3DBF30099A04C /* _StripeCheckout.swift */,
+				6C1477DB26308EB2006CB4AA /* StripeAccountApi.swift */,
 			);
 			path = Stripe;
 			sourceTree = "<group>";
@@ -1050,6 +1053,7 @@
 				6CD806EF25E1608F00BC51B6 /* MessageViewController.swift in Sources */,
 				6C8DB69324B3C1B9003D06FF /* SignupVC.swift in Sources */,
 				6C8DB6A024B3C1B9003D06FF /* ReviewInputAccessoryView.swift in Sources */,
+				6C1477DC26308EB2006CB4AA /* StripeAccountApi.swift in Sources */,
 				6CF5722F26276ADD00AAB1B7 /* BookingRequestDetailViewController.swift in Sources */,
 				6C8DB6A724B3C1B9003D06FF /* BookmarkedVC.swift in Sources */,
 				6CC8CBB325C33BD900C3F24D /* MenuCollectionViewCell.swift in Sources */,
