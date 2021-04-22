@@ -114,7 +114,7 @@ exports.createConnectAccount = functions.https.onRequest((req, res) => {
             return res.send(err)
         }      console.log("ACCOUNT: " + account.id)
         response.body = {success: account.id}
-        return docRef.doc("req.user.uid").set({stripeId : account.id, stripeLoginLink : accountLink.url});
+        return docRef.doc("req.user.uid").set({stripeId : account.id});
         // return res.send(response)
       }
     );
@@ -137,7 +137,7 @@ exports.createConnectAccount = functions.https.onRequest((req, res) => {
         return res.send(response)
       }  console.log(accountLink.url)
       response.body = {success: accountLink.url}
-      return docRef.doc("req.user.uid").set({stripeId : accountID, stripeLoginLink : accountLink.url});
+      return docRef.doc(req.user.uid).set({stripeId : accountID, stripeLoginLink : accountLink.url});
     //   return res.send(response)
     });
   });
