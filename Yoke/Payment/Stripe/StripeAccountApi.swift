@@ -16,7 +16,7 @@ class StripeAccountApi {
 
         let parameters: [String:Any] = [:]
 
-        let url = "https://foodapp-4ebf0.firebaseapp.com/createConnectAccount"
+        let url = "https://us-central1-foodapp-4ebf0.cloudfunctions.net/createConnectAccount"
 
         AF.request(url, method: .post, parameters: parameters, encoding: JSONEncoding.default, headers: [:]).responseJSON { response in
 
@@ -38,7 +38,7 @@ class StripeAccountApi {
 
         let parameters: [String:Any] = ["accountID": accountID]
 
-        let url = "https://foodapp-4ebf0.firebaseapp.com/createStripeAccountLink"
+        let url = "https://us-central1-foodapp-4ebf0.cloudfunctions.net/createStripeAccountLink"
 
         AF.request(url, method: .post, parameters: parameters, encoding: JSONEncoding.default, headers: [:]).responseJSON { response in
 

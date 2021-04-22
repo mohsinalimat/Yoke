@@ -25,7 +25,7 @@ class CreateStripeAccountVC: UIViewController, WKNavigationDelegate, WKUIDelegat
 
         override func viewDidLoad() {
             super.viewDidLoad()
-            let myURL = URL(string: "https://foodapp-4ebf0.firebaseapp.com")
+            let myURL = URL(string: "https://foodapp-4ebf0.web.app")
             let myRequest = URLRequest(url: myURL!)
             webView.load(myRequest)
         }
@@ -40,8 +40,17 @@ class CreateStripeAccountVC: UIViewController, WKNavigationDelegate, WKUIDelegat
                 return
             }
 
-            if url.absoluteString.contains("/token") {
+            if url.absoluteString.contains("createConnectAccount") {
                 // this means login successful
+                guard let uid = Auth.auth().currentUser?.uid else { return }
+                StripeAccountApi.createStripeConnectAccount(uid: uid) { (acctNum, nil) in
+                    guard let getAccountNumber = acctNum else { return }
+                    print(getAccountNumber)
+                    self.accountId = getAccountNumber
+                }
+                StripeAccountApi.createAccountLink(accountID: accountId) { (accountLink, nil) in
+                    print(accountLink)
+                }
                 decisionHandler(.cancel)
                 _ = self.navigationController?.popViewController(animated: false)
             }
