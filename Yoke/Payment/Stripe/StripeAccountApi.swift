@@ -13,13 +13,13 @@ import Firebase
 class StripeAccountApi {
  
     static func createStripeConnectAccount(uid: String, completion: @escaping(String?, String?) -> Void)  { //accountID, Error
-        
+
         let parameters: [String:Any] = [:]
-        
+
         let url = "https://foodapp-4ebf0.firebaseapp.com/createConnectAccount"
-        
+
         AF.request(url, method: .post, parameters: parameters, encoding: JSONEncoding.default, headers: [:]).responseJSON { response in
-            
+
             switch response.result {
             case .success(let dict):
                 print(dict)
@@ -35,13 +35,13 @@ class StripeAccountApi {
     }
     
     static func createAccountLink(accountID: String, completion: @escaping(String?, String?) -> Void)  { //url, Error
-        
+
         let parameters: [String:Any] = ["accountID": accountID]
-        
+
         let url = "https://foodapp-4ebf0.firebaseapp.com/createStripeAccountLink"
-        
+
         AF.request(url, method: .post, parameters: parameters, encoding: JSONEncoding.default, headers: [:]).responseJSON { response in
-            
+
             switch response.result {
             case .success(let dict):
                 print(dict)
@@ -55,5 +55,6 @@ class StripeAccountApi {
             }
         }
     }
+    
     
 }

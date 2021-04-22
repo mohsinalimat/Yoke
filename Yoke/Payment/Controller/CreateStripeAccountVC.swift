@@ -10,9 +10,10 @@ import UIKit
 import FirebaseFirestore
 import FirebaseAuth
 import WebKit
+import Alamofire
 
 class CreateStripeAccountVC: UIViewController, WKNavigationDelegate, WKUIDelegate  {
-    
+    var accountId: String = ""
     var webView: WKWebView!
     var activityIndicator: UIActivityIndicatorView!
     override func loadView() {
@@ -24,7 +25,6 @@ class CreateStripeAccountVC: UIViewController, WKNavigationDelegate, WKUIDelegat
 
         override func viewDidLoad() {
             super.viewDidLoad()
-
             let myURL = URL(string: "https://foodapp-4ebf0.firebaseapp.com")
             let myRequest = URLRequest(url: myURL!)
             webView.load(myRequest)
@@ -39,7 +39,6 @@ class CreateStripeAccountVC: UIViewController, WKNavigationDelegate, WKUIDelegat
                 decisionHandler(.allow)
                 return
             }
-
 
             if url.absoluteString.contains("/token") {
                 // this means login successful
