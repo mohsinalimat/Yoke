@@ -42,15 +42,15 @@ class CreateStripeAccountVC: UIViewController, WKNavigationDelegate, WKUIDelegat
 
             if url.absoluteString.contains("createConnectAccount") {
                 // this means login successful
-                guard let uid = Auth.auth().currentUser?.uid else { return }
-                StripeAccountApi.createStripeConnectAccount(uid: uid) { (acctNum, nil) in
-                    guard let getAccountNumber = acctNum else { return }
-                    print(getAccountNumber)
-                    self.accountId = getAccountNumber
-                }
-                StripeAccountApi.createAccountLink(accountID: accountId) { (accountLink, nil) in
-                    print(accountLink)
-                }
+//                guard let uid = Auth.auth().currentUser?.uid else { return }
+//                StripeAccountApi.createStripeConnectAccount(uid: uid) { (acctNum, nil) in
+//                    guard let getAccountNumber = acctNum else { return }
+//                    print(getAccountNumber)
+//                    self.accountId = getAccountNumber
+//                }
+//                StripeAccountApi.createAccountLink(accountID: accountId) { (accountLink, nil) in
+//                    print(accountLink)
+//                }
                 decisionHandler(.cancel)
                 _ = self.navigationController?.popViewController(animated: false)
             }

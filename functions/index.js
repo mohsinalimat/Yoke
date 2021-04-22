@@ -95,6 +95,29 @@ app.use(cookieParser);
 app.use(validateFirebaseIdToken);
 
 
+// exports.createConnectAccount = functions.https.onRequest((req, res) => {
+//     var data = req.body
+//     var email = data.email
+//     var response = {}  
+//     stripe.accounts.create (
+//       {
+//         type: 'custom',
+//         country: 'US',
+//         requested_capabilities: [
+//           'transfers',
+//         ],
+//         business_type: 'individual',
+//       },
+//         function(err, account) {
+//           if (err) {
+//             console.log("Couldn't create stripe account: " + err)
+//             return res.send(err)
+//         }      console.log("ACCOUNT: " + account.id)
+//         response.body = {success: account.id}
+//         return res.send(response)
+//       }
+//     );
+//   });
 exports.createConnectAccount = functions.https.onRequest((req, res) => {
     var data = req.body
     var email = data.email
@@ -117,6 +140,22 @@ exports.createConnectAccount = functions.https.onRequest((req, res) => {
         return res.send(response)
       }
     );
+    stripe.accountLinks.create({
+        account: account.id,
+        failure_url: 'https://example.com/failure',
+        success_url: 'https://example.com/success',
+        type: 'custom_account_verification',
+        collect: 'eventually_due',
+      }, function(err, accountLink) {
+        if (err) {
+          console.log(err)
+          response.body = {failure: err}
+          return res.send(response)
+        }  console.log(accountLink.url)
+        response.body = {success: accountLink.url}
+        return docRef.doc("req.user.uid").set({stripeId : account.id, stripeLoginLink : accountLink.url});
+      //   return res.send(response)
+      });
   });
 
   exports.createStripeAccountLink = functions.https.onRequest((req, res) => {
@@ -136,7 +175,8 @@ exports.createConnectAccount = functions.https.onRequest((req, res) => {
         return res.send(response)
       }  console.log(accountLink.url)
       response.body = {success: accountLink.url}
-      return res.send(response)
+      return docRef.doc("req.user.uid").set({stripeId : accountID, stripeLoginLink : accountLink.url});
+    //   return res.send(response)
     });
   });
 
@@ -162,23 +202,14 @@ exports.createConnectAccount = functions.https.onRequest((req, res) => {
 //       console.log('The Stripe onboarding process has not succeeded.');
 //     } else {
     
-//     var connected_account_id = body.stripe_user_id;
-//     var data = req.body
-//     var accountID = data.accountID  
-//     var response = {}  
-
-//     var data = req.body
-//     var email = data.email
-//     var response = {}  
-
     //   stripe.accounts.createLoginLink(
     //     connected_account_id,
     //     (err, loginLink) => {
     //       if (err) {
     //         console.log(err)
     //       } else {
-    //         docRef.doc(req.user.uid).set({stripeId : connected_account_id, stripeLoginLink : loginLink.url});
-    //         res.redirect(loginLink.url);
+            // docRef.doc(req.user.uid).set({stripeId : connected_account_id, stripeLoginLink : loginLink.url});
+            // res.redirect(loginLink.url);
     //       }
     //     }
     //   );

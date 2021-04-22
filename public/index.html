@@ -213,7 +213,10 @@ a{color:inherit;text-decoration:none}
   <!--Handle auth events-->
   <script>
     firebase.auth().onAuthStateChanged(function(user) {
-      window.user = user;
+      if (user) {
+        window.location = 'https://connect.stripe.com/express/oauth/authorize?redirect_uri=https://us-central1-foodapp-4ebf0.cloudfunctions.net/createConnectAccount&client_id=ca_FJy4SUnn4WnkK81JVAR5CZhwEACACSIO&state={STATE_VALUE}';
+      }
+      // window.user = user;
       // window.location = 'https://connect.stripe.com/express/oauth/authorize?redirect_uri=https://us-central1-foodapp-4ebf0.cloudfunctions.net/createConnectAccount&client_id=ca_FJy4SUnn4WnkK81JVAR5CZhwEACACSIO&state={STATE_VALUE}';
       // window.location = "/authorize"
       // var displayName = user.displayName;
