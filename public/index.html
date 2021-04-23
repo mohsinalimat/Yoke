@@ -1,146 +1,296 @@
 <!DOCTYPE html>
-<!-- <html>
-<header></header>
+<html>
+  <head>
+    <title>Authentication</title>
+    <link
+      href="https://fonts.googleapis.com/css?family=Fira+Sans&display=swap"
+      rel="stylesheet"
+    />
 
-<body>
-  <script src="https://www.gstatic.com/firebasejs/8.1.1/firebase-app.js"></script> -->
-<!-- Below is the additional script for Firebase Auth -->
-<!-- <script src="https://www.gstatic.com/firebasejs/8.1.1/firebase-auth.js"></script>
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, maximum-scale=1"
+    />
 
-  <script>
-    var firebaseConfig = {
-      apiKey: "AIzaSyAzk4x5BukIC0N0yiDC9O4nfe1vn_7GUxM",
+    <!-- <link
+      rel="shortcut icon"
+      type="image/png"
+      href="https://naishare.com/images/favicon.png"
+    /> -->
+    <style>
+      .forms-out {
+        margin: 0 auto;
+        font-family: "Fira Sans", sans-serif;
+        padding: 15px 0;
+      }
+      .forms-in {
+        width: 93%;
+        margin: 0 auto;
+        color: white;
+        padding: 15px 0;
+      }
+      .forms-in div {
+        padding: 30px 20px;
+        max-width: 350px;
+        margin: 0 auto;
+        background: #FF5B39;
+        border-radius: 5px;
+        margin-bottom: 15px;
+      }
+      .forms-in h3 {
+        text-align: center;
+      }
+      .forms-in input {
+        border: none;
+        width: 100%;
+        margin-bottom: 15px;
+        padding: 10px;
+        box-sizing: border-box;
+        border-radius: 3px;
+      }
+
+      .forms-in button {
+        border: none;
+        padding: 7px 20px;
+        background: #e8f8ff;
+        color: #FF5B39;
+        border-radius: 4px;
+        cursor: pointer;
+        font-weight: bold;
+      }
+
+      .forms-in button:hover {
+        opacity: 0.7;
+      }
+
+      .hide {
+        display: none;
+      }
+
+      #forgot-password {
+        text-align: center;
+        font-size: 13px;
+        cursor: pointer;
+      }
+
+      #forgot-password:hover {
+        opacity: 0.7;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="forms-out">
+      <div class="forms-in">
+        <div id="registration-page" class="hide">
+          <button id="show-login">Sign In</button>
+          Email <br />
+          <input type="email" id="registration-email" /><br />
+          Confirm Email <br />
+          <input
+            type="email"
+            id="registration-reemail"
+            autocomplete="disable"
+          /><br />
+          Password <br />
+          <input type="password" id="registration-password" /><br />
+          <center><button id="register">Sign Up</button></center>
+        </div>
+
+        <div id="login-page">
+          <!-- <button id="show-register">Sign Up</button> -->
+          <h3>Sign In</h3>
+          Email <br />
+          <input type="email" id="login-email" /><br />
+          Password <br />
+          <input type="password" id="login-password" /><br />
+          <p id="forgot-password">Forgot Password</p>
+          <center><button id="login">Sign In</button></center>
+        </div>
+
+        <div id="homepage" class="hide">
+          <button id="signout">Sign Out</button>
+          <h3>Logged In</h3>
+          <a href="https://connect.stripe.com/express/oauth/authorize?redirect_uri=https://us-central1-foodapp-4ebf0.cloudfunctions.net/createConnectAccount&client_id=ca_FJy4SUnn4WnkK81JVAR5CZhwEACACSIO&state={STATE_VALUE}">Sign up with Stripe to start receiving payments</a> 
+        </div>
+      </div>
+    </div>
+
+    <!-- The core Firebase JS SDK is always required and must be listed first -->
+    <script src="https://www.gstatic.com/firebasejs/7.14.1/firebase-app.js"></script>
+
+    <!-- TODO: Add SDKs for Firebase products that you want to use-->
+    <script src="https://www.gstatic.com/firebasejs/7.14.1/firebase-auth.js"></script>
+
+    <script>
+      // Your web app's Firebase configuration
+      var firebaseConfig = {
+        apiKey: "AIzaSyAzk4x5BukIC0N0yiDC9O4nfe1vn_7GUxM",
       authDomain: "foodapp-4ebf0.firebaseapp.com",
       databaseURL: "https://foodapp-4ebf0.firebaseio.com",
-      projectId: "foodapp-4ebf0"
-    };
-    firebase.initializeApp(firebaseConfig);
+      projectId: "foodapp-4ebf0",
+      storageBucket: "foodapp-4ebf0.appspot.com",
+      messagingSenderId: "801948295113",
+      appId: "1:801948295113:web:72b6aab34ff33381201218",
+      };
+      // Initialize Firebase
+      firebase.initializeApp(firebaseConfig);
+    </script>
 
-    const auth = firebase.auth();
-  </script>
+    <script>
+      //invokes firebase authentication.
+      const auth = firebase.auth();
 
-  <script src="scripts/index.js"></script>
+      document.querySelector("#show-register").addEventListener("click", () => {
+        showRegistration();
+      });
 
-  <form>
-    <input type="email" id="email" />
-    <label for="email">Email</label>
-    <br>
-    <input type="password" id="password" />
-    <label for="password">Password</label>
-    <br>
-    <button id="login-btn">Login</button>
-    <button id="logout-btn">Logout</button>
-  </form>
-  <script>
-    const loginBtn = document.querySelector('#login-btn');
-    loginBtn.addEventListener('click', e => {
-      e.preventDefault();
+      const showRegistration = () => {
+        document.querySelector("#registration-page").classList.remove("hide");
+        document.querySelector("#login-page").classList.add("hide");
+        document.querySelector("#homepage").classList.add("hide");
+      };
 
-      const email = document.querySelector('#email').value;
-      const password = document.querySelector('#password').value;
+      document.querySelector("#show-login").addEventListener("click", () => {
+        showLogin();
+      });
 
-      auth.signInWithEmailAndPassword(email, password)
-        .then(cred => {
-          console.log('Logged in user!');
-        })
-        .catch(error => {
-          console.log(error.message);
-        })
+      const showLogin = () => {
+        document.querySelector("#registration-page").classList.add("hide");
+        document.querySelector("#login-page").classList.remove("hide");
+        document.querySelector("#homepage").classList.add("hide");
+      };
 
-      const logoutBtn = document.querySelector('#logout-btn');
-      logoutBtn.addEventListener('click', e => {
-        e.preventDefault();
-        auth.signOut();
-        console.log('User signed out!');
-      })
+      document.querySelector("#signout").addEventListener("click", () => {
+        signOut();
+      });
 
-      auth.onAuthStateChanged(user => {
-        if (user) {
-          console.log(user.email + " is logged in!");
+      // const register = () => {
+      //   const email = document.querySelector("#registration-email").value;
+      //   const reemail = document.querySelector("#registration-reemail").value;
+      //   const password = document.querySelector("#registration-password").value;
+
+      //   if (email.trim() == "") {
+      //     alert("Enter Email");
+      //   } else if (password.trim().length < 7) {
+      //     alert("Password must be at least 7 characters");
+      //   } else if (email != reemail) {
+      //     alert("emails do not match");
+      //   } else {
+      //     auth
+      //       .createUserWithEmailAndPassword(email, password)
+      //       .catch(function (error) {
+      //         // Handle Errors here.
+      //         var errorCode = error.code;
+      //         var errorMessage = error.message;
+      //         alert(errorMessage);
+      //         // ...
+      //       });
+      //   }
+      // };
+
+      // document.querySelector("#register").addEventListener("click", () => {
+      //   register();
+      // });
+
+      // //register when you hit the enter key
+      // document
+      //   .querySelector("#registration-password")
+      //   .addEventListener("keyup", (e) => {
+      //     if (event.keyCode === 13) {
+      //       e.preventDefault();
+
+      //       register();
+      //     }
+      //   });
+
+      const login = () => {
+        const email = document.querySelector("#login-email").value;
+        const password = document.querySelector("#login-password").value;
+
+        if (email.trim() == "") {
+          alert("Enter Email");
+        } else if (password.trim() == "") {
+          alert("Enter Password");
         } else {
-          console.log('User is logged out!');
+          authenticate(email, password);
+        }
+      };
+
+      document.querySelector("#login").addEventListener("click", () => {
+        login();
+      });
+
+      //sign in when you hit enter
+      document
+        .querySelector("#login-password")
+        .addEventListener("keyup", (e) => {
+          if (event.keyCode === 13) {
+            e.preventDefault();
+
+            login();
+          }
+        });
+
+      const authenticate = (email, password) => {
+        const auth = firebase.auth();
+        auth.signInWithEmailAndPassword(email, password);
+        firebase
+          .auth()
+          .signInWithEmailAndPassword(email, password)
+          .catch(function (error) {
+            // Handle Errors here.
+            var errorCode = error.code;
+            var errorMessage = error.message;
+            alert(errorMessage);
+          });
+      };
+
+      const showHomepage = () => {
+        document.querySelector("#registration-page").classList.add("hide");
+        document.querySelector("#login-page").classList.add("hide");
+        document.querySelector("#homepage").classList.remove("hide");
+      };
+
+      const signOut = () => {
+        firebase
+          .auth()
+          .signOut()
+          .then(function () {
+            location.reload();
+          })
+          .catch(function (error) {
+            alert("error signing out, check network connection");
+          });
+      };
+
+      auth.onAuthStateChanged((firebaseUser) => {
+        if (firebaseUser) {
+          console.log(firebaseUser.uid + " is logged in!");
+          showHomepage();
         }
       });
 
+      document
+        .querySelector("#forgot-password")
+        .addEventListener("click", () => {
+          const email = document.querySelector("#login-email").value;
+          if (email.trim() == "") {
+            alert("Enter Email");
+          } else {
+            forgotPassword(email);
+          }
+        });
 
-    });
-
-  </script>
-</body>
-
-</html> -->
-
-
-
-
-
-
-
-<html>
-
-<head>
-  <title>Authentication Example</title>
-</head>
-
-<body>
-  <form>
-    <div>
-      <input id="email" type="text" placeholder="Email...">
-    </div>
-    <div>
-      <input id="password" type="password" placeholder="Password...">
-    </div>
-    <div>
-      <button id="sign-in">Sign In/Register</button>
-      <button id="sign-out">Sign Out</button>
-    </div>
-  </form>
-
-  <script src="https://www.gstatic.com/firebasejs/live/3.0/firebase.js"></script>
-
-  <script>
-    var config = {
-      apiKey: "AIzaSyAzk4x5BukIC0N0yiDC9O4nfe1vn_7GUxM",
-      authDomain: "foodapp-4ebf0.web.app",
-      databaseURL: "https://foodapp-4ebf0.firebaseio.com",
-      storageBucket: "foodapp-4ebf0.appspot.com",
-    };
-    firebase.initializeApp(config);
-  </script> -->
-
-  <script>
-    firebase.auth().onAuthStateChanged(function (user) {
-      if (user) {
-        console.log(user.uid + " is logged in!");
-        // window.location = 'https://connect.stripe.com/express/oauth/authorize?redirect_uri=https://us-central1-foodapp-4ebf0.cloudfunctions.net/createConnectAccount&client_id=ca_FJy4SUnn4WnkK81JVAR5CZhwEACACSIO&state={STATE_VALUE}';
-      } else {
-        console.log('User is logged out!');
-      }
-      // window.user = user;
-      // window.location = 'https://connect.stripe.com/express/oauth/authorize?redirect_uri=https://us-central1-foodapp-4ebf0.cloudfunctions.net/createConnectAccount&client_id=ca_FJy4SUnn4WnkK81JVAR5CZhwEACACSIO&state={STATE_VALUE}';
-      // window.location = "/authorize"
-      // var displayName = user.displayName;
-
-    });
-  </script> -->
-
-  <script>
-    document.querySelector('#sign-in').addEventListener('click', function (e) {
-      e.preventDefault();
-      e.stopPropagation();
-      var email = document.querySelector('#email').value;
-      var password = document.querySelector('#password').value
-      var credential = firebase.auth.EmailAuthProvider.credential(email, password);
-      var auth = firebase.auth();
-      var currentUser = auth.currentUser;
-    });
-
-    document.querySelector('#sign-out').addEventListener('click', function (e) {
-      e.preventDefault();
-      e.stopPropagation();
-      firebase.auth().signOut();
-    });
-  </script>
-</body>
-
+      const forgotPassword = (email) => {
+        auth
+          .sendPasswordResetEmail(email)
+          .then(function () {
+            alert("email sent");
+          })
+          .catch(function (error) {
+            alert("invalid email or bad network connection");
+          });
+      };
+    </script>
+  </body>
 </html>

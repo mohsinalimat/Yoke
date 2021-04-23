@@ -118,6 +118,8 @@ exports.createConnectAccount = functions.https.onRequest((req, res) => {
         // return res.send(response)
       }
     );
+    // res.render('index');
+    res.redirect('index');
   });
 
   exports.createStripeAccountLink = functions.https.onRequest((req, res) => {
