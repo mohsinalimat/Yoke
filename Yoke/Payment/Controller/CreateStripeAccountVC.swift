@@ -41,9 +41,7 @@ class CreateStripeAccountVC: UIViewController, WKNavigationDelegate, WKUIDelegat
             }
 
             if url.absoluteString.contains("createConnectAccount") {
-//                StripeAccountApi.createAccountLink(accountID: accountId) { (accountLink, nil) in
-//                    print(accountLink)
-//                }
+                
                 decisionHandler(.cancel)
                 _ = self.navigationController?.popViewController(animated: false)
             }

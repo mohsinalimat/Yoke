@@ -3,8 +3,8 @@ const admin = require('firebase-admin');
 const firebase = require('firebase');
 var serviceAccount = require("./routes/serviceAccountKey.json");
 admin.initializeApp({
-  credential: admin.credential.cert(serviceAccount),
-  databaseURL: "https://foodapp-4ebf0.firebaseio.com"
+    credential: admin.credential.cert(serviceAccount),
+    databaseURL: "https://foodapp-4ebf0.firebaseio.com"
 });
 
 var config = {
@@ -15,8 +15,8 @@ var config = {
     storageBucket: "foodapp-4ebf0.appspot.com",
     messagingSenderId: "801948295113",
     appId: "1:801948295113:web:72b6aab34ff33381201218"
-  };
-  firebase.initializeApp(config);
+};
+firebase.initializeApp(config);
 
 //Firebase environment congiguration:
 //firebase functions:config:set stripe.secret_test_key=""
@@ -29,7 +29,7 @@ var app = express();
 var request = require('request');
 const path = require('path');
 const cookieParser = require('cookie-parser')();
-const cors = require('cors')({origin: true});
+const cors = require('cors')({ origin: true });
 app.use(cors);
 
 app.set('view engine', 'pug');
@@ -39,54 +39,54 @@ const db = admin.firestore();
 let docRef = db.collection('stripeAccounts');
 
 app.get('/', (req, res) => {
-  res.render('index');
+    res.render('index');
 });
 app.get('/authorize', async (req, res) => {
     console.log("ACCOUNT: " + req.user.uid)
     // const uid = req.user.uid;
     // console.log(req.user.uid);
     // const userRef = admin.firestore().collection('StripeAccounts').doc(uid);
-  });
-  
+});
+
 const validateFirebaseIdToken = async (req, res, next) => {
-  console.log('Check if request is authorized with Firebase ID token');
+    console.log('Check if request is authorized with Firebase ID token');
 
-  if ((!req.headers.authorization || !req.headers.authorization.startsWith('Bearer ')) &&
-      !(req.cookies && req.cookies.__session)) {
-    console.error('No Firebase ID token was passed as a Bearer token in the Authorization header.',
-        'Make sure you authorize your request by providing the following HTTP header:',
-        'Authorization: Bearer <Firebase ID Token>',
-        'or by passing a "__session" cookie.');
-    res.status(403).send('Unauthorized 01');
-    return;
-  }
+    if ((!req.headers.authorization || !req.headers.authorization.startsWith('Bearer ')) &&
+        !(req.cookies && req.cookies.__session)) {
+        console.error('No Firebase ID token was passed as a Bearer token in the Authorization header.',
+            'Make sure you authorize your request by providing the following HTTP header:',
+            'Authorization: Bearer <Firebase ID Token>',
+            'or by passing a "__session" cookie.');
+        res.status(403).send('Unauthorized 01');
+        return;
+    }
 
-  let idToken;
-  if (req.headers.authorization && req.headers.authorization.startsWith('Bearer ')) {
-    console.log('Found "Authorization" header');
-    // Read the ID Token from the Authorization header.
-    idToken = req.headers.authorization.split('Bearer ')[1];
-  } else if(req.cookies) {
-    console.log('Found "__session" cookie');
-    // Read the ID Token from cookie.
-    idToken = req.cookies.__session;
-  } else {
-    // No cookie
-    res.status(403).send('Unauthorized 02');
-    return;
-  }
+    let idToken;
+    if (req.headers.authorization && req.headers.authorization.startsWith('Bearer ')) {
+        console.log('Found "Authorization" header');
+        // Read the ID Token from the Authorization header.
+        idToken = req.headers.authorization.split('Bearer ')[1];
+    } else if (req.cookies) {
+        console.log('Found "__session" cookie');
+        // Read the ID Token from cookie.
+        idToken = req.cookies.__session;
+    } else {
+        // No cookie
+        res.status(403).send('Unauthorized 02');
+        return;
+    }
 
-  try {
-    const decodedIdToken = await admin.auth().verifyIdToken(idToken);
-    console.log('ID Token correctly decoded', decodedIdToken);
-    req.user = decodedIdToken;
-    next();
-    return;
-  } catch (error) {
-    console.error('Error while verifying Firebase ID token:', error);
-    res.status(403).send('Unauthorized 03');
-    return;
-  }
+    try {
+        const decodedIdToken = await admin.auth().verifyIdToken(idToken);
+        console.log('ID Token correctly decoded', decodedIdToken);
+        req.user = decodedIdToken;
+        next();
+        return;
+    } catch (error) {
+        console.error('Error while verifying Firebase ID token:', error);
+        res.status(403).send('Unauthorized 03');
+        return;
+    }
 };
 
 
@@ -98,89 +98,91 @@ app.use(validateFirebaseIdToken);
 exports.createConnectAccount = functions.https.onRequest((req, res) => {
     var data = req.body
     var email = data.email
-    var response = {}  
-    stripe.accounts.create (
-      {
-        type: 'custom',
-        country: 'US',
-        requested_capabilities: [
-          'transfers',
-        ],
-        business_type: 'individual',
-      },
-        function(err, account) {
-          if (err) {
-            console.log("Couldn't create stripe account: " + err)
-            return res.send(err)
-        }      console.log("ACCOUNT: " + account.id)
-        response.body = {success: account.id}
-        return docRef.doc("req.user.uid").set({stripeId : account.id});
-        // return res.send(response)
-      }
+    var uid = req.body.user.uid
+    var response = {}
+    stripe.accounts.create(
+        {
+            type: 'custom',
+            country: 'US',
+            requested_capabilities: [
+                'transfers',
+            ],
+            business_type: 'individual',
+        },
+        function (err, account) {
+            if (err) {
+                console.log("Couldn't create stripe account: " + err)
+                return res.send(err)
+            } console.log("ACCOUNT: " + account.id) 
+            response.body = { success: account.id }
+            // return docRef.doc('req.firebaseUser.uid').set({ stripeId: account.id });
+            return res.send(response)
+        }
     );
     // res.render('index');
-    res.redirect('index');
-  });
+    // res.redirect('index');
+});
 
-  exports.createStripeAccountLink = functions.https.onRequest((req, res) => {
+exports.createStripeAccountLink = functions.https.onRequest((req, res) => {
     var data = req.body
-    var accountID = data.accountID  
-    var response = {}  
+    var accountID = data.accountID
+    var response = {}
     stripe.accountLinks.create({
-      account: accountID,
-      failure_url: 'https://example.com/failure',
-      success_url: 'https://example.com/success',
-      type: 'custom_account_verification',
-      collect: 'eventually_due',
-    }, function(err, accountLink) {
-      if (err) {
-        console.log(err)
-        response.body = {failure: err}
+        account: accountID,
+        failure_url: 'https://example.com/failure',
+        success_url: 'https://example.com/success',
+        type: 'custom_account_verification',
+        collect: 'eventually_due',
+    }, function (err, accountLink) {
+        if (err) {
+            console.log(err)
+            response.body = { failure: err }
+            return res.send(response)
+        } console.log(accountLink.url)
+        response.body = { success: accountLink.url }
         return res.send(response)
-      }  console.log(accountLink.url)
-      response.body = {success: accountLink.url}
-      return docRef.doc(req.user.uid).set({stripeId : accountID, stripeLoginLink : accountLink.url});
-    //   return res.send(response)
     });
-  });
+});
 
 
-// app.get('/token', async (req, res, next) => {
-// // Post the authorization code to Stripe to complete the Express onboarding flow
-// res.render('404');
-// docRef.doc("req.user.uid").set({stripeId : 'accountID', stripeLoginLink : 'accountLink.url'});
-// request.post(
-//   'https://connect.stripe.com/oauth/token',
-//   {
-//     form: {
-//       grant_type: 'authorization_code',
-//           client_id: 'ca_FJy4SUnn4WnkK81JVAR5CZhwEACACSIO',
-//           client_secret: 'sk_test_QoimFzURXIjRvNMtI356etvw00KjSz4gvd',
-//           code: req.query.code,
-//           user: req.user.uid,
-//     },
-//     json: true,
-//   },
-//   (err, response, body) => {
-//     if (err || body.error) {
-//       console.log('The Stripe onboarding process has not succeeded.');
-//     } else {
-    
-    //   stripe.accounts.createLoginLink(
-    //     connected_account_id,
-    //     (err, loginLink) => {
-    //       if (err) {
-    //         console.log(err)
-    //       } else {
-    //         docRef.doc(req.user.uid).set({stripeId : connected_account_id, stripeLoginLink : loginLink.url});
-    //         res.redirect(loginLink.url);
-    //       }
-    //     }
-    //   );
+app.get('/token', async (req, res, next) => {
+    // Post the authorization code to Stripe to complete the Express onboarding flow
 
-//   }
-//   );
-// });
+    request.post(
+        'https://connect.stripe.com/oauth/token',
+        {
+            form: {
+                grant_type: 'authorization_code',
+                client_id: 'ca_FJy4SUnn4WnkK81JVAR5CZhwEACACSIO',
+                client_secret: 'sk_test_QoimFzURXIjRvNMtI356etvw00KjSz4gvd',
+                code: req.query.code,
+                user: req.user.uid,
+            },
+            json: true,
+        },
+        (err, response, body) => {
+            if (err || body.error) {
+                console.log('The Stripe onboarding process has not succeeded.');
+            } else {
+
+                var connected_account_id = body.stripe_user_id;
+
+                stripe.accounts.createLoginLink(
+                    connected_account_id,
+                    (err, loginLink) => {
+                        if (err) {
+                            console.log(err)
+                        } else {
+                            docRef.doc(user).set({ stripeId: connected_account_id, stripeLoginLink: loginLink.url });
+                            res.redirect(loginLink.url);
+                        }
+                    }
+                );
+            }
+
+        }
+    );
+});
 
 
 
@@ -206,7 +208,7 @@ exports.createConnectAccount = functions.https.onRequest((req, res) => {
 //         throw new functions.https.HttpsError('internal', ' Unable to create ephemeral key: ' + err);
 //     });
 // });
-  
+
 // // This is the method used for credit cards and uses the new Payment Methods API.
 // exports.createCharge = functions.https.onCall(async (data, context) => {
 
