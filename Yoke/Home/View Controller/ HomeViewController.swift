@@ -282,7 +282,7 @@ class HomeViewController: UIViewController {
         view.backgroundColor = .white
         view.layer.shadowOffset = CGSize(width: 0, height: 4)
         view.layer.shadowRadius = 4
-        view.layer.shadowOpacity = 0.3
+        view.layer.shadowOpacity = 0.2
         view.layer.shadowColor = UIColor.gray.cgColor
         view.layer.cornerRadius = 10
         return view
