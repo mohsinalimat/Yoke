@@ -60,8 +60,8 @@ class SuggestedChefsCollectionViewCell: UICollectionViewCell {
         nameLabel.anchor(top: profileImage.bottomAnchor, left: nil, bottom: nil, right: nil, paddingTop: 10, paddingLeft: 5, paddingBottom: 0, paddingRight: 0)
         nameLabel.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
         
-        ratingView.anchor(top: nameLabel.bottomAnchor, left: profileImage.rightAnchor, bottom: nil, right: nil, paddingTop: 5, paddingLeft: 5, paddingBottom: 0, paddingRight: 0, width: 70, height: 15)
-//        ratingView.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
+        ratingView.anchor(top: nameLabel.bottomAnchor, left: nil, bottom: nil, right: nil, paddingTop: 5, paddingLeft: 5, paddingBottom: 0, paddingRight: 0, width: 70, height: 15)
+        ratingView.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
         locationLabel.anchor(top: ratingView.bottomAnchor, left: profileImage.rightAnchor, bottom: nil, right: nil, paddingTop: 5, paddingLeft: 5, paddingBottom: 0, paddingRight: 0)
 //        locationLabel.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
     }
