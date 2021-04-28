@@ -55,7 +55,7 @@ class SuggestedChefsCollectionViewCell: UICollectionViewCell {
     func setupConstraints() {
         shadowView.anchor(top: topAnchor, left: leftAnchor, bottom: bottomAnchor, right: rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0)
         cellBackgroundImage.anchor(top: topAnchor, left: leftAnchor, bottom: bottomAnchor, right: rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0)
-        profileImage.anchor(top: topAnchor, left: nil, bottom: nil, right: nil, paddingTop: 5, paddingLeft: 5, paddingBottom: 5, paddingRight: 0, width: 80, height: 80)
+        profileImage.anchor(top: topAnchor, left: nil, bottom: nil, right: nil, paddingTop: 5, paddingLeft: 5, paddingBottom: 5, paddingRight: 0, width: 100, height: 100)
         profileImage.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
         nameLabel.anchor(top: profileImage.bottomAnchor, left: nil, bottom: nil, right: nil, paddingTop: 10, paddingLeft: 5, paddingBottom: 0, paddingRight: 0)
         nameLabel.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
@@ -94,7 +94,7 @@ class SuggestedChefsCollectionViewCell: UICollectionViewCell {
         image.image = UIImage(named: "gradientBackgroundHalf")
         image.translatesAutoresizingMaskIntoConstraints = false
         image.clipsToBounds = true
-        image.layer.cornerRadius = 40
+        image.layer.cornerRadius = 50
         image.layer.borderWidth = 1
         image.layer.borderColor = UIColor.white.cgColor
         return image

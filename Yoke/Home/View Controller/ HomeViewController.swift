@@ -504,7 +504,7 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
         if SuggestedChefController.shared.chefs.count == 0 {
             return CGSize(width: view.frame.width - 20, height: 100)
         } else {
-            return CGSize(width: view.frame.width / 2 , height: 200)
+            return CGSize(width: view.frame.width / 2 , height: 180)
         }
     }
     
