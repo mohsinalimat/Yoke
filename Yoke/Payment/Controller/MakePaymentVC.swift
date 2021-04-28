@@ -90,20 +90,20 @@ class MakePaymentVC: UIViewController, STPPaymentContextDelegate {
     }
     
     func setupStripe() {
-        let config = STPPaymentConfiguration.shared()
-//        config.createCardSources = true
-        config.requiredBillingAddressFields = .full
-        
-        let customerContext = STPCustomerContext(keyProvider: StripeApi)
-        paymentContext = STPPaymentContext(customerContext: customerContext, configuration: config, theme: .default())
-        paymentContext.paymentAmount = Int(total)
-        
-        paymentContext.delegate = self
-        paymentContext.hostViewController = self
- 
-        subLabel.text = subtotal.penniesToFormattedCurrency()
-        feeLabel.text = self.processingFees.penniesToFormattedCurrency()
-        totalLabel.text = self.total.penniesToFormattedCurrency()
+//        let config = STPPaymentConfiguration.shared
+////        config.createCardSources = true
+//        config.requiredBillingAddressFields = .full
+//        
+//        let customerContext = STPCustomerContext(keyProvider: StripeApi)
+//        paymentContext = STPPaymentContext(customerContext: customerContext, configuration: config, theme: .default())
+//        paymentContext.paymentAmount = Int(total)
+//        
+//        paymentContext.delegate = self
+//        paymentContext.hostViewController = self
+// 
+//        subLabel.text = subtotal.penniesToFormattedCurrency()
+//        feeLabel.text = self.processingFees.penniesToFormattedCurrency()
+//        totalLabel.text = self.total.penniesToFormattedCurrency()
         
     }
     

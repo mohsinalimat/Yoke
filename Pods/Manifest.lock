@@ -149,7 +149,9 @@ PODS:
   - nanopb/encode (0.3.9011)
   - Protobuf (3.14.0)
   - RSKImageCropper (3.0.2)
-  - Stripe (19.0.1)
+  - Stripe (21.4.0):
+    - Stripe/Stripe3DS2 (= 21.4.0)
+  - Stripe/Stripe3DS2 (21.4.0)
   - TTGTagCollectionView (1.11.1)
 
 DEPENDENCIES:
@@ -164,7 +166,7 @@ DEPENDENCIES:
   - GoogleSignIn
   - IQKeyboardManagerSwift
   - RSKImageCropper
-  - Stripe (~> 19.0.1)
+  - Stripe (~> 21.4)
   - TTGTagCollectionView
 
 SPEC REPOS:
@@ -227,9 +229,9 @@ SPEC CHECKSUMS:
   nanopb: 18003b5e52dab79db540fe93fe9579f399bd1ccd
   Protobuf: 0cde852566359049847168e51bd1c690e0f70056
   RSKImageCropper: 1ac71e9a82e3f41eea3eedfff8eacb0d3821c9ec
-  Stripe: 03313f9520a0786e2c00d9a7a2672c11e08821af
+  Stripe: 7c594b943abb65cf7bc28e37fd5124e65db3ce9e
   TTGTagCollectionView: 86fcbfa6a7493c9e860b01c2e693cffc8acf6de1
 
-PODFILE CHECKSUM: 1a3bfd918edb1b9a33b41dacada107c5cf92e519
+PODFILE CHECKSUM: 7911c07dccd9c9a401958e3217d91cf046c8fb96
 
 COCOAPODS: 1.10.0

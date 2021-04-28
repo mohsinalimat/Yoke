@@ -26,7 +26,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         GIDSignIn.sharedInstance().clientID = FirebaseApp.app()?.options.clientID
         Database.database().isPersistenceEnabled = true
         IQKeyboardManager.shared.enable = true
-        STPAPIClient.shared().publishableKey = "pk_test_pX3V6XXnlsluthlhaKXHrW5U00WHz0znIt"
+        STPAPIClient.shared.publishableKey = "pk_test_pX3V6XXnlsluthlhaKXHrW5U00WHz0znIt"
         
 //        window = UIWindow()
 //        window?.rootViewController = MainTabBarController()

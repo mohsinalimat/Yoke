@@ -14,7 +14,7 @@ target 'Yoke' do
   pod 'Firebase/Functions'
   pod 'Geofirestore'
   pod 'IQKeyboardManagerSwift'
-  pod 'Stripe' , '~> 19.0.1'
+  pod 'Stripe', '~> 21.4'
   pod 'GoogleSignIn'
   pod 'TTGTagCollectionView'
   pod 'RSKImageCropper'
