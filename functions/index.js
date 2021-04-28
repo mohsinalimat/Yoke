@@ -26,6 +26,7 @@ const stripe = require('stripe')(functions.config().stripe.secret_test_key);
 
 var express = require('express');
 var app = express();
+//postman-request
 var request = require('request');
 const path = require('path');
 const cookieParser = require('cookie-parser')();
