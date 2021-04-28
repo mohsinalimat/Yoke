@@ -1,11 +1,11 @@
-const functions = require('firebase-functions');
-const admin = require('firebase-admin');
-const firebase = require('firebase');
-var serviceAccount = require("./routes/serviceAccountKey.json");
+const functions = require('firebase-functions')
+const admin = require('firebase-admin')
+const firebase = require('firebase')
+var serviceAccount = require("./routes/serviceAccountKey.json")
 admin.initializeApp({
     credential: admin.credential.cert(serviceAccount),
     databaseURL: "https://foodapp-4ebf0.firebaseio.com"
-});
+})
 
 var config = {
     apiKey: "AIzaSyAzk4x5BukIC0N0yiDC9O4nfe1vn_7GUxM",
@@ -15,39 +15,40 @@ var config = {
     storageBucket: "foodapp-4ebf0.appspot.com",
     messagingSenderId: "801948295113",
     appId: "1:801948295113:web:72b6aab34ff33381201218"
-};
-firebase.initializeApp(config);
+}
+firebase.initializeApp(config)
 
 //Firebase environment congiguration:
 //firebase functions:config:set stripe.secret_test_key=""
-const stripe = require('stripe')(functions.config().stripe.secret_test_key);
+const stripe = require('stripe')(functions.config().stripe.token)
 //To view key: 
 //firebase functions:config:get
 
-var express = require('express');
-var app = express();
+var express = require('express')
+var app = express()
 //postman-request
-var request = require('request');
-const path = require('path');
-const cookieParser = require('cookie-parser')();
-const cors = require('cors')({ origin: true });
-app.use(cors);
+var request = require('request')
+const path = require('path')
+const cookieParser = require('cookie-parser')()
+const cors = require('cors')({ origin: true })
+app.use(cors)
 
 app.set('view engine', 'pug');
-app.set('views', path.join(__dirname, 'views'));
+app.set('views', path.join(__dirname, 'views'))
 
-const db = admin.firestore();
-let docRef = db.collection('stripeAccounts');
+const db = admin.firestore()
+let docRef = db.collection('stripeAccounts')
 
 app.get('/', (req, res) => {
-    res.render('index');
-});
+    res.render('index')
+})
+
 app.get('/authorize', async (req, res) => {
-    console.log("ACCOUNT: " + req.user.uid)
+    console.log("ACCOUNT: " + req.body)
     // const uid = req.user.uid;
     // console.log(req.user.uid);
     // const userRef = admin.firestore().collection('StripeAccounts').doc(uid);
-});
+})
 
 const validateFirebaseIdToken = async (req, res, next) => {
     console.log('Check if request is authorized with Firebase ID token');
@@ -57,43 +58,43 @@ const validateFirebaseIdToken = async (req, res, next) => {
         console.error('No Firebase ID token was passed as a Bearer token in the Authorization header.',
             'Make sure you authorize your request by providing the following HTTP header:',
             'Authorization: Bearer <Firebase ID Token>',
-            'or by passing a "__session" cookie.');
-        res.status(403).send('Unauthorized 01');
-        return;
+            'or by passing a "__session" cookie.')
+        res.status(403).send('Unauthorized 01')
+        return
     }
 
     let idToken;
     if (req.headers.authorization && req.headers.authorization.startsWith('Bearer ')) {
-        console.log('Found "Authorization" header');
+        console.log('Found "Authorization" header')
         // Read the ID Token from the Authorization header.
-        idToken = req.headers.authorization.split('Bearer ')[1];
+        idToken = req.headers.authorization.split('Bearer ')[1]
     } else if (req.cookies) {
-        console.log('Found "__session" cookie');
+        console.log('Found "__session" cookie')
         // Read the ID Token from cookie.
-        idToken = req.cookies.__session;
+        idToken = req.cookies.__session
     } else {
         // No cookie
-        res.status(403).send('Unauthorized 02');
-        return;
+        res.status(403).send('Unauthorized 02')
+        return
     }
 
     try {
         const decodedIdToken = await admin.auth().verifyIdToken(idToken);
-        console.log('ID Token correctly decoded', decodedIdToken);
-        req.user = decodedIdToken;
-        next();
-        return;
+        console.log('ID Token correctly decoded', decodedIdToken)
+        req.user = decodedIdToken
+        next()
+        return
     } catch (error) {
         console.error('Error while verifying Firebase ID token:', error);
-        res.status(403).send('Unauthorized 03');
-        return;
+        res.status(403).send('Unauthorized 03')
+        return
     }
 };
 
 
-app.use(cors);
-app.use(cookieParser);
-app.use(validateFirebaseIdToken);
+app.use(cors)
+app.use(cookieParser)
+app.use(validateFirebaseIdToken)
 
 
 exports.createConnectAccount = functions.https.onRequest((req, res) => {
@@ -119,10 +120,10 @@ exports.createConnectAccount = functions.https.onRequest((req, res) => {
             // return docRef.doc('req.firebaseUser.uid').set({ stripeId: account.id });
             return res.send(response)
         }
-    );
+    )
     // res.render('index');
     // res.redirect('index');
-});
+})
 
 exports.createStripeAccountLink = functions.https.onRequest((req, res) => {
     var data = req.body
@@ -142,8 +143,8 @@ exports.createStripeAccountLink = functions.https.onRequest((req, res) => {
         } console.log(accountLink.url)
         response.body = { success: accountLink.url }
         return res.send(response)
-    });
-});
+    })
+})
 
 
 app.get('/token', async (req, res, next) => {
@@ -163,10 +164,10 @@ app.get('/token', async (req, res, next) => {
         },
         (err, response, body) => {
             if (err || body.error) {
-                console.log('The Stripe onboarding process has not succeeded.');
+                console.log('The Stripe onboarding process has not succeeded.')
             } else {
 
-                var connected_account_id = body.stripe_user_id;
+                var connected_account_id = body.stripe_user_id
 
                 stripe.accounts.createLoginLink(
                     connected_account_id,
@@ -174,16 +175,16 @@ app.get('/token', async (req, res, next) => {
                         if (err) {
                             console.log(err)
                         } else {
-                            docRef.doc(user).set({ stripeId: connected_account_id, stripeLoginLink: loginLink.url });
-                            res.redirect(loginLink.url);
+                            docRef.doc(user).set({ stripeId: connected_account_id, stripeLoginLink: loginLink.url })
+                            res.redirect(loginLink.url)
                         }
                     }
-                );
+                )
             }
 
         }
-    );
-});
+    )
+})
 
 
 
@@ -244,4 +245,4 @@ app.get('/token', async (req, res, next) => {
 //         });
 // });
 
-exports.app = functions.https.onRequest(app);
+exports.app = functions.https.onRequest(app)
