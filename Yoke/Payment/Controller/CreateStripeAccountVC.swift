@@ -128,3 +128,51 @@ class CreateStripeAccountVC: UIViewController, WKNavigationDelegate, WKUIDelegat
 
 }
 // strip express link: https://connect.stripe.com/express/oauth/authorize?redirect_uri=https://foodapp-4ebf0.firebaseapp.com/token&client_id=ca_FJy4SUnn4WnkK81JVAR5CZhwEACACSIO&state={STATE_VALUE}
+
+
+//let BackendAPIBaseURL: String = "https://connect.stripe.com/express/oauth/authorize?redirect_uri=https://us-central1-foodapp-4ebf0.cloudfunctions.net/createConnectAccount&client_id=ca_FJy4SUnn4WnkK81JVAR5CZhwEACACSIO&state={STATE_VALUE}"
+//class CreateStripeAccountVC: UIViewController {
+//    override func viewDidLoad() {
+//        super.viewDidLoad()
+//        
+//        let connectWithStripeButton = UIButton(type: .system)
+//        connectWithStripeButton.setTitle("Connect with Stripe", for: .normal)
+//        connectWithStripeButton.addTarget(self, action: #selector(didSelectConnectWithStripe), for: .touchUpInside)
+//        view.addSubview(connectWithStripeButton)
+//        connectWithStripeButton.anchor(top: view.topAnchor, left: view.leftAnchor, bottom: nil, right: view.rightAnchor, paddingTop: 20, paddingLeft: 10, paddingBottom: 10, paddingRight: 10, height: 50)
+//        
+//        // ...
+//    }
+//    
+//    @objc
+//    func didSelectConnectWithStripe() {
+//        if let url = URL(string: BackendAPIBaseURL)?.appendingPathComponent("onboard-user") {
+//            var request = URLRequest(url: url)
+//            request.httpMethod = "POST"
+//            let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
+//                guard let data = data,
+//                      let json = try? JSONSerialization.jsonObject(with: data, options: []) as? [String : Any],
+//                      let accountURLString = json["url"] as? String,
+//                      let accountURL = URL(string: accountURLString) else {
+//                    return
+//                }
+//                
+//                let safariViewController = SFSafariViewController(url: url)
+//                safariViewController.delegate = self
+//                
+//                DispatchQueue.main.async {
+//                    self.present(safariViewController, animated: true, completion: nil)
+//                }
+//            }
+//        }
+//    }
+//    
+//    // ...
+//}
+//
+//extension CreateStripeAccountVC: SFSafariViewControllerDelegate {
+//    func safariViewControllerDidFinish(_ controller: SFSafariViewController) {
+//        // the user may have closed the SFSafariViewController instance before a redirect
+//        // occurred. Sync with your backend to confirm the correct state
+//    }
+//}
