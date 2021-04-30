@@ -36,7 +36,7 @@ class CreateStripeAccountVC: UIViewController, WKUIDelegate, WKNavigationDelegat
             return
         }
         
-        let path: String = "/token"
+        let path: String = "/authorize"
         
         let cachePolicy = NSURLRequest.CachePolicy.reloadIgnoringLocalAndRemoteCacheData
         let timeout: TimeInterval = 6.0

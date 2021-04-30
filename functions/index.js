@@ -23,6 +23,8 @@ firebase.initializeApp(config)
 const stripe = require('stripe')(functions.config().stripe.token)
 //To view key: 
 //firebase functions:config:get
+var AUTHORIZE_URI = 'https://connect.stripe.com/express/oauth/authorize';
+var TOKEN_URI = 'https://connect.stripe.com/oauth/token';
 
 var express = require('express')
 var app = express()
@@ -90,10 +92,6 @@ const validateFirebaseIdToken = async (req, res, next) => {
 app.use(cors)
 app.use(cookieParser)
 app.use(validateFirebaseIdToken)
-
-app.get('/authorize', async (req, res) => {
-
-})
 
 exports.createConnectAccount = functions.https.onRequest((req, res) => {
     console.log("request.body: " + req.body); // <-- returns undefined
@@ -196,44 +194,125 @@ exports.createConnectAccount = functions.https.onRequest((req, res) => {
 // })
 // })
 
+app.get('/authorize', async (req, res) => {
+    res.redirect(AUTHORIZE_URI + "?" + queryString.stringify({
+        response_type: "code",
+        scope: "read_write",
+        client_id: 'ca_FJy4SUnn4WnkK81JVAR5CZhwEACACSIO',
+        force_login: true
+    }));
+})
 
-app.get('/token', async (req, res, next) => {
-    // Post the authorization code to Stripe to complete the Express onboarding flow
-    request.post(
-        'https://connect.stripe.com/oauth/token',
-        {
+
+app.get('/redirect', async (req, res) => {
+    //Users are redirected to this endpoint after their request to connect to Stripe is approved.
+
+    var authCode = req.param('code');
+    var scope = req.param('scope');
+    var error = req.param('error');
+    var errorDescription = req.param('error_description');
+    var objectID = req.param('object_id');
+
+
+    if (error) {
+        res.render('pages/fail');
+    } else {
+
+        // Make /oauth/token endpoint POST request
+        request.post({
+            url: TOKEN_URI,
             form: {
                 grant_type: 'authorization_code',
                 client_id: 'ca_FJy4SUnn4WnkK81JVAR5CZhwEACACSIO',
-                client_secret: 'sk_test_QoimFzURXIjRvNMtI356etvw00KjSz4gvd',
-                code: req.query.code,
-                user: req.user.uid,
-            },
-            json: true,
-        },
-        (err, response, body) => {
-            if (err || body.error) {
-                console.log('The Stripe onboarding process has not succeeded.')
-            } else {
+                code: authCode,
+                client_secret: 'sk_test_QoimFzURXIjRvNMtI356etvw00KjSz4gvd'
+            }
+        }, function (err, response, body) {
 
-                var connected_account_id = body.stripe_user_id
-
-                // stripe.accounts.createLoginLink(
-                //     connected_account_id,
-                //     (err, loginLink) => {
-                //         if (err) {
-                //             console.log(err)
-                //         } else {
-                //             docRef.doc('user').set({ stripeId: connected_account_id, stripeLoginLink: loginLink.url })
-                //             res.redirect(loginLink.url)
-                //         }
-                //     }
-                // )
+            if (err) {
+                res.render('pages/fail');
+                return;
             }
 
+            // {
+            //   "token_type": "bearer",
+            //   "stripe_publishable_key": PUBLISHABLE_KEY,
+            //   "scope": "read_write",
+            //   "livemode": false,
+            //   "stripe_user_id": USER_ID,
+            //   "refresh_token": REFRESH_TOKEN,
+            //   "access_token": ACCESS_TOKEN
+            // }
+
+            var stripeUserID = JSON.parse(body).stripe_user_id;
+
+            var qs = queryString.stringify({
+                stripe_user_id: stripeUserID
+            });
+
+            res.redirect('/success?' + qs);
+
+        });
+    }
+
+});
+
+app.get('/success', function (req, res) {
+    var stripeUserID = req.query.stripe_user_id;
+
+    stripe.accounts.createLoginLink(
+        stripeUserID,
+        (err, loginLink) => {
+            if (err) {
+                console.log(err)
+            } else {
+                docRef.doc('user').set({ stripeId: stripeUserID, stripeLoginLink: loginLink.url })
+                res.redirect(loginLink.url)
+            }
         }
     )
-})
+    // res.render('pages/success', {
+    //     stripe_user_id: stripeUserID
+});
+
+
+
+// Post the authorization code to Stripe to complete the Express onboarding flow
+// request.post(
+//     'https://connect.stripe.com/oauth/token',
+//     {
+//         form: {
+//             grant_type: 'authorization_code',
+//             client_id: 'ca_FJy4SUnn4WnkK81JVAR5CZhwEACACSIO',
+//             client_secret: 'sk_test_QoimFzURXIjRvNMtI356etvw00KjSz4gvd',
+//             code: req.query.code,
+//             user: req.user.uid,
+//         },
+//         json: true,
+//     },
+//     (err, response, body) => {
+//         if (err || body.error) {
+//             console.log('The Stripe onboarding process has not succeeded.')
+//         } else {
+//             console.log(body.stripe_user_id)
+//             var connected_account_id = body.stripe_user_id
+
+// stripe.accounts.createLoginLink(
+//     connected_account_id,
+//     (err, loginLink) => {
+//         if (err) {
+//             console.log(err)
+//         } else {
+//             docRef.doc('user').set({ stripeId: connected_account_id, stripeLoginLink: loginLink.url })
+//             res.redirect(loginLink.url)
+//         }
+//     }
+// )
+//         }
+
+//     }
+// )
+// })
 
 
 
