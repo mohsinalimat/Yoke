@@ -12,44 +12,131 @@ import FirebaseAuth
 import WebKit
 import Alamofire
 
-class CreateStripeAccountVC: UIViewController, WKNavigationDelegate, WKUIDelegate  {
-    var accountId: String = ""
-    var webView: WKWebView!
-    var activityIndicator: UIActivityIndicatorView!
-    override func loadView() {
-            let webConfiguration = WKWebViewConfiguration()
-            webView = WKWebView(frame: .zero, configuration: webConfiguration)
-            webView.uiDelegate = self
-            view = webView
-        }
-
-        override func viewDidLoad() {
-            super.viewDidLoad()
-            let myURL = URL(string: "https://foodapp-4ebf0.web.app")
-            let myRequest = URLRequest(url: myURL!)
-            webView.load(myRequest)
-        }
-
-        func webView(
-            _ webView: WKWebView,
-            decidePolicyFor navigationAction: WKNavigationAction,
-            decisionHandler: @escaping (WKNavigationActionPolicy) -> Void) {
-
-            guard let url = navigationAction.request.url else {
-                decisionHandler(.allow)
-                return
-            }
-
-            if url.absoluteString.contains("createConnectAccount") {
-                
-                decisionHandler(.cancel)
-                _ = self.navigationController?.popViewController(animated: false)
-            }
-            else {
-                decisionHandler(.allow)
-            }
-        }
+class CreateStripeAccountVC: UIViewController, WKUIDelegate, WKNavigationDelegate {
     
+    
+    var webView: WKWebView!
+    
+    var activityIndicatorView: UIActivityIndicatorView!
+    
+    //replace this with your Heroku hosted Node.js App url
+    let url = URL(string: "https://foodapp-4ebf0.web.app")
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        let webConfiguration = WKWebViewConfiguration()
+        webView = WKWebView(frame: .zero, configuration: webConfiguration)
+        webView.uiDelegate = self
+        view = webView
+//        activityIndicatorView.isHidden = true
+        
+        guard let url = self.url else {
+            self.alert(message: "The URL seems to be Invalid.")
+            return
+        }
+        
+        let path: String = "/token"
+        
+        let cachePolicy = NSURLRequest.CachePolicy.reloadIgnoringLocalAndRemoteCacheData
+        let timeout: TimeInterval = 6.0
+        var request = URLRequest(url: url.appendingPathComponent(path), cachePolicy: cachePolicy, timeoutInterval: timeout)
+        
+        request.httpMethod = "GET"
+        
+//        activityIndicatorView.isHidden = false
+        webView.load(request)
+        
+    }
+    
+    func webViewDidStartLoad(_ webView: WKWebView) {
+        activityIndicatorView.startAnimating()
+    }
+    
+    func webViewDidFinishLoad(_ webView: WKWebView) {
+        activityIndicatorView.isHidden = true
+        activityIndicatorView.stopAnimating()
+    }
+    
+    func webView(_ webView: WKWebView, didFailLoadWithError error: Error) {
+        self.alert(message: error.localizedDescription)
+    }
+    
+    func webView(_ webView: WKWebView, shouldStartLoadWith request: URLRequest, navigationType: WKNavigationType) -> Bool {
+        if let url = request.url {
+            
+            if let urlComponents = URLComponents(string: url.absoluteString) {
+                if let queryString = urlComponents.queryItems {
+                    for query in queryString {
+                        if query.name == "stripe_user_id" {
+                            if let value = query.value {
+                                
+                                //If authentication to your Stripe Account was successful, the Stripe User ID will be returned as a query string in the variable 'value'.  You can then proceed to save it to your application’s database, to use at a later stage for any subsequent Stripe connection requests.
+                                
+                                print("Stripe User ID = \(value)")
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        return true
+    }
+    
+    func alert(message: String) {
+        let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        
+        let action = UIAlertAction(title: "OK", style: .default, handler: {(alert: UIAlertAction!) in
+            self.dismiss(animated: true, completion: nil)
+        })
+        
+        alertController.addAction(action)
+        
+        DispatchQueue.main.async(execute: { () -> Void in
+            self.present(alertController, animated: true, completion: nil)
+        })
+    }
+
+}
+
+//class CreateStripeAccountVC: UIViewController, WKNavigationDelegate, WKUIDelegate  {
+//    var accountId: String = ""
+//    var webView: WKWebView!
+//    var activityIndicator: UIActivityIndicatorView!
+//    override func loadView() {
+//            let webConfiguration = WKWebViewConfiguration()
+//            webView = WKWebView(frame: .zero, configuration: webConfiguration)
+//            webView.uiDelegate = self
+//            view = webView
+//        }
+//
+//        override func viewDidLoad() {
+//            super.viewDidLoad()
+//            let myURL = URL(string: "https://foodapp-4ebf0.web.app")
+//            let myRequest = URLRequest(url: myURL!)
+//            webView.load(myRequest)
+//        }
+//
+//        func webView(
+//            _ webView: WKWebView,
+//            decidePolicyFor navigationAction: WKNavigationAction,
+//            decisionHandler: @escaping (WKNavigationActionPolicy) -> Void) {
+//
+//            guard let url = navigationAction.request.url else {
+//                decisionHandler(.allow)
+//                return
+//            }
+//
+//            if url.absoluteString.contains("createConnectAccount") {
+//
+//                decisionHandler(.cancel)
+//                _ = self.navigationController?.popViewController(animated: false)
+//            }
+//            else {
+//                decisionHandler(.allow)
+//            }
+//        }
+//
 //    override func loadView() {
 //        webView = WKWebView()
 //        webView.navigationDelegate = self
@@ -126,7 +213,7 @@ class CreateStripeAccountVC: UIViewController, WKNavigationDelegate, WKUIDelegat
 //        }
 //    }
 
-}
+//}
 // strip express link: https://connect.stripe.com/express/oauth/authorize?redirect_uri=https://foodapp-4ebf0.firebaseapp.com/token&client_id=ca_FJy4SUnn4WnkK81JVAR5CZhwEACACSIO&state={STATE_VALUE}
 
 
@@ -134,16 +221,16 @@ class CreateStripeAccountVC: UIViewController, WKNavigationDelegate, WKUIDelegat
 //class CreateStripeAccountVC: UIViewController {
 //    override func viewDidLoad() {
 //        super.viewDidLoad()
-//        
+//
 //        let connectWithStripeButton = UIButton(type: .system)
 //        connectWithStripeButton.setTitle("Connect with Stripe", for: .normal)
 //        connectWithStripeButton.addTarget(self, action: #selector(didSelectConnectWithStripe), for: .touchUpInside)
 //        view.addSubview(connectWithStripeButton)
 //        connectWithStripeButton.anchor(top: view.topAnchor, left: view.leftAnchor, bottom: nil, right: view.rightAnchor, paddingTop: 20, paddingLeft: 10, paddingBottom: 10, paddingRight: 10, height: 50)
-//        
+//
 //        // ...
 //    }
-//    
+//
 //    @objc
 //    func didSelectConnectWithStripe() {
 //        if let url = URL(string: BackendAPIBaseURL)?.appendingPathComponent("onboard-user") {
@@ -156,17 +243,17 @@ class CreateStripeAccountVC: UIViewController, WKNavigationDelegate, WKUIDelegat
 //                      let accountURL = URL(string: accountURLString) else {
 //                    return
 //                }
-//                
+//
 //                let safariViewController = SFSafariViewController(url: url)
 //                safariViewController.delegate = self
-//                
+//
 //                DispatchQueue.main.async {
 //                    self.present(safariViewController, animated: true, completion: nil)
 //                }
 //            }
 //        }
 //    }
-//    
+//
 //    // ...
 //}
 //

@@ -96,6 +96,14 @@ app.get('/authorize', async (req, res) => {
 })
 
 exports.createConnectAccount = functions.https.onRequest((req, res) => {
+    console.log("request.body: " + req.body); // <-- returns undefined
+    console.log("request.query.code: " + req.query.code); // <-- returns undefined
+    console.log("request.query.body: " + req.query.body); // <-- returns undefined
+    console.log("request.query.state: " + req.query.state); // <-- returns undefined
+    console.log("request uid: " + req.user.uid);
+    var data = req.body
+    var email = data.email
+    var response = {}
     stripe.accounts.create(
         {
             type: 'custom',
@@ -109,27 +117,61 @@ exports.createConnectAccount = functions.https.onRequest((req, res) => {
             if (err) {
                 console.log("Couldn't create stripe account: " + err)
                 return res.send(err)
-            }
-            console.log("ACCOUNT: " + account.id)
+            } console.log("ACCOUNT: " + account.id)
             response.body = { success: account.id }
             return res.send(response)
-            // stripe.accountLinks.create({
-            //     account: account.id,
-            //     failure_url: 'https://example.com/failure',
-            //     success_url: 'https://example.com/success',
-            //     type: 'account_onboarding',
-            //     collect: 'eventually_due',
-            // }, function (err, accountLink) {
-            //     if (err) {
-            //         console.log(err)
-            //         response.body = { failure: err }
-            //         return res.send(response)
-            //     } console.log(accountLink.url)
-            //     response.body = { success: link.url}
-            //     return res.send(response)
-            // })
         }
-    )
+    );
+
+    // return stripeToken.oauth.token({
+    //           grant_type: 'authorization_code',
+    //           code: req.query.code,
+    //     }).then(function(response) {
+    //           // asynchronously called
+
+    //         return res.send(response)
+
+    //           // var connected_account_id = response.stripe_user_id;
+    //         })
+    //         .catch(error=> {
+    //             res.send(error)
+    //         })
+
+    //     });
+    // stripe.accounts.create(
+    //     {
+    //         type: 'custom',
+    //         country: 'US',
+    //         requested_capabilities: [
+    //             'transfers',
+    //         ],
+    //         business_type: 'individual',
+    //     },
+    //     function (err, account) {
+    //         if (err) {
+    //             console.log("Couldn't create stripe account: " + err)
+    //             return res.send(err)
+    //         }
+    //         console.log("ACCOUNT: " + account.id)
+    //         response.body = { success: account.id }
+    //         return res.send(response)
+    //         // stripe.accountLinks.create({
+    //         //     account: account.id,
+    //         //     failure_url: 'https://example.com/failure',
+    //         //     success_url: 'https://example.com/success',
+    //         //     type: 'account_onboarding',
+    //         //     collect: 'eventually_due',
+    //         // }, function (err, accountLink) {
+    //         //     if (err) {
+    //         //         console.log(err)
+    //         //         response.body = { failure: err }
+    //         //         return res.send(response)
+    //         //     } console.log(accountLink.url)
+    //         //     response.body = { success: link.url}
+    //         //     return res.send(response)
+    //         // })
+    //     }
+    // )
 
 })
 
@@ -176,17 +218,17 @@ app.get('/token', async (req, res, next) => {
 
                 var connected_account_id = body.stripe_user_id
 
-                stripe.accounts.createLoginLink(
-                    connected_account_id,
-                    (err, loginLink) => {
-                        if (err) {
-                            console.log(err)
-                        } else {
-                            docRef.doc(user).set({ stripeId: connected_account_id, stripeLoginLink: loginLink.url })
-                            res.redirect(loginLink.url)
-                        }
-                    }
-                )
+                // stripe.accounts.createLoginLink(
+                //     connected_account_id,
+                //     (err, loginLink) => {
+                //         if (err) {
+                //             console.log(err)
+                //         } else {
+                //             docRef.doc('user').set({ stripeId: connected_account_id, stripeLoginLink: loginLink.url })
+                //             res.redirect(loginLink.url)
+                //         }
+                //     }
+                // )
             }
 
         }
