@@ -32,6 +32,7 @@ var app = express()
 var request = require('postman-request')
 const path = require('path')
 const cookieParser = require('cookie-parser')()
+var queryString = require('querystring')
 const cors = require('cors')({ origin: true })
 app.use(cors)
 
@@ -41,9 +42,16 @@ app.set('views', path.join(__dirname, 'views'))
 const db = admin.firestore()
 let docRef = db.collection('stripeAccounts')
 
-// app.get('/', (req, res) => {
-//     res.render('index')
-// })
+app.get('/', (req, res) => {
+    // res.send('here')
+    // res.render('index')
+    res.redirect(AUTHORIZE_URI + "?" + queryString.stringify({
+        response_type: "code",
+        scope: "read_write",
+        client_id: 'ca_FJy4SUnn4WnkK81JVAR5CZhwEACACSIO',
+        force_login: true
+    }));
+})
 
 const validateFirebaseIdToken = async (req, res, next) => {
     functions.logger.log('Check if request is authorized with Firebase ID token');
