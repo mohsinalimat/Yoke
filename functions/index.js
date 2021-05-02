@@ -207,11 +207,11 @@ app.get('/authorize', async (req, res) => {
 app.get('/redirect', async (req, res) => {
     //Users are redirected to this endpoint after their request to connect to Stripe is approved.
 
-    var authCode = req.param('code');
-    var scope = req.param('scope');
-    var error = req.param('error');
-    var errorDescription = req.param('error_description');
-    var objectID = req.param('object_id');
+    var authCode = req.params.code;
+    var scope = req.params.scope;
+    var error = req.params.error;
+    var errorDescription = req.params.error_description;
+    var objectID = req.params.object_id
 
 
     if (error) {

@@ -18,8 +18,7 @@ class CreateStripeAccountVC: UIViewController, WKUIDelegate, WKNavigationDelegat
     var webView: WKWebView!
     
     var activityIndicatorView: UIActivityIndicatorView!
-    
-    //replace this with your Heroku hosted Node.js App url
+
     let url = URL(string: "https://foodapp-4ebf0.web.app")
     
     override func viewDidLoad() {
