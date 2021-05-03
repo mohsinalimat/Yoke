@@ -8,7 +8,8 @@ function Demo() {
     this.responseContainerCookie = document.getElementById('demo-response-cookie');
     this.urlContainer = document.getElementById('demo-url');
     this.urlContainerCookie = document.getElementById('demo-url-cookie');
-    this.helloUserUrl = window.location.href + 'authorize';
+    // this.helloUserUrl = window.location.href + 'hello';
+    this.helloUserUrl = 'https://connect.stripe.com/express/oauth/token?redirect_uri=https://foodapp-4ebf0.web.app/token&client_id=ca_FJy4SUnn4WnkK81JVAR5CZhwEACACSIO&state={STATE_VALUE}&suggested_capabilities[]=transfers';
     this.signedOutCard = document.getElementById('demo-signed-out-card');
     this.signedInCard = document.getElementById('demo-signed-in-card');
 
@@ -60,7 +61,7 @@ Demo.prototype.startFunctionsRequest = function () {
     console.log('Sending request to', this.helloUserUrl, 'with ID token in Authorization header.');
     var req = new XMLHttpRequest();
     req.onload = function () {
-      this.responseContainer.innerText = req.responseText;
+      // this.responseContainer.innerText = req.responseText;
     }.bind(this);
     req.onerror = function () {
       this.responseContainer.innerText = 'There was an error';
@@ -81,7 +82,7 @@ Demo.prototype.startFunctionsCookieRequest = function () {
     console.log('Sending request to', this.helloUserUrl, 'with ID token in __session cookie.');
     var req = new XMLHttpRequest();
     req.onload = function () {
-      this.responseContainerCookie.innerText = req.responseText;
+      // this.responseContainerCookie.innerText = req.responseText;
     }.bind(this);
     req.onerror = function () {
       this.responseContainerCookie.innerText = 'There was an error';
