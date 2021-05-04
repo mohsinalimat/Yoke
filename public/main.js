@@ -40,14 +40,13 @@ Demo.prototype.onAuthStateChanged = function (user) {
 Demo.prototype.signIn = function () {
   const email = document.getElementById('email').value;
   const password = document.getElementById('password').value;
-  firebase.auth().signInWithEmailAndPassword(email, password).catch(function(error) {
+  firebase.auth().signInWithEmailAndPassword(email, password).catch(function (error) {
     // Handle Errors here.
     var errorCode = error.code;
     var errorMessage = error.message;
     console.log(errorCode);
     console.log(errorMessage);
-});
-  // firebase.auth().signInWithPopup(new firebase.auth.GoogleAuthProvider());
+  });
 };
 
 Demo.prototype.stripe = function () {
@@ -66,9 +65,9 @@ Demo.prototype.startFunctionsRequest = function () {
   firebase.auth().currentUser.getIdToken().then(function (token) {
     console.log('Sending request to', this.helloUserUrl, 'with ID token in Authorization header.');
     var req = new XMLHttpRequest();
-    // req.onload = function () {
-    //   // this.responseContainer.innerText = req.responseText;
-    // }.bind(this);
+    req.onload = function () {
+      // this.responseContainer.innerText = req.responseText;
+    }.bind(this);
     req.onerror = function () {
       this.responseContainer.innerText = 'There was an error';
     }.bind(this);
@@ -87,9 +86,9 @@ Demo.prototype.startFunctionsCookieRequest = function () {
 
     console.log('Sending request to', this.helloUserUrl, 'with ID token in __session cookie.');
     var req = new XMLHttpRequest();
-    // req.onload = function () {
-    //   // this.responseContainerCookie.innerText = req.responseText;
-    // }.bind(this);
+    req.onload = function () {
+      // this.responseContainerCookie.innerText = req.responseText;
+    }.bind(this);
     req.onerror = function () {
       this.responseContainerCookie.innerText = 'There was an error';
     }.bind(this);

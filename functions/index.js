@@ -93,19 +93,6 @@ app.use(cors)
 app.use(cookieParser)
 app.use(validateFirebaseIdToken)
 
-app.use((req, res, next) => {
-    const allowedOrigins = ['https://connect.stripe.com/express/oauth/token'];
-    const origin = req.headers.origin;
-    if (allowedOrigins.includes(origin)) {
-         res.setHeader('Access-Control-Allow-Origin', origin);
-    }
-    //res.header('Access-Control-Allow-Origin', 'http://127.0.0.1:8020');
-    res.header('Access-Control-Allow-Methods', 'GET, OPTIONS');
-    res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
-    res.header('Access-Control-Allow-Credentials', true);
-    return next();
-  });
-
 app.get('/hello', (req, res) => {
     // @ts-ignore
     res.send(`Hello ${req.user.uid}`);
@@ -145,7 +132,7 @@ app.get('/token', async (req, res) => {
                             if (err) {
                                 console.log(err)
                             } else {
-                                docRef.doc(req.user.uid).set({ stripeId: connected_account_id, stripeLoginLink: loginLink.url })
+                                docRef.doc(user).set({ stripeId: connected_account_id, stripeLoginLink: loginLink.url })
                                 res.redirect(loginLink.url)
                             }
                         }
