@@ -20,21 +20,22 @@
   <div class="demo-layout mdl-layout mdl-js-layout mdl-layout--fixed-header">
 
     <!-- Header section containing title -->
-    <header class="mdl-layout__header mdl-color-text--white mdl-color--light-blue-700">
+    <!-- <header class="mdl-layout__header mdl-color-text--white mdl-color--light-blue-700">
       <div class="mdl-cell mdl-cell--12-col mdl-cell--12-col-tablet mdl-grid">
         <div class="mdl-layout__header-row mdl-cell mdl-cell--12-col mdl-cell--12-col-tablet mdl-cell--8-col-desktop">
-          <h3>Authorized HTTP Function demo</h3>
+          <h3></h3>
         </div>
       </div>
-    </header>
+    </header> -->
     <main class="mdl-layout__content mdl-color--grey-100">
       <div class="mdl-cell--12-col mdl-cell--12-col-tablet mdl-grid">
 
         <!-- Card containing the sign-in UI -->
         <div id="demo-signed-out-card" class="mdl-card mdl-shadow--2dp mdl-cell">
           <div class="mdl-card__supporting-text mdl-color-text--grey-600">
+            <div id="logo"><img src="YokeStripe.png" alt="Yoke" width="300" height="100px"></div>
             <p>
-              This web application demonstrates how you can send an authorized XHR Request to an HTTPS Function.
+              Please sign in with your Yoke account so you can start getting paid<br>
               <strong>Now sign in!</strong>
             </p>
             Email <br />
@@ -42,7 +43,7 @@
             Password <br />
             <input type="password" id="password" /><br />
             <button id="demo-sign-in-button"
-              class="mdl-color-text--grey-700 mdl-button--raised mdl-button mdl-js-button mdl-js-ripple-effect"><i
+              class="mdl-color-text--grey-700 mdl-button--raised mdl-button mdl-js-button mdl-js-ripple-effect" ><i
                 class="material-icons">account_circle</i> Sign in</button>
           </div>
         </div>
@@ -50,24 +51,25 @@
         <!-- Card containing the signed-in UI -->
         <div id="demo-signed-in-card" class="mdl-card mdl-shadow--2dp mdl-cell">
           <div class="mdl-card__supporting-text mdl-color-text--grey-600">
+            <strong>Get connect with Stripe</strong>
             <p>
-              Sending XHR with "Authorization" header to:<br>
+              We use Stripe to handle payments with customers on your behalf<br>
               <span id="demo-url"></span><br><br>
-              Response: <span id="demo-response">...</span>
+              <!-- Response: <span id="demo-response">...</span> -->
               <button id="stripe-sign-up-button"
               class="mdl-color-text--grey-700 mdl-button--raised mdl-button mdl-js-button mdl-js-ripple-effect"><i
-                class="material-icons">account_circle</i> sign up to stripe</button>
+                class="material-icons">account_circle</i>Connect to Stripe</button>
             </p>
 
-            <hr />
+            <!-- <hr />
 
             <p>
-              Sending XHR with "__session" cookie to:<br>
+              <br>
               <span id="demo-url-cookie"></span><br><br>
-              Response: <span id="demo-response-cookie">...</span>
+              <span id="demo-response-cookie">...</span>
             </p>
 
-            <hr />
+            <hr /> -->
 
             <button id="demo-sign-out-button"
               class="mdl-color-text--grey-700 mdl-button--raised mdl-button mdl-js-button mdl-js-ripple-effect">Sign

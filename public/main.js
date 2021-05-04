@@ -24,8 +24,8 @@ function Demo() {
 // Triggered on Firebase auth state change.
 Demo.prototype.onAuthStateChanged = function (user) {
   if (user) {
-    this.urlContainer.textContent = this.helloUserUrl;
-    this.urlContainerCookie.textContent = this.helloUserUrl;
+    // this.urlContainer.textContent = this.helloUserUrl;
+    // this.urlContainerCookie.textContent = this.helloUserUrl;
     this.signedOutCard.style.display = 'none';
     this.signedInCard.style.display = 'block';
     this.startFunctionsRequest();
@@ -38,6 +38,7 @@ Demo.prototype.onAuthStateChanged = function (user) {
 
 // Initiates the sign-in flow using GoogleAuthProvider sign in in a popup.
 Demo.prototype.signIn = function () {
+  console.log('pressed')
   const email = document.getElementById('email').value;
   const password = document.getElementById('password').value;
   firebase.auth().signInWithEmailAndPassword(email, password).catch(function (error) {
@@ -66,12 +67,12 @@ Demo.prototype.startFunctionsRequest = function () {
     console.log('Sending request to', this.helloUserUrl, 'with ID token in Authorization header.');
     var req = new XMLHttpRequest();
     req.onload = function () {
-      // this.responseContainer.innerText = req.responseText;
+      this.responseContainer.innerText = req.responseText;
     }.bind(this);
     req.onerror = function () {
-      this.responseContainer.innerText = 'There was an error';
+      // this.responseContainer.innerText = 'There was an error';
     }.bind(this);
-    req.open('GET', this.helloUserUrl, true);
+    // req.open('GET', this.helloUserUrl, true);
     req.setRequestHeader('Authorization', 'Bearer ' + token);
     req.send();
   }.bind(this));
@@ -90,9 +91,9 @@ Demo.prototype.startFunctionsCookieRequest = function () {
       // this.responseContainerCookie.innerText = req.responseText;
     }.bind(this);
     req.onerror = function () {
-      this.responseContainerCookie.innerText = 'There was an error';
+      // this.responseContainerCookie.innerText = 'There was an error';
     }.bind(this);
-    req.open('GET', this.helloUserUrl, true);
+    // req.open('GET', this.helloUserUrl, true);
     req.send();
   }.bind(this));
 };

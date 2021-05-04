@@ -30,3 +30,24 @@ html, body {
   #demo-signed-in-card {
     width: 600px;
   }
+  .mdl-color--light-blue-700 {
+    background-color: #fff !important;
+}
+#logo {
+  margin-left: auto;
+  margin-right: auto;
+}
+  #password,
+  #email {
+    height: 40px;
+    width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    box-sizing: border-box;
+  }
+  .mdl-button--raised {
+    background-color: #fff !important;
+  }
+  .mdl-color-text--grey-700 {
+    color: #ff5b39;
+  }
