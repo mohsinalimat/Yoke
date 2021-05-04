@@ -17,6 +17,11 @@
 </head>
 
 <body>
+  <script>
+    $(window).load(function() {
+      $('.loader').hide();
+    });
+  </script>
   <div class="demo-layout mdl-layout mdl-js-layout mdl-layout--fixed-header">
     <main class="mdl-layout__content mdl-color--grey-100">
       <div class="mdl-cell--12-col mdl-cell--12-col-tablet mdl-grid">
@@ -35,6 +40,7 @@
             <button id="demo-sign-in-button"
               class="mdl-color-text--grey-700 mdl-button--raised mdl-button mdl-js-button mdl-js-ripple-effect" ><i
                 class="material-icons">account_circle</i> Sign in</button>
+                <div class="loader"></div> 
           </div>
         </div>
 
@@ -44,17 +50,18 @@
             <strong>Setup payouts on Stripe</strong>
             <p>
               We use Stripe to handle payments with customers on your behalf<br>
-              <span id="demo-url">Visit 
-                <a href="https://stripe.com/connect">Stripe</a>
-                for more information
-                </span><br><br>
               <!-- Response: <span id="demo-response">...</span> -->
               <button id="stripe-sign-up-button"
               class="mdl-color-text--grey-700 mdl-button--raised mdl-button mdl-js-button mdl-js-ripple-effect">Connect to Stripe</button>
+              <span id="demo-url">Visit 
+                <a href="https://stripe.com/connect">Stripe Connect</a>
+                for more information
+                </span><br><br>
             </p>
             <button id="demo-sign-out-button"
               class="mdl-color-text--grey-700 mdl-button--raised mdl-button mdl-js-button mdl-js-ripple-effect">Sign
               out</button>
+              <div class="loader"></div> 
           </div>
         </div>
       </div>
@@ -76,6 +83,7 @@
   </script>
 
   <script type="text/javascript" src="main.js"></script>
+  
 </body>
 
 </html>
