@@ -133,7 +133,7 @@ class Constants {
     static let PaymentId = "paymentId"
     static let BookingId = "bookingId"
     static let Reference = "reference"
-    static let StripeAccounts = "StripeAccounts"
+    static let StripeAccounts = "stripe_accounts"
     static let Description = "description"
     static let Amount = "amount"
     static let Invoices = "invoices"
