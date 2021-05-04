@@ -92,12 +92,26 @@ const validateFirebaseIdToken = async (req, res, next) => {
 app.use(cors)
 app.use(cookieParser)
 app.use(validateFirebaseIdToken)
+
+app.use((req, res, next) => {
+    const allowedOrigins = ['https://connect.stripe.com/express/oauth/token'];
+    const origin = req.headers.origin;
+    if (allowedOrigins.includes(origin)) {
+         res.setHeader('Access-Control-Allow-Origin', origin);
+    }
+    //res.header('Access-Control-Allow-Origin', 'http://127.0.0.1:8020');
+    res.header('Access-Control-Allow-Methods', 'GET, OPTIONS');
+    res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+    res.header('Access-Control-Allow-Credentials', true);
+    return next();
+  });
+
 app.get('/hello', (req, res) => {
     // @ts-ignore
     res.send(`Hello ${req.user.uid}`);
   });
 app.get('/authorize', async (req, res) => {
-    res.redirect('https://connect.stripe.com/express/oauth/token?redirect_uri=https://foodapp-4ebf0.web.app/token&client_id=ca_FJy4SUnn4WnkK81JVAR5CZhwEACACSIO&state={STATE_VALUE}&suggested_capabilities[]=transfers')
+    res.redirect('https://connect.stripe.com/express/oauth/authorize?redirect_uri=https://foodapp-4ebf0.web.app/token&client_id=ca_FJy4SUnn4WnkK81JVAR5CZhwEACACSIO&state={STATE_VALUE}&suggested_capabilities[]=transfers')
 })
 
 app.get('/token', async (req, res) => {

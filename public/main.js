@@ -2,20 +2,22 @@ function Demo() {
   document.addEventListener('DOMContentLoaded', function () {
     this.signInButton = document.getElementById('demo-sign-in-button');
     this.signOutButton = document.getElementById('demo-sign-out-button');
+    this.stripeButton = document.getElementById('stripe-sign-up-button');
     this.emailInput = document.getElementById('email')
     this.passwordInput = document.getElementById('password')
     this.responseContainer = document.getElementById('demo-response');
     this.responseContainerCookie = document.getElementById('demo-response-cookie');
     this.urlContainer = document.getElementById('demo-url');
     this.urlContainerCookie = document.getElementById('demo-url-cookie');
-    // this.helloUserUrl = window.location.href + 'hello';
-    this.helloUserUrl = 'https://connect.stripe.com/express/oauth/token?redirect_uri=https://foodapp-4ebf0.web.app/token&client_id=ca_FJy4SUnn4WnkK81JVAR5CZhwEACACSIO&state={STATE_VALUE}&suggested_capabilities[]=transfers';
+    this.helloUserUrl = window.location.href + 'hello';
+    // this.helloUserUrl = 'https://connect.stripe.com/express/oauth/token?redirect_uri=https://foodapp-4ebf0.web.app/token&client_id=ca_FJy4SUnn4WnkK81JVAR5CZhwEACACSIO&state={STATE_VALUE}&suggested_capabilities[]=transfers';
     this.signedOutCard = document.getElementById('demo-signed-out-card');
     this.signedInCard = document.getElementById('demo-signed-in-card');
 
     // Bind events.
     this.signInButton.addEventListener('click', this.signIn.bind(this));
     this.signOutButton.addEventListener('click', this.signOut.bind(this));
+    this.stripeButton.addEventListener('click', this.stripe.bind(this));
     firebase.auth().onAuthStateChanged(this.onAuthStateChanged.bind(this));
   }.bind(this));
 }
@@ -48,6 +50,10 @@ Demo.prototype.signIn = function () {
   // firebase.auth().signInWithPopup(new firebase.auth.GoogleAuthProvider());
 };
 
+Demo.prototype.stripe = function () {
+  window.open(window.location.href + 'authorize', "_self");
+}
+
 // Signs-out of Firebase.
 Demo.prototype.signOut = function () {
   firebase.auth().signOut();
@@ -60,9 +66,9 @@ Demo.prototype.startFunctionsRequest = function () {
   firebase.auth().currentUser.getIdToken().then(function (token) {
     console.log('Sending request to', this.helloUserUrl, 'with ID token in Authorization header.');
     var req = new XMLHttpRequest();
-    req.onload = function () {
-      // this.responseContainer.innerText = req.responseText;
-    }.bind(this);
+    // req.onload = function () {
+    //   // this.responseContainer.innerText = req.responseText;
+    // }.bind(this);
     req.onerror = function () {
       this.responseContainer.innerText = 'There was an error';
     }.bind(this);
@@ -81,9 +87,9 @@ Demo.prototype.startFunctionsCookieRequest = function () {
 
     console.log('Sending request to', this.helloUserUrl, 'with ID token in __session cookie.');
     var req = new XMLHttpRequest();
-    req.onload = function () {
-      // this.responseContainerCookie.innerText = req.responseText;
-    }.bind(this);
+    // req.onload = function () {
+    //   // this.responseContainerCookie.innerText = req.responseText;
+    // }.bind(this);
     req.onerror = function () {
       this.responseContainerCookie.innerText = 'There was an error';
     }.bind(this);
