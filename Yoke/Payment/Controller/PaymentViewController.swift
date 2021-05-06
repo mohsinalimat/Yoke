@@ -46,6 +46,7 @@ class PaymentViewController: UIViewController {
         view.addSubview(scrollView)
         scrollView.addSubview(paymentHeaderViews)
         scrollView.addSubview(paymentHeaderLabel)
+        scrollView.addSubview(pendingAmountLabel)
         
     }
     
@@ -54,6 +55,7 @@ class PaymentViewController: UIViewController {
         scrollView.anchor(top: safeArea.topAnchor, left: safeArea.leftAnchor, bottom: safeArea.bottomAnchor, right: safeArea.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0)
         paymentHeaderViews.anchor(top: scrollView.topAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 20, paddingLeft: 10, paddingBottom: 50, paddingRight: 10, height: 200)
         paymentHeaderLabel.anchor(top: paymentHeaderViews.topAnchor, left: paymentHeaderViews.leftAnchor, bottom: nil, right: paymentHeaderViews.rightAnchor, paddingTop: 5, paddingLeft: 5, paddingBottom: 0, paddingRight: 5)
+        pendingAmountLabel.anchor(top: paymentHeaderLabel.bottomAnchor, left: paymentHeaderViews.leftAnchor, bottom: nil, right: paymentHeaderViews.rightAnchor, paddingTop: 5, paddingLeft: 5, paddingBottom: 0, paddingRight: 5)
         
     }
     
@@ -112,7 +114,16 @@ class PaymentViewController: UIViewController {
         label.text = "Pending Balance"
         label.textColor = UIColor.orangeColor()
         label.textAlignment = .center
-        label.font = UIFont.boldSystemFont(ofSize: 22)
+        label.font = UIFont.systemFont(ofSize: 22)
+        return label
+    }()
+    
+    let pendingAmountLabel: UILabel = {
+        let label = UILabel()
+        label.text = "$127.99"
+        label.textColor = UIColor.gray
+        label.textAlignment = .center
+        label.font = UIFont.systemFont(ofSize: 22)
         return label
     }()
     
