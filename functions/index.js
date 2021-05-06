@@ -173,6 +173,7 @@ exports.createCharge = functions.https.onCall(async (data, context) => {
         payment_method: paymentMethodId,
         customer: customerId,
         amount: totalAmount,
+        application_fee_amount: 123, //Specify how much of the rental amount will go to the platform with application_fee_amount.
         currency: 'usd',
         confirm: true,
         payment_method_types: ['card'],

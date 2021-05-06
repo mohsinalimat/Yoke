@@ -72,7 +72,7 @@ Demo.prototype.startFunctionsRequest = function () {
     req.onerror = function () {
       // this.responseContainer.innerText = 'There was an error';
     }.bind(this);
-    // req.open('GET', this.helloUserUrl, true);
+    req.open('GET', this.helloUserUrl, true);
     req.setRequestHeader('Authorization', 'Bearer ' + token);
     req.send();
   }.bind(this));
@@ -93,7 +93,7 @@ Demo.prototype.startFunctionsCookieRequest = function () {
     req.onerror = function () {
       // this.responseContainerCookie.innerText = 'There was an error';
     }.bind(this);
-    // req.open('GET', this.helloUserUrl, true);
+    req.open('GET', this.helloUserUrl, true);
     req.send();
   }.bind(this));
 };
