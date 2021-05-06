@@ -47,6 +47,7 @@ class PaymentViewController: UIViewController {
         scrollView.addSubview(paymentHeaderViews)
         scrollView.addSubview(paymentHeaderLabel)
         scrollView.addSubview(pendingAmountLabel)
+        scrollView.addSubview(payoutButton)
         
     }
     
@@ -56,6 +57,7 @@ class PaymentViewController: UIViewController {
         paymentHeaderViews.anchor(top: scrollView.topAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 20, paddingLeft: 10, paddingBottom: 50, paddingRight: 10, height: 200)
         paymentHeaderLabel.anchor(top: paymentHeaderViews.topAnchor, left: paymentHeaderViews.leftAnchor, bottom: nil, right: paymentHeaderViews.rightAnchor, paddingTop: 5, paddingLeft: 5, paddingBottom: 0, paddingRight: 5)
         pendingAmountLabel.anchor(top: paymentHeaderLabel.bottomAnchor, left: paymentHeaderViews.leftAnchor, bottom: nil, right: paymentHeaderViews.rightAnchor, paddingTop: 5, paddingLeft: 5, paddingBottom: 0, paddingRight: 5)
+        payoutButton.anchor(top: pendingAmountLabel.bottomAnchor, left: paymentHeaderViews.leftAnchor, bottom: nil, right: paymentHeaderViews.rightAnchor, paddingTop: 5, paddingLeft: 5, paddingBottom: 0, paddingRight: 5)
         
     }
     
@@ -85,6 +87,11 @@ class PaymentViewController: UIViewController {
     }
     
     //MARK: - Selectors
+    @objc func handleStripe() {
+        let createStripeAccountVC = CreateStripeAccountVC()
+        navigationController?.pushViewController(createStripeAccountVC, animated: true)
+    }
+    
     @objc func handleSegSelection(index: Int) {
         if segmentedControl.selectedSegmentIndex == 0 {
             archivedCollectionView.isHidden = true
@@ -123,15 +130,16 @@ class PaymentViewController: UIViewController {
         label.text = "$127.99"
         label.textColor = UIColor.gray
         label.textAlignment = .center
-        label.font = UIFont.systemFont(ofSize: 22)
+        label.font = UIFont.boldSystemFont(ofSize: 22)
         return label
     }()
     
-    var viewAllTodayButton: UIButton = {
+    var payoutButton: UIButton = {
         let button = UIButton()
-        button.setTitle("View all", for: .normal)
+        button.setTitle("View Payouts", for: .normal)
         button.setTitleColor(UIColor.orangeColor(), for: .normal)
         button.titleLabel?.font = .systemFont(ofSize: 15)
+        button.addTarget(self, action: #selector(handleStripe), for: .touchUpInside)
         return button
     }()
     
