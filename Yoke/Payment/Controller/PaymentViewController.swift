@@ -111,7 +111,8 @@ class PaymentViewController: UIViewController {
         let label = UILabel()
         label.text = "Pending Balance"
         label.textColor = UIColor.orangeColor()
-        label.font = UIFont.boldSystemFont(ofSize: 28)
+        label.textAlignment = .center
+        label.font = UIFont.boldSystemFont(ofSize: 22)
         return label
     }()
     
