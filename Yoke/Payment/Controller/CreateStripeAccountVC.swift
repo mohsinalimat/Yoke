@@ -74,7 +74,7 @@ class CreateStripeAccountVC: UIViewController, WKNavigationDelegate, WKUIDelegat
     func checkIfAccountexist() {
         guard let uid = Auth.auth().currentUser?.uid else { return }
         let docRef = Firestore.firestore().collection(Constants.StripeAccounts).document(uid)
-        
+
         docRef.getDocument { (document, error) in
             if let document = document, document.exists {
                 let data = document.data()
@@ -82,7 +82,7 @@ class CreateStripeAccountVC: UIViewController, WKNavigationDelegate, WKUIDelegat
                 print("Document data: \(stripeUrl)")
                 guard let url = URL(string: stripeUrl) else {return}
                 self.webView.load(URLRequest(url: url))
-                
+
             } else {
                 print("Document does not exist")
                 guard let url = URL(string: "https://foodapp-4ebf0.firebaseapp.com") else {return}

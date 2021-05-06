@@ -134,6 +134,7 @@ class Constants {
     static let BookingId = "bookingId"
     static let Reference = "reference"
     static let StripeAccounts = "stripe_accounts"
+    static let StripeLoginLink = "stripeLoginLink"
     static let Description = "description"
     static let Amount = "amount"
     static let Invoices = "invoices"
