@@ -18,5 +18,7 @@ class StripeController {
     
     
     //MARK: - CRUD Functions
-    
+    func fetchStripeAccount(id: String, completion: @escaping (Bool) -> Void) {
+        
+    }
 }
