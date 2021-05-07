@@ -41,7 +41,7 @@ class CreateStripeAccountVC: UIViewController, WKNavigationDelegate, WKUIDelegat
     }
     
     func showActivityIndicator(show: Bool) {
-        if show {
+        if show == true {
             activityIndicator.startAnimating()
         } else {
             activityIndicator.stopAnimating()
@@ -89,6 +89,5 @@ class CreateStripeAccountVC: UIViewController, WKNavigationDelegate, WKUIDelegat
                 self.webView.load(URLRequest(url: url))
             }
         }
-    }
-    
+    } 
 }
