@@ -85,9 +85,9 @@ class CreateStripeAccountVC: UIViewController, WKNavigationDelegate, WKUIDelegat
 
             } else {
                 print("Document does not exist")
-                guard let url = URL(string: "https://foodapp-4ebf0.firebaseapp.com") else {return}
+                guard let url = URL(string: "https://foodapp-4ebf0.web.app") else {return}
                 self.webView.load(URLRequest(url: url))
             }
         }
-    } 
+    }
 }
