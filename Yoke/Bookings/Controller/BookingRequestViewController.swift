@@ -161,6 +161,13 @@ class BookingRequestViewController: UIViewController, BookingLocationDelegate {
         present(alertVC, animated: true)
     }
     
+    func sentFailed() {
+        let alertVC = UIAlertController(title: "Failed", message: "Something went wrong, please try again.", preferredStyle: .alert)
+        let okAction = UIAlertAction(title: "OK", style: .default)
+        alertVC.addAction(okAction)
+        present(alertVC, animated: true)
+    }
+    
     func bookingLocationController(_ bookingLocationController: BookingLocationViewController, didSelectLocation location: String, locationShort: String) {
         selectedLocation = location
         selectedLocationShort = locationShort
@@ -190,7 +197,7 @@ class BookingRequestViewController: UIViewController, BookingLocationDelegate {
                 self.myActivityIndicator.stopAnimating()
                 self.sentSuccessful()
             case false:
-                print("error")
+                self.sentFailed()
             }
         }
     }
