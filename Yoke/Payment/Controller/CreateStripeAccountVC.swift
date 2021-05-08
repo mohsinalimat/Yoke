@@ -79,12 +79,10 @@ class CreateStripeAccountVC: UIViewController, WKNavigationDelegate, WKUIDelegat
             if let document = document, document.exists {
                 let data = document.data()
                 let stripeUrl = data!["stripeLoginLink"] as? String ?? ""
-                print("Document data: \(stripeUrl)")
                 guard let url = URL(string: stripeUrl) else {return}
                 self.webView.load(URLRequest(url: url))
 
             } else {
-                print("Document does not exist")
                 guard let url = URL(string: "https://foodapp-4ebf0.web.app") else {return}
                 self.webView.load(URLRequest(url: url))
             }

@@ -32,7 +32,7 @@ const cookieParser = require('cookie-parser')()
 const cors = require('cors')({ origin: true })
 
 const db = admin.firestore()
-let docRef = db.collection('stripe')
+let docRef = db.collection('stripe_accounts')
 
 // app.get('/', (req, res) => {
 //     // res.send('here')
@@ -122,8 +122,7 @@ app.get('/token', async (req, res) => {
                             if (err) {
                                 console.log(err)
                             } else {
-                                docRef.doc(req.user.uid).collection('stripe_accounts').set({ stripeId: connected_account_id, stripeLoginLink: loginLink.url })
-                                // docRef.doc(req.user.uid).set({ stripeId: connected_account_id, stripeLoginLink: loginLink.url })
+                                docRef.doc(req.user.uid).set({ stripeId: connected_account_id, stripeLoginLink: loginLink.url })
                                 res.redirect(loginLink.url)
                             }
                         }
