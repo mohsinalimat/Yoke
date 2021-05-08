@@ -83,7 +83,10 @@ class HomeViewController: UIViewController {
         usernameLabel.anchor(top: nil, left: profileImageView.rightAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 0, paddingLeft: 10, paddingBottom: 0, paddingRight: 5)
         usernameLabel.centerYAnchor.constraint(equalTo: profileImageView.centerYAnchor).isActive = true
         viewProfileButton.anchor(top: usernameLabel.bottomAnchor, left: usernameLabel.leftAnchor, bottom: nil, right: nil, paddingTop: 5, paddingLeft: 0, paddingBottom: 0, paddingRight: 0)
-        
+        toobarSetup()
+    }
+    
+    func toobarSetup() {
         reviewsButton.alignImageTextVertical()
         eventButton.alignImageTextVertical()
         bookmarkButton.alignImageTextVertical()
@@ -99,6 +102,8 @@ class HomeViewController: UIViewController {
                 self.bookingButton.isHidden = true
             } else {
                 self.setupBottomToolbarChef()
+                self.eventButton.isHidden = false
+                self.bookingButton.isHidden = false
             }
         }
     }
