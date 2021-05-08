@@ -183,6 +183,7 @@ class BookingRequestViewController: UIViewController, BookingLocationDelegate {
 //            selectedLocation = location
         }
         myActivityIndicator.startAnimating()
+        self.sentSuccessful()
         BookingController.shared.createBookingWith(chefUid: chefUid, userUid: currentUserUid, location: selectedLocation, locationShort: selectedLocationShort, date: date, startTime: start, endTime: end, numberOfPeople: peopleCounter, numberOfCourses: courseCounter, typeOfCuisine: cuisine, details: detail) { (result) in
             switch result {
             case true:
@@ -223,7 +224,7 @@ class BookingRequestViewController: UIViewController, BookingLocationDelegate {
     }
     
     @objc func handleDismiss() {
-        dismiss(animated: true, completion: nil)
+        navigationController?.popToRootViewController(animated: true)
     }
     
     @objc func handleAddPeopleCount() {
