@@ -397,10 +397,10 @@ class BookingRequestDetailViewController: UIViewController {
     
     var statusLabel: UILabel = {
         let label = UILabel()
-        label.text = "Invoice has already been sent and awaiting approval."
+        label.text = "Invoice has been sent and awaiting approval."
         label.font = UIFont.boldSystemFont(ofSize: 15)
         label.textColor = .gray
-        label.numberOfLines = 2
+        label.numberOfLines = 0
         label.lineBreakMode = .byWordWrapping
         return label
     }()
