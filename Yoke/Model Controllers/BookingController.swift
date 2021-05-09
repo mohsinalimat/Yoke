@@ -56,7 +56,7 @@ class BookingController {
                 print("Document successfully updated")
             }
         }
-        self.firestoreDB.document(userUid).collection(Constants.Bookings).document(bookingId).setData([Constants.InvoiceSent: invoiceSent, Constants.InvoicePaid: invoicePaid, Constants.IsBooked: isBooked, Constants.Archive: archive], merge: true) { error in
+        self.firestoreDB.document(userUid).collection(Constants.Bookings).document(bookingId).setData([Constants.PaymentId: paymentId, Constants.InvoiceSent: invoiceSent, Constants.InvoicePaid: invoicePaid, Constants.IsBooked: isBooked, Constants.Archive: archive], merge: true) { error in
             if let error = error {
                 print("There was an error updating data: \(error.localizedDescription)")
                 completion(false)

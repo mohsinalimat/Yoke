@@ -9,7 +9,6 @@
 import Foundation
 
 class Payment {
-    var booking: Booking?
     var paymentId: String
     var total: Double
     var reference: String

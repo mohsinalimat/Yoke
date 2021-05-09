@@ -30,7 +30,12 @@ class MakePaymentViewController: UIViewController {
         guard let booking = booking,
               let paymentId = booking.payment?.paymentId,
               let uid = booking.userUid else { return }
-        print("payment \(booking.id), \(uid)")
+        PaymentController.shared.fetchPaymentWith(uid: uid, paymentId: paymentId) { payment in
+            switch payment {
+            default:
+                print(payment.reference)
+            }
+        }
     }
 
 }
