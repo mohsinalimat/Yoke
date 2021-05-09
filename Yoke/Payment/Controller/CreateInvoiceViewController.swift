@@ -93,6 +93,7 @@ class CreateInvoiceViewController: UIViewController {
     
     //MARK: - Selectors
     @objc func handleSend() {
+        print("send pressed")
         guard let booking = booking,
               let bookingId = booking.id,
               let uid = booking.userUid,
@@ -103,7 +104,7 @@ class CreateInvoiceViewController: UIViewController {
         PaymentController.shared.createPaymentWith(bookingId: bookingId, chefUid: chefUid, userUid: uid, amount: amount, fees: 0.0, total: 0.0, reference: ref, text: text, paid: false) { (result) in
             switch result {
             case true:
-                print("success")
+                self.handleDismiss()
             case false:
                 print("fail")
             }
@@ -117,6 +118,10 @@ class CreateInvoiceViewController: UIViewController {
                 print("fail")
             }
         }
+    }
+    
+    @objc func handleDismiss() {
+        navigationController?.popToRootViewController(animated: true)
     }
     
     //MARK: - Views

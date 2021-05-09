@@ -63,6 +63,7 @@ class BookingRequestDetailViewController: UIViewController {
         scrollView.addSubview(buttonStackView)
         buttonStackView.addArrangedSubview(acceptButton)
         buttonStackView.addArrangedSubview(declineButton)
+        scrollView.addSubview(statusLabel)
         
     }
     
@@ -93,7 +94,8 @@ class BookingRequestDetailViewController: UIViewController {
         descriptionLabel.anchor(top: numberOfPeopleLabel.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 10, paddingLeft: 20, paddingBottom: 0, paddingRight: 20)
         
         guard let booking = booking,
-              let userUid = booking.userUid else { return }
+              let userUid = booking.userUid,
+              let chefUid = booking.chefUid else { return }
         if userUid == Auth.auth().currentUser?.uid ?? "" {
             additionalInfoButton.isHidden = true
             buttonStackView.isHidden = true
@@ -107,6 +109,17 @@ class BookingRequestDetailViewController: UIViewController {
             payButton.isHidden = true
             additionalInfoButton.anchor(top: descriptionLabel.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 5, paddingLeft: 20, paddingBottom: 0, paddingRight: 20)
             buttonStackView.anchor(top: additionalInfoButton.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 10, paddingLeft: 20, paddingBottom: 0, paddingRight: 20, height: 45)
+        }
+        
+        if chefUid == Auth.auth().currentUser?.uid ?? "" {
+            if booking.invoiceSent == true {
+                buttonStackView.isHidden = true
+                statusLabel.isHidden = false
+                statusLabel.anchor(top: additionalInfoButton.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 5, paddingLeft: 20, paddingBottom: 0, paddingRight: 20)
+            } else {
+                buttonStackView.isHidden = false
+                statusLabel.isHidden = true
+            }
         }
         
 //        additionalInfoButton.anchor(top: descriptionLabel.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 5, paddingLeft: 20, paddingBottom: 0, paddingRight: 20)
@@ -380,6 +393,16 @@ class BookingRequestDetailViewController: UIViewController {
         button.layer.shadowColor = UIColor.black.cgColor
         button.addTarget(self, action: #selector(handleDecline), for: .touchUpInside)
         return button
+    }()
+    
+    var statusLabel: UILabel = {
+        let label = UILabel()
+        label.text = "Invoice has already been sent and awaiting approval."
+        label.font = UIFont.boldSystemFont(ofSize: 15)
+        label.textColor = .gray
+        label.numberOfLines = 2
+        label.lineBreakMode = .byWordWrapping
+        return label
     }()
 
 }

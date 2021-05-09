@@ -168,6 +168,13 @@ class BookingRequestViewController: UIViewController, BookingLocationDelegate {
         present(alertVC, animated: true)
     }
     
+    func formFail() {
+        let alertVC = UIAlertController(title: "Missing fields", message: "Please fill out all fields in the form", preferredStyle: .alert)
+        let okAction = UIAlertAction(title: "OK", style: .default)
+        alertVC.addAction(okAction)
+        present(alertVC, animated: true)
+    }
+    
     func bookingLocationController(_ bookingLocationController: BookingLocationViewController, didSelectLocation location: String, locationShort: String) {
         selectedLocation = location
         selectedLocationShort = locationShort
@@ -182,7 +189,7 @@ class BookingRequestViewController: UIViewController, BookingLocationDelegate {
               let date = selectedDateLabel.text,
               let start = startTimeTextField.text,
               let end = endTimeTextField.text,
-              let chefUid = userId else { return }
+              let chefUid = userId else { return formFail() }
         print("chef uid \(chefUid)")
         print("current uid \(currentUserUid)")
         if selectedLocation.isEmpty {
