@@ -9,6 +9,7 @@
 import Foundation
 
 class Booking {
+    var payment: Payment?
     var id: String?
     var chefUid: String?
     var userUid: String?
