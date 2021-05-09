@@ -10,11 +10,20 @@ import UIKit
 
 class MakePaymentViewController: UIViewController {
 
+    var booking: Booking? {
+        didSet {
+            fetchInvoice()
+        }
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
     }
     
+    func fetchInvoice() {
+        
+    }
 
     /*
     // MARK: - Navigation

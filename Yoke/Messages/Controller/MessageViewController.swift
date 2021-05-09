@@ -215,10 +215,17 @@ extension MessageViewController: UITableViewDelegate {
         }
         if tableView == requestTableView {
             let request = BookingController.shared.bookings[indexPath.row]
-            let requestVC = BookingRequestDetailViewController()
-            requestVC.booking = request
-            print(request)
-            navigationController?.pushViewController(requestVC, animated: true)
+            if request.invoiceSent == true {
+                let requestVC = MakePaymentViewController()
+                requestVC.booking = request
+                print(request)
+                navigationController?.pushViewController(requestVC, animated: true)
+            } else {
+                let requestVC = BookingRequestDetailViewController()
+                requestVC.booking = request
+                print(request)
+                navigationController?.pushViewController(requestVC, animated: true)
+            }
         }
     }
 
