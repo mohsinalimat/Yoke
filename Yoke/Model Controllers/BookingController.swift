@@ -45,8 +45,8 @@ class BookingController {
         completion(true)
     }
     
-    func updateBookingPaymentRequestWith(bookingId: String, chefUid: String, userUid: String, isBooked: Bool, invoiceSent: Bool, invoicePaid: Bool, archive: Bool, completion: @escaping (Bool) -> Void) {
-        self.firestoreDB.document(chefUid).collection(Constants.Bookings).document(bookingId).setData([Constants.InvoiceSent: invoiceSent, Constants.InvoicePaid: invoicePaid, Constants.IsBooked: isBooked, Constants.Archive: archive], merge: true) { error in
+    func updateBookingPaymentRequestWith(paymentId: String, bookingId: String, chefUid: String, userUid: String, isBooked: Bool, invoiceSent: Bool, invoicePaid: Bool, archive: Bool, completion: @escaping (Bool) -> Void) {
+        self.firestoreDB.document(chefUid).collection(Constants.Bookings).document(bookingId).setData([Constants.PaymentId: paymentId, Constants.InvoiceSent: invoiceSent, Constants.InvoicePaid: invoicePaid, Constants.IsBooked: isBooked, Constants.Archive: archive], merge: true) { error in
             if let error = error {
                 print("There was an error updating data: \(error.localizedDescription)")
                 completion(false)

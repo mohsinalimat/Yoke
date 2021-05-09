@@ -204,7 +204,7 @@ class BookingRequestDetailViewController: UIViewController {
               let id = booking.id,
               let chefUid = booking.chefUid,
               let userUid = booking.userUid else { return }
-        BookingController.shared.updateBookingPaymentRequestWith(bookingId: id, chefUid: chefUid, userUid: userUid, isBooked: false, invoiceSent: false, invoicePaid: false, archive: true) { (result) in
+        BookingController.shared.updateBookingPaymentRequestWith(paymentId: "", bookingId: id, chefUid: chefUid, userUid: userUid, isBooked: false, invoiceSent: false, invoicePaid: false, archive: true) { (result) in
             switch result {
             default:
                 print("comlete")

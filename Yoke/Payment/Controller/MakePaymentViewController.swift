@@ -22,6 +22,7 @@ class MakePaymentViewController: UIViewController {
     }
     
     func fetchInvoice() {
+        guard let bookingId = booking?.id else { return }
         
     }
 
