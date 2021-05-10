@@ -43,6 +43,14 @@ class PaymentController {
                 print("Document successfully updated")
             }
         }
+        BookingController.shared.updateBookingPaymentRequestWith(paymentId: paymentId, bookingId: bookingId, chefUid: chefUid, userUid: userUid, isBooked: false, invoiceSent: true, invoicePaid: false, archive: false) { result in
+            switch result {
+            case true:
+                print("update success")
+            case false:
+                print("update failed")
+            }
+        }
     }
     
     func fetchPaymentWith(uid: String, paymentId: String, completion: @escaping (Payment) -> Void) {

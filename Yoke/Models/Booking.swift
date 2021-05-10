@@ -9,7 +9,7 @@
 import Foundation
 
 class Booking {
-    var payment: Payment?
+    var paymentId: String?
     var id: String?
     var chefUid: String?
     var userUid: String?
@@ -28,6 +28,7 @@ class Booking {
     var invoicePaid: Bool?
 
     init(dictionary: [String: Any]) {
+        self.paymentId = dictionary[Constants.PaymentId] as? String ?? ""
         self.id = dictionary[Constants.Id] as? String ?? ""
         self.chefUid = dictionary[Constants.ChefUid] as? String ?? ""
         self.userUid = dictionary[Constants.UserUid] as? String ?? ""
