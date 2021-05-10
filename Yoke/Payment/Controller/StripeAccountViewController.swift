@@ -1,5 +1,5 @@
 //
-//  CreateStripeAccountVC.swift
+//  StripeAccountViewController.swift
 //  FooD
 //
 //  Created by LAURA JELENICH on 2/12/20.
@@ -11,7 +11,7 @@ import FirebaseFirestore
 import FirebaseAuth
 import WebKit
 
-class CreateStripeAccountVC: UIViewController, WKNavigationDelegate, WKUIDelegate  {
+class StripeAccountViewController: UIViewController, WKNavigationDelegate, WKUIDelegate  {
     var accountId: String = ""
     var webView: WKWebView!
     var activityIndicator: UIActivityIndicatorView!

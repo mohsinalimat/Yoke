@@ -88,7 +88,7 @@ class PaymentViewController: UIViewController {
     
     //MARK: - Selectors
     @objc func handleStripe() {
-        let createStripeAccountVC = CreateStripeAccountVC()
+        let createStripeAccountVC = StripeAccountViewController()
         navigationController?.pushViewController(createStripeAccountVC, animated: true)
     }
     

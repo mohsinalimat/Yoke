@@ -8,6 +8,7 @@
 
 import UIKit
 import FirebaseAuth
+import FirebaseFirestore
 
 class BookingRequestDetailViewController: UIViewController {
     
@@ -121,9 +122,6 @@ class BookingRequestDetailViewController: UIViewController {
                 statusLabel.isHidden = true
             }
         }
-        
-//        additionalInfoButton.anchor(top: descriptionLabel.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 5, paddingLeft: 20, paddingBottom: 0, paddingRight: 20)
-//        buttonStackView.anchor(top: additionalInfoButton.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 10, paddingLeft: 20, paddingBottom: 0, paddingRight: 20, height: 45)
     }
     
     func configureNavigationBar() {
@@ -185,6 +183,18 @@ class BookingRequestDetailViewController: UIViewController {
 
     }
     
+    func handleCreateStripeAccount() {
+        let alertVC = UIAlertController(title: "Stripe Account Required", message: "You must connect with Stripe before you can create an invoice", preferredStyle: .alert)
+        let okAction = UIAlertAction(title: "Create Stripe Account", style: .default) { action in
+            let invoiceVC = StripeAccountViewController()
+            self.navigationController?.pushViewController(invoiceVC, animated: true)
+        }
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel)
+        alertVC.addAction(cancelAction)
+        alertVC.addAction(okAction)
+        present(alertVC, animated: true)
+    }
+    
     //MARK: - Selectors
     @objc func handleSendMessage() {
         let chatVC = ChatCollectionViewController(collectionViewLayout: UICollectionViewFlowLayout())
@@ -193,10 +203,21 @@ class BookingRequestDetailViewController: UIViewController {
     }
     
     @objc func handleAccept() {
-        //Alert prompts letting chef know they will be sending invoice to user with total
-        let invoiceVC = CreateInvoiceViewController()
-        invoiceVC.booking = booking
-        navigationController?.pushViewController(invoiceVC, animated: true)
+        guard let chefUid = booking?.chefUid else { return }
+        let docRef = Firestore.firestore().collection(Constants.StripeAccounts).document(chefUid)
+
+        docRef.getDocument { (document, error) in
+            if let document = document, document.exists {
+                let invoiceVC = CreateInvoiceViewController()
+                invoiceVC.booking = self.booking
+                self.navigationController?.pushViewController(invoiceVC, animated: true)
+            } else {
+                self.handleCreateStripeAccount()
+            }
+        }
+//        let invoiceVC = CreateInvoiceViewController()
+//        invoiceVC.booking = booking
+//        navigationController?.pushViewController(invoiceVC, animated: true)
     }
     
     @objc func handleDecline() {
@@ -207,7 +228,7 @@ class BookingRequestDetailViewController: UIViewController {
         BookingController.shared.updateBookingPaymentRequestWith(paymentId: "", bookingId: id, chefUid: chefUid, userUid: userUid, isBooked: false, invoiceSent: false, invoicePaid: false, archive: true) { (result) in
             switch result {
             default:
-                print("comlete")
+                print("complete")
             }
         }
     }
