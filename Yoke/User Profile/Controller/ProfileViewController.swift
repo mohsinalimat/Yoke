@@ -314,8 +314,9 @@ class ProfileViewController: UIViewController, TTGTextTagCollectionViewDelegate 
     let bannerLayerImage: UIImageView = {
         let image = UIImageView()
         image.image = UIImage(named: "blur")
+        image.clipsToBounds = true
         image.contentMode = .scaleAspectFill
-//        image.alpha = 0.5
+        image.alpha = 0.5
         return image
     }()
     
@@ -639,3 +640,4 @@ extension ProfileViewController: UICollectionViewDelegate, UICollectionViewDataS
         return 5
     }
 }
+
