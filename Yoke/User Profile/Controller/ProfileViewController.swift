@@ -64,7 +64,7 @@ class ProfileViewController: UIViewController, TTGTextTagCollectionViewDelegate 
     func setupViews() {
         view.addSubview(scrollView)
         scrollView.addSubview(bannerImageView)
-        scrollView.addSubview(bannerLayerImageView)
+        scrollView.addSubview(bannerLayerImage)
         scrollView.addSubview(usernameView)
         scrollView.addSubview(profileImageView)
         let blurEffect = UIBlurEffect(style: .dark)
@@ -113,6 +113,8 @@ class ProfileViewController: UIViewController, TTGTextTagCollectionViewDelegate 
     func constrainViews() {
         scrollView.anchor(top: safeArea.topAnchor, left: safeArea.leftAnchor, bottom: safeArea.bottomAnchor, right: safeArea.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0)
         bannerImageView.anchor(top: scrollView.topAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, height: 200)
+    
+        bannerLayerImage.anchor(top: scrollView.topAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, height: 200)
         
         usernameView.anchor(top: usernameLabel.topAnchor, left: safeArea.leftAnchor, bottom: bannerImageView.bottomAnchor, right: usernameLabel.rightAnchor, paddingTop: -10, paddingLeft: 50, paddingBottom: 0, paddingRight: -10)
         
@@ -312,6 +314,7 @@ class ProfileViewController: UIViewController, TTGTextTagCollectionViewDelegate 
     let bannerLayerImage: UIImageView = {
         let image = UIImageView()
         image.image = UIImage(named: "blur")
+//        image.alpha = 0.5
         return image
     }()
     
