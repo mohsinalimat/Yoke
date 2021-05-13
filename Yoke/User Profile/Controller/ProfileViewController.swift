@@ -112,7 +112,10 @@ class ProfileViewController: UIViewController, TTGTextTagCollectionViewDelegate 
     
     func constrainViews() {
         scrollView.anchor(top: safeArea.topAnchor, left: safeArea.leftAnchor, bottom: safeArea.bottomAnchor, right: safeArea.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0)
-        
+        let imageBlurView = UIImageView()
+        imageBlurView.frame = CGRect(x: 0, y: 200, width: self.view.frame.size.width, height: 200)
+        imageBlurView.contentMode = .scaleAspectFit
+        self.view.addSubview(imageBlurView)
         bannerImageView.anchor(top: scrollView.topAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, height: 200)
         
         usernameView.anchor(top: usernameLabel.topAnchor, left: safeArea.leftAnchor, bottom: bannerImageView.bottomAnchor, right: usernameLabel.rightAnchor, paddingTop: -10, paddingLeft: 50, paddingBottom: 0, paddingRight: -10)
@@ -232,7 +235,11 @@ class ProfileViewController: UIViewController, TTGTextTagCollectionViewDelegate 
             let bannerStorageRef = Storage.storage().reference().child("profileBannerUrl/\(uid)")
             bannerStorageRef.getData(maxSize: 2 * 1024 * 1024) { data, error in
                 if error == nil, let data = data {
-                    self.bannerImageView.image = UIImage(data: data)
+//                    self.bannerImageView.image = UIImage(data: data)
+                    guard let dataImage = UIImage(data: data) else { return }
+                    guard let image = self.blurImage(usingImage: dataImage, blurAmount: 20.0) else { return }
+                    self.bannerImageView.image = image
+                    
                 }
             }
         }
@@ -307,9 +314,19 @@ class ProfileViewController: UIViewController, TTGTextTagCollectionViewDelegate 
         image.clipsToBounds = true
         image.contentMode = .scaleAspectFill
         image.backgroundColor = .white
-        image.image = UIImage(named: "gradientBackgroundHalf")
+        image.image = UIImage(named: "inline_image_preview")
+//        image.image = UIImage(named: "gradientBackgroundHalf")
         return image
     }()
+    
+    func blurImage(usingImage image: UIImage, blurAmount: CGFloat) -> UIImage? {
+        guard let ciImage = CIImage(image: image) else { return nil }
+        let blurFilter = CIFilter(name: "CIGuassianBlur")
+        blurFilter?.setValue(ciImage, forKey: kCIInputImageKey)
+        blurFilter?.setValue(blurAmount, forKey: kCIInputRadiusKey)
+        guard let outputImage = blurFilter?.outputImage else { return nil }
+        return UIImage(ciImage: outputImage)
+    }
     
     let bannerLayerImageView: UIView = {
         let view = UIView()
