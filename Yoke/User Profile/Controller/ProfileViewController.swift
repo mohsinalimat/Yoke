@@ -563,6 +563,20 @@ class ProfileViewController: UIViewController, TTGTextTagCollectionViewDelegate 
         let cv = UICollectionView(frame: .zero, collectionViewLayout: layout)
         return cv
     }()
+    
+    let upcomingBookingsCollectionView: UICollectionView = {
+        let layout = UICollectionViewFlowLayout()
+        layout.scrollDirection = .horizontal
+        let cv = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        return cv
+    }()
+    
+    let eventsNearYouCollectionView: UICollectionView = {
+        let layout = UICollectionViewFlowLayout()
+        layout.scrollDirection = .horizontal
+        let cv = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        return cv
+    }()
 }
 
 // MARK: - CollectionView
