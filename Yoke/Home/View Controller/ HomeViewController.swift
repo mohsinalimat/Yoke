@@ -578,6 +578,18 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
             } else {
                 return CGSize(width: view.frame.width - 20, height: 180)
             }
+        } else if collectionView == self.suggestedChefCollectionView {
+            if SuggestedChefController.shared.chefs.count == 0 {
+                return CGSize(width: view.frame.width - 20, height: 100)
+            } else {
+                return CGSize(width: view.frame.width / 2 , height: 180)
+            }
+        } else if collectionView == self.upcomingBookingsCollectionView {
+            if SuggestedChefController.shared.chefs.count == 0 {
+                return CGSize(width: view.frame.width - 20, height: 100)
+            } else {
+                return CGSize(width: view.frame.width / 2 , height: 180)
+            }
         }
         
         if SuggestedChefController.shared.chefs.count == 0 {
