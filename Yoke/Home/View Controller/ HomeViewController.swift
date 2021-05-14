@@ -19,8 +19,10 @@ class HomeViewController: UIViewController {
         return self.view.safeAreaLayoutGuide
     }
     let noCellId = "noCellId"
-    let cellId = "cellId"
-    let headerId = "headerId"
+    let menuCell = "menuCell"
+    let chefCell = "chefCell"
+    let bookingCell = "bookingCell"
+    let eventCell = "eventCell"
     var userId: String?
     private let refreshControl = UIRefreshControl()
     var isChef: Bool = false
@@ -112,7 +114,6 @@ class HomeViewController: UIViewController {
     }
     
     fileprivate func setupBottomToolbarChef() {
-//        collectionViewBG.anchor(top: buttonStackView.bottomAnchor, left: safeArea.leftAnchor, bottom: scrollView.bottomAnchor, right: safeArea.rightAnchor, paddingTop: 20, paddingLeft: 5, paddingBottom: 0, paddingRight: 5, height: 210)
         collectionViewBG.anchor(top: buttonStackView.bottomAnchor, left: safeArea.leftAnchor, bottom: safeArea.bottomAnchor, right: safeArea.rightAnchor, paddingTop: 20, paddingLeft: 5, paddingBottom: 10, paddingRight: 5)
         
         menuChefLabel.anchor(top: collectionViewBG.topAnchor, left: collectionViewBG.leftAnchor, bottom: nil, right: nil, paddingTop: 5, paddingLeft: 10, paddingBottom: 0, paddingRight: 0)
@@ -166,28 +167,28 @@ class HomeViewController: UIViewController {
         menuCollectionView.delegate = self
         menuCollectionView.dataSource = self
         menuCollectionView.translatesAutoresizingMaskIntoConstraints = false
-        menuCollectionView.register(MenuCollectionViewCell.self, forCellWithReuseIdentifier: cellId)
+        menuCollectionView.register(MenuCollectionViewCell.self, forCellWithReuseIdentifier: menuCell)
         menuCollectionView.register(EmptyCell.self, forCellWithReuseIdentifier: noCellId)
         
         suggestedChefCollectionView.backgroundColor = UIColor.clear
         suggestedChefCollectionView.delegate = self
         suggestedChefCollectionView.dataSource = self
         suggestedChefCollectionView.translatesAutoresizingMaskIntoConstraints = false
-        suggestedChefCollectionView.register(SuggestedChefsCollectionViewCell.self, forCellWithReuseIdentifier: cellId)
+        suggestedChefCollectionView.register(SuggestedChefsCollectionViewCell.self, forCellWithReuseIdentifier: chefCell)
         suggestedChefCollectionView.register(EmptyCell.self, forCellWithReuseIdentifier: noCellId)
         
         upcomingBookingsCollectionView.backgroundColor = UIColor.clear
         upcomingBookingsCollectionView.delegate = self
         upcomingBookingsCollectionView.dataSource = self
         upcomingBookingsCollectionView.translatesAutoresizingMaskIntoConstraints = false
-        upcomingBookingsCollectionView.register(SuggestedChefsCollectionViewCell.self, forCellWithReuseIdentifier: cellId)
+        upcomingBookingsCollectionView.register(BookingsCollectionViewCell.self, forCellWithReuseIdentifier: bookingCell)
         upcomingBookingsCollectionView.register(EmptyCell.self, forCellWithReuseIdentifier: noCellId)
         
         eventsNearYouCollectionView.backgroundColor = UIColor.clear
         eventsNearYouCollectionView.delegate = self
         eventsNearYouCollectionView.dataSource = self
         eventsNearYouCollectionView.translatesAutoresizingMaskIntoConstraints = false
-        eventsNearYouCollectionView.register(SuggestedChefsCollectionViewCell.self, forCellWithReuseIdentifier: cellId)
+        eventsNearYouCollectionView.register(SuggestedEventsCollectionViewCell.self, forCellWithReuseIdentifier: eventCell)
         eventsNearYouCollectionView.register(EmptyCell.self, forCellWithReuseIdentifier: noCellId)
     }
     
@@ -530,21 +531,43 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
                 return noCell
             }
             
-            let cellA = collectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath) as! MenuCollectionViewCell
+            let cellA = collectionView.dequeueReusableCell(withReuseIdentifier: menuCell, for: indexPath) as! MenuCollectionViewCell
             cellA.menu = MenuController.shared.menus[indexPath.item]
             return cellA
+        } else if collectionView == self.suggestedChefCollectionView {
+            let cellB = collectionView.dequeueReusableCell(withReuseIdentifier: chefCell, for: indexPath) as! SuggestedChefsCollectionViewCell
+            if SuggestedChefController.shared.chefs.count == 0 {
+                let noCell = collectionView.dequeueReusableCell(withReuseIdentifier: noCellId, for: indexPath) as! EmptyCell
+                noCell.noPostLabel.text = "Sorry, there are currently no chefs in your area"
+                noCell.noPostLabel.font = UIFont.boldSystemFont(ofSize: 15)
+                return noCell
+            } else {
+                cellB.chef = SuggestedChefController.shared.chefs[indexPath.item]
+                return cellB
+            }
+        } else if collectionView == self.upcomingBookingsCollectionView {
+            let cellC = collectionView.dequeueReusableCell(withReuseIdentifier: bookingCell, for: indexPath) as! BookingsCollectionViewCell
+//            if SuggestedChefController.shared.chefs.count == 0 {
+//                let noCell = collectionView.dequeueReusableCell(withReuseIdentifier: noCellId, for: indexPath) as! EmptyCell
+//                noCell.noPostLabel.text = "Sorry, there are currently no chefs in your area"
+//                noCell.noPostLabel.font = UIFont.boldSystemFont(ofSize: 15)
+//                return noCell
+//            } else {
+//                cellC.chef = SuggestedChefController.shared.chefs[indexPath.item]
+//                return cellB
+//            }
         }
         
-        let cellB = collectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath) as! SuggestedChefsCollectionViewCell
-        if SuggestedChefController.shared.chefs.count == 0 {
-            let noCell = collectionView.dequeueReusableCell(withReuseIdentifier: noCellId, for: indexPath) as! EmptyCell
-            noCell.noPostLabel.text = "Sorry, there are currently no chefs in your area"
-            noCell.noPostLabel.font = UIFont.boldSystemFont(ofSize: 15)
-            return noCell
-        } else {
-            cellB.chef = SuggestedChefController.shared.chefs[indexPath.item]
-            return cellB
-        }
+        let cellD = collectionView.dequeueReusableCell(withReuseIdentifier: eventCell, for: indexPath) as! SuggestedEventsCollectionViewCell
+            if SuggestedChefController.shared.chefs.count == 0 {
+                let noCell = collectionView.dequeueReusableCell(withReuseIdentifier: noCellId, for: indexPath) as! EmptyCell
+                noCell.noPostLabel.text = "Sorry, there are currently no chefs in your area"
+                noCell.noPostLabel.font = UIFont.boldSystemFont(ofSize: 15)
+                return noCell
+            } else {
+//                cellD.chef = SuggestedChefController.shared.chefs[indexPath.item]
+                return cellD
+            }
         
     }
     
