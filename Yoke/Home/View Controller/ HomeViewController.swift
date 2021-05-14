@@ -514,6 +514,18 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
             } else {
                 return MenuController.shared.menus.count
             }
+        } else if collectionView == self.suggestedChefCollectionView {
+            if SuggestedChefController.shared.chefs.count == 0 {
+                return 1
+            } else {
+                return SuggestedChefController.shared.chefs.count
+            }
+        } else if collectionView == self.upcomingBookingsCollectionView {
+            if BookingController.shared.bookings.count == 0 {
+                return 1
+            } else {
+                return BookingController.shared.bookings.count
+            }
         }
         if SuggestedChefController.shared.chefs.count == 0 {
             return 1
@@ -547,27 +559,28 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
             }
         } else if collectionView == self.upcomingBookingsCollectionView {
             let cellC = collectionView.dequeueReusableCell(withReuseIdentifier: bookingCell, for: indexPath) as! BookingsCollectionViewCell
+            if BookingController.shared.bookings.count == 0 {
+                let noCell = collectionView.dequeueReusableCell(withReuseIdentifier: noCellId, for: indexPath) as! EmptyCell
+                noCell.noPostLabel.text = "Sorry, you have no upcoming bookings"
+                noCell.noPostLabel.font = UIFont.boldSystemFont(ofSize: 15)
+                return noCell
+            } else {
+                cellC.booking = BookingController.shared.bookings[indexPath.item]
+                return cellC
+            }
+        }
+        
+        let cellD = collectionView.dequeueReusableCell(withReuseIdentifier: eventCell, for: indexPath) as! SuggestedEventsCollectionViewCell
+        return cellD
 //            if SuggestedChefController.shared.chefs.count == 0 {
 //                let noCell = collectionView.dequeueReusableCell(withReuseIdentifier: noCellId, for: indexPath) as! EmptyCell
 //                noCell.noPostLabel.text = "Sorry, there are currently no chefs in your area"
 //                noCell.noPostLabel.font = UIFont.boldSystemFont(ofSize: 15)
 //                return noCell
 //            } else {
-//                cellC.chef = SuggestedChefController.shared.chefs[indexPath.item]
-//                return cellB
+////                cellD.chef = SuggestedChefController.shared.chefs[indexPath.item]
+//                return cellD
 //            }
-        }
-        
-        let cellD = collectionView.dequeueReusableCell(withReuseIdentifier: eventCell, for: indexPath) as! SuggestedEventsCollectionViewCell
-            if SuggestedChefController.shared.chefs.count == 0 {
-                let noCell = collectionView.dequeueReusableCell(withReuseIdentifier: noCellId, for: indexPath) as! EmptyCell
-                noCell.noPostLabel.text = "Sorry, there are currently no chefs in your area"
-                noCell.noPostLabel.font = UIFont.boldSystemFont(ofSize: 15)
-                return noCell
-            } else {
-//                cellD.chef = SuggestedChefController.shared.chefs[indexPath.item]
-                return cellD
-            }
         
     }
     
