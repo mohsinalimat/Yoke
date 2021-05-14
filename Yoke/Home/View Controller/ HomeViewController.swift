@@ -64,10 +64,11 @@ class HomeViewController: UIViewController {
         buttonStackView.addArrangedSubview(bookmarkButton)
         buttonStackView.addArrangedSubview(bookingButton)
         scrollView.addSubview(collectionViewBG)
-        scrollView.addSubview(menuLabel)
+        scrollView.addSubview(menuChefLabel)
         scrollView.addSubview(addMenuButton)
         scrollView.addSubview(menuCollectionView)
         scrollView.addSubview(suggestedChefCollectionView)
+        scrollView.addSubview(bookingsEventLabel)
         scrollView.addSubview(eventsNearYouCollectionView)
         scrollView.addSubview(upcomingBookingsCollectionView)
     }
@@ -114,19 +115,27 @@ class HomeViewController: UIViewController {
 //        collectionViewBG.anchor(top: buttonStackView.bottomAnchor, left: safeArea.leftAnchor, bottom: scrollView.bottomAnchor, right: safeArea.rightAnchor, paddingTop: 20, paddingLeft: 5, paddingBottom: 0, paddingRight: 5, height: 210)
         collectionViewBG.anchor(top: buttonStackView.bottomAnchor, left: safeArea.leftAnchor, bottom: safeArea.bottomAnchor, right: safeArea.rightAnchor, paddingTop: 20, paddingLeft: 5, paddingBottom: 10, paddingRight: 5)
         
-        menuLabel.anchor(top: collectionViewBG.topAnchor, left: collectionViewBG.leftAnchor, bottom: nil, right: nil, paddingTop: 5, paddingLeft: 10, paddingBottom: 0, paddingRight: 0)
+        menuChefLabel.anchor(top: collectionViewBG.topAnchor, left: collectionViewBG.leftAnchor, bottom: nil, right: nil, paddingTop: 5, paddingLeft: 10, paddingBottom: 0, paddingRight: 0)
         
-        addMenuButton.anchor(top: menuLabel.topAnchor, left: nil, bottom: nil, right: collectionViewBG.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 10)
+        addMenuButton.anchor(top: menuChefLabel.topAnchor, left: nil, bottom: nil, right: collectionViewBG.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 10)
         
-        menuCollectionView.anchor(top: menuLabel.bottomAnchor, left: collectionViewBG.leftAnchor, bottom: nil, right: collectionViewBG.rightAnchor, paddingTop: -10, paddingLeft: 5, paddingBottom: 5, paddingRight: 5, height: 175)
+        menuCollectionView.anchor(top: menuChefLabel.bottomAnchor, left: collectionViewBG.leftAnchor, bottom: nil, right: collectionViewBG.rightAnchor, paddingTop: -10, paddingLeft: 5, paddingBottom: 5, paddingRight: 5, height: 175)
+        
+        bookingsEventLabel.anchor(top:  menuCollectionView.bottomAnchor, left: collectionViewBG.leftAnchor, bottom: nil, right: nil, paddingTop: 5, paddingLeft: 10, paddingBottom: 0, paddingRight: 0)
+        
+        upcomingBookingsCollectionView.anchor(top: menuCollectionView.bottomAnchor, left: collectionViewBG.leftAnchor, bottom: nil, right: collectionViewBG.rightAnchor, paddingTop: -10, paddingLeft: 5, paddingBottom: 5, paddingRight: 5, height: 175)
     }
     
     fileprivate func setupBottomToolbarUser() {
         collectionViewBG.anchor(top: buttonStackView.bottomAnchor, left: safeArea.leftAnchor, bottom: safeArea.bottomAnchor, right: safeArea.rightAnchor, paddingTop: 20, paddingLeft: 5, paddingBottom: 10, paddingRight: 5)
         
-        menuLabel.anchor(top: collectionViewBG.topAnchor, left: collectionViewBG.leftAnchor, bottom: nil, right: nil, paddingTop: 5, paddingLeft: 10, paddingBottom: 0, paddingRight: 0)
+        menuChefLabel.anchor(top: collectionViewBG.topAnchor, left: collectionViewBG.leftAnchor, bottom: nil, right: nil, paddingTop: 5, paddingLeft: 10, paddingBottom: 0, paddingRight: 0)
         
-        suggestedChefCollectionView.anchor(top: menuLabel.bottomAnchor, left: collectionViewBG.leftAnchor, bottom: nil, right: collectionViewBG.rightAnchor, paddingTop: 0, paddingLeft: 5, paddingBottom: 0, paddingRight: 5, height: 200)
+        suggestedChefCollectionView.anchor(top: menuChefLabel.bottomAnchor, left: collectionViewBG.leftAnchor, bottom: nil, right: collectionViewBG.rightAnchor, paddingTop: 0, paddingLeft: 5, paddingBottom: 0, paddingRight: 5, height: 200)
+        
+        bookingsEventLabel.anchor(top:  suggestedChefCollectionView.bottomAnchor, left: collectionViewBG.leftAnchor, bottom: nil, right: nil, paddingTop: 5, paddingLeft: 10, paddingBottom: 0, paddingRight: 0)
+        
+        eventsNearYouCollectionView.anchor(top: bookingsEventLabel.bottomAnchor, left: collectionViewBG.leftAnchor, bottom: nil, right: collectionViewBG.rightAnchor, paddingTop: 0, paddingLeft: 5, paddingBottom: 0, paddingRight: 5, height: 200)
     }
     
     func setupCollectionView() {
@@ -136,14 +145,20 @@ class HomeViewController: UIViewController {
             self.isChef = chef
             if self.isChef == true {
                 self.suggestedChefCollectionView.isHidden = true
+                self.eventsNearYouCollectionView.isHidden = true
                 self.menuCollectionView.isHidden = false
+                self.upcomingBookingsCollectionView.isHidden = false
                 self.addMenuButton.isHidden = false
-                self.menuLabel.text = "Menus"
+                self.menuChefLabel.text = "Menus"
+                self.bookingsEventLabel.text = "Upcoming"
             } else {
                 self.suggestedChefCollectionView.isHidden = false
+                self.eventsNearYouCollectionView.isHidden = false
                 self.menuCollectionView.isHidden = true
+                self.upcomingBookingsCollectionView.isHidden = true
                 self.addMenuButton.isHidden = true
-                self.menuLabel.text = "Chef's near you"
+                self.menuChefLabel.text = "Chef's near you"
+                self.bookingsEventLabel.text = "Events near you"
             }
         }
         
@@ -437,7 +452,14 @@ class HomeViewController: UIViewController {
         return view
     }()
     
-    let menuLabel: UILabel = {
+    let menuChefLabel: UILabel = {
+        let label = UILabel()
+        label.textColor = UIColor.gray
+        label.font = UIFont.boldSystemFont(ofSize: 22)
+        return label
+    }()
+    
+    let bookingsEventLabel: UILabel = {
         let label = UILabel()
         label.textColor = UIColor.gray
         label.font = UIFont.boldSystemFont(ofSize: 22)
