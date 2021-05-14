@@ -68,6 +68,8 @@ class HomeViewController: UIViewController {
         scrollView.addSubview(addMenuButton)
         scrollView.addSubview(menuCollectionView)
         scrollView.addSubview(suggestedChefCollectionView)
+        scrollView.addSubview(eventsNearYouCollectionView)
+        scrollView.addSubview(upcomingBookingsCollectionView)
     }
     
     func constrainViews() {
@@ -156,9 +158,22 @@ class HomeViewController: UIViewController {
         suggestedChefCollectionView.delegate = self
         suggestedChefCollectionView.dataSource = self
         suggestedChefCollectionView.translatesAutoresizingMaskIntoConstraints = false
-        //        collectionView.register(MenuHeaderCollectionViewCell.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: headerId)
         suggestedChefCollectionView.register(SuggestedChefsCollectionViewCell.self, forCellWithReuseIdentifier: cellId)
         suggestedChefCollectionView.register(EmptyCell.self, forCellWithReuseIdentifier: noCellId)
+        
+        upcomingBookingsCollectionView.backgroundColor = UIColor.clear
+        upcomingBookingsCollectionView.delegate = self
+        upcomingBookingsCollectionView.dataSource = self
+        upcomingBookingsCollectionView.translatesAutoresizingMaskIntoConstraints = false
+        upcomingBookingsCollectionView.register(SuggestedChefsCollectionViewCell.self, forCellWithReuseIdentifier: cellId)
+        upcomingBookingsCollectionView.register(EmptyCell.self, forCellWithReuseIdentifier: noCellId)
+        
+        eventsNearYouCollectionView.backgroundColor = UIColor.clear
+        eventsNearYouCollectionView.delegate = self
+        eventsNearYouCollectionView.dataSource = self
+        eventsNearYouCollectionView.translatesAutoresizingMaskIntoConstraints = false
+        eventsNearYouCollectionView.register(SuggestedChefsCollectionViewCell.self, forCellWithReuseIdentifier: cellId)
+        eventsNearYouCollectionView.register(EmptyCell.self, forCellWithReuseIdentifier: noCellId)
     }
     
     func configureNavigationBar() {
@@ -446,6 +461,20 @@ class HomeViewController: UIViewController {
     }()
     
     let suggestedChefCollectionView: UICollectionView = {
+        let layout = UICollectionViewFlowLayout()
+        layout.scrollDirection = .horizontal
+        let cv = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        return cv
+    }()
+    
+    let upcomingBookingsCollectionView: UICollectionView = {
+        let layout = UICollectionViewFlowLayout()
+        layout.scrollDirection = .horizontal
+        let cv = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        return cv
+    }()
+    
+    let eventsNearYouCollectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal
         let cv = UICollectionView(frame: .zero, collectionViewLayout: layout)
