@@ -76,8 +76,7 @@ class HomeViewController: UIViewController {
     }
     
     func constrainViews() {
-//        scrollView.isScrollEnabled = true
-        let totalHeight = view.frame.height + 170
+        let totalHeight = view.frame.height + 175
         scrollView.contentSize = CGSize(width: view.frame.width, height: totalHeight)
         scrollView.anchor(top: safeArea.topAnchor, left: safeArea.leftAnchor, bottom: safeArea.bottomAnchor, right: safeArea.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0)
         bannerLayerView.anchor(top: scrollView.topAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 5, paddingLeft: 5, paddingBottom: 0, paddingRight: 5, height: 200)
@@ -124,9 +123,9 @@ class HomeViewController: UIViewController {
         
         menuCollectionView.anchor(top: menuChefLabel.bottomAnchor, left: collectionViewBG.leftAnchor, bottom: nil, right: collectionViewBG.rightAnchor, paddingTop: -10, paddingLeft: 5, paddingBottom: 5, paddingRight: 5, height: 175)
         
-        bookingsEventLabel.anchor(top:  menuCollectionView.bottomAnchor, left: collectionViewBG.leftAnchor, bottom: nil, right: nil, paddingTop: 5, paddingLeft: 10, paddingBottom: 0, paddingRight: 0)
+        bookingsEventLabel.anchor(top:  menuCollectionView.bottomAnchor, left: collectionViewBG.leftAnchor, bottom: nil, right: nil, paddingTop: 10, paddingLeft: 10, paddingBottom: 0, paddingRight: 0)
         
-        upcomingBookingsCollectionView.anchor(top: menuCollectionView.bottomAnchor, left: collectionViewBG.leftAnchor, bottom: collectionViewBG.bottomAnchor, right: collectionViewBG.rightAnchor, paddingTop: -10, paddingLeft: 5, paddingBottom: 5, paddingRight: 5, height: 175)
+        upcomingBookingsCollectionView.anchor(top: bookingsEventLabel.bottomAnchor, left: collectionViewBG.leftAnchor, bottom: collectionViewBG.bottomAnchor, right: collectionViewBG.rightAnchor, paddingTop: 0, paddingLeft: 5, paddingBottom: 5, paddingRight: 5, height: 180)
     }
     
     fileprivate func setupBottomToolbarUser() {
@@ -523,11 +522,12 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
                 return SuggestedChefController.shared.chefs.count
             }
         } else if collectionView == self.upcomingBookingsCollectionView {
-            if BookingController.shared.bookings.count == 0 {
-                return 1
-            } else {
-                return BookingController.shared.bookings.count
-            }
+            return 1
+//            if BookingController.shared.bookings.count == 0 {
+//                return 1
+//            } else {
+//                return BookingController.shared.bookings.count
+//            }
         }
         if SuggestedChefController.shared.chefs.count == 0 {
             return 1
@@ -561,15 +561,17 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
             }
         } else if collectionView == self.upcomingBookingsCollectionView {
             let cellC = collectionView.dequeueReusableCell(withReuseIdentifier: bookingCell, for: indexPath) as! BookingsCollectionViewCell
-            if BookingController.shared.bookings.count == 0 {
-                let noCell = collectionView.dequeueReusableCell(withReuseIdentifier: noCellId, for: indexPath) as! EmptyCell
-                noCell.noPostLabel.text = "Sorry, you have no upcoming bookings"
-                noCell.noPostLabel.font = UIFont.boldSystemFont(ofSize: 15)
-                return noCell
-            } else {
-                cellC.booking = BookingController.shared.bookings[indexPath.item]
-                return cellC
-            }
+//            cellC.booking = BookingController.shared.bookings[indexPath.item]
+            return cellC
+//            if BookingController.shared.bookings.count == 0 {
+//                let noCell = collectionView.dequeueReusableCell(withReuseIdentifier: noCellId, for: indexPath) as! EmptyCell
+//                noCell.noPostLabel.text = "Sorry, you have no upcoming bookings"
+//                noCell.noPostLabel.font = UIFont.boldSystemFont(ofSize: 15)
+//                return noCell
+//            } else {
+//                cellC.booking = BookingController.shared.bookings[indexPath.item]
+//                return cellC
+//            }
         }
         
         let cellD = collectionView.dequeueReusableCell(withReuseIdentifier: eventCell, for: indexPath) as! SuggestedEventsCollectionViewCell
@@ -600,11 +602,12 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
                 return CGSize(width: view.frame.width / 2 , height: 180)
             }
         } else if collectionView == self.upcomingBookingsCollectionView {
-            if SuggestedChefController.shared.chefs.count == 0 {
-                return CGSize(width: view.frame.width - 20, height: 100)
-            } else {
-                return CGSize(width: view.frame.width / 2 , height: 180)
-            }
+            return CGSize(width: view.frame.width - 20 , height: 150)
+//            if SuggestedChefController.shared.chefs.count == 0 {
+//                return CGSize(width: view.frame.width - 20, height: 100)
+//            } else {
+//                return CGSize(width: view.frame.width / 2 , height: 180)
+//            }
         }
         return CGSize(width: view.frame.width / 2 , height: 180)
 //        if SuggestedChefController.shared.chefs.count == 0 {
