@@ -321,7 +321,7 @@ class ProfileViewController: UIViewController, TTGTextTagCollectionViewDelegate 
         image.tintColor = UIColor.orangeColor()
         image.backgroundColor = .white
         image.layer.borderWidth = 2
-        image.layer.shadowColor = UIColor.gray.cgColor
+        image.layer.shadowColor = UIColor.lightGray.cgColor
         return image
     }()
     
@@ -468,7 +468,7 @@ class ProfileViewController: UIViewController, TTGTextTagCollectionViewDelegate 
         stackView.layer.shadowOffset = CGSize(width: 0, height: 4)
         stackView.layer.shadowRadius = 4
         stackView.layer.shadowOpacity = 0.1
-        stackView.layer.shadowColor = UIColor.gray.cgColor
+        stackView.layer.shadowColor = UIColor.lightGray.cgColor
         return stackView
     }()
     
@@ -479,7 +479,7 @@ class ProfileViewController: UIViewController, TTGTextTagCollectionViewDelegate 
         view.layer.shadowOffset = CGSize(width: 0, height: 4)
         view.layer.shadowRadius = 4
         view.layer.shadowOpacity = 0.1
-        view.layer.shadowColor = UIColor.gray.cgColor
+        view.layer.shadowColor = UIColor.lightGray.cgColor
         return view
     }()
     
@@ -511,7 +511,7 @@ class ProfileViewController: UIViewController, TTGTextTagCollectionViewDelegate 
         view.layer.shadowOffset = CGSize(width: 0, height: 4)
         view.layer.shadowRadius = 4
         view.layer.shadowOpacity = 0.1
-        view.layer.shadowColor = UIColor.gray.cgColor
+        view.layer.shadowColor = UIColor.lightGray.cgColor
         return view
     }()
     
@@ -531,7 +531,7 @@ class ProfileViewController: UIViewController, TTGTextTagCollectionViewDelegate 
         view.layer.shadowOffset = CGSize(width: 0, height: 4)
         view.layer.shadowRadius = 4
         view.layer.shadowOpacity = 0.1
-        view.layer.shadowColor = UIColor.gray.cgColor
+        view.layer.shadowColor = UIColor.lightGray.cgColor
         return view
     }()
     

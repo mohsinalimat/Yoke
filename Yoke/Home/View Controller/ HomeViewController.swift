@@ -337,7 +337,7 @@ class HomeViewController: UIViewController {
         view.layer.shadowOffset = CGSize(width: 0, height: 4)
         view.layer.shadowRadius = 4
         view.layer.shadowOpacity = 0.2
-        view.layer.shadowColor = UIColor.gray.cgColor
+        view.layer.shadowColor = UIColor.lightGray.cgColor
         view.layer.cornerRadius = 10
         return view
     }()
@@ -358,7 +358,7 @@ class HomeViewController: UIViewController {
         view.layer.shadowOffset = CGSize(width: 0, height: 4)
         view.layer.shadowRadius = 4
         view.layer.shadowOpacity = 0.2
-        view.layer.shadowColor = UIColor.gray.cgColor
+        view.layer.shadowColor = UIColor.lightGray.cgColor
         return view
     }()
     
@@ -455,8 +455,8 @@ class HomeViewController: UIViewController {
         stackView.layer.cornerRadius = 10
         stackView.layer.shadowOffset = CGSize(width: 0, height: 4)
         stackView.layer.shadowRadius = 4
-        stackView.layer.shadowOpacity = 0.1
-        stackView.layer.shadowColor = UIColor.gray.cgColor
+        stackView.layer.shadowOpacity = 0.2
+        stackView.layer.shadowColor = UIColor.lightGray.cgColor
         return stackView
     }()
     
@@ -466,8 +466,8 @@ class HomeViewController: UIViewController {
         view.layer.cornerRadius = 10
         view.layer.shadowOffset = CGSize(width: 0, height: 4)
         view.layer.shadowRadius = 4
-        view.layer.shadowOpacity = 0.1
-        view.layer.shadowColor = UIColor.gray.cgColor
+        view.layer.shadowOpacity = 0.2
+        view.layer.shadowColor = UIColor.lightGray.cgColor
         return view
     }()
     

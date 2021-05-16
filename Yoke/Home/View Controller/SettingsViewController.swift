@@ -573,7 +573,7 @@ class SettingsViewController: UIViewController  {
         button.layer.shadowOffset = CGSize(width: 0, height: 4)
         button.layer.shadowRadius = 4
         button.layer.shadowOpacity = 0.1
-        button.layer.shadowColor = UIColor.gray.cgColor
+        button.layer.shadowColor = UIColor.lightGray.cgColor
         button.addTarget(self, action: #selector(handleChefPreference), for: .touchUpInside)
         return button
     }()
@@ -587,7 +587,7 @@ class SettingsViewController: UIViewController  {
         button.layer.shadowOffset = CGSize(width: 0, height: 4)
         button.layer.shadowRadius = 4
         button.layer.shadowOpacity = 0.1
-        button.layer.shadowColor = UIColor.gray.cgColor
+        button.layer.shadowColor = UIColor.lightGray.cgColor
         button.addTarget(self, action: #selector(handleEmailPassword), for: .touchUpInside)
         return button
     }()
@@ -601,7 +601,7 @@ class SettingsViewController: UIViewController  {
         button.layer.shadowOffset = CGSize(width: 0, height: 4)
         button.layer.shadowRadius = 4
         button.layer.shadowOpacity = 0.1
-        button.layer.shadowColor = UIColor.gray.cgColor
+        button.layer.shadowColor = UIColor.lightGray.cgColor
 //        button.addTarget(self, action: #selector(handleLogout), for: .touchUpInside)
         return button
     }()
@@ -615,7 +615,7 @@ class SettingsViewController: UIViewController  {
         button.layer.shadowOffset = CGSize(width: 0, height: 4)
         button.layer.shadowRadius = 4
         button.layer.shadowOpacity = 0.1
-        button.layer.shadowColor = UIColor.gray.cgColor
+        button.layer.shadowColor = UIColor.lightGray.cgColor
         button.addTarget(self, action: #selector(handleLogout), for: .touchUpInside)
         return button
     }()
@@ -629,7 +629,7 @@ class SettingsViewController: UIViewController  {
         button.layer.shadowOffset = CGSize(width: 0, height: 4)
         button.layer.shadowRadius = 4
         button.layer.shadowOpacity = 0.1
-        button.layer.shadowColor = UIColor.gray.cgColor
+        button.layer.shadowColor = UIColor.lightGray.cgColor
         button.addTarget(self, action: #selector(handleDelete), for: .touchUpInside)
         return button
     }()

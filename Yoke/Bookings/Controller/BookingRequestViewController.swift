@@ -441,7 +441,7 @@ class BookingRequestViewController: UIViewController, BookingLocationDelegate {
         view.layer.shadowOffset = CGSize(width: 0, height: 4)
         view.layer.shadowRadius = 4
         view.layer.shadowOpacity = 0.1
-        view.layer.shadowColor = UIColor.gray.cgColor
+        view.layer.shadowColor = UIColor.lightGray.cgColor
         view.backgroundColor = UIColor.white
         return view
     }()
@@ -479,7 +479,7 @@ class BookingRequestViewController: UIViewController, BookingLocationDelegate {
         stackView.layer.shadowOffset = CGSize(width: 0, height: 4)
         stackView.layer.shadowRadius = 4
         stackView.layer.shadowOpacity = 0.1
-        stackView.layer.shadowColor = UIColor.gray.cgColor
+        stackView.layer.shadowColor = UIColor.lightGray.cgColor
         return stackView
     }()
     
@@ -515,7 +515,7 @@ class BookingRequestViewController: UIViewController, BookingLocationDelegate {
         view.layer.shadowOffset = CGSize(width: 0, height: 4)
         view.layer.shadowRadius = 4
         view.layer.shadowOpacity = 0.1
-        view.layer.shadowColor = UIColor.gray.cgColor
+        view.layer.shadowColor = UIColor.lightGray.cgColor
         view.backgroundColor = UIColor.white
         return view
     }()
@@ -584,7 +584,7 @@ class BookingRequestViewController: UIViewController, BookingLocationDelegate {
         button.layer.shadowOffset = CGSize(width: 0, height: 4)
         button.layer.shadowRadius = 4
         button.layer.shadowOpacity = 0.1
-        button.layer.shadowColor = UIColor.gray.cgColor
+        button.layer.shadowColor = UIColor.lightGray.cgColor
         button.addTarget(self, action: #selector(handleSubmit), for: .touchUpInside)
         return button
     }()

@@ -191,7 +191,7 @@ class LoginVC: UIViewController {
         imageView.layer.shadowOffset = CGSize(width: 0, height: 4)
         imageView.layer.shadowRadius = 4
         imageView.layer.shadowOpacity = 0.2
-        imageView.layer.shadowColor = UIColor.gray.cgColor
+        imageView.layer.shadowColor = UIColor.lightGray.cgColor
         return imageView
     }()
     
@@ -302,7 +302,7 @@ class LoginVC: UIViewController {
         button.layer.shadowOffset = CGSize(width: 0, height: 4)
         button.layer.shadowRadius = 4
         button.layer.shadowOpacity = 0.2
-        button.layer.shadowColor = UIColor.gray.cgColor
+        button.layer.shadowColor = UIColor.lightGray.cgColor
         button.addTarget(self, action: #selector(handleSignIn), for: .touchUpInside)
         return button
     }()

@@ -249,7 +249,7 @@ class ChefSettingsViewController: UIViewController, TTGTextTagCollectionViewDele
         text.layer.shadowOffset = CGSize(width: 0, height: 4)
         text.layer.shadowRadius = 4
         text.layer.shadowOpacity = 0.1
-        text.layer.shadowColor = UIColor.gray.cgColor
+        text.layer.shadowColor = UIColor.lightGray.cgColor
         return text
     }()
     
@@ -262,7 +262,7 @@ class ChefSettingsViewController: UIViewController, TTGTextTagCollectionViewDele
         button.layer.shadowOffset = CGSize(width: 0, height: 4)
         button.layer.shadowRadius = 4
         button.layer.shadowOpacity = 0.1
-        button.layer.shadowColor = UIColor.gray.cgColor
+        button.layer.shadowColor = UIColor.lightGray.cgColor
         button.addTarget(self, action: #selector(handleAddTextField), for: .touchUpInside)
         return button
     }()
@@ -303,7 +303,7 @@ class ChefSettingsViewController: UIViewController, TTGTextTagCollectionViewDele
         button.layer.shadowOffset = CGSize(width: 0, height: 4)
         button.layer.shadowRadius = 4
         button.layer.shadowOpacity = 0.2
-        button.layer.shadowColor = UIColor.gray.cgColor
+        button.layer.shadowColor = UIColor.lightGray.cgColor
         button.titleLabel?.font = UIFont(name: "", size: 18)
         button.addTarget(self, action: #selector(handleHideCuisineList), for: .touchUpInside)
         return button

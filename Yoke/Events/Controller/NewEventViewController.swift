@@ -334,7 +334,7 @@ class NewEventViewController: UIViewController,  EventLocationDelegate {
         view.layer.shadowOffset = CGSize(width: 0, height: 4)
         view.layer.shadowRadius = 4
         view.layer.shadowOpacity = 0.2
-        view.layer.shadowColor = UIColor.gray.cgColor
+        view.layer.shadowColor = UIColor.lightGray.cgColor
         return view
     }()
     
@@ -363,7 +363,7 @@ class NewEventViewController: UIViewController,  EventLocationDelegate {
         text.layer.shadowOffset = CGSize(width: 0, height: 4)
         text.layer.shadowRadius = 4
         text.layer.shadowOpacity = 0.1
-        text.layer.shadowColor = UIColor.gray.cgColor
+        text.layer.shadowColor = UIColor.lightGray.cgColor
         text.backgroundColor = UIColor.white
         return text
     }()
@@ -380,7 +380,7 @@ class NewEventViewController: UIViewController,  EventLocationDelegate {
         text.layer.shadowOffset = CGSize(width: 0, height: 4)
         text.layer.shadowRadius = 4
         text.layer.shadowOpacity = 0.1
-        text.layer.shadowColor = UIColor.gray.cgColor
+        text.layer.shadowColor = UIColor.lightGray.cgColor
         text.backgroundColor = UIColor.white
         return text
     }()
@@ -413,7 +413,7 @@ class NewEventViewController: UIViewController,  EventLocationDelegate {
         view.layer.shadowOffset = CGSize(width: 0, height: 4)
         view.layer.shadowRadius = 4
         view.layer.shadowOpacity = 0.1
-        view.layer.shadowColor = UIColor.gray.cgColor
+        view.layer.shadowColor = UIColor.lightGray.cgColor
         view.backgroundColor = UIColor.white
         return view
     }()
@@ -461,7 +461,7 @@ class NewEventViewController: UIViewController,  EventLocationDelegate {
         stackView.layer.shadowOffset = CGSize(width: 0, height: 4)
         stackView.layer.shadowRadius = 4
         stackView.layer.shadowOpacity = 0.1
-        stackView.layer.shadowColor = UIColor.gray.cgColor
+        stackView.layer.shadowColor = UIColor.lightGray.cgColor
         return stackView
     }()
     
@@ -497,7 +497,7 @@ class NewEventViewController: UIViewController,  EventLocationDelegate {
         view.layer.shadowOffset = CGSize(width: 0, height: 4)
         view.layer.shadowRadius = 4
         view.layer.shadowOpacity = 0.1
-        view.layer.shadowColor = UIColor.gray.cgColor
+        view.layer.shadowColor = UIColor.lightGray.cgColor
         view.backgroundColor = UIColor.white
         return view
     }()

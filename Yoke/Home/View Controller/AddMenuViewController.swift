@@ -266,7 +266,7 @@ class AddMenuViewController: UIViewController {
         view.layer.shadowOffset = CGSize(width: 0, height: 4)
         view.layer.shadowRadius = 4
         view.layer.shadowOpacity = 0.2
-        view.layer.shadowColor = UIColor.gray.cgColor
+        view.layer.shadowColor = UIColor.lightGray.cgColor
         return view
     }()
     
@@ -296,7 +296,7 @@ class AddMenuViewController: UIViewController {
         text.layer.shadowOffset = CGSize(width: 0, height: 4)
         text.layer.shadowRadius = 4
         text.layer.shadowOpacity = 0.1
-        text.layer.shadowColor = UIColor.gray.cgColor
+        text.layer.shadowColor = UIColor.lightGray.cgColor
         return text
     }()
     
@@ -313,7 +313,7 @@ class AddMenuViewController: UIViewController {
         text.layer.shadowOffset = CGSize(width: 0, height: 4)
         text.layer.shadowRadius = 4
         text.layer.shadowOpacity = 0.1
-        text.layer.shadowColor = UIColor.gray.cgColor
+        text.layer.shadowColor = UIColor.lightGray.cgColor
         return text
     }()
     

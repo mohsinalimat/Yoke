@@ -240,8 +240,8 @@ class BookingRequestDetailViewController: UIViewController {
         view.layer.cornerRadius = 10
         view.layer.shadowOffset = CGSize(width: 0, height: 4)
         view.layer.shadowRadius = 4
-        view.layer.shadowOpacity = 0.3
-        view.layer.shadowColor = UIColor.gray.cgColor
+        view.layer.shadowOpacity = 0.2
+        view.layer.shadowColor = UIColor.lightGray.cgColor
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
@@ -253,7 +253,7 @@ class BookingRequestDetailViewController: UIViewController {
         view.layer.shadowOffset = CGSize(width: 0, height: 4)
         view.layer.shadowRadius = 4
         view.layer.shadowOpacity = 0.2
-        view.layer.shadowColor = UIColor.gray.cgColor
+        view.layer.shadowColor = UIColor.lightGray.cgColor
         return view
     }()
     
@@ -381,7 +381,7 @@ class BookingRequestDetailViewController: UIViewController {
         button.layer.shadowOffset = CGSize(width: 0, height: 4)
         button.layer.shadowRadius = 4
         button.layer.shadowOpacity = 0.2
-        button.layer.shadowColor = UIColor.black.cgColor
+        button.layer.shadowColor = UIColor.lightGray.cgColor
         button.addTarget(self, action: #selector(handleAccept), for: .touchUpInside)
         return button
     }()
@@ -396,7 +396,7 @@ class BookingRequestDetailViewController: UIViewController {
         button.layer.shadowOffset = CGSize(width: 0, height: 4)
         button.layer.shadowRadius = 4
         button.layer.shadowOpacity = 0.2
-        button.layer.shadowColor = UIColor.black.cgColor
+        button.layer.shadowColor = UIColor.lightGray.cgColor
         button.addTarget(self, action: #selector(handleDecline), for: .touchUpInside)
         return button
     }()
@@ -411,7 +411,7 @@ class BookingRequestDetailViewController: UIViewController {
         button.layer.shadowOffset = CGSize(width: 0, height: 4)
         button.layer.shadowRadius = 4
         button.layer.shadowOpacity = 0.2
-        button.layer.shadowColor = UIColor.black.cgColor
+        button.layer.shadowColor = UIColor.lightGray.cgColor
         button.addTarget(self, action: #selector(handleDecline), for: .touchUpInside)
         return button
     }()

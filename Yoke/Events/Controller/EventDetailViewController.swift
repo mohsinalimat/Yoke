@@ -251,7 +251,7 @@ class EventDetailViewController: UIViewController {
         button.layer.shadowOffset = CGSize(width: 0, height: 4)
         button.layer.shadowRadius = 4
         button.layer.shadowOpacity = 0.2
-        button.layer.shadowColor = UIColor.black.cgColor
+        button.layer.shadowColor = UIColor.lightGray.cgColor
         return button
     }()
     
@@ -264,7 +264,7 @@ class EventDetailViewController: UIViewController {
         button.layer.shadowOffset = CGSize(width: 0, height: 4)
         button.layer.shadowRadius = 4
         button.layer.shadowOpacity = 0.2
-        button.layer.shadowColor = UIColor.black.cgColor
+        button.layer.shadowColor = UIColor.lightGray.cgColor
         return button
     }()
 }
