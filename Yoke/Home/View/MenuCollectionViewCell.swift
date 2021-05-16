@@ -38,7 +38,7 @@ class MenuCollectionViewCell: UICollectionViewCell {
         addSubview(shadowView)
         addSubview(cellBackgroundView)
         addSubview(menuImage)
-        addSubview(labelLayerView)
+        addSubview(imageLayer)
         addSubview(nameLabel)
     }
     
@@ -46,9 +46,19 @@ class MenuCollectionViewCell: UICollectionViewCell {
         shadowView.anchor(top: topAnchor, left: leftAnchor, bottom: bottomAnchor, right: rightAnchor, paddingTop: 20, paddingLeft: 5, paddingBottom: 0, paddingRight: 5)
         cellBackgroundView.anchor(top: topAnchor, left: leftAnchor, bottom: bottomAnchor, right: rightAnchor, paddingTop: 20, paddingLeft: 5, paddingBottom: 0, paddingRight: 5)
         menuImage.anchor(top: cellBackgroundView.topAnchor, left: cellBackgroundView.leftAnchor, bottom: cellBackgroundView.bottomAnchor, right: cellBackgroundView.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, height: frame.width - 50)
-        labelLayerView.anchor(top: nameLabel.topAnchor, left: leftAnchor, bottom: nameLabel.bottomAnchor, right: nameLabel.rightAnchor, paddingTop: 0, paddingLeft: 10, paddingBottom: 0, paddingRight: 0)
-        nameLabel.anchor(top: menuImage.topAnchor, left: labelLayerView.leftAnchor, bottom: nil, right: nil, paddingTop: 5, paddingLeft: 10, paddingBottom: 5, paddingRight: 15)
+        imageLayer.anchor(top: cellBackgroundView.topAnchor, left: cellBackgroundView.leftAnchor, bottom: cellBackgroundView.bottomAnchor, right: cellBackgroundView.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0)
+        nameLabel.anchor(top: menuImage.topAnchor, left: cellBackgroundView.leftAnchor, bottom: nil, right: nil, paddingTop: 5, paddingLeft: 10, paddingBottom: 5, paddingRight: 15)
     }
+    
+    let imageLayer: UIImageView = {
+        let image = UIImageView()
+        image.image = UIImage(named: "menuCover")
+        image.clipsToBounds = true
+        image.layer.cornerRadius = 10
+        image.contentMode = .scaleAspectFill
+        image.alpha = 0.7
+        return image
+    }()
     
     var menuImage: CustomImageView = {
         let image = CustomImageView()
@@ -58,14 +68,6 @@ class MenuCollectionViewCell: UICollectionViewCell {
         image.clipsToBounds = true
         image.layer.cornerRadius = 10
         return image
-    }()
-    
-    let labelLayerView: UIView = {
-        let view = UIView()
-        view.backgroundColor = UIColor.black
-        view.layer.opacity = 0.5
-        view.layer.cornerRadius = 10
-        return view
     }()
     
     var nameLabel: UILabel = {
