@@ -36,7 +36,7 @@ class SuggestedEventsCollectionViewCell: UICollectionViewCell {
         guard let image = event.eventImageUrl else { return }
         eventImage.loadImage(urlString: image)
         captionLabel.text = event.caption
-        print("event caption \(event.caption)")
+        locationLabel.text = event.location
     }
     
     func setupViews() {
@@ -44,23 +44,17 @@ class SuggestedEventsCollectionViewCell: UICollectionViewCell {
         addSubview(eventImage)
         addSubview(cellBackgroundImage)
         addSubview(captionLabel)
+        addSubview(locationLabel)
     }
     
     func setupConstraints() {
         shadowView.anchor(top: topAnchor, left: leftAnchor, bottom: bottomAnchor, right: rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0)
-        eventImage.anchor(top: shadowView.topAnchor, left: shadowView.leftAnchor, bottom: shadowView.bottomAnchor, right: shadowView.rightAnchor, paddingTop: 5, paddingLeft: 5, paddingBottom: 0, paddingRight: 5, height: frame.height / 2)
+        eventImage.anchor(top: shadowView.topAnchor, left: shadowView.leftAnchor, bottom: nil, right: shadowView.rightAnchor, paddingTop: 5, paddingLeft: 5, paddingBottom: 0, paddingRight: 5, height: frame.height / 2)
         cellBackgroundImage.anchor(top: eventImage.topAnchor, left: eventImage.leftAnchor, bottom: eventImage.bottomAnchor, right: eventImage.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0)
-        captionLabel.anchor(top: shadowView.topAnchor, left: shadowView.leftAnchor, bottom: nil, right: shadowView.rightAnchor, paddingTop: 10, paddingLeft: 5, paddingBottom: 0, paddingRight: 5)
-        captionLabel.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
-//        profileImage.anchor(top: topAnchor, left: nil, bottom: nil, right: nil, paddingTop: 5, paddingLeft: 5, paddingBottom: 5, paddingRight: 0, width: 100, height: 100)
-//        profileImage.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
-//        nameLabel.anchor(top: profileImage.bottomAnchor, left: nil, bottom: nil, right: nil, paddingTop: 10, paddingLeft: 5, paddingBottom: 0, paddingRight: 0)
-//        nameLabel.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
-//
-//        ratingView.anchor(top: nameLabel.bottomAnchor, left: nil, bottom: nil, right: nil, paddingTop: 5, paddingLeft: 5, paddingBottom: 0, paddingRight: 0, width: 70, height: 15)
-//        ratingView.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
-//        locationLabel.anchor(top: ratingView.bottomAnchor, left: nil, bottom: nil, right: nil, paddingTop: 5, paddingLeft: 5, paddingBottom: 0, paddingRight: 0)
-//        locationLabel.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
+        captionLabel.anchor(top: eventImage.topAnchor, left: eventImage.leftAnchor, bottom: eventImage.bottomAnchor, right: eventImage.rightAnchor, paddingTop: 0, paddingLeft: 8, paddingBottom: 0, paddingRight: 8)
+//        captionLabel.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
+        locationLabel.anchor(top: eventImage.bottomAnchor, left: shadowView.leftAnchor, bottom: nil, right: shadowView.rightAnchor, paddingTop: 15, paddingLeft: 8, paddingBottom: 0, paddingRight: 8)
+        locationLabel.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
     }
     
     //MARK: Views
@@ -87,7 +81,7 @@ class SuggestedEventsCollectionViewCell: UICollectionViewCell {
     var locationLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.boldSystemFont(ofSize: 13)
-        label.textColor = .white
+        label.textColor = .gray
         return label
     }()
     
@@ -95,7 +89,7 @@ class SuggestedEventsCollectionViewCell: UICollectionViewCell {
         let view = UIImageView()
 //        view.image = UIImage(named: "menuCover")
 //        view.contentMode = .scaleAspectFill
-        view.backgroundColor = .black.withAlphaComponent(0.3)
+        view.backgroundColor = .black.withAlphaComponent(0.4)
         view.clipsToBounds = true
         view.layer.cornerRadius = 10
         return view
