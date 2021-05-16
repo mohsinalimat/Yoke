@@ -125,7 +125,7 @@ class HomeViewController: UIViewController {
         
         bookingsEventLabel.anchor(top:  menuCollectionView.bottomAnchor, left: collectionViewBG.leftAnchor, bottom: nil, right: nil, paddingTop: 10, paddingLeft: 10, paddingBottom: 0, paddingRight: 0)
         
-        upcomingBookingsCollectionView.anchor(top: bookingsEventLabel.bottomAnchor, left: collectionViewBG.leftAnchor, bottom: collectionViewBG.bottomAnchor, right: collectionViewBG.rightAnchor, paddingTop: 0, paddingLeft: 5, paddingBottom: 5, paddingRight: 5, height: 180)
+        upcomingBookingsCollectionView.anchor(top: bookingsEventLabel.bottomAnchor, left: collectionViewBG.leftAnchor, bottom: collectionViewBG.bottomAnchor, right: collectionViewBG.rightAnchor, paddingTop: -10, paddingLeft: 5, paddingBottom: 5, paddingRight: 5, height: 180)
     }
     
     fileprivate func setupBottomToolbarUser() {
