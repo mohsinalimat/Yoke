@@ -99,34 +99,34 @@ class SettingsViewController: UIViewController  {
         settingsLabel.anchor(top: editProfileImageButton.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: nil, paddingTop: 5, paddingLeft: 10, paddingBottom: 0, paddingRight: 0)
         updateButton.anchor(top: editProfileImageButton.bottomAnchor, left: nil, bottom: nil, right: safeArea.rightAnchor, paddingTop: 5, paddingLeft: 0, paddingBottom: 0, paddingRight: 10)
         
-        scrollView.contentSize = CGSize(width: view.frame.width, height: view.frame.height)
+        scrollView.contentSize = CGSize(width: view.frame.width, height: view.frame.height + 75)
         scrollView.anchor(top: settingsLabel.bottomAnchor, left: safeArea.leftAnchor, bottom: safeArea.bottomAnchor, right: safeArea.rightAnchor, paddingTop: 10, paddingLeft: 0, paddingBottom: 0, paddingRight: 0)
         
         usernameView.anchor(top: scrollView.topAnchor, left: scrollView.leftAnchor, bottom: nil, right: scrollView.rightAnchor, paddingTop: 10, paddingLeft: 8, paddingBottom: 0, paddingRight: 8, width: scrollView.frame.width - 20, height: 67)
         usernameLabel.anchor(top: usernameView.topAnchor, left: usernameView.leftAnchor, bottom: nil, right: usernameView.rightAnchor, paddingTop: 10, paddingLeft: 10, paddingBottom: 0, paddingRight: 10, height: 15)
         usernameTextField.anchor(top: usernameLabel.bottomAnchor, left: usernameView.leftAnchor, bottom: nil, right: usernameView.rightAnchor, paddingTop: 10, paddingLeft: 10, paddingBottom: 10, paddingRight: 10)
         
-        locationView.anchor(top: usernameView.bottomAnchor, left: scrollView.leftAnchor, bottom: nil, right: scrollView.rightAnchor, paddingTop: 10, paddingLeft: 10, paddingBottom: 0, paddingRight: 10, width: scrollView.frame.width - 20, height: 67)
+        locationView.anchor(top: usernameView.bottomAnchor, left: scrollView.leftAnchor, bottom: nil, right: scrollView.rightAnchor, paddingTop: 20, paddingLeft: 10, paddingBottom: 0, paddingRight: 10, width: scrollView.frame.width - 20, height: 67)
         locationLabel.anchor(top: locationView.topAnchor, left: locationView.leftAnchor, bottom: nil, right: nil, paddingTop: 8, paddingLeft: 10, paddingBottom: 10, paddingRight: 10, width: 200, height: 15)
         locationButton.anchor(top: locationView.topAnchor, left: nil, bottom: nil, right: locationView.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 10)
         locationTextField.anchor(top: locationLabel.bottomAnchor, left: locationView.leftAnchor, bottom: nil, right: locationView.rightAnchor, paddingTop: 10, paddingLeft: 10, paddingBottom: 0, paddingRight: 10)
         
 
-        bioView.anchor(top: locationView.bottomAnchor, left: scrollView.leftAnchor, bottom: nil, right: scrollView.rightAnchor, paddingTop: 10, paddingLeft: 10, paddingBottom: 0, paddingRight: 10, width: view.frame.width - 20, height: 202)
+        bioView.anchor(top: locationView.bottomAnchor, left: scrollView.leftAnchor, bottom: nil, right: scrollView.rightAnchor, paddingTop: 20, paddingLeft: 10, paddingBottom: 0, paddingRight: 10, width: view.frame.width - 20, height: 202)
         bioLabel.anchor(top: bioView.topAnchor, left: bioView.leftAnchor, bottom: nil, right: bioView.rightAnchor, paddingTop: 10, paddingLeft: 10, paddingBottom: 10, paddingRight: 10, width: view.frame.width, height: 15)
         bioTextView.anchor(top: bioLabel.bottomAnchor, left: bioView.leftAnchor, bottom: nil, right: bioView.rightAnchor, paddingTop: 10, paddingLeft: 10, paddingBottom: 10, paddingRight: 10, width: view.frame.width, height: 150)
 
-        chefView.anchor(top: bioView.bottomAnchor, left: scrollView.leftAnchor, bottom: nil, right: scrollView.rightAnchor, paddingTop: 10, paddingLeft: 10, paddingBottom: 10, paddingRight: 10, width: view.frame.width - 20, height: 50)
+        chefView.anchor(top: bioView.bottomAnchor, left: scrollView.leftAnchor, bottom: nil, right: scrollView.rightAnchor, paddingTop: 20, paddingLeft: 10, paddingBottom: 10, paddingRight: 10, width: view.frame.width - 20, height: 50)
         chefLabel.anchor(top: nil, left: chefView.leftAnchor, bottom: nil, right: nil, paddingTop: 0, paddingLeft: 10, paddingBottom: 0, paddingRight: 0, width: 200)
         chefLabel.centerYAnchor.constraint(equalTo: chefView.centerYAnchor).isActive = true
         chefSwitch.anchor(top: nil, left: nil, bottom: nil, right: chefView.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 10)
         chefSwitch.centerYAnchor.constraint(equalTo: chefView.centerYAnchor).isActive = true
         chefInfoLabel.anchor(top: chefView.bottomAnchor, left: scrollView.leftAnchor, bottom: nil, right: nil, paddingTop: 0, paddingLeft: 10, paddingBottom: 0, paddingRight: 10, height: 20)
-        chefPreferenceButton.anchor(top: chefInfoLabel.bottomAnchor, left: scrollView.leftAnchor, bottom: nil, right: scrollView.rightAnchor, paddingTop: 10, paddingLeft: 10, paddingBottom: 0, paddingRight: 10, height: 45)
-        changePasswordButton.anchor(top: chefPreferenceButton.bottomAnchor, left: scrollView.leftAnchor, bottom: nil, right: scrollView.rightAnchor, paddingTop: 10, paddingLeft: 10, paddingBottom: 0, paddingRight: 10, height: 45)
-        privacyButton.anchor(top: changePasswordButton.bottomAnchor, left: scrollView.leftAnchor, bottom: nil, right: scrollView.rightAnchor, paddingTop: 10, paddingLeft: 10, paddingBottom: 10, paddingRight: 10, height: 45)
-        logoutButton.anchor(top: privacyButton.bottomAnchor, left: scrollView.leftAnchor, bottom: nil, right: scrollView.rightAnchor, paddingTop: 10, paddingLeft: 10, paddingBottom: 10, paddingRight: 10, height: 45)
-        deleteButton.anchor(top: logoutButton.bottomAnchor, left: scrollView.leftAnchor, bottom: nil, right: scrollView.rightAnchor, paddingTop: 10, paddingLeft: 10, paddingBottom: 0, paddingRight: 10, height: 45)
+        chefPreferenceButton.anchor(top: chefInfoLabel.bottomAnchor, left: scrollView.leftAnchor, bottom: nil, right: scrollView.rightAnchor, paddingTop: 10, paddingLeft: 10, paddingBottom: 0, paddingRight: 10, height: 50)
+        changePasswordButton.anchor(top: chefPreferenceButton.bottomAnchor, left: scrollView.leftAnchor, bottom: nil, right: scrollView.rightAnchor, paddingTop: 20, paddingLeft: 10, paddingBottom: 0, paddingRight: 10, height: 50)
+        privacyButton.anchor(top: changePasswordButton.bottomAnchor, left: scrollView.leftAnchor, bottom: nil, right: scrollView.rightAnchor, paddingTop: 20, paddingLeft: 10, paddingBottom: 10, paddingRight: 10, height: 50)
+        logoutButton.anchor(top: privacyButton.bottomAnchor, left: scrollView.leftAnchor, bottom: nil, right: scrollView.rightAnchor, paddingTop: 20, paddingLeft: 10, paddingBottom: 10, paddingRight: 10, height: 50)
+        deleteButton.anchor(top: logoutButton.bottomAnchor, left: scrollView.leftAnchor, bottom: nil, right: scrollView.rightAnchor, paddingTop: 20, paddingLeft: 10, paddingBottom: 0, paddingRight: 10, height: 50)
     }
     
     fileprivate func fetchUser() {

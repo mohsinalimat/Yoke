@@ -594,7 +594,7 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
         let cellD = collectionView.dequeueReusableCell(withReuseIdentifier: eventCell, for: indexPath) as! SuggestedEventsCollectionViewCell
         if EventController.shared.events.count == 0 {
             let noCell = collectionView.dequeueReusableCell(withReuseIdentifier: noCellId, for: indexPath) as! EmptyCell
-            noCell.noPostLabel.text = "Sorry, there are currently no chefs in your area"
+            noCell.noPostLabel.text = "Sorry, there are currently no events in your area"
             noCell.noPostLabel.font = UIFont.boldSystemFont(ofSize: 15)
             return noCell
         } else {
