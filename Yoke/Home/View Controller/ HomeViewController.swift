@@ -99,7 +99,7 @@ class HomeViewController: UIViewController {
         bookmarkButton.alignImageTextVertical()
         bookingButton.alignImageTextVertical()
         
-        buttonStackView.anchor(top: bannerLayerView.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 20, paddingLeft: 15, paddingBottom: 0, paddingRight: 15, width: 0, height: 60)
+        buttonStackView.anchor(top: backgroundView.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 20, paddingLeft: 15, paddingBottom: 0, paddingRight: 15, width: 0, height: 60)
         
         let uid = userId ?? (Auth.auth().currentUser?.uid ?? "")
         UserController.shared.fetchUserWithUID(uid: uid) { (user) in
@@ -336,9 +336,11 @@ class HomeViewController: UIViewController {
         view.backgroundColor = .white
         view.layer.shadowOffset = CGSize(width: 0, height: 4)
         view.layer.shadowRadius = 4
-        view.layer.shadowOpacity = 0.2
+        view.layer.shadowOpacity = 0.3
         view.layer.shadowColor = UIColor.lightGray.cgColor
         view.layer.cornerRadius = 10
+        view.layer.borderWidth = 0.5
+        view.layer.borderColor = UIColor.gray.cgColor
         return view
     }()
     
@@ -346,9 +348,9 @@ class HomeViewController: UIViewController {
         let image = CustomImageView()
         image.clipsToBounds = true
         image.contentMode = .scaleToFill
-        image.backgroundColor = .white
-        image.image = UIImage(named: "gradientBackgroundHalf")
         image.layer.cornerRadius = 10
+        image.backgroundColor = .clear
+        image.image = UIImage(named: "gradientBackgroundHalf")
         return image
     }()
     
