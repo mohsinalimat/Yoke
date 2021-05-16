@@ -56,7 +56,7 @@ class MenuCollectionViewCell: UICollectionViewCell {
         image.clipsToBounds = true
         image.layer.cornerRadius = 10
         image.contentMode = .scaleAspectFill
-        image.alpha = 0.7
+        image.alpha = 0.6
         return image
     }()
     

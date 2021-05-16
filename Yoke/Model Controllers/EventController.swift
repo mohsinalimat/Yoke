@@ -131,28 +131,34 @@ class EventController {
         }
     }
     
-    func fetchSuggestedEventsWith(latitude: Double, longitude: Double, completion: @escaping (Event) -> Void) {
+    func fetchSuggestedEventsWith(latitude: Double, longitude: Double, completion: @escaping (Bool) -> Void) {
         
         let currentLatitude = latitude
         let currentLongitude = longitude
 
-        let circleQuery = GeoFirestore(collectionRef: self.geoRef).query(withCenter: GeoPoint(latitude: currentLatitude, longitude: currentLongitude), radius: 80.0)
+        let circleQuery = GeoFirestore(collectionRef: self.geoRef).query(withCenter: GeoPoint(latitude: currentLatitude, longitude: currentLongitude), radius: 20.0)
         let _ = circleQuery.observeReady {
             print("All initial data has been loaded and events have been fired!")
         }
         let _ = circleQuery.observe(.documentEntered, with: { (key, location) in
-            if let key = key {
-                print(key)
-                self.firestoreDB.document(key).getDocument { snapshot, error in
-                    if let document = snapshot, document.exists {
-                        guard let dictionary = document.data() else { return }
-                        let event = Event(dictionary: dictionary)
-                        completion(event)
-                    } else {
-                        completion(error as! Event)
-                        print("Document does not exist")
-                    }
+            guard let key = key else { return }
+            self.firestoreDB.addSnapshotListener { (snapshot, error) in
+                if let error = error {
+                    print(error.localizedDescription)
+                    completion(false)
                 }
+                snapshot?.documents.forEach({ (document) in
+                    let dictionary = document.data()
+                    let eventId = dictionary[Constants.Id] as? String ?? ""
+                    if eventId == key {
+                        let event = Event(dictionary: dictionary)
+                        self.events.append(event)
+                        self.events.sort(by: { (u1, u2) -> Bool in
+                            return u1.timestamp.compare(u2.timestamp) == .orderedDescending
+                        })
+                        completion(true)
+                    }
+                })
             }
         })
     }

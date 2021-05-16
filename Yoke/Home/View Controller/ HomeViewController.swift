@@ -551,6 +551,7 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
         if EventController.shared.events.count == 0 {
             return 1
         } else {
+            print("Event Count \(EventController.shared.events.count)")
             return EventController.shared.events.count
         }
     }
