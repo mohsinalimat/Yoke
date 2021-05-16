@@ -23,6 +23,7 @@ class EventController {
     let geoRef = Firestore.firestore().collection("geoFireLocationEvents")
     let storageRef = Storage.storage().reference().child(Constants.EventImages)
     
+    
     //MARK: - Source of truth
     var events: [Event] = []
     var filteredEvents = [Event]()
@@ -128,6 +129,32 @@ class EventController {
                 completion(event)
             })
         }
+    }
+    
+    func fetchSuggestedEventsWith(latitude: Double, longitude: Double, completion: @escaping (Event) -> Void) {
+        
+        let currentLatitude = latitude
+        let currentLongitude = longitude
+
+        let circleQuery = GeoFirestore(collectionRef: self.geoRef).query(withCenter: GeoPoint(latitude: currentLatitude, longitude: currentLongitude), radius: 80.0)
+        let _ = circleQuery.observeReady {
+            print("All initial data has been loaded and events have been fired!")
+        }
+        let _ = circleQuery.observe(.documentEntered, with: { (key, location) in
+            if let key = key {
+                print(key)
+                self.firestoreDB.document(key).getDocument { snapshot, error in
+                    if let document = snapshot, document.exists {
+                        guard let dictionary = document.data() else { return }
+                        let event = Event(dictionary: dictionary)
+                        completion(event)
+                    } else {
+                        completion(error as! Event)
+                        print("Document does not exist")
+                    }
+                }
+            }
+        })
     }
     
     func deleteEventWith(eventId: String, imageId: String, completion: @escaping (Bool) -> Void) {

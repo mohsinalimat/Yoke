@@ -47,6 +47,7 @@ class HomeViewController: UIViewController {
         fetchUser()
         fetchMenus()
         fetchSuggestedChefs()
+        fetchEvents()
     }
     
     //MARK: Helper Functions
@@ -248,6 +249,22 @@ class HomeViewController: UIViewController {
                 }
             case false:
                 print("Problem Loading Menus")
+            }
+        }
+    }
+    
+    func fetchEvents() {
+        let uid = userId ?? (Auth.auth().currentUser?.uid ?? "")
+        UserController.shared.fetchUserWithUID(uid: uid) { user in
+            guard let latitude = user.latitude,
+                  let longitude = user.longitude else { return }
+            EventController.shared.fetchSuggestedEventsWith(latitude: latitude, longitude: longitude) { result in
+                switch result {
+                default:
+                    DispatchQueue.main.async {
+                        self.eventsNearYouCollectionView.reloadData()
+                    }
+                }
             }
         }
     }
@@ -529,10 +546,10 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
 //                return BookingController.shared.bookings.count
 //            }
         }
-        if SuggestedChefController.shared.chefs.count == 0 {
+        if EventController.shared.events.count == 0 {
             return 1
         } else {
-            return SuggestedChefController.shared.chefs.count
+            return EventController.shared.events.count
         }
     }
     
@@ -575,16 +592,15 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
         }
         
         let cellD = collectionView.dequeueReusableCell(withReuseIdentifier: eventCell, for: indexPath) as! SuggestedEventsCollectionViewCell
-        return cellD
-//            if SuggestedChefController.shared.chefs.count == 0 {
-//                let noCell = collectionView.dequeueReusableCell(withReuseIdentifier: noCellId, for: indexPath) as! EmptyCell
-//                noCell.noPostLabel.text = "Sorry, there are currently no chefs in your area"
-//                noCell.noPostLabel.font = UIFont.boldSystemFont(ofSize: 15)
-//                return noCell
-//            } else {
-////                cellD.chef = SuggestedChefController.shared.chefs[indexPath.item]
-//                return cellD
-//            }
+        if EventController.shared.events.count == 0 {
+            let noCell = collectionView.dequeueReusableCell(withReuseIdentifier: noCellId, for: indexPath) as! EmptyCell
+            noCell.noPostLabel.text = "Sorry, there are currently no chefs in your area"
+            noCell.noPostLabel.font = UIFont.boldSystemFont(ofSize: 15)
+            return noCell
+        } else {
+            cellD.event = EventController.shared.events[indexPath.item]
+            return cellD
+        }
         
     }
     
