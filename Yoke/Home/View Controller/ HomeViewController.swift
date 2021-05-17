@@ -68,11 +68,13 @@ class HomeViewController: UIViewController {
         buttonStackView.addArrangedSubview(bookmarkButton)
         buttonStackView.addArrangedSubview(bookingButton)
         scrollView.addSubview(collectionViewBG)
-        scrollView.addSubview(menuChefLabel)
+        scrollView.addSubview(menuLabel)
+        scrollView.addSubview(chefLabel)
         scrollView.addSubview(addMenuButton)
         scrollView.addSubview(menuCollectionView)
         scrollView.addSubview(suggestedChefCollectionView)
-        scrollView.addSubview(bookingsEventLabel)
+        scrollView.addSubview(bookingLabel)
+        scrollView.addSubview(eventLabel)
         scrollView.addSubview(eventsNearYouCollectionView)
         scrollView.addSubview(upcomingBookingsCollectionView)
     }
@@ -122,28 +124,28 @@ class HomeViewController: UIViewController {
     func setupBottomToolbarChef() {
         collectionViewBG.anchor(top: buttonStackView.bottomAnchor, left: safeArea.leftAnchor, bottom: scrollView.bottomAnchor, right: safeArea.rightAnchor, paddingTop: 20, paddingLeft: 5, paddingBottom: 5, paddingRight: 5)
         
-        menuChefLabel.anchor(top: collectionViewBG.topAnchor, left: collectionViewBG.leftAnchor, bottom: nil, right: nil, paddingTop: 10, paddingLeft: 10, paddingBottom: 0, paddingRight: 0)
+        menuLabel.anchor(top: collectionViewBG.topAnchor, left: collectionViewBG.leftAnchor, bottom: nil, right: nil, paddingTop: 10, paddingLeft: 10, paddingBottom: 0, paddingRight: 0)
         
         addMenuButton.anchor(top: nil, left: nil, bottom: nil, right: collectionViewBG.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 10)
-        addMenuButton.centerYAnchor.constraint(equalTo: menuChefLabel.centerYAnchor).isActive = true
+        addMenuButton.centerYAnchor.constraint(equalTo: menuLabel.centerYAnchor).isActive = true
         
-        menuCollectionView.anchor(top: menuChefLabel.bottomAnchor, left: collectionViewBG.leftAnchor, bottom: nil, right: collectionViewBG.rightAnchor, paddingTop: 0, paddingLeft: 5, paddingBottom: 5, paddingRight: 5, height: 175)
+        menuCollectionView.anchor(top: menuLabel.bottomAnchor, left: collectionViewBG.leftAnchor, bottom: nil, right: collectionViewBG.rightAnchor, paddingTop: 0, paddingLeft: 5, paddingBottom: 5, paddingRight: 5, height: 175)
         
-        bookingsEventLabel.anchor(top:  menuCollectionView.bottomAnchor, left: collectionViewBG.leftAnchor, bottom: nil, right: nil, paddingTop: 30, paddingLeft: 10, paddingBottom: 0, paddingRight: 0)
+        bookingLabel.anchor(top:  menuCollectionView.bottomAnchor, left: collectionViewBG.leftAnchor, bottom: nil, right: nil, paddingTop: 30, paddingLeft: 10, paddingBottom: 0, paddingRight: 0)
         
-        upcomingBookingsCollectionView.anchor(top: bookingsEventLabel.bottomAnchor, left: collectionViewBG.leftAnchor, bottom: collectionViewBG.bottomAnchor, right: collectionViewBG.rightAnchor, paddingTop: 0, paddingLeft: 5, paddingBottom: 5, paddingRight: 5, height: 180)
+        upcomingBookingsCollectionView.anchor(top: bookingLabel.bottomAnchor, left: collectionViewBG.leftAnchor, bottom: collectionViewBG.bottomAnchor, right: collectionViewBG.rightAnchor, paddingTop: 0, paddingLeft: 5, paddingBottom: 5, paddingRight: 5, height: 180)
     }
     
     func setupBottomToolbarUser() {
         collectionViewBG.anchor(top: buttonStackView.bottomAnchor, left: safeArea.leftAnchor, bottom: scrollView.bottomAnchor, right: safeArea.rightAnchor, paddingTop: 20, paddingLeft: 5, paddingBottom: 5, paddingRight: 5)
         
-        menuChefLabel.anchor(top: collectionViewBG.topAnchor, left: collectionViewBG.leftAnchor, bottom: nil, right: nil, paddingTop: 10, paddingLeft: 10, paddingBottom: 0, paddingRight: 0)
+        chefLabel.anchor(top: collectionViewBG.topAnchor, left: collectionViewBG.leftAnchor, bottom: nil, right: nil, paddingTop: 10, paddingLeft: 10, paddingBottom: 0, paddingRight: 0)
         
-        suggestedChefCollectionView.anchor(top: menuChefLabel.bottomAnchor, left: collectionViewBG.leftAnchor, bottom: nil, right: collectionViewBG.rightAnchor, paddingTop: -10, paddingLeft: 5, paddingBottom: 0, paddingRight: 5, height: 220)
+        suggestedChefCollectionView.anchor(top: chefLabel.bottomAnchor, left: collectionViewBG.leftAnchor, bottom: nil, right: collectionViewBG.rightAnchor, paddingTop: -10, paddingLeft: 5, paddingBottom: 0, paddingRight: 5, height: 220)
         
-        bookingsEventLabel.anchor(top:  suggestedChefCollectionView.bottomAnchor, left: collectionViewBG.leftAnchor, bottom: nil, right: nil, paddingTop: 10, paddingLeft: 10, paddingBottom: 0, paddingRight: 0)
+        eventLabel.anchor(top:  suggestedChefCollectionView.bottomAnchor, left: collectionViewBG.leftAnchor, bottom: nil, right: nil, paddingTop: 10, paddingLeft: 10, paddingBottom: 0, paddingRight: 0)
         
-        eventsNearYouCollectionView.anchor(top: bookingsEventLabel.bottomAnchor, left: collectionViewBG.leftAnchor, bottom: collectionViewBG.bottomAnchor, right: collectionViewBG.rightAnchor, paddingTop: -10, paddingLeft: 5, paddingBottom: 0, paddingRight: 5, height: 220)
+        eventsNearYouCollectionView.anchor(top: eventLabel.bottomAnchor, left: collectionViewBG.leftAnchor, bottom: collectionViewBG.bottomAnchor, right: collectionViewBG.rightAnchor, paddingTop: -15, paddingLeft: 5, paddingBottom: 0, paddingRight: 5, height: 220)
     }
     
     func setupCollectionView() {
@@ -157,16 +159,24 @@ class HomeViewController: UIViewController {
                 self.menuCollectionView.isHidden = false
                 self.upcomingBookingsCollectionView.isHidden = false
                 self.addMenuButton.isHidden = false
-                self.menuChefLabel.text = "Menus"
-                self.bookingsEventLabel.text = "Upcoming"
+                self.menuLabel.text = "Menus"
+                self.bookingLabel.text = "Upcoming"
+                self.chefLabel.isHidden = true
+                self.eventLabel.isHidden = true
+                self.menuLabel.isHidden = false
+                self.bookingLabel.isHidden = false
             } else {
                 self.suggestedChefCollectionView.isHidden = false
                 self.eventsNearYouCollectionView.isHidden = false
                 self.menuCollectionView.isHidden = true
                 self.upcomingBookingsCollectionView.isHidden = true
                 self.addMenuButton.isHidden = true
-                self.menuChefLabel.text = "Nearby Chefs"
-                self.bookingsEventLabel.text = "Nearby Events"
+                self.menuLabel.text = "Nearby Chefs"
+                self.bookingLabel.text = "Nearby Events"
+                self.menuLabel.isHidden = true
+                self.bookingLabel.isHidden = true
+                self.chefLabel.isHidden = false
+                self.eventLabel.isHidden = false
             }
         }
         
@@ -478,14 +488,28 @@ class HomeViewController: UIViewController {
         return view
     }()
     
-    let menuChefLabel: UILabel = {
+    let menuLabel: UILabel = {
         let label = UILabel()
         label.textColor = UIColor.orangeColor()
         label.font = UIFont.boldSystemFont(ofSize: 28)
         return label
     }()
     
-    let bookingsEventLabel: UILabel = {
+    let chefLabel: UILabel = {
+        let label = UILabel()
+        label.textColor = UIColor.orangeColor()
+        label.font = UIFont.boldSystemFont(ofSize: 28)
+        return label
+    }()
+    
+    let eventLabel: UILabel = {
+        let label = UILabel()
+        label.textColor = UIColor.orangeColor()
+        label.font = UIFont.boldSystemFont(ofSize: 28)
+        return label
+    }()
+    
+    let bookingLabel: UILabel = {
         let label = UILabel()
         label.textColor = UIColor.orangeColor()
         label.font = UIFont.boldSystemFont(ofSize: 28)
@@ -676,20 +700,17 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
         return 10
     }
-    
-    //    func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
-    //        let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: headerId, for: indexPath) as! MenuHeaderCollectionViewCell
-    //        header.frame = CGRect(x: 0, y: 0, width: collectionView.frame.width, height: 45)
-    //        header.menuLabel.text = "Menus"
-    //        header.backgroundColor = .white
-    //        header.layer.cornerRadius = 5
-    //        header.delegate = self
-    //        return header
-    //    }
-    //
-    //    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
-    //        return CGSize(width: 100, height: 45)
-    //    }
+//    
+//        func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+//            let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "headerId", for: indexPath) as! HeaderCollectionViewCell
+//            header.frame = CGRect(x: 0, y: 0, width: collectionView.frame.width, height: 45)
+//            header.headerLabel.text = "Menus"
+//            return header
+//        }
+//    
+//        func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
+//            return CGSize(width: 100, height: 45)
+//        }
 }
 
 //extension HomeViewController: MenuHeaderDelegate {
