@@ -114,6 +114,7 @@ class Constants {
     static let State = "state"
     static let Latitude = "latitude"
     static let Longitude = "longitude"
+    static let ShortLocation = "shortLocation"
     
     static let Width = "width"
     static let Height = "height"

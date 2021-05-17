@@ -36,7 +36,7 @@ class SuggestedEventsCollectionViewCell: UICollectionViewCell {
         guard let image = event.eventImageUrl else { return }
         eventImage.loadImage(urlString: image)
         captionLabel.text = event.caption
-        locationLabel.text = event.location
+        locationLabel.text = event.shortLocation
     }
     
     func setupViews() {

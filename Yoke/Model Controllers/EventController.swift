@@ -32,7 +32,7 @@ class EventController {
     private let locationManager = LocationManager()
     
     //MARK: - CRUD Functions
-    func createEventWith(uid: String, image: UIImage?, caption: String, detailText: String, date: String, startTime: String, endTime: String, location: String, allowsRSVP: Bool, allowsContact: Bool, completion: @escaping (Bool) -> Void) {
+    func createEventWith(uid: String, image: UIImage?, caption: String, detailText: String, date: String, startTime: String, endTime: String, location: String, shortLocation: String, allowsRSVP: Bool, allowsContact: Bool, completion: @escaping (Bool) -> Void) {
         guard let eventImage = image else { return }
         guard let uploadData = eventImage.jpegData(compressionQuality: 0.5) else {return}
         let filename = NSUUID().uuidString
@@ -45,14 +45,14 @@ class EventController {
             }
             self.storageRef.child(filename).downloadURL(completion: { (downloadURL, err) in
                 guard let imageUrl = downloadURL?.absoluteString else { return }
-                self.firestoreDB.document(eventId).setData([Constants.EventImageUrl: imageUrl, Constants.Caption: caption, Constants.Detail: detailText, Constants.Date: date, Constants.StartTime: startTime, Constants.EndTime: endTime, Constants.Id: eventId, Constants.Location: location, Constants.ImageId: filename, Constants.Uid: uid, Constants.Timestamp: Date().timeIntervalSince1970, Constants.AllowsRSVP: allowsRSVP, Constants.AllowsContact: allowsContact], merge: true)
+                self.firestoreDB.document(eventId).setData([Constants.EventImageUrl: imageUrl, Constants.Caption: caption, Constants.Detail: detailText, Constants.Date: date, Constants.StartTime: startTime, Constants.EndTime: endTime, Constants.Id: eventId, Constants.Location: location, Constants.ShortLocation: shortLocation, Constants.ImageId: filename, Constants.Uid: uid, Constants.Timestamp: Date().timeIntervalSince1970, Constants.AllowsRSVP: allowsRSVP, Constants.AllowsContact: allowsContact], merge: true)
                 self.setupGeofirestore(eventId: eventId, location: location)
                 completion(true)
             })
         })
     }
     
-    func updateEventWith(uid: String, eventId: String, image: UIImage?, caption: String, detailText: String, date: String, startTime: String, endTime: String, location: String, allowsRSVP: Bool, allowsContact: Bool, completion: @escaping (Bool) -> Void) {
+    func updateEventWith(uid: String, eventId: String, image: UIImage?, caption: String, detailText: String, date: String, startTime: String, endTime: String, location: String, shortLocation: String, allowsRSVP: Bool, allowsContact: Bool, completion: @escaping (Bool) -> Void) {
         guard let eventImage = image else { return }
         guard let uploadData = eventImage.jpegData(compressionQuality: 0.5) else {return}
         let filename = NSUUID().uuidString
@@ -69,7 +69,7 @@ class EventController {
             }
             self.storageRef.child(filename).downloadURL(completion: { (downloadURL, err) in
                 guard let imageUrl = downloadURL?.absoluteString else { return }
-                self.firestoreDB.document(eventId).setData([Constants.EventImageUrl: imageUrl, Constants.Caption: caption, Constants.Detail: detailText, Constants.Date: date, Constants.StartTime: startTime, Constants.EndTime: endTime, Constants.Id: eventId, Constants.Location: location, Constants.ImageId: filename, Constants.Uid: uid, Constants.AllowsRSVP: allowsRSVP, Constants.AllowsContact: allowsContact], merge: true)
+                self.firestoreDB.document(eventId).setData([Constants.EventImageUrl: imageUrl, Constants.Caption: caption, Constants.Detail: detailText, Constants.Date: date, Constants.StartTime: startTime, Constants.EndTime: endTime, Constants.Id: eventId, Constants.Location: location, Constants.ShortLocation: shortLocation, Constants.ImageId: filename, Constants.Uid: uid, Constants.AllowsRSVP: allowsRSVP, Constants.AllowsContact: allowsContact], merge: true)
                 self.setupGeofirestore(eventId: eventId, location: location)
                 completion(true)
             })

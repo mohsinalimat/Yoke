@@ -22,6 +22,7 @@ class NewEventViewController: UIViewController,  EventLocationDelegate {
     var rsvp: Bool = false
     var contact: Bool = false
     var selectedLocation: String = ""
+    var selectedShortLocation: String = ""
     var event: Event? {
         didSet {
             fetchEvent()
@@ -158,7 +159,8 @@ class NewEventViewController: UIViewController,  EventLocationDelegate {
         present(alertVC, animated: true)
     }
     
-    func eventLocationController(_ eventLocationController: EventLocationViewController, didSelectLocation location: String) {
+    func eventLocationController(_ eventLocationController: EventLocationViewController, didSelectLocation location: String, short: String) {
+        selectedShortLocation = short
         selectedLocation = location
         locationButton.setTitle(location, for: .normal)
     }
@@ -197,7 +199,7 @@ class NewEventViewController: UIViewController,  EventLocationDelegate {
         if eventExist == true {
             guard let  eventId = event?.id,
                   let uid = event?.uid else { return }
-            EventController.shared.updateEventWith(uid: uid, eventId: eventId, image: image, caption: caption, detailText: detail, date: date, startTime: start, endTime: end, location: selectedLocation, allowsRSVP: rsvp, allowsContact: contact) { (result) in
+            EventController.shared.updateEventWith(uid: uid, eventId: eventId, image: image, caption: caption, detailText: detail, date: date, startTime: start, endTime: end, location: selectedLocation, shortLocation: selectedShortLocation, allowsRSVP: rsvp, allowsContact: contact) { (result) in
                 switch result {
                 case true:
                     self.myActivityIndicator.stopAnimating()
@@ -207,7 +209,7 @@ class NewEventViewController: UIViewController,  EventLocationDelegate {
                 }
             }
         } else {
-            EventController.shared.createEventWith(uid: uid, image: image, caption: caption, detailText: detail, date: date, startTime: start, endTime: end, location: selectedLocation, allowsRSVP: rsvp, allowsContact: contact) { (result) in
+            EventController.shared.createEventWith(uid: uid, image: image, caption: caption, detailText: detail, date: date, startTime: start, endTime: end, location: selectedLocation, shortLocation: selectedShortLocation, allowsRSVP: rsvp, allowsContact: contact) { (result) in
                 switch result {
                 case true:
                     self.myActivityIndicator.stopAnimating()

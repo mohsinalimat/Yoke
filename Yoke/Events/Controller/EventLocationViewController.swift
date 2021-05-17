@@ -11,7 +11,7 @@ import MapKit
 import FirebaseAuth
 
 protocol EventLocationDelegate {
-    func eventLocationController(_ eventLocationController: EventLocationViewController, didSelectLocation location: String)
+    func eventLocationController(_ eventLocationController: EventLocationViewController, didSelectLocation location: String, short: String)
 }
 
 class EventLocationViewController: UIViewController {
@@ -30,6 +30,7 @@ class EventLocationViewController: UIViewController {
     var latitude: Double = 0.0
     var longitude: Double = 0.0
     var selectedLocation: String?
+    var selectedShortLocation: String?
     let uid = Auth.auth().currentUser?.uid ?? ""
     static let updateNotificationName = NSNotification.Name(rawValue: "Update")
     
@@ -147,6 +148,7 @@ class EventLocationViewController: UIViewController {
                         addressString = addressString + zipcode
                     }
                     self.selectedLocation = addressString
+                    self.selectedShortLocation = "\(neighbourhood), \(city), \(state)"
                 }
             }
         }
@@ -181,8 +183,9 @@ class EventLocationViewController: UIViewController {
     
     //MARK: - API
     @objc func handleSave() {
-        guard let location = selectedLocation else { return }
-        delegate?.eventLocationController(self, didSelectLocation: location)
+        guard let location = selectedLocation,
+              let short = selectedShortLocation else { return }
+        delegate?.eventLocationController(self, didSelectLocation: location, short: short)
         handleDismiss()
     }
     
