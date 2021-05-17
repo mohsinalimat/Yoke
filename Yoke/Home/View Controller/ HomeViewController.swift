@@ -129,11 +129,11 @@ class HomeViewController: UIViewController {
         addMenuButton.anchor(top: nil, left: nil, bottom: nil, right: collectionViewBG.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 10)
         addMenuButton.centerYAnchor.constraint(equalTo: menuLabel.centerYAnchor).isActive = true
         
-        menuCollectionView.anchor(top: menuLabel.bottomAnchor, left: collectionViewBG.leftAnchor, bottom: nil, right: collectionViewBG.rightAnchor, paddingTop: 0, paddingLeft: 5, paddingBottom: 5, paddingRight: 5, height: 175)
+        menuCollectionView.anchor(top: menuLabel.bottomAnchor, left: collectionViewBG.leftAnchor, bottom: nil, right: collectionViewBG.rightAnchor, paddingTop: -10, paddingLeft: 5, paddingBottom: 5, paddingRight: 5, height: 175)
         
         bookingLabel.anchor(top:  menuCollectionView.bottomAnchor, left: collectionViewBG.leftAnchor, bottom: nil, right: nil, paddingTop: 30, paddingLeft: 10, paddingBottom: 0, paddingRight: 0)
         
-        upcomingBookingsCollectionView.anchor(top: bookingLabel.bottomAnchor, left: collectionViewBG.leftAnchor, bottom: collectionViewBG.bottomAnchor, right: collectionViewBG.rightAnchor, paddingTop: 0, paddingLeft: 5, paddingBottom: 5, paddingRight: 5, height: 180)
+        upcomingBookingsCollectionView.anchor(top: bookingLabel.bottomAnchor, left: collectionViewBG.leftAnchor, bottom: collectionViewBG.bottomAnchor, right: collectionViewBG.rightAnchor, paddingTop: -10, paddingLeft: 5, paddingBottom: 5, paddingRight: 5, height: 180)
     }
     
     func setupBottomToolbarUser() {
@@ -145,7 +145,7 @@ class HomeViewController: UIViewController {
         
         eventLabel.anchor(top:  suggestedChefCollectionView.bottomAnchor, left: collectionViewBG.leftAnchor, bottom: nil, right: nil, paddingTop: 10, paddingLeft: 10, paddingBottom: 0, paddingRight: 0)
         
-        eventsNearYouCollectionView.anchor(top: eventLabel.bottomAnchor, left: collectionViewBG.leftAnchor, bottom: collectionViewBG.bottomAnchor, right: collectionViewBG.rightAnchor, paddingTop: -15, paddingLeft: 5, paddingBottom: 0, paddingRight: 5, height: 220)
+        eventsNearYouCollectionView.anchor(top: eventLabel.bottomAnchor, left: collectionViewBG.leftAnchor, bottom: collectionViewBG.bottomAnchor, right: collectionViewBG.rightAnchor, paddingTop: -25, paddingLeft: 5, paddingBottom: 0, paddingRight: 5, height: 220)
     }
     
     func setupCollectionView() {
@@ -159,20 +159,16 @@ class HomeViewController: UIViewController {
                 self.menuCollectionView.isHidden = false
                 self.upcomingBookingsCollectionView.isHidden = false
                 self.addMenuButton.isHidden = false
-                self.menuLabel.text = "Menus"
-                self.bookingLabel.text = "Upcoming"
-                self.chefLabel.isHidden = true
-                self.eventLabel.isHidden = true
                 self.menuLabel.isHidden = false
                 self.bookingLabel.isHidden = false
+                self.chefLabel.isHidden = true
+                self.eventLabel.isHidden = true
             } else {
                 self.suggestedChefCollectionView.isHidden = false
                 self.eventsNearYouCollectionView.isHidden = false
                 self.menuCollectionView.isHidden = true
                 self.upcomingBookingsCollectionView.isHidden = true
                 self.addMenuButton.isHidden = true
-                self.menuLabel.text = "Nearby Chefs"
-                self.bookingLabel.text = "Nearby Events"
                 self.menuLabel.isHidden = true
                 self.bookingLabel.isHidden = true
                 self.chefLabel.isHidden = false
@@ -490,6 +486,7 @@ class HomeViewController: UIViewController {
     
     let menuLabel: UILabel = {
         let label = UILabel()
+        label.text = "Menus"
         label.textColor = UIColor.orangeColor()
         label.font = UIFont.boldSystemFont(ofSize: 28)
         return label
@@ -497,6 +494,7 @@ class HomeViewController: UIViewController {
     
     let chefLabel: UILabel = {
         let label = UILabel()
+        label.text = "Chefs in your area"
         label.textColor = UIColor.orangeColor()
         label.font = UIFont.boldSystemFont(ofSize: 28)
         return label
@@ -504,6 +502,7 @@ class HomeViewController: UIViewController {
     
     let eventLabel: UILabel = {
         let label = UILabel()
+        label.text = "Events in your area"
         label.textColor = UIColor.orangeColor()
         label.font = UIFont.boldSystemFont(ofSize: 28)
         return label
@@ -511,6 +510,7 @@ class HomeViewController: UIViewController {
     
     let bookingLabel: UILabel = {
         let label = UILabel()
+        label.text = "Upcomming bookings"
         label.textColor = UIColor.orangeColor()
         label.font = UIFont.boldSystemFont(ofSize: 28)
         return label
