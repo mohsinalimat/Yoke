@@ -33,6 +33,7 @@ class HomeViewController: UIViewController {
         super.viewDidLayoutSubviews()
         setupViews()
         constrainViews()
+        toobarSetup()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -90,7 +91,6 @@ class HomeViewController: UIViewController {
         usernameLabel.anchor(top: nil, left: profileImageView.rightAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 0, paddingLeft: 10, paddingBottom: 0, paddingRight: 5)
         usernameLabel.centerYAnchor.constraint(equalTo: profileImageView.centerYAnchor).isActive = true
         viewProfileButton.anchor(top: usernameLabel.bottomAnchor, left: usernameLabel.leftAnchor, bottom: nil, right: nil, paddingTop: 5, paddingLeft: 0, paddingBottom: 0, paddingRight: 0)
-        toobarSetup()
     }
     
     func toobarSetup() {
@@ -104,18 +104,22 @@ class HomeViewController: UIViewController {
         let uid = userId ?? (Auth.auth().currentUser?.uid ?? "")
         UserController.shared.fetchUserWithUID(uid: uid) { (user) in
             if user.isChef == false {
-                self.setupBottomToolbarUser()
-                self.eventButton.isHidden = true
-                self.bookingButton.isHidden = true
+                DispatchQueue.main.async {
+                    self.setupBottomToolbarUser()
+                    self.eventButton.isHidden = true
+                    self.bookingButton.isHidden = true
+                }
             } else {
-                self.setupBottomToolbarChef()
-                self.eventButton.isHidden = false
-                self.bookingButton.isHidden = false
+                DispatchQueue.main.async {
+                    self.setupBottomToolbarChef()
+                    self.eventButton.isHidden = false
+                    self.bookingButton.isHidden = false
+                }
             }
         }
     }
     
-    fileprivate func setupBottomToolbarChef() {
+    func setupBottomToolbarChef() {
         collectionViewBG.anchor(top: buttonStackView.bottomAnchor, left: safeArea.leftAnchor, bottom: scrollView.bottomAnchor, right: safeArea.rightAnchor, paddingTop: 20, paddingLeft: 5, paddingBottom: 5, paddingRight: 5)
         
         menuChefLabel.anchor(top: collectionViewBG.topAnchor, left: collectionViewBG.leftAnchor, bottom: nil, right: nil, paddingTop: 10, paddingLeft: 10, paddingBottom: 0, paddingRight: 0)
@@ -123,14 +127,14 @@ class HomeViewController: UIViewController {
         addMenuButton.anchor(top: nil, left: nil, bottom: nil, right: collectionViewBG.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 10)
         addMenuButton.centerYAnchor.constraint(equalTo: menuChefLabel.centerYAnchor).isActive = true
         
-        menuCollectionView.anchor(top: menuChefLabel.bottomAnchor, left: collectionViewBG.leftAnchor, bottom: nil, right: collectionViewBG.rightAnchor, paddingTop: -10, paddingLeft: 5, paddingBottom: 5, paddingRight: 5, height: 175)
+        menuCollectionView.anchor(top: menuChefLabel.bottomAnchor, left: collectionViewBG.leftAnchor, bottom: nil, right: collectionViewBG.rightAnchor, paddingTop: 0, paddingLeft: 5, paddingBottom: 5, paddingRight: 5, height: 175)
         
         bookingsEventLabel.anchor(top:  menuCollectionView.bottomAnchor, left: collectionViewBG.leftAnchor, bottom: nil, right: nil, paddingTop: 30, paddingLeft: 10, paddingBottom: 0, paddingRight: 0)
         
-        upcomingBookingsCollectionView.anchor(top: bookingsEventLabel.bottomAnchor, left: collectionViewBG.leftAnchor, bottom: collectionViewBG.bottomAnchor, right: collectionViewBG.rightAnchor, paddingTop: -10, paddingLeft: 5, paddingBottom: 5, paddingRight: 5, height: 180)
+        upcomingBookingsCollectionView.anchor(top: bookingsEventLabel.bottomAnchor, left: collectionViewBG.leftAnchor, bottom: collectionViewBG.bottomAnchor, right: collectionViewBG.rightAnchor, paddingTop: 0, paddingLeft: 5, paddingBottom: 5, paddingRight: 5, height: 180)
     }
     
-    fileprivate func setupBottomToolbarUser() {
+    func setupBottomToolbarUser() {
         collectionViewBG.anchor(top: buttonStackView.bottomAnchor, left: safeArea.leftAnchor, bottom: scrollView.bottomAnchor, right: safeArea.rightAnchor, paddingTop: 20, paddingLeft: 5, paddingBottom: 5, paddingRight: 5)
         
         menuChefLabel.anchor(top: collectionViewBG.topAnchor, left: collectionViewBG.leftAnchor, bottom: nil, right: nil, paddingTop: 10, paddingLeft: 10, paddingBottom: 0, paddingRight: 0)
@@ -275,7 +279,6 @@ class HomeViewController: UIViewController {
         DispatchQueue.main.async {
             self.fetchUser()
             self.setupCollectionView()
-            self.toobarSetup()
         }
     }
     
