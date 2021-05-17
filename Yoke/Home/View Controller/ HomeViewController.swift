@@ -184,7 +184,7 @@ class HomeViewController: UIViewController {
         upcomingBookingsCollectionView.delegate = self
         upcomingBookingsCollectionView.dataSource = self
         upcomingBookingsCollectionView.translatesAutoresizingMaskIntoConstraints = false
-        upcomingBookingsCollectionView.register(BookingsCollectionViewCell.self, forCellWithReuseIdentifier: bookingCell)
+        upcomingBookingsCollectionView.register(TodayCollectionViewCell.self, forCellWithReuseIdentifier: bookingCell)
         upcomingBookingsCollectionView.register(EmptyCell.self, forCellWithReuseIdentifier: noCellId)
         
         eventsNearYouCollectionView.backgroundColor = UIColor.clear
@@ -582,7 +582,7 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
                 return cellB
             }
         } else if collectionView == self.upcomingBookingsCollectionView {
-            let cellC = collectionView.dequeueReusableCell(withReuseIdentifier: bookingCell, for: indexPath) as! BookingsCollectionViewCell
+            let cellC = collectionView.dequeueReusableCell(withReuseIdentifier: bookingCell, for: indexPath) as! TodayCollectionViewCell
 //            cellC.booking = BookingController.shared.bookings[indexPath.item]
             return cellC
 //            if BookingController.shared.bookings.count == 0 {
