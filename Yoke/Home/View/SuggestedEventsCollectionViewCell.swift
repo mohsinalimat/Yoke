@@ -53,7 +53,7 @@ class SuggestedEventsCollectionViewCell: UICollectionViewCell {
     
     func setupConstraints() {
         shadowView.anchor(top: topAnchor, left: leftAnchor, bottom: bottomAnchor, right: rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0)
-        eventImage.anchor(top: shadowView.topAnchor, left: shadowView.leftAnchor, bottom: nil, right: shadowView.rightAnchor, paddingTop: 5, paddingLeft: 5, paddingBottom: 0, paddingRight: 5, height: frame.height / 2)
+        eventImage.anchor(top: shadowView.topAnchor, left: shadowView.leftAnchor, bottom: nil, right: shadowView.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, height: frame.height / 2)
         cellBackgroundImage.anchor(top: eventImage.topAnchor, left: eventImage.leftAnchor, bottom: eventImage.bottomAnchor, right: eventImage.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0)
         captionLabel.anchor(top: eventImage.topAnchor, left: eventImage.leftAnchor, bottom: eventImage.bottomAnchor, right: eventImage.rightAnchor, paddingTop: 0, paddingLeft: 8, paddingBottom: 0, paddingRight: 8)
 
@@ -127,7 +127,7 @@ class SuggestedEventsCollectionViewCell: UICollectionViewCell {
         let view = ShadowView()
         view.backgroundColor = .white
         view.layer.borderWidth = 0.1
-        view.layer.borderColor = UIColor.LightGrayBg()?.cgColor
+        view.layer.borderColor = UIColor.lightGray.cgColor
         return view
     }()
 }

@@ -106,13 +106,17 @@ class HomeViewController: UIViewController {
         let uid = userId ?? (Auth.auth().currentUser?.uid ?? "")
         UserController.shared.fetchUserWithUID(uid: uid) { (user) in
             if user.isChef == false {
-                self.setupBottomToolbarUser()
-                self.eventButton.isHidden = true
-                self.bookingButton.isHidden = true
+                DispatchQueue.main.async {
+                    self.setupBottomToolbarUser()
+                    self.eventButton.isHidden = true
+                    self.bookingButton.isHidden = true
+                }
             } else {
-                self.setupBottomToolbarChef()
-                self.eventButton.isHidden = false
-                self.bookingButton.isHidden = false
+                DispatchQueue.main.async {
+                    self.setupBottomToolbarChef()
+                    self.eventButton.isHidden = false
+                    self.bookingButton.isHidden = false
+                }
             }
         }
     }
@@ -125,7 +129,7 @@ class HomeViewController: UIViewController {
         addMenuButton.anchor(top: nil, left: nil, bottom: nil, right: collectionViewBG.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 10)
         addMenuButton.centerYAnchor.constraint(equalTo: menuLabel.centerYAnchor).isActive = true
         
-        menuCollectionView.anchor(top: menuLabel.bottomAnchor, left: collectionViewBG.leftAnchor, bottom: nil, right: collectionViewBG.rightAnchor, paddingTop: -10, paddingLeft: 5, paddingBottom: 5, paddingRight: 5, height: 175)
+        menuCollectionView.anchor(top: menuLabel.bottomAnchor, left: collectionViewBG.leftAnchor, bottom: nil, right: collectionViewBG.rightAnchor, paddingTop: -10, paddingLeft: 5, paddingBottom: 0, paddingRight: 5, height: 175)
         
         bookingLabel.anchor(top:  menuCollectionView.bottomAnchor, left: collectionViewBG.leftAnchor, bottom: nil, right: nil, paddingTop: 30, paddingLeft: 10, paddingBottom: 0, paddingRight: 0)
         
@@ -637,7 +641,7 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
             if MenuController.shared.menus.count == 0 {
                 return CGSize(width: view.frame.width - 20, height: 100)
             } else {
-                return CGSize(width: view.frame.width - 20, height: 180)
+                return CGSize(width: view.frame.width - 20, height: 160)
             }
         } else if collectionView == self.suggestedChefCollectionView {
             if SuggestedChefController.shared.chefs.count == 0 {
@@ -653,12 +657,11 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
 //                return CGSize(width: view.frame.width / 2 , height: 180)
 //            }
         }
-        return CGSize(width: view.frame.width - 100 , height:  150)
-//        if SuggestedChefController.shared.chefs.count == 0 {
-//            return CGSize(width: view.frame.width - 20, height: 100)
-//        } else {
-//            return CGSize(width: view.frame.width / 2 , height: 180)
-//        }
+        if EventController.shared.events.count == 0 {
+            return CGSize(width: view.frame.width - 20, height: 100)
+        } else {
+            return CGSize(width: view.frame.width - 150 , height: 150)
+        }
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
