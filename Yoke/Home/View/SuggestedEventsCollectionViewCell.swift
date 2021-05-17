@@ -37,6 +37,7 @@ class SuggestedEventsCollectionViewCell: UICollectionViewCell {
         eventImage.loadImage(urlString: image)
         captionLabel.text = event.caption
         locationLabel.text = event.shortLocation
+        dateLabel.text = event.date
     }
     
     func setupViews() {
@@ -45,6 +46,9 @@ class SuggestedEventsCollectionViewCell: UICollectionViewCell {
         addSubview(cellBackgroundImage)
         addSubview(captionLabel)
         addSubview(locationLabel)
+        addSubview(locationIcon)
+        addSubview(dateLabel)
+        addSubview(dateIcon)
     }
     
     func setupConstraints() {
@@ -52,9 +56,14 @@ class SuggestedEventsCollectionViewCell: UICollectionViewCell {
         eventImage.anchor(top: shadowView.topAnchor, left: shadowView.leftAnchor, bottom: nil, right: shadowView.rightAnchor, paddingTop: 5, paddingLeft: 5, paddingBottom: 0, paddingRight: 5, height: frame.height / 2)
         cellBackgroundImage.anchor(top: eventImage.topAnchor, left: eventImage.leftAnchor, bottom: eventImage.bottomAnchor, right: eventImage.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0)
         captionLabel.anchor(top: eventImage.topAnchor, left: eventImage.leftAnchor, bottom: eventImage.bottomAnchor, right: eventImage.rightAnchor, paddingTop: 0, paddingLeft: 8, paddingBottom: 0, paddingRight: 8)
-//        captionLabel.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
-        locationLabel.anchor(top: eventImage.bottomAnchor, left: shadowView.leftAnchor, bottom: nil, right: shadowView.rightAnchor, paddingTop: 15, paddingLeft: 8, paddingBottom: 0, paddingRight: 8)
-        locationLabel.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
+
+        locationIcon.anchor(top: eventImage.bottomAnchor, left: eventImage.leftAnchor, bottom: nil, right: nil, paddingTop: 10, paddingLeft: 5, paddingBottom: 0, paddingRight: 0, width: 15, height: 18)
+        locationLabel.anchor(top: nil, left: locationIcon.rightAnchor, bottom: nil, right: nil, paddingTop: 0, paddingLeft: 5, paddingBottom: 0, paddingRight: 0)
+        locationLabel.centerYAnchor.constraint(equalTo: locationIcon.centerYAnchor).isActive = true
+        
+        dateIcon.anchor(top: locationIcon.bottomAnchor, left: eventImage.leftAnchor, bottom: nil, right: nil, paddingTop: 10, paddingLeft: 5, paddingBottom: 0, paddingRight: 0, width: 15, height: 15)
+        dateLabel.anchor(top: dateIcon.topAnchor, left: dateIcon.rightAnchor, bottom: nil, right: nil, paddingTop: 0, paddingLeft: 5, paddingBottom: 0, paddingRight: 0)
+        dateLabel.centerYAnchor.constraint(equalTo: dateIcon.centerYAnchor).isActive = true
     }
     
     //MARK: Views
@@ -78,7 +87,26 @@ class SuggestedEventsCollectionViewCell: UICollectionViewCell {
         return label
     }()
     
+    var locationIcon: UIImageView = {
+        let image = UIImageView()
+        image.image = UIImage(named: "location-pin-orange")
+        return image
+    }()
+    
     var locationLabel: UILabel = {
+        let label = UILabel()
+        label.font = UIFont.boldSystemFont(ofSize: 13)
+        label.textColor = .gray
+        return label
+    }()
+    
+    var dateIcon: UIImageView = {
+        let image = UIImageView()
+        image.image = UIImage(named: "calendarOrange")
+        return image
+    }()
+    
+    var dateLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.boldSystemFont(ofSize: 13)
         label.textColor = .gray

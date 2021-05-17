@@ -633,7 +633,7 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
 //                return CGSize(width: view.frame.width / 2 , height: 180)
 //            }
         }
-        return CGSize(width: view.frame.width / 2 , height: 180)
+        return CGSize(width: view.frame.width - 100 , height:  150)
 //        if SuggestedChefController.shared.chefs.count == 0 {
 //            return CGSize(width: view.frame.width - 20, height: 100)
 //        } else {
