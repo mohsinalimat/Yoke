@@ -650,7 +650,7 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
                 return CGSize(width: view.frame.width / 2 , height: 180)
             }
         } else if collectionView == self.upcomingBookingsCollectionView {
-            return CGSize(width: view.frame.width - 20 , height: 150)
+            return CGSize(width: view.frame.width - 20 , height: 140)
 //            if SuggestedChefController.shared.chefs.count == 0 {
 //                return CGSize(width: view.frame.width - 20, height: 100)
 //            } else {
@@ -680,7 +680,7 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
                 menuVC.saveButton.setTitle("Update", for: .normal)
                 present(menuVC, animated: true)
             }
-        } else {
+        } else if collectionView == self.suggestedChefCollectionView {
             if SuggestedChefController.shared.chefs.count == 0 {
                 return
             } else {
@@ -688,6 +688,25 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
                 let profileVC = ProfileViewController()
                 profileVC.userId = chef
                 navigationController?.pushViewController(profileVC, animated: true)
+            }
+        } else if collectionView == self.upcomingBookingsCollectionView {
+            if BookingController.shared.bookings.count == 0 {
+                return
+            } else {
+                let booking = BookingController.shared.bookings[indexPath.row].id
+                let profileVC = ProfileViewController()
+                profileVC.userId = booking
+                navigationController?.pushViewController(profileVC, animated: true)
+            }
+        } else {
+            if EventController.shared.events.count == 0 {
+                return
+            } else {
+                let event = EventController.shared.events[indexPath.item]
+                let eventVC = EventDetailViewController()
+                eventVC.event = event
+                navigationController?.present(eventVC, animated: true)
+                
             }
         }
     }
