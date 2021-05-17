@@ -106,17 +106,13 @@ class HomeViewController: UIViewController {
         let uid = userId ?? (Auth.auth().currentUser?.uid ?? "")
         UserController.shared.fetchUserWithUID(uid: uid) { (user) in
             if user.isChef == false {
-                DispatchQueue.main.async {
-                    self.setupBottomToolbarUser()
-                    self.eventButton.isHidden = true
-                    self.bookingButton.isHidden = true
-                }
+                self.setupBottomToolbarUser()
+                self.eventButton.isHidden = true
+                self.bookingButton.isHidden = true
             } else {
-                DispatchQueue.main.async {
-                    self.setupBottomToolbarChef()
-                    self.eventButton.isHidden = false
-                    self.bookingButton.isHidden = false
-                }
+                self.setupBottomToolbarChef()
+                self.eventButton.isHidden = false
+                self.bookingButton.isHidden = false
             }
         }
     }
