@@ -118,13 +118,14 @@ class HomeViewController: UIViewController {
     fileprivate func setupBottomToolbarChef() {
         collectionViewBG.anchor(top: buttonStackView.bottomAnchor, left: safeArea.leftAnchor, bottom: scrollView.bottomAnchor, right: safeArea.rightAnchor, paddingTop: 20, paddingLeft: 5, paddingBottom: 5, paddingRight: 5)
         
-        menuChefLabel.anchor(top: collectionViewBG.topAnchor, left: collectionViewBG.leftAnchor, bottom: nil, right: nil, paddingTop: 5, paddingLeft: 10, paddingBottom: 0, paddingRight: 0)
+        menuChefLabel.anchor(top: collectionViewBG.topAnchor, left: collectionViewBG.leftAnchor, bottom: nil, right: nil, paddingTop: 10, paddingLeft: 10, paddingBottom: 0, paddingRight: 0)
         
-        addMenuButton.anchor(top: menuChefLabel.topAnchor, left: nil, bottom: nil, right: collectionViewBG.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 10)
+        addMenuButton.anchor(top: nil, left: nil, bottom: nil, right: collectionViewBG.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 10)
+        addMenuButton.centerYAnchor.constraint(equalTo: menuChefLabel.centerYAnchor).isActive = true
         
         menuCollectionView.anchor(top: menuChefLabel.bottomAnchor, left: collectionViewBG.leftAnchor, bottom: nil, right: collectionViewBG.rightAnchor, paddingTop: -10, paddingLeft: 5, paddingBottom: 5, paddingRight: 5, height: 175)
         
-        bookingsEventLabel.anchor(top:  menuCollectionView.bottomAnchor, left: collectionViewBG.leftAnchor, bottom: nil, right: nil, paddingTop: 10, paddingLeft: 10, paddingBottom: 0, paddingRight: 0)
+        bookingsEventLabel.anchor(top:  menuCollectionView.bottomAnchor, left: collectionViewBG.leftAnchor, bottom: nil, right: nil, paddingTop: 30, paddingLeft: 10, paddingBottom: 0, paddingRight: 0)
         
         upcomingBookingsCollectionView.anchor(top: bookingsEventLabel.bottomAnchor, left: collectionViewBG.leftAnchor, bottom: collectionViewBG.bottomAnchor, right: collectionViewBG.rightAnchor, paddingTop: -10, paddingLeft: 5, paddingBottom: 5, paddingRight: 5, height: 180)
     }
@@ -132,13 +133,13 @@ class HomeViewController: UIViewController {
     fileprivate func setupBottomToolbarUser() {
         collectionViewBG.anchor(top: buttonStackView.bottomAnchor, left: safeArea.leftAnchor, bottom: scrollView.bottomAnchor, right: safeArea.rightAnchor, paddingTop: 20, paddingLeft: 5, paddingBottom: 5, paddingRight: 5)
         
-        menuChefLabel.anchor(top: collectionViewBG.topAnchor, left: collectionViewBG.leftAnchor, bottom: nil, right: nil, paddingTop: 5, paddingLeft: 10, paddingBottom: 0, paddingRight: 0)
+        menuChefLabel.anchor(top: collectionViewBG.topAnchor, left: collectionViewBG.leftAnchor, bottom: nil, right: nil, paddingTop: 10, paddingLeft: 10, paddingBottom: 0, paddingRight: 0)
         
-        suggestedChefCollectionView.anchor(top: menuChefLabel.bottomAnchor, left: collectionViewBG.leftAnchor, bottom: nil, right: collectionViewBG.rightAnchor, paddingTop: 0, paddingLeft: 5, paddingBottom: 0, paddingRight: 5, height: 220)
+        suggestedChefCollectionView.anchor(top: menuChefLabel.bottomAnchor, left: collectionViewBG.leftAnchor, bottom: nil, right: collectionViewBG.rightAnchor, paddingTop: -10, paddingLeft: 5, paddingBottom: 0, paddingRight: 5, height: 220)
         
-        bookingsEventLabel.anchor(top:  suggestedChefCollectionView.bottomAnchor, left: collectionViewBG.leftAnchor, bottom: nil, right: nil, paddingTop: 5, paddingLeft: 10, paddingBottom: 0, paddingRight: 0)
+        bookingsEventLabel.anchor(top:  suggestedChefCollectionView.bottomAnchor, left: collectionViewBG.leftAnchor, bottom: nil, right: nil, paddingTop: 10, paddingLeft: 10, paddingBottom: 0, paddingRight: 0)
         
-        eventsNearYouCollectionView.anchor(top: bookingsEventLabel.bottomAnchor, left: collectionViewBG.leftAnchor, bottom: collectionViewBG.bottomAnchor, right: collectionViewBG.rightAnchor, paddingTop: 0, paddingLeft: 5, paddingBottom: 0, paddingRight: 5, height: 220)
+        eventsNearYouCollectionView.anchor(top: bookingsEventLabel.bottomAnchor, left: collectionViewBG.leftAnchor, bottom: collectionViewBG.bottomAnchor, right: collectionViewBG.rightAnchor, paddingTop: -10, paddingLeft: 5, paddingBottom: 0, paddingRight: 5, height: 220)
     }
     
     func setupCollectionView() {
@@ -160,8 +161,8 @@ class HomeViewController: UIViewController {
                 self.menuCollectionView.isHidden = true
                 self.upcomingBookingsCollectionView.isHidden = true
                 self.addMenuButton.isHidden = true
-                self.menuChefLabel.text = "Chef's near you"
-                self.bookingsEventLabel.text = "Events near you"
+                self.menuChefLabel.text = "Nearby Chefs"
+                self.bookingsEventLabel.text = "Nearby Events"
             }
         }
         
@@ -183,7 +184,7 @@ class HomeViewController: UIViewController {
         upcomingBookingsCollectionView.delegate = self
         upcomingBookingsCollectionView.dataSource = self
         upcomingBookingsCollectionView.translatesAutoresizingMaskIntoConstraints = false
-        upcomingBookingsCollectionView.register(TodayCollectionViewCell.self, forCellWithReuseIdentifier: bookingCell)
+        upcomingBookingsCollectionView.register(BookingsCollectionViewCell.self, forCellWithReuseIdentifier: bookingCell)
         upcomingBookingsCollectionView.register(EmptyCell.self, forCellWithReuseIdentifier: noCellId)
         
         eventsNearYouCollectionView.backgroundColor = UIColor.clear
@@ -274,6 +275,7 @@ class HomeViewController: UIViewController {
         DispatchQueue.main.async {
             self.fetchUser()
             self.setupCollectionView()
+            self.toobarSetup()
         }
     }
     
@@ -464,7 +466,7 @@ class HomeViewController: UIViewController {
     
     let collectionViewBG: UIView = {
         let view = UIView()
-        view.backgroundColor = UIColor.white
+        view.backgroundColor = UIColor.clear
         view.layer.cornerRadius = 10
         view.layer.shadowOffset = CGSize(width: 0, height: 4)
         view.layer.shadowRadius = 4
@@ -475,15 +477,15 @@ class HomeViewController: UIViewController {
     
     let menuChefLabel: UILabel = {
         let label = UILabel()
-        label.textColor = UIColor.gray
-        label.font = UIFont.boldSystemFont(ofSize: 22)
+        label.textColor = UIColor.orangeColor()
+        label.font = UIFont.boldSystemFont(ofSize: 28)
         return label
     }()
     
     let bookingsEventLabel: UILabel = {
         let label = UILabel()
-        label.textColor = UIColor.gray
-        label.font = UIFont.boldSystemFont(ofSize: 22)
+        label.textColor = UIColor.orangeColor()
+        label.font = UIFont.boldSystemFont(ofSize: 28)
         return label
     }()
     
@@ -580,7 +582,7 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
                 return cellB
             }
         } else if collectionView == self.upcomingBookingsCollectionView {
-            let cellC = collectionView.dequeueReusableCell(withReuseIdentifier: bookingCell, for: indexPath) as! TodayCollectionViewCell
+            let cellC = collectionView.dequeueReusableCell(withReuseIdentifier: bookingCell, for: indexPath) as! BookingsCollectionViewCell
 //            cellC.booking = BookingController.shared.bookings[indexPath.item]
             return cellC
 //            if BookingController.shared.bookings.count == 0 {

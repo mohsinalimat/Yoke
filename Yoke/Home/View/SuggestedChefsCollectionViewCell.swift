@@ -45,7 +45,7 @@ class SuggestedChefsCollectionViewCell: UICollectionViewCell {
     
     func setupViews() {
         addSubview(shadowView)
-        addSubview(cellBackgroundImage)
+//        addSubview(cellBackgroundImage)
         addSubview(profileImage)
         addSubview(nameLabel)
         addSubview(ratingView)
@@ -54,10 +54,10 @@ class SuggestedChefsCollectionViewCell: UICollectionViewCell {
     
     func setupConstraints() {
         shadowView.anchor(top: topAnchor, left: leftAnchor, bottom: bottomAnchor, right: rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0)
-        cellBackgroundImage.anchor(top: topAnchor, left: leftAnchor, bottom: bottomAnchor, right: rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0)
+//        cellBackgroundImage.anchor(top: topAnchor, left: leftAnchor, bottom: bottomAnchor, right: rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0)
         profileImage.anchor(top: topAnchor, left: nil, bottom: nil, right: nil, paddingTop: 5, paddingLeft: 5, paddingBottom: 5, paddingRight: 0, width: 100, height: 100)
         profileImage.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
-        nameLabel.anchor(top: profileImage.bottomAnchor, left: nil, bottom: nil, right: nil, paddingTop: 10, paddingLeft: 5, paddingBottom: 0, paddingRight: 0)
+        nameLabel.anchor(top: profileImage.bottomAnchor, left: nil, bottom: nil, right: nil, paddingTop: 0, paddingLeft: 5, paddingBottom: 0, paddingRight: 0)
         nameLabel.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
         
         ratingView.anchor(top: nameLabel.bottomAnchor, left: nil, bottom: nil, right: nil, paddingTop: 5, paddingLeft: 5, paddingBottom: 0, paddingRight: 0, width: 70, height: 15)
@@ -102,8 +102,8 @@ class SuggestedChefsCollectionViewCell: UICollectionViewCell {
     
     var nameLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont.boldSystemFont(ofSize: 15)
-        label.textColor = .white
+        label.font = UIFont.boldSystemFont(ofSize: 18)
+        label.textColor = .gray
         label.lineBreakMode = .byWordWrapping
         label.numberOfLines = 0
         return label
@@ -118,29 +118,29 @@ class SuggestedChefsCollectionViewCell: UICollectionViewCell {
         view.editable = false
         view.emptyImage = UIImage(systemName: "star")
         view.fullImage = UIImage(systemName: "star.fill")
-        view.tintColor = UIColor.white
+        view.tintColor = UIColor.orangeColor()
         return view
     }()
     
     var locationLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.boldSystemFont(ofSize: 13)
-        label.textColor = .white
+        label.textColor = .gray
         return label
     }()
     
     let cellBackgroundImage: UIImageView = {
         let view = UIImageView()
-        view.image = UIImage(named: "gradientBackgroundHalf")
+//        view.image = UIImage(named: "gradientBackgroundHalf")
         view.layer.cornerRadius = 10
         view.layer.masksToBounds = true
-//        view.backgroundColor = UIColor.white.withAlphaComponent(0.9)
+        view.backgroundColor = UIColor.white
         return view
     }()
     
     let shadowView: ShadowView = {
         let view = ShadowView()
-//        view.backgroundColor = .white
+        view.backgroundColor = .white
         return view
     }()
 }
