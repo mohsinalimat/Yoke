@@ -22,8 +22,18 @@ class ReportBlockController {
         firestoreDB.document(userToBlockUid).collection(Constants.BlockedBy).document(userBlockingUid).setData([userBlockingUid: isBlocked], merge: false)
     }
     
-    func checkIfBlockedWith(userBlockingUid: String, userToBlockUid: String, isBlocked: Bool, completion: @escaping (Bool) -> Void) {
-        firestoreDB.document(userBlockingUid).collection(Constants.Blocked).document(userToBlockUid).setData([userToBlockUid: isBlocked], merge: false)
-        firestoreDB.document(userToBlockUid).collection(Constants.BlockedBy).document(userBlockingUid).setData([userBlockingUid: isBlocked], merge: false)
+    func checkIfBlockedWith(userBlockingUid: String, userToBlockUid: String, completion: @escaping (Bool) -> Void) {
+        firestoreDB.document(userBlockingUid).collection(Constants.Blocked).document(userToBlockUid).addSnapshotListener { snapshot, error in
+            if let error = error {
+                print(error.localizedDescription)
+                completion(false)
+            }
+            guard let dictionary = snapshot?.data() else { return }
+            let isBlocked = dictionary as? Bool
+            if isBlocked == true {
+                
+            }
+            completion(true)
+        }
     }
 }
