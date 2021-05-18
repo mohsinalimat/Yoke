@@ -52,6 +52,10 @@ class ProfileViewController: UIViewController, TTGTextTagCollectionViewDelegate 
     func configureNavigationBar() {
         guard let orange = UIColor.orangeColor() else { return }
         configureNavigationBar(withTitle: "", largeTitle: false, backgroundColor: UIColor.white, titleColor: orange)
+        let filterIcon = UIImage(named: "circleMenu")
+        let imageView = UIImageView(frame: CGRect(x: 0, y: 0, width: 10, height: 10))
+        imageView.image = filterIcon
+        navigationItem.rightBarButtonItem = UIBarButtonItem(image: filterIcon, style: .plain, target: self, action: #selector(handleBlockReport))
     }
     
     func setupButtonImages() {
@@ -285,6 +289,10 @@ class ProfileViewController: UIViewController, TTGTextTagCollectionViewDelegate 
 //        print("pressed")
 //        chatVC.userId = userId
 //        navigationController?.pushViewController(chatVC, animated: true)
+    }
+    
+    @objc func handleBlockReport() {
+        print("pressed")
     }
 
     //MARK: - Views
