@@ -24,6 +24,7 @@ class ProfileViewController: UIViewController, TTGTextTagCollectionViewDelegate 
     let noCellId = "noCellId"
     let cellId = "cellId"
     var user: User?
+    var reportUsername: String = ""
     
     //MARK: - Lifecycle Methods
     override func viewWillDisappear(_ animated : Bool) {
@@ -52,7 +53,7 @@ class ProfileViewController: UIViewController, TTGTextTagCollectionViewDelegate 
     func configureNavigationBar() {
         guard let orange = UIColor.orangeColor() else { return }
         configureNavigationBar(withTitle: "", largeTitle: false, backgroundColor: UIColor.white, titleColor: orange)
-        let filterIcon = UIImage(named: "circleMenu")
+        let filterIcon = UIImage(named: "dottedMenu")
         let imageView = UIImageView(frame: CGRect(x: 0, y: 0, width: 10, height: 10))
         imageView.image = filterIcon
         navigationItem.rightBarButtonItem = UIBarButtonItem(image: filterIcon, style: .plain, target: self, action: #selector(handleBlockReport))
@@ -203,6 +204,7 @@ class ProfileViewController: UIViewController, TTGTextTagCollectionViewDelegate 
                   let bio = user.bio,
                   let uid = user.uid else { return }
             self.usernameLabel.text = username
+            self.reportUsername = username
             self.locationLabel.text = "\(city), \(state)"
             self.bioLabel.text = "About \(username)"
             self.bioTextLabel.text = bio
@@ -292,7 +294,58 @@ class ProfileViewController: UIViewController, TTGTextTagCollectionViewDelegate 
     }
     
     @objc func handleBlockReport() {
-        print("pressed")
+        let menu = UIAlertController(title: "Choose Option" , message: "", preferredStyle: .actionSheet)
+        let blockAction = UIAlertAction(title: "Block User", style: .default) { _ in
+            print("blocked")
+        }
+        let reportAction = UIAlertAction(title: "Report User", style: .default) { _ in
+            print("report")
+            self.reportUser()
+        }
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel)
+        menu.addAction(blockAction)
+        menu.addAction(reportAction)
+        menu.addAction(cancelAction)
+        self.present(menu, animated: true)
+    }
+    
+    func reportUser() {
+        let reportSheet = UIAlertController(title: "Report" , message: "Please let us know why you are reporting this user.", preferredStyle: .actionSheet)
+        let inappropriateAction = UIAlertAction(title: "User is being inappropriate", style: .default) { _ in
+            
+           
+        }
+        let notUserAction = UIAlertAction(title: "User isn't who they say they are", style: .default) { _ in
+            
+        }
+        
+        let otherAction = UIAlertAction(title: "Other", style: .default) { _ in
+            self.reportCustomReason()
+        }
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel)
+        reportSheet.addAction(inappropriateAction)
+        reportSheet.addAction(notUserAction)
+        reportSheet.addAction(otherAction)
+        reportSheet.addAction(cancelAction)
+        self.present(reportSheet, animated: true)
+    }
+    
+    func reportCustomReason() {
+        let alertController = UIAlertController(title: "Report User", message: "Please let us know the reason for reporting \(reportUsername)", preferredStyle: .alert)
+        alertController.addTextField(configurationHandler: {(textField: UITextField!) in
+            textField.placeholder = "Enter here"
+        })
+        let action = UIAlertAction(title: "Submit", style: .default,
+                                   handler: {[weak self]
+                                   (paramAction:UIAlertAction!) in
+                                    if let textFields = alertController.textFields{
+                let theTextFields = textFields as [UITextField]
+                let enteredText = theTextFields[0].text
+                print(enteredText)
+            }
+        })
+        alertController.addAction(action)
+        self.present(alertController, animated: true)
     }
 
     //MARK: - Views
