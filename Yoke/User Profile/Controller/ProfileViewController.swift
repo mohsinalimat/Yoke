@@ -301,9 +301,9 @@ class ProfileViewController: UIViewController, TTGTextTagCollectionViewDelegate 
             ReportBlockController.shared.checkIfBlockedWith(userBlockingUid: userBlockingUid, userToBlockUid: userToBlockUid) { result in
                 switch result {
                 case true:
-                    print("true")
+                    print("")
                 case false:
-                    print("false")
+                    print("")
                 }
             }
 //            ReportBlockController.shared.blockUserWith(userBlockingUid: userBlockingUid, userToBlockUid: userToBlockUid, isBlocked: <#Bool#>) { result in

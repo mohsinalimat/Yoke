@@ -23,17 +23,35 @@ class ReportBlockController {
     }
     
     func checkIfBlockedWith(userBlockingUid: String, userToBlockUid: String, completion: @escaping (Bool) -> Void) {
-        firestoreDB.document(userBlockingUid).collection(Constants.Blocked).document(userToBlockUid).addSnapshotListener { snapshot, error in
+        firestoreDB.document(userBlockingUid).collection(Constants.Blocked).whereField(userToBlockUid, isEqualTo: true).addSnapshotListener { snapshot, error in
             if let error = error {
                 print(error.localizedDescription)
                 completion(false)
             }
-            guard let dictionary = snapshot?.data() else { return }
-            let isBlocked = dictionary as? Bool
-            if isBlocked == true {
-                
-            }
+            print(true)
             completion(true)
         }
+        firestoreDB.document(userBlockingUid).collection(Constants.Blocked).whereField(userToBlockUid, isEqualTo: false).addSnapshotListener { snapshot, error in
+            if let error = error {
+                print(error.localizedDescription)
+                completion(false)
+            }
+            print(false)
+            completion(true)
+        }
+//        firestoreDB.document(userBlockingUid).collection(Constants.Blocked).document(userToBlockUid).addSnapshotListener { snapshot, error in
+//            if let error = error {
+//                print(error.localizedDescription)
+//                completion(false)
+//            }
+//            guard let dictionary = snapshot?.data() else { return }
+//            let isBlocked = dictionary as? Bool
+//            if isBlocked == true {
+//                print("is blocked true")
+//            } else {
+//                print("is blocked false")
+//            }
+//            completion(true)
+//        }
     }
 }
