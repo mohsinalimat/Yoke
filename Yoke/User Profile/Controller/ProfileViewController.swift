@@ -298,22 +298,22 @@ class ProfileViewController: UIViewController, TTGTextTagCollectionViewDelegate 
         let blockAction = UIAlertAction(title: "Block User", style: .default) { _ in
             let userToBlockUid = self.userId ?? (Auth.auth().currentUser?.uid ?? "")
             guard let userBlockingUid = Auth.auth().currentUser?.uid else { return }
-            ReportBlockController.shared.checkIfBlockedWith(userBlockingUid: userBlockingUid, userToBlockUid: userToBlockUid) { result in
-                switch result {
-                case true:
-                    print("")
-                case false:
-                    print("")
-                }
-            }
-//            ReportBlockController.shared.blockUserWith(userBlockingUid: userBlockingUid, userToBlockUid: userToBlockUid, isBlocked: <#Bool#>) { result in
+//            ReportBlockController.shared.checkIfBlockedWith(userBlockingUid: userBlockingUid, userToBlockUid: userToBlockUid) { result in
 //                switch result {
 //                case true:
-//                    print("true")
+//                    print("")
 //                case false:
-//                    print("false")
+//                    print("")
 //                }
 //            }
+            ReportBlockController.shared.blockUserWith(userBlockingUid: userBlockingUid, userToBlockUid: userToBlockUid) { result in
+                switch result {
+                case true:
+                    print("true")
+                case false:
+                    print("false")
+                }
+            }
         }
         let reportAction = UIAlertAction(title: "Report User", style: .default) { _ in
             print("report")

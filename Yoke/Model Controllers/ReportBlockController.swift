@@ -14,12 +14,30 @@ class ReportBlockController {
     static let shared = ReportBlockController()
     
     //MARK: - Firebase Firestore Database
-    let firestoreDB = Firestore.firestore().collection(Constants.Users)
+    let firestoreDB = Firestore.firestore().collection(Constants.Blocked)
     
     //MARK: - CRUD Functions
-    func blockUserWith(userBlockingUid: String, userToBlockUid: String, isBlocked: Bool, completion: @escaping (Bool) -> Void) {
-        firestoreDB.document(userBlockingUid).collection(Constants.Blocked).document(userToBlockUid).setData([userToBlockUid: isBlocked], merge: false)
-        firestoreDB.document(userToBlockUid).collection(Constants.BlockedBy).document(userBlockingUid).setData([userBlockingUid: isBlocked], merge: false)
+    func blockUserWith(userBlockingUid: String, userToBlockUid: String, completion: @escaping (Bool) -> Void) {
+        firestoreDB.document(userBlockingUid).collection(Constants.Blocked).document(userToBlockUid).getDocument { (document, error) in
+            if let document = document, document.exists {
+                self.firestoreDB.document(userBlockingUid).collection(Constants.Blocked).document(userToBlockUid).delete()
+                completion(true)
+            } else {
+                self.firestoreDB.document(userBlockingUid).collection(Constants.Blocked).document(userToBlockUid).setData([userToBlockUid: true], merge: false)
+                completion(false)
+                print("Document does not exist")
+            }
+        }
+        firestoreDB.document(userToBlockUid).collection(Constants.BlockedBy).document(userBlockingUid).getDocument { (document, error) in
+            if let document = document, document.exists {
+                self.firestoreDB.document(userToBlockUid).collection(Constants.Blocked).document(userBlockingUid).delete()
+                completion(true)
+            } else {
+                self.firestoreDB.document(userToBlockUid).collection(Constants.Blocked).document(userBlockingUid).setData([userBlockingUid: true], merge: false)
+                completion(false)
+                print("Document does not exist")
+            }
+        }
     }
     
     func checkIfBlockedWith(userBlockingUid: String, userToBlockUid: String, completion: @escaping (Bool) -> Void) {
@@ -28,7 +46,6 @@ class ReportBlockController {
                 print(error.localizedDescription)
                 completion(false)
             }
-            
 //            self.blockUserWith(userBlockingUid: userBlockingUid, userToBlockUid: userToBlockUid, isBlocked: false) { result in
 //                switch result {
 //                case true:
@@ -39,27 +56,5 @@ class ReportBlockController {
 //            }
             completion(true)
         }
-//        firestoreDB.document(userBlockingUid).collection(Constants.Blocked).whereField(userToBlockUid, isEqualTo: false).addSnapshotListener { snapshot, error in
-//            if let error = error {
-//                print(error.localizedDescription)
-//                completion(false)
-//            }
-//            print(false)
-//            completion(true)
-//        }
-//        firestoreDB.document(userBlockingUid).collection(Constants.Blocked).document(userToBlockUid).addSnapshotListener { snapshot, error in
-//            if let error = error {
-//                print(error.localizedDescription)
-//                completion(false)
-//            }
-//            guard let dictionary = snapshot?.data() else { return }
-//            let isBlocked = dictionary as? Bool
-//            if isBlocked == true {
-//                print("is blocked true")
-//            } else {
-//                print("is blocked false")
-//            }
-//            completion(true)
-//        }
     }
 }
