@@ -28,7 +28,14 @@ class ReportBlockController {
                 print(error.localizedDescription)
                 completion(false)
             }
-            print(true)
+            self.blockUserWith(userBlockingUid: userBlockingUid, userToBlockUid: userToBlockUid, isBlocked: false) { result in
+                switch result {
+                case true:
+                    print("true")
+                case false:
+                    print("false")
+                }
+            }
             completion(true)
         }
         firestoreDB.document(userBlockingUid).collection(Constants.Blocked).whereField(userToBlockUid, isEqualTo: false).addSnapshotListener { snapshot, error in
