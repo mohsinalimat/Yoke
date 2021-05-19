@@ -30,10 +30,10 @@ class ReportBlockController {
         }
         firestoreDB.document(userToBlockUid).collection(Constants.BlockedBy).document(userBlockingUid).getDocument { (document, error) in
             if let document = document, document.exists {
-                self.firestoreDB.document(userToBlockUid).collection(Constants.Blocked).document(userBlockingUid).delete()
+                self.firestoreDB.document(userToBlockUid).collection(Constants.BlockedBy).document(userBlockingUid).delete()
                 completion(true)
             } else {
-                self.firestoreDB.document(userToBlockUid).collection(Constants.Blocked).document(userBlockingUid).setData([userBlockingUid: true], merge: false)
+                self.firestoreDB.document(userToBlockUid).collection(Constants.BlockedBy).document(userBlockingUid).setData([userBlockingUid: true], merge: false)
                 completion(false)
                 print("Document does not exist")
             }
