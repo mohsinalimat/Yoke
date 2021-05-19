@@ -28,24 +28,25 @@ class ReportBlockController {
                 print(error.localizedDescription)
                 completion(false)
             }
-            self.blockUserWith(userBlockingUid: userBlockingUid, userToBlockUid: userToBlockUid, isBlocked: false) { result in
-                switch result {
-                case true:
-                    print("true")
-                case false:
-                    print("false")
-                }
-            }
+            
+//            self.blockUserWith(userBlockingUid: userBlockingUid, userToBlockUid: userToBlockUid, isBlocked: false) { result in
+//                switch result {
+//                case true:
+//                    print("true")
+//                case false:
+//                    print("false")
+//                }
+//            }
             completion(true)
         }
-        firestoreDB.document(userBlockingUid).collection(Constants.Blocked).whereField(userToBlockUid, isEqualTo: false).addSnapshotListener { snapshot, error in
-            if let error = error {
-                print(error.localizedDescription)
-                completion(false)
-            }
-            print(false)
-            completion(true)
-        }
+//        firestoreDB.document(userBlockingUid).collection(Constants.Blocked).whereField(userToBlockUid, isEqualTo: false).addSnapshotListener { snapshot, error in
+//            if let error = error {
+//                print(error.localizedDescription)
+//                completion(false)
+//            }
+//            print(false)
+//            completion(true)
+//        }
 //        firestoreDB.document(userBlockingUid).collection(Constants.Blocked).document(userToBlockUid).addSnapshotListener { snapshot, error in
 //            if let error = error {
 //                print(error.localizedDescription)
