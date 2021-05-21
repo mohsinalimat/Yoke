@@ -11,9 +11,9 @@ import FirebaseAuth
 import FirebaseStorage
 import FirebaseFirestore
 import TTGTagCollectionView
+import MessageUI
 
-
-class ProfileViewController: UIViewController, TTGTextTagCollectionViewDelegate {
+class ProfileViewController: UIViewController, TTGTextTagCollectionViewDelegate, MFMailComposeViewControllerDelegate {
 
     //MARK: - Properties
     var safeArea: UILayoutGuide {
@@ -352,11 +352,22 @@ class ProfileViewController: UIViewController, TTGTextTagCollectionViewDelegate 
             if let textFields = alertController.textFields{
                 let theTextFields = textFields as [UITextField]
                 let enteredText = theTextFields[0].text
-                print(enteredText)
+                guard let text = enteredText else { return }
+                let picker = MFMailComposeViewController()
+                picker.mailComposeDelegate = self
+                picker.setSubject("Yoke user report!!!")
+                picker.setMessageBody(text, isHTML: true)
+                
             }
         })
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel)
         alertController.addAction(action)
+        alertController.addAction(cancelAction)
         self.present(alertController, animated: true)
+    }
+    
+    func mailComposeController(_ controller: MFMailComposeViewController, didFinishWith result: MFMailComposeResult, error: Error?) {
+         dismiss(animated: true, completion: nil)
     }
     
     //MARK: - Selectors
