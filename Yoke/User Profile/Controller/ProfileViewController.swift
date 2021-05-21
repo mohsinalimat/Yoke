@@ -294,29 +294,25 @@ class ProfileViewController: UIViewController, TTGTextTagCollectionViewDelegate 
     }
     
     @objc func handleBlockReport() {
-        
         let userToBlockUid = self.userId ?? (Auth.auth().currentUser?.uid ?? "")
         guard let userBlockingUid = Auth.auth().currentUser?.uid else { return }
         ReportBlockController.shared.checkIfBlocked(userBlockingUid: userBlockingUid, userToBlockUid: userToBlockUid) { result in
             switch result {
             case true:
-                print("unblock")
-                self.unblocke()
+                self.unblock()
             case false:
-                print("block")
                 self.block()
             }
         }
         
     }
     
-    func unblocke() {
+    func unblock() {
         let menu = UIAlertController(title: "Choose Option" , message: "", preferredStyle: .actionSheet)
         let unBlockAction = UIAlertAction(title: "Unblock", style: .default) { _ in
             self.blockUnblock()
         }
         let reportAction = UIAlertAction(title: "Report User", style: .default) { _ in
-            print("report")
             self.reportUser()
         }
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel)
