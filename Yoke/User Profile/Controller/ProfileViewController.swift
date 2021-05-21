@@ -276,37 +276,7 @@ class ProfileViewController: UIViewController, TTGTextTagCollectionViewDelegate 
         }
     }
     
-    //MARK: - Selectors
-    @objc func viewReviews() {
-        let reviewsVC = ReviewsCollectionViewController(collectionViewLayout: UICollectionViewFlowLayout())
-        reviewsVC.userId = userId
-        navigationController?.pushViewController(reviewsVC, animated: true)
-    }
-    
-    @objc func handleSendRequest() {
-        let requestVC = BookingRequestViewController()
-        requestVC.userId = userId
-        navigationController?.pushViewController(requestVC, animated: true)
-//        let chatVC = ChatCollectionViewController(collectionViewLayout: UICollectionViewFlowLayout())
-//        print("pressed")
-//        chatVC.userId = userId
-//        navigationController?.pushViewController(chatVC, animated: true)
-    }
-    
-    @objc func handleBlockReport() {
-        let userToBlockUid = self.userId ?? (Auth.auth().currentUser?.uid ?? "")
-        guard let userBlockingUid = Auth.auth().currentUser?.uid else { return }
-        ReportBlockController.shared.checkIfBlocked(userBlockingUid: userBlockingUid, userToBlockUid: userToBlockUid) { result in
-            switch result {
-            case true:
-                self.unblock()
-            case false:
-                self.block()
-            }
-        }
-        
-    }
-    
+    //MARK: - Blocking functions
     func unblock() {
         let menu = UIAlertController(title: "Choose Option" , message: "", preferredStyle: .actionSheet)
         let unBlockAction = UIAlertAction(title: "Unblock", style: .default) { _ in
@@ -376,12 +346,10 @@ class ProfileViewController: UIViewController, TTGTextTagCollectionViewDelegate 
     func reportCustomReason() {
         let alertController = UIAlertController(title: "Report User", message: "Please let us know the reason for reporting \(reportUsername)", preferredStyle: .alert)
         alertController.addTextField(configurationHandler: {(textField: UITextField!) in
-            textField.placeholder = "Enter here"
+            textField.placeholder = "Enter reason here"
         })
-        let action = UIAlertAction(title: "Submit", style: .default,
-                                   handler: {[weak self]
-                                   (paramAction:UIAlertAction!) in
-                                    if let textFields = alertController.textFields{
+        let action = UIAlertAction(title: "Submit", style: .default, handler: {[weak self] (paramAction:UIAlertAction!) in
+            if let textFields = alertController.textFields{
                 let theTextFields = textFields as [UITextField]
                 let enteredText = theTextFields[0].text
                 print(enteredText)
@@ -390,7 +358,38 @@ class ProfileViewController: UIViewController, TTGTextTagCollectionViewDelegate 
         alertController.addAction(action)
         self.present(alertController, animated: true)
     }
-
+    
+    //MARK: - Selectors
+    @objc func viewReviews() {
+        let reviewsVC = ReviewsCollectionViewController(collectionViewLayout: UICollectionViewFlowLayout())
+        reviewsVC.userId = userId
+        navigationController?.pushViewController(reviewsVC, animated: true)
+    }
+    
+    @objc func handleSendRequest() {
+        let requestVC = BookingRequestViewController()
+        requestVC.userId = userId
+        navigationController?.pushViewController(requestVC, animated: true)
+//        let chatVC = ChatCollectionViewController(collectionViewLayout: UICollectionViewFlowLayout())
+//        print("pressed")
+//        chatVC.userId = userId
+//        navigationController?.pushViewController(chatVC, animated: true)
+    }
+    
+    @objc func handleBlockReport() {
+        let userToBlockUid = self.userId ?? (Auth.auth().currentUser?.uid ?? "")
+        guard let userBlockingUid = Auth.auth().currentUser?.uid else { return }
+        ReportBlockController.shared.checkIfBlocked(userBlockingUid: userBlockingUid, userToBlockUid: userToBlockUid) { result in
+            switch result {
+            case true:
+                self.unblock()
+            case false:
+                self.block()
+            }
+        }
+        
+    }
+    
     //MARK: - Views
     lazy var scrollView: UIScrollView = {
         let view = UIScrollView()
