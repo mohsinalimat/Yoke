@@ -295,35 +295,50 @@ class ProfileViewController: UIViewController, TTGTextTagCollectionViewDelegate 
     
     @objc func handleBlockReport() {
         let menu = UIAlertController(title: "Choose Option" , message: "", preferredStyle: .actionSheet)
-        let blockAction = UIAlertAction(title: "Block User", style: .default) { _ in
-            let userToBlockUid = self.userId ?? (Auth.auth().currentUser?.uid ?? "")
-            guard let userBlockingUid = Auth.auth().currentUser?.uid else { return }
-//            ReportBlockController.shared.checkIfBlockedWith(userBlockingUid: userBlockingUid, userToBlockUid: userToBlockUid) { result in
-//                switch result {
-//                case true:
-//                    print("")
-//                case false:
-//                    print("")
-//                }
-//            }
-            ReportBlockController.shared.blockUserWith(userBlockingUid: userBlockingUid, userToBlockUid: userToBlockUid) { result in
-                switch result {
-                case true:
-                    print("true")
-                case false:
-                    print("false")
-                }
+        
+        let blockAction = UIAlertAction(title: "Block", style: .default) { _ in
+            self.blockUnblock()
+        }
+        let unBlockAction = UIAlertAction(title: "Unblock", style: .default) { _ in
+            self.blockUnblock()
+        }
+        
+        let userToBlockUid = self.userId ?? (Auth.auth().currentUser?.uid ?? "")
+        guard let userBlockingUid = Auth.auth().currentUser?.uid else { return }
+        ReportBlockController.shared.checkIfBlocked(userBlockingUid: userBlockingUid, userToBlockUid: userToBlockUid) { result in
+            switch result {
+            case true:
+                print("case true")
+                menu.addAction(unBlockAction)
+            case false:
+                print("case false")
+                menu.addAction(blockAction)
             }
         }
+        
         let reportAction = UIAlertAction(title: "Report User", style: .default) { _ in
             print("report")
             self.reportUser()
         }
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel)
-        menu.addAction(blockAction)
+//        menu.addAction(blockAction)
+//        menu.addAction(unBlockAction)
         menu.addAction(reportAction)
         menu.addAction(cancelAction)
         self.present(menu, animated: true)
+    }
+    
+    func blockUnblock() {
+        let userToBlockUid = self.userId ?? (Auth.auth().currentUser?.uid ?? "")
+        guard let userBlockingUid = Auth.auth().currentUser?.uid else { return }
+        ReportBlockController.shared.blockUserWith(userBlockingUid: userBlockingUid, userToBlockUid: userToBlockUid) { result in
+            switch result {
+            case true:
+                print("true")
+            case false:
+                print("false")
+            }
+        }
     }
     
     func reportUser() {

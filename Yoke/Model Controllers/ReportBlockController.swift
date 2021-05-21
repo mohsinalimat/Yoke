@@ -40,21 +40,25 @@ class ReportBlockController {
         }
     }
     
-    func checkIfBlockedWith(userBlockingUid: String, userToBlockUid: String, completion: @escaping (Bool) -> Void) {
-        firestoreDB.document(userBlockingUid).collection(Constants.Blocked).whereField(userToBlockUid, isEqualTo: true).addSnapshotListener { snapshot, error in
-            if let error = error {
-                print(error.localizedDescription)
+    func checkIfBlockedBy(userBlockingUid: String, userToBlockUid: String, completion: @escaping (Bool) -> Void) {
+        firestoreDB.document(userToBlockUid).collection(Constants.BlockedBy).document(userBlockingUid).getDocument { (document, error) in
+            if let document = document, document.exists {
+                completion(true)
+            } else {
                 completion(false)
+                print("Document does not exist")
             }
-//            self.blockUserWith(userBlockingUid: userBlockingUid, userToBlockUid: userToBlockUid, isBlocked: false) { result in
-//                switch result {
-//                case true:
-//                    print("true")
-//                case false:
-//                    print("false")
-//                }
-//            }
+        }
+    }
+    
+    func checkIfBlocked(userBlockingUid: String, userToBlockUid: String, completion: @escaping (Bool) -> Void) {
+        firestoreDB.document(userBlockingUid).collection(Constants.Blocked).whereField(userToBlockUid, isEqualTo: true).addSnapshotListener { documentSnapshot, error in
+            guard let document = documentSnapshot else {
+                print("Error fetching document: \(error!)")
+                return
+            }
             completion(true)
         }
+        completion(false)
     }
 }
