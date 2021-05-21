@@ -294,35 +294,50 @@ class ProfileViewController: UIViewController, TTGTextTagCollectionViewDelegate 
     }
     
     @objc func handleBlockReport() {
-        let menu = UIAlertController(title: "Choose Option" , message: "", preferredStyle: .actionSheet)
-        
-        let blockAction = UIAlertAction(title: "Block", style: .default) { _ in
-            self.blockUnblock()
-        }
-        let unBlockAction = UIAlertAction(title: "Unblock", style: .default) { _ in
-            self.blockUnblock()
-        }
         
         let userToBlockUid = self.userId ?? (Auth.auth().currentUser?.uid ?? "")
         guard let userBlockingUid = Auth.auth().currentUser?.uid else { return }
         ReportBlockController.shared.checkIfBlocked(userBlockingUid: userBlockingUid, userToBlockUid: userToBlockUid) { result in
             switch result {
             case true:
-                print("case true")
-                menu.addAction(unBlockAction)
+                print("unblock")
+                self.unblocke()
             case false:
-                print("case false")
-                menu.addAction(blockAction)
+                print("blocke")
+                self.block()
             }
         }
         
+    }
+    
+    func unblocke() {
+        let menu = UIAlertController(title: "Choose Option" , message: "", preferredStyle: .actionSheet)
+        let unBlockAction = UIAlertAction(title: "Unblock", style: .default) { _ in
+            self.blockUnblock()
+        }
         let reportAction = UIAlertAction(title: "Report User", style: .default) { _ in
             print("report")
             self.reportUser()
         }
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel)
-//        menu.addAction(blockAction)
-//        menu.addAction(unBlockAction)
+        menu.addAction(unBlockAction)
+        menu.addAction(reportAction)
+        menu.addAction(cancelAction)
+        self.present(menu, animated: true)
+    }
+    
+    func block() {
+        let menu = UIAlertController(title: "Choose Option" , message: "", preferredStyle: .actionSheet)
+        
+        let blockAction = UIAlertAction(title: "Block", style: .default) { _ in
+            self.blockUnblock()
+        }
+        let reportAction = UIAlertAction(title: "Report User", style: .default) { _ in
+            print("report")
+            self.reportUser()
+        }
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel)
+        menu.addAction(blockAction)
         menu.addAction(reportAction)
         menu.addAction(cancelAction)
         self.present(menu, animated: true)
