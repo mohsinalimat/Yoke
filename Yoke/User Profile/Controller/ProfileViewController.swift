@@ -303,7 +303,7 @@ class ProfileViewController: UIViewController, TTGTextTagCollectionViewDelegate 
                 print("unblock")
                 self.unblocke()
             case false:
-                print("blocke")
+                print("block")
                 self.block()
             }
         }
