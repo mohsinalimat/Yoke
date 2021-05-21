@@ -40,17 +40,6 @@ class ReportBlockController {
         }
     }
     
-    func checkIfBlockedBy(userBlockingUid: String, userToBlockUid: String, completion: @escaping (Bool) -> Void) {
-        firestoreDB.document(userToBlockUid).collection(Constants.BlockedBy).document(userBlockingUid).getDocument { (document, error) in
-            if let document = document, document.exists {
-                completion(true)
-            } else {
-                completion(false)
-                print("Document does not exist")
-            }
-        }
-    }
-    
     func checkIfBlocked(userBlockingUid: String, userToBlockUid: String, completion: @escaping (Bool) -> Void) {
         firestoreDB.document(userBlockingUid).collection(Constants.Blocked).document(userToBlockUid).getDocument { (document, error) in
             if let document = document, document.exists {
