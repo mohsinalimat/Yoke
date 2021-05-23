@@ -323,13 +323,28 @@ class ProfileViewController: UIViewController, TTGTextTagCollectionViewDelegate,
     }
     
     func reportUser() {
+        let uidReporting = self.userId ?? (Auth.auth().currentUser?.uid ?? "")
+        guard let uidBeingReported = Auth.auth().currentUser?.uid else { return }
         let reportSheet = UIAlertController(title: "Report" , message: "Please let us know why you are reporting this user.", preferredStyle: .actionSheet)
         let inappropriateAction = UIAlertAction(title: "User is being inappropriate", style: .default) { _ in
-            
-           
+            ReportBlockController.shared.sendReport(sendingReportUserUid: uidReporting, userBeingReportedUid: uidBeingReported, text: "User is being inappropriate") { result in
+                switch result {
+                case true:
+                    print("sent")
+                case false:
+                    print("error sending report")
+                }
+            }
         }
         let notUserAction = UIAlertAction(title: "User isn't who they say they are", style: .default) { _ in
-            
+            ReportBlockController.shared.sendReport(sendingReportUserUid: uidReporting, userBeingReportedUid: uidBeingReported, text: "User isn't who they say they are") { result in
+                switch result {
+                case true:
+                    print("sent")
+                case false:
+                    print("error sending report")
+                }
+            }
         }
         
         let otherAction = UIAlertAction(title: "Other", style: .default) { _ in
