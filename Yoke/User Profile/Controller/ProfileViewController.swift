@@ -353,11 +353,10 @@ class ProfileViewController: UIViewController, TTGTextTagCollectionViewDelegate,
                 let theTextFields = textFields as [UITextField]
                 let enteredText = theTextFields[0].text
                 guard let text = enteredText else { return }
-                let picker = MFMailComposeViewController()
-                picker.mailComposeDelegate = self
-                picker.setSubject("Yoke user report!!!")
-                picker.setMessageBody(text, isHTML: true)
-                
+                let uid = self?.userId ?? (Auth.auth().currentUser?.uid ?? "")
+                UserController.shared.fetchUserWithUID(uid: uid) { (user) in
+                    self?.reportUsername = "\(user.username) <\(user.uid)>"
+                }
             }
         })
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel)
