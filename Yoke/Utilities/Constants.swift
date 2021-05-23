@@ -30,6 +30,7 @@ class Constants {
     static let Archive = "archive"
     static let Blocked = "blocked"
     static let BlockedBy = "blockedBy"
+    static let Report = "report"
     
     static let Menu = "menu"
     static let Cuisine = "cuisine"

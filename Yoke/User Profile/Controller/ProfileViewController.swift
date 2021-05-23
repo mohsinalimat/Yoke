@@ -355,7 +355,7 @@ class ProfileViewController: UIViewController, TTGTextTagCollectionViewDelegate,
                 guard let text = enteredText else { return }
                 let uid = self?.userId ?? (Auth.auth().currentUser?.uid ?? "")
                 UserController.shared.fetchUserWithUID(uid: uid) { (user) in
-                    self?.reportUsername = "\(user.username) <\(user.uid)>"
+                        
                 }
             }
         })

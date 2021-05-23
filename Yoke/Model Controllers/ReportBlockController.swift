@@ -15,6 +15,7 @@ class ReportBlockController {
     
     //MARK: - Firebase Firestore Database
     let firestoreDB = Firestore.firestore().collection(Constants.Blocked)
+    let reportFirestoreDB = Firestore.firestore().collection(Constants.Report)
     
     //MARK: - CRUD Functions
     func blockUserWith(userBlockingUid: String, userToBlockUid: String, completion: @escaping (Bool) -> Void) {
@@ -37,6 +38,16 @@ class ReportBlockController {
                 completion(false)
                 print("Document does not exist")
             }
+        }
+    }
+    
+    func sendReport(sendingReportUserUid: String, userBeingReportedUid: String, text: String, completion: @escaping (Bool) -> Void) {
+        reportFirestoreDB.addDocument(data: ["userSendingReport": sendingReportUserUid, "userBeingReported": userBeingReportedUid, Constants.Text: text, Constants.Timestamp: Date().timeIntervalSince1970]) { error in
+            if let error = error {
+                print(error.localizedDescription)
+                completion(false)
+            }
+            completion(true)
         }
     }
     
