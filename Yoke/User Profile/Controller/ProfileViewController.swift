@@ -353,9 +353,15 @@ class ProfileViewController: UIViewController, TTGTextTagCollectionViewDelegate,
                 let theTextFields = textFields as [UITextField]
                 let enteredText = theTextFields[0].text
                 guard let text = enteredText else { return }
-                let uid = self?.userId ?? (Auth.auth().currentUser?.uid ?? "")
-                UserController.shared.fetchUserWithUID(uid: uid) { (user) in
-                        
+                let uidReporting = self?.userId ?? (Auth.auth().currentUser?.uid ?? "")
+                guard let uidBeingReported = Auth.auth().currentUser?.uid else { return }
+                ReportBlockController.shared.sendReport(sendingReportUserUid: uidReporting, userBeingReportedUid: uidBeingReported, text: text) { result in
+                    switch result {
+                    case true:
+                        print("sent")
+                    case false:
+                        print("error sending report")
+                    }
                 }
             }
         })
