@@ -55,7 +55,6 @@ Demo.prototype.signIn = function () {
 Demo.prototype.stripe = function () {
   window.open(window.location.href + 'authorize', "_self");
 }
-let elmButton = document.querySelector("#submit");
 
 Demo.prototype.stripeStandard = function () {
   fetch("/onboard-user", {

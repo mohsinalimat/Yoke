@@ -88,8 +88,58 @@ app.get('/hello', (req, res) => {
     // @ts-ignore
     res.send(`Hello ${req.user.uid}`)
 })
+
+app.post("/onboard-user", async (req, res) => {
+    try {
+        const account = await stripe.accounts.create({ type: "standard" });
+        req.session.accountID = account.id;
+
+        const origin = `${req.headers.origin}`;
+        const accountLinkURL = await generateAccountLink(account.id, origin);
+        docRef.doc(req.user.uid).set({ stripeId: accountID, stripeLoginLink: accountLinkURL })
+        res.send({ url: accountLinkURL });
+    } catch (err) {
+        res.status(500).send({
+            error: err.message,
+        });
+    }
+});
+
+app.get("/onboard-user/refresh", async (req, res) => {
+    if (!req.session.accountID) {
+        res.redirect("/");
+        return;
+    }
+    try {
+        const { accountID } = req.session;
+        const origin = `${req.secure ? "https://" : "https://"}${req.headers.host}`;
+        const accountLinkURL = await generateAccountLink(accountID, origin);
+        docRef.doc(req.user.uid).set({ stripeId: accountID, stripeLoginLink: accountLinkURL })
+        res.redirect(accountLinkURL);
+    } catch (err) {
+        res.status(500).send({
+            error: err.message,
+        });
+    }
+});
+
+function generateAccountLink(accountID, origin) {
+    return stripe.accountLinks
+        .create({
+            type: "account_onboarding",
+            account: accountID,
+            refresh_url: `${origin}/onboard-user/refresh`,
+            return_url: `${origin}/success.html`,
+        })
+        .then((link) => link.url);
+}
+
+
+
 app.get('/authorize', async (req, res) => {
-    res.redirect('https://connect.stripe.com/express/oauth/authorize?redirect_uri=https://foodapp-4ebf0.web.app/token&client_id=ca_FJy4SUnn4WnkK81JVAR5CZhwEACACSIO&state={STATE_VALUE}&suggested_capabilities[]=transfers')
+    // res.redirect('https://connect.stripe.com/express/oauth/authorize?redirect_uri=https://foodapp-4ebf0.web.app/token&client_id=ca_FJy4SUnn4WnkK81JVAR5CZhwEACACSIO&state={STATE_VALUE}&suggested_capabilities[]=transfers')
+    // res.redirect('https://connect.stripe.com/oauth/redirect_uri=https://foodapp-4ebf0.web.app/token&authorize?response_type=code&client_id=ca_FkyHCg7X8mlvCUdMDao4mMxagUfhIwXb&scope=read_write')
+    res.redirect('https://connect.stripe.com/oauth/authorize?response_type=code&client_id=ca_FkyHCg7X8mlvCUdMDao4mMxagUfhIwXb&scope=read_write&redirect_uri=https://foodapp-4ebf0.web.app/token')
 })
 
 app.get('/token', async (req, res) => {
@@ -114,19 +164,32 @@ app.get('/token', async (req, res) => {
                 if (err || body.error) {
                     console.log('The Stripe onboarding process has not succeeded.')
                 } else {
+                    stripe.accounts.create({type: "standard"})
                     console.log(body.stripe_user_id)
                     var connected_account_id = body.stripe_user_id
-                    stripe.accounts.createLoginLink(
-                        connected_account_id,
-                        (err, loginLink) => {
-                            if (err) {
-                                console.log(err)
-                            } else {
-                                docRef.doc(req.user.uid).set({ stripeId: connected_account_id, stripeLoginLink: loginLink.url })
-                                res.redirect(loginLink.url)
-                            }
-                        }
-                    )
+                    stripe.accountLinks
+                        .create({
+                            type: "account_onboarding",
+                            account: connected_account_id,
+                            refresh_url: `${origin}/onboard-user/refresh`,
+                            return_url: `${origin}/success.html`,
+                        })
+                        .then((link) => {
+                            docRef.doc(req.user.uid).set({ stripeId: connected_account_id, stripeLoginLink: link.url })
+                            res.redirect(link.url)
+                        })
+
+                    // stripe.accounts.createLoginLink(
+                    //     connected_account_id,
+                    //     (err, loginLink) => {
+                    //         if (err) {
+                    //             console.log(err)
+                    //         } else {
+                    //             docRef.doc(req.user.uid).set({ stripeId: connected_account_id, stripeLoginLink: loginLink.url })
+                    //             res.redirect(loginLink.url)
+                    //         }
+                    //     }
+                    // )
                 }
 
             }
@@ -137,10 +200,10 @@ app.get('/token', async (req, res) => {
 })
 
 exports.createStripeCustomer = functions.firestore.document('stripe_customers/{userId}').onCreate(async (snap, context) => {
-  const data = snap.data();
-  const email = data['email'];
-  const customer = await stripe.customers.create({ email: email });
-  return admin.firestore().collection('stripe_customers').doc(data['id']).update({ customer_id: customer.id });
+    const data = snap.data();
+    const email = data['email'];
+    const customer = await stripe.customers.create({ email: email });
+    return admin.firestore().collection('stripe_customers').doc(data['id']).update({ customer_id: customer.id });
 });
 
 exports.createEphemeralKey = functions.https.onCall(async (data, context) => {
@@ -178,20 +241,20 @@ exports.createCharge = functions.https.onCall(async (data, context) => {
         confirm: true,
         payment_method_types: ['card'],
         transfer_data: {
-          destination: destination,
+            destination: destination,
         },
     }, {
-            idempotency_key: idempotency
-        }).then(intent => {
-            // const charge = db.collection('stripe_charges').doc(intent.id).set({ intent })
-            const charge = db.collection('stripe_customers').doc(uid).collection('charges').doc(intent.id).set({ intent })
-            console.log('uid user', context.auth.uid)
-            console.log('Charge Success: ', intent)
-            return charge
-        }).catch(err => {
-            console.log(err);
-            throw new functions.https.HttpsError('internal', ' Unable to create charge: ' + err);
-        });
+        idempotency_key: idempotency
+    }).then(intent => {
+        // const charge = db.collection('stripe_charges').doc(intent.id).set({ intent })
+        const charge = db.collection('stripe_customers').doc(uid).collection('charges').doc(intent.id).set({ intent })
+        console.log('uid user', context.auth.uid)
+        console.log('Charge Success: ', intent)
+        return charge
+    }).catch(err => {
+        console.log(err);
+        throw new functions.https.HttpsError('internal', ' Unable to create charge: ' + err);
+    });
 });
 
 exports.app = functions.https.onRequest(app)
