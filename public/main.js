@@ -3,6 +3,7 @@ function Demo() {
     this.signInButton = document.getElementById('demo-sign-in-button');
     this.signOutButton = document.getElementById('demo-sign-out-button');
     this.stripeButton = document.getElementById('stripe-sign-up-button');
+    this.stripeStandardButton = document.getElementById('stripe-standard-sign-up-button')
     this.emailInput = document.getElementById('email')
     this.passwordInput = document.getElementById('password')
     this.responseContainer = document.getElementById('demo-response');
@@ -18,6 +19,7 @@ function Demo() {
     this.signInButton.addEventListener('click', this.signIn.bind(this));
     this.signOutButton.addEventListener('click', this.signOut.bind(this));
     this.stripeButton.addEventListener('click', this.stripe.bind(this));
+    this.stripeStandardButton.addEventListener('click', this.stripeStandard.bind(this));
     firebase.auth().onAuthStateChanged(this.onAuthStateChanged.bind(this));
   }.bind(this));
 }
@@ -52,6 +54,24 @@ Demo.prototype.signIn = function () {
 
 Demo.prototype.stripe = function () {
   window.open(window.location.href + 'authorize', "_self");
+}
+let elmButton = document.querySelector("#submit");
+
+Demo.prototype.stripeStandard = function () {
+  fetch("/onboard-user", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    }
+  })
+    .then(response => response.json())
+    .then(data => {
+      if (data.url) {
+        window.location = data.url;
+      } else {
+        console.log("data went wrong", data);
+      }
+    });
 }
 
 // Signs-out of Firebase.
