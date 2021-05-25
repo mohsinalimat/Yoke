@@ -48,6 +48,7 @@ class PaymentViewController: UIViewController {
         scrollView.addSubview(paymentHeaderLabel)
         scrollView.addSubview(pendingAmountLabel)
         scrollView.addSubview(payoutButton)
+        scrollView.addSubview(stripeLabel)
         
     }
     
@@ -57,7 +58,8 @@ class PaymentViewController: UIViewController {
         paymentHeaderViews.anchor(top: scrollView.topAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 20, paddingLeft: 10, paddingBottom: 50, paddingRight: 10, height: 200)
         paymentHeaderLabel.anchor(top: paymentHeaderViews.topAnchor, left: paymentHeaderViews.leftAnchor, bottom: nil, right: paymentHeaderViews.rightAnchor, paddingTop: 5, paddingLeft: 5, paddingBottom: 0, paddingRight: 5)
         pendingAmountLabel.anchor(top: paymentHeaderLabel.bottomAnchor, left: paymentHeaderViews.leftAnchor, bottom: nil, right: paymentHeaderViews.rightAnchor, paddingTop: 5, paddingLeft: 5, paddingBottom: 0, paddingRight: 5)
-        payoutButton.anchor(top: pendingAmountLabel.bottomAnchor, left: paymentHeaderViews.leftAnchor, bottom: nil, right: paymentHeaderViews.rightAnchor, paddingTop: 5, paddingLeft: 5, paddingBottom: 0, paddingRight: 5)
+        payoutButton.anchor(top: pendingAmountLabel.bottomAnchor, left: paymentHeaderViews.leftAnchor, bottom: nil, right: paymentHeaderViews.rightAnchor, paddingTop: 15, paddingLeft: 10, paddingBottom: 0, paddingRight: 10, height: 45)
+        stripeLabel.anchor(top: payoutButton.bottomAnchor, left: paymentHeaderViews.leftAnchor, bottom: nil, right: paymentHeaderViews.rightAnchor, paddingTop: 5, paddingLeft: 5, paddingBottom: 0, paddingRight: 5)
         
     }
     
@@ -137,8 +139,13 @@ class PaymentViewController: UIViewController {
     var payoutButton: UIButton = {
         let button = UIButton()
         button.setTitle("View Payouts", for: .normal)
-        button.setTitleColor(UIColor.orangeColor(), for: .normal)
-        button.titleLabel?.font = .systemFont(ofSize: 15)
+        button.setTitleColor(.white, for: .normal)
+        button.backgroundColor = UIColor.orangeColor()
+        button.layer.cornerRadius = 10
+        button.layer.shadowOffset = CGSize(width: 0, height: 4)
+        button.layer.shadowRadius = 4
+        button.layer.shadowOpacity = 0.2
+        button.layer.shadowColor = UIColor.lightGray.cgColor
         button.addTarget(self, action: #selector(handleStripe), for: .touchUpInside)
         return button
     }()
@@ -148,7 +155,8 @@ class PaymentViewController: UIViewController {
         label.text = "We partner with Stripe.com for secure payments and financial services."
         label.textColor = UIColor.lightGray
         label.textAlignment = .center
-        label.font = UIFont.systemFont(ofSize: 18)
+        label.numberOfLines = 0
+        label.font = UIFont.systemFont(ofSize: 13)
         return label
     }()
     
