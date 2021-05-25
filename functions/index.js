@@ -93,6 +93,7 @@ app.get('/hello', (req, res) => {
 })
 
 app.get('/authorize', async (req, res) => {
+    //For stripe express account
     // res.redirect('https://connect.stripe.com/express/oauth/authorize?redirect_uri=https://foodapp-4ebf0.web.app/token&client_id=ca_FJy4SUnn4WnkK81JVAR5CZhwEACACSIO&state={STATE_VALUE}&suggested_capabilities[]=transfers')
     res.redirect('https://connect.stripe.com/oauth/v2/authorize?redirect_uri=https://foodapp-4ebf0.web.app/token&client_id=ca_FJy4SUnn4WnkK81JVAR5CZhwEACACSIO&response_type=code')
 })
@@ -119,19 +120,9 @@ app.get('/token', async (req, res) => {
                     console.log('The Stripe onboarding process has not succeeded.')
                 } else {
                     var connected_account_id = body.stripe_user_id
-                    // docRef.doc(req.user.uid).set({ stripeId: connected_account_id })
-                    stripe.accountLinks
-                        .create({
-                            type: "account_onboarding",
-                            account: connected_account_id,
-                            refresh_url: `${origin}/onboard-user/refresh`,
-                            return_url: `${origin}/success.html`,
-                        })
-                        .then((link) => {
-                            docRef.doc(req.user.uid).set({ stripeId: connected_account_id, stripeLoginLink: link.url })
-                            res.redirect(link.url)
-                        })
-
+                    docRef.doc(req.user.uid).set({ stripeId: connected_account_id })
+                    res.redirect('https://dashboard.stripe.com/login')
+                    //For stripe express account
                     // stripe.accounts.createLoginLink(
                     //     connected_account_id,
                     //     (err, loginLink) => {
