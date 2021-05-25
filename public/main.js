@@ -54,11 +54,12 @@ Demo.prototype.signIn = function () {
 
 Demo.prototype.stripe = function () {
   window.open(window.location.href + 'authorize', "_self");
+  // window.open(window.location.href + 'get-oauth-link', "_self")
 }
 
 Demo.prototype.stripeStandard = function () {
-  fetch("/onboard-user", {
-    method: "POST",
+  fetch("/get-oauth-link", {
+    method: "GET",
     headers: {
       "Content-Type": "application/json"
     }
@@ -68,7 +69,9 @@ Demo.prototype.stripeStandard = function () {
       if (data.url) {
         window.location = data.url;
       } else {
-        console.log("data went wrong", data);
+        elmButton.removeAttribute("disabled");
+        elmButton.textContent = "<Something went wrong>";
+        console.log("data", data);
       }
     });
 }
