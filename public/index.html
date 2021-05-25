@@ -33,7 +33,6 @@
             <p>
               For security reasons please sign in with your Yoke account so you can start getting paid<br>
             </p>
-            <h1>Connect with Stripe</h1>
             Email <br />
             <input type="email" id="email" /><br />
             Password <br />
@@ -42,11 +41,10 @@
               class="mdl-color-text--grey-700 mdl-button--raised mdl-button mdl-js-button mdl-js-ripple-effect" ><i
                 class="material-icons">account_circle</i> Sign in</button>
                 <div class="loader"></div> 
-                <h1>Already connected?</h1>
-                <span id="demo-url">Visit 
+                <div id="title">Already connected?</div>
+                <div id="visit">Go to  
                   <a href="https://dashboard.stripe.com/login">Stripe Dashboard Login</a>
-                  for more information
-                  </span><br><br>
+                </div><br><br>
           </div>
         </div>
 
@@ -55,16 +53,18 @@
           <div class="mdl-card__supporting-text mdl-color-text--grey-600">
             <strong>Connect to Stripe</strong>
             <p>
-              Yoke the app partners with Stripe for secure payments and financial services.<br>
+              Yoke the app partners with Stripe for secure payments and financial services.</p>
+              <br>
+              <br>
               <!-- Response: <span id="demo-response">...</span> -->
               <button id="stripe-sign-up-button"
               class="mdl-color-text--grey-700 mdl-button--raised mdl-button mdl-js-button mdl-js-ripple-effect">Connect to Stripe</button>
+              <br>
               <br>
               <span id="demo-url">Visit 
                 <a href="https://stripe.com/connect">Stripe Connect</a>
                 for more information
                 </span><br><br>
-            </p>
             <button id="demo-sign-out-button"
               class="mdl-color-text--grey-700 mdl-button--raised mdl-button mdl-js-button mdl-js-ripple-effect">Sign
               out</button>

@@ -106,8 +106,8 @@ class PaymentsVC: UICollectionViewController, UICollectionViewDelegateFlowLayout
     }
 
     func viewHandleStripe() {
-        let withdrawl = StripeSignupVC()
-        navigationController?.pushViewController(withdrawl, animated: true)
+//        let withdrawl = StripeSignupVC()
+//        navigationController?.pushViewController(withdrawl, animated: true)
     }
     
     func viewCreateInvoice() {
@@ -120,10 +120,10 @@ class PaymentsVC: UICollectionViewController, UICollectionViewDelegateFlowLayout
 //                self.navigationController?.pushViewController(invoice, animated: true)
 
             } else {
-                let vc = StripeSignupVC()
-                vc.modalPresentationStyle = .overCurrentContext
-                vc.modalTransitionStyle = .crossDissolve
-                self.present(vc, animated: true, completion: nil)
+//                let vc = StripeSignupVC()
+//                vc.modalPresentationStyle = .overCurrentContext
+//                vc.modalTransitionStyle = .crossDissolve
+//                self.present(vc, animated: true, completion: nil)
             }
         }
     }

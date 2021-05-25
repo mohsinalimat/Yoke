@@ -88,8 +88,8 @@ class PaymentViewController: UIViewController {
     
     //MARK: - Selectors
     @objc func handleStripe() {
-        let createStripeAccountVC = StripeAccountViewController()
-        navigationController?.pushViewController(createStripeAccountVC, animated: true)
+        let payoutsVC = PayoutsViewController()
+        navigationController?.pushViewController(payoutsVC, animated: true)
     }
     
     @objc func handleSegSelection(index: Int) {
@@ -141,6 +141,15 @@ class PaymentViewController: UIViewController {
         button.titleLabel?.font = .systemFont(ofSize: 15)
         button.addTarget(self, action: #selector(handleStripe), for: .touchUpInside)
         return button
+    }()
+    
+    let stripeLabel: UILabel = {
+        let label = UILabel()
+        label.text = "We partner with Stripe.com for secure payments and financial services."
+        label.textColor = UIColor.lightGray
+        label.textAlignment = .center
+        label.font = UIFont.systemFont(ofSize: 18)
+        return label
     }()
     
     let todaysCollectionView: UICollectionView = {
