@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="description" content="Demonstrates how to send a welcome email using Firebase Functions.">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Setup payouts on Stripe</title>
+  <title>Connect to Stripe</title>
 
   <!-- Material Design Lite -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
@@ -33,6 +33,7 @@
             <p>
               For security reasons please sign in with your Yoke account so you can start getting paid<br>
             </p>
+            <h1>Connect with Stripe</h1>
             Email <br />
             <input type="email" id="email" /><br />
             Password <br />
@@ -41,20 +42,23 @@
               class="mdl-color-text--grey-700 mdl-button--raised mdl-button mdl-js-button mdl-js-ripple-effect" ><i
                 class="material-icons">account_circle</i> Sign in</button>
                 <div class="loader"></div> 
+                <h1>Already connected?</h1>
+                <span id="demo-url">Visit 
+                  <a href="https://dashboard.stripe.com/login">Stripe Dashboard Login</a>
+                  for more information
+                  </span><br><br>
           </div>
         </div>
 
         <!-- Card containing the signed-in UI -->
         <div id="demo-signed-in-card" class="mdl-card mdl-shadow--2dp mdl-cell">
           <div class="mdl-card__supporting-text mdl-color-text--grey-600">
-            <strong>Setup payouts on Stripe</strong>
+            <strong>Connect to Stripe</strong>
             <p>
               Yoke the app partners with Stripe for secure payments and financial services.<br>
               <!-- Response: <span id="demo-response">...</span> -->
               <button id="stripe-sign-up-button"
               class="mdl-color-text--grey-700 mdl-button--raised mdl-button mdl-js-button mdl-js-ripple-effect">Connect to Stripe</button>
-              <button id="stripe-standard-sign-up-button"
-              class="mdl-color-text--grey-700 mdl-button--raised mdl-button mdl-js-button mdl-js-ripple-effect">Setup payouts on Stripe</button>
               <br>
               <span id="demo-url">Visit 
                 <a href="https://stripe.com/connect">Stripe Connect</a>

@@ -30,9 +30,6 @@ var request = require('postman-request')
 const path = require('path')
 const cookieParser = require('cookie-parser')()
 const cors = require('cors')({ origin: true })
-const uuidv4 = require('uuid').v4
-const session = require("express-session")
-const { link } = require('fs')
 
 const db = admin.firestore()
 let docRef = db.collection('stripe_accounts')
@@ -59,26 +56,26 @@ const validateFirebaseIdToken = async (req, res, next) => {
     if (req.headers.authorization && req.headers.authorization.startsWith('Bearer ')) {
         console.log('Found "Authorization" header');
         // Read the ID Token from the Authorization header.
-        idToken = req.headers.authorization.split('Bearer ')[1];
+        idToken = req.headers.authorization.split('Bearer ')[1]
     } else if (req.cookies) {
-        console.log('Found "__session" cookie');
+        console.log('Found "__session" cookie')
         // Read the ID Token from cookie.
-        idToken = req.cookies.__session;
+        idToken = req.cookies.__session
     } else {
         // No cookie
-        res.status(403).send('Unauthorized 02');
+        res.status(403).send('Unauthorized 02')
         return;
     }
 
     try {
         const decodedIdToken = await admin.auth().verifyIdToken(idToken);
-        console.log('ID Token correctly decoded', decodedIdToken);
-        req.user = decodedIdToken;
+        console.log('ID Token correctly decoded', decodedIdToken)
+        req.user = decodedIdToken
         next();
         return;
     } catch (error) {
-        console.error('Error while verifying Firebase ID token:', error);
-        res.status(403).send('Unauthorized 03');
+        console.error('Error while verifying Firebase ID token:', error)
+        res.status(403).send('Unauthorized 03')
         return;
     }
 };
