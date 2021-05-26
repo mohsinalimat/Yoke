@@ -39,11 +39,13 @@ class PayoutsViewController: UIViewController {
         view.backgroundColor = UIColor.LightGrayBg()
         view.addSubview(backgroundViews)
         view.addSubview(stripeDashboardButton)
+        view.addSubview(dashboardLabel)
     }
     
     func constrainViews() {
         backgroundViews.anchor(top: safeArea.topAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 20, paddingLeft: 10, paddingBottom: 50, paddingRight: 10, height: 200)
         stripeDashboardButton.anchor(top: backgroundViews.topAnchor, left: backgroundViews.leftAnchor, bottom: nil, right: backgroundViews.rightAnchor, paddingTop: 15, paddingLeft: 10, paddingBottom: 0, paddingRight: 10, height: 45)
+        dashboardLabel.anchor(top: stripeDashboardButton.bottomAnchor, left: backgroundViews.leftAnchor, bottom: nil, right: backgroundViews.rightAnchor, paddingTop: 10, paddingLeft: 10, paddingBottom: 0, paddingRight: 10)
     }
     
     func checkIfUserIsChef() {
@@ -85,5 +87,14 @@ class PayoutsViewController: UIViewController {
         return button
     }()
    
+    let dashboardLabel: UILabel = {
+        let label = UILabel()
+        label.text = "You can also view your dashboard on your desktop by visiting https://dashboard.stripe.com/login"
+        label.textColor = UIColor.gray
+        label.textAlignment = .center
+        label.numberOfLines = 0
+        label.font = UIFont.systemFont(ofSize: 20)
+        return label
+    }()
 
 }
