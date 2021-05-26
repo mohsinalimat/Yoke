@@ -89,11 +89,11 @@ class PayoutsViewController: UIViewController {
    
     let dashboardLabel: UILabel = {
         let label = UILabel()
-        label.text = "You can also view your dashboard on your desktop by visiting https://dashboard.stripe.com/login"
+        label.text = "You can also view your dashboard by visiting https://dashboard.stripe.com/login"
         label.textColor = UIColor.gray
         label.textAlignment = .center
         label.numberOfLines = 0
-        label.font = UIFont.systemFont(ofSize: 20)
+        label.font = UIFont.systemFont(ofSize: 15)
         return label
     }()
 
