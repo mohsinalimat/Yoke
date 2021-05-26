@@ -31,10 +31,6 @@ class EventsCollectionViewController: UICollectionViewController, UICollectionVi
     func configureNavigationBar() {
         guard let orange = UIColor.orangeColor() else { return }
         configureNavigationBar(withTitle: "Events", largeTitle: true, backgroundColor: UIColor.white, titleColor: orange)
-        let filterIcon = UIImage(named: "filterOrange")
-        let imageView = UIImageView(frame: CGRect(x: 0, y: 0, width: 10, height: 10))
-        imageView.image = filterIcon
-        navigationItem.rightBarButtonItem = UIBarButtonItem(image: filterIcon, style: .plain, target: self, action: #selector(handleFilter))
     }
     
     func setupSearch() {
@@ -74,17 +70,6 @@ class EventsCollectionViewController: UICollectionViewController, UICollectionVi
         }
     }
     
-    //MARK: - Selectors
-    @objc func newEvent() {
-        print("new")
-        let addEvent = NewEventViewController()
-        present(addEvent, animated: true)
-    }
-    
-    @objc func handleFilter() {
-        
-    }
-
     // MARK: UICollectionViewDataSource
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         if EventController.shared.events.count == 0 {

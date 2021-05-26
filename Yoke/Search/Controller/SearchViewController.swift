@@ -40,10 +40,6 @@ class SearchViewController: UITableViewController {
     func configureNavigationBar() {
         guard let orange = UIColor.orangeColor() else { return }
         configureNavigationBar(withTitle: "Search", largeTitle: true, backgroundColor: UIColor.white, titleColor: orange)
-        let filterIcon = UIImage(named: "filterOrange")
-        let imageView = UIImageView(frame: CGRect(x: 0, y: 0, width: 10, height: 10))
-        imageView.image = filterIcon
-        navigationItem.rightBarButtonItem = UIBarButtonItem(image: filterIcon, style: .plain, target: self, action: #selector(handleShowFilter))
     }
     
     func setupTableView() {
@@ -93,11 +89,6 @@ class SearchViewController: UITableViewController {
     }
     
     //MARK: - Selectors
-    @objc func handleShowFilter() {
-        
-    }
-    
-    
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return UserController.shared.filteredUsers.count
     }
@@ -126,7 +117,6 @@ extension SearchViewController: UISearchResultsUpdating, UISearchControllerDeleg
     
     func updateSearchResults(for searchController: UISearchController) {
         guard let searchText = searchController.searchBar.text else { return }
-        print(searchText)
         if searchText.isEmpty {
             UserController.shared.filteredUsers = UserController.shared.users
         } else {
