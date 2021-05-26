@@ -32,7 +32,7 @@ class PayoutsViewController: UIViewController {
     //MARK: - Helper Functions
     func configureNavigationBar() {
         guard let orange = UIColor.orangeColor() else { return }
-        configureNavigationBar(withTitle: "Stripe Payouts", largeTitle: true, backgroundColor: UIColor.white, titleColor: orange)
+        configureNavigationBar(withTitle: "Stripe Payouts", largeTitle: false, backgroundColor: UIColor.white, titleColor: orange)
     }
     
     func setupViews() {
@@ -41,7 +41,7 @@ class PayoutsViewController: UIViewController {
         view.addSubview(stripeLogoView)
         view.addSubview(stripeDashboardButton)
         view.addSubview(dashboardLabel)
-        view.addSubview(termsAndAgreementButton)
+        view.addSubview(termsAndConditionsButton)
     }
     
     func constrainViews() {
@@ -50,7 +50,7 @@ class PayoutsViewController: UIViewController {
         stripeLogoView.centerXAnchor.constraint(equalTo: backgroundViews.centerXAnchor).isActive = true
         stripeDashboardButton.anchor(top: stripeLogoView.bottomAnchor, left: backgroundViews.leftAnchor, bottom: nil, right: backgroundViews.rightAnchor, paddingTop: 15, paddingLeft: 10, paddingBottom: 0, paddingRight: 10, height: 45)
         dashboardLabel.anchor(top: stripeDashboardButton.bottomAnchor, left: backgroundViews.leftAnchor, bottom: nil, right: backgroundViews.rightAnchor, paddingTop: 10, paddingLeft: 10, paddingBottom: 0, paddingRight: 10)
-        termsAndAgreementButton.anchor(top: dashboardLabel.bottomAnchor, left: backgroundViews.leftAnchor, bottom: nil, right: backgroundViews.rightAnchor, paddingTop: 10, paddingLeft: 0, paddingBottom: 0, paddingRight: 0)
+        termsAndConditionsButton.anchor(top: dashboardLabel.bottomAnchor, left: backgroundViews.leftAnchor, bottom: nil, right: backgroundViews.rightAnchor, paddingTop: 10, paddingLeft: 0, paddingBottom: 0, paddingRight: 0)
     }
     
     func checkIfUserIsChef() {
@@ -111,9 +111,9 @@ class PayoutsViewController: UIViewController {
         return label
     }()
 
-    var termsAndAgreementButton: UIButton = {
+    var termsAndConditionsButton: UIButton = {
         let button = UIButton()
-        button.setTitle("Terms & Agreement", for: .normal)
+        button.setTitle("Terms & Conditions", for: .normal)
         button.setTitleColor(UIColor.orangeColor(), for: .normal)
         return button
     }()
