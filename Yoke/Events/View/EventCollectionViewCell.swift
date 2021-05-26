@@ -117,9 +117,14 @@ class EventCollectionViewCell: UICollectionViewCell {
         return label
     }()
     
-    let imageShadowView: ShadowView = {
-        let view = ShadowView()
+    let imageShadowView: UIView = {
+        let view = UIView()
         view.backgroundColor = .white
+        view.layer.cornerRadius = 20
+        view.layer.shadowOffset = CGSize(width: 0, height: 4)
+        view.layer.shadowRadius = 4
+        view.layer.shadowOpacity = 0.2
+        view.layer.shadowColor = UIColor.gray.cgColor
         return view
     }()
     
@@ -130,7 +135,7 @@ class EventCollectionViewCell: UICollectionViewCell {
         image.translatesAutoresizingMaskIntoConstraints = false
         image.clipsToBounds = true
         image.layer.borderColor = UIColor.white.cgColor
-        image.layer.cornerRadius = 10
+        image.layer.cornerRadius = 20
         return image
     }()
     
