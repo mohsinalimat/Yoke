@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import FirebaseAuth
 
 class PaymentViewController: UIViewController {
 
@@ -33,6 +34,7 @@ class PaymentViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupCollectionViews()
+        checkIfUserIsChef()
     }
     
     //MARK: - Helper Functions
@@ -86,6 +88,19 @@ class PaymentViewController: UIViewController {
         archivedCollectionView.register(BookingsCollectionViewCell.self, forCellWithReuseIdentifier: cellId3)
         archivedCollectionView.register(EmptyCell.self, forCellWithReuseIdentifier: noCellId)
         archivedCollectionView.isHidden = true
+    }
+    
+    func checkIfUserIsChef() {
+        guard let uid = Auth.auth().currentUser?.uid else { return }
+        UserController.shared.fetchUserWithUID(uid: uid) { user in
+            if user.isChef == true {
+                self.payoutButton.setTitle("View Payouts", for: .normal)
+                self.payoutButton.addTarget(self, action: #selector(self.handleStripe), for: .touchUpInside)
+            } else {
+                self.payoutButton.setTitle("Make Payment", for: .normal)
+                self.payoutButton.addTarget(self, action: #selector(self.handleStripe), for: .touchUpInside)
+            }
+        }
     }
     
     //MARK: - Selectors
@@ -146,7 +161,6 @@ class PaymentViewController: UIViewController {
         button.layer.shadowRadius = 4
         button.layer.shadowOpacity = 0.2
         button.layer.shadowColor = UIColor.lightGray.cgColor
-        button.addTarget(self, action: #selector(handleStripe), for: .touchUpInside)
         return button
     }()
     
