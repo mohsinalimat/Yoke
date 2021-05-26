@@ -7,13 +7,26 @@
 //
 
 import UIKit
+import FirebaseAuth
 
 class PayoutsViewController: UIViewController {
-
+    
+    //MARK: - Properties
+    var safeArea: UILayoutGuide {
+        return self.view.safeAreaLayoutGuide
+    }
+    
+    //MARK: - Lifecycle Methods
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        setupViews()
+        constrainViews()
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         configureNavigationBar()
-        
+        checkIfUserIsChef()
     }
     
     //MARK: - Helper Functions
@@ -22,12 +35,63 @@ class PayoutsViewController: UIViewController {
         configureNavigationBar(withTitle: "Stripe Payouts", largeTitle: true, backgroundColor: UIColor.white, titleColor: orange)
     }
     
+    func setupViews() {
+        view.backgroundColor = UIColor.LightGrayBg()
+        view.addSubview(scrollView)
+        view.addSubview(backgroundViews)
+    }
+    
+    func constrainViews() {
+        scrollView.contentSize = CGSize(width: view.frame.width, height: view.frame.height)
+        scrollView.anchor(top: safeArea.topAnchor, left: safeArea.leftAnchor, bottom: safeArea.bottomAnchor, right: safeArea.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0)
+        backgroundViews.anchor(top: scrollView.topAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 20, paddingLeft: 10, paddingBottom: 50, paddingRight: 10, height: 200)
+    }
+    
+    func checkIfUserIsChef() {
+        guard let uid = Auth.auth().currentUser?.uid else { return }
+        UserController.shared.fetchUserWithUID(uid: uid) { user in
+            if user.isChef == true {
+                self.stripeDashboardButton.setTitle("Stripe Dashboard", for: .normal)
+                self.stripeDashboardButton.addTarget(self, action: #selector(self.handleStripe), for: .touchUpInside)
+            } else {
+                self.stripeDashboardButton.setTitle("Connect to Stripe", for: .normal)
+                self.stripeDashboardButton.addTarget(self, action: #selector(self.handleStripe), for: .touchUpInside)
+            }
+        }
+    }
+    
     //MARK: - Selectors
     @objc func handleStripe() {
         let createStripeAccountVC = StripeAccountViewController()
         navigationController?.pushViewController(createStripeAccountVC, animated: true)
     }
 
+    //MARK: - Views
+    lazy var scrollView: UIScrollView = {
+        let view = UIScrollView()
+        view.backgroundColor = UIColor.LightGrayBg()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
+    
+    let backgroundViews: ShadowView = {
+        let view = ShadowView()
+        view.backgroundColor = .white
+        return view
+    }()
+    
+    var stripeDashboardButton: UIButton = {
+        let button = UIButton()
+        button.setTitle("Go to Stripe dashboard", for: .normal)
+        button.setTitleColor(.white, for: .normal)
+        button.backgroundColor = UIColor.orangeColor()
+        button.layer.cornerRadius = 10
+        button.layer.shadowOffset = CGSize(width: 0, height: 4)
+        button.layer.shadowRadius = 4
+        button.layer.shadowOpacity = 0.2
+        button.layer.shadowColor = UIColor.lightGray.cgColor
+        return button
+    }()
    
 
 }
