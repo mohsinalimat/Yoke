@@ -41,8 +41,6 @@ class BookingRequestViewController: UIViewController, BookingLocationDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupPickerViews()
-        fetchUserLocation()
-        print("people count \(peopleCounter)")
     }
     
     //MARK: - Helper Functions
@@ -129,32 +127,6 @@ class BookingRequestViewController: UIViewController, BookingLocationDelegate {
         endTimeTextField.inputView = endTimePickerView
     }
     
-    func fetchUserLocation() {
-        let uid = userId ?? (Auth.auth().currentUser?.uid ?? "")
-        UserController.shared.fetchUserWithUID(uid: uid) { (user) in
-            var addressString : String = ""
-            guard let street = user.street,
-                  let apartment = user.apartment,
-                  let city = user.city,
-                  let state =  user.state else { return }
-            
-            if street != "" {
-                addressString = addressString + street + ", "
-            }
-            if apartment != "" {
-                addressString = addressString + apartment + ", "
-            }
-            if city != "" {
-                addressString = addressString + city + ", "
-            }
-            if state != "" {
-                addressString = addressString + state + " "
-            }
-            self.selectedLocation = addressString
-            self.locationButton.setTitle(addressString, for: .normal)
-        }
-    }
-    
     func sentSuccessful() {
         let alertVC = UIAlertController(title: "Success", message: "Your request has been sent!", preferredStyle: .alert)
         let okAction = UIAlertAction(title: "Cool Beans", style: .default) { (_) in
@@ -171,8 +143,8 @@ class BookingRequestViewController: UIViewController, BookingLocationDelegate {
         present(alertVC, animated: true)
     }
     
-    func formFail() {
-        let alertVC = UIAlertController(title: "Missing fields", message: "Please fill out all fields in the form", preferredStyle: .alert)
+    func formFail(title: String, message: String) {
+        let alertVC = UIAlertController(title: "Missing \(title)", message: message, preferredStyle: .alert)
         let okAction = UIAlertAction(title: "OK", style: .default)
         alertVC.addAction(okAction)
         present(alertVC, animated: true)
@@ -187,20 +159,13 @@ class BookingRequestViewController: UIViewController, BookingLocationDelegate {
     //MARK: - Selectors
     
     @objc func handleSubmit() {
-        guard let cuisine = cuisineTextField.text, !cuisine.isEmpty,
-              let detail = detailTextField.text, !detail.isEmpty,
-              !selectedDate.isEmpty,
-              !selectedStartTime.isEmpty,
-              !selectedEndTime.isEmpty,
-              let chefUid = userId,
-              courseCounter != 0,
-              peopleCounter != 0 else { return formFail() }
-        print("chef uid \(chefUid)")
-        print("current uid \(currentUserUid)")
-        if selectedLocation.isEmpty {
-//            guard let location = booking?.location else { return }
-//            selectedLocation = location
-        }
+        guard let cuisine = cuisineTextField.text else { return }
+        guard !selectedLocation.isEmpty else { return formFail(title: "Location", message: "Please select a location")}
+        guard !selectedDate.isEmpty else { return formFail(title: "Request date", message: "Please select a date")}
+        guard !selectedStartTime.isEmpty else { return formFail(title: "Start time", message: "Please select a start time")}
+        guard !selectedEndTime.isEmpty else { return formFail(title: "End time", message: "Please select an end time")}
+        guard let detail = detailTextField.text, !detail.isEmpty else { return formFail(title: "Details", message: "Please add some details about the event so the chef can give you a better estimate")}
+        guard let chefUid = userId else { return }
         myActivityIndicator.startAnimating()
         self.sentSuccessful()
         BookingController.shared.createBookingWith(chefUid: chefUid, userUid: currentUserUid, location: selectedLocation, locationShort: selectedLocationShort, date: selectedDate, startTime: selectedStartTime, endTime: selectedEndTime, numberOfPeople: peopleCounter, numberOfCourses: courseCounter, typeOfCuisine: cuisine, details: detail) { (result) in
@@ -225,8 +190,8 @@ class BookingRequestViewController: UIViewController, BookingLocationDelegate {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "EEEE, MMM d, yyyy"
         selectedDateLabel.text = dateFormatter.string(from: datePicker.date)
+        selectedDate = dateFormatter.string(from: datePicker.date)
         selectedDateLabel.font = UIFont.systemFont(ofSize: 17)
-        selectedDate = selectedDateLabel.text ?? ""
     }
     
     @objc func handleStartSelection() {
@@ -234,7 +199,7 @@ class BookingRequestViewController: UIViewController, BookingLocationDelegate {
         let startTimeFormatter = DateFormatter()
         startTimeFormatter.timeStyle = .short
         startTimeTextField.text = startTimeFormatter.string(from: startPicker.date)
-        selectedStartTime = startTimeTextField.text ?? ""
+        selectedStartTime = startTimeFormatter.string(from: startPicker.date)
     }
     
     @objc func handleEndSelection() {
@@ -242,7 +207,7 @@ class BookingRequestViewController: UIViewController, BookingLocationDelegate {
         let endTimeFormatter = DateFormatter()
         endTimeFormatter.timeStyle = .short
         endTimeTextField.text = endTimeFormatter.string(from: endPicker.date)
-        selectedStartTime = endTimeTextField.text ?? ""
+        selectedEndTime = endTimeFormatter.string(from: endPicker.date)
     }
     
     @objc func handleDismiss() {
