@@ -19,6 +19,9 @@ class BookingRequestViewController: UIViewController, BookingLocationDelegate {
     var userId: String?
     let myActivityIndicator = UIActivityIndicatorView(style: UIActivityIndicatorView.Style.large)
     var selectedLocation: String = ""
+    var selectedDate: String = ""
+    var selectedStartTime: String = ""
+    var selectedEndTime: String = ""
     var selectedLocationShort: String = ""
     var peopleCounter: Int = 1
     var courseCounter: Int = 1
@@ -186,10 +189,12 @@ class BookingRequestViewController: UIViewController, BookingLocationDelegate {
     @objc func handleSubmit() {
         guard let cuisine = cuisineTextField.text, !cuisine.isEmpty,
               let detail = detailTextField.text, !detail.isEmpty,
-              let date = selectedDateLabel.text,
-              let start = startTimeTextField.text,
-              let end = endTimeTextField.text,
-              let chefUid = userId else { return formFail() }
+              !selectedDate.isEmpty,
+              !selectedStartTime.isEmpty,
+              !selectedEndTime.isEmpty,
+              let chefUid = userId,
+              courseCounter != 0,
+              peopleCounter != 0 else { return formFail() }
         print("chef uid \(chefUid)")
         print("current uid \(currentUserUid)")
         if selectedLocation.isEmpty {
@@ -198,7 +203,7 @@ class BookingRequestViewController: UIViewController, BookingLocationDelegate {
         }
         myActivityIndicator.startAnimating()
         self.sentSuccessful()
-        BookingController.shared.createBookingWith(chefUid: chefUid, userUid: currentUserUid, location: selectedLocation, locationShort: selectedLocationShort, date: date, startTime: start, endTime: end, numberOfPeople: peopleCounter, numberOfCourses: courseCounter, typeOfCuisine: cuisine, details: detail) { (result) in
+        BookingController.shared.createBookingWith(chefUid: chefUid, userUid: currentUserUid, location: selectedLocation, locationShort: selectedLocationShort, date: selectedDate, startTime: selectedStartTime, endTime: selectedEndTime, numberOfPeople: peopleCounter, numberOfCourses: courseCounter, typeOfCuisine: cuisine, details: detail) { (result) in
             switch result {
             case true:
                 self.myActivityIndicator.stopAnimating()
@@ -221,6 +226,7 @@ class BookingRequestViewController: UIViewController, BookingLocationDelegate {
         dateFormatter.dateFormat = "EEEE, MMM d, yyyy"
         selectedDateLabel.text = dateFormatter.string(from: datePicker.date)
         selectedDateLabel.font = UIFont.systemFont(ofSize: 17)
+        selectedDate = selectedDateLabel.text ?? ""
     }
     
     @objc func handleStartSelection() {
@@ -228,6 +234,7 @@ class BookingRequestViewController: UIViewController, BookingLocationDelegate {
         let startTimeFormatter = DateFormatter()
         startTimeFormatter.timeStyle = .short
         startTimeTextField.text = startTimeFormatter.string(from: startPicker.date)
+        selectedStartTime = startTimeTextField.text ?? ""
     }
     
     @objc func handleEndSelection() {
@@ -235,6 +242,7 @@ class BookingRequestViewController: UIViewController, BookingLocationDelegate {
         let endTimeFormatter = DateFormatter()
         endTimeFormatter.timeStyle = .short
         endTimeTextField.text = endTimeFormatter.string(from: endPicker.date)
+        selectedStartTime = endTimeTextField.text ?? ""
     }
     
     @objc func handleDismiss() {
