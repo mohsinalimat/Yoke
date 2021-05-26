@@ -41,14 +41,16 @@ class PayoutsViewController: UIViewController {
         view.addSubview(stripeLogoView)
         view.addSubview(stripeDashboardButton)
         view.addSubview(dashboardLabel)
+        view.addSubview(termsAndAgreementButton)
     }
     
     func constrainViews() {
-        backgroundViews.anchor(top: safeArea.topAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 20, paddingLeft: 10, paddingBottom: 50, paddingRight: 10, height: 200)
-        stripeLogoView.anchor(top: backgroundViews.topAnchor, left: nil, bottom: nil, right: nil, paddingTop: 15, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: view.frame.width / 2, height: 80)
+        backgroundViews.anchor(top: safeArea.topAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 20, paddingLeft: 10, paddingBottom: 0, paddingRight: 10, height: 265)
+        stripeLogoView.anchor(top: backgroundViews.topAnchor, left: nil, bottom: nil, right: nil, paddingTop: 20, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: view.frame.width / 2, height: 80)
         stripeLogoView.centerXAnchor.constraint(equalTo: backgroundViews.centerXAnchor).isActive = true
         stripeDashboardButton.anchor(top: stripeLogoView.bottomAnchor, left: backgroundViews.leftAnchor, bottom: nil, right: backgroundViews.rightAnchor, paddingTop: 15, paddingLeft: 10, paddingBottom: 0, paddingRight: 10, height: 45)
         dashboardLabel.anchor(top: stripeDashboardButton.bottomAnchor, left: backgroundViews.leftAnchor, bottom: nil, right: backgroundViews.rightAnchor, paddingTop: 10, paddingLeft: 10, paddingBottom: 0, paddingRight: 10)
+        termsAndAgreementButton.anchor(top: dashboardLabel.bottomAnchor, left: backgroundViews.leftAnchor, bottom: nil, right: backgroundViews.rightAnchor, paddingTop: 10, paddingLeft: 0, paddingBottom: 0, paddingRight: 0)
     }
     
     func checkIfUserIsChef() {
