@@ -92,7 +92,7 @@ class MenuViewController: UIViewController {
     let menuImageShadowView: UIView = {
         let view = UIView()
         view.backgroundColor = .white
-        view.layer.cornerRadius = 10
+        view.layer.cornerRadius = 20
         view.layer.shadowOffset = CGSize(width: 0, height: 4)
         view.layer.shadowRadius = 4
         view.layer.shadowOpacity = 0.2
@@ -105,13 +105,18 @@ class MenuViewController: UIViewController {
         image.image = UIImage(named: "gradientBackgroundHalf")
         image.clipsToBounds = true
         image.contentMode = .scaleAspectFill
-        image.layer.cornerRadius = 10
+        image.layer.cornerRadius = 20
         return image
     }()
     
-    let detailViews: ShadowView = {
-        let view = ShadowView()
+    let detailViews: UIView = {
+        let view = UIView()
         view.backgroundColor = .white
+        view.layer.cornerRadius = 20
+        view.layer.shadowOffset = CGSize(width: 0, height: 4)
+        view.layer.shadowRadius = 4
+        view.layer.shadowOpacity = 0.2
+        view.layer.shadowColor = UIColor.gray.cgColor
         return view
     }()
     
