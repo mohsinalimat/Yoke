@@ -37,14 +37,13 @@ class PayoutsViewController: UIViewController {
     
     func setupViews() {
         view.backgroundColor = UIColor.LightGrayBg()
-        view.addSubview(scrollView)
         view.addSubview(backgroundViews)
+        view.addSubview(stripeDashboardButton)
     }
     
     func constrainViews() {
-        scrollView.contentSize = CGSize(width: view.frame.width, height: view.frame.height)
-        scrollView.anchor(top: safeArea.topAnchor, left: safeArea.leftAnchor, bottom: safeArea.bottomAnchor, right: safeArea.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0)
-        backgroundViews.anchor(top: scrollView.topAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 20, paddingLeft: 10, paddingBottom: 50, paddingRight: 10, height: 200)
+        backgroundViews.anchor(top: safeArea.topAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 20, paddingLeft: 10, paddingBottom: 50, paddingRight: 10, height: 200)
+        stripeDashboardButton.anchor(top: backgroundViews.topAnchor, left: backgroundViews.leftAnchor, bottom: nil, right: backgroundViews.rightAnchor, paddingTop: 15, paddingLeft: 10, paddingBottom: 0, paddingRight: 10, height: 45)
     }
     
     func checkIfUserIsChef() {
@@ -67,13 +66,6 @@ class PayoutsViewController: UIViewController {
     }
 
     //MARK: - Views
-    lazy var scrollView: UIScrollView = {
-        let view = UIScrollView()
-        view.backgroundColor = UIColor.LightGrayBg()
-        view.translatesAutoresizingMaskIntoConstraints = false
-        return view
-    }()
-    
     let backgroundViews: ShadowView = {
         let view = ShadowView()
         view.backgroundColor = .white
