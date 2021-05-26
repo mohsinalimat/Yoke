@@ -165,7 +165,7 @@ class EventCollectionViewCell: UICollectionViewCell {
     
     var dateLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont.boldSystemFont(ofSize: 13)
+        label.font = UIFont.boldSystemFont(ofSize: 15)
         label.textColor = .gray
         return label
     }()
@@ -178,7 +178,7 @@ class EventCollectionViewCell: UICollectionViewCell {
     
     var timeLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont.boldSystemFont(ofSize: 13)
+        label.font = UIFont.systemFont(ofSize: 13)
         label.textColor = .gray
         return label
     }()

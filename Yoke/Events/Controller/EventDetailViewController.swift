@@ -96,7 +96,7 @@ class EventDetailViewController: UIViewController {
     }
     
     func fetchEvent() {
-        let uid = userId ?? (Auth.auth().currentUser?.uid ?? "")
+        guard let uid = event?.uid else { return }
         UserController.shared.fetchUserWithUID(uid: uid) { (user) in
             guard let event = self.event,
                   let start = event.startTime,
