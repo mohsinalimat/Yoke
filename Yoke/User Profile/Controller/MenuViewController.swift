@@ -41,6 +41,7 @@ class MenuViewController: UIViewController {
         view.addSubview(scrollView)
         scrollView.addSubview(menuImageShadowView)
         scrollView.addSubview(menuImageView)
+        scrollView.addSubview(detailViews)
         scrollView.addSubview(menuLabel)
         scrollView.addSubview(menuTypeLabel)
         scrollView.addSubview(dishDetailTextView)
@@ -51,9 +52,10 @@ class MenuViewController: UIViewController {
         swipeIndicator.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         scrollView.contentSize = CGSize(width: view.frame.width, height: view.frame.height)
         scrollView.anchor(top: swipeIndicator.bottomAnchor, left: safeArea.leftAnchor, bottom: safeArea.bottomAnchor, right: safeArea.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0)
-        menuImageShadowView.anchor(top: scrollView.topAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 20, paddingLeft: 10, paddingBottom: 0, paddingRight: 10, width: view.frame.width, height: view.frame.width)
-        menuImageView.anchor(top: scrollView.topAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 20, paddingLeft: 10, paddingBottom: 0, paddingRight: 10, width: view.frame.width, height: view.frame.width)
-        menuLabel.anchor(top: menuImageView.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: nil, paddingTop: 20, paddingLeft: 10, paddingBottom: 0, paddingRight: 10)
+        menuImageShadowView.anchor(top: scrollView.topAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 20, paddingLeft: 5, paddingBottom: 0, paddingRight: 5, width: view.frame.width, height: view.frame.width)
+        menuImageView.anchor(top: scrollView.topAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 20, paddingLeft: 5, paddingBottom: 0, paddingRight: 5, width: view.frame.width, height: view.frame.width)
+        detailViews.anchor(top: menuImageView.bottomAnchor, left: safeArea.leftAnchor, bottom: safeArea.bottomAnchor, right: safeArea.rightAnchor, paddingTop: -30, paddingLeft: 5, paddingBottom: 10, paddingRight: 5)
+        menuLabel.anchor(top: detailViews.topAnchor, left: safeArea.leftAnchor, bottom: nil, right: nil, paddingTop: 10, paddingLeft: 10, paddingBottom: 0, paddingRight: 10)
         menuTypeLabel.anchor(top: menuLabel.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 10, paddingLeft: 10, paddingBottom: 0, paddingRight: 10)
         dishDetailTextView.anchor(top: menuTypeLabel.bottomAnchor, left: safeArea.leftAnchor, bottom: scrollView.bottomAnchor, right: safeArea.rightAnchor, paddingTop: 10, paddingLeft: 10, paddingBottom: 0, paddingRight: 10, height: 100)
 
@@ -107,6 +109,12 @@ class MenuViewController: UIViewController {
         return image
     }()
     
+    let detailViews: ShadowView = {
+        let view = ShadowView()
+        view.backgroundColor = .white
+        return view
+    }()
+    
     var menuLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.boldSystemFont(ofSize: 34)
@@ -116,7 +124,7 @@ class MenuViewController: UIViewController {
     
     let dishDetailTextView: UITextView = {
         let text = UITextView()
-        text.backgroundColor = UIColor.LightGrayBg()
+        text.backgroundColor = .white
         text.textColor = .darkGray
         text.isEditable = false
         text.isScrollEnabled = true

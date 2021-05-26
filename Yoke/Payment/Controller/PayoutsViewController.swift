@@ -93,7 +93,7 @@ class PayoutsViewController: UIViewController {
         button.setTitle("Go to Stripe dashboard", for: .normal)
         button.setTitleColor(.white, for: .normal)
         button.backgroundColor = UIColor.orangeColor()
-        button.layer.cornerRadius = 10
+        button.layer.cornerRadius = 20
         button.layer.shadowOffset = CGSize(width: 0, height: 4)
         button.layer.shadowRadius = 4
         button.layer.shadowOpacity = 0.2

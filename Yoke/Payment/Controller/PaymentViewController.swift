@@ -156,7 +156,7 @@ class PaymentViewController: UIViewController {
         button.setTitle("View Payouts", for: .normal)
         button.setTitleColor(.white, for: .normal)
         button.backgroundColor = UIColor.orangeColor()
-        button.layer.cornerRadius = 10
+        button.layer.cornerRadius = 20
         button.layer.shadowOffset = CGSize(width: 0, height: 4)
         button.layer.shadowRadius = 4
         button.layer.shadowOpacity = 0.2
@@ -195,7 +195,7 @@ class PaymentViewController: UIViewController {
     let segmentedControl: UISegmentedControl = {
         let seg = UISegmentedControl(items: ["Pending", "Paid"])
         seg.selectedSegmentIndex = 0
-        seg.layer.cornerRadius = 10
+        seg.layer.cornerRadius = 20
         seg.layer.borderWidth = 0.5
         seg.layer.borderColor = UIColor.LightGrayBg()?.cgColor
         let image = UIImage(named: "whiteBG")
