@@ -38,13 +38,16 @@ class PayoutsViewController: UIViewController {
     func setupViews() {
         view.backgroundColor = UIColor.LightGrayBg()
         view.addSubview(backgroundViews)
+        view.addSubview(stripeLogoView)
         view.addSubview(stripeDashboardButton)
         view.addSubview(dashboardLabel)
     }
     
     func constrainViews() {
         backgroundViews.anchor(top: safeArea.topAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 20, paddingLeft: 10, paddingBottom: 50, paddingRight: 10, height: 200)
-        stripeDashboardButton.anchor(top: backgroundViews.topAnchor, left: backgroundViews.leftAnchor, bottom: nil, right: backgroundViews.rightAnchor, paddingTop: 15, paddingLeft: 10, paddingBottom: 0, paddingRight: 10, height: 45)
+        stripeLogoView.anchor(top: backgroundViews.topAnchor, left: nil, bottom: nil, right: nil, paddingTop: 15, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: view.frame.width / 2, height: 80)
+        stripeLogoView.centerXAnchor.constraint(equalTo: backgroundViews.centerXAnchor).isActive = true
+        stripeDashboardButton.anchor(top: stripeLogoView.bottomAnchor, left: backgroundViews.leftAnchor, bottom: nil, right: backgroundViews.rightAnchor, paddingTop: 15, paddingLeft: 10, paddingBottom: 0, paddingRight: 10, height: 45)
         dashboardLabel.anchor(top: stripeDashboardButton.bottomAnchor, left: backgroundViews.leftAnchor, bottom: nil, right: backgroundViews.rightAnchor, paddingTop: 10, paddingLeft: 10, paddingBottom: 0, paddingRight: 10)
     }
     
@@ -74,6 +77,15 @@ class PayoutsViewController: UIViewController {
         return view
     }()
     
+    var stripeLogoView: CustomImageView = {
+        let image = CustomImageView()
+        image.clipsToBounds = true
+        image.contentMode = .scaleToFill
+        image.backgroundColor = .clear
+        image.image = UIImage(named: "StripeWordmarkPlurple")
+        return image
+    }()
+    
     var stripeDashboardButton: UIButton = {
         let button = UIButton()
         button.setTitle("Go to Stripe dashboard", for: .normal)
@@ -97,4 +109,10 @@ class PayoutsViewController: UIViewController {
         return label
     }()
 
+    var termsAndAgreementButton: UIButton = {
+        let button = UIButton()
+        button.setTitle("Terms & Agreement", for: .normal)
+        button.setTitleColor(UIColor.orangeColor(), for: .normal)
+        return button
+    }()
 }
