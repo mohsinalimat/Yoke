@@ -50,7 +50,9 @@ class AddMenuViewController: UIViewController {
         scrollView.addSubview(menuImageShadowView)
         scrollView.addSubview(menuImageView)
         scrollView.addSubview(menuAddImageButton)
+        scrollView.addSubview(dishNameViewBG)
         scrollView.addSubview(dishNameTextField)
+        scrollView.addSubview(dishDetailViewBG)
         scrollView.addSubview(dishDetailTextField)
         scrollView.addSubview(courseView)
         scrollView.addSubview(courseLabel)
@@ -73,8 +75,10 @@ class AddMenuViewController: UIViewController {
         menuImageShadowView.anchor(top: scrollView.topAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 20, paddingLeft: 10, paddingBottom: 0, paddingRight: 10, width: view.frame.width / 2, height: 300)
         menuImageView.anchor(top: scrollView.topAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 20, paddingLeft: 10, paddingBottom: 0, paddingRight: 10, width: view.frame.width / 2, height: 300)
         menuAddImageButton.anchor(top: scrollView.topAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 20, paddingLeft: 10, paddingBottom: 0, paddingRight: 10, width: view.frame.width / 2, height: 300)
-        dishNameTextField.anchor(top: menuImageView.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 20, paddingLeft: 10, paddingBottom: 0, paddingRight: 10, height: 45)
-        dishDetailTextField.anchor(top: dishNameTextField.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 10, paddingLeft: 10, paddingBottom: 0, paddingRight: 10, height: 150)
+        dishNameViewBG.anchor(top: menuImageView.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 20, paddingLeft: 10, paddingBottom: 0, paddingRight: 10, height: 45)
+        dishNameTextField.anchor(top: dishNameViewBG.topAnchor, left: dishNameViewBG.leftAnchor, bottom: dishNameViewBG.bottomAnchor, right: dishNameViewBG.rightAnchor, paddingTop: 5, paddingLeft: 5, paddingBottom: 5, paddingRight: 5)
+        dishDetailViewBG.anchor(top: dishNameTextField.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 10, paddingLeft: 10, paddingBottom: 0, paddingRight: 10, height: 150)
+        dishDetailTextField.anchor(top: dishDetailViewBG.topAnchor, left: dishDetailViewBG.leftAnchor, bottom: dishDetailViewBG.bottomAnchor, right: dishDetailViewBG.rightAnchor, paddingTop: 5, paddingLeft: 5, paddingBottom: 5, paddingRight: 5)
         courseView.anchor(top: dishDetailTextField.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 10, paddingLeft: 10, paddingBottom: 0, paddingRight: 10, height: 100)
         courseLabel.anchor(top: courseView.topAnchor, left: courseView.leftAnchor, bottom: nil, right: courseView.rightAnchor, paddingTop: 0, paddingLeft: 10, paddingBottom: 0, paddingRight: 10, height: 45)
         courseSegmentedControl.anchor(top: courseLabel.bottomAnchor, left: courseView.leftAnchor, bottom: nil, right: courseView.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, height: 45)
@@ -286,18 +290,24 @@ class AddMenuViewController: UIViewController {
         return button
     }()
 
+    let dishNameViewBG: ShadowView = {
+        let view = ShadowView()
+        view.backgroundColor = .white
+        return view
+    }()
     
     let dishNameTextField: UITextField = {
         let text = UITextField()
         text.textColor = .darkGray
         text.attributedPlaceholder = NSAttributedString(string: " Enter dish name", attributes: [NSAttributedString.Key.foregroundColor: UIColor.lightGray])
         text.backgroundColor = .white
-        text.layer.cornerRadius = 10
-        text.layer.shadowOffset = CGSize(width: 0, height: 4)
-        text.layer.shadowRadius = 4
-        text.layer.shadowOpacity = 0.1
-        text.layer.shadowColor = UIColor.lightGray.cgColor
         return text
+    }()
+    
+    let dishDetailViewBG: ShadowView = {
+        let view = ShadowView()
+        view.backgroundColor = .white
+        return view
     }()
     
     let dishDetailTextField: UITextView = {
@@ -310,10 +320,6 @@ class AddMenuViewController: UIViewController {
         text.layer.cornerRadius = 10
         text.textContainer.lineBreakMode = .byWordWrapping
         text.font = UIFont.systemFont(ofSize: 17)
-        text.layer.shadowOffset = CGSize(width: 0, height: 4)
-        text.layer.shadowRadius = 4
-        text.layer.shadowOpacity = 0.1
-        text.layer.shadowColor = UIColor.lightGray.cgColor
         return text
     }()
     
