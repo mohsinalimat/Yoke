@@ -334,10 +334,13 @@ class AddMenuViewController: UIViewController {
     let courseSegmentedControl: UISegmentedControl = {
         let seg = UISegmentedControl(items: ["Appetizer", "Main", "Dessert"])
         seg.selectedSegmentIndex = 0
-        seg.backgroundColor = UIColor.orangeColor()
-        seg.tintColor = UIColor.white
-        seg.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor.white], for: UIControl.State.normal)
-        seg.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor.white], for: UIControl.State.selected)
+        seg.layer.cornerRadius = 10
+        seg.layer.borderWidth = 0.5
+        seg.layer.borderColor = UIColor.LightGrayBg()?.cgColor
+        let image = UIImage(named: "whiteBG")
+        seg.setBackgroundImage(image, for: .normal, barMetrics: .default)
+        seg.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor.orangeColor()!], for: UIControl.State.selected)
+        seg.setTitleTextAttributes([NSAttributedString.Key.font : UIFont.boldSystemFont(ofSize: 17), NSAttributedString.Key.foregroundColor: UIColor.gray.withAlphaComponent(0.5)], for: UIControl.State.normal)
         seg.addTarget(self, action: #selector(handleCourseType), for: .valueChanged)
         return seg
     }()
@@ -359,10 +362,13 @@ class AddMenuViewController: UIViewController {
     let fixedSegmentedControl: UISegmentedControl = {
         let seg = UISegmentedControl(items: ["Fixed Menu", "Sample Menu"])
         seg.selectedSegmentIndex = 0
-        seg.backgroundColor = UIColor.orangeColor()
-        seg.tintColor = UIColor.white
-        seg.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor.white], for: UIControl.State.normal)
-        seg.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor.white], for: UIControl.State.selected)
+        seg.layer.cornerRadius = 10
+        seg.layer.borderWidth = 0.5
+        seg.layer.borderColor = UIColor.LightGrayBg()?.cgColor
+        let image = UIImage(named: "whiteBG")
+        seg.setBackgroundImage(image, for: .normal, barMetrics: .default)
+        seg.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor.orangeColor()!], for: UIControl.State.selected)
+        seg.setTitleTextAttributes([NSAttributedString.Key.font : UIFont.boldSystemFont(ofSize: 17), NSAttributedString.Key.foregroundColor: UIColor.gray.withAlphaComponent(0.5)], for: UIControl.State.normal)
         seg.addTarget(self, action: #selector(handleMenuType), for: .valueChanged)
         return seg
     }()
