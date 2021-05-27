@@ -53,7 +53,9 @@ class NewEventViewController: UIViewController,  EventLocationDelegate {
         scrollView.addSubview(eventImageShadowView)
         scrollView.addSubview(eventImageView)
         scrollView.addSubview(eventAddImageButton)
+        scrollView.addSubview(captionViewBG)
         scrollView.addSubview(captionTextField)
+        scrollView.addSubview(eventViewBG)
         scrollView.addSubview(eventDetailTextField)
         scrollView.addSubview(locationViewBG)
         scrollView.addSubview(locationIndicatorIconView)
@@ -89,8 +91,10 @@ class NewEventViewController: UIViewController,  EventLocationDelegate {
         eventImageShadowView.anchor(top: scrollView.topAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 20, paddingLeft: 8, paddingBottom: 0, paddingRight: 8, width: view.frame.width / 2, height: 300)
         eventImageView.anchor(top: scrollView.topAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 20, paddingLeft: 8, paddingBottom: 0, paddingRight: 8, width: view.frame.width / 2, height: 300)
         eventAddImageButton.anchor(top: scrollView.topAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 20, paddingLeft: 8, paddingBottom: 0, paddingRight: 8, width: view.frame.width / 2, height: 300)
-        captionTextField.anchor(top: eventImageView.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 20, paddingLeft: 10, paddingBottom: 8, paddingRight: 10, height: 45)
-        eventDetailTextField.anchor(top: captionTextField.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 10, paddingLeft: 10, paddingBottom: 10, paddingRight: 8, height: 150)
+        captionViewBG.anchor(top: eventImageView.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 20, paddingLeft: 10, paddingBottom: 8, paddingRight: 10, height: 45)
+        captionTextField.anchor(top: captionViewBG.topAnchor, left: captionViewBG.leftAnchor, bottom: captionViewBG.bottomAnchor, right: captionViewBG.rightAnchor, paddingTop: 5, paddingLeft: 5, paddingBottom: 5, paddingRight: 5)
+        eventViewBG.anchor(top: captionTextField.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 10, paddingLeft: 10, paddingBottom: 10, paddingRight: 8, height: 150)
+        eventDetailTextField.anchor(top: eventViewBG.topAnchor, left: eventViewBG.leftAnchor, bottom: eventViewBG.bottomAnchor, right: eventViewBG.rightAnchor, paddingTop: 5, paddingLeft: 5, paddingBottom: 5, paddingRight: 5)
         locationViewBG.anchor(top: eventDetailTextField.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 10, paddingLeft: 10, paddingBottom: 0, paddingRight: 10, height: 45)
         locationButton.anchor(top: locationViewBG.topAnchor, left: locationViewBG.leftAnchor, bottom: locationViewBG.bottomAnchor, right: locationIndicatorIconView.leftAnchor, paddingTop: 0, paddingLeft: 5, paddingBottom: 0, paddingRight: 0)
         locationIndicatorIconView.anchor(top: nil, left: locationButton.rightAnchor, bottom: nil, right: locationViewBG.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 10, width: 20, height: 20)
@@ -356,18 +360,23 @@ class NewEventViewController: UIViewController,  EventLocationDelegate {
         return button
     }()
     
+    let captionViewBG: ShadowView = {
+        let view = ShadowView()
+        view.backgroundColor = .white
+        return view
+    }()
     
     let captionTextField: UITextField = {
         let text = UITextField()
         text.textColor = .darkGray
         text.attributedPlaceholder = NSAttributedString(string: " Enter Caption", attributes: [NSAttributedString.Key.foregroundColor: UIColor.lightGray])
-        text.layer.cornerRadius = 10
-        text.layer.shadowOffset = CGSize(width: 0, height: 4)
-        text.layer.shadowRadius = 4
-        text.layer.shadowOpacity = 0.1
-        text.layer.shadowColor = UIColor.lightGray.cgColor
-        text.backgroundColor = UIColor.white
         return text
+    }()
+    
+    let eventViewBG: ShadowView = {
+        let view = ShadowView()
+        view.backgroundColor = .white
+        return view
     }()
     
     let eventDetailTextField: UITextView = {
@@ -378,12 +387,6 @@ class NewEventViewController: UIViewController,  EventLocationDelegate {
         text.isScrollEnabled = true
         text.textContainer.lineBreakMode = .byWordWrapping
         text.font = UIFont.systemFont(ofSize: 17)
-        text.layer.cornerRadius = 10
-        text.layer.shadowOffset = CGSize(width: 0, height: 4)
-        text.layer.shadowRadius = 4
-        text.layer.shadowOpacity = 0.1
-        text.layer.shadowColor = UIColor.lightGray.cgColor
-        text.backgroundColor = UIColor.white
         return text
     }()
     
