@@ -118,7 +118,7 @@ class EventDetailViewController: UIViewController {
             self.dateLabel.text = event.date
             self.timeLabel.text = "\(start) - \(end)"
             guard let id = event.id else { return }
-            BookmarkController.shared.bookmarkEventWith(uid: uid, eventId: id) { result in
+            BookmarkController.shared.checkIfBookmarkedEventWith(uid: uid, id: id) { result in
                 switch result {
                 case true:
                     let image = UIImage(named: "bookmark_selected")?.withRenderingMode(.alwaysTemplate)
@@ -136,6 +136,14 @@ class EventDetailViewController: UIViewController {
         guard let uid = Auth.auth().currentUser?.uid,
               let id = event?.id else { return }
         BookmarkController.shared.bookmarkUserWith(uid: uid, bookmarkedUid: id) { result in
+            switch result {
+            case true:
+                print("true")
+            case false:
+                print("false")
+            }
+        }
+        BookmarkController.shared.checkIfBookmarkedEventWith(uid: uid, id: id) { result in
             switch result {
             case true:
                 let image = UIImage(named: "bookmark_selected")?.withRenderingMode(.alwaysTemplate)

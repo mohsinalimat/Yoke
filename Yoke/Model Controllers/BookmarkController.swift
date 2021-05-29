@@ -31,27 +31,28 @@ class BookmarkController {
     }
     
     func bookmarkEventWith(uid: String, eventId: String, completion: @escaping (Bool) -> Void) {
-//        firestoreDB.document(uid).collection(Constants.BookmarkedEvents).document(eventId).getDocument { (document, error) in
-//            if let document = document, document.exists {
-//                self.firestoreDB.document(uid).collection(Constants.BookmarkedEvents).document(eventId).delete()
-//                completion(true)
-//            } else {
-//                self.firestoreDB.document(uid).collection(Constants.BookmarkedEvents).document(eventId).setData([eventId: true], merge: false)
-        //                completion(false)
-        //                print("Document does not exist")
-        //            }
-        //        }
-        firestoreDB.document(uid).collection(Constants.BookmarkedEvents).document(eventId).addSnapshotListener { documentSnapshot, error in
+        firestoreDB.document(uid).collection(Constants.BookmarkedEvents).document(eventId).getDocument { (document, error) in
+            if let document = document, document.exists {
+                self.firestoreDB.document(uid).collection(Constants.BookmarkedEvents).document(eventId).delete()
+                completion(true)
+            } else {
+                self.firestoreDB.document(uid).collection(Constants.BookmarkedEvents).document(eventId).setData([eventId: true], merge: false)
+                completion(false)
+                print("Document does not exist")
+            }
+        }
+    }
+    
+    func checkIfBookmarkedEventWith(uid: String, id: String, completion: @escaping (Bool) -> Void) {
+        firestoreDB.document(uid).collection(Constants.BookmarkedEvents).document(id).addSnapshotListener { documentSnapshot, error in
             guard let document = documentSnapshot else {
                 print("Error fetching document: \(error!)")
                 return
             }
             if let data = document.data() {
-                self.firestoreDB.document(uid).collection(Constants.BookmarkedEvents).document(eventId).delete()
                 completion(true)
                 print("Document data: \(data)")
             } else {
-                self.firestoreDB.document(uid).collection(Constants.BookmarkedEvents).document(eventId).setData([eventId: true], merge: false)
                 completion(false)
                 print("Current data: nil")
             }
