@@ -33,10 +33,10 @@ class BookmarkController {
     func bookmarkEventWith(uid: String, eventId: String, completion: @escaping (Bool) -> Void) {
         firestoreDB.document(uid).collection(Constants.BookmarkedEvents).document(eventId).getDocument { (document, error) in
             if let document = document, document.exists {
-                self.firestoreDB.document(uid).collection(Constants.BookmarkedUser).document(eventId).delete()
+                self.firestoreDB.document(uid).collection(Constants.BookmarkedEvents).document(eventId).delete()
                 completion(true)
             } else {
-                self.firestoreDB.document(uid).collection(Constants.BookmarkedUser).document(eventId).setData([eventId: true], merge: false)
+                self.firestoreDB.document(uid).collection(Constants.BookmarkedEvents).document(eventId).setData([eventId: true], merge: false)
                 completion(false)
                 print("Document does not exist")
             }
