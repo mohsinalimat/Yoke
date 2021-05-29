@@ -8,6 +8,7 @@
 
 import UIKit
 import FirebaseAuth
+import Firebase
 
 class EventDetailViewController: UIViewController {
 
@@ -47,6 +48,7 @@ class EventDetailViewController: UIViewController {
         scrollView.addSubview(eventImage)
         scrollView.addSubview(detailViews)
         scrollView.addSubview(captionLabel)
+        scrollView.addSubview(bookmarkButton)
         scrollView.addSubview(locationIcon)
         scrollView.addSubview(locationLabel)
         scrollView.addSubview(dateIcon)
@@ -81,7 +83,8 @@ class EventDetailViewController: UIViewController {
         eventImage.anchor(top: profileImage.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 10, paddingLeft: 5, paddingBottom: 0, paddingRight: 5, height: view.frame.width)
         detailViews.anchor(top: eventImage.bottomAnchor, left: safeArea.leftAnchor, bottom: safeArea.bottomAnchor, right: safeArea.rightAnchor, paddingTop: -30, paddingLeft: 5, paddingBottom: 10, paddingRight: 5)
         captionLabel.anchor(top: detailViews.topAnchor, left: detailViews.leftAnchor, bottom: nil, right: detailViews.rightAnchor, paddingTop: 10, paddingLeft: 10, paddingBottom: 0, paddingRight: 10)
-        locationIcon.anchor(top: captionLabel.bottomAnchor, left: detailViews.leftAnchor, bottom: nil, right: nil, paddingTop: 20, paddingLeft: 10, paddingBottom: 0, paddingRight: 0, width: 15, height: 18)
+        bookmarkButton.anchor(top: captionLabel.bottomAnchor, left: captionLabel.leftAnchor, bottom: nil, right: nil, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 20, height: 40)
+        locationIcon.anchor(top: bookmarkButton.bottomAnchor, left: detailViews.leftAnchor, bottom: nil, right: nil, paddingTop: 20, paddingLeft: 10, paddingBottom: 0, paddingRight: 0, width: 15, height: 18)
         locationLabel.anchor(top: nil, left: locationIcon.rightAnchor, bottom: nil, right: nil, paddingTop: 0, paddingLeft: 5, paddingBottom: 0, paddingRight: 0)
         locationLabel.centerYAnchor.constraint(equalTo: locationIcon.centerYAnchor).isActive = true
         dateIcon.anchor(top: locationIcon.bottomAnchor, left: detailViews.leftAnchor, bottom: nil, right: nil, paddingTop: 10, paddingLeft: 10, paddingBottom: 0, paddingRight: 0, width: 15, height: 15)
@@ -114,6 +117,22 @@ class EventDetailViewController: UIViewController {
             self.locationLabel.text = "453 12th street, Brooklyn NY"
             self.dateLabel.text = event.date
             self.timeLabel.text = "\(start) - \(end)"
+        }
+    }
+    
+    //MARK: - Selectors
+    @objc func handleBookmarked() {
+        guard let uid = Auth.auth().currentUser?.uid,
+              let id = event?.id else { return }
+        BookmarkController.shared.bookmarkUserWith(uid: uid, bookmarkedUid: id) { result in
+            switch result {
+            case true:
+                self.bookmarkButton.tintColor = UIColor.green
+                print("done")
+            case false:
+                self.bookmarkButton.tintColor = UIColor.yellow
+                print("start")
+            }
         }
     }
     
@@ -180,6 +199,19 @@ class EventDetailViewController: UIViewController {
         image.clipsToBounds = true
         image.layer.cornerRadius = 20
         return image
+    }()
+    
+    lazy var bookmarkButton: UIButton = {
+        let button = UIButton(type: .custom)
+        let image = UIImage(named: "bookmark_selected")?.withRenderingMode(.alwaysTemplate)
+        button.setImage(image, for: .normal)
+        button.tintColor = UIColor.orangeColor()
+        button.setTitle("Bookmarked", for: .normal)
+        button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 10)
+        button.setTitleColor(UIColor.orangeColor(), for: .normal)
+        button.layer.cornerRadius = 10
+        button.addTarget(self, action: #selector(handleBookmarked), for: .touchUpInside)
+        return button
     }()
     
     let detailViews: UIView = {
