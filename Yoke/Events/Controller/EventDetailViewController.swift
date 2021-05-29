@@ -135,7 +135,8 @@ class EventDetailViewController: UIViewController {
     @objc func handleBookmarked() {
         guard let uid = Auth.auth().currentUser?.uid,
               let id = event?.id else { return }
-        BookmarkController.shared.bookmarkUserWith(uid: uid, bookmarkedUid: id) { result in
+        print("bkid \(uid)")
+        BookmarkController.shared.bookmarkEventWith(uid: uid, eventId: id) { result in
             switch result {
             case true:
                 print("true")
