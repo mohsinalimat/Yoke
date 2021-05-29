@@ -82,7 +82,7 @@ class EventDetailViewController: UIViewController {
         imageShadowView.anchor(top: profileImage.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 10, paddingLeft: 5, paddingBottom: 0, paddingRight: 5, height: view.frame.width)
         eventImage.anchor(top: profileImage.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 10, paddingLeft: 5, paddingBottom: 0, paddingRight: 5, height: view.frame.width)
         detailViews.anchor(top: eventImage.bottomAnchor, left: safeArea.leftAnchor, bottom: safeArea.bottomAnchor, right: safeArea.rightAnchor, paddingTop: -30, paddingLeft: 5, paddingBottom: 10, paddingRight: 5)
-        captionLabel.anchor(top: detailViews.topAnchor, left: detailViews.leftAnchor, bottom: nil, right: captionLabel.leftAnchor, paddingTop: 10, paddingLeft: 10, paddingBottom: 0, paddingRight: 10)
+        captionLabel.anchor(top: detailViews.topAnchor, left: detailViews.leftAnchor, bottom: nil, right: bookmarkButton.leftAnchor, paddingTop: 10, paddingLeft: 10, paddingBottom: 0, paddingRight: 10)
         bookmarkButton.anchor(top: captionLabel.topAnchor, left: captionLabel.rightAnchor, bottom: captionLabel.bottomAnchor, right: nil, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 20)
         locationIcon.anchor(top: captionLabel.bottomAnchor, left: detailViews.leftAnchor, bottom: nil, right: nil, paddingTop: 20, paddingLeft: 10, paddingBottom: 0, paddingRight: 0, width: 15, height: 18)
         locationLabel.anchor(top: nil, left: locationIcon.rightAnchor, bottom: nil, right: nil, paddingTop: 0, paddingLeft: 5, paddingBottom: 0, paddingRight: 0)
