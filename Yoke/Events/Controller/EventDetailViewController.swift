@@ -83,8 +83,9 @@ class EventDetailViewController: UIViewController {
         eventImage.anchor(top: profileImage.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 10, paddingLeft: 5, paddingBottom: 0, paddingRight: 5, height: view.frame.width)
         detailViews.anchor(top: eventImage.bottomAnchor, left: safeArea.leftAnchor, bottom: safeArea.bottomAnchor, right: safeArea.rightAnchor, paddingTop: -30, paddingLeft: 5, paddingBottom: 10, paddingRight: 5)
         captionLabel.anchor(top: detailViews.topAnchor, left: detailViews.leftAnchor, bottom: nil, right: bookmarkButton.leftAnchor, paddingTop: 10, paddingLeft: 10, paddingBottom: 0, paddingRight: 10)
-        bookmarkButton.anchor(top: captionLabel.topAnchor, left: nil, bottom: captionLabel.bottomAnchor, right: detailViews.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 10, width: 20)
-        locationIcon.anchor(top: captionLabel.bottomAnchor, left: detailViews.leftAnchor, bottom: nil, right: nil, paddingTop: 20, paddingLeft: 10, paddingBottom: 0, paddingRight: 0, width: 15, height: 18)
+        bookmarkButton.anchor(top: nil, left: nil, bottom: nil, right: detailViews.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 10, width: 20)
+        bookmarkButton.centerYAnchor.constraint(equalTo: locationIcon.centerYAnchor).isActive = true
+        captionLabel.anchor(top: captionLabel.bottomAnchor, left: detailViews.leftAnchor, bottom: nil, right: nil, paddingTop: 20, paddingLeft: 10, paddingBottom: 0, paddingRight: 0, width: 15, height: 18)
         locationLabel.anchor(top: nil, left: locationIcon.rightAnchor, bottom: nil, right: nil, paddingTop: 0, paddingLeft: 5, paddingBottom: 0, paddingRight: 0)
         locationLabel.centerYAnchor.constraint(equalTo: locationIcon.centerYAnchor).isActive = true
         dateIcon.anchor(top: locationIcon.bottomAnchor, left: detailViews.leftAnchor, bottom: nil, right: nil, paddingTop: 10, paddingLeft: 10, paddingBottom: 0, paddingRight: 0, width: 15, height: 15)
@@ -135,7 +136,6 @@ class EventDetailViewController: UIViewController {
     @objc func handleBookmarked() {
         guard let uid = Auth.auth().currentUser?.uid,
               let id = event?.id else { return }
-        print("bkid \(uid)")
         BookmarkController.shared.bookmarkEventWith(uid: uid, eventId: id) { result in
             switch result {
             case true:
