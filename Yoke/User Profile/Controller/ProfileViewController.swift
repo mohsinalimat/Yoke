@@ -421,6 +421,21 @@ class ProfileViewController: UIViewController, TTGTextTagCollectionViewDelegate,
         
     }
     
+    @objc func handleBookmarked() {
+        let userUid = self.userId ?? (Auth.auth().currentUser?.uid ?? "")
+        guard let userToBookmarkUid = Auth.auth().currentUser?.uid else { return }
+        BookmarkController.shared.bookmarkUserWith(uid: userUid, bookmarkedUid: userToBookmarkUid) { result in
+            switch result {
+            case true:
+                self.bookmarkButton.tintColor = UIColor.green
+                print("done")
+            case false:
+                self.bookmarkButton.tintColor = UIColor.yellow
+                print("start")
+            }
+        }
+    }
+    
     //MARK: - Views
     lazy var scrollView: UIScrollView = {
         let view = UIScrollView()
@@ -589,6 +604,7 @@ class ProfileViewController: UIViewController, TTGTextTagCollectionViewDelegate,
         button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 10)
         button.setTitleColor(UIColor.orangeColor(), for: .normal)
         button.layer.cornerRadius = 10
+        button.addTarget(self, action: #selector(handleBookmarked), for: .touchUpInside)
         return button
     }()
     
