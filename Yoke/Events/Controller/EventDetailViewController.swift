@@ -117,6 +117,17 @@ class EventDetailViewController: UIViewController {
             self.locationLabel.text = "453 12th street, Brooklyn NY"
             self.dateLabel.text = event.date
             self.timeLabel.text = "\(start) - \(end)"
+            guard let id = event.id else { return }
+            BookmarkController.shared.bookmarkEventWith(uid: uid, eventId: id) { result in
+                switch result {
+                case true:
+                    let image = UIImage(named: "bookmark_selected")?.withRenderingMode(.alwaysTemplate)
+                    self.bookmarkButton.setImage(image, for: .normal)
+                case false:
+                    let image = UIImage(named: "bookmark_unselected")?.withRenderingMode(.alwaysTemplate)
+                    self.bookmarkButton.setImage(image, for: .normal)
+                }
+            }
         }
     }
     
@@ -127,11 +138,11 @@ class EventDetailViewController: UIViewController {
         BookmarkController.shared.bookmarkUserWith(uid: uid, bookmarkedUid: id) { result in
             switch result {
             case true:
-                self.bookmarkButton.tintColor = UIColor.green
-                print("done")
+                let image = UIImage(named: "bookmark_selected")?.withRenderingMode(.alwaysTemplate)
+                self.bookmarkButton.setImage(image, for: .normal)
             case false:
-                self.bookmarkButton.tintColor = UIColor.yellow
-                print("start")
+                let image = UIImage(named: "bookmark_unselected")?.withRenderingMode(.alwaysTemplate)
+                self.bookmarkButton.setImage(image, for: .normal)
             }
         }
     }
@@ -203,8 +214,8 @@ class EventDetailViewController: UIViewController {
     
     lazy var bookmarkButton: UIButton = {
         let button = UIButton(type: .custom)
-        let image = UIImage(named: "bookmark_selected")?.withRenderingMode(.alwaysTemplate)
-        button.setImage(image, for: .normal)
+//        let image = UIImage(named: "bookmark_selected")?.withRenderingMode(.alwaysTemplate)
+//        button.setImage(image, for: .normal)
         button.tintColor = UIColor.orangeColor()
         button.setTitle("Bookmarked", for: .normal)
         button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 10)
