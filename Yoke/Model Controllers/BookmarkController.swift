@@ -37,24 +37,24 @@ class BookmarkController {
 //                completion(true)
 //            } else {
 //                self.firestoreDB.document(uid).collection(Constants.BookmarkedEvents).document(eventId).setData([eventId: true], merge: false)
-//                completion(false)
-//                print("Document does not exist")
-//            }
-//        }
+        //                completion(false)
+        //                print("Document does not exist")
+        //            }
+        //        }
         firestoreDB.document(uid).collection(Constants.BookmarkedEvents).document(eventId).addSnapshotListener { documentSnapshot, error in
-              guard let document = documentSnapshot else {
+            guard let document = documentSnapshot else {
                 print("Error fetching document: \(error!)")
                 return
-              }
-              guard let data = document.data() else {
+            }
+            if let data = document.data() {
+                self.firestoreDB.document(uid).collection(Constants.BookmarkedEvents).document(eventId).delete()
+                completion(true)
+                print("Document data: \(data)")
+            } else {
                 self.firestoreDB.document(uid).collection(Constants.BookmarkedEvents).document(eventId).setData([eventId: true], merge: false)
                 completion(false)
-                print("Document data was empty.")
-                return
-              }
-            self.firestoreDB.document(uid).collection(Constants.BookmarkedEvents).document(eventId).delete()
-            completion(true)
-              print("Current data: \(data)")
+                print("Current data: nil")
             }
+        }
     }
 }
