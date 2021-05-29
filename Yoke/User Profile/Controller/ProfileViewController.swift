@@ -422,8 +422,8 @@ class ProfileViewController: UIViewController, TTGTextTagCollectionViewDelegate,
     }
     
     @objc func handleBookmarked() {
-        let userUid = self.userId ?? (Auth.auth().currentUser?.uid ?? "")
-        guard let userToBookmarkUid = Auth.auth().currentUser?.uid else { return }
+        let userToBookmarkUid = self.userId ?? (Auth.auth().currentUser?.uid ?? "")
+        guard let userUid = Auth.auth().currentUser?.uid else { return }
         BookmarkController.shared.bookmarkUserWith(uid: userUid, bookmarkedUid: userToBookmarkUid) { result in
             switch result {
             case true:
