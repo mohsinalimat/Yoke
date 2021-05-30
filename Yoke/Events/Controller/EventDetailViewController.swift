@@ -35,6 +35,7 @@ class EventDetailViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         fetchEvent()
+        checkIfBookmarked()
     }
  
     //MARK: - Helper Functions
@@ -119,39 +120,20 @@ class EventDetailViewController: UIViewController {
             self.locationLabel.text = "453 12th street, Brooklyn NY"
             self.dateLabel.text = event.date
             self.timeLabel.text = "\(start) - \(end)"
-            guard let id = event.id else { return }
-//            BookmarkController.shared.checkIfBookmarkedEventWith(uid: uid, id: id) { result in
-//                switch result {
-//                case true:
-//                    let image = UIImage(named: "bookmark_unselected")?.withRenderingMode(.alwaysTemplate)
-//                    self.bookmarkButton.setImage(image, for: .normal)
-////                    let image = UIImage(named: "bookmark_selected")?.withRenderingMode(.alwaysTemplate)
-////                    self.bookmarkButton.setImage(image, for: .normal)
-//                case false:
-//                    let image = UIImage(named: "bookmark_selected")?.withRenderingMode(.alwaysTemplate)
-//                    self.bookmarkButton.setImage(image, for: .normal)
-////                    let image = UIImage(named: "bookmark_unselected")?.withRenderingMode(.alwaysTemplate)
-////                    self.bookmarkButton.setImage(image, for: .normal)
-//                }
-//            }
         }
     }
     
     func checkIfBookmarked() {
         guard let id = event?.id,
-              let uid = event?.uid else { return }
+              let uid = Auth.auth().currentUser?.uid else { return }
         BookmarkController.shared.checkIfBookmarkedEventWith(uid: uid, id: id) { result in
             switch result {
             case true:
-                let image = UIImage(named: "bookmark_unselected")?.withRenderingMode(.alwaysTemplate)
-                self.bookmarkButton.setImage(image, for: .normal)
-//                    let image = UIImage(named: "bookmark_selected")?.withRenderingMode(.alwaysTemplate)
-//                    self.bookmarkButton.setImage(image, for: .normal)
-            case false:
                 let image = UIImage(named: "bookmark_selected")?.withRenderingMode(.alwaysTemplate)
                 self.bookmarkButton.setImage(image, for: .normal)
-//                    let image = UIImage(named: "bookmark_unselected")?.withRenderingMode(.alwaysTemplate)
-//                    self.bookmarkButton.setImage(image, for: .normal)
+            case false:
+                let image = UIImage(named: "bookmark_unselected")?.withRenderingMode(.alwaysTemplate)
+                self.bookmarkButton.setImage(image, for: .normal)
             }
         }
     }
@@ -173,9 +155,11 @@ class EventDetailViewController: UIViewController {
             case true:
                 let image = UIImage(named: "bookmark_selected")?.withRenderingMode(.alwaysTemplate)
                 self.bookmarkButton.setImage(image, for: .normal)
+                self.bookmarkButton.setTitle("Bookmarked", for: .normal)
             case false:
                 let image = UIImage(named: "bookmark_unselected")?.withRenderingMode(.alwaysTemplate)
                 self.bookmarkButton.setImage(image, for: .normal)
+                self.bookmarkButton.setTitle("Bookmark", for: .normal)
             }
         }
     }
@@ -250,7 +234,7 @@ class EventDetailViewController: UIViewController {
 //        let image = UIImage(named: "bookmark_selected")?.withRenderingMode(.alwaysTemplate)
 //        button.setImage(image, for: .normal)
         button.tintColor = UIColor.orangeColor()
-        button.setTitle("Bookmarked", for: .normal)
+//        button.setTitle("Bookmarked", for: .normal)
         button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 10)
         button.setTitleColor(UIColor.orangeColor(), for: .normal)
         button.layer.cornerRadius = 10
