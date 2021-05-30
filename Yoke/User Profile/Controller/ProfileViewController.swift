@@ -277,6 +277,23 @@ class ProfileViewController: UIViewController, TTGTextTagCollectionViewDelegate,
         }
     }
     
+    func checkIfBookmarked() {
+        let bookmarkedUser = self.userId ?? (Auth.auth().currentUser?.uid ?? "")
+        guard let uid = Auth.auth().currentUser?.uid else { return }
+        BookmarkController.shared.checkIfBookmarkedUserWith(uid: uid, bookmarkedUid: bookmarkedUser) { result in
+            switch result {
+            case true:
+                let image = UIImage(named: "bookmark_selected")?.withRenderingMode(.alwaysTemplate)
+                self.bookmarkButton.setImage(image, for: .normal)
+                self.bookmarkButton.setTitle("Bookmarked", for: .normal)
+            case false:
+                let image = UIImage(named: "bookmark_unselected")?.withRenderingMode(.alwaysTemplate)
+                self.bookmarkButton.setImage(image, for: .normal)
+                self.bookmarkButton.setTitle("Bookmark", for: .normal)
+            }
+        }
+    }
+    
     //MARK: - Blocking functions
     func unblock() {
         let menu = UIAlertController(title: "Choose Option" , message: "", preferredStyle: .actionSheet)
@@ -387,21 +404,6 @@ class ProfileViewController: UIViewController, TTGTextTagCollectionViewDelegate,
         self.present(alertController, animated: true)
     }
     
-    func checkIfBookmarked() {
-        guard let bookmarkedUser = user?.uid,
-              let uid = Auth.auth().currentUser?.uid else { return }
-        BookmarkController.shared.checkIfBookmarkedUserWith(uid: uid, bookmarkedUid: bookmarkedUser) { result in
-            switch result {
-            case true:
-                let image = UIImage(named: "bookmark_selected")?.withRenderingMode(.alwaysTemplate)
-                self.bookmarkButton.setImage(image, for: .normal)
-            case false:
-                let image = UIImage(named: "bookmark_unselected")?.withRenderingMode(.alwaysTemplate)
-                self.bookmarkButton.setImage(image, for: .normal)
-            }
-        }
-    }
-    
     //MARK: - Selectors
     @objc func viewReviews() {
         let reviewsVC = ReviewsCollectionViewController(collectionViewLayout: UICollectionViewFlowLayout())
@@ -449,9 +451,11 @@ class ProfileViewController: UIViewController, TTGTextTagCollectionViewDelegate,
             case true:
                 let image = UIImage(named: "bookmark_selected")?.withRenderingMode(.alwaysTemplate)
                 self.bookmarkButton.setImage(image, for: .normal)
+                self.bookmarkButton.setTitle("Bookmarked", for: .normal)
             case false:
                 let image = UIImage(named: "bookmark_unselected")?.withRenderingMode(.alwaysTemplate)
                 self.bookmarkButton.setImage(image, for: .normal)
+                self.bookmarkButton.setTitle("Bookmark", for: .normal)
             }
         }
     }
@@ -617,10 +621,10 @@ class ProfileViewController: UIViewController, TTGTextTagCollectionViewDelegate,
     
     lazy var bookmarkButton: UIButton = {
         let button = UIButton(type: .custom)
-        let image = UIImage(named: "bookmark_selected")?.withRenderingMode(.alwaysTemplate)
-        button.setImage(image, for: .normal)
+//        let image = UIImage(named: "bookmark_selected")?.withRenderingMode(.alwaysTemplate)
+//        button.setImage(image, for: .normal)
         button.tintColor = UIColor.orangeColor()
-        button.setTitle("Bookmarked", for: .normal)
+//        button.setTitle("Bookmarked", for: .normal)
         button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 10)
         button.setTitleColor(UIColor.orangeColor(), for: .normal)
         button.layer.cornerRadius = 10
