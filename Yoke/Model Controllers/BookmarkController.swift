@@ -44,12 +44,17 @@ class BookmarkController {
     }
     
     func checkIfBookmarkedEventWith(uid: String, id: String, completion: @escaping (Bool) -> Void) {
-        firestoreDB.document(uid).collection(Constants.BookmarkedEvents).document(id).getDocument { (document, error) in
-            if let document = document, document.exists {
+        firestoreDB.document(uid).collection(Constants.BookmarkedEvents).document(id).addSnapshotListener { documentSnapshot, error in
+            guard let document = documentSnapshot else {
+                print("Error fetching document: \(error!)")
+                return
+            }
+            if let data = document.data() {
                 completion(true)
+                print("Document data: \(data)")
             } else {
                 completion(false)
-                print("Document does not exist")
+                print("Current data: nil")
             }
         }
     }
