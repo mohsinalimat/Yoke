@@ -92,32 +92,16 @@ class BookmarkedVC: UICollectionViewController, UICollectionViewDelegateFlowLayo
 
     var events = [Event]()
     fileprivate func fetchEvents() {
-        guard let currentUserId = Auth.auth().currentUser?.uid else {return}
-        let ref = Database.database().reference().child(Constants.BookmarkedEvents).child(currentUserId)
-        ref.observeSingleEvent(of: .value, with: { (snapshot) in
-            
-            for child in snapshot.children {
-                let eventKey = (child as AnyObject).key as String
-                Database.database().reference().child(Constants.Event).child(eventKey).observeSingleEvent(of: .value, with: { (snapshot) in
-                    
-                    guard let dictionary = snapshot.value as? [String: Any] else {return}
-                    guard let uid = dictionary[Constants.Uid] as? String else {return}
-                    
-                    Database.fetchUserWithUID(uid: uid, completion: { (user) in
-//                        let event = Event(user: user, dictionary: dictionary, snapshot: snapshot)
-//                        self.events.append(event)
-//                        self.events.sort(by: { (event1, event2) -> Bool in
-//                            return event1.eventDate?.compare(event2.eventDate!) == .orderedAscending
-//                        })
-                        DispatchQueue.main.async {
-                            self.collectionView?.reloadData()
-                        }
-                        
-                    })
-                    
-                })
+        guard let currentUserId = Auth.auth().currentUser?.uid else { return }
+        BookmarkController.shared.fetchBookmarkedUserWith(uid: currentUserId) { result in
+            switch result {
+            case true:
+                <#code#>
+            case false:
+                <#code#>
             }
-        })
+        }
+        
     }
 
     var users = [User]()
@@ -168,14 +152,9 @@ class BookmarkedVC: UICollectionViewController, UICollectionViewDelegateFlowLayo
 
     }
 
-    override func numberOfSections(in collectionView: UICollectionView) -> Int {
-        return 1
-    }
-
-
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         if segmentedControl.selectedSegmentIndex == 0 {
-            return users.count
+            return BookmarkController.shared.users.count
         } else if segmentedControl.selectedSegmentIndex == 1 {
             return events.count
         }
@@ -192,7 +171,7 @@ class BookmarkedVC: UICollectionViewController, UICollectionViewDelegateFlowLayo
             return cell
         } else if segmentedControl.selectedSegmentIndex == 0 {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath) as! BookmarkedUsersCell
-            cell.user = users[indexPath.item]
+            cell.user = BookmarkController.shared.users[indexPath.item]
             return cell
         }
         return cell
