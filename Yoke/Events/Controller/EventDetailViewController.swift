@@ -34,6 +34,7 @@ class EventDetailViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        fetchEvent()
     }
  
     //MARK: - Helper Functions
@@ -83,9 +84,9 @@ class EventDetailViewController: UIViewController {
         eventImage.anchor(top: profileImage.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 10, paddingLeft: 5, paddingBottom: 0, paddingRight: 5, height: view.frame.width)
         detailViews.anchor(top: eventImage.bottomAnchor, left: safeArea.leftAnchor, bottom: safeArea.bottomAnchor, right: safeArea.rightAnchor, paddingTop: -30, paddingLeft: 5, paddingBottom: 10, paddingRight: 5)
         captionLabel.anchor(top: detailViews.topAnchor, left: detailViews.leftAnchor, bottom: nil, right: bookmarkButton.leftAnchor, paddingTop: 10, paddingLeft: 10, paddingBottom: 0, paddingRight: 10)
-        bookmarkButton.anchor(top: nil, left: nil, bottom: nil, right: detailViews.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 10, width: 20)
-        bookmarkButton.centerYAnchor.constraint(equalTo: locationIcon.centerYAnchor).isActive = true
-        captionLabel.anchor(top: captionLabel.bottomAnchor, left: detailViews.leftAnchor, bottom: nil, right: nil, paddingTop: 20, paddingLeft: 10, paddingBottom: 0, paddingRight: 0, width: 15, height: 18)
+        bookmarkButton.anchor(top: nil, left: nil, bottom: nil, right: detailViews.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 20, width: 20)
+        bookmarkButton.centerYAnchor.constraint(equalTo: captionLabel.centerYAnchor).isActive = true
+        locationIcon.anchor(top: captionLabel.bottomAnchor, left: detailViews.leftAnchor, bottom: nil, right: nil, paddingTop: 20, paddingLeft: 10, paddingBottom: 0, paddingRight: 0, width: 15, height: 18)
         locationLabel.anchor(top: nil, left: locationIcon.rightAnchor, bottom: nil, right: nil, paddingTop: 0, paddingLeft: 5, paddingBottom: 0, paddingRight: 0)
         locationLabel.centerYAnchor.constraint(equalTo: locationIcon.centerYAnchor).isActive = true
         dateIcon.anchor(top: locationIcon.bottomAnchor, left: detailViews.leftAnchor, bottom: nil, right: nil, paddingTop: 10, paddingLeft: 10, paddingBottom: 0, paddingRight: 0, width: 15, height: 15)
@@ -119,15 +120,38 @@ class EventDetailViewController: UIViewController {
             self.dateLabel.text = event.date
             self.timeLabel.text = "\(start) - \(end)"
             guard let id = event.id else { return }
-            BookmarkController.shared.checkIfBookmarkedEventWith(uid: uid, id: id) { result in
-                switch result {
-                case true:
-                    let image = UIImage(named: "bookmark_selected")?.withRenderingMode(.alwaysTemplate)
-                    self.bookmarkButton.setImage(image, for: .normal)
-                case false:
-                    let image = UIImage(named: "bookmark_unselected")?.withRenderingMode(.alwaysTemplate)
-                    self.bookmarkButton.setImage(image, for: .normal)
-                }
+//            BookmarkController.shared.checkIfBookmarkedEventWith(uid: uid, id: id) { result in
+//                switch result {
+//                case true:
+//                    let image = UIImage(named: "bookmark_unselected")?.withRenderingMode(.alwaysTemplate)
+//                    self.bookmarkButton.setImage(image, for: .normal)
+////                    let image = UIImage(named: "bookmark_selected")?.withRenderingMode(.alwaysTemplate)
+////                    self.bookmarkButton.setImage(image, for: .normal)
+//                case false:
+//                    let image = UIImage(named: "bookmark_selected")?.withRenderingMode(.alwaysTemplate)
+//                    self.bookmarkButton.setImage(image, for: .normal)
+////                    let image = UIImage(named: "bookmark_unselected")?.withRenderingMode(.alwaysTemplate)
+////                    self.bookmarkButton.setImage(image, for: .normal)
+//                }
+//            }
+        }
+    }
+    
+    func checkIfBookmarked() {
+        guard let id = event?.id,
+              let uid = event?.uid else { return }
+        BookmarkController.shared.checkIfBookmarkedEventWith(uid: uid, id: id) { result in
+            switch result {
+            case true:
+                let image = UIImage(named: "bookmark_unselected")?.withRenderingMode(.alwaysTemplate)
+                self.bookmarkButton.setImage(image, for: .normal)
+//                    let image = UIImage(named: "bookmark_selected")?.withRenderingMode(.alwaysTemplate)
+//                    self.bookmarkButton.setImage(image, for: .normal)
+            case false:
+                let image = UIImage(named: "bookmark_selected")?.withRenderingMode(.alwaysTemplate)
+                self.bookmarkButton.setImage(image, for: .normal)
+//                    let image = UIImage(named: "bookmark_unselected")?.withRenderingMode(.alwaysTemplate)
+//                    self.bookmarkButton.setImage(image, for: .normal)
             }
         }
     }
