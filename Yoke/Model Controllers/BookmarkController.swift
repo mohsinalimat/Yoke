@@ -25,7 +25,21 @@ class BookmarkController {
             } else {
                 self.firestoreDB.document(uid).collection(Constants.BookmarkedUser).document(bookmarkedUid).setData([bookmarkedUid: true], merge: false)
                 completion(false)
-                print("Document does not exist")
+            }
+        }
+    }
+    
+    func checkIfBookmarkedUserWith(uid: String, bookmarkedUid: String, completion: @escaping (Bool) -> Void) {
+        firestoreDB.document(uid).collection(Constants.BookmarkedUsers).document(bookmarkedUid).addSnapshotListener { documentSnapshot, error in
+            guard let document = documentSnapshot else {
+                print("Error fetching document: \(error!)")
+                return
+            }
+            if let data = document.data() {
+                print(data)
+                completion(true)
+            } else {
+                completion(false)
             }
         }
     }
@@ -38,7 +52,6 @@ class BookmarkController {
             } else {
                 self.firestoreDB.document(uid).collection(Constants.BookmarkedEvents).document(eventId).setData([eventId: true], merge: false)
                 completion(false)
-                print("Document does not exist")
             }
         }
     }
@@ -50,11 +63,10 @@ class BookmarkController {
                 return
             }
             if let data = document.data() {
+                print(data)
                 completion(true)
-                print("Document data: \(data)")
             } else {
                 completion(false)
-                print("Current data: nil")
             }
         }
     }
