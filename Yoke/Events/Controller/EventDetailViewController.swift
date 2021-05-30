@@ -132,6 +132,7 @@ class EventDetailViewController: UIViewController {
                 let image = UIImage(named: "bookmark_selected")?.withRenderingMode(.alwaysTemplate)
                 self.bookmarkButton.setImage(image, for: .normal)
             case false:
+                print("bookmark")
                 let image = UIImage(named: "bookmark_unselected")?.withRenderingMode(.alwaysTemplate)
                 self.bookmarkButton.setImage(image, for: .normal)
             }
@@ -155,11 +156,9 @@ class EventDetailViewController: UIViewController {
             case true:
                 let image = UIImage(named: "bookmark_selected")?.withRenderingMode(.alwaysTemplate)
                 self.bookmarkButton.setImage(image, for: .normal)
-                self.bookmarkButton.setTitle("Bookmarked", for: .normal)
             case false:
                 let image = UIImage(named: "bookmark_unselected")?.withRenderingMode(.alwaysTemplate)
                 self.bookmarkButton.setImage(image, for: .normal)
-                self.bookmarkButton.setTitle("Bookmark", for: .normal)
             }
         }
     }

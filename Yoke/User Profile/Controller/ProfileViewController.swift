@@ -47,6 +47,7 @@ class ProfileViewController: UIViewController, TTGTextTagCollectionViewDelegate,
         super.viewDidLoad()
         fetchUser()
         setupCollectionView()
+        checkIfBookmarked()
     }
 
     //MARK: - Helper Functions
@@ -386,8 +387,19 @@ class ProfileViewController: UIViewController, TTGTextTagCollectionViewDelegate,
         self.present(alertController, animated: true)
     }
     
-    func mailComposeController(_ controller: MFMailComposeViewController, didFinishWith result: MFMailComposeResult, error: Error?) {
-         dismiss(animated: true, completion: nil)
+    func checkIfBookmarked() {
+        guard let bookmarkedUser = user?.uid,
+              let uid = Auth.auth().currentUser?.uid else { return }
+        BookmarkController.shared.checkIfBookmarkedUserWith(uid: uid, bookmarkedUid: bookmarkedUser) { result in
+            switch result {
+            case true:
+                let image = UIImage(named: "bookmark_selected")?.withRenderingMode(.alwaysTemplate)
+                self.bookmarkButton.setImage(image, for: .normal)
+            case false:
+                let image = UIImage(named: "bookmark_unselected")?.withRenderingMode(.alwaysTemplate)
+                self.bookmarkButton.setImage(image, for: .normal)
+            }
+        }
     }
     
     //MARK: - Selectors
@@ -427,11 +439,19 @@ class ProfileViewController: UIViewController, TTGTextTagCollectionViewDelegate,
         BookmarkController.shared.bookmarkUserWith(uid: userUid, bookmarkedUid: userToBookmarkUid) { result in
             switch result {
             case true:
-                self.bookmarkButton.tintColor = UIColor.green
-                print("done")
+                print("true")
             case false:
-                self.bookmarkButton.tintColor = UIColor.yellow
-                print("start")
+                print("false")
+            }
+        }
+        BookmarkController.shared.checkIfBookmarkedUserWith(uid: userUid, bookmarkedUid: userToBookmarkUid) { result in
+            switch result {
+            case true:
+                let image = UIImage(named: "bookmark_selected")?.withRenderingMode(.alwaysTemplate)
+                self.bookmarkButton.setImage(image, for: .normal)
+            case false:
+                let image = UIImage(named: "bookmark_unselected")?.withRenderingMode(.alwaysTemplate)
+                self.bookmarkButton.setImage(image, for: .normal)
             }
         }
     }
