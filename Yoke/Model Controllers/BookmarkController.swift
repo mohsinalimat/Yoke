@@ -16,6 +16,10 @@ class BookmarkController {
     //MARK: - Firebase Firestore Database
     let firestoreDB = Firestore.firestore().collection(Constants.Bookmarks)
     
+    //MARK: - Source of truth
+    var events: [Event] = []
+    var users: [User] = []
+    
     //MARK: - CRUD Functions
     func bookmarkUserWith(uid: String, bookmarkedUid: String, completion: @escaping (Bool) -> Void) {
         firestoreDB.document(uid).collection(Constants.BookmarkedUsers).document(bookmarkedUid).getDocument { (document, error) in
@@ -40,6 +44,22 @@ class BookmarkController {
                 completion(true)
             } else {
                 completion(false)
+            }
+        }
+    }
+    
+    func fetchBookmarkedUserWith(uid: String, completion: @escaping (Bool) -> Void) {
+        firestoreDB.document(uid).collection(Constants.BookmarkedUsers).getDocuments { (snapshot, error) in
+            if let error = error {
+                print(error.localizedDescription)
+                completion(false)
+            }
+            self.users = []
+            for document in snapshot!.documents {
+                let dictionary = document.data()
+                let user = User(dictionary: dictionary)
+                self.users.append(user)
+                completion(true)
             }
         }
     }
