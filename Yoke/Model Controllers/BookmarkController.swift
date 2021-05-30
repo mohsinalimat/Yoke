@@ -18,12 +18,12 @@ class BookmarkController {
     
     //MARK: - CRUD Functions
     func bookmarkUserWith(uid: String, bookmarkedUid: String, completion: @escaping (Bool) -> Void) {
-        firestoreDB.document(uid).collection(Constants.BookmarkedUser).document(bookmarkedUid).getDocument { (document, error) in
+        firestoreDB.document(uid).collection(Constants.BookmarkedUsers).document(bookmarkedUid).getDocument { (document, error) in
             if let document = document, document.exists {
-                self.firestoreDB.document(uid).collection(Constants.BookmarkedUser).document(bookmarkedUid).delete()
+                self.firestoreDB.document(uid).collection(Constants.BookmarkedUsers).document(bookmarkedUid).delete()
                 completion(true)
             } else {
-                self.firestoreDB.document(uid).collection(Constants.BookmarkedUser).document(bookmarkedUid).setData([bookmarkedUid: true], merge: false)
+                self.firestoreDB.document(uid).collection(Constants.BookmarkedUsers).document(bookmarkedUid).setData([bookmarkedUid: true], merge: false)
                 completion(false)
             }
         }
