@@ -158,7 +158,6 @@ class BookmarkedVC: UICollectionViewController, UICollectionViewDelegateFlowLayo
         } else if segmentedControl.selectedSegmentIndex == 1 {
             return events.count
         }
-        
         return 0
     }
 
