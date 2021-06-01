@@ -11,7 +11,6 @@ import Firebase
 
 class BookmarkedViewController: UICollectionViewController, UICollectionViewDelegateFlowLayout {
 
-    var user: User?
     var uid = Auth.auth().currentUser?.uid
     
     let cellId = "cellId"
@@ -20,42 +19,7 @@ class BookmarkedViewController: UICollectionViewController, UICollectionViewDele
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        self.collectionView!.register(BookmarkedUsersCell.self, forCellWithReuseIdentifier: cellId)
-        self.collectionView!.register(BookmarkedEventsCell.self, forCellWithReuseIdentifier: eventId)
-        collectionView?.alwaysBounceVertical = true
-        collectionView?.backgroundColor = UIColor.white
-        
-        let refreshControl = UIRefreshControl()
-        refreshControl.addTarget(self, action: #selector(handleRefresh), for: .valueChanged)
-        if #available(iOS 10.0, *) {
-            collectionView?.refreshControl = refreshControl
-        } else {
-            // Fallback on earlier versions
-        }
 
-        setupViews()
-        fetchBookmarkedUserIds()
-        fetchEvents()
-
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        self.navigationController?.navigationBar.isTranslucent = false
-    }
-    
-    @objc func handleRefresh() {
-        fetchAllSaved()
-    }
-    
-    fileprivate func fetchAllSaved() {
-        fetchBookmarkedUserIds()
-        fetchEvents()
-        if #available(iOS 10.0, *) {
-            self.collectionView?.refreshControl?.endRefreshing()
-        } else {
-            // Fallback on earlier versions
-        }
     }
     
     let segmentedControl: UISegmentedControl = {
@@ -79,17 +43,7 @@ class BookmarkedViewController: UICollectionViewController, UICollectionViewDele
             collectionView?.reloadData()
         }
     }
-    
-    func setupViews() {
-        navigationItem.title = "Bookmarked"
-        self.navigationController?.navigationBar.isTranslucent = false
-        self.navigationController?.view.backgroundColor = UIColor.black
-        
-        view.addSubview(segmentedControl)
-        segmentedControl.anchor(top: view.topAnchor, left: view.leftAnchor, bottom: nil, right: view.rightAnchor, paddingTop: 5, paddingLeft: 5, paddingBottom: 0, paddingRight: 5, width: 0, height: 0)
-        
-        collectionView!.contentInset = UIEdgeInsets(top: 50, left: 0, bottom: 0, right: 0)
-    }
+
 
     var events = [Event]()
     fileprivate func fetchEvents() {
@@ -97,60 +51,12 @@ class BookmarkedViewController: UICollectionViewController, UICollectionViewDele
         BookmarkController.shared.fetchBookmarkedUserWith(uid: currentUserId) { result in
             switch result {
             case true:
-                <#code#>
+                print("true")
             case false:
-                <#code#>
+                print("false")
             }
         }
         
-    }
-
-    var users = [User]()
-    fileprivate func fetchBookmarkedUserIds() {
-        
-        guard let uid = Auth.auth().currentUser?.uid else { return }
-        
-        Database.fetchUserWithUID(uid: uid) { (user) in
-            self.fetchUsers(user: user)
-        }
-    }
-    
-    fileprivate func fetchUsers(user: User) {
-        
-//        if #available(iOS 10.0, *) {
-//            self.collectionView?.refreshControl?.endRefreshing()
-//        } else {
-//            // Fallback on earlier versions
-//        }
-        
-        let ref = Database.database().reference().child(Constants.Users)
-        ref.observeSingleEvent(of: .value, with: { (snapshot) in
-            guard let dictionaries = snapshot.value as? [String: Any] else { return }
-            
-            dictionaries.forEach({ (key, value) in
-                
-                guard let userDictionary = value as? [String: Any] else { return }
-                Database.database().reference().child(Constants.BookmarkedUsers).child(self.uid!).child(key).observeSingleEvent(of: .value, with: { (snapshot) in
-                    
-//                    if let value = snapshot.value as? Int, value == 1 {
-//                         let user = User(uid: key, dictionary: userDictionary)
-//                        self.users.append(user)
-//                        self.users.sort(by: { (u1, u2) -> Bool in
-//                            return u1.username.compare(u2.username) == .orderedAscending
-//                        })
-//                        DispatchQueue.main.async {
-//                            self.collectionView?.reloadData()
-//                        }
-//                    }
-    
-                })
-                
-            })
-            
-        }) { (err) in
-            print("Failed to fetch users for search:", err)
-        }
-
     }
 
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -167,7 +73,6 @@ class BookmarkedViewController: UICollectionViewController, UICollectionViewDele
         if segmentedControl.selectedSegmentIndex == 1 {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: eventId, for: indexPath) as! BookmarkedEventsCell
             cell.event = events[indexPath.item]
-            cell.user = self.user
             return cell
         } else if segmentedControl.selectedSegmentIndex == 0 {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath) as! BookmarkedUsersCell
