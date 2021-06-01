@@ -1,5 +1,5 @@
 //
-//  SavedVC.swift
+//  BookmarkedViewController.swift
 //  FooD
 //
 //  Created by LAURA JELENICH on 2/26/19.
@@ -9,7 +9,7 @@
 import UIKit
 import Firebase
 
-class BookmarkedVC: UICollectionViewController, UICollectionViewDelegateFlowLayout {
+class BookmarkedViewController: UICollectionViewController, UICollectionViewDelegateFlowLayout {
 
     var user: User?
     var uid = Auth.auth().currentUser?.uid
@@ -49,9 +49,7 @@ class BookmarkedVC: UICollectionViewController, UICollectionViewDelegateFlowLayo
     }
     
     fileprivate func fetchAllSaved() {
-        users.removeAll()
         fetchBookmarkedUserIds()
-        events.removeAll()
         fetchEvents()
         if #available(iOS 10.0, *) {
             self.collectionView?.refreshControl?.endRefreshing()
@@ -63,10 +61,13 @@ class BookmarkedVC: UICollectionViewController, UICollectionViewDelegateFlowLayo
     let segmentedControl: UISegmentedControl = {
         let seg = UISegmentedControl(items: ["Users","Events"])
         seg.selectedSegmentIndex = 0
-        seg.backgroundColor = UIColor.orangeColor()
-        seg.tintColor = UIColor.white
-        seg.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor.white], for: UIControl.State.normal)
-        seg.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor.white], for: UIControl.State.selected)
+        seg.layer.cornerRadius = 10
+        seg.layer.borderWidth = 0.5
+        seg.layer.borderColor = UIColor.LightGrayBg()?.cgColor
+        let image = UIImage(named: "whiteBG")
+        seg.setBackgroundImage(image, for: .normal, barMetrics: .default)
+        seg.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor.orangeColor()!], for: UIControl.State.selected)
+        seg.setTitleTextAttributes([NSAttributedString.Key.font : UIFont.boldSystemFont(ofSize: 17), NSAttributedString.Key.foregroundColor: UIColor.gray.withAlphaComponent(0.5)], for: UIControl.State.normal)
         seg.addTarget(self, action: #selector(getSegments), for: .valueChanged)
         return seg
     }()

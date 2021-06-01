@@ -85,7 +85,7 @@
 		6C8DB69C24B3C1B9003D06FF /* StripeUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C8DB61824B3C1B8003D06FF /* StripeUser.swift */; };
 		6C8DB6A024B3C1B9003D06FF /* ReviewInputAccessoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C8DB62024B3C1B8003D06FF /* ReviewInputAccessoryView.swift */; };
 		6C8DB6A124B3C1B9003D06FF /* RatingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C8DB62124B3C1B8003D06FF /* RatingView.swift */; };
-		6C8DB6A724B3C1B9003D06FF /* BookmarkedVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C8DB62D24B3C1B9003D06FF /* BookmarkedVC.swift */; };
+		6C8DB6A724B3C1B9003D06FF /* BookmarkedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C8DB62D24B3C1B9003D06FF /* BookmarkedViewController.swift */; };
 		6C8DB6A824B3C1B9003D06FF /* BookmarkedEventsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C8DB62F24B3C1B9003D06FF /* BookmarkedEventsCell.swift */; };
 		6C8DB6A924B3C1B9003D06FF /* BookmarkedUsersCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C8DB63024B3C1B9003D06FF /* BookmarkedUsersCell.swift */; };
 		6C8DB6AB24B3C1CD003D06FF /* MainTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C8DB6AA24B3C1CD003D06FF /* MainTabBarController.swift */; };
@@ -231,7 +231,7 @@
 		6C8DB61824B3C1B8003D06FF /* StripeUser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StripeUser.swift; sourceTree = "<group>"; };
 		6C8DB62024B3C1B8003D06FF /* ReviewInputAccessoryView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReviewInputAccessoryView.swift; sourceTree = "<group>"; };
 		6C8DB62124B3C1B8003D06FF /* RatingView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RatingView.swift; sourceTree = "<group>"; };
-		6C8DB62D24B3C1B9003D06FF /* BookmarkedVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BookmarkedVC.swift; sourceTree = "<group>"; };
+		6C8DB62D24B3C1B9003D06FF /* BookmarkedViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BookmarkedViewController.swift; sourceTree = "<group>"; };
 		6C8DB62F24B3C1B9003D06FF /* BookmarkedEventsCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BookmarkedEventsCell.swift; sourceTree = "<group>"; };
 		6C8DB63024B3C1B9003D06FF /* BookmarkedUsersCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BookmarkedUsersCell.swift; sourceTree = "<group>"; };
 		6C8DB6AA24B3C1CD003D06FF /* MainTabBarController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainTabBarController.swift; sourceTree = "<group>"; };
@@ -727,7 +727,7 @@
 		6C8DB62C24B3C1B9003D06FF /* Controller */ = {
 			isa = PBXGroup;
 			children = (
-				6C8DB62D24B3C1B9003D06FF /* BookmarkedVC.swift */,
+				6C8DB62D24B3C1B9003D06FF /* BookmarkedViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -1066,7 +1066,7 @@
 				6C8DB6A024B3C1B9003D06FF /* ReviewInputAccessoryView.swift in Sources */,
 				6C1477DC26308EB2006CB4AA /* StripeAccountApi.swift in Sources */,
 				6CF5722F26276ADD00AAB1B7 /* BookingRequestDetailViewController.swift in Sources */,
-				6C8DB6A724B3C1B9003D06FF /* BookmarkedVC.swift in Sources */,
+				6C8DB6A724B3C1B9003D06FF /* BookmarkedViewController.swift in Sources */,
 				6CC8CBB325C33BD900C3F24D /* MenuCollectionViewCell.swift in Sources */,
 				6CF64C9F265458BE001825E9 /* ReportBlockController.swift in Sources */,
 				6CB2AA30258D62140062BDBE /* WelcomeVC.swift in Sources */,

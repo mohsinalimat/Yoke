@@ -321,17 +321,9 @@ class HomeViewController: UIViewController {
         navigationController?.pushViewController(profileView, animated: true)
     }
     
-    @objc func handleLogOut() {
-        do {
-            try Auth.auth().signOut()
-            UIView.animate(withDuration: 0.5) { [weak self] in
-                let loginVC = LoginVC()
-                self?.view.window?.rootViewController = loginVC
-                self?.view.window?.makeKeyAndVisible()
-            }
-        } catch let signOutErr {
-            print("Failed to sign out:", signOutErr)
-        }
+    @objc func viewBookmarked() {
+        let bookmarkView = BookmarkedViewController()
+        navigationController?.pushViewController(bookmarkView, animated: true)
     }
     
     //MARK: - Views
@@ -456,6 +448,7 @@ class HomeViewController: UIViewController {
         button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 10)
         button.setTitleColor(UIColor.orangeColor(), for: .normal)
         button.layer.cornerRadius = 10
+        button.addTarget(self, action: #selector(viewBookmarked), for: .touchUpInside)
         return button
     }()
     
