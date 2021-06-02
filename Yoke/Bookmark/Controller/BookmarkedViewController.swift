@@ -82,7 +82,16 @@ class BookmarkedViewController: UIViewController {
     
     //MARK: - API
     func fetchUsers() {
-        
+        guard let currentUserId = Auth.auth().currentUser?.uid else { return }
+        BookmarkController.shared.fetchBookmarkedUserWith(uid: currentUserId) { result in
+            switch result {
+            case true:
+                print("true")
+                self.userTableView.reloadData()
+            case false:
+                print("false")
+            }
+        }
     }
 
     func fetchEvents() {
@@ -157,12 +166,13 @@ extension BookmarkedViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: cellId, for: indexPath) as! BookmarkedUsersTableViewCell
         if segmentedControl.selectedSegmentIndex == 0 {
             let cell = tableView.dequeueReusableCell(withIdentifier: cellId, for: indexPath) as! BookmarkedUsersTableViewCell
-        } else if segmentedControl.selectedSegmentIndex == 1 {
-            let cell = tableView.dequeueReusableCell(withIdentifier: cellId, for: indexPath) as! BookmakredEventsTableViewCell
+            cell.user = BookmarkController.shared.users[indexPath.row]
+            return cell
         }
+        let cell = tableView.dequeueReusableCell(withIdentifier: cellId, for: indexPath) as! BookmakredEventsTableViewCell
+        
         return cell
         //        if tableView == messageTableView {
         //            let cell = tableView.dequeueReusableCell(withIdentifier: cellId2, for: indexPath) as! MessageTableViewCell
