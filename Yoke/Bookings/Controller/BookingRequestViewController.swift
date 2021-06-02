@@ -540,6 +540,7 @@ class BookingRequestViewController: UIViewController, BookingLocationDelegate {
     let detailTextField: UITextView = {
         let text = UITextView()
         text.placeholder = "Enter any additional information ..."
+        text.backgroundColor = .white
         text.textColor = .darkGray
         text.isEditable = true
         text.isScrollEnabled = true
