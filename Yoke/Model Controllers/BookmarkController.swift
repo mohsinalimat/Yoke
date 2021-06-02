@@ -56,10 +56,22 @@ class BookmarkController {
             }
             self.users = []
             for document in snapshot!.documents {
-                let dictionary = document.data()
-                let user = User(dictionary: dictionary)
-                self.users.append(user)
-                completion(true)
+                let uid = document.documentID
+                print("uid: \(uid)")
+                Firestore.firestore().collection(Constants.Users).document(uid).addSnapshotListener { snapshot, error in
+                    if let error = error {
+                        print(error.localizedDescription)
+                        completion(false)
+                    }
+                    guard let dictionary = snapshot?.data() else { return }
+                    let user = User(dictionary: dictionary)
+                    self.users.append(user)
+                    completion(true)
+                }
+//                UserController.shared.fetchUserWithUID(uid: uid) { user in
+//                    self.users.append(user)
+//                    completion(true)
+//                }
             }
         }
     }

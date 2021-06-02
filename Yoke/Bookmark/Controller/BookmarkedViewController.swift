@@ -86,8 +86,9 @@ class BookmarkedViewController: UIViewController {
         BookmarkController.shared.fetchBookmarkedUserWith(uid: currentUserId) { result in
             switch result {
             case true:
-                print("true")
-                self.userTableView.reloadData()
+                DispatchQueue.main.async {
+                    self.userTableView.reloadData()
+                }
             case false:
                 print("false")
             }
@@ -109,8 +110,8 @@ class BookmarkedViewController: UIViewController {
     //MARK: - Selectors
     @objc func handleSegSelection(index: Int) {
         if segmentedControl.selectedSegmentIndex == 0 {
-            userTableView.isHidden = true
-            eventTableView.isHidden = false
+            userTableView.isHidden = false
+            eventTableView.isHidden = true
         } else if segmentedControl.selectedSegmentIndex == 1 {
             userTableView.isHidden = true
             eventTableView.isHidden = false
@@ -169,6 +170,7 @@ extension BookmarkedViewController: UITableViewDataSource {
         if segmentedControl.selectedSegmentIndex == 0 {
             let cell = tableView.dequeueReusableCell(withIdentifier: cellId, for: indexPath) as! BookmarkedUsersTableViewCell
             cell.user = BookmarkController.shared.users[indexPath.row]
+            cell.backgroundColor = UIColor.LightGrayBg()
             return cell
         }
         let cell = tableView.dequeueReusableCell(withIdentifier: cellId, for: indexPath) as! BookmakredEventsTableViewCell
@@ -189,15 +191,7 @@ extension BookmarkedViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        if segmentedControl.selectedSegmentIndex == 0 {
-            
-        } else if segmentedControl.selectedSegmentIndex == 1 {
-            
-        }
-//        if tableView == messageTableView {
-//            return 110
-//        }
-        return 200
+        return 100
     }
 }
 
@@ -210,23 +204,4 @@ extension BookmarkedViewController: UITableViewDelegate {
             
         }
     }
-//        if tableView == messageTableView {
-//            let user = conversations[indexPath.row].message.chatPartnerId
-//            let chatVC = ChatCollectionViewController(collectionViewLayout: UICollectionViewFlowLayout())
-//            chatVC.userId = user
-//            navigationController?.pushViewController(chatVC, animated: true)
-//        }
-//        if tableView == requestTableView {
-//            let request = BookingController.shared.bookings[indexPath.row]
-//            if request.invoiceSent == true {
-//                let requestVC = MakePaymentViewController()
-//                requestVC.booking = request
-//                navigationController?.pushViewController(requestVC, animated: true)
-//            } else {
-//                let requestVC = BookingRequestDetailViewController()
-//                requestVC.booking = request
-//                navigationController?.pushViewController(requestVC, animated: true)
-//            }
-//        }
-//    }
 }
