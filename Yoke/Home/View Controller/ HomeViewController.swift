@@ -322,7 +322,7 @@ class HomeViewController: UIViewController {
     }
     
     @objc func viewBookmarked() {
-        let bookmarkView = BookmarkedViewController(collectionViewLayout: UICollectionViewFlowLayout())
+        let bookmarkView = BookmarkedViewController()
         navigationController?.pushViewController(bookmarkView, animated: true)
     }
     

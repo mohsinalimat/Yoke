@@ -9,18 +9,118 @@
 import UIKit
 import Firebase
 
-class BookmarkedViewController: UICollectionViewController, UICollectionViewDelegateFlowLayout {
+class BookmarkedViewController: UIViewController {
 
+    //MARK: - Properties
+    var safeArea: UILayoutGuide {
+        return self.view.safeAreaLayoutGuide
+    }
+    private let userTableView = UITableView()
+    private let eventTableView = UITableView()
     var uid = Auth.auth().currentUser?.uid
-    
     let cellId = "cellId"
-    let eventId = "eventId"
+    let cellId2 = "cellId2"
 
+    //MARK: - Lifecycle Methods
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        setupViews()
+        constrainViews()
+    }
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        configureNavigationBar()
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
-
+        configureTableView()
+        fetchEvents()
+        fetchUsers()
     }
+    
+    //MARK: - Helper Functions
+    func setupViews() {
+        view.backgroundColor = .white
+        view.addSubview(segmentShadowView)
+        view.addSubview(segmentedControl)
+        view.addSubview(userTableView)
+        view.addSubview(eventTableView)
+    }
+    
+    func constrainViews() {
+        segmentShadowView.anchor(top: safeArea.topAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, height: 45)
+        segmentedControl.anchor(top: safeArea.topAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, height: 45)
+        userTableView.anchor(top: segmentedControl.bottomAnchor, left: safeArea.leftAnchor, bottom: safeArea.bottomAnchor, right: safeArea.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0)
+        eventTableView.anchor(top: segmentedControl.bottomAnchor, left: safeArea.leftAnchor, bottom: safeArea.bottomAnchor, right: safeArea.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0)
+    }
+    
+    func configureTableView() {
+        userTableView.backgroundColor = UIColor.LightGrayBg()
+        userTableView.rowHeight = 80
+        userTableView.register(BookmarkedUsersTableViewCell.self, forCellReuseIdentifier: cellId)
+        userTableView.tableFooterView = UIView()
+        userTableView.delegate = self
+        userTableView.dataSource = self
+        userTableView.separatorStyle = .none
+        userTableView.isHidden = false
+        
+        eventTableView.backgroundColor = UIColor.LightGrayBg()
+        eventTableView.rowHeight = 80
+        eventTableView.register(BookmakredEventsTableViewCell.self, forCellReuseIdentifier: cellId2)
+        eventTableView.tableFooterView = UIView()
+        eventTableView.delegate = self
+        eventTableView.dataSource = self
+        eventTableView.separatorStyle = .none
+        eventTableView.isHidden = true
+    }
+    
+    func configureNavigationBar() {
+        guard let orange = UIColor.orangeColor() else { return }
+        configureNavigationBar(withTitle: "Bookmarks", largeTitle: true, backgroundColor: .white, titleColor: orange)
+    }
+    
+    //MARK: - API
+    func fetchUsers() {
+        
+    }
+
+    func fetchEvents() {
+        guard let currentUserId = Auth.auth().currentUser?.uid else { return }
+        BookmarkController.shared.fetchBookmarkedUserWith(uid: currentUserId) { result in
+            switch result {
+            case true:
+                print("true")
+            case false:
+                print("false")
+            }
+        }
+    }
+    
+    //MARK: - Selectors
+    @objc func handleSegSelection(index: Int) {
+        if segmentedControl.selectedSegmentIndex == 0 {
+            userTableView.isHidden = true
+            eventTableView.isHidden = false
+        } else if segmentedControl.selectedSegmentIndex == 1 {
+            userTableView.isHidden = true
+            eventTableView.isHidden = false
+        }
+    }
+    
+//    @objc func getSegments(index: Int) {
+//        if segmentedControl.selectedSegmentIndex == 0 {
+//            userTableView.reloadData()
+//        } else if segmentedControl.selectedSegmentIndex == 1 {
+//            eventTableView.reloadData()
+//        }
+//    }
+    
+    //MARK: - Views
+    let segmentShadowView: ShadowView = {
+        let view = ShadowView()
+        return view
+    }()
     
     let segmentedControl: UISegmentedControl = {
         let seg = UISegmentedControl(items: ["Users","Events"])
@@ -32,96 +132,91 @@ class BookmarkedViewController: UICollectionViewController, UICollectionViewDele
         seg.setBackgroundImage(image, for: .normal, barMetrics: .default)
         seg.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor.orangeColor()!], for: UIControl.State.selected)
         seg.setTitleTextAttributes([NSAttributedString.Key.font : UIFont.boldSystemFont(ofSize: 17), NSAttributedString.Key.foregroundColor: UIColor.gray.withAlphaComponent(0.5)], for: UIControl.State.normal)
-        seg.addTarget(self, action: #selector(getSegments), for: .valueChanged)
+        seg.addTarget(self, action: #selector(handleSegSelection), for: .valueChanged)
         return seg
     }()
-    
-    @objc func getSegments(index: Int) {
-        if segmentedControl.selectedSegmentIndex == 0 {
-            collectionView?.reloadData()
-        } else if segmentedControl.selectedSegmentIndex == 1 {
-            collectionView?.reloadData()
-        }
-    }
+}
 
-
-    var events = [Event]()
-    fileprivate func fetchEvents() {
-        guard let currentUserId = Auth.auth().currentUser?.uid else { return }
-        BookmarkController.shared.fetchBookmarkedUserWith(uid: currentUserId) { result in
-            switch result {
-            case true:
-                print("true")
-            case false:
-                print("false")
-            }
-        }
-        
-    }
-
-    override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+//    override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+//        if segmentedControl.selectedSegmentIndex == 0 {
+//            return BookmarkController.shared.users.count
+//        } else if segmentedControl.selectedSegmentIndex == 1 {
+//            return events.count
+//        }
+//        return 0
+//    }
+//MARK: - TableView DataSource
+extension BookmarkedViewController: UITableViewDataSource {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if segmentedControl.selectedSegmentIndex == 0 {
             return BookmarkController.shared.users.count
         } else if segmentedControl.selectedSegmentIndex == 1 {
-            return events.count
+            return BookmarkController.shared.events.count
         }
         return 0
     }
-
-    override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath)
-        if segmentedControl.selectedSegmentIndex == 1 {
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: eventId, for: indexPath) as! BookmarkedEventsCell
-            cell.event = events[indexPath.item]
-            return cell
-        } else if segmentedControl.selectedSegmentIndex == 0 {
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath) as! BookmarkedUsersCell
-            cell.user = BookmarkController.shared.users[indexPath.item]
-            return cell
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: cellId, for: indexPath) as! BookmarkedUsersTableViewCell
+        if segmentedControl.selectedSegmentIndex == 0 {
+            let cell = tableView.dequeueReusableCell(withIdentifier: cellId, for: indexPath) as! BookmarkedUsersTableViewCell
+        } else if segmentedControl.selectedSegmentIndex == 1 {
+            let cell = tableView.dequeueReusableCell(withIdentifier: cellId, for: indexPath) as! BookmakredEventsTableViewCell
         }
         return cell
+        //        if tableView == messageTableView {
+        //            let cell = tableView.dequeueReusableCell(withIdentifier: cellId2, for: indexPath) as! MessageTableViewCell
+        ////            cell.conversation = conversations[indexPath.row]
+        ////            cell.selectionStyle = .none
+        ////            cell.backgroundColor = UIColor.LightGrayBg()
+        //            return cell
+        //        }
+        //        let cell2 = tableView.dequeueReusableCell(withIdentifier: cellId2, for: indexPath) as! RequestTableViewCell
+        //        cell2.booking = BookingController.shared.bookings[indexPath.row]
+        //        cell2.selectionStyle = .none
+        //        cell2.backgroundColor = UIColor.LightGrayBg()
+        //        return cell2
     }
     
-    override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-//        
-//        if segmentedControl.selectedSegmentIndex == 0 {
-//            let user = users[indexPath.row]
-//            let userProfileVC = UserProfileVC(collectionViewLayout: UICollectionViewFlowLayout())
-//            userProfileVC.userId = user.uid
-//            navigationController?.pushViewController(userProfileVC, animated: true)
-//        } else if segmentedControl.selectedSegmentIndex == 1 {
-//            let event = events[indexPath.row]
-//            let eventDetailVC = EventDetailVC(collectionViewLayout: UICollectionViewFlowLayout())
-//            eventDetailVC.event = event
-//            navigationController?.pushViewController(eventDetailVC, animated: true)
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        if segmentedControl.selectedSegmentIndex == 0 {
+            
+        } else if segmentedControl.selectedSegmentIndex == 1 {
+            
+        }
+//        if tableView == messageTableView {
+//            return 110
 //        }
-        
+        return 200
     }
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: view.frame.width, height: 65)
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
-        return CGSize(width: view.frame.width, height: 10)
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-        if segmentedControl.selectedSegmentIndex == 0 {
-            return 1
-        } else if segmentedControl.selectedSegmentIndex == 1 {
-            return 20
-        }
-        return 1
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
-        if segmentedControl.selectedSegmentIndex == 0 {
-            return 1
-        } else if segmentedControl.selectedSegmentIndex == 1 {
-            return 20
-        }
-        return 1
-    }
+}
 
+//MARK: - TableView Delegate
+extension BookmarkedViewController: UITableViewDelegate {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        if segmentedControl.selectedSegmentIndex == 0 {
+            
+        } else if segmentedControl.selectedSegmentIndex == 1 {
+            
+        }
+    }
+//        if tableView == messageTableView {
+//            let user = conversations[indexPath.row].message.chatPartnerId
+//            let chatVC = ChatCollectionViewController(collectionViewLayout: UICollectionViewFlowLayout())
+//            chatVC.userId = user
+//            navigationController?.pushViewController(chatVC, animated: true)
+//        }
+//        if tableView == requestTableView {
+//            let request = BookingController.shared.bookings[indexPath.row]
+//            if request.invoiceSent == true {
+//                let requestVC = MakePaymentViewController()
+//                requestVC.booking = request
+//                navigationController?.pushViewController(requestVC, animated: true)
+//            } else {
+//                let requestVC = BookingRequestDetailViewController()
+//                requestVC.booking = request
+//                navigationController?.pushViewController(requestVC, animated: true)
+//            }
+//        }
+//    }
 }
