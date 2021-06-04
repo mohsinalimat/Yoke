@@ -54,6 +54,7 @@ class BookmarkController {
                 print(error.localizedDescription)
                 completion(false)
             }
+            
             self.users = []
             print("outside \(snapshot!.documents)")
             for document in snapshot!.documents {
