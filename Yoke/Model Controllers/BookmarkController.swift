@@ -54,17 +54,15 @@ class BookmarkController {
                 print(error.localizedDescription)
                 completion(false)
             }
-            self.users = []
-            print("outside \(snapshot!.documents)")
+//            self.users = []
             for document in snapshot!.documents {
                 let uid = document.documentID
-                print("uid: \(uid)")
-                print("document \(document)")
                 Firestore.firestore().collection(Constants.Users).document(uid).addSnapshotListener { snapshot, error in
                     if let error = error {
                         print(error.localizedDescription)
                         completion(false)
                     }
+                    self.users = []
                     guard let dictionary = snapshot?.data() else { return }
                     let user = User(dictionary: dictionary)
                     self.users.append(user)
