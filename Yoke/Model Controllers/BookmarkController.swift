@@ -56,29 +56,35 @@ class BookmarkController {
             }
             self.users = []
             let doc = snapshot!.documents
+            print("doc: \(doc)")
             Firestore.firestore().collection(Constants.Users).document(uid).addSnapshotListener { snapshot, error in
                 if let error = error {
                     print(error.localizedDescription)
                     completion(false)
                 }
             }
-            for document in snapshot!.documents {
-                let uid = document.documentID
-                Firestore.firestore().collection(Constants.Users).document(uid).addSnapshotListener { snapshot, error in
-                    if let error = error {
-                        print(error.localizedDescription)
-                        completion(false)
-                    }
-                    guard let dictionary = snapshot?.data() else { return }
-                    let user = User(dictionary: dictionary)
-                    self.users.append(user)
-                    completion(true)
-                }
-//                UserController.shared.fetchUserWithUID(uid: uid) { user in
+            let snapshot = snapshot?.documentChanges
+            
+            
+            
+//            for document in snapshot!.documents {
+//                print("document \(document)")
+//                let uid = document.documentID
+//                Firestore.firestore().collection(Constants.Users).document(uid).addSnapshotListener { snapshot, error in
+//                    if let error = error {
+//                        print(error.localizedDescription)
+//                        completion(false)
+//                    }
+//                    guard let dictionary = snapshot?.data() else { return }
+//                    let user = User(dictionary: dictionary)
 //                    self.users.append(user)
 //                    completion(true)
 //                }
-            }
+////                UserController.shared.fetchUserWithUID(uid: uid) { user in
+////                    self.users.append(user)
+////                    completion(true)
+////                }
+//            }
         }
     }
     

@@ -159,6 +159,7 @@ class BookmarkedViewController: UIViewController {
 extension BookmarkedViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if segmentedControl.selectedSegmentIndex == 0 {
+            print(BookmarkController.shared.users.count)
             return BookmarkController.shared.users.count
         } else if segmentedControl.selectedSegmentIndex == 1 {
             return BookmarkController.shared.events.count
