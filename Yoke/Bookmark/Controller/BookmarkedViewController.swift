@@ -30,13 +30,15 @@ class BookmarkedViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         configureNavigationBar()
+        fetchEvents()
+        fetchUsers()
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         configureTableView()
-        fetchEvents()
-        fetchUsers()
+//        fetchEvents()
+//        fetchUsers()
     }
     
     //MARK: - Helper Functions
@@ -97,14 +99,14 @@ class BookmarkedViewController: UIViewController {
 
     func fetchEvents() {
         guard let currentUserId = Auth.auth().currentUser?.uid else { return }
-        BookmarkController.shared.fetchBookmarkedUserWith(uid: currentUserId) { result in
-            switch result {
-            case true:
-                print("true")
-            case false:
-                print("false")
-            }
-        }
+//        BookmarkController.shared.fetchBookmarkedUserWith(uid: currentUserId) { result in
+//            switch result {
+//            case true:
+//                print("true")
+//            case false:
+//                print("false")
+//            }
+//        }
     }
     
     //MARK: - Selectors
