@@ -99,6 +99,7 @@ class BookmarkedViewController: UIViewController {
 
     func fetchEvents() {
         guard let currentUserId = Auth.auth().currentUser?.uid else { return }
+        self.eventTableView.reloadData()
 //        BookmarkController.shared.fetchBookmarkedUserWith(uid: currentUserId) { result in
 //            switch result {
 //            case true:
