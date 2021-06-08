@@ -22,12 +22,14 @@ class BookmarkController {
     
     //MARK: - CRUD Functions
     func bookmarkUserWith(uid: String, bookmarkedUid: String, completion: @escaping (Bool) -> Void) {
-        firestoreDB.document(uid).collection(Constants.BookmarkedUsers).document(bookmarkedUid).getDocument { (document, error) in
+        let id = NSUUID().uuidString
+        firestoreDB.document(uid).collection(Constants.BookmarkedUsers).document(id).getDocument { (document, error) in
             if let document = document, document.exists {
-                self.firestoreDB.document(uid).collection(Constants.BookmarkedUsers).document(bookmarkedUid).delete()
+                let docId = document.documentID
+                self.firestoreDB.document(uid).collection(Constants.BookmarkedUsers).document(docId).delete()
                 completion(true)
             } else {
-                self.firestoreDB.document(uid).collection(Constants.BookmarkedUsers).document(bookmarkedUid).setData([bookmarkedUid: true], merge: false)
+                self.firestoreDB.document(uid).collection(Constants.BookmarkedUsers).document(id).setData([bookmarkedUid: true], merge: false)
                 completion(false)
             }
         }
@@ -49,6 +51,7 @@ class BookmarkController {
     }
     
     func fetchBookmarkedUserWith(uid: String, completion: @escaping (Bool) -> Void) {
+        firestoreDB.document(uid).collection(Constants.BookmarkedUsers)
         firestoreDB.document(uid).collection(Constants.BookmarkedUsers).getDocuments { (snapshot, error) in
             if let error = error {
                 print(error.localizedDescription)
@@ -63,8 +66,21 @@ class BookmarkController {
                     completion(false)
                 }
             }
-            let snapshot = snapshot?.documentChanges
-            
+            guard error == nil, let snapshot = snapshot?.documentChanges else { return }
+                    snapshot.forEach {
+                        let doc = $0.document
+                        let documentId = doc.documentID
+                        Firestore.firestore().collection(Constants.Users).document(documentId).addSnapshotListener { snapshot, error in
+                            if let error = error {
+                                print(error.localizedDescription)
+                                completion(false)
+                            }
+                            guard let dictionary = snapshot?.data() else { return }
+                            let user = User(dictionary: dictionary)
+                            self.users.append(user)
+                            completion(true)
+                        }
+                    }
             
             
 //            for document in snapshot!.documents {
