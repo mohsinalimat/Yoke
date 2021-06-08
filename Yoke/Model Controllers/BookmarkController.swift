@@ -22,14 +22,12 @@ class BookmarkController {
     
     //MARK: - CRUD Functions
     func bookmarkUserWith(uid: String, bookmarkedUid: String, completion: @escaping (Bool) -> Void) {
-        let id = NSUUID().uuidString
-        firestoreDB.document(uid).collection(Constants.BookmarkedUsers).document(id).getDocument { (document, error) in
+        firestoreDB.document(uid).collection(Constants.BookmarkedUsers).document(bookmarkedUid).getDocument { (document, error) in
             if let document = document, document.exists {
-                let docId = document.documentID
-                self.firestoreDB.document(uid).collection(Constants.BookmarkedUsers).document(docId).delete()
+                self.firestoreDB.document(uid).collection(Constants.BookmarkedUsers).document(bookmarkedUid).delete()
                 completion(true)
             } else {
-                self.firestoreDB.document(uid).collection(Constants.BookmarkedUsers).document(id).setData([bookmarkedUid: true], merge: false)
+                self.firestoreDB.document(uid).collection(Constants.BookmarkedUsers).document(bookmarkedUid).setData([bookmarkedUid: true], merge: false)
                 completion(false)
             }
         }
@@ -51,7 +49,6 @@ class BookmarkController {
     }
     
     func fetchBookmarkedUserWith(uid: String, completion: @escaping (Bool) -> Void) {
-        firestoreDB.document(uid).collection(Constants.BookmarkedUsers)
         firestoreDB.document(uid).collection(Constants.BookmarkedUsers).getDocuments { (snapshot, error) in
             if let error = error {
                 print(error.localizedDescription)
