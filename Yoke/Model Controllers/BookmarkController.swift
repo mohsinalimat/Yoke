@@ -64,40 +64,20 @@ class BookmarkController {
                 }
             }
             guard error == nil, let snapshot = snapshot?.documentChanges else { return }
-                    snapshot.forEach {
-                        let doc = $0.document
-                        let documentId = doc.documentID
-                        Firestore.firestore().collection(Constants.Users).document(documentId).addSnapshotListener { snapshot, error in
-                            if let error = error {
-                                print(error.localizedDescription)
-                                completion(false)
-                            }
-                            guard let dictionary = snapshot?.data() else { return }
-                            let user = User(dictionary: dictionary)
-                            self.users.append(user)
-                            completion(true)
-                        }
+            snapshot.forEach {
+                let doc = $0.document
+                let documentId = doc.documentID
+                Firestore.firestore().collection(Constants.Users).document(documentId).addSnapshotListener { snapshot, error in
+                    if let error = error {
+                        print(error.localizedDescription)
+                        completion(false)
                     }
-            
-            
-//            for document in snapshot!.documents {
-//                print("document \(document)")
-//                let uid = document.documentID
-//                Firestore.firestore().collection(Constants.Users).document(uid).addSnapshotListener { snapshot, error in
-//                    if let error = error {
-//                        print(error.localizedDescription)
-//                        completion(false)
-//                    }
-//                    guard let dictionary = snapshot?.data() else { return }
-//                    let user = User(dictionary: dictionary)
-//                    self.users.append(user)
-//                    completion(true)
-//                }
-////                UserController.shared.fetchUserWithUID(uid: uid) { user in
-////                    self.users.append(user)
-////                    completion(true)
-////                }
-//            }
+                    guard let dictionary = snapshot?.data() else { return }
+                    let user = User(dictionary: dictionary)
+                    self.users.append(user)
+                    completion(true)
+                }
+            }
         }
     }
     
@@ -125,6 +105,33 @@ class BookmarkController {
             } else {
                 completion(false)
             }
+        }
+    }
+    
+    func fetchBookmarkedEventWith(uid: String, completion: @escaping (Bool) -> Void) {
+        firestoreDB.document(uid).collection(Constants.BookmarkedEvents).addSnapshotListener { (snapshot, error) in
+            if let error = error {
+                print(error.localizedDescription)
+                completion(false)
+            }
+            self.events = []
+            snapshot?.documents.forEach({ (document) in
+                let docId = document.documentID
+                Firestore.firestore().collection(Constants.Events).document(docId).addSnapshotListener { snapshot, error in
+                    if let error = error {
+                        print(error.localizedDescription)
+                        completion(false)
+                    }
+                    let dictionary = document.data()
+                    let event = Event(dictionary: dictionary)
+                    self.events.append(event)
+                    completion(true)
+                }
+//                let dictionary = document.data()
+//                let event = Event(dictionary: dictionary)
+//                self.events.append(event)
+//                completion(true)
+            })
         }
     }
 }

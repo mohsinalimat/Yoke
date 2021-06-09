@@ -172,26 +172,15 @@ extension BookmarkedViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if segmentedControl.selectedSegmentIndex == 0 {
-            let cell = tableView.dequeueReusableCell(withIdentifier: cellId, for: indexPath) as! BookmarkedUsersTableViewCell
-            cell.user = BookmarkController.shared.users[indexPath.row]
-            cell.backgroundColor = UIColor.LightGrayBg()
-            return cell
+            let cellA = tableView.dequeueReusableCell(withIdentifier: cellId, for: indexPath) as! BookmarkedUsersTableViewCell
+            cellA.user = BookmarkController.shared.users[indexPath.row]
+            cellA.backgroundColor = UIColor.LightGrayBg()
+            return cellA
         }
-        let cell = tableView.dequeueReusableCell(withIdentifier: cellId, for: indexPath) as! BookmakredEventsTableViewCell
-        
+        let cell = tableView.dequeueReusableCell(withIdentifier: cellId2, for: indexPath) as! BookmakredEventsTableViewCell
+        cell.event = BookmarkController.shared.events[indexPath.row]
         return cell
-        //        if tableView == messageTableView {
-        //            let cell = tableView.dequeueReusableCell(withIdentifier: cellId2, for: indexPath) as! MessageTableViewCell
-        ////            cell.conversation = conversations[indexPath.row]
-        ////            cell.selectionStyle = .none
-        ////            cell.backgroundColor = UIColor.LightGrayBg()
-        //            return cell
-        //        }
-        //        let cell2 = tableView.dequeueReusableCell(withIdentifier: cellId2, for: indexPath) as! RequestTableViewCell
-        //        cell2.booking = BookingController.shared.bookings[indexPath.row]
-        //        cell2.selectionStyle = .none
-        //        cell2.backgroundColor = UIColor.LightGrayBg()
-        //        return cell2
+        
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
