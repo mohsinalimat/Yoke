@@ -30,15 +30,13 @@ class BookmarkedViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         configureNavigationBar()
-        fetchEvents()
-        fetchUsers()
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         configureTableView()
-//        fetchEvents()
-//        fetchUsers()
+        fetchEvents()
+        fetchUsers()
     }
     
     //MARK: - Helper Functions
@@ -102,7 +100,9 @@ class BookmarkedViewController: UIViewController {
         BookmarkController.shared.fetchBookmarkedEventWith(uid: currentUserId) { result in
             switch result {
             case true:
-                self.eventTableView.reloadData()
+                DispatchQueue.main.async {
+                    self.eventTableView.reloadData()
+                }
             case false:
                 print("false")
             }
