@@ -149,31 +149,17 @@ class BookmarkedViewController: UIViewController {
     }()
 }
 
-//    override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-//        if segmentedControl.selectedSegmentIndex == 0 {
-//            return BookmarkController.shared.users.count
-//        } else if segmentedControl.selectedSegmentIndex == 1 {
-//            return events.count
-//        }
-//        return 0
-//    }
 //MARK: - TableView DataSource
 extension BookmarkedViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if segmentedControl.selectedSegmentIndex == 0 {
+        if tableView == userTableView {
             return BookmarkController.shared.users.count
         }
-//        else if segmentedControl.selectedSegmentIndex == 1 {
-//            print("event \(BookmarkController.shared.events.count)")
-//            return BookmarkController.shared.events.count
-//        }
-//        return 0
-        print("event \(BookmarkController.shared.events.count)")
         return BookmarkController.shared.events.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        if segmentedControl.selectedSegmentIndex == 0 {
+        if tableView == userTableView {
             let cellA = tableView.dequeueReusableCell(withIdentifier: cellId, for: indexPath) as! BookmarkedUsersTableViewCell
             cellA.user = BookmarkController.shared.users[indexPath.row]
             cellA.backgroundColor = UIColor.LightGrayBg()
@@ -193,10 +179,6 @@ extension BookmarkedViewController: UITableViewDataSource {
 //MARK: - TableView Delegate
 extension BookmarkedViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if segmentedControl.selectedSegmentIndex == 0 {
-            
-        } else if segmentedControl.selectedSegmentIndex == 1 {
-            
-        }
+
     }
 }

@@ -56,7 +56,6 @@ class BookmarkController {
             }
             self.users = []
             let doc = snapshot!.documents
-            print("doc: \(doc)")
             Firestore.firestore().collection(Constants.Users).document(uid).addSnapshotListener { snapshot, error in
                 if let error = error {
                     print(error.localizedDescription)
@@ -109,36 +108,26 @@ class BookmarkController {
     }
     
     func fetchBookmarkedEventWith(uid: String, completion: @escaping (Bool) -> Void) {
-        firestoreDB.document(uid).collection(Constants.BookmarkedEvents).addSnapshotListener { (snapshot, error) in
+        firestoreDB.document(uid).collection(Constants.BookmarkedEvents).getDocuments { (snapshot, error) in
             if let error = error {
                 print(error.localizedDescription)
                 completion(false)
             }
             self.events = []
-            snapshot?.documents.forEach({ (document) in
-                let docId = document.documentID
-                Firestore.firestore().collection(Constants.Events).getDocuments { (snapshot, error) in
+            for document in snapshot!.documents {
+                let id = document.documentID
+                Firestore.firestore().collection(Constants.Events).document(id).addSnapshotListener { snapshot, error in
                     if let error = error {
                         print(error.localizedDescription)
                         completion(false)
                     }
-                    self.users = []
-                    snapshot?.documents.forEach({ (document) in
-                        let dictionary = document.data()
-                        let id = dictionary[Constants.Id] as? String ?? ""
-                        if id == docId {
-                            let dictionary = document.data()
-                            let event = Event(dictionary: dictionary)
-                            self.events.append(event)
-                            completion(true)
-                        }
-                    })
+                    let dictionary = document.data()
+                    let event = Event(dictionary: dictionary)
+                    self.events.append(event)
+                    completion(true)
                 }
-//                let dictionary = document.data()
-//                let event = Event(dictionary: dictionary)
-//                self.events.append(event)
-//                completion(true)
-            })
+            }
+            
         }
     }
 }
