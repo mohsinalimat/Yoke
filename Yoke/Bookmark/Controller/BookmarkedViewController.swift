@@ -99,15 +99,14 @@ class BookmarkedViewController: UIViewController {
 
     func fetchEvents() {
         guard let currentUserId = Auth.auth().currentUser?.uid else { return }
-        self.eventTableView.reloadData()
-//        BookmarkController.shared.fetchBookmarkedUserWith(uid: currentUserId) { result in
-//            switch result {
-//            case true:
-//                print("true")
-//            case false:
-//                print("false")
-//            }
-//        }
+        BookmarkController.shared.fetchBookmarkedEventWith(uid: currentUserId) { result in
+            switch result {
+            case true:
+                self.eventTableView.reloadData()
+            case false:
+                print("false")
+            }
+        }
     }
     
     //MARK: - Selectors
@@ -162,12 +161,15 @@ class BookmarkedViewController: UIViewController {
 extension BookmarkedViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if segmentedControl.selectedSegmentIndex == 0 {
-            print(BookmarkController.shared.users.count)
             return BookmarkController.shared.users.count
-        } else if segmentedControl.selectedSegmentIndex == 1 {
-            return BookmarkController.shared.events.count
         }
-        return 0
+//        else if segmentedControl.selectedSegmentIndex == 1 {
+//            print("event \(BookmarkController.shared.events.count)")
+//            return BookmarkController.shared.events.count
+//        }
+//        return 0
+        print("event \(BookmarkController.shared.events.count)")
+        return BookmarkController.shared.events.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {

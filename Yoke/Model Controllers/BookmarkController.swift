@@ -117,12 +117,14 @@ class BookmarkController {
             self.events = []
             snapshot?.documents.forEach({ (document) in
                 let docId = document.documentID
+                print("event bk \(docId)")
                 Firestore.firestore().collection(Constants.Events).document(docId).addSnapshotListener { snapshot, error in
                     if let error = error {
                         print(error.localizedDescription)
                         completion(false)
                     }
                     let dictionary = document.data()
+                    print("event dic \(dictionary)")
                     let event = Event(dictionary: dictionary)
                     self.events.append(event)
                     completion(true)
