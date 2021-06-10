@@ -49,13 +49,12 @@ class BookmarkController {
     }
     
     func fetchBookmarkedUserWith(uid: String, completion: @escaping (Bool) -> Void) {
-        firestoreDB.document(uid).collection(Constants.BookmarkedUsers).getDocuments { (snapshot, error) in
+        firestoreDB.document(uid).collection(Constants.BookmarkedUsers).addSnapshotListener { (snapshot, error) in
             if let error = error {
                 print(error.localizedDescription)
                 completion(false)
             }
             self.users = []
-            let doc = snapshot!.documents
             Firestore.firestore().collection(Constants.Users).document(uid).addSnapshotListener { snapshot, error in
                 if let error = error {
                     print(error.localizedDescription)
