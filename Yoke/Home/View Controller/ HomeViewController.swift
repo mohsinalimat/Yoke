@@ -302,7 +302,9 @@ class HomeViewController: UIViewController {
     
     @objc func viewBookings() {
         let bookingsVC = BookingsViewController()
-        navigationController?.pushViewController(bookingsVC, animated: true)
+//        navigationController?.pushViewController(bookingsVC, animated: true)
+        bookingsVC.modalPresentationStyle = .overCurrentContext
+        present(bookingsVC, animated: true)
     }
     
     @objc func handleSettings() {
