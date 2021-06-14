@@ -30,10 +30,13 @@ class BookmakredEventsTableViewCell: UITableViewCell {
     
     //MARK: - Helper Functions
     func configure() {
-        guard let event = event else { return }
+        guard let event = event,
+              let start = event.startTime,
+              let end = event.endTime else { return }
         nameLabel.text = event.caption
-//        guard let image = user.profileImageUrl else { return }
-//        profileImage.loadImage(urlString: image)
+        locationLabel.text = event.shortLocation
+        dateLabel.text = event.date
+        timeLabel.text = "\(start) - \(end)"
     }
 
     func setupViews() {
