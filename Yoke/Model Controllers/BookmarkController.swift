@@ -55,17 +55,9 @@ class BookmarkController {
                 completion(false)
             }
             self.users = []
-            Firestore.firestore().collection(Constants.Users).document(uid).addSnapshotListener { snapshot, error in
-                if let error = error {
-                    print(error.localizedDescription)
-                    completion(false)
-                }
-            }
-            guard error == nil, let snapshot = snapshot?.documentChanges else { return }
-            snapshot.forEach {
-                let doc = $0.document
-                let documentId = doc.documentID
-                Firestore.firestore().collection(Constants.Users).document(documentId).addSnapshotListener { snapshot, error in
+            for document in snapshot!.documents {
+                let id = document.documentID
+                Firestore.firestore().collection(Constants.Users).document(id).addSnapshotListener { snapshot, error in
                     if let error = error {
                         print(error.localizedDescription)
                         completion(false)
