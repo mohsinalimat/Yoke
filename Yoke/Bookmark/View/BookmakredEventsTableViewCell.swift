@@ -32,7 +32,6 @@ class BookmakredEventsTableViewCell: UITableViewCell {
     func configure() {
         guard let event = event else { return }
         nameLabel.text = event.caption
-        print(event.caption)
 //        guard let image = user.profileImageUrl else { return }
 //        profileImage.loadImage(urlString: image)
     }
@@ -40,16 +39,30 @@ class BookmakredEventsTableViewCell: UITableViewCell {
     func setupViews() {
         addSubview(shadowView)
         addSubview(cellBackgroundView)
-        addSubview(profileImage)
         addSubview(nameLabel)
+        addSubview(locationIcon)
+        addSubview(locationLabel)
+        addSubview(dateIcon)
+        addSubview(dateLabel)
+        addSubview(timeIcon)
+        addSubview(timeLabel)
     }
     
     func setupConstraints() {
         shadowView.anchor(top: topAnchor, left: leftAnchor, bottom: bottomAnchor, right: rightAnchor, paddingTop: 10, paddingLeft: 10, paddingBottom: 10, paddingRight: 10)
         cellBackgroundView.anchor(top: topAnchor, left: leftAnchor, bottom: bottomAnchor, right: rightAnchor, paddingTop: 10, paddingLeft: 10, paddingBottom: 10, paddingRight: 10)
-        profileImage.anchor(top: nil, left: cellBackgroundView.leftAnchor, bottom: nil, right: nil, paddingTop: 5, paddingLeft: 5, paddingBottom: 0, paddingRight: 5, width: 75, height: 75)
-        profileImage.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
-        nameLabel.anchor(top: profileImage.topAnchor, left: profileImage.rightAnchor, bottom: nil, right: cellBackgroundView.rightAnchor, paddingTop: 10, paddingLeft: 5, paddingBottom: 0, paddingRight: 5)
+
+//        profileImage.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
+        nameLabel.anchor(top: cellBackgroundView.topAnchor, left: cellBackgroundView.leftAnchor, bottom: nil, right: cellBackgroundView.rightAnchor, paddingTop: 10, paddingLeft: 5, paddingBottom: 0, paddingRight: 5)
+        locationIcon.anchor(top: nameLabel.bottomAnchor, left: cellBackgroundView.leftAnchor, bottom: nil, right: nil, paddingTop: 10, paddingLeft: 5, paddingBottom: 0, paddingRight: 0, width: 15, height: 18)
+        locationLabel.anchor(top: nil, left: locationIcon.rightAnchor, bottom: nil, right: nil, paddingTop: 0, paddingLeft: 5, paddingBottom: 0, paddingRight: 0)
+        locationLabel.centerYAnchor.constraint(equalTo: locationIcon.centerYAnchor).isActive = true
+        dateIcon.anchor(top: locationIcon.bottomAnchor, left: cellBackgroundView.leftAnchor, bottom: nil, right: nil, paddingTop: 10, paddingLeft: 5, paddingBottom: 0, paddingRight: 0, width: 15, height: 15)
+        dateLabel.anchor(top: dateIcon.topAnchor, left: dateIcon.rightAnchor, bottom: nil, right: nil, paddingTop: 0, paddingLeft: 5, paddingBottom: 0, paddingRight: 0)
+        dateLabel.centerYAnchor.constraint(equalTo: dateIcon.centerYAnchor).isActive = true
+        timeIcon.anchor(top: dateIcon.bottomAnchor, left: cellBackgroundView.leftAnchor, bottom: nil, right: nil, paddingTop: 10, paddingLeft: 5, paddingBottom: 0, paddingRight: 0, width: 15, height: 15)
+        timeLabel.anchor(top: timeIcon.topAnchor, left: dateIcon.rightAnchor, bottom: nil, right: nil, paddingTop: 0, paddingLeft: 5, paddingBottom: 0, paddingRight: 0)
+        timeLabel.centerYAnchor.constraint(equalTo: timeIcon.centerYAnchor).isActive = true
     }
     
     //MARK: - Views
@@ -67,18 +80,6 @@ class BookmakredEventsTableViewCell: UITableViewCell {
         return view
     }()
     
-    private let profileImage: CustomImageView = {
-        let image = CustomImageView()
-        image.contentMode = .scaleAspectFill
-        image.image = UIImage(named: "image_background")
-        image.translatesAutoresizingMaskIntoConstraints = false
-        image.clipsToBounds = true
-        image.layer.cornerRadius = 75 / 2
-        image.layer.borderWidth = 0.5
-        image.layer.borderColor = UIColor.white.cgColor
-        return image
-    }()
-    
     var nameLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.boldSystemFont(ofSize: 17)
@@ -88,5 +89,42 @@ class BookmakredEventsTableViewCell: UITableViewCell {
         return label
     }()
 
-
+    var locationIcon: UIImageView = {
+        let image = UIImageView()
+        image.image = UIImage(named: "location-pin-orange")
+        return image
+    }()
+    
+    var locationLabel: UILabel = {
+        let label = UILabel()
+        label.font = UIFont.boldSystemFont(ofSize: 13)
+        label.textColor = .gray
+        return label
+    }()
+    
+    var dateIcon: UIImageView = {
+        let image = UIImageView()
+        image.image = UIImage(named: "calendarOrange")
+        return image
+    }()
+    
+    var dateLabel: UILabel = {
+        let label = UILabel()
+        label.font = UIFont.boldSystemFont(ofSize: 15)
+        label.textColor = .gray
+        return label
+    }()
+    
+    var timeIcon: UIImageView = {
+        let image = UIImageView()
+        image.image = UIImage(named: "timeOrange")
+        return image
+    }()
+    
+    var timeLabel: UILabel = {
+        let label = UILabel()
+        label.font = UIFont.systemFont(ofSize: 13)
+        label.textColor = .gray
+        return label
+    }()
 }
