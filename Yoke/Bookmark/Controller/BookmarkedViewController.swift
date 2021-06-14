@@ -167,11 +167,15 @@ extension BookmarkedViewController: UITableViewDataSource {
         }
         let cell = tableView.dequeueReusableCell(withIdentifier: cellId2, for: indexPath) as! BookmakredEventsTableViewCell
         cell.event = BookmarkController.shared.events[indexPath.row]
+        cell.backgroundColor = UIColor.LightGrayBg()
         return cell
         
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        if tableView == eventTableView {
+            return 150
+        }
         return 100
     }
 }
