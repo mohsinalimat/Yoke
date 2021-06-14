@@ -120,7 +120,7 @@ class BookmarkController {
                         print(error.localizedDescription)
                         completion(false)
                     }
-                    let dictionary = document.data()
+                    guard let dictionary = snapshot?.data() else { return }
                     let event = Event(dictionary: dictionary)
                     self.events.append(event)
                     completion(true)
