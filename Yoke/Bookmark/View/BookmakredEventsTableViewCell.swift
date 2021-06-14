@@ -32,6 +32,7 @@ class BookmakredEventsTableViewCell: UITableViewCell {
     func configure() {
         guard let event = event else { return }
         nameLabel.text = event.caption
+        print(event.caption)
 //        guard let image = user.profileImageUrl else { return }
 //        profileImage.loadImage(urlString: image)
     }
