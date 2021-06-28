@@ -457,7 +457,7 @@ class HomeViewController: UIViewController {
         stackView.axis = .horizontal
         stackView.distribution = .fillEqually
         stackView.spacing = 0
-        stackView.backgroundColor = .clear
+        stackView.backgroundColor = UIColor.LightGrayBg()
         stackView.layer.cornerRadius = 20
 //        stackView.layer.shadowOffset = CGSize(width: 0, height: 4)
 //        stackView.layer.shadowRadius = 4
