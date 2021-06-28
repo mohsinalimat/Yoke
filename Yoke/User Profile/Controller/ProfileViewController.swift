@@ -36,6 +36,7 @@ class ProfileViewController: UIViewController, TTGTextTagCollectionViewDelegate,
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         setupViews()
+        constrainViews()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -60,13 +61,6 @@ class ProfileViewController: UIViewController, TTGTextTagCollectionViewDelegate,
         navigationItem.rightBarButtonItem = UIBarButtonItem(image: filterIcon, style: .plain, target: self, action: #selector(handleBlockReport))
     }
     
-    func setupButtonImages() {
-        reviewsButton.alignImageTextVertical()
-        eventButton.alignImageTextVertical()
-        bookmarkButton.alignImageTextVertical()
-        messageButton.alignImageTextVertical()
-    }
-    
     func setupViews() {
         view.addSubview(scrollView)
         scrollView.addSubview(bannerImageView)
@@ -83,12 +77,8 @@ class ProfileViewController: UIViewController, TTGTextTagCollectionViewDelegate,
                 self.scrollView.addSubview(self.bioView)
                 self.scrollView.addSubview(self.bioLabel)
                 self.scrollView.addSubview(self.bioTextLabel)
-                self.constrainViews()
                 self.constrainViewsForUser()
             } else {
-                self.scrollView.addSubview(self.statsStackView)
-                self.statsStackView.addArrangedSubview(self.rebookCountLabel)
-                self.statsStackView.addArrangedSubview(self.verifiedLabel)
                 self.scrollView.addSubview(self.buttonStackView)
                 self.buttonStackView.addArrangedSubview(self.reviewsButton)
                 self.buttonStackView.addArrangedSubview(self.eventButton)
@@ -103,7 +93,6 @@ class ProfileViewController: UIViewController, TTGTextTagCollectionViewDelegate,
                 self.scrollView.addSubview(self.collectionViewBG)
                 self.scrollView.addSubview(self.menuLabel)
                 self.scrollView.addSubview(self.menuCollectionView)
-                self.constrainViews()
                 self.constrainViewsForChef()
             }
         }
@@ -115,19 +104,28 @@ class ProfileViewController: UIViewController, TTGTextTagCollectionViewDelegate,
     
         bannerLayerImage.anchor(top: scrollView.topAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, height: 300)
         
-        profileImageView.anchor(top: bannerImageView.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: nil, paddingTop: -75, paddingLeft: 5, paddingBottom: 5, paddingRight: 0, width: 150, height: 150)
+        profileImageView.anchor(top: bannerImageView.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: nil, paddingTop: -200, paddingLeft: 5, paddingBottom: 5, paddingRight: 0, width: 150, height: 150)
         profileImageView.layer.cornerRadius = 75
         
         usernameView.anchor(top: usernameLabel.topAnchor, left: safeArea.leftAnchor, bottom: bannerImageView.bottomAnchor, right: usernameLabel.rightAnchor, paddingTop: -10, paddingLeft: 50, paddingBottom: 0, paddingRight: -10)
-        usernameLabel.anchor(top: nil, left: profileImageView.rightAnchor, bottom: bannerImageView.bottomAnchor, right: nil, paddingTop: 30, paddingLeft: 5, paddingBottom: 0, paddingRight: 5)
-        locationLabel.anchor(top: bannerImageView.bottomAnchor, left: profileImageView.rightAnchor, bottom: nil, right: nil, paddingTop: 5, paddingLeft: 5, paddingBottom: 0, paddingRight: 0)
+        usernameLabel.anchor(top: nil, left: profileImageView.rightAnchor, bottom: nil, right: nil, paddingTop: 0, paddingLeft: 5, paddingBottom: 0, paddingRight: 5)
+        usernameLabel.centerYAnchor.constraint(equalTo: profileImageView.centerYAnchor).isActive = true
+        locationLabel.anchor(top: usernameLabel.bottomAnchor, left: profileImageView.rightAnchor, bottom: nil, right: nil, paddingTop: 5, paddingLeft: 5, paddingBottom: 0, paddingRight: 0)
         ratingView.anchor(top: locationLabel.bottomAnchor, left: profileImageView.rightAnchor, bottom: nil, right: nil, paddingTop: 5, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 120, height: 25)
     }
     
+    func setupButtonImages() {
+        reviewsButton.alignImageTextVertical()
+        eventButton.alignImageTextVertical()
+        bookmarkButton.alignImageTextVertical()
+        messageButton.alignImageTextVertical()
+    }
+    
     func constrainViewsForChef() {
-        statsStackView.anchor(top: ratingView.bottomAnchor, left: profileImageView.rightAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 5, paddingLeft: 0, paddingBottom: 0, paddingRight: 15, height: 25)
+//        statsStackView.anchor(top: ratingView.bottomAnchor, left: profileImageView.rightAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 5, paddingLeft: 0, paddingBottom: 0, paddingRight: 15, height: 25)
         setupButtonImages()
-        buttonStackView.anchor(top: statsStackView.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 10, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, height: 70)
+        buttonStackView.anchor(top: bannerLayerImage.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: -20, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, height: 70)
+        buttonStackView.backgroundColor = .green
         
         bioView.anchor(top: buttonStackView.bottomAnchor, left: safeArea.leftAnchor, bottom: bioTextLabel.bottomAnchor, right: safeArea.rightAnchor, paddingTop: -10, paddingLeft: 0, paddingBottom: 0, paddingRight: 0)
 
