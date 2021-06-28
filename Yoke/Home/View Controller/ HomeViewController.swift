@@ -101,7 +101,7 @@ class HomeViewController: UIViewController {
         bookmarkButton.alignImageTextVertical()
         bookingButton.alignImageTextVertical()
         
-        buttonStackView.anchor(top: backgroundView.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: -20, paddingLeft: 15, paddingBottom: 0, paddingRight: 15, width: 0, height: 60)
+        buttonStackView.anchor(top: backgroundView.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: -20, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 60)
         
         let uid = userId ?? (Auth.auth().currentUser?.uid ?? "")
         UserController.shared.fetchUserWithUID(uid: uid) { (user) in
@@ -341,7 +341,7 @@ class HomeViewController: UIViewController {
         view.layer.shadowRadius = 4
         view.layer.shadowOpacity = 0.3
         view.layer.shadowColor = UIColor.lightGray.cgColor
-        view.layer.cornerRadius = 10
+//        view.layer.cornerRadius = 10
         view.layer.borderWidth = 0.5
         view.layer.borderColor = UIColor.gray.cgColor
         return view
@@ -351,7 +351,7 @@ class HomeViewController: UIViewController {
         let image = CustomImageView()
         image.clipsToBounds = true
         image.contentMode = .scaleToFill
-        image.layer.cornerRadius = 10
+//        image.layer.cornerRadius = 10
         image.backgroundColor = .clear
         image.image = UIImage(named: "gradientBackgroundHalf")
         return image
@@ -457,12 +457,12 @@ class HomeViewController: UIViewController {
         stackView.axis = .horizontal
         stackView.distribution = .fillEqually
         stackView.spacing = 0
-        stackView.backgroundColor = .white
-        stackView.layer.cornerRadius = 10
-        stackView.layer.shadowOffset = CGSize(width: 0, height: 4)
-        stackView.layer.shadowRadius = 4
-        stackView.layer.shadowOpacity = 0.2
-        stackView.layer.shadowColor = UIColor.lightGray.cgColor
+        stackView.backgroundColor = .clear
+        stackView.layer.cornerRadius = 20
+//        stackView.layer.shadowOffset = CGSize(width: 0, height: 4)
+//        stackView.layer.shadowRadius = 4
+//        stackView.layer.shadowOpacity = 0.2
+//        stackView.layer.shadowColor = UIColor.lightGray.cgColor
         return stackView
     }()
     
