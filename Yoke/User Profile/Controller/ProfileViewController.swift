@@ -127,7 +127,7 @@ class ProfileViewController: UIViewController, TTGTextTagCollectionViewDelegate,
     func constrainViewsForChef() {
         statsStackView.anchor(top: ratingView.bottomAnchor, left: profileImageView.rightAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 5, paddingLeft: 0, paddingBottom: 0, paddingRight: 15, height: 25)
         setupButtonImages()
-        buttonStackView.anchor(top: statsStackView.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 10, paddingLeft: 15, paddingBottom: 0, paddingRight: 15, height: 60)
+        buttonStackView.anchor(top: statsStackView.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 10, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, height: 60)
         
         bioView.anchor(top: bioLabel.topAnchor, left: safeArea.leftAnchor, bottom: bioTextLabel.bottomAnchor, right: safeArea.rightAnchor, paddingTop: -10, paddingLeft: 5, paddingBottom: -10, paddingRight: 5)
 
@@ -637,12 +637,12 @@ class ProfileViewController: UIViewController, TTGTextTagCollectionViewDelegate,
         stackView.axis = .horizontal
         stackView.distribution = .fillEqually
         stackView.spacing = 0
-        stackView.backgroundColor = .white
-        stackView.layer.cornerRadius = 10
-        stackView.layer.shadowOffset = CGSize(width: 0, height: 4)
-        stackView.layer.shadowRadius = 4
-        stackView.layer.shadowOpacity = 0.1
-        stackView.layer.shadowColor = UIColor.lightGray.cgColor
+        stackView.backgroundColor = UIColor.LightGrayBg()
+        stackView.layer.cornerRadius = 20
+//        stackView.layer.shadowOffset = CGSize(width: 0, height: 4)
+//        stackView.layer.shadowRadius = 4
+//        stackView.layer.shadowOpacity = 0.1
+//        stackView.layer.shadowColor = UIColor.lightGray.cgColor
         return stackView
     }()
     
