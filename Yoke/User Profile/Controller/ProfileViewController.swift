@@ -463,7 +463,7 @@ class ProfileViewController: UIViewController, TTGTextTagCollectionViewDelegate,
     //MARK: - Views
     lazy var scrollView: UIScrollView = {
         let view = UIScrollView()
-        view.backgroundColor = UIColor.LightGrayBg()
+        view.backgroundColor = UIColor.white
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
