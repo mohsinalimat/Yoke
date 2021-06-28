@@ -648,12 +648,11 @@ class ProfileViewController: UIViewController, TTGTextTagCollectionViewDelegate,
     
     let bioView: UIView = {
         let view = UIView()
-        view.backgroundColor = .white
-        view.layer.cornerRadius = 10
-        view.layer.shadowOffset = CGSize(width: 0, height: 4)
-        view.layer.shadowRadius = 4
-        view.layer.shadowOpacity = 0.1
-        view.layer.shadowColor = UIColor.lightGray.cgColor
+        view.backgroundColor = UIColor.LightGrayBg()
+//        view.layer.shadowOffset = CGSize(width: 0, height: 4)
+//        view.layer.shadowRadius = 4
+//        view.layer.shadowOpacity = 0.1
+//        view.layer.shadowColor = UIColor.lightGray.cgColor
         return view
     }()
     
@@ -662,7 +661,7 @@ class ProfileViewController: UIViewController, TTGTextTagCollectionViewDelegate,
         label.font = UIFont.boldSystemFont(ofSize: 17)
         label.textColor = UIColor.gray
         label.textAlignment = .left
-        label.backgroundColor = .white
+        label.backgroundColor = UIColor.LightGrayBg()
         return label
     }()
     
@@ -674,18 +673,18 @@ class ProfileViewController: UIViewController, TTGTextTagCollectionViewDelegate,
         label.lineBreakMode = .byWordWrapping
         label.numberOfLines = 0
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.backgroundColor = .white
+        label.backgroundColor = UIColor.LightGrayBg()
         return label
     }()
     
     let cusineView: UIView = {
         let view = UIView()
-        view.backgroundColor = .white
-        view.layer.cornerRadius = 10
-        view.layer.shadowOffset = CGSize(width: 0, height: 4)
-        view.layer.shadowRadius = 4
-        view.layer.shadowOpacity = 0.1
-        view.layer.shadowColor = UIColor.lightGray.cgColor
+        view.backgroundColor = UIColor.LightGrayBg()
+//        view.layer.cornerRadius = 10
+//        view.layer.shadowOffset = CGSize(width: 0, height: 4)
+//        view.layer.shadowRadius = 4
+//        view.layer.shadowOpacity = 0.1
+//        view.layer.shadowColor = UIColor.lightGray.cgColor
         return view
     }()
     
@@ -700,12 +699,12 @@ class ProfileViewController: UIViewController, TTGTextTagCollectionViewDelegate,
     
     let collectionViewBG: UIView = {
         let view = UIView()
-        view.backgroundColor = UIColor.white
-        view.layer.cornerRadius = 10
-        view.layer.shadowOffset = CGSize(width: 0, height: 4)
-        view.layer.shadowRadius = 4
-        view.layer.shadowOpacity = 0.1
-        view.layer.shadowColor = UIColor.lightGray.cgColor
+        view.backgroundColor = UIColor.LightGrayBg()
+//        view.layer.cornerRadius = 10
+//        view.layer.shadowOffset = CGSize(width: 0, height: 4)
+//        view.layer.shadowRadius = 4
+//        view.layer.shadowOpacity = 0.1
+//        view.layer.shadowColor = UIColor.lightGray.cgColor
         return view
     }()
     
