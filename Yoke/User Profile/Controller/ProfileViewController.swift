@@ -124,7 +124,6 @@ class ProfileViewController: UIViewController, TTGTextTagCollectionViewDelegate,
     func constrainViewsForChef() {
 //        statsStackView.anchor(top: ratingView.bottomAnchor, left: profileImageView.rightAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 5, paddingLeft: 0, paddingBottom: 0, paddingRight: 15, height: 25)
         setupButtonImages()
-        bannerImageView.backgroundColor = .yellow
         buttonStackView.anchor(top: bannerImageView.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: -20, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, height: 70)
         buttonStackView.backgroundColor = .green
         
