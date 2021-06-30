@@ -534,7 +534,7 @@ class ProfileViewController: UIViewController, TTGTextTagCollectionViewDelegate,
     let locationLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.boldSystemFont(ofSize: 15)
-        label.textColor = UIColor.gray
+        label.textColor = UIColor.white
         label.textAlignment = .left
         return label
     }()
@@ -548,7 +548,7 @@ class ProfileViewController: UIViewController, TTGTextTagCollectionViewDelegate,
         view.editable = false
         view.emptyImage = UIImage(systemName: "star")
         view.fullImage = UIImage(systemName: "star.fill")
-        view.tintColor = UIColor.orangeColor()
+        view.tintColor = UIColor.white
         return view
     }()
     
