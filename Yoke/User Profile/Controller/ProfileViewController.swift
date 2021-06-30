@@ -104,7 +104,7 @@ class ProfileViewController: UIViewController, TTGTextTagCollectionViewDelegate,
     
         bannerLayerImage.anchor(top: scrollView.topAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, height: 300)
         
-        profileImageView.anchor(top: bannerImageView.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: nil, paddingTop: -200, paddingLeft: 5, paddingBottom: 5, paddingRight: 0, width: 150, height: 150)
+        profileImageView.anchor(top: bannerImageView.topAnchor, left: safeArea.leftAnchor, bottom: nil, right: nil, paddingTop: 100, paddingLeft: 5, paddingBottom: 5, paddingRight: 0, width: 150, height: 150)
         profileImageView.layer.cornerRadius = 75
         
         usernameView.anchor(top: usernameLabel.topAnchor, left: safeArea.leftAnchor, bottom: bannerImageView.bottomAnchor, right: usernameLabel.rightAnchor, paddingTop: -10, paddingLeft: 50, paddingBottom: 0, paddingRight: -10)
@@ -122,9 +122,8 @@ class ProfileViewController: UIViewController, TTGTextTagCollectionViewDelegate,
     }
     
     func constrainViewsForChef() {
-//        statsStackView.anchor(top: ratingView.bottomAnchor, left: profileImageView.rightAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 5, paddingLeft: 0, paddingBottom: 0, paddingRight: 15, height: 25)
         setupButtonImages()
-        buttonStackView.anchor(top: bannerImageView.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: -20, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, height: 70)
+        buttonStackView.anchor(top: profileImageView.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, height: 70)
         buttonStackView.backgroundColor = .green
         
         bioView.anchor(top: buttonStackView.bottomAnchor, left: safeArea.leftAnchor, bottom: bioTextLabel.bottomAnchor, right: safeArea.rightAnchor, paddingTop: -10, paddingLeft: 0, paddingBottom: 0, paddingRight: 0)
