@@ -105,7 +105,7 @@ class ProfileViewController: UIViewController, TTGTextTagCollectionViewDelegate,
         scrollView.addSubview(collectionViewBG)
         scrollView.addSubview(menuLabel)
         scrollView.addSubview(menuCollectionView)
-    }`
+    }
     
 //    func constrainViews() {
 //        scrollView.anchor(top: safeArea.topAnchor, left: safeArea.leftAnchor, bottom: safeArea.bottomAnchor, right: safeArea.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0)
