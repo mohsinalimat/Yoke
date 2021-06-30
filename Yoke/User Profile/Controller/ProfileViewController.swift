@@ -228,7 +228,7 @@ class ProfileViewController: UIViewController, TTGTextTagCollectionViewDelegate,
             let bannerStorageRef = Storage.storage().reference().child("profileBannerUrl/\(uid)")
             bannerStorageRef.getData(maxSize: 2 * 1024 * 1024) { data, error in
                 if error == nil, let data = data {
-                    self.bannerImageView.image = UIImage(data: data)
+//                    self.bannerImageView.image = UIImage(data: data)
                 }
             }
         }
@@ -468,7 +468,7 @@ class ProfileViewController: UIViewController, TTGTextTagCollectionViewDelegate,
         let image = CustomImageView()
         image.clipsToBounds = true
         image.contentMode = .scaleAspectFill
-        image.image = UIImage(named: "gradientBackgroundHalf")
+//        image.image = UIImage(named: "gradientBackgroundHalf")
         return image
     }()
     
