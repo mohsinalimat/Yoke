@@ -36,7 +36,6 @@ class ProfileViewController: UIViewController, TTGTextTagCollectionViewDelegate,
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         setupViews()
-        constrainViews()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -96,6 +95,7 @@ class ProfileViewController: UIViewController, TTGTextTagCollectionViewDelegate,
                 self.constrainViewsForChef()
             }
         }
+        constrainViews()
     }
     
     func constrainViews() {
