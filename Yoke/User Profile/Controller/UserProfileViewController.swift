@@ -445,38 +445,29 @@ class UserProfileViewController: UIViewController, TTGTextTagCollectionViewDeleg
         button.imageEdgeInsets = UIEdgeInsets.init(top: 0,left: 45,bottom: 20,right: 0)
         button.titleEdgeInsets = UIEdgeInsets.init(top: 20,left: -25,bottom: 0,right: 0)
         button.addTarget(self, action: #selector(viewReviews), for: .touchUpInside)
-//        button.backgroundColor = UIColor.orangeColor()
         button.layer.cornerRadius = 5
-//        button.layer.borderColor = UIColor.orangeColor()?.cgColor
-//        button.layer.borderWidth = 0.5
         return button
     }()
     
     lazy var eventButton: UIButton = {
         let button = UIButton(type: .custom)
-//        button.setImage(UIImage(named: "event_full"), for: .normal)
         let image = UIImage(named: "event_full")?.withRenderingMode(.alwaysTemplate)
         button.setImage(image, for: .normal)
         button.tintColor = UIColor.orangeColor()
         button.setTitle("Events", for: .normal)
-        button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 10)
+        button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 15)
         button.setTitleColor(UIColor.orangeColor(), for: .normal)
-//        button.addTarget(self, action: #selector(handleEvents), for: .touchUpInside)
-//        button.backgroundColor = UIColor.orangeColor()
         button.layer.cornerRadius = 10
-//        button.layer.borderColor = UIColor.orangeColor()?.cgColor
-//        button.layer.borderWidth = 0.5
         return button
     }()
     
     lazy var messageButton: UIButton = {
         let button = UIButton(type: .custom)
-//        button.setImage(UIImage(named: "calendar"), for: .normal)
         let image = UIImage(named: "message_selected")?.withRenderingMode(.alwaysTemplate)
         button.setImage(image, for: .normal)
         button.tintColor = UIColor.orangeColor()
         button.setTitle("Request Chef", for: .normal)
-        button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 10)
+        button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 15)
         button.setTitleColor(UIColor.orangeColor(), for: .normal)
         button.addTarget(self, action: #selector(handleSendRequest), for: .touchUpInside)
         button.layer.cornerRadius = 10
@@ -485,11 +476,8 @@ class UserProfileViewController: UIViewController, TTGTextTagCollectionViewDeleg
     
     lazy var bookmarkButton: UIButton = {
         let button = UIButton(type: .custom)
-//        let image = UIImage(named: "bookmark_selected")?.withRenderingMode(.alwaysTemplate)
-//        button.setImage(image, for: .normal)
         button.tintColor = UIColor.orangeColor()
-//        button.setTitle("Bookmarked", for: .normal)
-        button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 10)
+        button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 15)
         button.setTitleColor(UIColor.orangeColor(), for: .normal)
         button.layer.cornerRadius = 10
         button.addTarget(self, action: #selector(handleBookmarked), for: .touchUpInside)
@@ -503,20 +491,12 @@ class UserProfileViewController: UIViewController, TTGTextTagCollectionViewDeleg
         stackView.spacing = 0
         stackView.backgroundColor = UIColor.LightGrayBg()
         stackView.layer.cornerRadius = 20
-//        stackView.layer.shadowOffset = CGSize(width: 0, height: 4)
-//        stackView.layer.shadowRadius = 4
-//        stackView.layer.shadowOpacity = 0.1
-//        stackView.layer.shadowColor = UIColor.lightGray.cgColor
         return stackView
     }()
     
     let bioView: UIView = {
         let view = UIView()
         view.backgroundColor = UIColor.LightGrayBg()
-//        view.layer.shadowOffset = CGSize(width: 0, height: 4)
-//        view.layer.shadowRadius = 4
-//        view.layer.shadowOpacity = 0.1
-//        view.layer.shadowColor = UIColor.lightGray.cgColor
         return view
     }()
     
@@ -544,11 +524,6 @@ class UserProfileViewController: UIViewController, TTGTextTagCollectionViewDeleg
     let cusineView: UIView = {
         let view = UIView()
         view.backgroundColor = UIColor.LightGrayBg()
-//        view.layer.cornerRadius = 10
-//        view.layer.shadowOffset = CGSize(width: 0, height: 4)
-//        view.layer.shadowRadius = 4
-//        view.layer.shadowOpacity = 0.1
-//        view.layer.shadowColor = UIColor.lightGray.cgColor
         return view
     }()
     
@@ -564,11 +539,6 @@ class UserProfileViewController: UIViewController, TTGTextTagCollectionViewDeleg
     let collectionViewBG: UIView = {
         let view = UIView()
         view.backgroundColor = UIColor.LightGrayBg()
-//        view.layer.cornerRadius = 10
-//        view.layer.shadowOffset = CGSize(width: 0, height: 4)
-//        view.layer.shadowRadius = 4
-//        view.layer.shadowOpacity = 0.1
-//        view.layer.shadowColor = UIColor.lightGray.cgColor
         return view
     }()
     
