@@ -216,13 +216,6 @@ class ChefProfileViewController: UIViewController, TTGTextTagCollectionViewDeleg
             if self.bioTextLabel.text == "" {
                 self.bioTextLabel.text = "Full bio coming soon"
             }
-            if user.isChef == true {
-                self.rebookCountLabel.text = "7 rebooks"
-                self.verifiedLabel.text = "Verified Chef"
-            } else {
-                self.rebookCountLabel.text = ""
-                self.verifiedLabel.text = ""
-            }
             self.fetchUserAverageRating(uid: uid)
             self.setupCusineCollectionView(uid: uid)
             self.fetchMenus(uid: uid)
@@ -419,10 +412,6 @@ class ChefProfileViewController: UIViewController, TTGTextTagCollectionViewDeleg
         let requestVC = BookingRequestViewController()
         requestVC.userId = userId
         navigationController?.pushViewController(requestVC, animated: true)
-//        let chatVC = ChatCollectionViewController(collectionViewLayout: UICollectionViewFlowLayout())
-//        print("pressed")
-//        chatVC.userId = userId
-//        navigationController?.pushViewController(chatVC, animated: true)
     }
     
     @objc func handleBlockReport() {
@@ -476,7 +465,7 @@ class ChefProfileViewController: UIViewController, TTGTextTagCollectionViewDeleg
         let image = CustomImageView()
         image.clipsToBounds = true
         image.contentMode = .scaleAspectFill
-//        image.image = UIImage(named: "gradientBackgroundHalf")
+        image.image = UIImage(named: "gradientBackgroundHalf")
         return image
     }()
     
@@ -555,27 +544,8 @@ class ChefProfileViewController: UIViewController, TTGTextTagCollectionViewDeleg
         return stackView
     }()
     
-    let rebookCountLabel: UILabel = {
-        let label = UILabel()
-        label.font = UIFont.systemFont(ofSize: 13)
-        label.textColor = UIColor.gray
-        label.textAlignment = .left
-        label.backgroundColor = .clear
-        return label
-    }()
-    
-    let verifiedLabel: UILabel = {
-        let label = UILabel()
-        label.font = UIFont.systemFont(ofSize: 13)
-        label.textColor = UIColor.gray
-        label.textAlignment = .left
-        label.backgroundColor = .clear
-        return label
-    }()
-    
     lazy var reviewsButton: UIButton = {
         let button = UIButton(type: .custom)
-//        button.setImage(UIImage(named: "reviews"), for: .normal)
         let image = UIImage(named: "reviews")?.withRenderingMode(.alwaysTemplate)
         button.setImage(image, for: .normal)
         button.tintColor = UIColor.orangeColor()
