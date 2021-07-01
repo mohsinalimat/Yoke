@@ -84,16 +84,6 @@ class ChefProfileViewController: UIViewController, TTGTextTagCollectionViewDeleg
         scrollView.addSubview(collectionViewBG)
         scrollView.addSubview(menuLabel)
         scrollView.addSubview(menuCollectionView)
-//        let uid = userId ?? (Auth.auth().currentUser?.uid ?? "")
-//        UserController.shared.fetchUserWithUID(uid: uid) { (user) in
-//            if user.isChef == false {
-//                self.setupForUser()
-//                self.constrainViewsForUser()
-//            } else {
-//                self.setupForChef()
-//                self.constrainViewsForChef()
-//            }
-//        }
     }
 
     func setupButtonImages() {
