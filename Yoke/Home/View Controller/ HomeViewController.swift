@@ -316,7 +316,7 @@ class HomeViewController: UIViewController {
     }
     
     @objc func handleViewProfile() {
-        let profileView = ProfileViewController()
+        let profileView = ChefProfileViewController()
         profileView.userId = userId
         navigationController?.pushViewController(profileView, animated: true)
     }
@@ -678,7 +678,7 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
                 return
             } else {
                 let chef = SuggestedChefController.shared.chefs[indexPath.row].uid
-                let profileVC = ProfileViewController()
+                let profileVC = ChefProfileViewController()
                 profileVC.userId = chef
                 navigationController?.pushViewController(profileVC, animated: true)
             }
@@ -687,7 +687,7 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
                 return
             } else {
                 let booking = BookingController.shared.bookings[indexPath.row].id
-                let profileVC = ProfileViewController()
+                let profileVC = ChefProfileViewController()
                 profileVC.userId = booking
                 navigationController?.pushViewController(profileVC, animated: true)
             }

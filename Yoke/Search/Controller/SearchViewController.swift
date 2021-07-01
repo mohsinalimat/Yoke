@@ -104,7 +104,7 @@ class SearchViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let user = UserController.shared.filteredUsers[indexPath.row].uid
-        let userProfileVC = ProfileViewController()
+        let userProfileVC = ChefProfileViewController()
         userProfileVC.userId = user
         navigationController?.pushViewController(userProfileVC, animated: true)
     }

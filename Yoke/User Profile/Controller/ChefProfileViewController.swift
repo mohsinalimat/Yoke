@@ -1,5 +1,5 @@
 //
-//  ProfileViewController.swift
+//  ChefProfileViewController.swift
 //  Yoke
 //
 //  Created by LAURA JELENICH on 2/8/21.
@@ -13,7 +13,7 @@ import FirebaseFirestore
 import TTGTagCollectionView
 import MessageUI
 
-class ProfileViewController: UIViewController, TTGTextTagCollectionViewDelegate, MFMailComposeViewControllerDelegate {
+class ChefProfileViewController: UIViewController, TTGTextTagCollectionViewDelegate, MFMailComposeViewControllerDelegate {
 
     //MARK: - Properties
     var safeArea: UILayoutGuide {
@@ -29,13 +29,14 @@ class ProfileViewController: UIViewController, TTGTextTagCollectionViewDelegate,
     //MARK: - Lifecycle Methods
     override func viewWillDisappear(_ animated : Bool) {
         super.viewWillDisappear(animated)
-        let userProfileVC = ProfileViewController()
+        let userProfileVC = ChefProfileViewController()
         userProfileVC.dismiss(animated: true, completion: nil)
     }
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         setupViews()
+        constrainViews()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -69,28 +70,6 @@ class ProfileViewController: UIViewController, TTGTextTagCollectionViewDelegate,
         scrollView.addSubview(usernameLabel)
         scrollView.addSubview(locationLabel)
         scrollView.addSubview(ratingView)
-        setupForChef()
-        constrainViewsForChef()
-//        let uid = userId ?? (Auth.auth().currentUser?.uid ?? "")
-//        UserController.shared.fetchUserWithUID(uid: uid) { (user) in
-//            if user.isChef == false {
-//                self.setupForUser()
-//                self.constrainViewsForUser()
-//            } else {
-//                self.setupForChef()
-//                self.constrainViewsForChef()
-//            }
-//        }
-    }
-    
-    func setupForUser() {
-        scrollView.addSubview(reviewsButton)
-        scrollView.addSubview(bioView)
-        scrollView.addSubview(bioLabel)
-        scrollView.addSubview(bioTextLabel)
-    }
-    
-    func setupForChef() {
         scrollView.addSubview(buttonStackView)
         buttonStackView.addArrangedSubview(reviewsButton)
         buttonStackView.addArrangedSubview(eventButton)
@@ -105,8 +84,18 @@ class ProfileViewController: UIViewController, TTGTextTagCollectionViewDelegate,
         scrollView.addSubview(collectionViewBG)
         scrollView.addSubview(menuLabel)
         scrollView.addSubview(menuCollectionView)
+//        let uid = userId ?? (Auth.auth().currentUser?.uid ?? "")
+//        UserController.shared.fetchUserWithUID(uid: uid) { (user) in
+//            if user.isChef == false {
+//                self.setupForUser()
+//                self.constrainViewsForUser()
+//            } else {
+//                self.setupForChef()
+//                self.constrainViewsForChef()
+//            }
+//        }
     }
-    
+
     func setupButtonImages() {
         reviewsButton.alignImageTextVertical()
         eventButton.alignImageTextVertical()
@@ -114,7 +103,7 @@ class ProfileViewController: UIViewController, TTGTextTagCollectionViewDelegate,
         messageButton.alignImageTextVertical()
     }
     
-    func constrainViewsForChef() {
+    func constrainViews() {
         scrollView.anchor(top: safeArea.topAnchor, left: safeArea.leftAnchor, bottom: safeArea.bottomAnchor, right: safeArea.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0)
         bannerImageView.anchor(top: scrollView.topAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, height: 300)
     
@@ -754,7 +743,7 @@ class ProfileViewController: UIViewController, TTGTextTagCollectionViewDelegate,
 }
 
 // MARK: - CollectionView
-extension ProfileViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+extension ChefProfileViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         if collectionView == self.menuCollectionView {
             if MenuController.shared.menus.count == 0 {
