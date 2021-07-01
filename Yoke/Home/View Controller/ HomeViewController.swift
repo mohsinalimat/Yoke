@@ -490,23 +490,23 @@ class HomeViewController: UIViewController {
         let label = UILabel()
         label.text = "Menus"
         label.textColor = UIColor.orangeColor()
-        label.font = UIFont.boldSystemFont(ofSize: 28)
+        label.font = UIFont.boldSystemFont(ofSize: 20)
         return label
     }()
     
     let chefLabel: UILabel = {
         let label = UILabel()
-        label.text = "Featured Chefs in your area"
+        label.text = "Chefs in your area"
         label.textColor = UIColor.orangeColor()
-        label.font = UIFont.boldSystemFont(ofSize: 28)
+        label.font = UIFont.boldSystemFont(ofSize: 20)
         return label
     }()
     
     let eventLabel: UILabel = {
         let label = UILabel()
-        label.text = "New events in your area"
+        label.text = "Events in your area"
         label.textColor = UIColor.orangeColor()
-        label.font = UIFont.boldSystemFont(ofSize: 28)
+        label.font = UIFont.boldSystemFont(ofSize: 20)
         return label
     }()
     
@@ -514,7 +514,7 @@ class HomeViewController: UIViewController {
         let label = UILabel()
         label.text = "Upcomming bookings"
         label.textColor = UIColor.orangeColor()
-        label.font = UIFont.boldSystemFont(ofSize: 28)
+        label.font = UIFont.boldSystemFont(ofSize: 20)
         return label
     }()
     
