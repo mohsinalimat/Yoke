@@ -179,10 +179,10 @@ class ChefProfileViewController: UIViewController, TTGTextTagCollectionViewDeleg
         let config = TTGTextTagConfig()
         config.backgroundColor = UIColor.orangeColor()
         config.textColor = UIColor.white
-        config.borderColor = .clear
+        config.borderColor = UIColor.LightGrayBg()
         config.shadowRadius = 4
-        config.shadowOpacity = 0.5
-        config.shadowColor = UIColor.gray
+        config.shadowOpacity = 0.2
+        config.shadowColor = .gray
         Firestore.firestore().collection(Constants.Chefs).document(uid).getDocument { (document, error) in
             if let document = document, document.exists {
                 guard let array = document.data()?["cusine"] as? [String] else { return }
