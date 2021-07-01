@@ -136,8 +136,6 @@ class UserProfileViewController: UIViewController, TTGTextTagCollectionViewDeleg
                 self.bioTextLabel.text = "Full bio coming soon"
             }
             self.fetchUserAverageRating(uid: uid)
-            self.setupCusineCollectionView(uid: uid)
-            self.fetchMenus(uid: uid)
             let imageStorageRef = Storage.storage().reference().child("profileImageUrl/\(uid)")
             imageStorageRef.getData(maxSize: 2 * 1024 * 1024) { data, error in
                 if error == nil, let data = data {
@@ -177,19 +175,6 @@ class UserProfileViewController: UIViewController, TTGTextTagCollectionViewDeleg
             let average = totalCount/count
             print("stars \(uid), \(average)")
             self.ratingView.rating = average
-        }
-    }
-    
-    fileprivate func fetchMenus(uid: String) {
-        MenuController.shared.fetchMenuWith(uid: uid) { (result) in
-            switch result {
-            case true:
-                DispatchQueue.main.async {
-                    self.menuCollectionView.reloadData()
-                }
-            case false:
-                print("Problem Loading Menus")
-            }
         }
     }
     

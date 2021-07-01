@@ -316,9 +316,18 @@ class HomeViewController: UIViewController {
     }
     
     @objc func handleViewProfile() {
-        let profileView = ChefProfileViewController()
-        profileView.userId = userId
-        navigationController?.pushViewController(profileView, animated: true)
+        let uid = userId ?? (Auth.auth().currentUser?.uid ?? "")
+        UserController.shared.fetchUserWithUID(uid: uid) { (user) in
+            if user.isChef == false {
+                let profileView = UserProfileViewController()
+                profileView.userId = self.userId
+                self.navigationController?.pushViewController(profileView, animated: true)
+            } else {
+                let profileView = ChefProfileViewController()
+                profileView.userId = self.userId
+                self.navigationController?.pushViewController(profileView, animated: true)
+            }
+        }
     }
     
     @objc func viewBookmarked() {
