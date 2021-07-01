@@ -413,7 +413,7 @@ class HomeViewController: UIViewController {
         button.setImage(image, for: .normal)
         button.tintColor = UIColor.orangeColor()
         button.setTitle("Reviews", for: .normal)
-        button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 10)
+        button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 15)
         button.setTitleColor(UIColor.orangeColor(), for: .normal)
         button.imageEdgeInsets = UIEdgeInsets.init(top: 0,left: 45,bottom: 20,right: 0)
         button.titleEdgeInsets = UIEdgeInsets.init(top: 20,left: -25,bottom: 0,right: 0)
@@ -428,7 +428,7 @@ class HomeViewController: UIViewController {
         button.setImage(image, for: .normal)
         button.tintColor = UIColor.orangeColor()
         button.setTitle("Events", for: .normal)
-        button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 10)
+        button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 15)
         button.setTitleColor(UIColor.orangeColor(), for: .normal)
         button.addTarget(self, action: #selector(viewEvents), for: .touchUpInside)
         button.layer.cornerRadius = 10
@@ -441,7 +441,7 @@ class HomeViewController: UIViewController {
         button.setImage(image, for: .normal)
         button.tintColor = UIColor.orangeColor()
         button.setTitle("Bookings", for: .normal)
-        button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 10)
+        button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 15)
         button.setTitleColor(UIColor.orangeColor(), for: .normal)
         button.layer.cornerRadius = 10
         button.addTarget(self, action: #selector(viewBookings), for: .touchUpInside)
@@ -454,7 +454,7 @@ class HomeViewController: UIViewController {
         button.setImage(image, for: .normal)
         button.tintColor = UIColor.orangeColor()
         button.setTitle("Bookmarked", for: .normal)
-        button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 10)
+        button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 15)
         button.setTitleColor(UIColor.orangeColor(), for: .normal)
         button.layer.cornerRadius = 10
         button.addTarget(self, action: #selector(viewBookmarked), for: .touchUpInside)
@@ -468,10 +468,6 @@ class HomeViewController: UIViewController {
         stackView.spacing = 0
         stackView.backgroundColor = UIColor.LightGrayBg()
         stackView.layer.cornerRadius = 20
-//        stackView.layer.shadowOffset = CGSize(width: 0, height: 4)
-//        stackView.layer.shadowRadius = 4
-//        stackView.layer.shadowOpacity = 0.2
-//        stackView.layer.shadowColor = UIColor.lightGray.cgColor
         return stackView
     }()
     

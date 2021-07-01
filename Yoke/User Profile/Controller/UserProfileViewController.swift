@@ -434,27 +434,13 @@ class UserProfileViewController: UIViewController, TTGTextTagCollectionViewDeleg
         return view
     }()
     
-    let statsStackView: UIStackView = {
-        let stackView = UIStackView()
-        stackView.axis = .horizontal
-        stackView.distribution = .fillEqually
-        stackView.spacing = 1
-        stackView.backgroundColor = UIColor.clear
-        stackView.layer.cornerRadius = 10
-//        stackView.layer.shadowOffset = CGSize(width: 0, height: 4)
-//        stackView.layer.shadowRadius = 4
-//        stackView.layer.shadowOpacity = 0.1
-//        stackView.layer.shadowColor = UIColor.gray.cgColor
-        return stackView
-    }()
-    
     lazy var reviewsButton: UIButton = {
         let button = UIButton(type: .custom)
         let image = UIImage(named: "reviews")?.withRenderingMode(.alwaysTemplate)
         button.setImage(image, for: .normal)
         button.tintColor = UIColor.orangeColor()
         button.setTitle("Reviews", for: .normal)
-        button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 10)
+        button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 15)
         button.setTitleColor(UIColor.orangeColor(), for: .normal)
         button.imageEdgeInsets = UIEdgeInsets.init(top: 0,left: 45,bottom: 20,right: 0)
         button.titleEdgeInsets = UIEdgeInsets.init(top: 20,left: -25,bottom: 0,right: 0)
