@@ -566,7 +566,7 @@ class ChefProfileViewController: UIViewController, TTGTextTagCollectionViewDeleg
         let image = UIImage(named: "message_selected")?.withRenderingMode(.alwaysTemplate)
         button.setImage(image, for: .normal)
         button.tintColor = UIColor.orangeColor()
-        button.setTitle("Request Chef", for: .normal)
+        button.setTitle("Request", for: .normal)
         button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 15)
         button.setTitleColor(UIColor.orangeColor(), for: .normal)
         button.addTarget(self, action: #selector(handleSendRequest), for: .touchUpInside)
