@@ -353,7 +353,7 @@ class ChefProfileViewController: UIViewController, TTGTextTagCollectionViewDeleg
         ReportBlockController.shared.sendReport(sendingReportUserUid: uidReporting, userBeingReportedUid: uidBeingReported, text: "User is being inappropriate") { result in
             switch result {
             case true:
-                print("sent")
+                self.reportSent()
             case false:
                 print("error sending report")
             }
@@ -366,7 +366,7 @@ class ChefProfileViewController: UIViewController, TTGTextTagCollectionViewDeleg
         ReportBlockController.shared.sendReport(sendingReportUserUid: uidReporting, userBeingReportedUid: uidBeingReported, text: "User isn't who they say they are") { result in
             switch result {
             case true:
-                print("sent")
+                self.reportSent()
             case false:
                 print("error sending report")
             }
@@ -388,7 +388,7 @@ class ChefProfileViewController: UIViewController, TTGTextTagCollectionViewDeleg
                 ReportBlockController.shared.sendReport(sendingReportUserUid: uidReporting, userBeingReportedUid: uidBeingReported, text: text) { result in
                     switch result {
                     case true:
-                        print("sent")
+                        self?.reportSent()
                     case false:
                         print("error sending report")
                     }
@@ -399,6 +399,12 @@ class ChefProfileViewController: UIViewController, TTGTextTagCollectionViewDeleg
         alertController.addAction(action)
         alertController.addAction(cancelAction)
         self.present(alertController, animated: true)
+    }
+    
+    func reportSent() {
+        let alert = UIAlertController(title: "Success", message: "Your report has been sent and under review", preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "Done", style: UIAlertAction.Style.default, handler: nil))
+        self.present(alert, animated: true, completion: nil)
     }
     
     //MARK: - Selectors
