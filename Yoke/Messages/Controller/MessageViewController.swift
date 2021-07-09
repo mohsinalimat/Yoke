@@ -191,8 +191,8 @@ extension MessageViewController: UITableViewDataSource {
         if editingStyle == .delete {
             tableView.beginUpdates()
             let conversation = conversations[indexPath.row]
-            print(conversation.message.toId)
-            ConversationController.shared.deleteConversation(currentUserUid: conversation.message.toId, userUid: conversation.message.fromId) { result in
+            guard let currentUserUid = Auth.auth().currentUser?.uid else { return }
+            ConversationController.shared.deleteConversation(currentUserUid: currentUserUid, userUid: conversation.message.fromId) { result in
                 switch result {
                 case true:
                     print("deleted")

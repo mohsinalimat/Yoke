@@ -77,9 +77,10 @@ struct ConversationController {
                 completion(false)
             } else {
                 for document in snapshot!.documents {
-                  document.reference.delete()
+                    print("doc \(document)")
+//                  document.reference.delete()
                     
-//                    firestoreDB.document(currentUserUid).collection(Constants.RecentMessages).document(userUid).delete()
+                    firestoreDB.document(currentUserUid).collection(Constants.RecentMessages).document(userUid).delete()
                     completion(true)
                 }
             }
