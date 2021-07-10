@@ -205,26 +205,6 @@ extension MessageViewController: UITableViewDataSource {
             tableView.endUpdates()
         }
     }
-    
-//    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
-//        if editingStyle == .delete {
-//            if tableView == messageTableView {
-//                let conversation = conversations[indexPath.row]
-//                guard let indexOfConversation = conversations.firstIndex(of: conversation) else { return }
-//                ConversationController.shared.deleteConversation(currentUserUid: conversation.message.toId, userUid: conversation.message.fromId) { (result) in
-//                    switch result {
-//                    case true:
-//                        DispatchQueue.main.async {
-//                            self.conversations.remove(at: indexOfConversation)
-//                            self.messageTableView.deleteRows(at: [indexPath], with: .fade)
-//                        }
-//                    case false:
-//                        print(false)
-//                    }
-//                }
-//            }
-//        }
-//    }
 }
 
 //MARK: - TableView Delegate
