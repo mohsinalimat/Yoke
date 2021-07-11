@@ -80,11 +80,12 @@ struct ConversationController {
             }
             snapshot?.documentChanges.forEach({ (change) in
                 let dictionary = change.document.data()
-                print(dictionary)
                 let message = Message(dictionary: dictionary)
+                query.document(message.chatPartnerId).delete()
+                completion(conversations)
 //                UserController.shared.fetchUserWithUID(uid: message.chatPartnerId) { (user) in
 //                    let conversation = Conversation(user: user, message: message)
-//                    
+//
 ////                    conversations.append(conversation)
 //                    completion(conversations)
 //                }
