@@ -52,8 +52,7 @@ class SettingsViewController: UIViewController  {
     
     //MARK: - Helper Functions
     func setupViews() {
-        view.backgroundColor = UIColor.green
-        view.addSubview(headerViewBg)
+        view.backgroundColor = UIColor.white
         view.addSubview(swipeIndicator)
         view.addSubview(bannerImageView)
         view.addSubview(editBannerImageButton)
@@ -84,8 +83,7 @@ class SettingsViewController: UIViewController  {
     }
     
     func constrainViews() {
-        headerViewBg.anchor(top: safeArea.topAnchor, left: safeArea.leftAnchor, bottom: scrollView.topAnchor, right: safeArea.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0)
-        swipeIndicator.anchor(top: headerViewBg.topAnchor, left: nil, bottom: nil, right: nil, paddingTop: 20, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 100, height: 5)
+        swipeIndicator.anchor(top: safeArea.topAnchor, left: nil, bottom: nil, right: nil, paddingTop: 20, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 100, height: 5)
         swipeIndicator.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         bannerImageView.anchor(top: swipeIndicator.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 20, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, height: view.frame.width / 2 - 50)
         editBannerImageButton.anchor(top: swipeIndicator.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 20, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, height: view.frame.width / 2 - 50)
@@ -100,7 +98,7 @@ class SettingsViewController: UIViewController  {
         updateButton.anchor(top: editProfileImageButton.bottomAnchor, left: nil, bottom: nil, right: safeArea.rightAnchor, paddingTop: -10, paddingLeft: 0, paddingBottom: 0, paddingRight: 10)
         
         scrollView.contentSize = CGSize(width: view.frame.width, height: view.frame.height + 75)
-        scrollView.anchor(top: settingsLabel.bottomAnchor, left: safeArea.leftAnchor, bottom: safeArea.bottomAnchor, right: safeArea.rightAnchor, paddingTop: 10, paddingLeft: 0, paddingBottom: 0, paddingRight: 0)
+        scrollView.anchor(top: settingsLabel.bottomAnchor, left: safeArea.leftAnchor, bottom: safeArea.bottomAnchor, right: safeArea.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0)
         
         usernameView.anchor(top: scrollView.topAnchor, left: scrollView.leftAnchor, bottom: nil, right: scrollView.rightAnchor, paddingTop: 10, paddingLeft: 8, paddingBottom: 0, paddingRight: 8, width: scrollView.frame.width - 20, height: 67)
         usernameLabel.anchor(top: usernameView.topAnchor, left: usernameView.leftAnchor, bottom: nil, right: usernameView.rightAnchor, paddingTop: 10, paddingLeft: 10, paddingBottom: 0, paddingRight: 10, height: 15)
@@ -387,18 +385,6 @@ class SettingsViewController: UIViewController  {
         view.backgroundColor = UIColor.LightGrayBg()
         view.translatesAutoresizingMaskIntoConstraints = false
         view.layer.cornerRadius = 20
-        return view
-    }()
-    
-    let headerViewBg: UIView = {
-        let view = UIView()
-        view.backgroundColor = .white
-        view.layer.shadowOffset = CGSize(width: 0, height: 4)
-        view.layer.shadowRadius = 4
-        view.layer.shadowOpacity = 0.2
-        view.layer.shadowColor = UIColor.gray.cgColor
-        view.layer.borderWidth = 2
-        view.layer.borderColor = UIColor.LightGrayBg()?.cgColor
         return view
     }()
     
