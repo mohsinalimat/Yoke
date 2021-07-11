@@ -192,14 +192,20 @@ extension ConversationViewController: UITableViewDataSource {
             tableView.beginUpdates()
             let conversation = conversations[indexPath.row]
             guard let currentUserUid = Auth.auth().currentUser?.uid else { return }
-            ConversationController.shared.deleteConversation(currentUserUid: currentUserUid, userUid: conversation.message.fromId) { result in
+            ConversationController.shared.deleteConversation(uid: currentUserUid) { result in
                 switch result {
-                case true:
+                default:
                     print("deleted")
-                case false:
-                    print("failed to delete")
                 }
             }
+//            ConversationController.shared.deleteConversation(currentUserUid: currentUserUid, userUid: conversation.message.fromId) { result in
+//                switch result {
+//                case true:
+//                    print("deleted")
+//                case false:
+//                    print("failed to delete")
+//                }
+//            }
             conversations.remove(at: indexPath.row)
             tableView.deleteRows(at: [indexPath], with: .fade)
             tableView.endUpdates()

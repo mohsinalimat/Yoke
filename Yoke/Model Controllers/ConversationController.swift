@@ -69,28 +69,50 @@ struct ConversationController {
             })
         }
     }
-    
-    func deleteConversation(currentUserUid: String, userUid: String, completion: @escaping (Bool) -> Void) {
-        firestoreDB.document(currentUserUid).collection(Constants.RecentMessages).document(userUid).getDocument { snapshot, error in
+    func deleteConversation(uid: String, completion: @escaping([Conversation]) -> Void) {
+        var conversations = [Conversation]()
+        guard let uid = Auth.auth().currentUser?.uid else { return }
+        let query = firestoreDB.document(uid).collection(Constants.RecentMessages)
+        
+        query.addSnapshotListener { (snapshot, error) in
             if let error = error {
                 print(error.localizedDescription)
-                completion(false)
             }
-            print(snapshot?.data())
+            snapshot?.documentChanges.forEach({ (change) in
+                let dictionary = change.document.data()
+                print(dictionary)
+                let message = Message(dictionary: dictionary)
+//                UserController.shared.fetchUserWithUID(uid: message.chatPartnerId) { (user) in
+//                    let conversation = Conversation(user: user, message: message)
+//                    
+////                    conversations.append(conversation)
+//                    completion(conversations)
+//                }
+            })
         }
-//        firestoreDB.document(currentUserUid).collection(Constants.RecentMessages).getDocuments { (snapshot, error) in
+    }
+    
+//    func deleteConversation(currentUserUid: String, userUid: String, completion: @escaping (Bool) -> Void) {
+//        firestoreDB.document(currentUserUid).collection(Constants.RecentMessages).document(userUid).getDocument { snapshot, error in
 //            if let error = error {
 //                print(error.localizedDescription)
 //                completion(false)
-//            } else {
-//                for document in snapshot!.documents {
-//                    print("doc \(document.data())")
-////                  document.reference.delete()
-//
-////                    firestoreDB.document(currentUserUid).collection(Constants.RecentMessages).document(userUid).delete()
-//                    completion(true)
-//                }
 //            }
+//            print(snapshot?.data())
 //        }
-    }
+////        firestoreDB.document(currentUserUid).collection(Constants.RecentMessages).getDocuments { (snapshot, error) in
+////            if let error = error {
+////                print(error.localizedDescription)
+////                completion(false)
+////            } else {
+////                for document in snapshot!.documents {
+////                    print("doc \(document.data())")
+//////                  document.reference.delete()
+////
+//////                    firestoreDB.document(currentUserUid).collection(Constants.RecentMessages).document(userUid).delete()
+////                    completion(true)
+////                }
+////            }
+////        }
+//    }
 }
