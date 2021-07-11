@@ -77,11 +77,11 @@ struct ConversationController {
             if let error = error {
                 print(error.localizedDescription)
             }
-            snapshot?.documentChanges.forEach({ (change) in
-                let dictionary = change.document.data()
+            for doc in snapshot!.documents {
+                let dictionary = doc.data()
                 let message = Message(dictionary: dictionary)
                 query.document(message.chatPartnerId).delete()
-            })
+            }
         }
     }
     

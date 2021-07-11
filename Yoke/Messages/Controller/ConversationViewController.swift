@@ -190,17 +190,15 @@ extension ConversationViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
             tableView.beginUpdates()
+            self.conversations.remove(at: indexPath.row)
+            tableView.deleteRows(at: [indexPath], with: .fade)
             guard let currentUserUid = Auth.auth().currentUser?.uid else { return }
             ConversationController.shared.deleteConversation(uid: currentUserUid) { result in
                 switch result {
                 default:
-                    DispatchQueue.main.async {
-                        tableView.reloadData()
-                    }
+                    print("deleted")
                 }
             }
-            self.conversations.remove(at: indexPath.row)
-            tableView.deleteRows(at: [indexPath], with: .fade)
             tableView.endUpdates()
         }
     }
