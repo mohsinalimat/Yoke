@@ -153,7 +153,7 @@ class ConversationViewController: UIViewController {
 }
 
 //MARK: - TableView DataSource
-extension MessageViewController: UITableViewDataSource {
+extension ConversationViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if tableView == messageTableView {
             return conversations.count
@@ -208,7 +208,7 @@ extension MessageViewController: UITableViewDataSource {
 }
 
 //MARK: - TableView Delegate
-extension MessageViewController: UITableViewDelegate {
+extension ConversationViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if tableView == messageTableView {
             let user = conversations[indexPath.row].message.chatPartnerId

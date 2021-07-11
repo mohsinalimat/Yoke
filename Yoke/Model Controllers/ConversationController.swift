@@ -76,7 +76,7 @@ struct ConversationController {
                 print(error.localizedDescription)
                 completion(false)
             }
-            print(snapshot)
+            print(snapshot?.data())
         }
 //        firestoreDB.document(currentUserUid).collection(Constants.RecentMessages).getDocuments { (snapshot, error) in
 //            if let error = error {
