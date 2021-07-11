@@ -70,7 +70,6 @@ struct ConversationController {
         }
     }
     func deleteConversation(uid: String, completion: @escaping([Conversation]) -> Void) {
-        var conversations = [Conversation]()
         guard let uid = Auth.auth().currentUser?.uid else { return }
         let query = firestoreDB.document(uid).collection(Constants.RecentMessages)
         
@@ -82,13 +81,6 @@ struct ConversationController {
                 let dictionary = change.document.data()
                 let message = Message(dictionary: dictionary)
                 query.document(message.chatPartnerId).delete()
-                completion(conversations)
-//                UserController.shared.fetchUserWithUID(uid: message.chatPartnerId) { (user) in
-//                    let conversation = Conversation(user: user, message: message)
-//
-////                    conversations.append(conversation)
-//                    completion(conversations)
-//                }
             })
         }
     }
