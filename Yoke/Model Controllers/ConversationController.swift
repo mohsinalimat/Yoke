@@ -72,17 +72,41 @@ struct ConversationController {
     func deleteConversation(uid: String, completion: @escaping([Conversation]) -> Void) {
         guard let uid = Auth.auth().currentUser?.uid else { return }
         let query = firestoreDB.document(uid).collection(Constants.RecentMessages)
-        
-        query.addSnapshotListener { (snapshot, error) in
+        query.addSnapshotListener { snapshot, error in
             if let error = error {
                 print(error.localizedDescription)
             }
-            for doc in snapshot!.documents {
-                let dictionary = doc.data()
+            snapshot?.documentChanges.forEach({ (change) in
+                let dictionary = change.document.data()
                 let message = Message(dictionary: dictionary)
-                query.document(message.chatPartnerId).delete()
-            }
+                if message.isFromCurrentUser == true {
+                    print("true \(message.chatPartnerId)")
+//                    query.document(message.toId).delete()
+                } else {
+                    print("false \(message.chatPartnerId)")
+//                    query.document(message.fromId).delete()
+                }
+            })
         }
+        
+//        query.addSnapshotListener { (snapshot, error) in
+//            if let error = error {
+//                print(error.localizedDescription)
+//            }
+//            for doc in snapshot!.documents {
+//                let dictionary = doc.data()
+//                let message = Message(dictionary: dictionary)
+//                print("message \(message.isFromCurrentUser)")
+//                if message.isFromCurrentUser == true {
+//                    print("true \(message.toId)")
+////                    query.document(message.toId).delete()
+//                } else {
+//                    print("false \(message.fromId)")
+////                    query.document(message.fromId).delete()
+//                }
+////                query.document(message.chatPartnerId).delete()
+//            }
+//        }
     }
     
 //    func deleteConversation(currentUserUid: String, userUid: String, completion: @escaping (Bool) -> Void) {
