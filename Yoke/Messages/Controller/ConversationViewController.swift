@@ -96,6 +96,7 @@ class ConversationViewController: UIViewController {
                 self.conversationDictionary[message.chatPartnerId] = conversation
             }
             self.conversations = Array(self.conversationDictionary.values)
+            print("in fetch \(self.conversations)")
             DispatchQueue.main.async {
                 self.messageTableView.reloadData()
             }
