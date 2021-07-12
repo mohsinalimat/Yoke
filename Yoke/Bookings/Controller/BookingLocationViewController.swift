@@ -224,7 +224,7 @@ class BookingLocationViewController: UIViewController {
     let addressTextField: UITextField = {
         let text = UITextField()
         text.font = UIFont.systemFont(ofSize: 17)
-        text.placeholder = "Address"
+        text.placeholder = "address, city, state or zip code"
         text.textColor = UIColor.orangeColor()
         text.backgroundColor = UIColor.white
         return text
