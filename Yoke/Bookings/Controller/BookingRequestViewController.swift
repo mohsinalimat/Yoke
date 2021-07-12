@@ -153,6 +153,7 @@ class BookingRequestViewController: UIViewController, BookingLocationDelegate {
     func bookingLocationController(_ bookingLocationController: BookingLocationViewController, didSelectLocation location: String, locationShort: String) {
         selectedLocation = location
         selectedLocationShort = locationShort
+        print("back with \(location)")
         locationButton.setTitle(location, for: .normal)
     }
     

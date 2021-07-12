@@ -97,7 +97,7 @@ class SettingsViewController: UIViewController  {
         settingsLabel.anchor(top: editProfileImageButton.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: nil, paddingTop: -10, paddingLeft: 10, paddingBottom: 0, paddingRight: 0)
         updateButton.anchor(top: editProfileImageButton.bottomAnchor, left: nil, bottom: nil, right: safeArea.rightAnchor, paddingTop: -10, paddingLeft: 0, paddingBottom: 0, paddingRight: 10)
         
-        scrollView.contentSize = CGSize(width: view.frame.width, height: view.frame.height + 75)
+        scrollView.contentSize = CGSize(width: view.frame.width, height: view.frame.height + 170)
         scrollView.anchor(top: settingsLabel.bottomAnchor, left: safeArea.leftAnchor, bottom: safeArea.bottomAnchor, right: safeArea.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0)
         
         usernameView.anchor(top: scrollView.topAnchor, left: scrollView.leftAnchor, bottom: nil, right: scrollView.rightAnchor, paddingTop: 10, paddingLeft: 8, paddingBottom: 0, paddingRight: 8, width: scrollView.frame.width - 20, height: 67)

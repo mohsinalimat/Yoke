@@ -114,7 +114,6 @@ class BookingLocationViewController: UIViewController {
             if error != nil {
                 print("error")
             } else {
-                
                 let place = placemark! as [CLPlacemark]
                 if place.count > 0 {
                     let place = placemark![0]
@@ -172,9 +171,9 @@ class BookingLocationViewController: UIViewController {
     
     //MARK: - API
     @objc func handleSave() {
-        guard let location = selectedLocation,
-              let locationShort = selectedLocationShort else { return }
-        delegate?.bookingLocationController(self, didSelectLocation: location, locationShort: locationShort)
+//        guard let location = selectedLocation,
+//              let locationShort = selectedLocationShort else { return }
+//        delegate?.bookingLocationController(self, didSelectLocation: location, locationShort: locationShort)
         handleDismiss()
     }
     
