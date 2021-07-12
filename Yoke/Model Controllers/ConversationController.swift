@@ -69,6 +69,7 @@ struct ConversationController {
             })
         }
     }
+    
     func deleteConversation(chatParnterId: String, completion: @escaping([Conversation]) -> Void) {
         guard let uid = Auth.auth().currentUser?.uid else { return }
         let query = firestoreDB.document(uid).collection(Constants.RecentMessages)
@@ -78,24 +79,5 @@ struct ConversationController {
             }
             query.document(chatParnterId).delete()
         }
-        
-//        query.addSnapshotListener { (snapshot, error) in
-//            if let error = error {
-//                print(error.localizedDescription)
-//            }
-//            for doc in snapshot!.documents {
-//                let dictionary = doc.data()
-//                let message = Message(dictionary: dictionary)
-//                print("message \(message.isFromCurrentUser)")
-//                if message.isFromCurrentUser == true {
-//                    print("true \(message.toId)")
-////                    query.document(message.toId).delete()
-//                } else {
-//                    print("false \(message.fromId)")
-////                    query.document(message.fromId).delete()
-//                }
-////                query.document(message.chatPartnerId).delete()
-//            }
-//        }
     }
 }
