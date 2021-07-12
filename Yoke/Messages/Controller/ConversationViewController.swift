@@ -192,6 +192,7 @@ extension ConversationViewController: UITableViewDataSource {
             if tableView == messageTableView {
                 let chatPartnerId = conversations[indexPath.row].message.chatPartnerId
                 self.conversations.remove(at: indexPath.row)
+                let indexPath = IndexPath(item: 0, section: 0)
                 messageTableView.deleteRows(at: [indexPath], with: .left)
                 ConversationController.shared.deleteConversation(chatParnterId: chatPartnerId) { result in
                     switch result {

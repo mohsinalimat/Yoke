@@ -13,7 +13,7 @@ struct ConversationController {
     
     //MARK: - Shared Instance
     static let shared = ConversationController()
-
+    
     //MARK: - Firebase Firestore Database
     let firestoreDB = Firestore.firestore().collection(Constants.Messages)
     
@@ -47,12 +47,12 @@ struct ConversationController {
             })
         }
     }
-    
+
     func fetchConversations(completion: @escaping([Conversation]) -> Void) {
         var conversations = [Conversation]()
         guard let uid = Auth.auth().currentUser?.uid else { return }
         let query = firestoreDB.document(uid).collection(Constants.RecentMessages).order(by: Constants.Timestamp)
-        
+
         query.addSnapshotListener { (snapshot, error) in
             if let error = error {
                 print(error.localizedDescription)
