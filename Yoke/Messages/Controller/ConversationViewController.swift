@@ -189,17 +189,19 @@ extension ConversationViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
-            tableView.beginUpdates()
-            self.conversations.remove(at: indexPath.row)
-            tableView.deleteRows(at: [indexPath], with: .fade)
-            guard let currentUserUid = Auth.auth().currentUser?.uid else { return }
-            ConversationController.shared.deleteConversation(uid: currentUserUid) { result in
-                switch result {
-                default:
-                    print("deleted")
+            if tableView == messageTableView {
+                let chatPartnerId = conversations[indexPath.row].message.chatPartnerId
+                tableView.beginUpdates()
+                self.conversations.remove(at: indexPath.row)
+                tableView.deleteRows(at: [indexPath], with: .fade)
+                ConversationController.shared.deleteConversation(chatParnterId: chatPartnerId) { result in
+                    switch result {
+                    default:
+                        print("deleted")
+                    }
                 }
+                tableView.endUpdates()
             }
-            tableView.endUpdates()
         }
     }
 }
