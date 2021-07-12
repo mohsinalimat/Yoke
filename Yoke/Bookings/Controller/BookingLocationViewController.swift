@@ -171,9 +171,9 @@ class BookingLocationViewController: UIViewController {
     
     //MARK: - API
     @objc func handleSave() {
-//        guard let location = selectedLocation,
-//              let locationShort = selectedLocationShort else { return }
-//        delegate?.bookingLocationController(self, didSelectLocation: location, locationShort: locationShort)
+        guard let location = selectedLocation,
+              let locationShort = selectedLocationShort else { return }
+        delegate?.bookingLocationController(self, didSelectLocation: location, locationShort: locationShort)
         handleDismiss()
     }
     
