@@ -191,19 +191,16 @@ extension ConversationViewController: UITableViewDataSource {
         if editingStyle == .delete {
             if tableView == messageTableView {
                 let chatPartnerId = conversations[indexPath.row].message.chatPartnerId
-                tableView.beginUpdates()
-//                self.conversations.remove(at: indexPath.row)
-//                tableView.deleteRows(at: [indexPath], with: .fade)
+                self.conversations.remove(at: indexPath.row)
+                messageTableView.deleteRows(at: [indexPath], with: .left)
                 ConversationController.shared.deleteConversation(chatParnterId: chatPartnerId) { result in
                     switch result {
-                    case true:
-                        self.conversations.remove(at: indexPath.row)
-                        tableView.deleteRows(at: [indexPath], with: .fade)
-                    case false:
-                        print(Error.self)
+                    default:
+                        print("deleted")
                     }
-                tableView.endUpdates()
+                }
             }
+
         }
     }
 }
