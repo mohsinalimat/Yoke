@@ -82,7 +82,7 @@ class BookingRequestViewController: UIViewController, BookingLocationDelegate {
     }
     
     func constrainViews() {
-        scrollView.contentSize = CGSize(width: view.frame.width, height: view.frame.height + 500)
+        scrollView.contentSize = CGSize(width: view.frame.width, height: view.frame.height + 600)
         scrollView.anchor(top: safeArea.topAnchor, left: safeArea.leftAnchor, bottom: safeArea.bottomAnchor, right: safeArea.rightAnchor, paddingTop: 20, paddingLeft: 0, paddingBottom: 0, paddingRight: 0)
         introLabel.anchor(top: scrollView.topAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 0, paddingLeft: 10, paddingBottom: 0, paddingRight: 10, height: 60)
         peopleCountViewBG.anchor(top: introLabel.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 10, paddingLeft: 10, paddingBottom: 0, paddingRight: 10, height: 50)
