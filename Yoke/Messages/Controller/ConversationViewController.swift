@@ -194,7 +194,7 @@ extension ConversationViewController: UITableViewDataSource {
                 let indexToDelete = conversations[indexPath.row]
                 guard let indexOfConversation = conversations.firstIndex(of: indexToDelete) else { return }
                 self.conversations.remove(at: indexOfConversation)
-
+                self.messageTableView.deleteRows(at: [indexPath], with: .left)
 //                self.conversations.remove(at: indexPath.row)
 //                let indexPath = IndexPath(item: 0, section: 0)
 //                messageTableView.deleteRows(at: [indexPath], with: .left)
@@ -202,7 +202,7 @@ extension ConversationViewController: UITableViewDataSource {
                     switch result {
                     default:
                         DispatchQueue.main.async {
-                            self.messageTableView.deleteRows(at: [indexPath], with: .left)
+//                            self.messageTableView.deleteRows(at: [indexPath], with: .left)
                         }
                         print("deleted")
                     }
