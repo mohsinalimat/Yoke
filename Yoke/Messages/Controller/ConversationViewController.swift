@@ -97,7 +97,6 @@ class ConversationViewController: UIViewController {
             }
             self.conversations = Array(self.conversationDictionary.values)
             DispatchQueue.main.async {
-                self.conversations.removeAll()
                 self.messageTableView.reloadData()
             }
         }
