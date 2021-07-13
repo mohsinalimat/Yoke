@@ -97,6 +97,7 @@ class ConversationViewController: UIViewController {
             }
             self.conversations = Array(self.conversationDictionary.values)
             DispatchQueue.main.async {
+                self.conversations.removeAll()
                 self.messageTableView.reloadData()
             }
         }
@@ -198,7 +199,6 @@ extension ConversationViewController: UITableViewDataSource {
                 ConversationController.shared.deleteConversation(chatParnterId: chatPartnerId) { result in
                     switch result {
                     default:
-                        self.conversations.removeAll()
                         DispatchQueue.main.async {
                             self.messageTableView.reloadData()
                         }
