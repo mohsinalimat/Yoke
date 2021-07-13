@@ -194,18 +194,19 @@ extension ConversationViewController: UITableViewDataSource {
                 let indexToDelete = conversations[indexPath.row]
                 guard let indexOfConversation = conversations.firstIndex(of: indexToDelete) else { return }
                 self.conversations.remove(at: indexOfConversation)
-                DispatchQueue.main.async {
-                    self.messageTableView.deleteRows(at: [indexPath], with: .left)
-                }
-//                self.messageTableView.deleteRows(at: [indexPath], with: .left)
+                self.messageTableView.deleteRows(at: [indexPath], with: .left)
                 ConversationController.shared.deleteConversation(chatParnterId: chatPartnerId) { result in
                     switch result {
                     default:
+                        self.conversations.removeAll()
+                        DispatchQueue.main.async {
+                            self.messageTableView.reloadData()
+                        }
                         print("deleted")
                     }
                 }
             }
-
+            
         }
     }
 }
