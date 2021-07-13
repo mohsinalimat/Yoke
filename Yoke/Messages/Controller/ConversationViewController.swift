@@ -96,7 +96,6 @@ class ConversationViewController: UIViewController {
                 self.conversationDictionary[message.chatPartnerId] = conversation
             }
             self.conversations = Array(self.conversationDictionary.values)
-            print("in fetch \(self.conversations)")
             DispatchQueue.main.async {
                 self.messageTableView.reloadData()
             }
@@ -192,12 +191,19 @@ extension ConversationViewController: UITableViewDataSource {
         if editingStyle == .delete {
             if tableView == messageTableView {
                 let chatPartnerId = conversations[indexPath.row].message.chatPartnerId
-                self.conversations.remove(at: indexPath.row)
-                let indexPath = IndexPath(item: 0, section: 0)
-                messageTableView.deleteRows(at: [indexPath], with: .left)
+                let indexToDelete = conversations[indexPath.row]
+                guard let indexOfConversation = conversations.firstIndex(of: indexToDelete) else { return }
+                self.conversations.remove(at: indexOfConversation)
+
+//                self.conversations.remove(at: indexPath.row)
+//                let indexPath = IndexPath(item: 0, section: 0)
+//                messageTableView.deleteRows(at: [indexPath], with: .left)
                 ConversationController.shared.deleteConversation(chatParnterId: chatPartnerId) { result in
                     switch result {
                     default:
+                        DispatchQueue.main.async {
+                            self.messageTableView.deleteRows(at: [indexPath], with: .left)
+                        }
                         print("deleted")
                     }
                 }
