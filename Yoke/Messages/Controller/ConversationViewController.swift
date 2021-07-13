@@ -195,14 +195,11 @@ extension ConversationViewController: UITableViewDataSource {
                 guard let indexOfConversation = conversations.firstIndex(of: indexToDelete) else { return }
                 self.conversations.remove(at: indexOfConversation)
                 self.messageTableView.deleteRows(at: [indexPath], with: .left)
-//                self.conversations.remove(at: indexPath.row)
-//                let indexPath = IndexPath(item: 0, section: 0)
-//                messageTableView.deleteRows(at: [indexPath], with: .left)
                 ConversationController.shared.deleteConversation(chatParnterId: chatPartnerId) { result in
                     switch result {
                     default:
                         DispatchQueue.main.async {
-//                            self.messageTableView.deleteRows(at: [indexPath], with: .left)
+                            self.messageTableView.reloadData()
                         }
                         print("deleted")
                     }
