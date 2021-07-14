@@ -22,6 +22,7 @@ class ConversationViewController: UIViewController {
     let cellId = "cellId"
     let cellId2 = "cellId2"
     var userId: String?
+    var refreshControl: UIRefreshControl!
     
     //MARK: - Lifecycle Methods
     override func viewDidLayoutSubviews() {
@@ -86,19 +87,41 @@ class ConversationViewController: UIViewController {
         requestTableView.dataSource = self
         requestTableView.separatorStyle = .none
         requestTableView.isHidden = true
+        refreshControl = UIRefreshControl()
+        refreshControl.tintColor = UIColor.orangeColor()
+        refreshControl.addTarget(self, action: #selector(self.refresh), for: UIControl.Event.valueChanged)
+        messageTableView.addSubview(refreshControl)
+        
     }
     
     //MARK: - API
     func fetchConversations() {
         ConversationController.shared.fetchConversations { (conversations) in
-            conversations.forEach { (conversation) in
-                let message = conversation.message
-                self.conversationDictionary[message.chatPartnerId] = conversation
+            switch conversations {
+            default:
+                conversations.forEach { (conversation) in
+                    let message = conversation.message
+                    self.conversationDictionary[message.chatPartnerId] = conversation
+                    print("001 \(conversation)")
+                    self.conversations = Array(self.conversationDictionary.values)
+                    print("002 \(self.conversations)")
+                    DispatchQueue.main.async {
+                        self.messageTableView.reloadData()
+                    }
+                }
             }
-            self.conversations = Array(self.conversationDictionary.values)
-            DispatchQueue.main.async {
-                self.messageTableView.reloadData()
-            }
+//            conversations.forEach { (conversation) in
+//                let message = conversation.message
+//                self.conversationDictionary[message.chatPartnerId] = conversation
+//                self.conversations = Array(self.conversationDictionary.values)
+//                DispatchQueue.main.async {
+//                    self.messageTableView.reloadData()
+//                }
+//            }
+//            self.conversations = Array(self.conversationDictionary.values)
+//            DispatchQueue.main.async {
+//                self.messageTableView.reloadData()
+//            }
         }
     }
     
@@ -116,6 +139,13 @@ class ConversationViewController: UIViewController {
     }
     
     //MARK: - Selectors
+    @objc func refresh() {
+        DispatchQueue.main.async {
+            self.messageTableView.reloadData()
+            self.refreshControl?.endRefreshing()
+        }
+    }
+    
     @objc func handleSegSelection(index: Int) {
         if segmentedControl.selectedSegmentIndex == 0 {
             requestTableView.isHidden = true
@@ -198,9 +228,8 @@ extension ConversationViewController: UITableViewDataSource {
                 ConversationController.shared.deleteConversation(chatParnterId: chatPartnerId) { result in
                     switch result {
                     default:
-                        DispatchQueue.main.async {
-                            self.messageTableView.reloadData()
-                        }
+                        self.conversationDictionary = [:]
+//                        self.reloadConversations()
                         print("deleted")
                     }
                 }

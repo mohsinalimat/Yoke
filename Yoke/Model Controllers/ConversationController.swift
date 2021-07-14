@@ -47,7 +47,7 @@ struct ConversationController {
             })
         }
     }
-
+ 
     func fetchConversations(completion: @escaping([Conversation]) -> Void) {
         var conversations = [Conversation]()
         guard let uid = Auth.auth().currentUser?.uid else { return }
@@ -57,11 +57,9 @@ struct ConversationController {
             if let error = error {
                 print(error.localizedDescription)
             }
-            
             snapshot?.documentChanges.forEach({ (change) in
                 let dictionary = change.document.data()
                 let message = Message(dictionary: dictionary)
-                conversations = []
                 UserController.shared.fetchUserWithUID(uid: message.chatPartnerId) { (user) in
                     let conversation = Conversation(user: user, message: message)
                     conversations.append(conversation)
