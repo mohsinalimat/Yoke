@@ -157,8 +157,8 @@ class ConversationViewController: UIViewController {
     }
     
     @objc func handleArchive() {
-        let archiveVC = sample()
-        navigationController?.pushViewController(archiveVC, animated: true)
+//        let archiveVC = sample()
+//        navigationController?.pushViewController(archiveVC, animated: true)
     }
     
     //MARK: - Views
