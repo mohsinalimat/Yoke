@@ -16,7 +16,7 @@ struct ConversationController {
     
     //MARK: - Source of truth
     var messages: [Message] = []
-    var conversationDictionary = [String: Conversation]()
+//    var conversationDictionary = [String: Conversation]()
     
     //MARK: - Firebase Firestore Database
     let firestoreDB = Firestore.firestore().collection(Constants.Messages)
@@ -35,21 +35,35 @@ struct ConversationController {
     func fetchMessages(forUser: String, completion: @escaping([Message]) -> Void) {
         var messages = [Message]()
         guard let currentUid = Auth.auth().currentUser?.uid else { return }
-        let query = firestoreDB.document(currentUid).collection(forUser).order(by: Constants.Timestamp)
-        query.addSnapshotListener { (snapshot, error) in
+        firestoreDB..addSnapshotListener { (snap, error) in
             if let error = error {
                 print(error.localizedDescription)
-                return
-            }
-            snapshot?.documentChanges.forEach({ (change) in
-                if change.type == .added {
-                    let dictionary = change.document.data()
-                    let message = Message(dictionary: dictionary)
-                    messages.append(message)
-                    completion(messages)
+                completion(false)
+            } else {
+                self.events = []
+                for document in snap!.documents {
+                    let dictionary = document.data()
+                    let event = Event(dictionary: dictionary)
+                    self.events.append(event)
                 }
-            })
+                completion(true)
+            }
         }
+//        let query = firestoreDB.document(currentUid).collection(forUser).order(by: Constants.Timestamp)
+//        query.addSnapshotListener { (snapshot, error) in
+//            if let error = error {
+//                print(error.localizedDescription)
+//                return
+//            }
+//            snapshot?.documentChanges.forEach({ (change) in
+//                if change.type == .added {
+//                    let dictionary = change.document.data()
+//                    let message = Message(dictionary: dictionary)
+//                    messages.append(message)
+//                    completion(messages)
+//                }
+//            })
+//        }
     }
  
     mutating func fetchConversations(completion: @escaping([Conversation]) -> Void) {
@@ -64,10 +78,11 @@ struct ConversationController {
             snapshot?.documentChanges.forEach({ (change) in
                 let dictionary = change.document.data()
                 let message = Message(dictionary: dictionary)
-                firestoreDB.document(message.chatPartnerId).collection(Constants.RecentMessages).addSnapshotListener { snapshot, error in
-                    if let error = error {
-                        print(error.localizedDescription)
-                    }
+                self.messages.append(message)
+//                firestoreDB.document(message.chatPartnerId).collection(Constants.RecentMessages).addSnapshotListener { snapshot, error in
+//                    if let error = error {
+//                        print(error.localizedDescription)
+//                    }
 
 //                UserController.shared.fetchUserWithUID(uid: message.chatPartnerId) { (user) in
 //                    let conversation = Conversation(user: user, message: message)
