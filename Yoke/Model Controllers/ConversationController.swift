@@ -35,20 +35,28 @@ struct ConversationController {
     func fetchMessages(forUser: String, completion: @escaping([Message]) -> Void) {
         var messages = [Message]()
         guard let currentUid = Auth.auth().currentUser?.uid else { return }
-        firestoreDB..addSnapshotListener { (snap, error) in
+        firestoreDB.document(currentUid).collection(Constants.RecentMessages).document(forUser).addSnapshotListener { snapshot, error in
             if let error = error {
                 print(error.localizedDescription)
-                completion(false)
+//                completion(false)
             } else {
-                self.events = []
-                for document in snap!.documents {
-                    let dictionary = document.data()
-                    let event = Event(dictionary: dictionary)
-                    self.events.append(event)
-                }
-                completion(true)
+                print(snapshot?.data())
             }
         }
+//        firestoreDB.collection(currentUid).document(Constants.RecentMessages).addSnapshotListener { (snap, error) in
+//            if let error = error {
+//                print(error.localizedDescription)
+//                completion(false)
+//            } else {
+//                self.events = []
+//                for document in snap!.documents {
+//                    let dictionary = document.data()
+//                    let event = Event(dictionary: dictionary)
+//                    self.events.append(event)
+//                }
+//                completion(true)
+//            }
+//        }
 //        let query = firestoreDB.document(currentUid).collection(forUser).order(by: Constants.Timestamp)
 //        query.addSnapshotListener { (snapshot, error) in
 //            if let error = error {
