@@ -97,8 +97,14 @@ class ConversationViewController: UIViewController {
     //MARK: - API
     func fetchConversations() {
         ConversationController.shared.fetchConversations { conversations in
-            self.conversations = conversations
-            self.messageTableView.reloadData()
+            conversations.forEach { conversation in
+                let message = conversation.message
+                self.conversationDictionary[message.chatPartnerId] = conversation
+            }
+            self.conversations = Array(self.conversationDictionary.values)
+            DispatchQueue.main.async {
+                self.messageTableView.reloadData()
+            }
         }
     }
     
@@ -198,14 +204,11 @@ extension ConversationViewController: UITableViewDataSource {
         if editingStyle == .delete {
             if tableView == messageTableView {
                 let conversation = conversations[indexPath.row]
-                guard let indexOfConversation = conversations.firstIndex(of: conversation) else { return }
-                self.conversations.remove(at: indexOfConversation)
-                self.messageTableView.deleteRows(at: [indexPath], with: .left)
-                ConversationController.shared.deleteConversation(chatParnterId: conversation.message.chatPartnerId) { result in
-                    switch result {
-                    default:
-                        print("deleted \(indexOfConversation)")
-                    }
+                ConversationController.shared.deleteConversation(chatParnterId: conversation.message.chatPartnerId) { conversations in
+                    self.conversations = conversations
+                    guard let indexOfConversation = conversations.firstIndex(of: conversation) else { return }
+                    self.conversations.remove(at: indexOfConversation)
+                    self.messageTableView.deleteRows(at: [indexPath], with: .left)
                 }
             }
             if tableView == requestTableView {
