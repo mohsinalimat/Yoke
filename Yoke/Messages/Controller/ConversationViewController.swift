@@ -96,32 +96,9 @@ class ConversationViewController: UIViewController {
     
     //MARK: - API
     func fetchConversations() {
-        ConversationController.shared.fetchConversations { (conversations) in
-            switch conversations {
-            default:
-                conversations.forEach { (conversation) in
-                    let message = conversation.message
-                    self.conversationDictionary[message.chatPartnerId] = conversation
-                    print("001 \(conversation)")
-                    self.conversations = Array(self.conversationDictionary.values)
-                    print("002 \(self.conversations)")
-                    DispatchQueue.main.async {
-                        self.messageTableView.reloadData()
-                    }
-                }
-            }
-//            conversations.forEach { (conversation) in
-//                let message = conversation.message
-//                self.conversationDictionary[message.chatPartnerId] = conversation
-//                self.conversations = Array(self.conversationDictionary.values)
-//                DispatchQueue.main.async {
-//                    self.messageTableView.reloadData()
-//                }
-//            }
-//            self.conversations = Array(self.conversationDictionary.values)
-//            DispatchQueue.main.async {
-//                self.messageTableView.reloadData()
-//            }
+        ConversationController.shared.fetchConversations { conversations in
+            self.conversations = conversations
+            self.messageTableView.reloadData()
         }
     }
     

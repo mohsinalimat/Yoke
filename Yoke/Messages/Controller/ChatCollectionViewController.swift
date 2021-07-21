@@ -57,7 +57,7 @@ class ChatCollectionViewController: UICollectionViewController, UICollectionView
     //MARK: - API
     func fetchMessages() {
         guard let userId = userId else { return }
-        ConversationController.shared.fetchMessages(forUser: userId) { (messages) in
+        ConversationController.shared.fetchMessages(userUid: userId) { (messages) in
             self.messages = messages
             self.collectionView.reloadData()
             self.collectionView.scrollToItem(at: [0, self.messages.count - 1], at: .bottom, animated: true)
