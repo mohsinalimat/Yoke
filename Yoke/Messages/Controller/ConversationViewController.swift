@@ -220,15 +220,14 @@ extension ConversationViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
             if tableView == messageTableView {
-                let chatPartnerId = conversations[indexPath.row].message.chatPartnerId
-                let indexToDelete = conversations[indexPath.row]
-                guard let indexOfConversation = conversations.firstIndex(of: indexToDelete) else { return }
-                self.conversations.remove(at: indexOfConversation)
-                self.messageTableView.deleteRows(at: [indexPath], with: .left)
-                ConversationController.shared.deleteConversation(chatParnterId: chatPartnerId) { result in
+                let conversation = conversations[indexPath.row]
+                guard let indexOfConversation = conversations.firstIndex(of: conversation) else { return }
+                ConversationController.shared.deleteConversation(chatParnterId: conversation.message.chatPartnerId) { result in
                     switch result {
                     default:
-                        print("deleted")
+                        self.conversations.remove(at: indexOfConversation)
+                        self.messageTableView.deleteRows(at: [indexPath], with: .left)
+                        print("deleted \(indexOfConversation)")
                     }
                 }
             }

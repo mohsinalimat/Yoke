@@ -14,6 +14,10 @@ struct ConversationController {
     //MARK: - Shared Instance
     static let shared = ConversationController()
     
+    //MARK: - Source of truth
+    var messages: [Message] = []
+    var conversationDictionary = [String: Conversation]()
+    
     //MARK: - Firebase Firestore Database
     let firestoreDB = Firestore.firestore().collection(Constants.Messages)
     
@@ -48,8 +52,8 @@ struct ConversationController {
         }
     }
  
-    func fetchConversations(completion: @escaping([Conversation]) -> Void) {
-        var conversations = [Conversation]()
+    mutating func fetchConversations(completion: @escaping([Conversation]) -> Void) {
+//        var conversations = [Conversation]()
         guard let uid = Auth.auth().currentUser?.uid else { return }
         let query = firestoreDB.document(uid).collection(Constants.RecentMessages).order(by: Constants.Timestamp)
 
@@ -60,11 +64,16 @@ struct ConversationController {
             snapshot?.documentChanges.forEach({ (change) in
                 let dictionary = change.document.data()
                 let message = Message(dictionary: dictionary)
-                UserController.shared.fetchUserWithUID(uid: message.chatPartnerId) { (user) in
-                    let conversation = Conversation(user: user, message: message)
-                    conversations.append(conversation)
-                    completion(conversations)
-                }
+                firestoreDB.document(message.chatPartnerId).collection(Constants.RecentMessages).addSnapshotListener { snapshot, error in
+                    if let error = error {
+                        print(error.localizedDescription)
+                    }
+
+//                UserController.shared.fetchUserWithUID(uid: message.chatPartnerId) { (user) in
+//                    let conversation = Conversation(user: user, message: message)
+//                    self.conversations.append(conversation)
+//                    completion(conversations)
+//                }
             })
         }
     }
