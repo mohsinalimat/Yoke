@@ -125,7 +125,9 @@ class ConversationViewController: UIViewController {
     //MARK: - Selectors
     @objc func refresh() {
         DispatchQueue.main.async {
+            self.conversations = []
             self.messageTableView.reloadData()
+            self.fetchConversations()
             self.refreshControl?.endRefreshing()
         }
     }
@@ -211,8 +213,7 @@ extension ConversationViewController: UITableViewDataSource {
                 self.messageTableView.deleteRows(at: [indexPath], with: .left)
                 ConversationController.shared.deleteConversation(chatParnterId: conversationChatId) { conversations in
                     self.conversations = conversations
-                    print("convo delete \(self.conversationDictionary.values)")
-                    self.messageTableView.reloadData()
+                    self.refresh()
                 }
             }
             if tableView == requestTableView {
