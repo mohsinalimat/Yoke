@@ -97,13 +97,13 @@ class ConversationViewController: UIViewController {
     //MARK: - API
     func fetchConversations() {
         ConversationController.shared.fetchConversations { conversations in
-            self.conversations = conversations
-//            conversations.forEach { conversation in
-//                let message = conversation.message
-//                self.conversationDictionary[message.chatPartnerId] = conversation
-//            }
-//            self.conversations = Array(self.conversationDictionary.values)
-//            print("convo left \(self.conversations)")
+//            self.conversations = conversations
+            conversations.forEach { conversation in
+                let message = conversation.message
+                self.conversationDictionary[message.chatPartnerId] = conversation
+            }
+            self.conversations = Array(self.conversationDictionary.values)
+            print("convo left \(self.conversations)")
             DispatchQueue.main.async {
                 self.messageTableView.reloadData()
             }
@@ -208,13 +208,19 @@ extension ConversationViewController: UITableViewDataSource {
         if editingStyle == .delete {
             if tableView == messageTableView {
                 let conversationChatId = conversations[indexPath.row].message.chatPartnerId
-                let conversation = conversations[indexPath.row]
-                guard let indexOfConversation = conversations.firstIndex(of: conversation) else { return }
-                self.conversations.remove(at: indexOfConversation)
+                tableView.beginUpdates()
+//                let conversation = conversations[indexPath.row]
+//                guard let indexOfConversation = conversations.firstIndex(of: conversation) else { return }
+//                self.conversations.remove(at: indexOfConversation)
+                self.conversations.remove(at: indexPath.row)
+                tableView.deleteRows(at: [indexPath], with: .left)
                 ConversationController.shared.deleteConversation(chatParnterId: conversationChatId) { conversations in
                     self.conversations = conversations
+//                    self.conversations.remove(at: indexPath.row)
+//                    tableView.deleteRows(at: [indexPath], with: .left)
                 }
-                tableView.reloadData()
+                tableView.beginUpdates()
+//                tableView.reloadData()
 
             }
             if tableView == requestTableView {
