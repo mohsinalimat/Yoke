@@ -56,6 +56,7 @@ struct ConversationController {
             if let error = error {
                 print(error.localizedDescription)
             }
+            conversations = []
             snapshot?.documentChanges.forEach({ change in
                 let dictionary = change.document.data()
                 let message = Message(dictionary: dictionary)

@@ -97,12 +97,13 @@ class ConversationViewController: UIViewController {
     //MARK: - API
     func fetchConversations() {
         ConversationController.shared.fetchConversations { conversations in
-            conversations.forEach { conversation in
-                let message = conversation.message
-                self.conversationDictionary[message.chatPartnerId] = conversation
-            }
-            self.conversations = Array(self.conversationDictionary.values)
-            print("convo left \(self.conversations)")
+            self.conversations = conversations
+//            conversations.forEach { conversation in
+//                let message = conversation.message
+//                self.conversationDictionary[message.chatPartnerId] = conversation
+//            }
+//            self.conversations = Array(self.conversationDictionary.values)
+//            print("convo left \(self.conversations)")
             DispatchQueue.main.async {
                 self.messageTableView.reloadData()
             }
@@ -125,7 +126,7 @@ class ConversationViewController: UIViewController {
     //MARK: - Selectors
     @objc func refresh() {
         DispatchQueue.main.async {
-            self.conversationDictionary = [:]
+//            self.conversationDictionary = [:]
             self.messageTableView.reloadData()
             self.fetchConversations()
             self.refreshControl?.endRefreshing()
