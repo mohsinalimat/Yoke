@@ -207,15 +207,14 @@ extension ConversationViewController: UITableViewDataSource {
         if editingStyle == .delete {
             if tableView == messageTableView {
                 let conversationChatId = conversations[indexPath.row].message.chatPartnerId
+                let conversation = conversations[indexPath.row]
+                guard let indexOfConversation = conversations.firstIndex(of: conversation) else { return }
+                self.conversations.remove(at: indexOfConversation)
                 ConversationController.shared.deleteConversation(chatParnterId: conversationChatId) { conversations in
                     self.conversations = conversations
-                    let conversation = conversations[indexPath.row]
-                    guard let indexOfConversation = conversations.firstIndex(of: conversation) else { return }
-                    self.conversations.remove(at: indexOfConversation)
-                    self.conversationDictionary.removeValue(forKey: conversation.message.chatPartnerId)
                 }
                 tableView.reloadData()
-//                self.messageTableView.deleteRows(at: [indexPath], with: .left)
+
             }
             if tableView == requestTableView {
                 
