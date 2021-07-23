@@ -102,6 +102,7 @@ class ConversationViewController: UIViewController {
                 self.conversationDictionary[message.chatPartnerId] = conversation
             }
             self.conversations = Array(self.conversationDictionary.values)
+            print("convo left \(self.conversations)")
             DispatchQueue.main.async {
                 self.messageTableView.reloadData()
             }
@@ -210,6 +211,7 @@ extension ConversationViewController: UITableViewDataSource {
                 self.messageTableView.deleteRows(at: [indexPath], with: .left)
                 ConversationController.shared.deleteConversation(chatParnterId: conversationChatId) { conversations in
                     self.conversations = conversations
+                    print("convo delete \(self.conversationDictionary.values)")
                     self.messageTableView.reloadData()
                 }
             }
