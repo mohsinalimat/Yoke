@@ -16,7 +16,7 @@ struct ConversationController {
     
     //MARK: - Source of truth
 //    var messages: [Message] = []
-//    var conversationDictionary = [String: Conversation]()
+    var conversationDictionary = [String: Conversation]()
     
     //MARK: - Firebase Firestore Database
     let firestoreDB = Firestore.firestore().collection(Constants.Messages)
