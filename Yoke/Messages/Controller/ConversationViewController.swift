@@ -102,7 +102,7 @@ class ConversationViewController: UIViewController {
                 let message = conversation.message
                 self.conversationDictionary[message.chatPartnerId] = conversation
             }
-//            self.conversations = Array(self.conversationDictionary.values)
+            self.conversations = Array(self.conversationDictionary.values)
             DispatchQueue.main.async {
                 self.messageTableView.reloadData()
             }
@@ -125,9 +125,9 @@ class ConversationViewController: UIViewController {
     //MARK: - Selectors
     @objc func refresh() {
         DispatchQueue.main.async {
-//            self.conversationDictionary = [:]
-            self.messageTableView.reloadData()
+            self.conversationDictionary = [:]
             self.fetchConversations()
+            self.messageTableView.reloadData()
             self.refreshControl?.endRefreshing()
         }
     }
@@ -212,10 +212,9 @@ extension ConversationViewController: UITableViewDataSource {
                 tableView.deleteRows(at: [indexPath], with: .left)
                 ConversationController.shared.deleteConversation(chatParnterId: conversationChatId) { conversations in
                     self.conversations = conversations
+                    self.refresh()
                 }
                 tableView.endUpdates()
-//                tableView.reloadData()
-
             }
             if tableView == requestTableView {
                 
