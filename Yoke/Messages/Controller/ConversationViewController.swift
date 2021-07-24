@@ -216,8 +216,6 @@ extension ConversationViewController: UITableViewDataSource {
                 tableView.deleteRows(at: [indexPath], with: .left)
                 ConversationController.shared.deleteConversation(chatParnterId: conversationChatId) { conversations in
                     self.conversations = conversations
-//                    self.conversations.remove(at: indexPath.row)
-//                    tableView.deleteRows(at: [indexPath], with: .left)
                 }
                 tableView.beginUpdates()
 //                tableView.reloadData()
