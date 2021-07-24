@@ -87,6 +87,8 @@ class ConversationViewController: UIViewController {
         requestTableView.dataSource = self
         requestTableView.separatorStyle = .none
         requestTableView.isHidden = true
+        requestTableView.allowsSelection = false
+        
         refreshControl = UIRefreshControl()
         refreshControl.tintColor = UIColor.orangeColor()
         refreshControl.addTarget(self, action: #selector(self.refresh), for: UIControl.Event.valueChanged)
@@ -215,9 +217,6 @@ extension ConversationViewController: UITableViewDataSource {
                     self.refresh()
                 }
                 tableView.endUpdates()
-            }
-            if tableView == requestTableView {
-                
             }
         }
     }
