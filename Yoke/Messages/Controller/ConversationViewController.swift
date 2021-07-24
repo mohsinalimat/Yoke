@@ -102,8 +102,7 @@ class ConversationViewController: UIViewController {
                 let message = conversation.message
                 self.conversationDictionary[message.chatPartnerId] = conversation
             }
-            self.conversations = Array(self.conversationDictionary.values)
-            print("convo left \(self.conversations)")
+//            self.conversations = Array(self.conversationDictionary.values)
             DispatchQueue.main.async {
                 self.messageTableView.reloadData()
             }
@@ -209,15 +208,12 @@ extension ConversationViewController: UITableViewDataSource {
             if tableView == messageTableView {
                 let conversationChatId = conversations[indexPath.row].message.chatPartnerId
                 tableView.beginUpdates()
-//                let conversation = conversations[indexPath.row]
-//                guard let indexOfConversation = conversations.firstIndex(of: conversation) else { return }
-//                self.conversations.remove(at: indexOfConversation)
                 self.conversations.remove(at: indexPath.row)
                 tableView.deleteRows(at: [indexPath], with: .left)
                 ConversationController.shared.deleteConversation(chatParnterId: conversationChatId) { conversations in
                     self.conversations = conversations
                 }
-                tableView.beginUpdates()
+                tableView.endUpdates()
 //                tableView.reloadData()
 
             }
