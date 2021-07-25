@@ -9,7 +9,7 @@
 import UIKit
 import FirebaseAuth
 
-class ConversationViewController: UIViewController {
+class ConversationViewController: UIViewController{
 
     //MARK: - Properties
     var safeArea: UILayoutGuide {
@@ -237,6 +237,10 @@ extension ConversationViewController: UITableViewDelegate {
             if request.invoiceSent == true {
                 if request.chefUid == Auth.auth().currentUser?.uid ?? "" {
                     print("user is chef")
+                    let requestVC = BookingRequestDetailViewController()
+                    requestVC.booking = request
+                    navigationController?.pushViewController(requestVC, animated: true)
+                    print("booking request detail")
                 } else {
                     let requestVC = MakePaymentViewController()
                     requestVC.booking = request
@@ -246,6 +250,7 @@ extension ConversationViewController: UITableViewDelegate {
                 let requestVC = BookingRequestDetailViewController()
                 requestVC.booking = request
                 navigationController?.pushViewController(requestVC, animated: true)
+                print("booking request detail")
             }
         }
     }

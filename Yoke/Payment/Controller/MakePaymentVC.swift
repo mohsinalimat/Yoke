@@ -27,7 +27,7 @@ class MakePaymentVC: UIViewController, STPPaymentContextDelegate {
     var feesAmount: Int = 0
     var activityIndicator: UIActivityIndicatorView!
     
-    var payment: Payment? {
+    var booking: Booking? {
         didSet {
 //            let amount = payment?.amount
 //            totalAmount = amount!
