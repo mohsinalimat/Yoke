@@ -175,7 +175,7 @@ class ChefProfileViewController: UIViewController, TTGTextTagCollectionViewDeleg
         config.shadowColor = .gray
         Firestore.firestore().collection(Constants.Chefs).document(uid).getDocument { (document, error) in
             if let document = document, document.exists {
-                guard let array = document.data()?["cusine"] as? [String] else { return }
+                guard let array = document.data()?["cuisine"] as? [String] else { return }
                 let sortedArray = array.sorted(by: { $0 < $1 })
                 for name in sortedArray {
                     self.cusineCollectionView.addTags([name], with: config)
