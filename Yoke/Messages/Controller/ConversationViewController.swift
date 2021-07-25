@@ -87,7 +87,6 @@ class ConversationViewController: UIViewController {
         requestTableView.dataSource = self
         requestTableView.separatorStyle = .none
         requestTableView.isHidden = true
-        requestTableView.allowsSelection = false
         
         refreshControl = UIRefreshControl()
         refreshControl.tintColor = UIColor.orangeColor()
@@ -214,6 +213,8 @@ extension ConversationViewController: UITableViewDataSource {
                 tableView.deleteRows(at: [indexPath], with: .left)
                 ConversationController.shared.deleteConversation(chatParnterId: conversationChatId) { conversations in
                     self.conversations = conversations
+                    self.conversations = []
+                    self.conversationDictionary.removeAll()
                     self.refresh()
                 }
                 tableView.endUpdates()
