@@ -33,8 +33,6 @@ class MakePaymentViewController: UIViewController {
         guard let booking = booking,
               let paymentId = booking.paymentId,
               let uid = booking.userUid else { return }
-        print(booking, paymentId, uid)
-        
     }
 
 }
