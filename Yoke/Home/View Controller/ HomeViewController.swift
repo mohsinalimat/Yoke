@@ -485,32 +485,32 @@ class HomeViewController: UIViewController {
     let menuLabel: UILabel = {
         let label = UILabel()
         label.text = "Menus"
-        label.textColor = UIColor.gray
-        label.font = UIFont.boldSystemFont(ofSize: 20)
+        label.textColor = UIColor.orangeColor()
+        label.font = UIFont.boldSystemFont(ofSize: 28)
         return label
     }()
     
     let chefLabel: UILabel = {
         let label = UILabel()
         label.text = "Chefs in your area"
-        label.textColor = UIColor.gray
-        label.font = UIFont.boldSystemFont(ofSize: 20)
+        label.textColor = UIColor.orangeColor()
+        label.font = UIFont.boldSystemFont(ofSize: 28)
         return label
     }()
     
     let eventLabel: UILabel = {
         let label = UILabel()
         label.text = "Events in your area"
-        label.textColor = UIColor.gray
-        label.font = UIFont.boldSystemFont(ofSize: 20)
+        label.textColor = UIColor.orangeColor()
+        label.font = UIFont.boldSystemFont(ofSize: 28)
         return label
     }()
     
     let bookingLabel: UILabel = {
         let label = UILabel()
         label.text = "Upcomming bookings"
-        label.textColor = UIColor.gray
-        label.font = UIFont.boldSystemFont(ofSize: 20)
+        label.textColor = UIColor.orangeColor()
+        label.font = UIFont.boldSystemFont(ofSize: 28)
         return label
     }()
     
