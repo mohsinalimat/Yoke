@@ -618,7 +618,7 @@ class ChefProfileViewController: UIViewController, TTGTextTagCollectionViewDeleg
     
     let bioLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont.boldSystemFont(ofSize: 17)
+        label.font = UIFont.boldSystemFont(ofSize: 20)
         label.textColor = UIColor.gray
         label.textAlignment = .left
         label.backgroundColor = UIColor.LightGrayBg()
@@ -646,7 +646,7 @@ class ChefProfileViewController: UIViewController, TTGTextTagCollectionViewDeleg
     let cusineLabel: UILabel = {
         let label = UILabel()
         label.text = "What I'm know for:"
-        label.font = UIFont.boldSystemFont(ofSize: 17)
+        label.font = UIFont.boldSystemFont(ofSize: 20)
         label.textColor = UIColor.gray
         label.textAlignment = .center
         return label
