@@ -69,7 +69,6 @@ class UserProfileViewController: UIViewController, TTGTextTagCollectionViewDeleg
         scrollView.addSubview(buttonStackView)
         buttonStackView.addArrangedSubview(reviewsButton)
         buttonStackView.addArrangedSubview(eventButton)
-        buttonStackView.addArrangedSubview(messageButton)
         buttonStackView.addArrangedSubview(bookmarkButton)
         scrollView.addSubview(bioView)
         scrollView.addSubview(bioLabel)
@@ -80,7 +79,6 @@ class UserProfileViewController: UIViewController, TTGTextTagCollectionViewDeleg
         reviewsButton.alignImageTextVertical()
         eventButton.alignImageTextVertical()
         bookmarkButton.alignImageTextVertical()
-        messageButton.alignImageTextVertical()
     }
     
     func constrainViews() {
