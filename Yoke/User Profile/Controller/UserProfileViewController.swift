@@ -74,16 +74,6 @@ class UserProfileViewController: UIViewController, TTGTextTagCollectionViewDeleg
         scrollView.addSubview(bioView)
         scrollView.addSubview(bioLabel)
         scrollView.addSubview(bioTextLabel)
-//        let uid = userId ?? (Auth.auth().currentUser?.uid ?? "")
-//        UserController.shared.fetchUserWithUID(uid: uid) { (user) in
-//            if user.isChef == false {
-//                self.setupForUser()
-//                self.constrainViewsForUser()
-//            } else {
-//                self.setupForChef()
-//                self.constrainViewsForChef()
-//            }
-//        }
     }
 
     func setupButtonImages() {
@@ -113,7 +103,7 @@ class UserProfileViewController: UIViewController, TTGTextTagCollectionViewDeleg
         
         bioView.anchor(top: buttonStackView.bottomAnchor, left: safeArea.leftAnchor, bottom: bioTextLabel.bottomAnchor, right: safeArea.rightAnchor, paddingTop: -10, paddingLeft: 0, paddingBottom: 0, paddingRight: 0)
 
-        bioLabel.anchor(top: buttonStackView.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 25, paddingLeft: 15, paddingBottom: 0, paddingRight: 5)
+        bioLabel.anchor(top: buttonStackView.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 5, paddingLeft: 15, paddingBottom: 0, paddingRight: 5)
 
         bioTextLabel.anchor(top: bioLabel.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 10, paddingLeft: 15, paddingBottom: 0, paddingRight: 15)
     }
