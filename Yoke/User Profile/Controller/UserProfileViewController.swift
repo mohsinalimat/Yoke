@@ -490,8 +490,8 @@ class UserProfileViewController: UIViewController, TTGTextTagCollectionViewDeleg
     
     let bioLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont.boldSystemFont(ofSize: 20)
-        label.textColor = UIColor.gray
+        label.font = UIFont.boldSystemFont(ofSize: 28)
+        label.textColor = UIColor.orangeColor()
         label.textAlignment = .left
         label.backgroundColor = UIColor.LightGrayBg()
         return label
@@ -518,8 +518,8 @@ class UserProfileViewController: UIViewController, TTGTextTagCollectionViewDeleg
     let cusineLabel: UILabel = {
         let label = UILabel()
         label.text = "What I'm know for:"
-        label.font = UIFont.boldSystemFont(ofSize: 20)
-        label.textColor = UIColor.gray
+        label.font = UIFont.boldSystemFont(ofSize: 28)
+        label.textColor = UIColor.orangeColor()
         label.textAlignment = .center
         return label
     }()
@@ -540,8 +540,8 @@ class UserProfileViewController: UIViewController, TTGTextTagCollectionViewDeleg
     let menuLabel: UILabel = {
         let label = UILabel()
         label.text = "Menus"
-        label.textColor = .gray
-        label.font = UIFont.boldSystemFont(ofSize: 20)
+        label.textColor = UIColor.orangeColor()
+        label.font = UIFont.boldSystemFont(ofSize: 28)
         return label
     }()
 
