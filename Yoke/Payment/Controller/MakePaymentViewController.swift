@@ -64,7 +64,6 @@ class MakePaymentViewController: UIViewController, STPAddCardViewControllerDeleg
             switch response.result {
             case .success:
                 print("Success create payment \(amount)")
-                
                 break
             case .failure(let error):
                 
