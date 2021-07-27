@@ -130,7 +130,6 @@ class UserProfileViewController: UIViewController, TTGTextTagCollectionViewDeleg
                     self.profileImageView.image = UIImage(data: data)
                 }
             }
-            
             let bannerStorageRef = Storage.storage().reference().child("profileBannerUrl/\(uid)")
             bannerStorageRef.getData(maxSize: 2 * 1024 * 1024) { data, error in
                 if error == nil, let data = data {
