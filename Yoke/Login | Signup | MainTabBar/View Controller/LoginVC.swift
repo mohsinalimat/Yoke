@@ -239,6 +239,16 @@ class LoginVC: UIViewController {
         return view
     }()
     
+    let signInanonymouslyButtonsStackView: UIStackView = {
+        let view = UIStackView()
+        view.axis = .horizontal
+        view.alignment = .fill
+        view.distribution = .fillEqually
+        view.spacing = 20
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
+    
     let dontHaveAccountButton: UIButton = {
         let button = UIButton(type: .system)
         let attributedTitle = NSMutableAttributedString(string: "Don't have an account?  ", attributes: [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 15), NSAttributedString.Key.foregroundColor: UIColor.gray])
