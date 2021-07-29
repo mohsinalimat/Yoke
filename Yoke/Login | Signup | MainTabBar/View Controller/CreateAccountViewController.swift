@@ -163,8 +163,8 @@ class CreateAccountViewController: UIViewController {
         UserController.shared.createUserWith(email: email, username: username, password: password, image: image, isChef: self.isChef) { (result) in
             switch result {
             case true:
-                self.handleLoginToHome()
                 self.deleteAnonymousAccount()
+                self.handleLoginToHome()
                 self.myActivityIndicator.stopAnimating()
             case false:
                 print("error in signup: \(Error.self)")
