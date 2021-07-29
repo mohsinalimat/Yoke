@@ -165,6 +165,7 @@ class CreateAccountViewController: UIViewController {
             case true:
                 self.handleLoginToHome()
                 self.deleteAnonymousAccount()
+                self.myActivityIndicator.stopAnimating()
             case false:
                 print("error in signup: \(Error.self)")
             }
