@@ -122,6 +122,18 @@ class CreateAccountViewController: UIViewController {
         }
     }
     
+    func deleteAnonymousAccount() {
+        guard let uid = Auth.auth().currentUser?.uid else { return }
+        UserController.shared.deleteAnonymousAccountWith(uid: uid) { result in
+            switch result {
+            case true:
+                print("Anonymous account deleted")
+            case false:
+                print("Error in deleting anonymous account")
+            }
+        }
+    }
+    
     //MARK: - Selectors
     @objc func handleAddProfileImageViewTapped(_ sender: UITapGestureRecognizer? = nil) {
         let alertVC = UIAlertController(title: "Add a Photo", message: nil, preferredStyle: .alert)
@@ -152,8 +164,7 @@ class CreateAccountViewController: UIViewController {
             switch result {
             case true:
                 self.handleLoginToHome()
-                
-                print("success")
+                self.deleteAnonymousAccount()
             case false:
                 print("error in signup: \(Error.self)")
             }
@@ -177,12 +188,6 @@ class CreateAccountViewController: UIViewController {
     }
     
     //MARK: - Views
-//    var backgroundView: CAGradientLayer = {
-//        let view = CAGradientLayer()
-//        view.colors = [UIColor.orangeColor()?.cgColor ?? "", UIColor.yellowColor()?.cgColor ?? ""]
-//        view.locations = [0, 1]
-//        return view
-//    }()
     let imageView: UIView = {
         let view = UIView()
         view.backgroundColor = .white
@@ -330,7 +335,7 @@ class CreateAccountViewController: UIViewController {
         
 }
 
-extension SignupVC: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+extension CreateAccountViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
     func openCamera() {
         if UIImagePickerController.isSourceTypeAvailable(.camera) {
