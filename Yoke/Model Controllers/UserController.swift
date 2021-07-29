@@ -72,6 +72,20 @@ class UserController {
         })
     }
     
+    func createAnonymousUser(completion: @escaping (Bool) -> Void) {
+        Auth.auth().signInAnonymously() { (user, error) in
+            if let error = error {
+                print("Error: Sign in anonymously failed! \(error.localizedDescription)")
+                return
+            }
+                        
+            if let uid = user?.user.uid {
+                self.firestoreDB.collection(Constants.AnonymousUsers).document(uid).setData(["uid": uid])
+                completion(true)
+            }
+        }
+    }
+    
     func createFirestoreUser(stripeUser: StripeUser) {
         let ref = Firestore.firestore().collection("stripe_customers").document(stripeUser.id)
         let data = StripeUser.modelToData(customer_id: stripeUser)

@@ -13,6 +13,7 @@ class Constants {
     //    https://www.luby.info/2015/02/15/swift-constants-files.html
     
     static let Users = "users"
+    static let AnonymousUsers = "anonymousUsers"
     static let Uid = "uid"
     static let ChefUid = "chefUid"
     static let UserUid = "userUid"

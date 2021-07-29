@@ -9,7 +9,6 @@
 import UIKit
 import Firebase
 import FirebaseAuth
-//import AuthenticationService
 import MapKit
 
 class LoginVC: UIViewController {
@@ -124,6 +123,18 @@ class LoginVC: UIViewController {
             }
             self.handleLoginToHome()
         })
+    }
+    
+    @objc func handleAnonymousSignIn() {
+        self.myActivityIndicator.startAnimating()
+        UserController.shared.createAnonymousUser { result in
+            switch result {
+            case true:
+                <#code#>
+            case false:
+                <#code#>
+            }
+        }
     }
     
     @objc func handleForgotPassword() {
@@ -265,7 +276,7 @@ class LoginVC: UIViewController {
         button.layer.shadowRadius = 4
         button.layer.shadowOpacity = 0.2
         button.layer.shadowColor = UIColor.lightGray.cgColor
-        button.addTarget(self, action: #selector(handleSignIn), for: .touchUpInside)
+        button.addTarget(self, action: #selector(handleAnonymousSignIn), for: .touchUpInside)
         return button
     }()
 }
