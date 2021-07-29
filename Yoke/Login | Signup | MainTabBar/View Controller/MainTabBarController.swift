@@ -30,7 +30,16 @@ class MainTabBarController: UITabBarController, UITabBarControllerDelegate {
 
             return
         }
-        setupViewControllers()
+        guard let uid = Auth.auth().currentUser?.uid else { return }
+        UserController.shared.checkIfUserExist(uid: uid) { result in
+            switch result {
+            case true:
+                self.setupViewControllers()
+            case false:
+                print("nope")
+            }
+        }
+        
     }
     
     func setupAlerts() {
