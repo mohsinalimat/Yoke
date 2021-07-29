@@ -116,9 +116,11 @@ class CreateAccountViewController: UIViewController {
     func handleLoginToHome() {
         myActivityIndicator.stopAnimating()
         UIView.animate(withDuration: 0.5) { [weak self] in
-            let homeVC = MainTabBarController()
-            self?.view.window?.rootViewController = homeVC
-            self?.view.window?.makeKeyAndVisible()
+            DispatchQueue.main.async {
+                let homeVC = MainTabBarController()
+                self?.view.window?.rootViewController = homeVC
+                self?.view.window?.makeKeyAndVisible()
+            }
         }
     }
     
@@ -160,10 +162,10 @@ class CreateAccountViewController: UIViewController {
         guard password == confirmPassword else { return confirmPasswordsMatch()}
         guard let image = self.addImageButton.imageView?.image else { return }
         myActivityIndicator.startAnimating()
+        self.deleteAnonymousAccount()
         UserController.shared.createUserWith(email: email, username: username, password: password, image: image, isChef: self.isChef) { (result) in
             switch result {
             case true:
-                self.deleteAnonymousAccount()
                 self.handleLoginToHome()
                 self.myActivityIndicator.stopAnimating()
             case false:
