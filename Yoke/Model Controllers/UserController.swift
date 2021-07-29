@@ -150,6 +150,19 @@ class UserController {
         }
     }
     
+    func checkIfUserIsAnonymous(uid: String, completion: @escaping (Bool) -> Void) {
+        self.firestoreDB.collection(Constants.AnonymousUsers).document(uid).getDocument { (document, error) in
+            if let document = document, document.exists {
+                let dataDescription = document.data().map(String.init(describing:)) ?? "nil"
+                print("Document data: \(dataDescription)")
+                completion(true)
+            } else {
+                print("Document does not exist")
+                completion(false)
+            }
+        }
+    }
+    
     func fetchUserRatingWith(uid: String, completion: @escaping (Bool) -> Void) {
         firestoreDB.collection(Constants.Users).document(uid).collection(Constants.Ratings).getDocuments() { (querySnapshot, error) in
             var totalCount = 0.0

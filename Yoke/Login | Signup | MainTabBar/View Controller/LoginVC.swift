@@ -45,8 +45,8 @@ class LoginVC: UIViewController {
         view.addSubview(passwordView)
         view.addSubview(passwordTextField)
         view.addSubview(forgotPasswordButton)
-        view.addSubview(signInButton)
-        view.addSubview(signInAnonymouslyButton)
+        view.addSubview(loginButton)
+        view.addSubview(loginAnonymouslyButton)
         view.addSubview(dontHaveAccountButton)
         view.addSubview(myActivityIndicator)
         constrainViews()
@@ -62,9 +62,9 @@ class LoginVC: UIViewController {
         passwordView.anchor(top: emailTextField.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 20, paddingLeft: 40, paddingBottom: 0, paddingRight: 40, height: 45)
         passwordTextField.anchor(top: passwordView.topAnchor, left: passwordView.leftAnchor, bottom: passwordView.bottomAnchor, right: passwordView.rightAnchor, paddingTop: 5, paddingLeft: 5, paddingBottom: 5, paddingRight: 5)
         forgotPasswordButton.anchor(top: passwordTextField.bottomAnchor, left: nil, bottom: nil, right: safeArea.rightAnchor, paddingTop: 5, paddingLeft: 0, paddingBottom: 0, paddingRight: 40)
-        signInButton.anchor(top: forgotPasswordButton.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 10, paddingLeft: 40, paddingBottom: 0, paddingRight: 40, height: 45)
-        signInAnonymouslyButton.anchor(top: signInButton.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 10, paddingLeft: 40, paddingBottom: 0, paddingRight: 40, height: 45)
-        dontHaveAccountButton.anchor(top: signInAnonymouslyButton.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 20, paddingLeft: 0, paddingBottom: 0, paddingRight: 0)
+        loginButton.anchor(top: forgotPasswordButton.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 10, paddingLeft: 40, paddingBottom: 0, paddingRight: 40, height: 45)
+        loginAnonymouslyButton.anchor(top: loginButton.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 10, paddingLeft: 40, paddingBottom: 0, paddingRight: 40, height: 45)
+        dontHaveAccountButton.anchor(top: loginAnonymouslyButton.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 20, paddingLeft: 0, paddingBottom: 0, paddingRight: 0)
         myActivityIndicator.center = view.center
     }
 
@@ -95,19 +95,21 @@ class LoginVC: UIViewController {
         }
     }
 
-    func handleLoginToHome(uid: String) {
+    func handleLoginToHome() {
         self.myActivityIndicator.stopAnimating()
-        UserController.shared.checkIfUserExist(uid: uid) { result in
-            switch result {
-            case true:
-                UIView.animate(withDuration: 0.5) { [weak self] in
-                    let homeVC = MainTabBarController()
-                    self?.view.window?.rootViewController = homeVC
-                    self?.view.window?.makeKeyAndVisible()
-                }
-            case false:
-                print("nope")
-            }
+        UIView.animate(withDuration: 0.5) { [weak self] in
+            let homeVC = MainTabBarController()
+            self?.view.window?.rootViewController = homeVC
+            self?.view.window?.makeKeyAndVisible()
+        }
+    }
+    
+    func handleAnonymousLoginToHome() {
+        self.myActivityIndicator.stopAnimating()
+        UIView.animate(withDuration: 0.5) { [weak self] in
+            let homeVC = AnonymousTabBarController()
+            self?.view.window?.rootViewController = homeVC
+            self?.view.window?.makeKeyAndVisible()
         }
     }
 
@@ -118,7 +120,7 @@ class LoginVC: UIViewController {
         self.view.window?.makeKeyAndVisible()
     }
     
-    @objc func handleSignIn() {
+    @objc func handleLogin() {
         guard let email = emailTextField.text, !email.isEmpty,
               let password = passwordTextField.text,
               !password.isEmpty else { return }
@@ -128,18 +130,17 @@ class LoginVC: UIViewController {
                 print(error.localizedDescription)
                 return
             }
-            guard let uid = user?.user.uid else { return }
-            self.handleLoginToHome(uid: uid)
+            self.handleLoginToHome()
         })
     }
     
-    @objc func handleAnonymousSignIn() {
+    @objc func handleAnonymousLogin() {
         self.myActivityIndicator.startAnimating()
         UserController.shared.createAnonymousUser { result in
             switch result {
             case true:
-                print("no user")
-//                self.handleLoginToHome()
+                print("true in handle anno")
+                self.handleAnonymousLoginToHome()
             case false:
                 print("false")
             }
@@ -259,9 +260,9 @@ class LoginVC: UIViewController {
         return button
     }()
     
-    let signInButton: UIButton = {
+    let loginButton: UIButton = {
         let button = UIButton(type: .custom)
-        button.setTitle("Sign in", for: .normal)
+        button.setTitle("Login", for: .normal)
         button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 17)
         button.setTitleColor(UIColor.white, for: .normal)
         button.backgroundColor = UIColor.orangeColor()
@@ -270,13 +271,13 @@ class LoginVC: UIViewController {
         button.layer.shadowRadius = 4
         button.layer.shadowOpacity = 0.2
         button.layer.shadowColor = UIColor.lightGray.cgColor
-        button.addTarget(self, action: #selector(handleSignIn), for: .touchUpInside)
+        button.addTarget(self, action: #selector(handleLogin), for: .touchUpInside)
         return button
     }()
     
-    let signInAnonymouslyButton: UIButton = {
+    let loginAnonymouslyButton: UIButton = {
         let button = UIButton(type: .custom)
-        button.setTitle("Sign in anonymously", for: .normal)
+        button.setTitle("Anonymously Login", for: .normal)
         button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 17)
         button.setTitleColor(UIColor.white, for: .normal)
         button.backgroundColor = UIColor.orangeColor()
@@ -285,7 +286,7 @@ class LoginVC: UIViewController {
         button.layer.shadowRadius = 4
         button.layer.shadowOpacity = 0.2
         button.layer.shadowColor = UIColor.lightGray.cgColor
-        button.addTarget(self, action: #selector(handleAnonymousSignIn), for: .touchUpInside)
+        button.addTarget(self, action: #selector(handleAnonymousLogin), for: .touchUpInside)
         return button
     }()
 }

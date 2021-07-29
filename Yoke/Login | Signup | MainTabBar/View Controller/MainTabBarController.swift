@@ -27,9 +27,9 @@ class MainTabBarController: UITabBarController, UITabBarControllerDelegate {
                 let navController = UINavigationController(rootViewController: loginController)
                 self.navigationController?.present(navController, animated: true)
             }
-
             return
-        }  
+        }
+        setupViewControllers()
     }
     
     func setupAlerts() {

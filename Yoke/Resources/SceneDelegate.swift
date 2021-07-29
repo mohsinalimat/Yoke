@@ -31,12 +31,31 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                 window.makeKeyAndVisible()
             }
         } else {
-            if let scene = (scene as? UIWindowScene) {
-                let window = UIWindow(windowScene: scene)
-                window.rootViewController = MainTabBarController()
-                self.window = window
-                window.makeKeyAndVisible()
+            guard let uid = Auth.auth().currentUser?.uid else { return }
+            UserController.shared.checkIfUserIsAnonymous(uid: uid) { result in
+                switch result {
+                case true:
+                    if let scene = (scene as? UIWindowScene) {
+                        let window = UIWindow(windowScene: scene)
+                        window.rootViewController = AnonymousTabBarController()
+                        self.window = window
+                        window.makeKeyAndVisible()
+                    }
+                case false:
+                    if let scene = (scene as? UIWindowScene) {
+                        let window = UIWindow(windowScene: scene)
+                        window.rootViewController = MainTabBarController()
+                        self.window = window
+                        window.makeKeyAndVisible()
+                    }
+                }
             }
+//            if let scene = (scene as? UIWindowScene) {
+//                let window = UIWindow(windowScene: scene)
+//                window.rootViewController = MainTabBarController()
+//                self.window = window
+//                window.makeKeyAndVisible()
+//            }
         }
     }
 

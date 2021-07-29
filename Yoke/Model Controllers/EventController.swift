@@ -115,7 +115,6 @@ class EventController {
         firestoreDB.addSnapshotListener { (snapshot, error) in
             if let error = error {
                 print(error.localizedDescription)
-                completion(error as! Event)
             }
             self.events = []
             snapshot?.documents.forEach({ (document) in
