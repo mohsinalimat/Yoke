@@ -153,23 +153,35 @@ class CreateAccountViewController: UIViewController {
     }
     
     @objc func handleSignUp() {
-        guard let email = emailTextField.text, !email.isEmpty,
-              let username = usernameTextField.text, !username.isEmpty,
-              let password = passwordTextField.text, !password.isEmpty,
-              let confirmPassword = confirmPasswordTextField.text, !confirmPassword.isEmpty else { return confirmAllTextFields()}
-        guard password == confirmPassword else { return confirmPasswordsMatch()}
-        guard let image = self.addImageButton.imageView?.image else { return }
-        myActivityIndicator.startAnimating()
-        UserController.shared.createUserWith(email: email, username: username, password: password, image: image, isChef: self.isChef) { (result) in
-            switch result {
-            case true:
-                self.handleLoginToHome()
-                self.deleteAnonymousAccount()
-                self.myActivityIndicator.stopAnimating()
-            case false:
-                print("error in signup: \(Error.self)")
+        self.deleteAnonymousAccount()
+        do {
+            try Auth.auth().signOut()
+            UIView.animate(withDuration: 0.5) { [weak self] in
+                let loginVC = LoginVC()
+                self?.view.window?.rootViewController = loginVC
+                self?.view.window?.makeKeyAndVisible()
             }
+        } catch let signOutErr {
+            print("Failed to sign out:", signOutErr)
         }
+        
+//        guard let email = emailTextField.text, !email.isEmpty,
+//              let username = usernameTextField.text, !username.isEmpty,
+//              let password = passwordTextField.text, !password.isEmpty,
+//              let confirmPassword = confirmPasswordTextField.text, !confirmPassword.isEmpty else { return confirmAllTextFields()}
+//        guard password == confirmPassword else { return confirmPasswordsMatch()}
+//        guard let image = self.addImageButton.imageView?.image else { return }
+//        myActivityIndicator.startAnimating()
+//        UserController.shared.createUserWith(email: email, username: username, password: password, image: image, isChef: self.isChef) { (result) in
+//            switch result {
+//            case true:
+//                self.handleLoginToHome()
+//                self.deleteAnonymousAccount()
+//                self.myActivityIndicator.stopAnimating()
+//            case false:
+//                print("error in signup: \(Error.self)")
+//            }
+//        }
     }
     
     @objc func handleAlreadyHaveAccount() {

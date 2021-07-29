@@ -303,14 +303,16 @@ class UserController {
     }
     
     func deleteAnonymousAccountWith(uid: String, completion: @escaping (Bool) -> Void) {
-        self.firestoreDB.collection(Constants.AnonymousUsers).document(uid).delete { error in
+        print("anonymous account user uid \(uid)")
+//        firestoreDB.collection(Constants.AnonymousUsers).document(uid).delete()
+        firestoreDB.collection(Constants.AnonymousUsers).document(uid).delete { (error) in
             if let error = error {
                 print("There was an error uploading image data: \(error.localizedDescription)")
                 completion(false)
                 return
             }
+            completion(true)
         }
-        completion(true)
     }
 //
 //    func deleteUserData(_ uid: String, completion: @escaping (Result<Bool, UserError>) -> Void) {
