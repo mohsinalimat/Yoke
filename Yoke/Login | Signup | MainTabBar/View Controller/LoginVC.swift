@@ -98,7 +98,7 @@ class LoginVC: UIViewController {
     func handleLoginToHome() {
         self.myActivityIndicator.stopAnimating()
         UIView.animate(withDuration: 0.5) { [weak self] in
-            let homeVC = WelcomeVC()
+            let homeVC = HomeViewController()
             self?.view.window?.rootViewController = homeVC
             self?.view.window?.makeKeyAndVisible()
         }
@@ -130,9 +130,9 @@ class LoginVC: UIViewController {
         UserController.shared.createAnonymousUser { result in
             switch result {
             case true:
-                <#code#>
+                print("true")
             case false:
-                <#code#>
+                print("false")
             }
         }
     }
