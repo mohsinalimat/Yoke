@@ -95,12 +95,19 @@ class LoginVC: UIViewController {
         }
     }
 
-    func handleLoginToHome() {
+    func handleLoginToHome(uid: String) {
         self.myActivityIndicator.stopAnimating()
-        UIView.animate(withDuration: 0.5) { [weak self] in
-            let homeVC = MainTabBarController()
-            self?.view.window?.rootViewController = homeVC
-            self?.view.window?.makeKeyAndVisible()
+        UserController.shared.checkIfUserExist(uid: uid) { result in
+            switch result {
+            case true:
+                UIView.animate(withDuration: 0.5) { [weak self] in
+                    let homeVC = MainTabBarController()
+                    self?.view.window?.rootViewController = homeVC
+                    self?.view.window?.makeKeyAndVisible()
+                }
+            case false:
+                print("nope")
+            }
         }
     }
 
@@ -121,7 +128,8 @@ class LoginVC: UIViewController {
                 print(error.localizedDescription)
                 return
             }
-            self.handleLoginToHome()
+            guard let uid = user?.user.uid else { return }
+            self.handleLoginToHome(uid: uid)
         })
     }
     
@@ -130,7 +138,8 @@ class LoginVC: UIViewController {
         UserController.shared.createAnonymousUser { result in
             switch result {
             case true:
-                print("true")
+                print("no user")
+//                self.handleLoginToHome()
             case false:
                 print("false")
             }
