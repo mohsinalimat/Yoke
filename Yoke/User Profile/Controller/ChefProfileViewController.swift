@@ -284,8 +284,8 @@ class ChefProfileViewController: UIViewController, TTGTextTagCollectionViewDeleg
     //MARK: - Blocking functions
     func anonymousUserAlert() {
         let accountAction = UIAlertController(title: "Hold on there" , message: "You must have an account to use this feature", preferredStyle: .actionSheet)
-        let signupAction = UIAlertAction(title: "Signup now", style: .default) { _ in
-            
+        let signupAction = UIAlertAction(title: "Create Account", style: .default) { _ in
+            self.goToCreateAccount()
         }
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel)
         accountAction.addAction(signupAction)
@@ -293,7 +293,10 @@ class ChefProfileViewController: UIViewController, TTGTextTagCollectionViewDeleg
         self.present(accountAction, animated: true)
     }
     
-    
+    func goToCreateAccount() {
+        let createAccountVC = CreateAccountViewController()
+        self.present(createAccountVC, animated: true)
+    }
     
     func unblock() {
         let menu = UIAlertController(title: "Choose Option" , message: "", preferredStyle: .actionSheet)
