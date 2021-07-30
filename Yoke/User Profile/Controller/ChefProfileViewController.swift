@@ -480,26 +480,6 @@ class ChefProfileViewController: UIViewController, TTGTextTagCollectionViewDeleg
                 }
             }
         }
-//        BookmarkController.shared.bookmarkUserWith(uid: userUid, bookmarkedUid: userToBookmarkUid) { result in
-//            switch result {
-//            case true:
-//                print("true")
-//            case false:
-//                print("false")
-//            }
-//        }
-//        BookmarkController.shared.checkIfBookmarkedUserWith(uid: userUid, bookmarkedUid: userToBookmarkUid) { result in
-//            switch result {
-//            case true:
-//                let image = UIImage(named: "bookmark_selected")?.withRenderingMode(.alwaysTemplate)
-//                self.bookmarkButton.setImage(image, for: .normal)
-//                self.bookmarkButton.setTitle("Bookmarked", for: .normal)
-//            case false:
-//                let image = UIImage(named: "bookmark_unselected")?.withRenderingMode(.alwaysTemplate)
-//                self.bookmarkButton.setImage(image, for: .normal)
-//                self.bookmarkButton.setTitle("Bookmark", for: .normal)
-//            }
-//        }
     }
     
     //MARK: - Views
