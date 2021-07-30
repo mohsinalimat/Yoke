@@ -453,26 +453,53 @@ class ChefProfileViewController: UIViewController, TTGTextTagCollectionViewDeleg
     @objc func handleBookmarked() {
         let userToBookmarkUid = self.userId ?? (Auth.auth().currentUser?.uid ?? "")
         guard let userUid = Auth.auth().currentUser?.uid else { return }
-        BookmarkController.shared.bookmarkUserWith(uid: userUid, bookmarkedUid: userToBookmarkUid) { result in
+        UserController.shared.checkIfUserIsAnonymous(uid: userUid) { result in
             switch result {
             case true:
-                print("true")
+                self.anonymousUserAlert()
             case false:
-                print("false")
+                BookmarkController.shared.bookmarkUserWith(uid: userUid, bookmarkedUid: userToBookmarkUid) { result in
+                    switch result {
+                    case true:
+                        print("true")
+                    case false:
+                        print("false")
+                    }
+                }
+                BookmarkController.shared.checkIfBookmarkedUserWith(uid: userUid, bookmarkedUid: userToBookmarkUid) { result in
+                    switch result {
+                    case true:
+                        let image = UIImage(named: "bookmark_selected")?.withRenderingMode(.alwaysTemplate)
+                        self.bookmarkButton.setImage(image, for: .normal)
+                        self.bookmarkButton.setTitle("Bookmarked", for: .normal)
+                    case false:
+                        let image = UIImage(named: "bookmark_unselected")?.withRenderingMode(.alwaysTemplate)
+                        self.bookmarkButton.setImage(image, for: .normal)
+                        self.bookmarkButton.setTitle("Bookmark", for: .normal)
+                    }
+                }
             }
         }
-        BookmarkController.shared.checkIfBookmarkedUserWith(uid: userUid, bookmarkedUid: userToBookmarkUid) { result in
-            switch result {
-            case true:
-                let image = UIImage(named: "bookmark_selected")?.withRenderingMode(.alwaysTemplate)
-                self.bookmarkButton.setImage(image, for: .normal)
-                self.bookmarkButton.setTitle("Bookmarked", for: .normal)
-            case false:
-                let image = UIImage(named: "bookmark_unselected")?.withRenderingMode(.alwaysTemplate)
-                self.bookmarkButton.setImage(image, for: .normal)
-                self.bookmarkButton.setTitle("Bookmark", for: .normal)
-            }
-        }
+//        BookmarkController.shared.bookmarkUserWith(uid: userUid, bookmarkedUid: userToBookmarkUid) { result in
+//            switch result {
+//            case true:
+//                print("true")
+//            case false:
+//                print("false")
+//            }
+//        }
+//        BookmarkController.shared.checkIfBookmarkedUserWith(uid: userUid, bookmarkedUid: userToBookmarkUid) { result in
+//            switch result {
+//            case true:
+//                let image = UIImage(named: "bookmark_selected")?.withRenderingMode(.alwaysTemplate)
+//                self.bookmarkButton.setImage(image, for: .normal)
+//                self.bookmarkButton.setTitle("Bookmarked", for: .normal)
+//            case false:
+//                let image = UIImage(named: "bookmark_unselected")?.withRenderingMode(.alwaysTemplate)
+//                self.bookmarkButton.setImage(image, for: .normal)
+//                self.bookmarkButton.setTitle("Bookmark", for: .normal)
+//            }
+//        }
     }
     
     //MARK: - Views
