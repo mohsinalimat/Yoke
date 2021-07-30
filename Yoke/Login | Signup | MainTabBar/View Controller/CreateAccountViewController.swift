@@ -134,6 +134,15 @@ class CreateAccountViewController: UIViewController {
                 print("Error in deleting anonymous account")
             }
         }
+        let user = Auth.auth().currentUser
+        user?.delete { error in
+          if let error = error {
+            print("Error in deleting user \(error.localizedDescription)")
+          } else {
+            print("anonymous account user deleted")
+          }
+        }
+
     }
     
     //MARK: - Selectors
