@@ -145,7 +145,7 @@ class HomeViewController: UIViewController {
         
         eventLabel.anchor(top:  suggestedChefCollectionView.bottomAnchor, left: collectionViewBG.leftAnchor, bottom: nil, right: nil, paddingTop: 10, paddingLeft: 10, paddingBottom: 0, paddingRight: 0)
         
-        eventsNearYouCollectionView.anchor(top: eventLabel.bottomAnchor, left: collectionViewBG.leftAnchor, bottom: collectionViewBG.bottomAnchor, right: collectionViewBG.rightAnchor, paddingTop: 0, paddingLeft: 5, paddingBottom: 0, paddingRight: 5, height: 220)
+        eventsNearYouCollectionView.anchor(top: eventLabel.bottomAnchor, left: collectionViewBG.leftAnchor, bottom: collectionViewBG.bottomAnchor, right: collectionViewBG.rightAnchor, paddingTop: -20, paddingLeft: 5, paddingBottom: 0, paddingRight: 5, height: 220)
     }
     
     func setupCollectionView() {
@@ -649,14 +649,9 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
             }
         } else if collectionView == self.upcomingBookingsCollectionView {
             return CGSize(width: view.frame.width - 20 , height: 140)
-//            if SuggestedChefController.shared.chefs.count == 0 {
-//                return CGSize(width: view.frame.width - 20, height: 100)
-//            } else {
-//                return CGSize(width: view.frame.width / 2 , height: 180)
-//            }
         }
         if EventController.shared.events.count == 0 {
-            return CGSize(width: view.frame.width - 20, height: 100)
+            return CGSize(width: view.frame.width - 20, height: 150)
         } else {
             return CGSize(width: view.frame.width - 150 , height: 150)
         }
