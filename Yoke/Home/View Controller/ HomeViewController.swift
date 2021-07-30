@@ -145,7 +145,7 @@ class HomeViewController: UIViewController {
         
         eventLabel.anchor(top:  suggestedChefCollectionView.bottomAnchor, left: collectionViewBG.leftAnchor, bottom: nil, right: nil, paddingTop: 10, paddingLeft: 10, paddingBottom: 0, paddingRight: 0)
         
-        eventsNearYouCollectionView.anchor(top: eventLabel.bottomAnchor, left: collectionViewBG.leftAnchor, bottom: collectionViewBG.bottomAnchor, right: collectionViewBG.rightAnchor, paddingTop: -25, paddingLeft: 5, paddingBottom: 0, paddingRight: 5, height: 220)
+        eventsNearYouCollectionView.anchor(top: eventLabel.bottomAnchor, left: collectionViewBG.leftAnchor, bottom: collectionViewBG.bottomAnchor, right: collectionViewBG.rightAnchor, paddingTop: 0, paddingLeft: 5, paddingBottom: 0, paddingRight: 5, height: 220)
     }
     
     func setupCollectionView() {
