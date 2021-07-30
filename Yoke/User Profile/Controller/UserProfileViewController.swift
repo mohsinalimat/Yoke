@@ -347,7 +347,7 @@ class UserProfileViewController: UIViewController, TTGTextTagCollectionViewDeleg
     //MARK: - Views
     lazy var scrollView: UIScrollView = {
         let view = UIScrollView()
-        view.backgroundColor = UIColor.white
+        view.backgroundColor = UIColor.LightGrayBg()
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
