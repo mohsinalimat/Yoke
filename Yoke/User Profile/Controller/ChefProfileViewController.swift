@@ -281,7 +281,7 @@ class ChefProfileViewController: UIViewController, TTGTextTagCollectionViewDeleg
         }
     }
     
-    //MARK: - Blocking functions
+    //MARK: - Anonymous Functions
     func anonymousUserAlert() {
         let accountAction = UIAlertController(title: "Hold on there" , message: "You must have an account to use this feature", preferredStyle: .actionSheet)
         let signupAction = UIAlertAction(title: "Create Account", style: .default) { _ in
@@ -298,6 +298,7 @@ class ChefProfileViewController: UIViewController, TTGTextTagCollectionViewDeleg
         self.present(createAccountVC, animated: true)
     }
     
+    //MARK: - Block Functions
     func unblock() {
         let menu = UIAlertController(title: "Choose Option" , message: "", preferredStyle: .actionSheet)
         let unBlockAction = UIAlertAction(title: "Unblock", style: .default) { _ in
