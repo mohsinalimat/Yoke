@@ -432,9 +432,17 @@ class ChefProfileViewController: UIViewController, TTGTextTagCollectionViewDeleg
     }
     
     @objc func handleSendRequest() {
-        let requestVC = BookingRequestViewController()
-        requestVC.userId = userId
-        navigationController?.pushViewController(requestVC, animated: true)
+        guard let userUid = Auth.auth().currentUser?.uid else { return }
+        UserController.shared.checkIfUserIsAnonymous(uid: userUid) { result in
+            switch result {
+            case true:
+                self.anonymousUserAlert()
+            case false:
+                let requestVC = BookingRequestViewController()
+                requestVC.userId = self.userId
+                self.navigationController?.pushViewController(requestVC, animated: true)
+            }
+        }
     }
     
     @objc func handleBlockReport() {
