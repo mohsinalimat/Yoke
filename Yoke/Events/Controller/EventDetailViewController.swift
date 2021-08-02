@@ -41,17 +41,16 @@ class EventDetailViewController: UIViewController {
  
     //MARK: - Helper Functions
     func configureNavigationBar() {
-        guard let orange = UIColor.orangeColor() else { return }
-        configureNavigationBar(withTitle: "\(event?.caption)", largeTitle: false, backgroundColor: UIColor.white, titleColor: orange)
+        guard let orange = UIColor.orangeColor(),
+              let title = event?.caption else { return }
+        configureNavigationBar(withTitle: title, largeTitle: false, backgroundColor: UIColor.white, titleColor: orange)
     }
     
     func setupViews() {
-        view.backgroundColor = UIColor.LightGrayBg()
         view.addSubview(scrollView)
         scrollView.addSubview(profileImage)
         scrollView.addSubview(usernameLabel)
         scrollView.addSubview(timestampLabel)
-        scrollView.addSubview(imageShadowView)
         scrollView.addSubview(eventImage)
         scrollView.addSubview(detailViews)
         scrollView.addSubview(captionLabel)
@@ -79,11 +78,10 @@ class EventDetailViewController: UIViewController {
     func constrainViews() {
         let totalHeight = 270 + view.frame.width + captionLabel.frame.height + descriptionLabel.frame.height + 10
         scrollView.contentSize = CGSize(width: view.frame.width, height: totalHeight)
-        scrollView.anchor(top: safeArea.topAnchor, left: safeArea.leftAnchor, bottom: safeArea.bottomAnchor, right: safeArea.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 15, paddingRight: 0)
+        scrollView.anchor(top: safeArea.topAnchor, left: safeArea.leftAnchor, bottom: safeArea.bottomAnchor, right: safeArea.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0)
         profileImage.anchor(top: scrollView.topAnchor, left: safeArea.leftAnchor, bottom: nil, right: nil, paddingTop: 5, paddingLeft: 5, paddingBottom: 0, paddingRight: 0, width: 50, height: 50)
         usernameLabel.anchor(top: scrollView.topAnchor, left: profileImage.rightAnchor, bottom: nil, right: nil, paddingTop: 15, paddingLeft: 5, paddingBottom: 0, paddingRight: 0)
         timestampLabel.anchor(top: usernameLabel.bottomAnchor, left: profileImage.rightAnchor, bottom: nil, right: nil, paddingTop: 0, paddingLeft: 5, paddingBottom: 0, paddingRight: 0)
-        imageShadowView.anchor(top: profileImage.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 10, paddingLeft: 5, paddingBottom: 0, paddingRight: 5, height: view.frame.width)
         eventImage.anchor(top: profileImage.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 10, paddingLeft: 5, paddingBottom: 0, paddingRight: 5, height: view.frame.width)
         detailViews.anchor(top: eventImage.bottomAnchor, left: safeArea.leftAnchor, bottom: safeArea.bottomAnchor, right: safeArea.rightAnchor, paddingTop: -30, paddingLeft: 5, paddingBottom: 10, paddingRight: 5)
         captionLabel.anchor(top: detailViews.topAnchor, left: detailViews.leftAnchor, bottom: nil, right: bookmarkButton.leftAnchor, paddingTop: 10, paddingLeft: 10, paddingBottom: 0, paddingRight: 10)
@@ -225,9 +223,6 @@ class EventDetailViewController: UIViewController {
     lazy var scrollView: UIScrollView = {
         let view = UIScrollView()
         view.backgroundColor = UIColor.LightGrayBg()
-        view.layer.cornerRadius = 10
-        view.layer.borderColor = UIColor.LightGrayBg()?.cgColor
-        view.layer.borderWidth = 5
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
@@ -258,17 +253,6 @@ class EventDetailViewController: UIViewController {
         return label
     }()
     
-    let imageShadowView: UIView = {
-        let view = UIView()
-        view.backgroundColor = .white
-        view.layer.cornerRadius = 20
-        view.layer.shadowOffset = CGSize(width: 0, height: 4)
-        view.layer.shadowRadius = 4
-        view.layer.shadowOpacity = 0.2
-        view.layer.shadowColor = UIColor.gray.cgColor
-        return view
-    }()
-    
     var eventImage: CustomImageView = {
         let image = CustomImageView()
         image.contentMode = .scaleAspectFill
@@ -294,12 +278,8 @@ class EventDetailViewController: UIViewController {
     
     let detailViews: UIView = {
         let view = UIView()
-        view.backgroundColor = .white
+        view.backgroundColor = UIColor.LightGrayBg()
         view.layer.cornerRadius = 20
-        view.layer.shadowOffset = CGSize(width: 0, height: 4)
-        view.layer.shadowRadius = 4
-        view.layer.shadowOpacity = 0.2
-        view.layer.shadowColor = UIColor.gray.cgColor
         return view
     }()
     
