@@ -186,6 +186,14 @@ class EventDetailViewController: UIViewController {
         }
     }
     
+    @objc func handleRSVP() {
+        
+    }
+    
+    @objc func handleContact() {
+        
+    }
+    
     //MARK: - Views
     let swipeIndicator: UIView = {
         let view = UIView()
@@ -352,6 +360,7 @@ class EventDetailViewController: UIViewController {
         button.layer.shadowRadius = 4
         button.layer.shadowOpacity = 0.2
         button.layer.shadowColor = UIColor.lightGray.cgColor
+        button.addTarget(self, action: #selector(handleRSVP), for: .touchUpInside)
         return button
     }()
     
@@ -365,6 +374,7 @@ class EventDetailViewController: UIViewController {
         button.layer.shadowRadius = 4
         button.layer.shadowOpacity = 0.2
         button.layer.shadowColor = UIColor.lightGray.cgColor
+        button.addTarget(self, action: #selector(handleContact), for: .touchUpInside)
         return button
     }()
 }
