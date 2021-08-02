@@ -66,7 +66,7 @@ class MainTabBarController: UITabBarController, UITabBarControllerDelegate {
         
         tabBar.tintColor = .white
         
-        self.viewControllers = [homeNavController, messageNavController, searchNavController, eventsNavController, paymentController]
+        self.viewControllers = [homeNavController, messageNavController, searchNavController, eventsNavController]
         guard let items = tabBar.items else { return }
         
         for item in items {

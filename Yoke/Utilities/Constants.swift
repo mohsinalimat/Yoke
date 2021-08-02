@@ -32,6 +32,8 @@ class Constants {
     static let Blocked = "blocked"
     static let BlockedBy = "blockedBy"
     static let Report = "report"
+    static let RSVP = "rsvp"
+    static let AcceptRSVP = "acceptRSVP"
     
     static let Menu = "menu"
     static let Cuisine = "cuisine"

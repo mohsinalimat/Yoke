@@ -50,3 +50,15 @@ extension Event: Equatable {
         return lhs.id == rhs.id
     }
 }
+
+class EventRSVP {
+    var id: String
+    var username: String
+    var acceptRSVP: Bool?
+    
+    init(dictionary: [String: Any]) {
+        self.id = dictionary[Constants.Id] as? String ?? ""
+        self.username = dictionary[Constants.Username] as? String ?? ""
+        self.acceptRSVP = dictionary[Constants.AcceptRSVP] as? Bool ?? false
+    }
+}
