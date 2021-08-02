@@ -265,10 +265,7 @@ class EventDetailViewController: UIViewController {
     
     lazy var bookmarkButton: UIButton = {
         let button = UIButton(type: .custom)
-//        let image = UIImage(named: "bookmark_selected")?.withRenderingMode(.alwaysTemplate)
-//        button.setImage(image, for: .normal)
         button.tintColor = UIColor.orangeColor()
-//        button.setTitle("Bookmarked", for: .normal)
         button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 10)
         button.setTitleColor(UIColor.orangeColor(), for: .normal)
         button.layer.cornerRadius = 10
