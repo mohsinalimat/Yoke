@@ -187,11 +187,29 @@ class EventDetailViewController: UIViewController {
     }
     
     @objc func handleRSVP() {
-        
+        guard let uid = Auth.auth().currentUser?.uid else { return }
+        UserController.shared.checkIfUserIsAnonymous(uid: uid) { result in
+            switch result {
+            case true:
+                self.anonymousUserAlert()
+            case false:
+                print("need to setup now")
+            }
+        }
     }
     
     @objc func handleContact() {
-        
+        guard let uid = Auth.auth().currentUser?.uid else { return }
+        UserController.shared.checkIfUserIsAnonymous(uid: uid) { result in
+            switch result {
+            case true:
+                self.anonymousUserAlert()
+            case false:
+                let chatVC = ChatCollectionViewController(collectionViewLayout: UICollectionViewFlowLayout())
+                chatVC.userId = self.userId
+                self.navigationController?.pushViewController(chatVC, animated: true)
+            }
+        }
     }
     
     //MARK: - Views
