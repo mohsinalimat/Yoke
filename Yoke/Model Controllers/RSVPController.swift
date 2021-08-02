@@ -20,7 +20,8 @@ class RSVPController {
     var eventsRSVP: [EventRSVP] = []
     
     //MARK: - CRUD Functions
-    func createRSVPWith(uid: String, completion: @escaping (Bool) -> Void) {
-        
+    func createRSVPWith(uid: String, eventId: String, completion: @escaping (Bool) -> Void) {
+        firestoreDB.document(uid).collection(eventId).addDocument(data: [Constants.Id: eventId, Constants.UserUid: uid, Constants.AcceptRSVP: true])
     }
+    
 }

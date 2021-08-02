@@ -187,13 +187,14 @@ class EventDetailViewController: UIViewController {
     }
     
     @objc func handleRSVP() {
-        guard let uid = Auth.auth().currentUser?.uid else { return }
+        guard let uid = Auth.auth().currentUser?.uid,
+              let id = event?.id else { return }
         UserController.shared.checkIfUserIsAnonymous(uid: uid) { result in
             switch result {
             case true:
                 self.anonymousUserAlert()
             case false:
-                print("need to setup now")
+                
             }
         }
     }
