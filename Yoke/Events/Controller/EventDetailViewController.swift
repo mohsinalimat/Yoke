@@ -188,13 +188,21 @@ class EventDetailViewController: UIViewController {
     
     @objc func handleRSVP() {
         guard let uid = Auth.auth().currentUser?.uid,
-              let id = event?.id else { return }
+              let id = event?.id,
+              let chefUid = event?.uid else { return }
         UserController.shared.checkIfUserIsAnonymous(uid: uid) { result in
             switch result {
             case true:
                 self.anonymousUserAlert()
             case false:
-                
+                RSVPController.shared.createRSVPWith(uid: uid, eventUserUid: chefUid, eventId: id) { result in
+                    switch result {
+                    case true:
+                        print("saved")
+                    case false:
+                        print("failed to save")
+                    }
+                }
             }
         }
     }
