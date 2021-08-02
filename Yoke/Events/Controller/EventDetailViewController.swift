@@ -34,14 +34,19 @@ class EventDetailViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        configureNavigationBar()
         fetchEvent()
         checkIfBookmarked()
     }
  
     //MARK: - Helper Functions
+    func configureNavigationBar() {
+        guard let orange = UIColor.orangeColor() else { return }
+        configureNavigationBar(withTitle: "\(event?.caption)", largeTitle: false, backgroundColor: UIColor.white, titleColor: orange)
+    }
+    
     func setupViews() {
         view.backgroundColor = UIColor.LightGrayBg()
-        view.addSubview(swipeIndicator)
         view.addSubview(scrollView)
         scrollView.addSubview(profileImage)
         scrollView.addSubview(usernameLabel)
@@ -72,12 +77,9 @@ class EventDetailViewController: UIViewController {
     }
     
     func constrainViews() {
-        swipeIndicator.anchor(top: safeArea.topAnchor, left: nil, bottom: nil, right: nil, paddingTop: 20, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 100, height: 5)
-        swipeIndicator.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-//        scrollView.isScrollEnabled = true
         let totalHeight = 270 + view.frame.width + captionLabel.frame.height + descriptionLabel.frame.height + 10
         scrollView.contentSize = CGSize(width: view.frame.width, height: totalHeight)
-        scrollView.anchor(top: swipeIndicator.bottomAnchor, left: safeArea.leftAnchor, bottom: safeArea.bottomAnchor, right: safeArea.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 15, paddingRight: 0)
+        scrollView.anchor(top: safeArea.topAnchor, left: safeArea.leftAnchor, bottom: safeArea.bottomAnchor, right: safeArea.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 15, paddingRight: 0)
         profileImage.anchor(top: scrollView.topAnchor, left: safeArea.leftAnchor, bottom: nil, right: nil, paddingTop: 5, paddingLeft: 5, paddingBottom: 0, paddingRight: 0, width: 50, height: 50)
         usernameLabel.anchor(top: scrollView.topAnchor, left: profileImage.rightAnchor, bottom: nil, right: nil, paddingTop: 15, paddingLeft: 5, paddingBottom: 0, paddingRight: 0)
         timestampLabel.anchor(top: usernameLabel.bottomAnchor, left: profileImage.rightAnchor, bottom: nil, right: nil, paddingTop: 0, paddingLeft: 5, paddingBottom: 0, paddingRight: 0)
