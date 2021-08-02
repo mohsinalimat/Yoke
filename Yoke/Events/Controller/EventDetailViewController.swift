@@ -139,26 +139,49 @@ class EventDetailViewController: UIViewController {
         }
     }
     
+    func anonymousUserAlert() {
+        let accountAction = UIAlertController(title: "Hold on there" , message: "You must have an account to use this feature", preferredStyle: .actionSheet)
+        let signupAction = UIAlertAction(title: "Create Account", style: .default) { _ in
+            self.goToCreateAccount()
+        }
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel)
+        accountAction.addAction(signupAction)
+        accountAction.addAction(cancelAction)
+        self.present(accountAction, animated: true)
+    }
+    
+    func goToCreateAccount() {
+        let createAccountVC = CreateAccountViewController()
+        self.present(createAccountVC, animated: true)
+    }
+    
     //MARK: - Selectors
     @objc func handleBookmarked() {
         guard let uid = Auth.auth().currentUser?.uid,
               let id = event?.id else { return }
-        BookmarkController.shared.bookmarkEventWith(uid: uid, eventId: id) { result in
+        UserController.shared.checkIfUserIsAnonymous(uid: uid) { result in
             switch result {
             case true:
-                print("true")
+                self.anonymousUserAlert()
             case false:
-                print("false")
-            }
-        }
-        BookmarkController.shared.checkIfBookmarkedEventWith(uid: uid, id: id) { result in
-            switch result {
-            case true:
-                let image = UIImage(named: "bookmark_selected")?.withRenderingMode(.alwaysTemplate)
-                self.bookmarkButton.setImage(image, for: .normal)
-            case false:
-                let image = UIImage(named: "bookmark_unselected")?.withRenderingMode(.alwaysTemplate)
-                self.bookmarkButton.setImage(image, for: .normal)
+                BookmarkController.shared.bookmarkEventWith(uid: uid, eventId: id) { result in
+                    switch result {
+                    case true:
+                        print("true")
+                    case false:
+                        print("false")
+                    }
+                }
+                BookmarkController.shared.checkIfBookmarkedEventWith(uid: uid, id: id) { result in
+                    switch result {
+                    case true:
+                        let image = UIImage(named: "bookmark_selected")?.withRenderingMode(.alwaysTemplate)
+                        self.bookmarkButton.setImage(image, for: .normal)
+                    case false:
+                        let image = UIImage(named: "bookmark_unselected")?.withRenderingMode(.alwaysTemplate)
+                        self.bookmarkButton.setImage(image, for: .normal)
+                    }
+                }
             }
         }
     }
