@@ -38,21 +38,6 @@ extension Message: Equatable {
     }
 }
 
-//class Conversation {
-//    let user: User
-//    let message: Message
-//    init(user: User, message: Message, dictionary: [String: Any]) {
-//        self.user = user
-//        self.message = message
-//    }
-//}
-//
-//extension Conversation: Equatable {
-//    static func == (lhs: Conversation, rhs: Conversation) -> Bool {
-//        return lhs.message.toId == rhs.message.toId
-//    }
-//}
-
 struct MessageViewModel {
     
     private let message: Message
@@ -89,17 +74,3 @@ struct MessageViewModel {
         return message.isFromCurrentUser
     }
 }
-
-//struct ConversationViewModel {
-//    private let conversation: Conversation
-//    var timestamp: String {
-//        let date = conversation.message.timestamp
-//        let dateFormatter = DateFormatter()
-//        dateFormatter.dateStyle = .short
-//        dateFormatter.timeStyle = .short
-//        return dateFormatter.string(from: date)
-//    }
-//    init(conversation: Conversation) {
-//        self.conversation = conversation
-//    }
-//}

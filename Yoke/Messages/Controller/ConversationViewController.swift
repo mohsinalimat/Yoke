@@ -97,13 +97,6 @@ class ConversationViewController: UIViewController{
     
     //MARK: - API
     func fetchConversations() {
-        guard let currentUserUid = Auth.auth().currentUser?.uid else { return }
-        ConversationController.shared.fetchConversations(userUid: currentUserUid) { result in
-            switch result {
-            default:
-                self.messageTableView.reloadData()
-            }
-        }
 //        ConversationController.shared.fetchConversations { conversations in
 ////            self.conversations = conversations
 //            conversations.forEach { conversation in
@@ -180,7 +173,7 @@ class ConversationViewController: UIViewController{
 extension ConversationViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if tableView == messageTableView {
-            return ConversationController.shared.messages.count
+            return ConversationController.shared.conversations.count
         }
         return BookingController.shared.bookings.count
     }
@@ -188,7 +181,7 @@ extension ConversationViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if tableView == messageTableView {
             let cell = tableView.dequeueReusableCell(withIdentifier: cellId, for: indexPath) as! MessageTableViewCell
-            cell.message = ConversationController.shared.messages[indexPath.row]
+            cell.conversation = ConversationController.shared.conversations[indexPath.row]
             cell.selectionStyle = .none
             cell.backgroundColor = UIColor.LightGrayBg()
             return cell
@@ -220,6 +213,9 @@ extension ConversationViewController: UITableViewDataSource {
 //                tableView.deleteRows(at: [indexPath], with: .left)
 //                ConversationController.shared.deleteConversation(chatParnterId: conversationChatId) { conversations in
 //                    self.conversations = conversations
+//                    self.conversations = []
+//                    self.conversationDictionary.removeAll()
+//                    self.refresh()
 //                }
 //                tableView.endUpdates()
             }
@@ -231,10 +227,10 @@ extension ConversationViewController: UITableViewDataSource {
 extension ConversationViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if tableView == messageTableView {
-//            let user = conversations[indexPath.row].message.chatPartnerId
-//            let chatVC = ChatCollectionViewController(collectionViewLayout: UICollectionViewFlowLayout())
-//            chatVC.userId = user
-//            navigationController?.pushViewController(chatVC, animated: true)
+            let user = conversations[indexPath.row].message.chatPartnerId
+            let chatVC = ChatCollectionViewController(collectionViewLayout: UICollectionViewFlowLayout())
+            chatVC.userId = user
+            navigationController?.pushViewController(chatVC, animated: true)
         }
         if tableView == requestTableView {
             let request = BookingController.shared.bookings[indexPath.row]
@@ -258,5 +254,4 @@ extension ConversationViewController: UITableViewDelegate {
             }
         }
     }
-
 }

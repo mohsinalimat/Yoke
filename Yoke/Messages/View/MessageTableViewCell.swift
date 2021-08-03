@@ -11,7 +11,7 @@ import UIKit
 class MessageTableViewCell: UITableViewCell {
 
     //MARK: - Properties
-    var message: Message? {
+    var conversation: Conversation? {
         didSet {
             configure()
         }
@@ -30,12 +30,12 @@ class MessageTableViewCell: UITableViewCell {
     
     //MARK: - Helper Functions
     func configure() {
-        guard let message = message else { return }
-//        nameLabel.text = conversation.user.username
-        textView.text = message.text
-//        guard let image = conversation.user.profileImageUrl else { return }
-//        profileImage.loadImage(urlString: image)
-        timestampLabel.text = message.timestamp.timeAgoDisplay()
+        guard let conversation = conversation else { return }
+        nameLabel.text = conversation.user.username
+        textView.text = conversation.message.text
+        guard let image = conversation.user.profileImageUrl else { return }
+        profileImage.loadImage(urlString: image)
+        timestampLabel.text = conversation.message.timestamp.timeAgoDisplay()
     }
 
     func setupViews() {
