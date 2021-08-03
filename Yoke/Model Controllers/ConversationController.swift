@@ -52,7 +52,6 @@ class ConversationController {
   
  
     func fetchConversations(completion: @escaping([Conversation]) -> Void) {
-//        var conversations = [Conversation]()
         guard let uid = Auth.auth().currentUser?.uid else { return }
         firestoreDB.document(uid).collection(Constants.RecentMessages).order(by: Constants.Timestamp).addSnapshotListener { snapshot, error in
             if let error = error {
@@ -64,8 +63,8 @@ class ConversationController {
                 let message = Message(dictionary: dictionary)
                 UserController.shared.fetchUserWithUID(uid: message.toId) { user in
                     let conversation = Conversation(user: user, message: message)
-                    conversations.append(conversation)
-                    completion(conversations)
+                    self.conversations.append(conversation)
+                    completion(self.conversations)
                 }
             })
         }
@@ -80,7 +79,7 @@ class ConversationController {
                 print(error.localizedDescription)
             }
             query.document(chatParnterId).delete()
-            completion(conversations)
+            completion(self.conversations)
         }
     }
 }

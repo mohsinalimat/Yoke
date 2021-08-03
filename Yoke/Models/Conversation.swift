@@ -8,13 +8,9 @@
 
 import Foundation
 
-class Conversation {
+struct Conversation {
     let user: User
     let message: Message
-    init(user: User, message: Message, dictionary: [String: Any]) {
-        self.user = user
-        self.message = message
-    }
 }
 
 extension Conversation: Equatable {
