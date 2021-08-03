@@ -15,8 +15,8 @@ struct ConversationController {
     static let shared = ConversationController()
     
     //MARK: - Source of truth
-//    var messages: [Message] = []
-    var conversationDictionary = [String: Conversation]()
+    var messages: [Message] = []
+//    var conversations = [Conversation]()
     
     //MARK: - Firebase Firestore Database
     let firestoreDB = Firestore.firestore().collection(Constants.Messages)
@@ -48,38 +48,77 @@ struct ConversationController {
             })
         }
     }
- 
-    func fetchConversations(completion: @escaping([Conversation]) -> Void) {
-        var conversations = [Conversation]()
-        guard let uid = Auth.auth().currentUser?.uid else { return }
-        firestoreDB.document(uid).collection(Constants.RecentMessages).order(by: Constants.Timestamp).addSnapshotListener { snapshot, error in
+    
+    func fetchConversations(userUid: String, completion: @escaping([Message]) -> Void) {
+        guard let currentUid = Auth.auth().currentUser?.uid else { return }
+        var messages = [Message]()
+        firestoreDB.document(currentUid).collection(Constants.RecentMessages).order(by: Constants.Timestamp).addSnapshotListener { snapshot, error in
             if let error = error {
                 print(error.localizedDescription)
             }
-            conversations = []
             snapshot?.documentChanges.forEach({ change in
-                let dictionary = change.document.data()
-                let message = Message(dictionary: dictionary)
-                UserController.shared.fetchUserWithUID(uid: message.toId) { user in
-                    let conversation = Conversation(user: user, message: message)
-                    conversations.append(conversation)
-                    completion(conversations)
+                if change.type == .added {
+                    let dictionary = change.document.data()
+                    let message = Message(dictionary: dictionary)
+                    messages.append(message)
+                    completion(messages)
                 }
             })
         }
     }
     
-    func deleteConversation(chatParnterId: String, completion: @escaping ([Conversation]) -> Void) {
-        var conversations = [Conversation]()
-        guard let uid = Auth.auth().currentUser?.uid else { return }
-        let query = firestoreDB.document(uid).collection(Constants.RecentMessages)
-        conversations = []
-        query.addSnapshotListener { snapshot, error in
-            if let error = error {
-                print(error.localizedDescription)
-            }
-            query.document(chatParnterId).delete()
-            completion(conversations)
-        }
-    }
+//    func fetchConversations(completion: @escaping (Bool) -> Void) {
+//        guard let uid = Auth.auth().currentUser?.uid else { return }
+//        var conversations = [Conversation]()
+//        firestoreDB.document(uid).collection(Constants.RecentMessages).order(by: Constants.Timestamp).addSnapshotListener { snapshot, error in
+//            if let error = error {
+//                print(error.localizedDescription)
+//                completion(false)
+//            }
+//            snapshot?.documentChanges.forEach({ change in
+//                let dictionary = change.document.data()
+//                let message = Message(dictionary: dictionary)
+//                UserController.shared.fetchUserWithUID(uid: uid) { user in
+//                    let conversation = Conversation(user: user, message: message, dictionary: dictionary)
+//                    conversations.append(conversation)
+//                    completion(true)
+//                }
+//            })
+//
+//        }
+//    }
+ 
+//    func fetchConversations(completion: @escaping([Conversation]) -> Void) {
+////        var conversations = [Conversation]()
+//        guard let uid = Auth.auth().currentUser?.uid else { return }
+////        firestoreDB.document(uid).collection(Constants.RecentMessages).order(by: Constants.Timestamp).addSnapshotListener { snapshot, error in
+////            if let error = error {
+////                print(error.localizedDescription)
+////            }
+////            conversations = []
+////            snapshot?.documentChanges.forEach({ change in
+////                let dictionary = change.document.data()
+////                let message = Message(dictionary: dictionary)
+////                UserController.shared.fetchUserWithUID(uid: message.toId) { user in
+////                    let conversation = Conversation(user: user, message: message)
+////                    conversations.append(conversation)
+////                    completion(conversations)
+////                }
+////            })
+////        }
+//    }
+    
+//    func deleteConversation(chatParnterId: String, completion: @escaping ([Conversation]) -> Void) {
+//        var conversations = [Conversation]()
+//        guard let uid = Auth.auth().currentUser?.uid else { return }
+//        let query = firestoreDB.document(uid).collection(Constants.RecentMessages)
+//        conversations = []
+//        query.addSnapshotListener { snapshot, error in
+//            if let error = error {
+//                print(error.localizedDescription)
+//            }
+//            query.document(chatParnterId).delete()
+//            completion(conversations)
+//        }
+//    }
 }

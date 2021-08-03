@@ -9,7 +9,7 @@
 import UIKit
 import Firebase
 
-struct Message {
+class Message {
     let text: String
     let toId: String
     let fromId: String
@@ -38,16 +38,20 @@ extension Message: Equatable {
     }
 }
 
-struct Conversation {
-    let user: User
-    let message: Message
-}
-
-extension Conversation: Equatable {
-    static func == (lhs: Conversation, rhs: Conversation) -> Bool {
-        return lhs.message.toId == rhs.message.toId
-    }
-}
+//class Conversation {
+//    let user: User
+//    let message: Message
+//    init(user: User, message: Message, dictionary: [String: Any]) {
+//        self.user = user
+//        self.message = message
+//    }
+//}
+//
+//extension Conversation: Equatable {
+//    static func == (lhs: Conversation, rhs: Conversation) -> Bool {
+//        return lhs.message.toId == rhs.message.toId
+//    }
+//}
 
 struct MessageViewModel {
     

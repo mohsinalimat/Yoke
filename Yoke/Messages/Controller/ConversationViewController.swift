@@ -17,8 +17,8 @@ class ConversationViewController: UIViewController{
     }
     private let messageTableView = UITableView()
     private let requestTableView = UITableView()
-    private var conversations = [Conversation]()
-    private var conversationDictionary = [String: Conversation]()
+//    private var conversations = [Conversation]()
+//    private var conversationDictionary = [String: Conversation]()
     let cellId = "cellId"
     let cellId2 = "cellId2"
     var userId: String?
@@ -97,17 +97,24 @@ class ConversationViewController: UIViewController{
     
     //MARK: - API
     func fetchConversations() {
-        ConversationController.shared.fetchConversations { conversations in
-//            self.conversations = conversations
-            conversations.forEach { conversation in
-                let message = conversation.message
-                self.conversationDictionary[message.chatPartnerId] = conversation
-            }
-            self.conversations = Array(self.conversationDictionary.values)
-            DispatchQueue.main.async {
+        guard let currentUserUid = Auth.auth().currentUser?.uid else { return }
+        ConversationController.shared.fetchConversations(userUid: currentUserUid) { result in
+            switch result {
+            default:
                 self.messageTableView.reloadData()
             }
         }
+//        ConversationController.shared.fetchConversations { conversations in
+////            self.conversations = conversations
+//            conversations.forEach { conversation in
+//                let message = conversation.message
+//                self.conversationDictionary[message.chatPartnerId] = conversation
+//            }
+//            self.conversations = Array(self.conversationDictionary.values)
+//            DispatchQueue.main.async {
+//                self.messageTableView.reloadData()
+//            }
+//        }
     }
     
     func fetchBookings() {
@@ -126,7 +133,7 @@ class ConversationViewController: UIViewController{
     //MARK: - Selectors
     @objc func refresh() {
         DispatchQueue.main.async {
-            self.conversationDictionary = [:]
+//            self.conversationDictionary = [:]
             self.fetchConversations()
             self.messageTableView.reloadData()
             self.refreshControl?.endRefreshing()
@@ -173,7 +180,7 @@ class ConversationViewController: UIViewController{
 extension ConversationViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if tableView == messageTableView {
-            return conversations.count
+            return ConversationController.shared.messages.count
         }
         return BookingController.shared.bookings.count
     }
@@ -181,7 +188,7 @@ extension ConversationViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if tableView == messageTableView {
             let cell = tableView.dequeueReusableCell(withIdentifier: cellId, for: indexPath) as! MessageTableViewCell
-            cell.conversation = conversations[indexPath.row]
+            cell.message = ConversationController.shared.messages[indexPath.row]
             cell.selectionStyle = .none
             cell.backgroundColor = UIColor.LightGrayBg()
             return cell
@@ -207,17 +214,14 @@ extension ConversationViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
             if tableView == messageTableView {
-                let conversationChatId = conversations[indexPath.row].message.chatPartnerId
-                tableView.beginUpdates()
-                self.conversations.remove(at: indexPath.row)
-                tableView.deleteRows(at: [indexPath], with: .left)
-                ConversationController.shared.deleteConversation(chatParnterId: conversationChatId) { conversations in
-                    self.conversations = conversations
-                    self.conversations = []
-                    self.conversationDictionary.removeAll()
-                    self.refresh()
-                }
-                tableView.endUpdates()
+//                let conversationChatId = conversations[indexPath.row].message.chatPartnerId
+//                tableView.beginUpdates()
+//                self.conversations.remove(at: indexPath.row)
+//                tableView.deleteRows(at: [indexPath], with: .left)
+//                ConversationController.shared.deleteConversation(chatParnterId: conversationChatId) { conversations in
+//                    self.conversations = conversations
+//                }
+//                tableView.endUpdates()
             }
         }
     }
@@ -227,10 +231,10 @@ extension ConversationViewController: UITableViewDataSource {
 extension ConversationViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if tableView == messageTableView {
-            let user = conversations[indexPath.row].message.chatPartnerId
-            let chatVC = ChatCollectionViewController(collectionViewLayout: UICollectionViewFlowLayout())
-            chatVC.userId = user
-            navigationController?.pushViewController(chatVC, animated: true)
+//            let user = conversations[indexPath.row].message.chatPartnerId
+//            let chatVC = ChatCollectionViewController(collectionViewLayout: UICollectionViewFlowLayout())
+//            chatVC.userId = user
+//            navigationController?.pushViewController(chatVC, animated: true)
         }
         if tableView == requestTableView {
             let request = BookingController.shared.bookings[indexPath.row]
