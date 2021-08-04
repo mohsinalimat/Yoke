@@ -98,8 +98,12 @@ class ConversationViewController: UIViewController{
     //MARK: - API
     func fetchConversations() {
         ConversationController.shared.fetchConversations { conversations in
-            ConversationController.shared.conversations = conversations
-            self.messageTableView.reloadData()
+                switch conversations {
+                default:
+                    DispatchQueue.main.async {
+                        self.messageTableView.reloadData()
+                    }
+                }
         }
 //        ConversationController.shared.fetchConversations { conversations in
 ////            self.conversations = conversations
@@ -130,7 +134,6 @@ class ConversationViewController: UIViewController{
     //MARK: - Selectors
     @objc func refresh() {
         DispatchQueue.main.async {
-            self.fetchConversations()
             self.messageTableView.reloadData()
             self.refreshControl?.endRefreshing()
         }
@@ -212,14 +215,20 @@ extension ConversationViewController: UITableViewDataSource {
         if editingStyle == .delete {
             if tableView == messageTableView {
                 let conversationChatId = ConversationController.shared.conversations[indexPath.row].message.chatPartnerId
-                tableView.beginUpdates()
                 ConversationController.shared.conversations.remove(at: indexPath.row)
-                tableView.deleteRows(at: [indexPath], with: .left)
-                ConversationController.shared.deleteConversation(chatParnterId: conversationChatId) { conversations in
-                    ConversationController.shared.conversations = conversations
-                    
+                self.messageTableView.beginUpdates()
+                self.messageTableView.deleteRows(at: [indexPath], with: .left)
+                self.messageTableView.endUpdates()
+                ConversationController.shared.deleteConversation(chatParnterId: conversationChatId) { result in
+                    switch result {
+                    case true:
+                        DispatchQueue.main.async {
+                            self.messageTableView.reloadData()
+                        }
+                    case false:
+                        print("failed to delete tableview")
+                    }
                 }
-                tableView.endUpdates()
             }
         }
     }
