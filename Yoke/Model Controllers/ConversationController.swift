@@ -53,7 +53,6 @@ class ConversationController {
  
     func fetchConversations(completion: @escaping ([Conversation]) -> Void) {
         guard let uid = Auth.auth().currentUser?.uid else { return }
-//        self.conversations = []
         firestoreDB.document(uid).collection(Constants.RecentMessages).order(by: Constants.Timestamp).addSnapshotListener { snapshot, error in
             if let error = error {
                 print(error.localizedDescription)
