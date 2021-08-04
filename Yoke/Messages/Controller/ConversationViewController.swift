@@ -17,8 +17,8 @@ class ConversationViewController: UIViewController{
     }
     private let messageTableView = UITableView()
     private let requestTableView = UITableView()
-//    private var conversations = [Conversation]()
-//    private var conversationDictionary = [String: Conversation]()
+    private var conversations = [Conversation]()
+    private var conversationDictionary = [String: Conversation]()
     let cellId = "cellId"
     let cellId2 = "cellId2"
     var userId: String?
@@ -98,12 +98,12 @@ class ConversationViewController: UIViewController{
     //MARK: - API
     func fetchConversations() {
         ConversationController.shared.fetchConversations { conversations in
-                switch conversations {
-                default:
-                    DispatchQueue.main.async {
-                        self.messageTableView.reloadData()
-                    }
+            switch conversations {
+            default:
+                DispatchQueue.main.async {
+                    self.messageTableView.reloadData()
                 }
+            }
         }
 //        ConversationController.shared.fetchConversations { conversations in
 ////            self.conversations = conversations
@@ -134,6 +134,8 @@ class ConversationViewController: UIViewController{
     //MARK: - Selectors
     @objc func refresh() {
         DispatchQueue.main.async {
+            ConversationController.shared.conversations = []
+            self.fetchConversations()
             self.messageTableView.reloadData()
             self.refreshControl?.endRefreshing()
         }
@@ -219,13 +221,13 @@ extension ConversationViewController: UITableViewDataSource {
                 let conversation = ConversationController.shared.conversations[indexPath.row]
                 guard let indexToDelete = ConversationController.shared.conversations.firstIndex(of: conversation) else { return }
                 ConversationController.shared.conversations.remove(at: indexToDelete)
-                DispatchQueue.main.async {
-                    self.messageTableView.deleteRows(at: [indexPath], with: .fade)
-                }
-                ConversationController.shared.deleteConversation(chatParnterId: conversationChatId) { result in
-                    switch result {
+                messageTableView.deleteRows(at: [indexPath], with: .fade)
+                ConversationController.shared.deleteConversation(chatParnterId: conversationChatId) { conversation in
+                    switch conversation {
                     case true:
-                        print("deleted")
+                        DispatchQueue.main.async {
+                            self.refresh()
+                        }
                     case false:
                         print("failed to delete tableview")
                     }
