@@ -137,7 +137,7 @@ class ConversationViewController: UIViewController{
             ConversationController.shared.conversations = []
             self.fetchConversations()
             self.messageTableView.reloadData()
-            self.refreshControl?.endRefreshing()
+//            self.refreshControl?.endRefreshing()
         }
     }
     
@@ -218,16 +218,20 @@ extension ConversationViewController: UITableViewDataSource {
             if tableView == messageTableView {
                 let conversationChatId = ConversationController.shared.conversations[indexPath.row].message.chatPartnerId
                 
-                let conversation = ConversationController.shared.conversations[indexPath.row]
-                guard let indexToDelete = ConversationController.shared.conversations.firstIndex(of: conversation) else { return }
-                ConversationController.shared.conversations.remove(at: indexToDelete)
-                messageTableView.deleteRows(at: [indexPath], with: .fade)
+//                let conversation = ConversationController.shared.conversations[indexPath.row]
+//                guard let indexToDelete = ConversationController.shared.conversations.firstIndex(of: conversation) else { return }
+//                ConversationController.shared.conversations.remove(at: indexToDelete)
+//                messageTableView.deleteRows(at: [indexPath], with: .fade)
                 ConversationController.shared.deleteConversation(chatParnterId: conversationChatId) { conversation in
                     switch conversation {
                     case true:
-                        DispatchQueue.main.async {
-                            self.refresh()
-                        }
+                        let conversation = ConversationController.shared.conversations[indexPath.row]
+                        guard let indexToDelete = ConversationController.shared.conversations.firstIndex(of: conversation) else { return }
+                        ConversationController.shared.conversations.remove(at: indexToDelete)
+                        self.messageTableView.deleteRows(at: [indexPath], with: .fade)
+//                        DispatchQueue.main.async {
+//                            self.refresh()
+//                        }
                     case false:
                         print("failed to delete tableview")
                     }
