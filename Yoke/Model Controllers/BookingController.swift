@@ -20,7 +20,7 @@ class BookingController {
     
     //MARK: - Firebase Firestore Database
     let firestoreDB = Firestore.firestore().collection(Constants.Users)
-    let geoRef = Firestore.firestore().collection("geoFireLocationEvents")
+    let geoRef = Firestore.firestore().collection(Constants.GeoFireLocationEvents)
     
     //MARK: - Source of truth
     var bookings: [Booking] = []
@@ -34,14 +34,11 @@ class BookingController {
         let bookingId = NSUUID().uuidString
         self.firestoreDB.document(chefUid).collection(Constants.Bookings).document(bookingId).setData([Constants.ChefUid: chefUid, Constants.Id: bookingId, Constants.UserUid: userUid, Constants.Location: location, Constants.LocationShort: locationShort, Constants.Date: date, Constants.StartTime: startTime, Constants.EndTime: endTime, Constants.NumberOfPeople: numberOfPeople, Constants.NumberOfCourses: numberOfCourses, Constants.Detail: details, Constants.InvoiceSent: false, Constants.InvoicePaid: false, Constants.IsBooked: false, Constants.CuisineType: typeOfCuisine, Constants.Archive: false], merge: true)
         self.firestoreDB.document(userUid).collection(Constants.Bookings).document(bookingId).setData([Constants.ChefUid: chefUid, Constants.Id: bookingId, Constants.UserUid: userUid, Constants.Location: location, Constants.LocationShort: locationShort, Constants.Date: date, Constants.StartTime: startTime, Constants.EndTime: endTime, Constants.NumberOfPeople: numberOfPeople, Constants.NumberOfCourses: numberOfCourses, Constants.Detail: details, Constants.InvoiceSent: false, Constants.InvoicePaid: false, Constants.IsBooked: false, Constants.CuisineType: typeOfCuisine, Constants.Archive: false], merge: true)
-//        self.firestoreDB.document(bookingId).setData([Constants.ChefUid: chefUid, Constants.Id: bookingId, Constants.UserUid: userUid, Constants.Location: location, Constants.Date: date, Constants.StartTime: startTime, Constants.EndTime: endTime, Constants.NumberOfPeople: numberOfPeople, Constants.NumberOfCourses: numberOfCourses, Constants.Detail: details, Constants.InvoiceSent: false, Constants.InvoicePaid: false, Constants.IsBooked: false], merge: true)
-//        self.setupGeofirestore(eventId: eventId, location: location)
         completion(true)
     }
     
     func updateBookingWith(bookingId: String, chefUid: String, location: String, date: String, startTime: String, endTime: String, numberOfPeople: Int, numberOfCourses: Int, typeOfCuisine: String, details: String, completion: @escaping (Bool) -> Void) {
         self.firestoreDB.document(bookingId).setData([Constants.Location: location, Constants.Date: date, Constants.StartTime: startTime, Constants.EndTime: endTime, Constants.NumberOfPeople: numberOfPeople, Constants.NumberOfCourses: numberOfCourses, Constants.Detail: details, ], merge: true)
-//        self.setupGeofirestore(eventId: eventId, location: location)
         completion(true)
     }
     
@@ -83,7 +80,7 @@ class BookingController {
                 }
             }
         }
-
+        
     }
     
     func fetchBookingsWith(uid: String, completion: @escaping (Bool) -> Void) {
@@ -131,20 +128,19 @@ class BookingController {
     }
     
     func deleteBookingWith(eventId: String, imageId: String, completion: @escaping (Bool) -> Void) {
-//        self.firestoreDB.document(eventId).delete { (error) in
-//            if let error = error {
-//                print("There was an error deleting the menu from deleteMenuWith in MenuController: \(error.localizedDescription)")
-//                completion(false)
-//                return
-//            }
-//            self.storageRef.child(imageId).delete { (error) in
-//                if let error = error {
-//                    print("error in deleting image from deleteMenuWith in MenuController: \(error.localizedDescription)")
-//                }
-//                completion(true)
-//            }
-    }
-        
+        //        self.firestoreDB.document(eventId).delete { (error) in
+        //            if let error = error {
+        //                print("There was an error deleting the menu from deleteMenuWith in MenuController: \(error.localizedDescription)")
+        //                completion(false)
+        //                return
+        //            }
+        //            self.storageRef.child(imageId).delete { (error) in
+        //                if let error = error {
+        //                    print("error in deleting image from deleteMenuWith in MenuController: \(error.localizedDescription)")
+        //                }
+        //                completion(true)
+        //            }
+    }  
 }
     
 
