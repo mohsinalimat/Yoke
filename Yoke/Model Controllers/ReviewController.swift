@@ -25,7 +25,6 @@ class ReviewController {
         
         let rateValues = [Constants.Stars: liveRate]
         
-        //Key should eventually be the id for the job completed
         let key = NSUUID().uuidString
         let todayDateAndHour = Date()
         let dateFormatter = DateFormatter()

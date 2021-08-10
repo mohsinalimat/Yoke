@@ -10,7 +10,7 @@ import UIKit
 import FirebaseAuth
 import FirebaseFirestore
 
-class ConversationViewController: UIViewController{
+class ConversationViewController: UIViewController {
 
     //MARK: - Properties
     var safeArea: UILayoutGuide {
@@ -217,24 +217,22 @@ extension ConversationViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
             if tableView == messageTableView {
-                let conversationChatId = ConversationController.shared.conversations[indexPath.row].message.chatPartnerId
-                
-//                let conversation = ConversationController.shared.conversations[indexPath.row]
-//                guard let indexToDelete = ConversationController.shared.conversations.firstIndex(of: conversation) else { return }
+                let conversation = ConversationController.shared.conversations[indexPath.row]
+                guard let indexToDelete = ConversationController.shared.conversations.firstIndex(of: conversation) else { return }
 //                ConversationController.shared.conversations.remove(at: indexToDelete)
 //                messageTableView.deleteRows(at: [indexPath], with: .fade)
-                let conversation = ConversationController.shared.conversations[indexPath.row]
 
-                ConversationController.shared.deleteConversation(chatParnterId: conversationChatId) { conversation in
-                    switch conversation {
-                    case true:
-                        self.messageTableView.deleteRows(at: [indexPath], with: .fade)
+                ConversationController.shared.deleteConversation(chatParnterId: conversation.message.chatPartnerId) { (result) in
+                    switch result {
+                    default:
+                        print(indexToDelete)
+//                        ConversationController.shared.conversations.remove(at: indexToDelete)
 //                        DispatchQueue.main.async {
-//                            self.refresh()
+//                            self.messageTableView.deleteRows(at: [indexPath], with: .fade)
 //                        }
-                    case false:
-                        print("failed to delete tableview")
+                        
                     }
+                
                 }
                 guard let indexToDelete = ConversationController.shared.conversations.firstIndex(of: conversation) else { return }
                 ConversationController.shared.conversations.remove(at: indexToDelete)

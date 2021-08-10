@@ -70,16 +70,15 @@ class ConversationController {
         }
     }
     
-    func deleteConversation(chatParnterId: String, completion: @escaping (Bool) -> Void) {
+    func deleteConversation(chatParnterId: String, completion: @escaping ([Conversation]) -> Void) {
         guard let uid = Auth.auth().currentUser?.uid else { return }
         let query = firestoreDB.document(uid).collection(Constants.RecentMessages)
         query.addSnapshotListener { snapshot, error in
             if let error = error {
                 print(error.localizedDescription)
-                completion(false)
             }
             query.document(chatParnterId).delete()
-            completion(true)
+            completion(self.conversations)
         }
     }
 }
