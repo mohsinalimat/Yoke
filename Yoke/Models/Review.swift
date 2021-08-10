@@ -15,7 +15,7 @@ class Review {
     var review: String?
     var stars: Double?
     var timestamp: Date
-
+    
     init(dictionary: [String: Any]) {
         self.uid = dictionary[Constants.Uid] as? String ?? ""
         self.username = dictionary[Constants.Username] as? String ?? ""
