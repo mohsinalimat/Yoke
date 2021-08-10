@@ -13,8 +13,6 @@ import FirebaseAuth
 import Geofirestore
 import MapKit
 
-//https://github.com/imperiumlabs/GeoFirestore-iOS
-
 class UserController {
     
     //MARK: - Shared Instance
@@ -34,7 +32,6 @@ class UserController {
     
     //MARK: - Properties
     private let locationManager = LocationManager()
-//    let mapView = MKMapView()
     
     //MARK: - CRUD Functions
     func createUserWith(email: String, username: String, password: String = "", image: UIImage?, isChef: Bool, completion: @escaping (Bool) -> Void) {
@@ -43,15 +40,15 @@ class UserController {
                 print("There was an error authorizing user: \(error.localizedDescription)")
                 completion(false)
             }
-
+            
             guard let image = image else { return }
             guard let uploadData = image.jpegData(compressionQuality: 0.3) else { return }
-
+            
             let filename = Auth.auth().currentUser?.uid ?? ""
-
+            
             let storageRef = Storage.storage().reference().child(Constants.ProfileImageUrl).child(filename)
             storageRef.putData(uploadData, metadata: nil, completion: { (metadata, error) in
-
+                
                 if let error = error {
                     print("There was an error uploading image data: \(error.localizedDescription)")
                     completion(false)
@@ -78,7 +75,7 @@ class UserController {
                 print("Error: Sign in anonymously failed! \(error.localizedDescription)")
                 return
             }
-                        
+            
             if let uid = user?.user.uid {
                 self.firestoreDB.collection(Constants.AnonymousUsers).document(uid).setData(["uid": uid])
                 completion(true)
@@ -179,7 +176,7 @@ class UserController {
                 }
             }
             self.average = totalCount/self.count
-//            self.ratingView.rating = average
+            //            self.ratingView.rating = average
         }
     }
     
@@ -195,7 +192,7 @@ class UserController {
             }
         }
     }
-
+    
     func fetchUsers(uid: String, completion: @escaping (User) -> Void) {
         firestoreDB.collection(Constants.Users).getDocuments { (snapshot, error) in
             if let error = error {
@@ -219,7 +216,7 @@ class UserController {
             })
         }
     }
-
+    
     func updateUser(_ uid: String, username: String, bio: String, isChef: Bool, completion: @escaping (Bool) -> Void) {
         firestoreDB.collection(Constants.Users).document(uid).setData([Constants.Username: username, Constants.Bio: bio, Constants.IsChef: isChef], merge: true) { error in
             if let error = error {
@@ -266,7 +263,7 @@ class UserController {
             }
         }
     }
-
+    
     func updateUserProfileImage(_ uid: String, profileImage: UIImage?, completion: @escaping (Bool) -> Void) {
         guard let profileImage = profileImage else { return }
         guard let uploadProfileData = profileImage.jpegData(compressionQuality: 0.3) else { return }
@@ -286,7 +283,7 @@ class UserController {
             })
         })
     }
-
+    
     func updateUserBannerImage(_ uid: String, bannerImage: UIImage?, completion: @escaping (Bool) -> Void) {
         guard let bannerImage = bannerImage else { return }
         guard let uploadBannerData = bannerImage.jpegData(compressionQuality: 0.3) else { return }
@@ -303,8 +300,6 @@ class UserController {
     }
     
     func deleteAnonymousAccountWith(uid: String, completion: @escaping (Bool) -> Void) {
-        print("anonymous account user uid \(uid)")
-//        firestoreDB.collection(Constants.AnonymousUsers).document(uid).delete()
         firestoreDB.collection(Constants.AnonymousUsers).document(uid).delete { (error) in
             if let error = error {
                 print("There was an error uploading image data: \(error.localizedDescription)")
@@ -314,15 +309,15 @@ class UserController {
             completion(true)
         }
     }
-//
-//    func deleteUserData(_ uid: String, completion: @escaping (Result<Bool, UserError>) -> Void) {
-//        firestoreDB.collection(Constants.users).document(uid).delete() { error in
-//            if let error = error {
-//                print("There was an error deleting user: \(error.localizedDescription)")
-//                completion(.failure(.fbUserError(error)))
-//            } else {
-//                completion(.success(true))
-//            }
-//        }
-//    }
+    //
+    //    func deleteUserData(_ uid: String, completion: @escaping (Result<Bool, UserError>) -> Void) {
+    //        firestoreDB.collection(Constants.users).document(uid).delete() { error in
+    //            if let error = error {
+    //                print("There was an error deleting user: \(error.localizedDescription)")
+    //                completion(.failure(.fbUserError(error)))
+    //            } else {
+    //                completion(.success(true))
+    //            }
+    //        }
+    //    }
 }
