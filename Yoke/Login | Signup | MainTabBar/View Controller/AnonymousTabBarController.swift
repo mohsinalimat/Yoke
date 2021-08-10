@@ -28,6 +28,7 @@ class AnonymousTabBarController: UITabBarController, UITabBarControllerDelegate 
         setupViewControllers()
     }
     
+    //MARK: - Functions
     func setupViewControllers() {
         let searchNavController = templateNavController(unselectedImage: UIImage(named: "search_unselected")!, selectedImage: UIImage(named: "search_selected")!,rootViewController: SearchViewController())
         searchNavController.title = "Search"

@@ -37,15 +37,15 @@ class MainTabBarController: UITabBarController, UITabBarControllerDelegate {
     func setupAlerts() {
         guard let uid = Auth.auth().currentUser?.uid else {return}
         Database.database().reference().child(Constants.Invoices).child(uid).queryOrderedByValue().queryEqual(toValue: 1)
-        .observe(DataEventType.value, with: { (snapshot) in
-            let count = snapshot.childrenCount
-            if count > 0 {
-              self.tabBar.items![1].badgeValue = "\(Int(count))"
-              self.tabBar.items![1].badgeColor = UIColor.white
-                self.tabBar.items![1].setBadgeTextAttributes([NSAttributedString.Key.foregroundColor: UIColor.orangeColor()!, NSAttributedString.Key.font: UIFont(name: "Helvetica-Bold", size: 10)!
-                ], for: .normal)
-            }
-        })
+            .observe(DataEventType.value, with: { (snapshot) in
+                let count = snapshot.childrenCount
+                if count > 0 {
+                    self.tabBar.items![1].badgeValue = "\(Int(count))"
+                    self.tabBar.items![1].badgeColor = UIColor.white
+                    self.tabBar.items![1].setBadgeTextAttributes([NSAttributedString.Key.foregroundColor: UIColor.orangeColor()!, NSAttributedString.Key.font: UIFont(name: "Helvetica-Bold", size: 10)!
+                    ], for: .normal)
+                }
+            })
     }
     
     func setupViewControllers() {
@@ -61,7 +61,7 @@ class MainTabBarController: UITabBarController, UITabBarControllerDelegate {
         
         let eventsNavController = templateNavController(unselectedImage: #imageLiteral(resourceName: "event_unselected"), selectedImage: #imageLiteral(resourceName: "event_selected"), rootViewController: EventsCollectionViewController(collectionViewLayout: UICollectionViewFlowLayout()))
         eventsNavController.title = "Events"
-                
+        
         let paymentController = self.templateNavController(unselectedImage: UIImage(named: "payment_unselected")!, selectedImage: UIImage(named: "payment_selected")!, rootViewController: PaymentViewController())
         paymentController.title = "Payments"
         

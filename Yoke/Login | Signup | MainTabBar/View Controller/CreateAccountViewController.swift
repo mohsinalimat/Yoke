@@ -12,7 +12,7 @@ import FirebaseFirestore
 import MapKit
 
 class CreateAccountViewController: UIViewController {
-
+    
     //MARK: - Properties
     var safeArea: UILayoutGuide {
         return self.view.safeAreaLayoutGuide
@@ -36,7 +36,7 @@ class CreateAccountViewController: UIViewController {
         setupKeyboard()
         dismissKeyboardOnTap()
     }
-
+    
     //MARK: - Helper Functions
     fileprivate func setupViews() {
         view.addSubview(imageView)
@@ -112,7 +112,7 @@ class CreateAccountViewController: UIViewController {
         alertController.addAction(defaultAction)
         self.present(alertController, animated: true, completion: nil)
     }
-
+    
     func handleLoginToHome() {
         myActivityIndicator.stopAnimating()
         UIView.animate(withDuration: 0.5) { [weak self] in
@@ -136,13 +136,13 @@ class CreateAccountViewController: UIViewController {
         }
         let user = Auth.auth().currentUser
         user?.delete { error in
-          if let error = error {
-            print("Error in deleting user \(error.localizedDescription)")
-          } else {
-            print("anonymous account user deleted")
-          }
+            if let error = error {
+                print("Error in deleting user \(error.localizedDescription)")
+            } else {
+                print("anonymous account user deleted")
+            }
         }
-
+        
     }
     
     //MARK: - Selectors
@@ -305,7 +305,7 @@ class CreateAccountViewController: UIViewController {
         view.backgroundColor = UIColor.LightGrayBg()
         return view
     }()
-
+    
     let confirmPasswordTextField: UITextField = {
         let textField = UITextField()
         textField.font = UIFont.systemFont(ofSize: 17)
@@ -315,7 +315,7 @@ class CreateAccountViewController: UIViewController {
         textField.layer.cornerRadius = 10
         return textField
     }()
-
+    
     let signUpButton: UIButton = {
         let button = UIButton(type: .system)
         button.setTitle("Sign Up", for: .normal)
@@ -333,18 +333,18 @@ class CreateAccountViewController: UIViewController {
     
     let alreadyHaveAccountButton: UIButton = {
         let button = UIButton(type: .system)
-            
+        
         let attributedTitle = NSMutableAttributedString(string: "Already have an account?  ", attributes: [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 16), NSAttributedString.Key.foregroundColor: UIColor.gray])
-            
-        attributedTitle.append(NSAttributedString(string: "Sign In", attributes: [NSAttributedString.Key.font: UIFont.boldSystemFont(ofSize: 16), NSAttributedString.Key.foregroundColor: UIColor.orangeColor()
-                ]))
-            
+        
+        attributedTitle.append(NSAttributedString(string: "Sign In", attributes: [NSAttributedString.Key.font: UIFont.boldSystemFont(ofSize: 16), NSAttributedString.Key.foregroundColor: UIColor.orangeColor()!
+        ]))
+        
         button.setAttributedTitle(attributedTitle, for: .normal)
-            
+        
         button.addTarget(self, action: #selector(handleAlreadyHaveAccount), for: .touchUpInside)
         return button
     }()
-        
+    
 }
 
 extension CreateAccountViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
@@ -361,7 +361,7 @@ extension CreateAccountViewController: UIImagePickerControllerDelegate, UINaviga
             self.present(alertVC, animated: true)
         }
     }
-
+    
     func openPhotoLibrary() {
         if UIImagePickerController.isSourceTypeAvailable(.photoLibrary) {
             imagePicker.sourceType = .photoLibrary
@@ -374,25 +374,24 @@ extension CreateAccountViewController: UIImagePickerControllerDelegate, UINaviga
             self.present(alertVC, animated: true)
         }
     }
-
+    
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
-
+        
         let info = convertFromUIImagePickerControllerInfoKeyDictionary(info)
         
         if let editedImage = info["UIImagePickerControllerEditedImage"] as? UIImage {
             addImageButton.setImage(editedImage.withRenderingMode(.alwaysOriginal), for: .normal)
         } else if let originalImage =
-            info["UIImagePickerControllerOriginalImage"] as? UIImage {
+                    info["UIImagePickerControllerOriginalImage"] as? UIImage {
             addImageButton.setImage(originalImage.withRenderingMode(.alwaysOriginal), for: .normal)
         }
         
         dismiss(animated: true, completion: nil)
     }
 }
-    
-// Helper function inserted by Swift 4.2 migrator.
+
 fileprivate func convertFromUIImagePickerControllerInfoKeyDictionary(_ input: [UIImagePickerController.InfoKey: Any]) -> [String: Any] {
-        return Dictionary(uniqueKeysWithValues: input.map {key, value in (key.rawValue, value)})
+    return Dictionary(uniqueKeysWithValues: input.map {key, value in (key.rawValue, value)})
 }
 
 extension CreateAccountViewController: UITextFieldDelegate {

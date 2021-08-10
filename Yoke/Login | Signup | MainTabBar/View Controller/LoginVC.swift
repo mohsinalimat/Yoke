@@ -20,7 +20,7 @@ class LoginVC: UIViewController {
     private let locationManager = LocationManager()
     let mapView = MKMapView()
     let myActivityIndicator = UIActivityIndicatorView(style: UIActivityIndicatorView.Style.large)
-
+    
     //MARK: - Lifecycle Methods
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
@@ -37,7 +37,6 @@ class LoginVC: UIViewController {
     fileprivate func setupViews() {
         navigationController?.isNavigationBarHidden = true
         view.backgroundColor = UIColor.white
-//        view.addSubview(backgroundView)
         view.addSubview(logoView)
         view.addSubview(introductionLabel)
         view.addSubview(emailView)
@@ -53,7 +52,7 @@ class LoginVC: UIViewController {
     }
     
     func constrainViews() {
-//        backgroundView.frame = view.frame
+        //        backgroundView.frame = view.frame
         logoView.anchor(top: safeArea.topAnchor, left: nil, bottom: nil, right: nil, paddingTop: 50, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 150, height: 150)
         logoView.centerXAnchor.constraint(equalTo: safeArea.centerXAnchor).isActive = true
         introductionLabel.anchor(top: logoView.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 20, paddingLeft: 20, paddingBottom: 0, paddingRight: 20)
@@ -67,7 +66,7 @@ class LoginVC: UIViewController {
         dontHaveAccountButton.anchor(top: loginAnonymouslyButton.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 20, paddingLeft: 0, paddingBottom: 0, paddingRight: 0)
         myActivityIndicator.center = view.center
     }
-
+    
     func setupGeofirestore(uid: String) {
         guard let exposedLocation = self.locationManager.exposedLocation else { return }
         self.locationManager.getPlace(for: exposedLocation) { placemark in
@@ -94,7 +93,7 @@ class LoginVC: UIViewController {
             }
         }
     }
-
+    
     func handleLoginToHome() {
         self.myActivityIndicator.stopAnimating()
         UIView.animate(withDuration: 0.5) { [weak self] in
@@ -112,7 +111,7 @@ class LoginVC: UIViewController {
             self?.view.window?.makeKeyAndVisible()
         }
     }
-
+    
     //MARK: - Selectors
     @objc func handleShowSignUp() {
         let signupVC = SignupVC()
@@ -253,8 +252,8 @@ class LoginVC: UIViewController {
     let dontHaveAccountButton: UIButton = {
         let button = UIButton(type: .system)
         let attributedTitle = NSMutableAttributedString(string: "Don't have an account?  ", attributes: [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 15), NSAttributedString.Key.foregroundColor: UIColor.gray])
-        attributedTitle.append(NSAttributedString(string: "Sign up with email", attributes: [NSAttributedString.Key.font: UIFont.boldSystemFont(ofSize: 15), NSAttributedString.Key.foregroundColor: UIColor.orangeColor()
-            ]))
+        attributedTitle.append(NSAttributedString(string: "Sign up with email", attributes: [NSAttributedString.Key.font: UIFont.boldSystemFont(ofSize: 15), NSAttributedString.Key.foregroundColor: UIColor.orangeColor()!
+        ]))
         button.setAttributedTitle(attributedTitle, for: .normal)
         button.addTarget(self, action: #selector(handleShowSignUp), for: .touchUpInside)
         return button
@@ -290,7 +289,7 @@ class LoginVC: UIViewController {
         return button
     }()
 }
-   
+
 extension LoginVC: UITextFieldDelegate {
     func setupKeyboard() {
         emailTextField.delegate = self
