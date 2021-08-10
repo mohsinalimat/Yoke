@@ -11,6 +11,7 @@ import Firebase
 
 class MainTabBarController: UITabBarController, UITabBarControllerDelegate {
     
+    //MARK: - Lifecycle Methods
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         setupAlerts()
@@ -32,6 +33,7 @@ class MainTabBarController: UITabBarController, UITabBarControllerDelegate {
         setupViewControllers()
     }
     
+    //MARK: Functions
     func setupAlerts() {
         guard let uid = Auth.auth().currentUser?.uid else {return}
         Database.database().reference().child(Constants.Invoices).child(uid).queryOrderedByValue().queryEqual(toValue: 1)
@@ -40,7 +42,7 @@ class MainTabBarController: UITabBarController, UITabBarControllerDelegate {
             if count > 0 {
               self.tabBar.items![1].badgeValue = "\(Int(count))"
               self.tabBar.items![1].badgeColor = UIColor.white
-              self.tabBar.items![1].setBadgeTextAttributes([NSAttributedString.Key.foregroundColor: UIColor.orangeColor(), NSAttributedString.Key.font: UIFont(name: "Helvetica-Bold", size: 10)!
+                self.tabBar.items![1].setBadgeTextAttributes([NSAttributedString.Key.foregroundColor: UIColor.orangeColor()!, NSAttributedString.Key.font: UIFont(name: "Helvetica-Bold", size: 10)!
                 ], for: .normal)
             }
         })

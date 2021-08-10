@@ -11,6 +11,7 @@ import Firebase
 
 class AnonymousTabBarController: UITabBarController, UITabBarControllerDelegate {
     
+    //MARK: - Lifecycle Methods
     override func viewDidLoad() {
         super.viewDidLoad()
         self.delegate = self
