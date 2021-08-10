@@ -19,7 +19,6 @@ class ConversationViewController: UIViewController {
     private let messageTableView = UITableView()
     private let requestTableView = UITableView()
     private var conversations = [Conversation]()
-    private var conversationDictionary = [String: Conversation]()
     let cellId = "cellId"
     let cellId2 = "cellId2"
     var userId: String?
@@ -64,10 +63,6 @@ class ConversationViewController: UIViewController {
     func configureNavigationBar() {
         guard let orange = UIColor.orangeColor() else { return }
         configureNavigationBar(withTitle: "Messages", largeTitle: true, backgroundColor: .white, titleColor: orange)
-        let archiveIcon = UIImage(named: "archive")
-        let imageView = UIImageView(frame: CGRect(x: 0, y: 0, width: 10, height: 10))
-        imageView.image = archiveIcon
-        navigationItem.rightBarButtonItem = UIBarButtonItem(image: archiveIcon, style: .plain, target: self, action: #selector(handleArchive))
     }
     
     func configureTableView() {
@@ -99,6 +94,7 @@ class ConversationViewController: UIViewController {
     //MARK: - API
     func fetchConversations() {
         ConversationController.shared.fetchConversations { conversations in
+            self.conversations = conversations
             switch conversations {
             default:
                 DispatchQueue.main.async {
@@ -135,10 +131,10 @@ class ConversationViewController: UIViewController {
     //MARK: - Selectors
     @objc func refresh() {
         DispatchQueue.main.async {
-            ConversationController.shared.conversations = []
+//            ConversationController.shared.conversations = []
             self.fetchConversations()
             self.messageTableView.reloadData()
-//            self.refreshControl?.endRefreshing()
+            self.refreshControl?.endRefreshing()
         }
     }
     
@@ -150,11 +146,6 @@ class ConversationViewController: UIViewController {
             messageTableView.isHidden = true
             requestTableView.isHidden = false
         }
-    }
-    
-    @objc func handleArchive() {
-//        let archiveVC = sample()
-//        navigationController?.pushViewController(archiveVC, animated: true)
     }
     
     //MARK: - Views
@@ -219,24 +210,18 @@ extension ConversationViewController: UITableViewDataSource {
             if tableView == messageTableView {
                 let conversation = ConversationController.shared.conversations[indexPath.row]
                 guard let indexToDelete = ConversationController.shared.conversations.firstIndex(of: conversation) else { return }
-//                ConversationController.shared.conversations.remove(at: indexToDelete)
-//                messageTableView.deleteRows(at: [indexPath], with: .fade)
+                ConversationController.shared.conversations.remove(at: indexToDelete)
+                messageTableView.deleteRows(at: [indexPath], with: .fade)
 
                 ConversationController.shared.deleteConversation(chatParnterId: conversation.message.chatPartnerId) { (result) in
                     switch result {
                     default:
-                        print(indexToDelete)
-//                        ConversationController.shared.conversations.remove(at: indexToDelete)
-//                        DispatchQueue.main.async {
-//                            self.messageTableView.deleteRows(at: [indexPath], with: .fade)
-//                        }
-                        
+                        DispatchQueue.main.async {
+                            self.conversations.removeAll()
+                            self.messageTableView.reloadData()
+                        }
                     }
-                
                 }
-                guard let indexToDelete = ConversationController.shared.conversations.firstIndex(of: conversation) else { return }
-                ConversationController.shared.conversations.remove(at: indexToDelete)
-                messageTableView.deleteRows(at: [indexPath], with: .fade)
             }
         }
     }

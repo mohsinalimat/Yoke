@@ -79,6 +79,7 @@ class ConversationController {
             }
             query.document(chatParnterId).delete()
             completion(self.conversations)
+            self.conversations = []
         }
     }
 }
