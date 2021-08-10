@@ -350,7 +350,6 @@ class HomeViewController: UIViewController {
         view.layer.shadowRadius = 4
         view.layer.shadowOpacity = 0.3
         view.layer.shadowColor = UIColor.lightGray.cgColor
-//        view.layer.cornerRadius = 10
         view.layer.borderWidth = 0.5
         view.layer.borderColor = UIColor.gray.cgColor
         return view
@@ -360,7 +359,6 @@ class HomeViewController: UIViewController {
         let image = CustomImageView()
         image.clipsToBounds = true
         image.contentMode = .scaleToFill
-//        image.layer.cornerRadius = 10
         image.backgroundColor = .clear
         image.image = UIImage(named: "gradientBackgroundHalf")
         return image
@@ -569,11 +567,11 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
             }
         } else if collectionView == self.upcomingBookingsCollectionView {
             return 1
-//            if BookingController.shared.bookings.count == 0 {
-//                return 1
-//            } else {
-//                return BookingController.shared.bookings.count
-//            }
+            //            if BookingController.shared.bookings.count == 0 {
+            //                return 1
+            //            } else {
+            //                return BookingController.shared.bookings.count
+            //            }
         }
         if EventController.shared.events.count == 0 {
             return 1
@@ -608,17 +606,17 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
             }
         } else if collectionView == self.upcomingBookingsCollectionView {
             let cellC = collectionView.dequeueReusableCell(withReuseIdentifier: bookingCell, for: indexPath) as! TodayCollectionViewCell
-//            cellC.booking = BookingController.shared.bookings[indexPath.item]
+            //            cellC.booking = BookingController.shared.bookings[indexPath.item]
             return cellC
-//            if BookingController.shared.bookings.count == 0 {
-//                let noCell = collectionView.dequeueReusableCell(withReuseIdentifier: noCellId, for: indexPath) as! EmptyCell
-//                noCell.noPostLabel.text = "Sorry, you have no upcoming bookings"
-//                noCell.noPostLabel.font = UIFont.boldSystemFont(ofSize: 15)
-//                return noCell
-//            } else {
-//                cellC.booking = BookingController.shared.bookings[indexPath.item]
-//                return cellC
-//            }
+            //            if BookingController.shared.bookings.count == 0 {
+            //                let noCell = collectionView.dequeueReusableCell(withReuseIdentifier: noCellId, for: indexPath) as! EmptyCell
+            //                noCell.noPostLabel.text = "Sorry, you have no upcoming bookings"
+            //                noCell.noPostLabel.font = UIFont.boldSystemFont(ofSize: 15)
+            //                return noCell
+            //            } else {
+            //                cellC.booking = BookingController.shared.bookings[indexPath.item]
+            //                return cellC
+            //            }
         }
         
         let cellD = collectionView.dequeueReusableCell(withReuseIdentifier: eventCell, for: indexPath) as! SuggestedEventsCollectionViewCell
@@ -631,7 +629,6 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
             cellD.event = EventController.shared.events[indexPath.item]
             return cellD
         }
-        
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
@@ -703,32 +700,8 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
             }
         }
     }
-    
-    //    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
-    //        return 10
-    //    }
-    
+
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
         return 10
     }
-//    
-//        func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
-//            let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "headerId", for: indexPath) as! HeaderCollectionViewCell
-//            header.frame = CGRect(x: 0, y: 0, width: collectionView.frame.width, height: 45)
-//            header.headerLabel.text = "Menus"
-//            return header
-//        }
-//    
-//        func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
-//            return CGSize(width: 100, height: 45)
-//        }
 }
-
-//extension HomeViewController: MenuHeaderDelegate {
-//    func addMenu(_ sender: MenuHeaderCollectionViewCell) {
-//        let addMenu = AddMenuViewController()
-//        present(addMenu, animated: true)
-//    }
-//}
-
-
