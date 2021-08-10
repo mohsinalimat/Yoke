@@ -118,7 +118,6 @@ class BookmarkController {
                     completion(true)
                 }
             }
-            
         }
     }
 }

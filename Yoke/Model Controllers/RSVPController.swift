@@ -23,5 +23,4 @@ class RSVPController {
     func createRSVPWith(uid: String, eventUserUid: String, eventId: String, completion: @escaping (Bool) -> Void) {
         firestoreDB.document(uid).collection(eventId).addDocument(data: [Constants.Id: eventId, Constants.UserUid: uid, Constants.AcceptRSVP: true, Constants.ChefUid: eventUserUid])
     }
-    
 }
