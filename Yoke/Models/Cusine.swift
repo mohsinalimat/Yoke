@@ -8,16 +8,9 @@
 
 import Foundation
 
-//struct Cusine {
-//    let list: [String]
-//
-//    enum CodingKeys: String, CodingKey {
-//        case list
-//    }
-//}
 class Cusine {
     var type: [String]
-
+    
     init(type: [String]) {
         self.type = type
     }

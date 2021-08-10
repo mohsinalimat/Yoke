@@ -7,8 +7,8 @@
 //
 
 import Foundation
+
 class Menu {
-//    var user: User
     var id: String?
     var uid: String?
     var name: String?
@@ -17,7 +17,7 @@ class Menu {
     var menuType: String?
     var imageUrl: String?
     var imageId: String?
-
+    
     init(dictionary: [String: Any]) {
         self.id = dictionary[Constants.Id] as? String ?? ""
         self.uid = dictionary[Constants.Uid] as? String ?? ""
