@@ -26,6 +26,7 @@ class Constants {
     static let ProfileBannerUrl = "profileBannerUrl"
     static let Location = "location"
     static let LocationShort = "locationShort"
+    static let GeoFireLocation = "geoFireLocation"
     static let Bio = "bio"
     static let CoverImages = "Cover_Images"
     static let Archive = "archive"

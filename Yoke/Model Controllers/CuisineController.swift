@@ -52,7 +52,6 @@ class CuisineController {
             if let document = document, document.exists {
                 guard let array = document.data()?["cuisine"] as? [String] else { return }
                 for name in array {
-//                    print(name)
                     let cusine = Cusine(type: [name])
                     self.cusines.append(cusine)
                 }
@@ -74,6 +73,4 @@ class CuisineController {
             }
         }
     }
-
-        
 }
