@@ -58,8 +58,8 @@ class ConversationController {
                 print(error.localizedDescription)
             }
             self.conversations = []
-            snapshot?.documentChanges.forEach({ change in
-                let dictionary = change.document.data()
+            snapshot?.documents.forEach({ (document) in
+                let dictionary = document.data()
                 let message = Message(dictionary: dictionary)
                 UserController.shared.fetchUserWithUID(uid: message.toId) { user in
                     let conversation = Conversation(user: user, message: message)
@@ -67,6 +67,15 @@ class ConversationController {
                     completion(self.conversations)
                 }
             })
+//            snapshot?.documentChanges.forEach({ change in
+//                let dictionary = change.document.data()
+//                let message = Message(dictionary: dictionary)
+//                UserController.shared.fetchUserWithUID(uid: message.toId) { user in
+//                    let conversation = Conversation(user: user, message: message)
+//                    self.conversations.append(conversation)
+//                    completion(self.conversations)
+//                }
+//            })
         }
     }
     
@@ -79,7 +88,6 @@ class ConversationController {
             }
             query.document(chatParnterId).delete()
             completion(self.conversations)
-            self.conversations = []
         }
     }
 }

@@ -18,7 +18,6 @@ class ConversationViewController: UIViewController {
     }
     private let messageTableView = UITableView()
     private let requestTableView = UITableView()
-    private var conversations = [Conversation]()
     let cellId = "cellId"
     let cellId2 = "cellId2"
     var userId: String?
@@ -94,7 +93,6 @@ class ConversationViewController: UIViewController {
     //MARK: - API
     func fetchConversations() {
         ConversationController.shared.fetchConversations { conversations in
-            self.conversations = conversations
             switch conversations {
             default:
                 DispatchQueue.main.async {
@@ -102,17 +100,6 @@ class ConversationViewController: UIViewController {
                 }
             }
         }
-//        ConversationController.shared.fetchConversations { conversations in
-////            self.conversations = conversations
-//            conversations.forEach { conversation in
-//                let message = conversation.message
-//                self.conversationDictionary[message.chatPartnerId] = conversation
-//            }
-//            self.conversations = Array(self.conversationDictionary.values)
-//            DispatchQueue.main.async {
-//                self.messageTableView.reloadData()
-//            }
-//        }
     }
     
     func fetchBookings() {
@@ -131,7 +118,7 @@ class ConversationViewController: UIViewController {
     //MARK: - Selectors
     @objc func refresh() {
         DispatchQueue.main.async {
-//            ConversationController.shared.conversations = []
+            ConversationController.shared.conversations = []
             self.fetchConversations()
             self.messageTableView.reloadData()
             self.refreshControl?.endRefreshing()
@@ -217,7 +204,6 @@ extension ConversationViewController: UITableViewDataSource {
                     switch result {
                     default:
                         DispatchQueue.main.async {
-                            self.conversations.removeAll()
                             self.messageTableView.reloadData()
                         }
                     }
