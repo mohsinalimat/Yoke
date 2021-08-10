@@ -204,6 +204,7 @@ extension ConversationViewController: UITableViewDataSource {
                     switch result {
                     default:
                         DispatchQueue.main.async {
+                            ConversationController.shared.conversations = []
                             self.messageTableView.reloadData()
                         }
                     }
