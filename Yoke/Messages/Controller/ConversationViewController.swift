@@ -8,6 +8,7 @@
 
 import UIKit
 import FirebaseAuth
+import FirebaseFirestore
 
 class ConversationViewController: UIViewController{
 
@@ -222,12 +223,11 @@ extension ConversationViewController: UITableViewDataSource {
 //                guard let indexToDelete = ConversationController.shared.conversations.firstIndex(of: conversation) else { return }
 //                ConversationController.shared.conversations.remove(at: indexToDelete)
 //                messageTableView.deleteRows(at: [indexPath], with: .fade)
+                let conversation = ConversationController.shared.conversations[indexPath.row]
+
                 ConversationController.shared.deleteConversation(chatParnterId: conversationChatId) { conversation in
                     switch conversation {
                     case true:
-                        let conversation = ConversationController.shared.conversations[indexPath.row]
-                        guard let indexToDelete = ConversationController.shared.conversations.firstIndex(of: conversation) else { return }
-                        ConversationController.shared.conversations.remove(at: indexToDelete)
                         self.messageTableView.deleteRows(at: [indexPath], with: .fade)
 //                        DispatchQueue.main.async {
 //                            self.refresh()
@@ -236,6 +236,9 @@ extension ConversationViewController: UITableViewDataSource {
                         print("failed to delete tableview")
                     }
                 }
+                guard let indexToDelete = ConversationController.shared.conversations.firstIndex(of: conversation) else { return }
+                ConversationController.shared.conversations.remove(at: indexToDelete)
+                messageTableView.deleteRows(at: [indexPath], with: .fade)
             }
         }
     }
