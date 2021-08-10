@@ -10,10 +10,8 @@ import Foundation
 import UIKit
 import Firebase
 
-
 class User {
     let uid: String?
-//    let id: String?
     let customer_id: String?
     let email: String?
     let username: String?
@@ -32,7 +30,7 @@ class User {
     
     init(dictionary: [String: Any]) {
         self.uid = dictionary[Constants.Uid] as? String ?? ""
-        self.customer_id = dictionary["customer_id"] as? String ?? ""
+        self.customer_id = dictionary[Constants.CustomerId] as? String ?? ""
         self.email = dictionary[Constants.Email] as? String ?? ""
         self.username = dictionary[Constants.Username] as? String ?? ""
         self.profileImageUrl = dictionary[Constants.ProfileImageUrl] as? String ?? ""

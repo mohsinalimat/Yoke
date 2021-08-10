@@ -35,7 +35,7 @@ class _StripeApi: NSObject, STPCustomerEphemeralKeyProvider {
         
                 let data = [
                     "stripe_version": apiVersion,
-                    "customer_id" : stripeId
+                    Constants.CustomerId : stripeId
                 ]
                                
                 Functions.functions().httpsCallable("createEphemeralKey").call(data) { (result, error) in

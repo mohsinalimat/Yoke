@@ -116,7 +116,7 @@ class MakePaymentVC: UIViewController, STPPaymentContextDelegate {
                     print(error.localizedDescription)
                 }
                 let document = snapshot?.data()
-                let id = document?["customer_id"] as! String
+                let id = document?[Constants.CustomerId] as! String
                 self.customerId = id
                 print("customer id \(self.customerId)")
             })
@@ -307,7 +307,7 @@ class MakePaymentVC: UIViewController, STPPaymentContextDelegate {
         
         let data : [String: Any] = [
             "total_amount" : totalAmount,
-            "customer_id" : customerId,
+            Constants.CustomerId : customerId,
             "payment_method_id" : paymentResult.paymentMethod?.stripeId,
             "idempotency" : idempotency,
             "destination" : stripeId
