@@ -26,7 +26,7 @@ class Booking {
     var isBooked: Bool?
     var invoiceSent: Bool?
     var invoicePaid: Bool?
-
+    
     init(dictionary: [String: Any]) {
         self.paymentId = dictionary[Constants.PaymentId] as? String ?? ""
         self.id = dictionary[Constants.Id] as? String ?? ""

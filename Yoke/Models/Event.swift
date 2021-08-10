@@ -24,7 +24,7 @@ class Event {
     var timestamp: Date
     var allowsRSVP: Bool?
     var allowsContact: Bool?
-
+    
     init(dictionary: [String: Any]) {
         self.id = dictionary[Constants.Id] as? String ?? ""
         self.uid = dictionary[Constants.Uid] as? String ?? ""
