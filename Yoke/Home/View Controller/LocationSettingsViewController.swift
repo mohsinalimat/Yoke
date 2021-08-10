@@ -10,13 +10,8 @@ import UIKit
 import MapKit
 import FirebaseAuth
 
-
-//https://medium.com/@pravinbendre772/search-for-places-and-display-results-using-mapkit-a987bd6504df
-//https://www.thorntech.com/2016/01/how-to-search-for-location-using-apples-mapkit/
-//https://stackoverflow.com/questions/42091994/how-to-query-nearest-users-in-firebase-with-swift
-
 class LocationSettingsViewController: UIViewController, UISearchBarDelegate, UISearchControllerDelegate {
-
+    
     //MARK: - Properties
     var safeArea: UILayoutGuide {
         return self.view.safeAreaLayoutGuide
@@ -25,7 +20,6 @@ class LocationSettingsViewController: UIViewController, UISearchBarDelegate, UIS
     private let locationManager = LocationManager()
     let pin = MKPointAnnotation()
     var currentLocationStr = "Current location"
-//    var location: String = ""
     var latitude: Double = 0.0
     var longitude: Double = 0.0
     var activities: String = ""
@@ -51,7 +45,6 @@ class LocationSettingsViewController: UIViewController, UISearchBarDelegate, UIS
         UserController.shared.fetchUserWithUID(uid: uid) { (user) in
             guard let username = user.username else { return }
             self.pin.title = "\(username)"
-//            self.pin.subtitle = "The best chef in the world."
             self.streetTextField.text = user.street
             self.apartmentTextField.text = user.apartment
             self.cityTextField.text = user.city
@@ -139,7 +132,6 @@ class LocationSettingsViewController: UIViewController, UISearchBarDelegate, UIS
             var output = ""
             if let locationName = placemark.location {
                 output = output + "\n\(locationName)"
-                // pulls to physical address on mapkit
             }
             if let postal = placemark.postalAddress {
                 self.streetTextField.text = postal.street
@@ -167,7 +159,7 @@ class LocationSettingsViewController: UIViewController, UISearchBarDelegate, UIS
             if let locationName = placemark.location {
                 output = output + "\n\(locationName)"
             }
-      
+            
             self.locationManager.getLocation(forPlaceCalled: output) { location in
                 guard let location = location else { return }
                 let center = CLLocationCoordinate2D(latitude: location.coordinate.latitude, longitude: location.coordinate.longitude)
@@ -180,7 +172,7 @@ class LocationSettingsViewController: UIViewController, UISearchBarDelegate, UIS
             }
         }
     }
-
+    
     func setupNavTitleAndBarButtonItems() {
         navigationItem.title = "Filter"
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Search", style: .plain, target: self, action: #selector(handleSave))

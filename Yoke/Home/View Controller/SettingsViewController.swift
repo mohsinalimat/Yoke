@@ -11,10 +11,8 @@ import Firebase
 import FirebaseFirestore
 import RSKImageCropper
 
-//https://medium.com/@mattkopacz/handling-text-fields-in-table-view-7d50f051368b
-
 class SettingsViewController: UIViewController  {
-
+    
     //MARK: - Properties
     var safeArea: UILayoutGuide {
         return self.view.safeAreaLayoutGuide
@@ -93,7 +91,7 @@ class SettingsViewController: UIViewController  {
         editProfileImageButton.anchor(top: bannerImageView.bottomAnchor, left: nil, bottom: nil, right: nil, paddingTop: -40, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 100, height: 100)
         editProfileImageButton.layer.cornerRadius = 50
         editProfileImageButton.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-    
+        
         settingsLabel.anchor(top: editProfileImageButton.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: nil, paddingTop: -10, paddingLeft: 10, paddingBottom: 0, paddingRight: 0)
         updateButton.anchor(top: editProfileImageButton.bottomAnchor, left: nil, bottom: nil, right: safeArea.rightAnchor, paddingTop: -10, paddingLeft: 0, paddingBottom: 0, paddingRight: 10)
         
@@ -108,12 +106,11 @@ class SettingsViewController: UIViewController  {
         locationLabel.anchor(top: locationView.topAnchor, left: locationView.leftAnchor, bottom: nil, right: nil, paddingTop: 8, paddingLeft: 10, paddingBottom: 10, paddingRight: 10, width: 200, height: 15)
         locationButton.anchor(top: locationView.topAnchor, left: nil, bottom: nil, right: locationView.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 10)
         locationTextField.anchor(top: locationLabel.bottomAnchor, left: locationView.leftAnchor, bottom: nil, right: locationView.rightAnchor, paddingTop: 10, paddingLeft: 10, paddingBottom: 0, paddingRight: 10)
-        
 
         bioView.anchor(top: locationView.bottomAnchor, left: scrollView.leftAnchor, bottom: nil, right: scrollView.rightAnchor, paddingTop: 20, paddingLeft: 10, paddingBottom: 0, paddingRight: 10, width: view.frame.width - 20, height: 202)
         bioLabel.anchor(top: bioView.topAnchor, left: bioView.leftAnchor, bottom: nil, right: bioView.rightAnchor, paddingTop: 10, paddingLeft: 10, paddingBottom: 10, paddingRight: 10, width: view.frame.width, height: 15)
         bioTextView.anchor(top: bioLabel.bottomAnchor, left: bioView.leftAnchor, bottom: nil, right: bioView.rightAnchor, paddingTop: 10, paddingLeft: 10, paddingBottom: 10, paddingRight: 10, width: view.frame.width, height: 150)
-
+        
         chefView.anchor(top: bioView.bottomAnchor, left: scrollView.leftAnchor, bottom: nil, right: scrollView.rightAnchor, paddingTop: 20, paddingLeft: 10, paddingBottom: 10, paddingRight: 10, width: view.frame.width - 20, height: 50)
         chefLabel.anchor(top: nil, left: chefView.leftAnchor, bottom: nil, right: nil, paddingTop: 0, paddingLeft: 10, paddingBottom: 0, paddingRight: 0, width: 200)
         chefLabel.centerYAnchor.constraint(equalTo: chefView.centerYAnchor).isActive = true
@@ -128,7 +125,6 @@ class SettingsViewController: UIViewController  {
     }
     
     fileprivate func fetchUser() {
-//        let uid = Auth.auth().currentUser?.uid ?? ""
         UserController.shared.fetchUserWithUID(uid: uid) { (user) in
             self.setupUserProfile(user: user)
         }
@@ -143,9 +139,6 @@ class SettingsViewController: UIViewController  {
               let state = user.state else { return }
         usernameTextField.text = user.username
         locationTextField.text = "\(city), \(state)"
-//        if bioTextView.text.count == 0 {
-//            bioTextView.placeholder = "Enter bio here"
-//        }
         bioTextView.text = user.bio
         guard let isChef = user.isChef else { return }
         self.chefSwitch.setOn(isChef, animated: true)
@@ -156,7 +149,6 @@ class SettingsViewController: UIViewController  {
             chefPreferenceButton.isEnabled = false
             chefPreferenceButton.setTitleColor(UIColor.orangeColor()?.withAlphaComponent(0.4), for: .normal)
         }
-//        let uid = Auth.auth().currentUser?.uid ?? ""
         let imageStorageRef = Storage.storage().reference().child("profileImageUrl/\(uid)")
         imageStorageRef.getData(maxSize: 2 * 1024 * 1024) { data, error in
             if error == nil, let data = data {
@@ -171,7 +163,7 @@ class SettingsViewController: UIViewController  {
             }
         }
     }
-
+    
     func setupImagePicker() {
         profileImagePicker.delegate = self
         bannerImagePicker.delegate = self
@@ -246,21 +238,21 @@ class SettingsViewController: UIViewController  {
     func deleteUser() {
         guard let user = Auth.auth().currentUser else { return }
         guard let uid = Auth.auth().currentUser?.uid else { return }
-//        UserController.shared.deleteUserData(uid) { (result) in
-//            switch result {
-//            case .success(_):
-//                user.delete { (error) in
-//                    if let error = error {
-//                        print(error)
-//                    } else {
-//                        print("Deleted account")
-//                    }
-//                    self.backToLoginVC()
-//                }
-//            case .failure(let error):
-//                print(error.localizedDescription)
-//            }
-//        }
+        //        UserController.shared.deleteUserData(uid) { (result) in
+        //            switch result {
+        //            case .success(_):
+        //                user.delete { (error) in
+        //                    if let error = error {
+        //                        print(error)
+        //                    } else {
+        //                        print("Deleted account")
+        //                    }
+        //                    self.backToLoginVC()
+        //                }
+        //            case .failure(let error):
+        //                print(error.localizedDescription)
+        //            }
+        //        }
     }
     
     //MARK: - API
@@ -358,7 +350,6 @@ class SettingsViewController: UIViewController  {
     @objc func handleLocation() {
         let locationSettings = LocationSettingsViewController()
         present(locationSettings, animated: true)
-//        navigationController?.pushViewController(locationSettings, animated: true)
     }
     
     @objc func handleEmailPassword() {
@@ -369,7 +360,6 @@ class SettingsViewController: UIViewController  {
     @objc func handleChefPreference() {
         let chefPreference = ChefSettingsViewController()
         present(chefPreference , animated: true)
-//        navigationController?.pushViewController(locationSettings, animated: true)
     }
     
     //MARK: - Views
@@ -441,7 +431,7 @@ class SettingsViewController: UIViewController  {
         button.addTarget(self, action: #selector(handleSaveUserInfo), for: .touchUpInside)
         return button
     }()
-
+    
     let usernameView: ShadowView = {
         let view = ShadowView()
         view.backgroundColor = .white
@@ -589,7 +579,6 @@ class SettingsViewController: UIViewController  {
         button.layer.shadowRadius = 4
         button.layer.shadowOpacity = 0.1
         button.layer.shadowColor = UIColor.lightGray.cgColor
-//        button.addTarget(self, action: #selector(handleLogout), for: .touchUpInside)
         return button
     }()
     
@@ -624,7 +613,7 @@ class SettingsViewController: UIViewController  {
 
 //MARK: - Image Picker
 extension SettingsViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
-
+    
     func openCamera() {
         if isProfileImagePicker {
             if UIImagePickerController.isSourceTypeAvailable(.camera) {
@@ -649,9 +638,8 @@ extension SettingsViewController: UIImagePickerControllerDelegate, UINavigationC
                 self.present(alertVC, animated: true)
             }
         }
-        
     }
-
+    
     func openPhotoLibrary() {
         if isProfileImagePicker {
             if UIImagePickerController.isSourceTypeAvailable(.photoLibrary) {
@@ -676,7 +664,6 @@ extension SettingsViewController: UIImagePickerControllerDelegate, UINavigationC
                 self.present(alertVC, animated: true)
             }
         }
-        
     }
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         if isProfileImagePicker {
@@ -706,7 +693,6 @@ extension SettingsViewController: UIImagePickerControllerDelegate, UINavigationC
                 }
             }
         }
-        
         picker.dismiss(animated: true)
     }
 }
