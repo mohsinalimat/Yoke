@@ -20,7 +20,7 @@ class EventController {
     
     //MARK: - Firebase Firestore Database
     let firestoreDB = Firestore.firestore().collection(Constants.Events)
-    let geoRef = Firestore.firestore().collection("geoFireLocationEvents")
+    let geoRef = Firestore.firestore().collection(Constants.GeoFireLocationEvents)
     let storageRef = Storage.storage().reference().child(Constants.EventImages)
     
     
@@ -91,7 +91,7 @@ class EventController {
                 }
             }
         }
-
+        
     }
     
     func fetchEventWith(uid: String, completion: @escaping (Bool) -> Void) {
@@ -134,7 +134,7 @@ class EventController {
         
         let currentLatitude = latitude
         let currentLongitude = longitude
-
+        
         let circleQuery = GeoFirestore(collectionRef: self.geoRef).query(withCenter: GeoPoint(latitude: currentLatitude, longitude: currentLongitude), radius: 20.0)
         let _ = circleQuery.observeReady {
             print("All initial data has been loaded and events have been fired!")
@@ -176,7 +176,5 @@ class EventController {
                 completion(true)
             }
         }
-        
     }
-    
 }
