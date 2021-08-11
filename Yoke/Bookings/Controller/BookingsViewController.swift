@@ -201,14 +201,14 @@ extension BookingsViewController: UICollectionViewDelegate, UICollectionViewData
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         if collectionView == self.todaysCollectionView {
-//            if MenuController.shared.menus.count == 0 {
-//                let noCell = collectionView.dequeueReusableCell(withReuseIdentifier: noCellId, for: indexPath) as! EmptyCell
-//                noCell.noPostLabel.text = "Hey chef, Add a menu to your profile."
-//                noCell.noPostLabel.font = UIFont.boldSystemFont(ofSize: 15)
-//                return noCell
-//            }
+            //            if MenuController.shared.menus.count == 0 {
+            //                let noCell = collectionView.dequeueReusableCell(withReuseIdentifier: noCellId, for: indexPath) as! EmptyCell
+            //                noCell.noPostLabel.text = "Hey chef, Add a menu to your profile."
+            //                noCell.noPostLabel.font = UIFont.boldSystemFont(ofSize: 15)
+            //                return noCell
+            //            }
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath) as! TodayCollectionViewCell
-    //        cell.review = ReviewController.shared.reviews[indexPath.item]
+            //        cell.review = ReviewController.shared.reviews[indexPath.item]
             return cell
         }
         if collectionView == self.upcomingCollectionView {
@@ -228,29 +228,29 @@ extension BookingsViewController: UICollectionViewDelegate, UICollectionViewData
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
-//        if collectionView == self.menuCollectionView {
-//            if MenuController.shared.menus.count == 0 {
-//                return
-//            } else {
-//                let menu = MenuController.shared.menus[indexPath.row]
-//                let menuVC = AddMenuViewController()
-//                menuVC.menu = menu
-//                menuVC.menuLabel.text = "Edit Menu"
-//                menuVC.dishDetailTextField.placeholder = ""
-//                menuVC.deleteButton.isHidden = false
-//                menuVC.menuExist = true
-//                menuVC.saveButton.setTitle("Update", for: .normal)
-//                present(menuVC, animated: true)
-//            }
-//        } else {
-//            if SuggestedChefController.shared.chefs.count == 0 {
-//                return
-//            } else {
-//                let chef = SuggestedChefController.shared.chefs[indexPath.row].uid
-//                let profileVC = ProfileViewController()
-//                profileVC.userId = chef
-//                navigationController?.pushViewController(profileVC, animated: true)
-//            }
-//        }
+        //        if collectionView == self.menuCollectionView {
+        //            if MenuController.shared.menus.count == 0 {
+        //                return
+        //            } else {
+        //                let menu = MenuController.shared.menus[indexPath.row]
+        //                let menuVC = AddMenuViewController()
+        //                menuVC.menu = menu
+        //                menuVC.menuLabel.text = "Edit Menu"
+        //                menuVC.dishDetailTextField.placeholder = ""
+        //                menuVC.deleteButton.isHidden = false
+        //                menuVC.menuExist = true
+        //                menuVC.saveButton.setTitle("Update", for: .normal)
+        //                present(menuVC, animated: true)
+        //            }
+        //        } else {
+        //            if SuggestedChefController.shared.chefs.count == 0 {
+        //                return
+        //            } else {
+        //                let chef = SuggestedChefController.shared.chefs[indexPath.row].uid
+        //                let profileVC = ProfileViewController()
+        //                profileVC.userId = chef
+        //                navigationController?.pushViewController(profileVC, animated: true)
+        //            }
+        //        }
     }
 }

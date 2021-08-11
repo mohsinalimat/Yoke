@@ -40,7 +40,7 @@ class BookingRequestDetailViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
     }
- 
+    
     //MARK: - Helper Functions
     func setupViews() {
         view.backgroundColor = UIColor.LightGrayBg()
@@ -105,7 +105,7 @@ class BookingRequestDetailViewController: UIViewController {
             } else {
                 payButton.isHidden = true
             }
-
+            
         } else {
             payButton.isHidden = true
             additionalInfoButton.anchor(top: descriptionLabel.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 5, paddingLeft: 20, paddingBottom: 0, paddingRight: 20)
@@ -180,7 +180,7 @@ class BookingRequestDetailViewController: UIViewController {
                 self.additionalInfoButton.setTitle("Need more information from \(username)?", for: .normal)
             }
         }
-
+        
     }
     
     func handleCreateStripeAccount() {
@@ -205,7 +205,7 @@ class BookingRequestDetailViewController: UIViewController {
     @objc func handleAccept() {
         guard let chefUid = booking?.chefUid else { return }
         let docRef = Firestore.firestore().collection(Constants.StripeAccounts).document(chefUid)
-
+        
         docRef.getDocument { (document, error) in
             if let document = document, document.exists {
                 let invoiceVC = CreateInvoiceViewController()
@@ -215,9 +215,9 @@ class BookingRequestDetailViewController: UIViewController {
                 self.handleCreateStripeAccount()
             }
         }
-//        let invoiceVC = CreateInvoiceViewController()
-//        invoiceVC.booking = booking
-//        navigationController?.pushViewController(invoiceVC, animated: true)
+        //        let invoiceVC = CreateInvoiceViewController()
+        //        invoiceVC.booking = booking
+        //        navigationController?.pushViewController(invoiceVC, animated: true)
     }
     
     @objc func handleDecline() {
@@ -425,5 +425,4 @@ class BookingRequestDetailViewController: UIViewController {
         label.lineBreakMode = .byWordWrapping
         return label
     }()
-
 }

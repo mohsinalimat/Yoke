@@ -15,7 +15,7 @@ protocol BookingLocationDelegate {
 }
 
 class BookingLocationViewController: UIViewController {
-
+    
     //MARK: - Properties
     var safeArea: UILayoutGuide {
         return self.view.safeAreaLayoutGuide
@@ -150,7 +150,7 @@ class BookingLocationViewController: UIViewController {
             }
         }
     }
-
+    
     func handleNoLocationFound() {
         let alertController = UIAlertController(title: "We could not find that location", message: "Please check the address entered and try again", preferredStyle: .alert)
         let defaultAction = UIAlertAction(title: "Got it", style: .cancel, handler: nil)
@@ -268,5 +268,4 @@ class BookingLocationViewController: UIViewController {
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
-
 }

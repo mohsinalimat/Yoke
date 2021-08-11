@@ -10,7 +10,7 @@ import UIKit
 import FirebaseAuth
 
 class BookingRequestViewController: UIViewController, BookingLocationDelegate {
-
+    
     //MARK: - Properties
     var safeArea: UILayoutGuide {
         return self.view.safeAreaLayoutGuide
@@ -109,7 +109,7 @@ class BookingRequestViewController: UIViewController, BookingLocationDelegate {
         timePickerViewBG.anchor(top: timeLabelStackView.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: -10, paddingLeft: 10, paddingBottom: 0, paddingRight: 10, height: 55)
         timeStackView.anchor(top: timeLabelStackView.bottomAnchor, left: timeLabelStackView.leftAnchor, bottom: nil, right: timeLabelStackView.rightAnchor, paddingTop: -10, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, height: 50)
         timeStackView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-
+        
         detailView.anchor(top: timeStackView.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 20, paddingLeft: 10, paddingBottom: 0, paddingRight: 10, height: 300)
         detailTextField.anchor(top: detailView.topAnchor, left: detailView.leftAnchor, bottom: detailView.bottomAnchor, right: detailView.rightAnchor, paddingTop: 5, paddingLeft: 5, paddingBottom: 0, paddingRight: 5)
         submitButton.anchor(top: detailView.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 20, paddingLeft: 10, paddingBottom: 0, paddingRight: 10, height: 50)
@@ -234,7 +234,7 @@ class BookingRequestViewController: UIViewController, BookingLocationDelegate {
             peopleCountTextField.text = String(newValue)
             peopleCounter = newValue
         }
-
+        
     }
     
     @objc func handleAddCourseCount() {
@@ -256,7 +256,7 @@ class BookingRequestViewController: UIViewController, BookingLocationDelegate {
             courseCountTextField.text = String(newValue)
             courseCounter = newValue
         }
-
+        
     }
     //MARK: - Views
     lazy var scrollView: UIScrollView = {

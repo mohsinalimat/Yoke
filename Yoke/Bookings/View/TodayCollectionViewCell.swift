@@ -9,12 +9,7 @@
 import UIKit
 
 class TodayCollectionViewCell: UICollectionViewCell {
-//    var menu: Menu? {
-//        didSet {
-//            configure()
-//        }
-//    }
-    
+
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupViews()
@@ -26,12 +21,12 @@ class TodayCollectionViewCell: UICollectionViewCell {
     }
     
     //MARK: - Helper Funtions
-//    func configure() {
-//        guard let menu = menu else { return }
-//        nameLabel.text = menu.name
-//        guard let image = menu.imageUrl else { return }
-//        menuImage.loadImage(urlString: image)
-//    }
+    //    func configure() {
+    //        guard let menu = menu else { return }
+    //        nameLabel.text = menu.name
+    //        guard let image = menu.imageUrl else { return }
+    //        menuImage.loadImage(urlString: image)
+    //    }
     
     func setupViews() {
         addSubview(shadowView)
