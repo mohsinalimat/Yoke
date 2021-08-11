@@ -10,7 +10,7 @@ import UIKit
 import Firebase
 
 class BookmarkedViewController: UIViewController {
-
+    
     //MARK: - Properties
     var safeArea: UILayoutGuide {
         return self.view.safeAreaLayoutGuide
@@ -20,7 +20,7 @@ class BookmarkedViewController: UIViewController {
     var uid = Auth.auth().currentUser?.uid
     let cellId = "cellId"
     let cellId2 = "cellId2"
-
+    
     //MARK: - Lifecycle Methods
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
@@ -94,7 +94,7 @@ class BookmarkedViewController: UIViewController {
             }
         }
     }
-
+    
     func fetchEvents() {
         guard let currentUserId = Auth.auth().currentUser?.uid else { return }
         BookmarkController.shared.fetchBookmarkedEventWith(uid: currentUserId) { result in
@@ -119,14 +119,6 @@ class BookmarkedViewController: UIViewController {
             eventTableView.isHidden = false
         }
     }
-    
-//    @objc func getSegments(index: Int) {
-//        if segmentedControl.selectedSegmentIndex == 0 {
-//            userTableView.reloadData()
-//        } else if segmentedControl.selectedSegmentIndex == 1 {
-//            eventTableView.reloadData()
-//        }
-//    }
     
     //MARK: - Views
     let segmentShadowView: ShadowView = {
@@ -183,6 +175,6 @@ extension BookmarkedViewController: UITableViewDataSource {
 //MARK: - TableView Delegate
 extension BookmarkedViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-
+        
     }
 }

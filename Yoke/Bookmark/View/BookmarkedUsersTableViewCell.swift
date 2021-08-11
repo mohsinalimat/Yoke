@@ -19,13 +19,13 @@ class BookmarkedUsersTableViewCell: UITableViewCell {
     
     //MARK: - Lifecycle Methods
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
-            super.init(style: style, reuseIdentifier: reuseIdentifier)
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
         setupViews()
         setupConstraints()
-     }
-
-     required init?(coder aDecoder: NSCoder) {
-       super.init(coder: aDecoder)
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
     }
     
     //MARK: - Helper Functions
@@ -35,7 +35,7 @@ class BookmarkedUsersTableViewCell: UITableViewCell {
         guard let image = user.profileImageUrl else { return }
         profileImage.loadImage(urlString: image)
     }
-
+    
     func setupViews() {
         addSubview(shadowView)
         addSubview(cellBackgroundView)
@@ -86,5 +86,4 @@ class BookmarkedUsersTableViewCell: UITableViewCell {
         label.numberOfLines = 0
         return label
     }()
-
 }

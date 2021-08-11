@@ -9,7 +9,7 @@
 import UIKit
 
 class BookmakredEventsTableViewCell: UITableViewCell {
-
+    
     //MARK: - Properties
     var event: Event? {
         didSet {
@@ -19,13 +19,13 @@ class BookmakredEventsTableViewCell: UITableViewCell {
     
     //MARK: - Lifecycle Methods
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
-            super.init(style: style, reuseIdentifier: reuseIdentifier)
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
         setupViews()
         setupConstraints()
-     }
-
-     required init?(coder aDecoder: NSCoder) {
-       super.init(coder: aDecoder)
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
     }
     
     //MARK: - Helper Functions
@@ -38,7 +38,7 @@ class BookmakredEventsTableViewCell: UITableViewCell {
         dateLabel.text = event.date
         timeLabel.text = "\(start) - \(end)"
     }
-
+    
     func setupViews() {
         addSubview(shadowView)
         addSubview(cellBackgroundView)
@@ -54,8 +54,8 @@ class BookmakredEventsTableViewCell: UITableViewCell {
     func setupConstraints() {
         shadowView.anchor(top: topAnchor, left: leftAnchor, bottom: bottomAnchor, right: rightAnchor, paddingTop: 10, paddingLeft: 10, paddingBottom: 10, paddingRight: 10)
         cellBackgroundView.anchor(top: topAnchor, left: leftAnchor, bottom: bottomAnchor, right: rightAnchor, paddingTop: 10, paddingLeft: 10, paddingBottom: 10, paddingRight: 10)
-
-//        profileImage.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
+        
+        //        profileImage.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
         nameLabel.anchor(top: cellBackgroundView.topAnchor, left: cellBackgroundView.leftAnchor, bottom: nil, right: cellBackgroundView.rightAnchor, paddingTop: 10, paddingLeft: 5, paddingBottom: 0, paddingRight: 5)
         locationIcon.anchor(top: nameLabel.bottomAnchor, left: cellBackgroundView.leftAnchor, bottom: nil, right: nil, paddingTop: 10, paddingLeft: 5, paddingBottom: 0, paddingRight: 0, width: 15, height: 18)
         locationLabel.anchor(top: nil, left: locationIcon.rightAnchor, bottom: nil, right: nil, paddingTop: 0, paddingLeft: 5, paddingBottom: 0, paddingRight: 0)
@@ -91,7 +91,7 @@ class BookmakredEventsTableViewCell: UITableViewCell {
         label.numberOfLines = 0
         return label
     }()
-
+    
     var locationIcon: UIImageView = {
         let image = UIImageView()
         image.image = UIImage(named: "location-pin-orange")
