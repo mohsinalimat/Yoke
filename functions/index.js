@@ -90,7 +90,7 @@ app.get('/hello', (req, res) => {
 })
 
 app.get('/authorize', async (req, res) => {
-    res.redirect('https://connect.stripe.com/oauth/v2/authorize?redirect_uri=https://foodapp-4ebf0.web.app/token&client_id=ca_FJy4SUnn4WnkK81JVAR5CZhwEACACSIO&response_type=code')
+    res.redirect('https://connect.stripe.com/oauth/v2/authorize?redirect_uri=https:///token&client_id=&response_type=code')
 })
 
 app.get('/token', async (req, res) => {
