@@ -9,7 +9,7 @@ var config = {
 }
 firebase.initializeApp(config)
 // const stripe = require('stripe')(firebase.config().stripe.token)
-// Stripe.setPublishableKey(pk_test_pX3V6XXnlsluthlhaKXHrW5U00WHz0znIt)
+// Stripe.setPublishableKey()
 
 var auth = firebase.auth()
 
