@@ -14,7 +14,7 @@ import TTGTagCollectionView
 import MessageUI
 
 class ChefProfileViewController: UIViewController, TTGTextTagCollectionViewDelegate, MFMailComposeViewControllerDelegate {
-
+    
     //MARK: - Properties
     var safeArea: UILayoutGuide {
         return self.view.safeAreaLayoutGuide
@@ -50,7 +50,7 @@ class ChefProfileViewController: UIViewController, TTGTextTagCollectionViewDeleg
         setupCollectionView()
         checkIfBookmarked()
     }
-
+    
     //MARK: - Helper Functions
     func configureNavigationBar() {
         guard let orange = UIColor.orangeColor() else { return }
@@ -85,7 +85,7 @@ class ChefProfileViewController: UIViewController, TTGTextTagCollectionViewDeleg
         scrollView.addSubview(menuLabel)
         scrollView.addSubview(menuCollectionView)
     }
-
+    
     func setupButtonImages() {
         reviewsButton.alignImageTextVertical()
         eventButton.alignImageTextVertical()
@@ -96,7 +96,7 @@ class ChefProfileViewController: UIViewController, TTGTextTagCollectionViewDeleg
     func constrainViews() {
         scrollView.anchor(top: safeArea.topAnchor, left: safeArea.leftAnchor, bottom: safeArea.bottomAnchor, right: safeArea.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0)
         bannerImageView.anchor(top: scrollView.topAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, height: 300)
-    
+        
         bannerLayerImage.anchor(top: scrollView.topAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, height: 300)
         
         profileImageView.anchor(top: bannerImageView.topAnchor, left: safeArea.leftAnchor, bottom: nil, right: nil, paddingTop: 100, paddingLeft: 5, paddingBottom: 5, paddingRight: 0, width: 150, height: 150)
@@ -112,25 +112,25 @@ class ChefProfileViewController: UIViewController, TTGTextTagCollectionViewDeleg
         buttonStackView.anchor(top: profileImageView.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 20, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, height: 100)
         
         bioView.anchor(top: buttonStackView.bottomAnchor, left: safeArea.leftAnchor, bottom: bioTextLabel.bottomAnchor, right: safeArea.rightAnchor, paddingTop: -10, paddingLeft: 0, paddingBottom: 0, paddingRight: 0)
-
+        
         bioLabel.anchor(top: buttonStackView.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 5, paddingLeft: 15, paddingBottom: 0, paddingRight: 5)
-
+        
         bioTextLabel.anchor(top: bioLabel.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 10, paddingLeft: 15, paddingBottom: 0, paddingRight: 15)
         
         cusineView.anchor(top: bioView.bottomAnchor, left: safeArea.leftAnchor, bottom: cusineCollectionView.bottomAnchor, right: safeArea.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0)
         cusineLabel.anchor(top: bioView.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: nil, paddingTop: 20, paddingLeft: 15, paddingBottom: 0, paddingRight: 0)
         cusineCollectionView.anchor(top: cusineLabel.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 0, paddingLeft: 15, paddingBottom: 0, paddingRight: 5, height: 45)
         collectionViewBG.anchor(top: cusineCollectionView.bottomAnchor, left: safeArea.leftAnchor, bottom: scrollView.bottomAnchor, right: safeArea.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 8, paddingRight: 0, height: 200)
-
+        
         menuLabel.anchor(top: collectionViewBG.topAnchor, left: collectionViewBG.leftAnchor, bottom: nil, right: nil, paddingTop: 10, paddingLeft: 10, paddingBottom: 0, paddingRight: 5)
-
+        
         menuCollectionView.anchor(top: menuLabel.bottomAnchor, left: collectionViewBG.leftAnchor, bottom: collectionViewBG.bottomAnchor, right: collectionViewBG.rightAnchor, paddingTop: -30, paddingLeft: 5, paddingBottom: 5, paddingRight: 5)
     }
     
     func constrainViewsForUser() {
         scrollView.anchor(top: safeArea.topAnchor, left: safeArea.leftAnchor, bottom: safeArea.bottomAnchor, right: safeArea.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0)
         bannerImageView.anchor(top: scrollView.topAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, height: 300)
-    
+        
         bannerLayerImage.anchor(top: scrollView.topAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, height: 300)
         
         profileImageView.anchor(top: bannerImageView.topAnchor, left: safeArea.leftAnchor, bottom: nil, right: nil, paddingTop: 100, paddingLeft: 5, paddingBottom: 5, paddingRight: 0, width: 150, height: 150)
@@ -145,9 +145,9 @@ class ChefProfileViewController: UIViewController, TTGTextTagCollectionViewDeleg
         reviewsButton.anchor(top: locationLabel.topAnchor, left: ratingView.rightAnchor, bottom: ratingView.bottomAnchor, right: nil, paddingTop: 5, paddingLeft: 10, paddingBottom: 0, paddingRight: 0)
         
         bioView.anchor(top: bioLabel.topAnchor, left: safeArea.leftAnchor, bottom: bioTextLabel.bottomAnchor, right: safeArea.rightAnchor, paddingTop: -10, paddingLeft: 5, paddingBottom: -10, paddingRight: 5)
-
+        
         bioLabel.anchor(top: profileImageView.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 20, paddingLeft: 15, paddingBottom: 0, paddingRight: 5)
-
+        
         bioTextLabel.anchor(top: bioLabel.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 10, paddingLeft: 15, paddingBottom: 0, paddingRight: 15)
     }
     
@@ -512,7 +512,7 @@ class ChefProfileViewController: UIViewController, TTGTextTagCollectionViewDeleg
         image.image = UIImage(named: "gradientBlack")
         image.clipsToBounds = true
         image.contentMode = .scaleAspectFill
-//        image.alpha = 0.8
+        //        image.alpha = 0.8
         return image
     }()
     
@@ -536,7 +536,7 @@ class ChefProfileViewController: UIViewController, TTGTextTagCollectionViewDeleg
         view.layer.cornerRadius = 10
         return view
     }()
-
+    
     let usernameLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.boldSystemFont(ofSize: 25)
@@ -575,10 +575,10 @@ class ChefProfileViewController: UIViewController, TTGTextTagCollectionViewDeleg
         stackView.spacing = 1
         stackView.backgroundColor = UIColor.clear
         stackView.layer.cornerRadius = 10
-//        stackView.layer.shadowOffset = CGSize(width: 0, height: 4)
-//        stackView.layer.shadowRadius = 4
-//        stackView.layer.shadowOpacity = 0.1
-//        stackView.layer.shadowColor = UIColor.gray.cgColor
+        //        stackView.layer.shadowOffset = CGSize(width: 0, height: 4)
+        //        stackView.layer.shadowRadius = 4
+        //        stackView.layer.shadowOpacity = 0.1
+        //        stackView.layer.shadowColor = UIColor.gray.cgColor
         return stackView
     }()
     
@@ -704,7 +704,7 @@ class ChefProfileViewController: UIViewController, TTGTextTagCollectionViewDeleg
         label.font = UIFont.boldSystemFont(ofSize: 28)
         return label
     }()
-
+    
     let menuCollectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal
@@ -759,7 +759,6 @@ extension ChefProfileViewController: UICollectionViewDelegate, UICollectionViewD
                 return CGSize(width: view.frame.width - 20, height: 200)
             } else {
                 return CGSize(width: view.frame.width - 40, height: 160)
-//                return CGSize(width: view.frame.width / 2, height: 200)
             }
         }
         return CGSize(width: 150, height: 200)
@@ -778,11 +777,11 @@ extension ChefProfileViewController: UICollectionViewDelegate, UICollectionViewD
             }
         }
     }
-
+    
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
         return 5
     }
-
+    
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
         return 5
     }

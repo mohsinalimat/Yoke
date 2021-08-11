@@ -101,7 +101,7 @@ class NewReviewViewController: UIViewController {
                 }
             }
         }
-       
+        
     }
     
     // MARK: - Views
@@ -133,7 +133,7 @@ class NewReviewViewController: UIViewController {
     
     let ratingView: RatingView = {
         let view = RatingView()
-//        view.backgroundColor = .white
+        //        view.backgroundColor = .white
         view.minRating = 0
         view.maxRating = 5
         view.rating = 0
@@ -143,7 +143,7 @@ class NewReviewViewController: UIViewController {
         view.tintColor = UIColor.orangeColor()
         return view
     }()
-
+    
     let ratingLabel: UILabel = {
         let label = UILabel()
         label.text = "Select a rating"

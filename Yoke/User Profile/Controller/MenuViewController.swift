@@ -10,7 +10,7 @@ import UIKit
 import FirebaseAuth
 
 class MenuViewController: UIViewController {
-
+    
     //MARK: - Properties
     var safeArea: UILayoutGuide {
         return self.view.safeAreaLayoutGuide
@@ -33,7 +33,7 @@ class MenuViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
     }
- 
+    
     //MARK: - Helper Functions
     func setupViews() {
         view.backgroundColor = UIColor.LightGrayBg()
@@ -58,7 +58,7 @@ class MenuViewController: UIViewController {
         menuLabel.anchor(top: detailViews.topAnchor, left: safeArea.leftAnchor, bottom: nil, right: nil, paddingTop: 10, paddingLeft: 10, paddingBottom: 0, paddingRight: 10)
         menuTypeLabel.anchor(top: menuLabel.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 10, paddingLeft: 10, paddingBottom: 0, paddingRight: 10)
         dishDetailTextView.anchor(top: menuTypeLabel.bottomAnchor, left: safeArea.leftAnchor, bottom: scrollView.bottomAnchor, right: safeArea.rightAnchor, paddingTop: 10, paddingLeft: 10, paddingBottom: 0, paddingRight: 10, height: 100)
-
+        
     }
     
     func fetchMenu() {
@@ -145,5 +145,4 @@ class MenuViewController: UIViewController {
         label.textColor = .gray
         return label
     }()
-
 }

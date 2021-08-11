@@ -14,7 +14,7 @@ import TTGTagCollectionView
 import MessageUI
 
 class UserProfileViewController: UIViewController, TTGTextTagCollectionViewDelegate, MFMailComposeViewControllerDelegate {
-
+    
     //MARK: - Properties
     var safeArea: UILayoutGuide {
         return self.view.safeAreaLayoutGuide
@@ -46,7 +46,7 @@ class UserProfileViewController: UIViewController, TTGTextTagCollectionViewDeleg
         fetchUser()
         checkIfBookmarked()
     }
-
+    
     //MARK: - Helper Functions
     func configureNavigationBar() {
         guard let orange = UIColor.orangeColor() else { return }
@@ -74,7 +74,7 @@ class UserProfileViewController: UIViewController, TTGTextTagCollectionViewDeleg
         scrollView.addSubview(bioLabel)
         scrollView.addSubview(bioTextLabel)
     }
-
+    
     func setupButtonImages() {
         reviewsButton.alignImageTextVertical()
         eventButton.alignImageTextVertical()
@@ -84,7 +84,7 @@ class UserProfileViewController: UIViewController, TTGTextTagCollectionViewDeleg
     func constrainViews() {
         scrollView.anchor(top: safeArea.topAnchor, left: safeArea.leftAnchor, bottom: safeArea.bottomAnchor, right: safeArea.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0)
         bannerImageView.anchor(top: scrollView.topAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, height: 300)
-    
+        
         bannerLayerImage.anchor(top: scrollView.topAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, height: 300)
         
         profileImageView.anchor(top: bannerImageView.topAnchor, left: safeArea.leftAnchor, bottom: nil, right: nil, paddingTop: 100, paddingLeft: 5, paddingBottom: 5, paddingRight: 0, width: 150, height: 150)
@@ -100,9 +100,9 @@ class UserProfileViewController: UIViewController, TTGTextTagCollectionViewDeleg
         buttonStackView.anchor(top: profileImageView.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 20, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, height: 100)
         
         bioView.anchor(top: buttonStackView.bottomAnchor, left: safeArea.leftAnchor, bottom: bioTextLabel.bottomAnchor, right: safeArea.rightAnchor, paddingTop: -10, paddingLeft: 0, paddingBottom: 0, paddingRight: 0)
-
+        
         bioLabel.anchor(top: buttonStackView.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 5, paddingLeft: 15, paddingBottom: 0, paddingRight: 5)
-
+        
         bioTextLabel.anchor(top: bioLabel.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 10, paddingLeft: 15, paddingBottom: 0, paddingRight: 15)
     }
     
@@ -365,7 +365,7 @@ class UserProfileViewController: UIViewController, TTGTextTagCollectionViewDeleg
         image.image = UIImage(named: "gradientBlack")
         image.clipsToBounds = true
         image.contentMode = .scaleAspectFill
-//        image.alpha = 0.8
+        //        image.alpha = 0.8
         return image
     }()
     
@@ -389,7 +389,7 @@ class UserProfileViewController: UIViewController, TTGTextTagCollectionViewDeleg
         view.layer.cornerRadius = 10
         return view
     }()
-
+    
     let usernameLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.boldSystemFont(ofSize: 25)
@@ -543,7 +543,7 @@ class UserProfileViewController: UIViewController, TTGTextTagCollectionViewDeleg
         label.font = UIFont.boldSystemFont(ofSize: 28)
         return label
     }()
-
+    
     let menuCollectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal

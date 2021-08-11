@@ -14,7 +14,7 @@ protocol SearchUsersFilterDelegate {
 }
 
 class SearchFilterViewController: UIViewController {
-
+    
     //MARK: - Properties
     var delegate: SearchUsersFilterDelegate?
     var safeArea: UILayoutGuide {
@@ -57,8 +57,8 @@ class SearchFilterViewController: UIViewController {
     }
     
     func constrainViews() {
-//        mapView.anchor(top: safeArea.topAnchor, bottom: nil, leading: safeArea.leadingAnchor, trailing: safeArea.trailingAnchor, topPadding: 10, bottomPadding: 0, leadingPadding: 10, trailingPadding: 10, width: view.frame.width, height: 200)
-//        locationView.anchor(top: mapView.bottomAnchor, bottom: nil, leading: safeArea.leadingAnchor, trailing: safeArea.trailingAnchor, topPadding: 10, bottomPadding: 0, leadingPadding: 10, trailingPadding: -10, height: 25)
+        //        mapView.anchor(top: safeArea.topAnchor, bottom: nil, leading: safeArea.leadingAnchor, trailing: safeArea.trailingAnchor, topPadding: 10, bottomPadding: 0, leadingPadding: 10, trailingPadding: 10, width: view.frame.width, height: 200)
+        //        locationView.anchor(top: mapView.bottomAnchor, bottom: nil, leading: safeArea.leadingAnchor, trailing: safeArea.trailingAnchor, topPadding: 10, bottomPadding: 0, leadingPadding: 10, trailingPadding: -10, height: 25)
         
     }
     
@@ -83,7 +83,7 @@ class SearchFilterViewController: UIViewController {
             }
         }
     }
-
+    
     func setupNavTitleAndBarButtonItems() {
         navigationItem.title = "Filter"
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Search", style: .plain, target: self, action: #selector(handleSave))
@@ -124,7 +124,7 @@ class SearchFilterViewController: UIViewController {
     
     var locationSwitch: UISwitch = {
         let switchBool = UISwitch()
-//        switchBool.tintColor = UIColor.blueColor()
+        //        switchBool.tintColor = UIColor.blueColor()
         switchBool.onTintColor = UIColor.orangeColor()
         switchBool.setOn(false, animated: true)
         return switchBool
@@ -149,13 +149,13 @@ extension SearchFilterViewController : CLLocationManagerDelegate {
     }
     func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         if let location = locations.first {
-//            let span = MKCoordinateSpanMake(0.05, 0.05)
-//            let region = MKCoordinateRegion(center: location.coordinate, span: span)
-//            mapView.setRegion(region, animated: true)
+            //            let span = MKCoordinateSpanMake(0.05, 0.05)
+            //            let region = MKCoordinateRegion(center: location.coordinate, span: span)
+            //            mapView.setRegion(region, animated: true)
         }
     }
     
     func locationManager(manager: CLLocationManager, didFailWithError error: NSError) {
-            print("error:: (error)")
-        }
+        print("error:: (error)")
+    }
 }

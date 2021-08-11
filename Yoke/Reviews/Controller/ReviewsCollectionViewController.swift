@@ -10,7 +10,7 @@ import UIKit
 import FirebaseAuth
 
 class ReviewsCollectionViewController: UICollectionViewController, UICollectionViewDelegateFlowLayout, FloatRatingViewDelegate {
-
+    
     //MARK: Properties
     let cellId = "cellId"
     let noCellId = "noCellId"
@@ -65,7 +65,7 @@ class ReviewsCollectionViewController: UICollectionViewController, UICollectionV
         }
         
     }
-
+    
     // MARK: UICollectionViewDataSource
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         if ReviewController.shared.reviews.count == 0 {
@@ -73,7 +73,7 @@ class ReviewsCollectionViewController: UICollectionViewController, UICollectionV
         }
         return ReviewController.shared.reviews.count
     }
-
+    
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         if ReviewController.shared.reviews.count == 0 {
             let noCell = collectionView.dequeueReusableCell(withReuseIdentifier: noCellId, for: indexPath) as! EmptyCell
@@ -86,7 +86,7 @@ class ReviewsCollectionViewController: UICollectionViewController, UICollectionV
         cell.review = ReviewController.shared.reviews[indexPath.item]
         return cell
     }
-
+    
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         
         if ReviewController.shared.reviews.count == 0 {

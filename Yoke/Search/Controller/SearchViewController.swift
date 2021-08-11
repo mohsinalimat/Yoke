@@ -12,12 +12,11 @@ import FirebaseStorage
 import FirebaseAuth
 
 class SearchViewController: UITableViewController {
-
+    
     //MARK: - Properties
     var safeArea: UILayoutGuide {
         return self.view.safeAreaLayoutGuide
     }
-//    let tableView = UITableView()
     var searchController = UISearchController()
     let firestoreDB = Firestore.firestore()
     var getLocation: String = ""
@@ -29,7 +28,7 @@ class SearchViewController: UITableViewController {
     }
     override func viewDidLoad() {
         super.viewDidLoad()
-//        configureNavigationBar()
+        //        configureNavigationBar()
         fetchUsers()
         setupTableView()
         setupSearch()
@@ -61,12 +60,12 @@ class SearchViewController: UITableViewController {
         searchController.searchBar.autocapitalizationType = .none
         searchController.obscuresBackgroundDuringPresentation = false
         searchController.searchBar.delegate = self
-
+        
         navigationItem.searchController = searchController
         navigationItem.hidesSearchBarWhenScrolling = false
         navigationController?.view.setNeedsLayout()
         navigationController?.view.layoutIfNeeded()
-
+        
         guard let orange = UIColor.orangeColor() else { return }
         searchController.searchBar.tintColor = orange
         searchController.searchBar.barTintColor = orange
@@ -131,4 +130,3 @@ extension SearchViewController: UISearchResultsUpdating, UISearchControllerDeleg
         }
     }
 }
-

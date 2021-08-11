@@ -11,7 +11,7 @@ import FirebaseAuth
 import FirebaseFirestore
 
 class SearchTableViewCell: UITableViewCell {
-
+    
     var user: User? {
         didSet {
             configure()
@@ -19,13 +19,13 @@ class SearchTableViewCell: UITableViewCell {
     }
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
-            super.init(style: style, reuseIdentifier: reuseIdentifier)
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
         setupViews()
         setupConstraints()
-     }
-
-     required init?(coder aDecoder: NSCoder) {
-       super.init(coder: aDecoder)
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
     }
     
     func configure() {
@@ -125,7 +125,7 @@ class SearchTableViewCell: UITableViewCell {
         label.font = UIFont.systemFont(ofSize: 13)
         return label
     }()
-
+    
     let ratingView: RatingView = {
         let view = RatingView()
         view.backgroundColor = .clear

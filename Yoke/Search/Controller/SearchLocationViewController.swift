@@ -14,7 +14,7 @@ protocol HandleMapSearch {
 }
 
 class SearchLocationViewController: UIViewController {
-
+    
     let locationManager1 = CLLocationManager()
     var mapView = MKMapView()
     var resultSearchController: UISearchController? = nil
@@ -42,29 +42,25 @@ class SearchLocationViewController: UIViewController {
         
         locationSearchTable.mapView = mapView
         locationSearchTable.handleMapSearchDelegate = self
-
+        
     }
-
+    
 }
 
 extension SearchLocationViewController: CLLocationManagerDelegate {
-
+    
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         if let location = locations.first {
             let span = MKCoordinateSpan(latitudeDelta: 0.05, longitudeDelta: 0.05)
             let region = MKCoordinateRegion(center: location.coordinate, span: span)
             mapView.setRegion(region, animated: true)
         }
-
+        
     }
     @objc(locationManager:didFailWithError:)
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
         print(error.localizedDescription)
     }
-
-//    private func locationManager(manager: CLLocationManager, didFailWithError error: NSError) {
-//        print("error:: \(error)")
-//    }
 }
 
 extension SearchLocationViewController: HandleMapSearch {
@@ -78,11 +74,10 @@ extension SearchLocationViewController: HandleMapSearch {
         annotation.coordinate = placemark.coordinate
         annotation.title = placemark.name
         if let city = placemark.locality,
-        let state = placemark.administrativeArea {
+           let state = placemark.administrativeArea {
             annotation.subtitle = "\(city) \(state)"
         }
         mapView.addAnnotation(annotation)
-        
         let span = MKCoordinateSpan(latitudeDelta: 0.01, longitudeDelta: 0.01)
         let region = MKCoordinateRegion(center: placemark.coordinate, span: span)
         mapView.setRegion(region, animated: true)
