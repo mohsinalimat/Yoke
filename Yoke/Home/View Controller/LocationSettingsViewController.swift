@@ -342,5 +342,3 @@ class LocationSettingsViewController: UIViewController, UISearchBarDelegate, UIS
         return view
     }()
 }
-
-
