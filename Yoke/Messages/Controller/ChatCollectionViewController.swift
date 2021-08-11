@@ -10,14 +10,14 @@ import UIKit
 import FirebaseAuth
 
 class ChatCollectionViewController: UICollectionViewController, UICollectionViewDelegateFlowLayout {
-
+    
     //MARK: - Properties
     let cellId = "cellId"
     var userId: String?
     var user: User?
     private var messages = [Message]()
     var fromCurrentUser = false
-
+    
     //MARK: - Lifecycle Methods
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -43,7 +43,7 @@ class ChatCollectionViewController: UICollectionViewController, UICollectionView
     override var canBecomeFirstResponder: Bool {
         return true
     }
-
+    
     //MARK: - Helper Functions
     func setupCollectionView() {
         collectionView.backgroundColor = .white
@@ -71,12 +71,12 @@ class ChatCollectionViewController: UICollectionViewController, UICollectionView
             self.navigationItem.title = username
         }
     }
-
+    
     // MARK: UICollectionViewDataSource
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return messages.count
     }
-
+    
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath) as! ChatCell
         cell.message = messages[indexPath.row]
@@ -84,7 +84,7 @@ class ChatCollectionViewController: UICollectionViewController, UICollectionView
         cell.setupProfileImage(uid: uid)
         return cell
     }
-
+    
     // MARK: UICollectionViewDelegate
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let frame = CGRect(x: 0, y: 0, width: view.frame.width, height: 50)
@@ -99,7 +99,7 @@ class ChatCollectionViewController: UICollectionViewController, UICollectionView
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
         return .init(top: 16, left: 0, bottom: 16, right: 0)
     }
-
+    
     //MARK: - Views
     private lazy var chatInputView: ChatInputAccessoryView = {
         let customView = ChatInputAccessoryView(frame: CGRect(x: 0, y: 0, width: view.frame.width, height: 100))

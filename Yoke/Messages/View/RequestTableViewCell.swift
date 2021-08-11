@@ -10,7 +10,7 @@ import UIKit
 import FirebaseAuth
 
 class RequestTableViewCell: UITableViewCell {
-
+    
     //MARK: - Properties
     var booking: Booking? {
         didSet {
@@ -20,13 +20,13 @@ class RequestTableViewCell: UITableViewCell {
     
     //MARK: - Lifecycle Methods
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
-            super.init(style: style, reuseIdentifier: reuseIdentifier)
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
         setupViews()
         setupConstraints()
-     }
-
-     required init?(coder aDecoder: NSCoder) {
-       super.init(coder: aDecoder)
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
     }
     
     //MARK: - Helper Functions
@@ -63,7 +63,7 @@ class RequestTableViewCell: UITableViewCell {
         timestampLabel.text = booking.timestamp.timeAgoDisplay()
         dateLabel.text = booking.date
     }
-
+    
     func setupViews() {
         addSubview(shadowView)
         addSubview(timestampLabel)

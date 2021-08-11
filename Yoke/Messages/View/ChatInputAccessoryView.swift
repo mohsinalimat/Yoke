@@ -8,7 +8,7 @@
 
 import UIKit
 
-protocol ChatInputAccessoryViewDelegate: class {
+protocol ChatInputAccessoryViewDelegate: AnyObject {
     func inputView(_ inputView: ChatInputAccessoryView, wantsToSend message: String)
 }
 
@@ -27,7 +27,7 @@ class ChatInputAccessoryView: UIView {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-
+    
     
     //MARK: - Helper Functions
     func setupViews() {
@@ -39,12 +39,12 @@ class ChatInputAccessoryView: UIView {
         addSubview(sendButton)
         addSubview(messageInputTextView)
     }
-
+    
     func constrainViews() {
         sendButton.anchor(top: messageInputTextView.topAnchor, left: messageInputTextView.rightAnchor, bottom: messageInputTextView.bottomAnchor, right: safeAreaLayoutGuide.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 75)
         messageInputTextView.anchor(top: topAnchor, left: safeAreaLayoutGuide.leftAnchor, bottom: safeAreaLayoutGuide.bottomAnchor, right: sendButton.leftAnchor, paddingTop: 10, paddingLeft: 5, paddingBottom: 5, paddingRight: 5)
     }
-
+    
     func clearText() {
         messageInputTextView.text = ""
         messageInputTextView.placeholder = "Enter message..."

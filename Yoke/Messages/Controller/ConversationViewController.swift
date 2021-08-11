@@ -11,7 +11,7 @@ import FirebaseAuth
 import FirebaseFirestore
 
 class ConversationViewController: UIViewController {
-
+    
     //MARK: - Properties
     var safeArea: UILayoutGuide {
         return self.view.safeAreaLayoutGuide
@@ -56,7 +56,7 @@ class ConversationViewController: UIViewController {
         segmentedControl.anchor(top: safeArea.topAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, height: 45)
         messageTableView.anchor(top: segmentedControl.bottomAnchor, left: safeArea.leftAnchor, bottom: safeArea.bottomAnchor, right: safeArea.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0)
         requestTableView.anchor(top: segmentedControl.bottomAnchor, left: safeArea.leftAnchor, bottom: safeArea.bottomAnchor, right: safeArea.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0)
-
+        
     }
     
     func configureNavigationBar() {
@@ -199,7 +199,7 @@ extension ConversationViewController: UITableViewDataSource {
                 guard let indexToDelete = ConversationController.shared.conversations.firstIndex(of: conversation) else { return }
                 ConversationController.shared.conversations.remove(at: indexToDelete)
                 messageTableView.deleteRows(at: [indexPath], with: .fade)
-
+                
                 ConversationController.shared.deleteConversation(chatParnterId: conversation.message.chatPartnerId) { (result) in
                     switch result {
                     default:

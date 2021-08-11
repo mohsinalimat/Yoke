@@ -9,7 +9,7 @@
 import UIKit
 
 class MessageTableViewCell: UITableViewCell {
-
+    
     //MARK: - Properties
     var conversation: Conversation? {
         didSet {
@@ -19,13 +19,13 @@ class MessageTableViewCell: UITableViewCell {
     
     //MARK: - Lifecycle Methods
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
-            super.init(style: style, reuseIdentifier: reuseIdentifier)
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
         setupViews()
         setupConstraints()
-     }
-
-     required init?(coder aDecoder: NSCoder) {
-       super.init(coder: aDecoder)
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
     }
     
     //MARK: - Helper Functions
@@ -37,7 +37,7 @@ class MessageTableViewCell: UITableViewCell {
         profileImage.loadImage(urlString: image)
         timestampLabel.text = conversation.message.timestamp.timeAgoDisplay()
     }
-
+    
     func setupViews() {
         addSubview(shadowView)
         addSubview(cellBackgroundView)
@@ -109,5 +109,4 @@ class MessageTableViewCell: UITableViewCell {
         label.textColor = .lightGray
         return label
     }()
-
 }
