@@ -29,7 +29,7 @@ class ReviewInputAccessoryView: UIView {
         
         addSubview(submitButton)
         addSubview(reviewTextView)
-    
+        
     }
     
     func constrainViews() {
@@ -43,7 +43,7 @@ class ReviewInputAccessoryView: UIView {
         
         setupLineSeparatorView()
     }
- 
+    
     override var intrinsicContentSize: CGSize {
         return .zero
     }
@@ -66,7 +66,7 @@ class ReviewInputAccessoryView: UIView {
     
     func clearReviewTextField() {
         reviewTextView.text = nil
-//        reviewTextView.showPlaceholderLabel()
+        //        reviewTextView.showPlaceholderLabel()
     }
     
     fileprivate let reviewTextView: UITextView = {

@@ -73,9 +73,9 @@ class ReviewsCollectionViewCell: UICollectionViewCell {
         profileImageView.layer.cornerRadius = 75 / 2
         
         timestampLabel.anchor(top: cellBackgroundView.topAnchor, left: nil, bottom: nil, right: cellBackgroundView.rightAnchor, paddingTop: 5, paddingLeft: 0, paddingBottom: 0, paddingRight: 10)
-    
+        
         textView.anchor(top: timestampLabel.bottomAnchor, left: profileImageView.rightAnchor, bottom: nil, right: cellBackgroundView.rightAnchor, paddingTop: -5, paddingLeft: 5, paddingBottom: 0, paddingRight: 10)
-
+        
         ratingView.anchor(top: textView.bottomAnchor, left: textView.leftAnchor, bottom: nil, right: nil, paddingTop: 0, paddingLeft: 5, paddingBottom: 0, paddingRight: 25, width: 80, height: 40)
     }
     
