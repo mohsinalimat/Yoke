@@ -45,7 +45,7 @@ class EventLocationViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupNavTitleAndBarButtonItems()
-//        fetchUser()
+        //        fetchUser()
     }
     
     //MARK: - Helper Functions
@@ -153,7 +153,7 @@ class EventLocationViewController: UIViewController {
             }
         }
     }
-
+    
     func handleNoLocationFound() {
         let alertController = UIAlertController(title: "We could not find that location", message: "Please check the address entered and try again", preferredStyle: .alert)
         let defaultAction = UIAlertAction(title: "Got it", style: .cancel, handler: nil)
@@ -289,8 +289,3 @@ class EventLocationViewController: UIViewController {
         return view
     }()
 }
-
-
-
-
-

@@ -11,7 +11,7 @@ import FirebaseAuth
 import Firebase
 
 class EventDetailViewController: UIViewController {
-
+    
     //MARK: - Properties
     var safeArea: UILayoutGuide {
         return self.view.safeAreaLayoutGuide
@@ -38,7 +38,7 @@ class EventDetailViewController: UIViewController {
         fetchEvent()
         checkIfBookmarked()
     }
- 
+    
     //MARK: - Helper Functions
     func configureNavigationBar() {
         guard let orange = UIColor.orangeColor(),
@@ -98,7 +98,7 @@ class EventDetailViewController: UIViewController {
         timeLabel.centerYAnchor.constraint(equalTo: timeIcon.centerYAnchor).isActive = true
         descriptionLabel.anchor(top: timeLabel.bottomAnchor, left: detailViews.leftAnchor, bottom: nil, right: detailViews.rightAnchor, paddingTop: 20, paddingLeft: 10, paddingBottom: 0, paddingRight: 10)
         buttonStackView.anchor(top: descriptionLabel.bottomAnchor, left: detailViews.leftAnchor, bottom: nil, right: detailViews.rightAnchor, paddingTop: 20, paddingLeft: 10, paddingBottom: 0, paddingRight: 10, height: 45)
-
+        
     }
     
     func fetchEvent() {
@@ -109,7 +109,7 @@ class EventDetailViewController: UIViewController {
                   let end = event.endTime,
                   let eventImg = event.eventImageUrl,
                   let image = user.profileImageUrl,
-                        let username = user.username else { return }
+                  let username = user.username else { return }
             self.profileImage.loadImage(urlString: image)
             self.usernameLabel.text = "Posted by: \(username)"
             let timestamp = event.timestamp.timeAgoDisplay()

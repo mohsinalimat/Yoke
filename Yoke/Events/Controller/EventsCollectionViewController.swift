@@ -11,7 +11,6 @@ import FirebaseAuth
 
 class EventsCollectionViewController: UICollectionViewController, UICollectionViewDelegateFlowLayout {
     
-
     //MARK: Properties
     let cellId = "cellId"
     let noCellId = "noCellId"
@@ -39,12 +38,12 @@ class EventsCollectionViewController: UICollectionViewController, UICollectionVi
         searchController.searchBar.autocapitalizationType = .none
         searchController.obscuresBackgroundDuringPresentation = false
         searchController.searchBar.delegate = self
-
+        
         navigationItem.searchController = searchController
         navigationItem.hidesSearchBarWhenScrolling = false
         navigationController?.view.setNeedsLayout()
         navigationController?.view.layoutIfNeeded()
-
+        
         guard let orange = UIColor.orangeColor() else { return }
         searchController.searchBar.tintColor = orange
         searchController.searchBar.barTintColor = orange
@@ -78,7 +77,7 @@ class EventsCollectionViewController: UICollectionViewController, UICollectionVi
             return EventController.shared.filteredEvents.count
         }
     }
-
+    
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath) as! EventCollectionViewCell
         if EventController.shared.filteredEvents.count == 0 {
@@ -90,7 +89,7 @@ class EventsCollectionViewController: UICollectionViewController, UICollectionVi
         cell.event = EventController.shared.filteredEvents[indexPath.item]
         return cell
     }
-
+    
     // MARK: UICollectionViewDelegate
     override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let event = EventController.shared.filteredEvents[indexPath.item]

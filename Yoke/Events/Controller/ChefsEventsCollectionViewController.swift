@@ -64,12 +64,12 @@ class ChefsEventsCollectionViewController: UICollectionViewController, UICollect
         let addEvent = NewEventViewController()
         present(addEvent, animated: true)
     }
-
+    
     // MARK: UICollectionViewDataSource
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return EventController.shared.events.count
     }
-
+    
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath) as! ChefsEventsCollectionViewCell
         if EventController.shared.events.count == 0 {
@@ -81,7 +81,7 @@ class ChefsEventsCollectionViewController: UICollectionViewController, UICollect
         cell.event = EventController.shared.events[indexPath.item]
         return cell
     }
-
+    
     // MARK: UICollectionViewDelegate
     override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         if EventController.shared.events.count == 0 {
@@ -97,7 +97,6 @@ class ChefsEventsCollectionViewController: UICollectionViewController, UICollect
             eventVC.saveButton.setTitle("Update", for: .normal)
             present(eventVC, animated: true)
         }
-        
     }
     
     // MARK: UICollectionViewDelegateFlowLayout
@@ -108,5 +107,4 @@ class ChefsEventsCollectionViewController: UICollectionViewController, UICollect
         }
         return CGSize(width: view.frame.width, height: 150)
     }
-
 }

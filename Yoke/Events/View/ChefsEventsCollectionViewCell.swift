@@ -50,7 +50,6 @@ class ChefsEventsCollectionViewCell: UICollectionViewCell {
         eventImage.anchor(top: shadowView.topAnchor, left: shadowView.leftAnchor, bottom: nil, right: nil, paddingTop: 5, paddingLeft: 5, paddingBottom: 5, paddingRight: 0, width: 120, height: 120)
         timestampLabel.anchor(top: shadowView.topAnchor, left: nil, bottom: nil, right: shadowView.rightAnchor, paddingTop: 5, paddingLeft: 0, paddingBottom: 0, paddingRight: 5)
         captionLabel.anchor(top: eventImage.topAnchor, left: eventImage.rightAnchor, bottom: nil, right: shadowView.rightAnchor, paddingTop: 35, paddingLeft: 5, paddingBottom: 0, paddingRight: 10)
-//        captionLabel.centerYAnchor.constraint(equalTo: eventImage.centerYAnchor).isActive = true
         dateIcon.anchor(top: captionLabel.bottomAnchor, left: eventImage.rightAnchor, bottom: nil, right: nil, paddingTop: 10, paddingLeft: 5, paddingBottom: 0, paddingRight: 0, width: 15, height: 15)
         dateLabel.anchor(top: dateIcon.topAnchor, left: dateIcon.rightAnchor, bottom: nil, right: nil, paddingTop: 0, paddingLeft: 5, paddingBottom: 0, paddingRight: 0)
         dateLabel.centerYAnchor.constraint(equalTo: dateIcon.centerYAnchor).isActive = true
@@ -78,8 +77,6 @@ class ChefsEventsCollectionViewCell: UICollectionViewCell {
         let label = UILabel()
         label.textColor = UIColor.gray
         label.font = UIFont.boldSystemFont(ofSize: 20)
-//        label.lineBreakMode = .byWordWrapping
-//        label.numberOfLines = 2
         label.textAlignment = .left
         return label
     }()

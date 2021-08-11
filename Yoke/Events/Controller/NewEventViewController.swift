@@ -432,11 +432,6 @@ class NewEventViewController: UIViewController,  EventLocationDelegate {
         datePicker.backgroundColor = .white
         datePicker.tintColor = UIColor.orangeColor()
         datePicker.overrideUserInterfaceStyle = .light
-        //        datePicker.layer.cornerRadius = 5
-        //        datePicker.layer.shadowOffset = CGSize(width: 0, height: 4)
-        //        datePicker.layer.shadowRadius = 4
-        //        datePicker.layer.shadowOpacity = 0.1
-        //        datePicker.layer.shadowColor = UIColor.gray.cgColor
         datePicker.addTarget(self, action: #selector(handleDateSelection), for: .valueChanged)
         return datePicker
     }()
@@ -448,11 +443,6 @@ class NewEventViewController: UIViewController,  EventLocationDelegate {
         label.textColor = UIColor.orangeColor()
         label.textAlignment = .center
         label.backgroundColor = .white
-        //        label.layer.cornerRadius = 10
-        //        label.layer.shadowOffset = CGSize(width: 0, height: 4)
-        //        label.layer.shadowRadius = 4
-        //        label.layer.shadowOpacity = 0.1
-        //        label.layer.shadowColor = UIColor.gray.cgColor
         return label
     }()
     
@@ -631,7 +621,6 @@ extension NewEventViewController: UIImagePickerControllerDelegate, UINavigationC
         if let pickedImage = info[.editedImage] as? UIImage {
             self.eventImageView.image = pickedImage
         }
-        
         picker.dismiss(animated: true)
     }
 }
