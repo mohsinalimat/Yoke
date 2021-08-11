@@ -24,10 +24,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         FirebaseApp.configure()
         Database.database().isPersistenceEnabled = true
         IQKeyboardManager.shared.enable = true
-        STPAPIClient.shared.publishableKey = "pk_test_pX3V6XXnlsluthlhaKXHrW5U00WHz0znIt"
-        
-//        window = UIWindow()
-//        window?.rootViewController = MainTabBarController()
+        STPAPIClient.shared.publishableKey = ""
 
         UINavigationBar.appearance().barTintColor = UIColor.orangeColor()
         UINavigationBar.appearance().tintColor = UIColor.white
