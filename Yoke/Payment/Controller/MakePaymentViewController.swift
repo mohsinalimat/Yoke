@@ -21,7 +21,7 @@ class MakePaymentViewController: UIViewController, STPAddCardViewControllerDeleg
             fetchInvoice()
         }
     }
-    fileprivate let paymentURL: String = "https://us-central1-foodapp-4ebf0.cloudfunctions.net/createCharge "
+    fileprivate let paymentURL: String = ""
     
     //MARK: - Lifecycle Methods
     override func viewDidLoad() {

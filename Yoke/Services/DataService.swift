@@ -36,7 +36,7 @@ class DataService {
     }
     
     func updateUserValues(uid: String, values: [String: AnyObject]) {
-        let ref = Database.database().reference(fromURL: "https://foodapp-4ebf0.firebaseio.com/")
+        let ref = Database.database().reference(fromURL: "")
         
         let usersReference = ref.child(Constants.Users).child(uid)
         usersReference.updateChildValues(values, withCompletionBlock: { (err, ref) in
