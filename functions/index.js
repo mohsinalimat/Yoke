@@ -4,17 +4,17 @@ const firebase = require('firebase')
 var serviceAccount = require("./routes/serviceAccountKey.json")
 admin.initializeApp({
     credential: admin.credential.cert(serviceAccount),
-    databaseURL: "https://foodapp-4ebf0.firebaseio.com"
+    databaseURL: ""
 })
 
 var config = {
-    apiKey: "AIzaSyAzk4x5BukIC0N0yiDC9O4nfe1vn_7GUxM",
-    authDomain: "foodapp-4ebf0.firebaseapp.com",
-    databaseURL: "https://foodapp-4ebf0.firebaseio.com",
-    projectId: "foodapp-4ebf0",
-    storageBucket: "foodapp-4ebf0.appspot.com",
-    messagingSenderId: "801948295113",
-    appId: "1:801948295113:web:72b6aab34ff33381201218"
+    apiKey: "",
+    authDomain: "",
+    databaseURL: "",
+    projectId: "",
+    storageBucket: "",
+    messagingSenderId: "",
+    appId: ""
 }
 firebase.initializeApp(config)
 
@@ -90,8 +90,6 @@ app.get('/hello', (req, res) => {
 })
 
 app.get('/authorize', async (req, res) => {
-    //For stripe express account
-    // res.redirect('https://connect.stripe.com/express/oauth/authorize?redirect_uri=https://foodapp-4ebf0.web.app/token&client_id=ca_FJy4SUnn4WnkK81JVAR5CZhwEACACSIO&state={STATE_VALUE}&suggested_capabilities[]=transfers')
     res.redirect('https://connect.stripe.com/oauth/v2/authorize?redirect_uri=https://foodapp-4ebf0.web.app/token&client_id=ca_FJy4SUnn4WnkK81JVAR5CZhwEACACSIO&response_type=code')
 })
 
@@ -105,8 +103,8 @@ app.get('/token', async (req, res) => {
             {
                 form: {
                     grant_type: 'authorization_code',
-                    client_id: 'ca_FJy4SUnn4WnkK81JVAR5CZhwEACACSIO',
-                    client_secret: 'sk_test_QoimFzURXIjRvNMtI356etvw00KjSz4gvd',
+                    client_id: '',
+                    client_secret: '',
                     code: req.query.code,
                 },
                 json: true,

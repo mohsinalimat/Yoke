@@ -1,11 +1,11 @@
 var config = {
-	apiKey: "AIzaSyAzk4x5BukIC0N0yiDC9O4nfe1vn_7GUxM",
-    authDomain: "foodapp-4ebf0.firebaseapp.com",
-    databaseURL: "https://foodapp-4ebf0.firebaseio.com",
-    projectId: "foodapp-4ebf0",
-    storageBucket: "foodapp-4ebf0.appspot.com",
-    messagingSenderId: "801948295113",
-    appId: "1:801948295113:web:72b6aab34ff33381201218"
+	apiKey: "",
+    authDomain: "",
+    databaseURL: "",
+    projectId: "",
+    storageBucket: "",
+    messagingSenderId: "",
+    appId: ""
 }
 firebase.initializeApp(config)
 // const stripe = require('stripe')(firebase.config().stripe.token)
