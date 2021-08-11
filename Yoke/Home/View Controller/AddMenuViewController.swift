@@ -38,7 +38,7 @@ class AddMenuViewController: UIViewController {
         super.viewDidLoad()
         setupImagePicker()
     }
- 
+    
     //MARK: - Helper Functions
     func setupViews() {
         view.backgroundColor = UIColor.LightGrayBg()
@@ -111,7 +111,7 @@ class AddMenuViewController: UIViewController {
     func setupImagePicker() {
         menuImagePicker.delegate = self
     }
-
+    
     func saveSuccessful() {
         let alertVC = UIAlertController(title: "Success", message: "Your menu item has been added!", preferredStyle: .alert)
         let okAction = UIAlertAction(title: "Cool Beans", style: .default) { (_) in
@@ -120,7 +120,7 @@ class AddMenuViewController: UIViewController {
         alertVC.addAction(okAction)
         present(alertVC, animated: true)
     }
- 
+    
     func deleteSuccessful() {
         let alertVC = UIAlertController(title: "Success", message: "Your menu item has been deleted!", preferredStyle: .alert)
         let okAction = UIAlertAction(title: "Cool Beans", style: .default) { (_) in
@@ -200,7 +200,7 @@ class AddMenuViewController: UIViewController {
     
     @objc func handleDeleteMenu() {
         guard let menuId = menu?.id,
-        let imageId = menu?.imageId else { return }
+              let imageId = menu?.imageId else { return }
         self.myActivityIndicator.startAnimating()
         MenuController.shared.deleteMenuWith(uid: uid, menuId: menuId, imageId: imageId) { (result) in
             switch result {
@@ -289,7 +289,7 @@ class AddMenuViewController: UIViewController {
         button.addTarget(self, action: #selector(handleAddImage), for: .touchUpInside)
         return button
     }()
-
+    
     let dishNameViewBG: ShadowView = {
         let view = ShadowView()
         view.backgroundColor = .white
@@ -382,7 +382,7 @@ class AddMenuViewController: UIViewController {
 
 //MARK: - Image Picker
 extension AddMenuViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
-
+    
     func openCamera() {
         if UIImagePickerController.isSourceTypeAvailable(.camera) {
             menuImagePicker.sourceType = .camera
@@ -395,7 +395,7 @@ extension AddMenuViewController: UIImagePickerControllerDelegate, UINavigationCo
             self.present(alertVC, animated: true)
         }
     }
-
+    
     func openPhotoLibrary() {
         if UIImagePickerController.isSourceTypeAvailable(.photoLibrary) {
             menuImagePicker.sourceType = .photoLibrary

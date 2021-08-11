@@ -56,7 +56,7 @@ class SuggestedEventsCollectionViewCell: UICollectionViewCell {
         eventImage.anchor(top: shadowView.topAnchor, left: shadowView.leftAnchor, bottom: nil, right: shadowView.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, height: frame.height / 2)
         cellBackgroundImage.anchor(top: eventImage.topAnchor, left: eventImage.leftAnchor, bottom: eventImage.bottomAnchor, right: eventImage.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0)
         captionLabel.anchor(top: eventImage.topAnchor, left: eventImage.leftAnchor, bottom: eventImage.bottomAnchor, right: eventImage.rightAnchor, paddingTop: 0, paddingLeft: 8, paddingBottom: 0, paddingRight: 8)
-
+        
         locationIcon.anchor(top: eventImage.bottomAnchor, left: eventImage.leftAnchor, bottom: nil, right: nil, paddingTop: 10, paddingLeft: 5, paddingBottom: 0, paddingRight: 0, width: 15, height: 18)
         locationLabel.anchor(top: nil, left: locationIcon.rightAnchor, bottom: nil, right: nil, paddingTop: 0, paddingLeft: 5, paddingBottom: 0, paddingRight: 0)
         locationLabel.centerYAnchor.constraint(equalTo: locationIcon.centerYAnchor).isActive = true
@@ -115,8 +115,8 @@ class SuggestedEventsCollectionViewCell: UICollectionViewCell {
     
     let cellBackgroundImage: UIImageView = {
         let view = UIImageView()
-//        view.image = UIImage(named: "menuCover")
-//        view.contentMode = .scaleAspectFill
+        //        view.image = UIImage(named: "menuCover")
+        //        view.contentMode = .scaleAspectFill
         view.backgroundColor = .black.withAlphaComponent(0.4)
         view.clipsToBounds = true
         view.layer.cornerRadius = 10

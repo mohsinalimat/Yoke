@@ -29,7 +29,7 @@ class CusineCollectionViewCell: UICollectionViewCell {
     func configure() {
         guard let cusine = cusine?.type else { return }
         for c in cusine {
-          label.text = "\(c)"
+            label.text = "\(c)"
         }
     }
     

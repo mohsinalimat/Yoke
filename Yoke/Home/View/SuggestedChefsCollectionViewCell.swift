@@ -12,7 +12,7 @@ import FirebaseFirestore
 import FirebaseAuth
 
 class SuggestedChefsCollectionViewCell: UICollectionViewCell {
-
+    
     //MARK: - Properties
     let firestoreDB = Firestore.firestore()
     var chef: User? {

@@ -30,7 +30,7 @@ class PasswordChangeViewController: UIViewController {
     
     //MARK: - Helper Functions
     func setupViews() {
-//        saveButton.isEnabled = false
+        //        saveButton.isEnabled = false
         view.addSubview(swipeIndicator)
         view.addSubview(passwordLabel)
         view.addSubview(oldPasswordTextField)
@@ -59,17 +59,17 @@ class PasswordChangeViewController: UIViewController {
         
         let credential = EmailAuthProvider.credential(withEmail: (user?.email)!, password: password)
         user?.reauthenticateAndRetrieveData(with: credential) { error, success  in
-          if let error = error {
-            print(error)
-          } else {
-            Auth.auth().currentUser?.updatePassword(to: newPassword, completion: { (error) in
-                if let error = error {
-                    print(error.localizedDescription)
-                }
-                print("update successful")
-                self.handleSuccess()
-            })
-          }
+            if let error = error {
+                print(error)
+            } else {
+                Auth.auth().currentUser?.updatePassword(to: newPassword, completion: { (error) in
+                    if let error = error {
+                        print(error.localizedDescription)
+                    }
+                    print("update successful")
+                    self.handleSuccess()
+                })
+            }
         }
     }
     
@@ -95,7 +95,7 @@ class PasswordChangeViewController: UIViewController {
             self.saveButton.isEnabled = true
             self.saveButton.backgroundColor = UIColor.orangeColor()?.withAlphaComponent(1)
         }
-
+        
     }
     
     //MARK: - Views

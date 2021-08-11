@@ -38,7 +38,7 @@ class ChefSettingsViewController: UIViewController, TTGTextTagCollectionViewDele
         setupCuisineCollectionView()
         setupSelectCuisineCollectionView()
     }
- 
+    
     // MARK: - Helper Functions
     func setupViews() {
         view.backgroundColor = .white
@@ -309,4 +309,3 @@ class ChefSettingsViewController: UIViewController, TTGTextTagCollectionViewDele
         return button
     }()
 }
-
