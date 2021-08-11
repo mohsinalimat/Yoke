@@ -365,6 +365,6 @@ balanceButton.addEventListener(`click`, event => {
 
 const stripeButton = document.getElementById(`stripe-button`)
 stripeButton.addEventListener(`click`, event => {
-	window.location.href = 'https://connect.stripe.com/express/oauth/authorize?redirect_uri=https://foodapp-4ebf0.firebaseapp.com/token&client_id=ca_FJy4SUnn4WnkK81JVAR5CZhwEACACSIO&state={STATE_VALUE}&suggested_capabilities[]=transfers&stripe_user[email]=user@example.com'
+	window.location.href = 'https://connect.stripe.com/express/oauth/authorize?redirect_uri=/token&client_id=&state={STATE_VALUE}&suggested_capabilities[]=transfers&stripe_user[email]=user@example.com'
 })
 
