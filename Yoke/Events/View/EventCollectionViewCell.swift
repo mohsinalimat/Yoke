@@ -9,13 +9,6 @@
 import UIKit
 
 class EventCollectionViewCell: UICollectionViewCell {
-    
-    var eventViewModel: EventViewModel! {
-        didSet {
-            configure()
-        }
-    }
-    
     var event: Event? {
         didSet {
             configure()
@@ -34,29 +27,24 @@ class EventCollectionViewCell: UICollectionViewCell {
     
     //MARK: - Helper Funtions
     func configure() {
-        captionLabel.text = eventViewModel.caption
-        locationLabel.text = eventViewModel.location
-        dateLabel.text = eventViewModel.date
-        timeLabel.text = "\(eventViewModel.startTime) - \(eventViewModel.startTime)"
-        usernameLabel.text = eventViewModel.username
-//        guard let event = event,
-//              let uid = event.uid,
-//              let start = event.startTime,
-//              let end = event.endTime,
-//              let eventImg = event.eventImageUrl else { return }
-//        UserController.shared.fetchUserWithUID(uid: uid) { (user) in
-//            guard let image = user.profileImageUrl,
-//                  let username = user.username else { return }
-//            self.profileImage.loadImage(urlString: image)
-//            self.usernameLabel.text = "Posted by: \(username)"
-//        }
-//        let timestamp = event.timestamp.timeAgoDisplay()
-//        timestampLabel.text = "\(timestamp)"
-//        eventImage.loadImage(urlString: eventImg)
-//        captionLabel.text = event.caption
-//        locationLabel.text = event.location
-//        dateLabel.text = event.date
-//        timeLabel.text = "\(start) - \(end)"
+        guard let event = event,
+              let uid = event.uid,
+              let start = event.startTime,
+              let end = event.endTime,
+              let eventImg = event.eventImageUrl else { return }
+        UserController.shared.fetchUserWithUID(uid: uid) { (user) in
+            guard let image = user.profileImageUrl,
+                  let username = user.username else { return }
+            self.profileImage.loadImage(urlString: image)
+            self.usernameLabel.text = "Posted by: \(username)"
+        }
+        let timestamp = event.timestamp.timeAgoDisplay()
+        timestampLabel.text = "\(timestamp)"
+        eventImage.loadImage(urlString: eventImg)
+        captionLabel.text = event.caption
+        locationLabel.text = event.location
+        dateLabel.text = event.date
+        timeLabel.text = "\(start) - \(end)"
     }
     
     func setupViews() {
