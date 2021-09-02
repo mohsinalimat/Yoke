@@ -87,7 +87,7 @@ class BookmarkedUsersTableViewCell: UITableViewCell {
     
     var nameLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont.boldSystemFont(ofSize: 17)
+        label.font = UIFont.boldSystemFont(ofSize: 20)
         label.textColor = .gray
         label.lineBreakMode = .byWordWrapping
         label.numberOfLines = 0

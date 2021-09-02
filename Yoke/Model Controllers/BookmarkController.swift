@@ -133,5 +133,18 @@ class BookmarkController {
             }
         }
     }
+    
+    func deleteBookmarkEventWith(uid: String, bookmarkedId: String, completion: @escaping (Bool) -> Void) {
+        firestoreDB.document(uid).collection(Constants.BookmarkedEvents).document(bookmarkedId).getDocument { (document, error) in
+            if error != nil {
+                completion(false)
+            }
+            self.events = []
+            if let document = document, document.exists {
+                self.firestoreDB.document(uid).collection(Constants.BookmarkedEvents).document(bookmarkedId).delete()
+                completion(true)
+            }
+        }
+    }
 }
 

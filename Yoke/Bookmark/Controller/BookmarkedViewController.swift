@@ -196,6 +196,25 @@ extension BookmarkedViewController: UITableViewDataSource {
                 }
             }
         }
+        if tableView == eventTableView {
+            let event = BookmarkController.shared.events[indexPath.row]
+            guard let indexToDelete = BookmarkController.shared.events.firstIndex(of: event) else { return }
+            BookmarkController.shared.events.remove(at: indexToDelete)
+            eventTableView.deleteRows(at: [indexPath], with: .fade)
+            guard let uid = uid,
+                  let bookmarkedId = event.id else { return }
+            BookmarkController.shared.deleteBookmarkEventWith(uid: uid, bookmarkedId: bookmarkedId) { result in
+                switch result {
+                case true:
+                    DispatchQueue.main.async {
+                        self.fetchEvents()
+                        self.eventTableView.reloadData()
+                    }
+                case false:
+                    print("error")
+                }
+            }
+        }
     }
 }
 
