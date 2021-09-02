@@ -146,9 +146,17 @@ class EventDetailViewController: UIViewController {
         RSVPController.shared.checkIfEventIsRSVP(uid: uid, eventId: id) { result in
             switch result {
             case true:
-                self.rsvpButton.setTitle("RSVP", for: .normal)
+                self.rsvpButton.setTitle("Reserved", for: .normal)
+                self.rsvpButton.setTitleColor(UIColor.orangeColor(), for: .normal)
+                self.rsvpButton.backgroundColor = .white
+                self.rsvpButton.layer.borderWidth = 1
+                self.rsvpButton.layer.borderColor = UIColor.orangeColor()?.cgColor
             case false:
-                self.rsvpButton.setTitle("You have RSVP'd", for: .normal)
+                self.rsvpButton.setTitle("Reserve", for: .normal)
+                self.rsvpButton.setTitleColor(.white, for: .normal)
+                self.rsvpButton.backgroundColor = UIColor.orangeColor()
+                self.rsvpButton.layer.borderWidth = 0
+                self.rsvpButton.layer.borderColor = UIColor.orangeColor()?.cgColor
             }
         }
     }
@@ -212,9 +220,17 @@ class EventDetailViewController: UIViewController {
                 RSVPController.shared.createRSVPWith(uid: uid, eventUserUid: chefUid, eventId: id) { result in
                     switch result {
                     case true:
-                        self.rsvpButton.setTitle("RSVP", for: .normal)
+                        self.rsvpButton.setTitle("Reserve", for: .normal)
+                        self.rsvpButton.setTitleColor(UIColor.white, for: .normal)
+                        self.rsvpButton.backgroundColor = UIColor.orangeColor()
+                        self.rsvpButton.layer.borderWidth = 0
+                        self.rsvpButton.layer.borderColor = UIColor.orangeColor()?.cgColor
                     case false:
-                        self.rsvpButton.setTitle("You have RSVP'd", for: .normal)
+                        self.rsvpButton.setTitle("Reserved", for: .normal)
+                        self.rsvpButton.setTitleColor(UIColor.orangeColor(), for: .normal)
+                        self.rsvpButton.backgroundColor = .white
+                        self.rsvpButton.layer.borderWidth = 1
+                        self.rsvpButton.layer.borderColor = UIColor.orangeColor()?.cgColor
                     }
                 }
             }
