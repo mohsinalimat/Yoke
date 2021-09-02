@@ -21,30 +21,29 @@ class BookmarkedUsersTableViewCell: UITableViewCell {
     
     //MARK: - Lifecycle Methods
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
-        super.init(style: style, reuseIdentifier: reuseIdentifier)
+            super.init(style: style, reuseIdentifier: reuseIdentifier)
         setupViews()
         setupConstraints()
-    }
-    
-    required init?(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)
+     }
+
+     required init?(coder aDecoder: NSCoder) {
+       super.init(coder: aDecoder)
     }
     
     //MARK: - Helper Functions
     func configure() {
         guard let user = user else { return }
         nameLabel.text = user.username
-        guard let image = user.profileImageUrl,
-              let uid = user.uid else { return }
+        guard let image = user.profileImageUrl else { return }
         profileImage.loadImage(urlString: image)
-        checkIfBookmarked(bookmarkedUser: uid)
     }
-    
+
     func setupViews() {
         addSubview(shadowView)
         addSubview(cellBackgroundView)
         addSubview(profileImage)
         addSubview(nameLabel)
+        addSubview(locationLabel)
     }
     
     func setupConstraints() {
@@ -53,47 +52,7 @@ class BookmarkedUsersTableViewCell: UITableViewCell {
         profileImage.anchor(top: nil, left: cellBackgroundView.leftAnchor, bottom: nil, right: nil, paddingTop: 5, paddingLeft: 5, paddingBottom: 0, paddingRight: 5, width: 75, height: 75)
         profileImage.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
         nameLabel.anchor(top: profileImage.topAnchor, left: profileImage.rightAnchor, bottom: nil, right: cellBackgroundView.rightAnchor, paddingTop: 10, paddingLeft: 5, paddingBottom: 0, paddingRight: 5)
-    }
-    
-    func checkIfBookmarked(bookmarkedUser: String) {
-//        guard let uid = Auth.auth().currentUser?.uid else { return }
-//        BookmarkController.shared.checkIfBookmarkedUserWith(uid: uid, bookmarkedUid: bookmarkedUser) { result in
-//            switch result {
-//            case true:
-//                let image = UIImage(named: "bookmark_selected")?.withRenderingMode(.alwaysTemplate)
-//                self.bookmarkButton.setImage(image, for: .normal)
-//                self.bookmarkButton.setTitle("Bookmarked", for: .normal)
-//            case false:
-//                let image = UIImage(named: "bookmark_unselected")?.withRenderingMode(.alwaysTemplate)
-//                self.bookmarkButton.setImage(image, for: .normal)
-//                self.bookmarkButton.setTitle("Bookmark", for: .normal)
-//            }
-//        }
-    }
-    
-    @objc func handleBookmarked() {
-//        let userToBookmarkUid = self.userId ?? (Auth.auth().currentUser?.uid ?? "")
-//        guard let userUid = Auth.auth().currentUser?.uid else { return }
-//        BookmarkController.shared.bookmarkUserWith(uid: userUid, bookmarkedUid: userToBookmarkUid) { result in
-//            switch result {
-//            case true:
-//                print("true")
-//            case false:
-//                print("false")
-//            }
-//        }
-//        BookmarkController.shared.checkIfBookmarkedUserWith(uid: userUid, bookmarkedUid: userToBookmarkUid) { result in
-//            switch result {
-//            case true:
-//                let image = UIImage(named: "bookmark_selected")?.withRenderingMode(.alwaysTemplate)
-//                self.bookmarkButton.setImage(image, for: .normal)
-//                self.bookmarkButton.setTitle("Bookmarked", for: .normal)
-//            case false:
-//                let image = UIImage(named: "bookmark_unselected")?.withRenderingMode(.alwaysTemplate)
-//                self.bookmarkButton.setImage(image, for: .normal)
-//                self.bookmarkButton.setTitle("Bookmark", for: .normal)
-//            }
-//        }
+        locationLabel.anchor(top: nameLabel.bottomAnchor, left: profileImage.rightAnchor, bottom: nil, right: cellBackgroundView.rightAnchor, paddingTop: 5, paddingLeft: 5, paddingBottom: 0, paddingRight: 5)
     }
     
     //MARK: - Views
@@ -126,6 +85,15 @@ class BookmarkedUsersTableViewCell: UITableViewCell {
     var nameLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.boldSystemFont(ofSize: 17)
+        label.textColor = .gray
+        label.lineBreakMode = .byWordWrapping
+        label.numberOfLines = 0
+        return label
+    }()
+    
+    var locationLabel: UILabel = {
+        let label = UILabel()
+        label.font = UIFont.boldSystemFont(ofSize: 16)
         label.textColor = .gray
         label.lineBreakMode = .byWordWrapping
         label.numberOfLines = 0

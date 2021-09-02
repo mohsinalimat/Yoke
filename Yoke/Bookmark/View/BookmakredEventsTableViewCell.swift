@@ -100,7 +100,7 @@ class BookmakredEventsTableViewCell: UITableViewCell {
     
     var locationLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont.boldSystemFont(ofSize: 13)
+        label.font = UIFont.boldSystemFont(ofSize: 17)
         label.textColor = .gray
         return label
     }()
@@ -113,7 +113,7 @@ class BookmakredEventsTableViewCell: UITableViewCell {
     
     var dateLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont.boldSystemFont(ofSize: 15)
+        label.font = UIFont.boldSystemFont(ofSize: 17)
         label.textColor = .gray
         return label
     }()
@@ -126,8 +126,9 @@ class BookmakredEventsTableViewCell: UITableViewCell {
     
     var timeLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont.systemFont(ofSize: 13)
+        label.font = UIFont.boldSystemFont(ofSize: 17)
         label.textColor = .gray
         return label
     }()
+    
 }
