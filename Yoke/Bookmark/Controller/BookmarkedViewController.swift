@@ -170,7 +170,35 @@ extension BookmarkedViewController: UITableViewDataSource {
         }
         return 100
     }
+    
+    func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCell.EditingStyle {
+        return .delete
+    }
+    
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+            if tableView == userTableView {
+                let user = BookmarkController.shared.users[indexPath.row]
+                guard let indexToDelete = BookmarkController.shared.users.firstIndex(of: user) else { return }
+                BookmarkController.shared.users.remove(at: indexToDelete)
+                userTableView.deleteRows(at: [indexPath], with: .fade)
+                guard let uid = uid,
+                      let bookmarkedUid = user.uid else { return }
+                BookmarkController.shared.deleteBookmarkUserWith(uid: uid, bookmarkedUid: bookmarkedUid) { result in
+                    switch result {
+                    case true:
+                        DispatchQueue.main.async {
+                            self.userTableView.reloadData()
+                        }
+                    case false:
+                        print("error")
+                    }
+                }
+            }
+        }
+    }
 }
+
 
 //MARK: - TableView Delegate
 extension BookmarkedViewController: UITableViewDelegate {

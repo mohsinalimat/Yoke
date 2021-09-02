@@ -34,9 +34,11 @@ class BookmarkedUsersTableViewCell: UITableViewCell {
     func configure() {
         guard let user = user else { return }
         nameLabel.text = user.username
-        guard let image = user.profileImageUrl else { return }
+        guard let image = user.profileImageUrl,
+              let city = user.city,
+              let state = user.state else { return }
         profileImage.loadImage(urlString: image)
-        locationLabel.text = ""
+        locationLabel.text = "\(city), \(state)"
     }
 
     func setupViews() {
@@ -94,7 +96,7 @@ class BookmarkedUsersTableViewCell: UITableViewCell {
     
     var locationLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont.boldSystemFont(ofSize: 16)
+        label.font = UIFont.systemFont(ofSize: 15)
         label.textColor = .gray
         label.lineBreakMode = .byWordWrapping
         label.numberOfLines = 0
