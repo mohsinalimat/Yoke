@@ -21,6 +21,29 @@ class RSVPController {
     
     //MARK: - CRUD Functions
     func createRSVPWith(uid: String, eventUserUid: String, eventId: String, completion: @escaping (Bool) -> Void) {
-        firestoreDB.document(uid).collection(eventId).addDocument(data: [Constants.Id: eventId, Constants.UserUid: uid, Constants.AcceptRSVP: true, Constants.ChefUid: eventUserUid])
+        firestoreDB.document(uid).collection(Constants.RSVP).document(eventId).getDocument { (document, error) in
+            if let document = document, document.exists {
+                self.firestoreDB.document(uid).collection(Constants.RSVP).document(eventId).delete()
+                completion(true)
+            } else {
+                self.firestoreDB.document(uid).collection(Constants.RSVP).document(eventId).setData([Constants.Id: eventId, Constants.UserUid: uid, Constants.AcceptRSVP: true, Constants.ChefUid: eventUserUid], merge: true)
+                completion(false)
+            }
+        }
+    }
+    
+    func checkIfEventIsRSVP(uid: String, eventId: String, completion: @escaping (Bool) -> Void) {
+        firestoreDB.document(uid).collection(Constants.RSVP).document(eventId).addSnapshotListener { (snapshot, error) in
+            guard let document = snapshot else {
+                print("Error fetching document: \(error!)")
+                return
+            }
+            if let data = document.data() {
+                print(data)
+                completion(true)
+            } else {
+                completion(false)
+            }
+        }
     }
 }

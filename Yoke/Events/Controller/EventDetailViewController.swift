@@ -30,6 +30,7 @@ class EventDetailViewController: UIViewController {
         super.viewDidLayoutSubviews()
         setupViews()
         constrainViews()
+        checkIfRSVP()
     }
     
     override func viewDidLoad() {
@@ -139,6 +140,19 @@ class EventDetailViewController: UIViewController {
         }
     }
     
+    func checkIfRSVP() {
+        guard let id = event?.id,
+              let uid = Auth.auth().currentUser?.uid else { return }
+        RSVPController.shared.checkIfEventIsRSVP(uid: uid, eventId: id) { result in
+            switch result {
+            case true:
+                self.rsvpButton.setTitle("RSVP", for: .normal)
+            case false:
+                self.rsvpButton.setTitle("You have RSVP'd", for: .normal)
+            }
+        }
+    }
+    
     func anonymousUserAlert() {
         let accountAction = UIAlertController(title: "Hold on there" , message: "You must have an account to use this feature", preferredStyle: .actionSheet)
         let signupAction = UIAlertAction(title: "Create Account", style: .default) { _ in
@@ -198,9 +212,9 @@ class EventDetailViewController: UIViewController {
                 RSVPController.shared.createRSVPWith(uid: uid, eventUserUid: chefUid, eventId: id) { result in
                     switch result {
                     case true:
-                        print("saved")
+                        self.rsvpButton.setTitle("RSVP", for: .normal)
                     case false:
-                        print("failed to save")
+                        self.rsvpButton.setTitle("You have RSVP'd", for: .normal)
                     }
                 }
             }
