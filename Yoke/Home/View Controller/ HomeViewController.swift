@@ -101,7 +101,7 @@ class HomeViewController: UIViewController {
         bookmarkButton.alignImageTextVertical()
         bookingButton.alignImageTextVertical()
         
-        buttonStackView.anchor(top: backgroundView.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: -20, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 100)
+        buttonStackView.anchor(top: backgroundView.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: -20, paddingLeft: 10, paddingBottom: 0, paddingRight: 10, width: 0, height: 100)
         
         let uid = userId ?? (Auth.auth().currentUser?.uid ?? "")
         UserController.shared.fetchUserWithUID(uid: uid) { (user) in
@@ -397,7 +397,7 @@ class HomeViewController: UIViewController {
     lazy var viewProfileButton: UIButton = {
         let button = UIButton(type: .custom)
         button.setTitle("View Profile", for: .normal)
-        button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 15)
+        button.titleLabel?.font = UIFont.systemFont(ofSize: 15)
         button.setTitleColor(UIColor.white, for: .normal)
         button.contentHorizontalAlignment = .left
         button.addTarget(self, action: #selector(handleViewProfile), for: .touchUpInside)
@@ -411,7 +411,7 @@ class HomeViewController: UIViewController {
         button.setImage(image, for: .normal)
         button.tintColor = UIColor.orangeColor()
         button.setTitle("Reviews", for: .normal)
-        button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 15)
+        button.titleLabel?.font = UIFont.systemFont(ofSize: 15)
         button.setTitleColor(UIColor.orangeColor(), for: .normal)
         button.imageEdgeInsets = UIEdgeInsets.init(top: 0,left: 45,bottom: 20,right: 0)
         button.titleEdgeInsets = UIEdgeInsets.init(top: 20,left: -25,bottom: 0,right: 0)
@@ -426,7 +426,7 @@ class HomeViewController: UIViewController {
         button.setImage(image, for: .normal)
         button.tintColor = UIColor.orangeColor()
         button.setTitle("Events", for: .normal)
-        button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 15)
+        button.titleLabel?.font = UIFont.systemFont(ofSize: 15)
         button.setTitleColor(UIColor.orangeColor(), for: .normal)
         button.addTarget(self, action: #selector(viewEvents), for: .touchUpInside)
         button.layer.cornerRadius = 10
@@ -439,7 +439,7 @@ class HomeViewController: UIViewController {
         button.setImage(image, for: .normal)
         button.tintColor = UIColor.orangeColor()
         button.setTitle("Bookings", for: .normal)
-        button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 15)
+        button.titleLabel?.font = UIFont.systemFont(ofSize: 15)
         button.setTitleColor(UIColor.orangeColor(), for: .normal)
         button.layer.cornerRadius = 10
         button.addTarget(self, action: #selector(viewBookings), for: .touchUpInside)
@@ -452,7 +452,7 @@ class HomeViewController: UIViewController {
         button.setImage(image, for: .normal)
         button.tintColor = UIColor.orangeColor()
         button.setTitle("Bookmarked", for: .normal)
-        button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 15)
+        button.titleLabel?.font = UIFont.systemFont(ofSize: 15)
         button.setTitleColor(UIColor.orangeColor(), for: .normal)
         button.layer.cornerRadius = 10
         button.addTarget(self, action: #selector(viewBookmarked), for: .touchUpInside)
@@ -464,8 +464,12 @@ class HomeViewController: UIViewController {
         stackView.axis = .horizontal
         stackView.distribution = .fillEqually
         stackView.spacing = 0
-        stackView.backgroundColor = UIColor.LightGrayBg()
+        stackView.backgroundColor = UIColor.white
         stackView.layer.cornerRadius = 20
+        stackView.layer.shadowOffset = CGSize(width: 0, height: 4)
+        stackView.layer.shadowRadius = 4
+        stackView.layer.shadowOpacity = 0.2
+        stackView.layer.shadowColor = UIColor.lightGray.cgColor
         return stackView
     }()
     

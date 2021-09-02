@@ -99,7 +99,7 @@ class ChefProfileViewController: UIViewController, TTGTextTagCollectionViewDeleg
         
         bannerLayerImage.anchor(top: scrollView.topAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, height: 300)
         
-        profileImageView.anchor(top: bannerImageView.topAnchor, left: safeArea.leftAnchor, bottom: nil, right: nil, paddingTop: 100, paddingLeft: 5, paddingBottom: 5, paddingRight: 0, width: 150, height: 150)
+        profileImageView.anchor(top: bannerImageView.topAnchor, left: safeArea.leftAnchor, bottom: nil, right: nil, paddingTop: 75, paddingLeft: 5, paddingBottom: 5, paddingRight: 0, width: 150, height: 150)
         profileImageView.layer.cornerRadius = 75
         
         usernameView.anchor(top: usernameLabel.topAnchor, left: safeArea.leftAnchor, bottom: bannerImageView.bottomAnchor, right: usernameLabel.rightAnchor, paddingTop: -10, paddingLeft: 50, paddingBottom: 0, paddingRight: -10)
@@ -109,9 +109,9 @@ class ChefProfileViewController: UIViewController, TTGTextTagCollectionViewDeleg
         ratingView.anchor(top: locationLabel.bottomAnchor, left: profileImageView.rightAnchor, bottom: nil, right: nil, paddingTop: 5, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 120, height: 25)
         
         setupButtonImages()
-        buttonStackView.anchor(top: profileImageView.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 20, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, height: 100)
+        buttonStackView.anchor(top: profileImageView.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 25, paddingLeft: 10, paddingBottom: 0, paddingRight: 10, height: 100)
         
-        bioView.anchor(top: buttonStackView.bottomAnchor, left: safeArea.leftAnchor, bottom: bioTextLabel.bottomAnchor, right: safeArea.rightAnchor, paddingTop: -10, paddingLeft: 0, paddingBottom: 0, paddingRight: 0)
+        bioView.anchor(top: buttonStackView.bottomAnchor, left: safeArea.leftAnchor, bottom: bioTextLabel.bottomAnchor, right: safeArea.rightAnchor, paddingTop: 20, paddingLeft: 0, paddingBottom: 0, paddingRight: 0)
         
         bioLabel.anchor(top: buttonStackView.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 5, paddingLeft: 15, paddingBottom: 0, paddingRight: 5)
         
@@ -575,10 +575,6 @@ class ChefProfileViewController: UIViewController, TTGTextTagCollectionViewDeleg
         stackView.spacing = 1
         stackView.backgroundColor = UIColor.clear
         stackView.layer.cornerRadius = 10
-        //        stackView.layer.shadowOffset = CGSize(width: 0, height: 4)
-        //        stackView.layer.shadowRadius = 4
-        //        stackView.layer.shadowOpacity = 0.1
-        //        stackView.layer.shadowColor = UIColor.gray.cgColor
         return stackView
     }()
     
@@ -588,7 +584,7 @@ class ChefProfileViewController: UIViewController, TTGTextTagCollectionViewDeleg
         button.setImage(image, for: .normal)
         button.tintColor = UIColor.orangeColor()
         button.setTitle("Reviews", for: .normal)
-        button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 15)
+        button.titleLabel?.font = UIFont.systemFont(ofSize: 15)
         button.setTitleColor(UIColor.orangeColor(), for: .normal)
         button.imageEdgeInsets = UIEdgeInsets.init(top: 0,left: 45,bottom: 20,right: 0)
         button.titleEdgeInsets = UIEdgeInsets.init(top: 20,left: -25,bottom: 0,right: 0)
@@ -603,7 +599,7 @@ class ChefProfileViewController: UIViewController, TTGTextTagCollectionViewDeleg
         button.setImage(image, for: .normal)
         button.tintColor = UIColor.orangeColor()
         button.setTitle("Events", for: .normal)
-        button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 15)
+        button.titleLabel?.font = UIFont.systemFont(ofSize: 15)
         button.setTitleColor(UIColor.orangeColor(), for: .normal)
         button.layer.cornerRadius = 10
         return button
@@ -615,7 +611,7 @@ class ChefProfileViewController: UIViewController, TTGTextTagCollectionViewDeleg
         button.setImage(image, for: .normal)
         button.tintColor = UIColor.orangeColor()
         button.setTitle("Request", for: .normal)
-        button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 15)
+        button.titleLabel?.font = UIFont.systemFont(ofSize: 15)
         button.setTitleColor(UIColor.orangeColor(), for: .normal)
         button.addTarget(self, action: #selector(handleSendRequest), for: .touchUpInside)
         button.layer.cornerRadius = 10
@@ -625,7 +621,7 @@ class ChefProfileViewController: UIViewController, TTGTextTagCollectionViewDeleg
     lazy var bookmarkButton: UIButton = {
         let button = UIButton(type: .custom)
         button.tintColor = UIColor.orangeColor()
-        button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 15)
+        button.titleLabel?.font = UIFont.systemFont(ofSize: 15)
         button.setTitleColor(UIColor.orangeColor(), for: .normal)
         button.layer.cornerRadius = 10
         button.addTarget(self, action: #selector(handleBookmarked), for: .touchUpInside)
@@ -637,8 +633,12 @@ class ChefProfileViewController: UIViewController, TTGTextTagCollectionViewDeleg
         stackView.axis = .horizontal
         stackView.distribution = .fillEqually
         stackView.spacing = 0
-        stackView.backgroundColor = UIColor.LightGrayBg()
+        stackView.backgroundColor = UIColor.white
         stackView.layer.cornerRadius = 20
+        stackView.layer.shadowOffset = CGSize(width: 0, height: 4)
+        stackView.layer.shadowRadius = 4
+        stackView.layer.shadowOpacity = 0.2
+        stackView.layer.shadowColor = UIColor.lightGray.cgColor
         return stackView
     }()
     

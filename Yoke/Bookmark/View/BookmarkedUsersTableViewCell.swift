@@ -36,6 +36,7 @@ class BookmarkedUsersTableViewCell: UITableViewCell {
         nameLabel.text = user.username
         guard let image = user.profileImageUrl else { return }
         profileImage.loadImage(urlString: image)
+        locationLabel.text = ""
     }
 
     func setupViews() {
