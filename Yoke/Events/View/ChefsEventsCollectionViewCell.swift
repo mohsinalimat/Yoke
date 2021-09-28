@@ -18,7 +18,7 @@ class ChefsEventsCollectionViewCell: UICollectionViewCell {
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupViews()
-        setupConstraints()
+//        setupConstraints()
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -54,6 +54,7 @@ class ChefsEventsCollectionViewCell: UICollectionViewCell {
         dateLabel.anchor(top: dateIcon.topAnchor, left: dateIcon.rightAnchor, bottom: nil, right: nil, paddingTop: 0, paddingLeft: 5, paddingBottom: 0, paddingRight: 0)
         dateLabel.centerYAnchor.constraint(equalTo: dateIcon.centerYAnchor).isActive = true
     }
+
     
     //MARK: Views
     var eventImage: CustomImageView = {

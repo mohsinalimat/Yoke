@@ -40,6 +40,10 @@ class EventCollectionViewCell: UICollectionViewCell {
         }
         let timestamp = event.timestamp.timeAgoDisplay()
         timestampLabel.text = "\(timestamp)"
+        if eventImg == "" {
+            eventImage.anchor(top: profileImage.bottomAnchor, left: cellBackgroundView.leftAnchor, bottom: nil, right: cellBackgroundView.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, height: 0)
+            imageShadowView.anchor(top: profileImage.bottomAnchor, left: cellBackgroundView.leftAnchor, bottom: nil, right: cellBackgroundView.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, height: 0)
+        }
         eventImage.loadImage(urlString: eventImg)
         captionLabel.text = event.caption
         locationLabel.text = event.location

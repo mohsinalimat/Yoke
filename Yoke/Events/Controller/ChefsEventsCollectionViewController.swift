@@ -51,7 +51,6 @@ class ChefsEventsCollectionViewController: UICollectionViewController, UICollect
                 switch result {
                 case true:
                     self.collectionView.reloadData()
-                    print("got it")
                 case false:
                     print("error fetching events")
                 }
