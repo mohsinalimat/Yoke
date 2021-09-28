@@ -18,7 +18,7 @@ class ChefsEventsCollectionViewCell: UICollectionViewCell {
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupViews()
-//        setupConstraints()
+        setupConstraints()
     }
     
     required init?(coder aDecoder: NSCoder) {
