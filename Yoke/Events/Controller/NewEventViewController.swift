@@ -346,7 +346,7 @@ class NewEventViewController: UIViewController,  EventLocationDelegate {
     
     let eventImageView: CustomImageView = {
         let image = CustomImageView()
-        image.image = UIImage(named: "gradientBackgroundHalf")
+//        image.image = UIImage(named: "gradientBackgroundHalf")
         image.clipsToBounds = true
         image.contentMode = .scaleAspectFill
         image.layer.cornerRadius = 10
@@ -356,6 +356,7 @@ class NewEventViewController: UIViewController,  EventLocationDelegate {
     let eventAddImageButton: UIButton = {
         let button = UIButton()
         button.setTitle("Add an image", for: .normal)
+        button.setTitleColor(UIColor.orangeColor(), for: .normal)
         button.addTarget(self, action: #selector(handleAddImage), for: .touchUpInside)
         return button
     }()
