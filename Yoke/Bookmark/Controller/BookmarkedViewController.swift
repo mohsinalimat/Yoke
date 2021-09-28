@@ -188,6 +188,7 @@ extension BookmarkedViewController: UITableViewDataSource {
                     switch result {
                     case true:
                         DispatchQueue.main.async {
+                            BookmarkController.shared.users = []
                             self.userTableView.reloadData()
                         }
                     case false:
