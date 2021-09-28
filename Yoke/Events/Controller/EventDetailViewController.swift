@@ -245,7 +245,7 @@ class EventDetailViewController: UIViewController {
                 self.anonymousUserAlert()
             case false:
                 let chatVC = ChatCollectionViewController(collectionViewLayout: UICollectionViewFlowLayout())
-                chatVC.userId = self.userId
+                chatVC.userId = self.event?.uid
                 self.navigationController?.pushViewController(chatVC, animated: true)
             }
         }

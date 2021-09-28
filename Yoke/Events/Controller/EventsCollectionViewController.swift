@@ -112,8 +112,6 @@ class EventsCollectionViewController: UICollectionViewController, UICollectionVi
                 let imageHeight = view.frame.width
                 return CGSize(width: view.frame.width, height: imageHeight + rect.height + 230)
             }
-//            let imageHeight = view.frame.width
-//            return CGSize(width: view.frame.width, height: imageHeight + rect.height + 230)
         }
         return CGSize(width: view.frame.width, height: 400)
     }
