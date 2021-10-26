@@ -233,9 +233,9 @@ extension ConversationViewController: UITableViewDelegate {
                     navigationController?.pushViewController(requestVC, animated: true)
                     print("booking request detail")
                 } else {
-                    let requestVC = MakePaymentViewController()
-                    requestVC.booking = request
-                    navigationController?.pushViewController(requestVC, animated: true)
+//                    let requestVC = MakePaymentViewController()
+//                    requestVC.booking = request
+//                    navigationController?.pushViewController(requestVC, animated: true)
                 }
             } else {
                 let requestVC = BookingRequestDetailViewController()

@@ -62,8 +62,8 @@ class MainTabBarController: UITabBarController, UITabBarControllerDelegate {
         let eventsNavController = templateNavController(unselectedImage: #imageLiteral(resourceName: "event_unselected"), selectedImage: #imageLiteral(resourceName: "event_selected"), rootViewController: EventsCollectionViewController(collectionViewLayout: UICollectionViewFlowLayout()))
         eventsNavController.title = "Events"
         
-        let paymentController = self.templateNavController(unselectedImage: UIImage(named: "payment_unselected")!, selectedImage: UIImage(named: "payment_selected")!, rootViewController: PaymentViewController())
-        paymentController.title = "Payments"
+//        let paymentController = self.templateNavController(unselectedImage: UIImage(named: "payment_unselected")!, selectedImage: UIImage(named: "payment_selected")!, rootViewController: PaymentViewController())
+//        paymentController.title = "Payments"
         
         
         tabBar.tintColor = .white

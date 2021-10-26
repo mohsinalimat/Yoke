@@ -17,7 +17,6 @@
 		6C296DD824B3BE6F008E33ED /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6C296DD724B3BE6F008E33ED /* Assets.xcassets */; };
 		6C296DDB24B3BE6F008E33ED /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6C296DDA24B3BE6F008E33ED /* Preview Assets.xcassets */; };
 		6C296DDE24B3BE6F008E33ED /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6C296DDC24B3BE6F008E33ED /* LaunchScreen.storyboard */; };
-		6C296DE924B3BE70008E33ED /* YokeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C296DE824B3BE70008E33ED /* YokeTests.swift */; };
 		6C35F5B625DDA8AE0044E847 /* NewReviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C35F5B525DDA8AE0044E847 /* NewReviewViewController.swift */; };
 		6C35F5BA25DED0350044E847 /* ReviewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C35F5B925DED0340044E847 /* ReviewController.swift */; };
 		6C35F5BE25DED0550044E847 /* Review.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C35F5BD25DED0550044E847 /* Review.swift */; };
@@ -42,8 +41,6 @@
 		6C5D5F8A25B0D68A00ACF451 /* PasswordChangeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C5D5F8925B0D68900ACF451 /* PasswordChangeViewController.swift */; };
 		6C5D5F8E25B0D6CE00ACF451 /* ChefSettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C5D5F8D25B0D6CE00ACF451 /* ChefSettingsViewController.swift */; };
 		6C5D985F26123B2B00F2E233 /* EventDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C5D985E26123B2B00F2E233 /* EventDetailViewController.swift */; };
-		6C6F9C8E262896EE004FAA12 /* Payment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C6F9C8D262896EE004FAA12 /* Payment.swift */; };
-		6C6F9C942628A0A2004FAA12 /* PaymentController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C6F9C932628A0A2004FAA12 /* PaymentController.swift */; };
 		6C70DC5A26B86730003C7180 /* RSVPController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C70DC5926B86730003C7180 /* RSVPController.swift */; };
 		6C718B7725A4D85D005EDC93 /*  HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C718B7625A4D85D005EDC93 /*  HomeViewController.swift */; };
 		6C85598625E0471D00E513BB /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C85598525E0471D00E513BB /* Message.swift */; };
@@ -68,7 +65,6 @@
 		6C8DB69924B3C1B9003D06FF /* CustomImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C8DB61324B3C1B8003D06FF /* CustomImageView.swift */; };
 		6C8DB69A24B3C1B9003D06FF /* DataService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C8DB61524B3C1B8003D06FF /* DataService.swift */; };
 		6C8DB69B24B3C1B9003D06FF /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C8DB61724B3C1B8003D06FF /* User.swift */; };
-		6C8DB69C24B3C1B9003D06FF /* StripeUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C8DB61824B3C1B8003D06FF /* StripeUser.swift */; };
 		6C8DB6A024B3C1B9003D06FF /* ReviewInputAccessoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C8DB62024B3C1B8003D06FF /* ReviewInputAccessoryView.swift */; };
 		6C8DB6A124B3C1B9003D06FF /* RatingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C8DB62124B3C1B8003D06FF /* RatingView.swift */; };
 		6C8DB6A724B3C1B9003D06FF /* BookmarkedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C8DB62D24B3C1B9003D06FF /* BookmarkedViewController.swift */; };
@@ -136,8 +132,6 @@
 		6C296DDD24B3BE6F008E33ED /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		6C296DDF24B3BE6F008E33ED /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		6C296DE424B3BE6F008E33ED /* YokeTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = YokeTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		6C296DE824B3BE70008E33ED /* YokeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YokeTests.swift; sourceTree = "<group>"; };
-		6C296DEA24B3BE70008E33ED /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		6C35F5B525DDA8AE0044E847 /* NewReviewViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewReviewViewController.swift; sourceTree = "<group>"; };
 		6C35F5B925DED0340044E847 /* ReviewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewController.swift; sourceTree = "<group>"; };
 		6C35F5BD25DED0550044E847 /* Review.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Review.swift; sourceTree = "<group>"; };
@@ -162,8 +156,6 @@
 		6C5D5F8925B0D68900ACF451 /* PasswordChangeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasswordChangeViewController.swift; sourceTree = "<group>"; };
 		6C5D5F8D25B0D6CE00ACF451 /* ChefSettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChefSettingsViewController.swift; sourceTree = "<group>"; };
 		6C5D985E26123B2B00F2E233 /* EventDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventDetailViewController.swift; sourceTree = "<group>"; };
-		6C6F9C8D262896EE004FAA12 /* Payment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Payment.swift; sourceTree = "<group>"; };
-		6C6F9C932628A0A2004FAA12 /* PaymentController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentController.swift; sourceTree = "<group>"; };
 		6C70DC5926B86730003C7180 /* RSVPController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RSVPController.swift; sourceTree = "<group>"; };
 		6C718B7625A4D85D005EDC93 /*  HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = " HomeViewController.swift"; sourceTree = "<group>"; };
 		6C85598525E0471D00E513BB /* Message.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Message.swift; sourceTree = "<group>"; };
@@ -188,7 +180,6 @@
 		6C8DB61324B3C1B8003D06FF /* CustomImageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomImageView.swift; sourceTree = "<group>"; };
 		6C8DB61524B3C1B8003D06FF /* DataService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataService.swift; sourceTree = "<group>"; };
 		6C8DB61724B3C1B8003D06FF /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
-		6C8DB61824B3C1B8003D06FF /* StripeUser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StripeUser.swift; sourceTree = "<group>"; };
 		6C8DB62024B3C1B8003D06FF /* ReviewInputAccessoryView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReviewInputAccessoryView.swift; sourceTree = "<group>"; };
 		6C8DB62124B3C1B8003D06FF /* RatingView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RatingView.swift; sourceTree = "<group>"; };
 		6C8DB62D24B3C1B9003D06FF /* BookmarkedViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BookmarkedViewController.swift; sourceTree = "<group>"; };
@@ -256,7 +247,6 @@
 			isa = PBXGroup;
 			children = (
 				6C296DD024B3BE6A008E33ED /* Yoke */,
-				6C296DE724B3BE70008E33ED /* YokeTests */,
 				6C296DCF24B3BE6A008E33ED /* Products */,
 				7363C3C684F1BE27EC27CDA8 /* Pods */,
 				9A2E590A032EBB8BE6D2D680 /* Frameworks */,
@@ -303,15 +293,6 @@
 				6C296DDA24B3BE6F008E33ED /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
-			sourceTree = "<group>";
-		};
-		6C296DE724B3BE70008E33ED /* YokeTests */ = {
-			isa = PBXGroup;
-			children = (
-				6C296DE824B3BE70008E33ED /* YokeTests.swift */,
-				6C296DEA24B3BE70008E33ED /* Info.plist */,
-			);
-			path = YokeTests;
 			sourceTree = "<group>";
 		};
 		6C3F1B5E261BAB6100B02901 /* Bookings */ = {
@@ -514,7 +495,6 @@
 			isa = PBXGroup;
 			children = (
 				6C8DB61724B3C1B8003D06FF /* User.swift */,
-				6C8DB61824B3C1B8003D06FF /* StripeUser.swift */,
 				6C8DB5CA24B3C1B7003D06FF /* Comment.swift */,
 				6CFDB39425B738FA007261D1 /* Cusine.swift */,
 				6CC8CBAE25C0D0A100C3F24D /* Menu.swift */,
@@ -523,7 +503,6 @@
 				6CA13F3326B9E20C0065DB15 /* Conversation.swift */,
 				6CF0DA3C260920EB00C20D1C /* Event.swift */,
 				6C3F1B6F261CFF1A00B02901 /* Booking.swift */,
-				6C6F9C8D262896EE004FAA12 /* Payment.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -636,7 +615,6 @@
 				6C411C5325E85681003426FC /* ConversationController.swift */,
 				6CF0DA52260924E100C20D1C /* EventController.swift */,
 				6C871681261E0B2E003FE22F /* BookingController.swift */,
-				6C6F9C932628A0A2004FAA12 /* PaymentController.swift */,
 				6CF64C9E265458BE001825E9 /* ReportBlockController.swift */,
 				6C4F72112662D3DC00C95A75 /* BookmarkController.swift */,
 				6C70DC5926B86730003C7180 /* RSVPController.swift */,
@@ -879,7 +857,6 @@
 				6C3A782E260E429000093AE9 /* ChefsEventsCollectionViewController.swift in Sources */,
 				6C4F72142667FA6E00C95A75 /* BookmarkedUsersTableViewCell.swift in Sources */,
 				6C718B7725A4D85D005EDC93 /*  HomeViewController.swift in Sources */,
-				6C6F9C942628A0A2004FAA12 /* PaymentController.swift in Sources */,
 				6CC8CBAF25C0D0A100C3F24D /* Menu.swift in Sources */,
 				6CDF2FD2262C79F000B7BCFA /* SearchLocationViewController.swift in Sources */,
 				6C3A7832260E42F200093AE9 /* ChefsEventsCollectionViewCell.swift in Sources */,
@@ -902,7 +879,6 @@
 				6C85598625E0471D00E513BB /* Message.swift in Sources */,
 				6C411C4825E81E1B003426FC /* ChatInputAccessoryView.swift in Sources */,
 				6C080CDA2613B7050049A179 /* EventLocationViewController.swift in Sources */,
-				6C6F9C8E262896EE004FAA12 /* Payment.swift in Sources */,
 				6CE86E3125C08A7C002C81F5 /* AddMenuViewController.swift in Sources */,
 				6C35F5BA25DED0350044E847 /* ReviewController.swift in Sources */,
 				6CD806EF25E1608F00BC51B6 /* ConversationViewController.swift in Sources */,
@@ -932,7 +908,6 @@
 				6C8DB6AB24B3C1CD003D06FF /* MainTabBarController.swift in Sources */,
 				6CF0DA3326091B7200C20D1C /* EventsCollectionViewController.swift in Sources */,
 				6C8DB66024B3C1B9003D06FF /* Constants.swift in Sources */,
-				6C8DB69C24B3C1B9003D06FF /* StripeUser.swift in Sources */,
 				6CA13F3426B9E20C0065DB15 /* Conversation.swift in Sources */,
 				6C5D5F8E25B0D6CE00ACF451 /* ChefSettingsViewController.swift in Sources */,
 				6C8DB69724B3C1B9003D06FF /* SearchbarView.swift in Sources */,
@@ -959,7 +934,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6C296DE924B3BE70008E33ED /* YokeTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

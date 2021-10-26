@@ -186,8 +186,8 @@ class BookingRequestDetailViewController: UIViewController {
     func handleCreateStripeAccount() {
         let alertVC = UIAlertController(title: "Stripe Account Required", message: "You must connect with Stripe before you can create an invoice", preferredStyle: .alert)
         let okAction = UIAlertAction(title: "Create Stripe Account", style: .default) { action in
-            let invoiceVC = StripeAccountViewController()
-            self.navigationController?.pushViewController(invoiceVC, animated: true)
+//            let invoiceVC = StripeAccountViewController()
+//            self.navigationController?.pushViewController(invoiceVC, animated: true)
         }
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel)
         alertVC.addAction(cancelAction)
@@ -208,9 +208,9 @@ class BookingRequestDetailViewController: UIViewController {
         
         docRef.getDocument { (document, error) in
             if let document = document, document.exists {
-                let invoiceVC = CreateInvoiceViewController()
-                invoiceVC.booking = self.booking
-                self.navigationController?.pushViewController(invoiceVC, animated: true)
+//                let invoiceVC = CreateInvoiceViewController()
+//                invoiceVC.booking = self.booking
+//                self.navigationController?.pushViewController(invoiceVC, animated: true)
             } else {
                 self.handleCreateStripeAccount()
             }

@@ -58,11 +58,11 @@ class UserController {
                     guard let imageUrl = downloadURL?.absoluteString else { return }
                     guard let uid = user?.user.uid else { return }
                     self.firestoreDB.collection(Constants.Users).document(uid).setData([Constants.Email: email, Constants.Username: username, Constants.Uid: uid, Constants.IsChef: isChef, Constants.ProfileImageUrl: imageUrl])
-                    let getUser = StripeUser.init(id: uid, customer_id: "", email: email)
-                    self.createFirestoreUser(stripeUser: getUser)
+//                    let getUser = StripeUser.init(id: uid, customer_id: "", email: email)
+//                    self.createFirestoreUser(stripeUser: getUser)
                     self.setupGeofirestore(uid: uid)
-                    let getStripeUser = StripeUser.init(id: uid, customer_id: "", email: email)
-                    self.createFirestoreUser(stripeUser: getStripeUser)
+//                    let getStripeUser = StripeUser.init(id: uid, customer_id: "", email: email)
+//                    self.createFirestoreUser(stripeUser: getStripeUser)
                     completion(true)
                 })
             })
@@ -83,16 +83,16 @@ class UserController {
         }
     }
     
-    func createFirestoreUser(stripeUser: StripeUser) {
-        let ref = Firestore.firestore().collection("stripe_customers").document(stripeUser.id)
-        let data = StripeUser.modelToData(customer_id: stripeUser)
-        
-        ref.setData(data) { (error) in
-            if let error = error {
-                print(error)
-            }
-        }
-    }
+//    func createFirestoreUser(stripeUser: StripeUser) {
+//        let ref = Firestore.firestore().collection("stripe_customers").document(stripeUser.id)
+//        let data = StripeUser.modelToData(customer_id: stripeUser)
+//
+//        ref.setData(data) { (error) in
+//            if let error = error {
+//                print(error)
+//            }
+//        }
+//    }
     
     func setupGeofirestore(uid: String) {
         guard let exposedLocation = self.locationManager.exposedLocation else { return }
@@ -129,9 +129,9 @@ class UserController {
                 completion(false)
             }
         }
-        let getUser = StripeUser.init(id: uid, customer_id: "", email: email)
-        self.createFirestoreUser(stripeUser: getUser)
-        completion(true)
+//        let getUser = StripeUser.init(id: uid, customer_id: "", email: email)
+//        self.createFirestoreUser(stripeUser: getUser)
+//        completion(true)
     }
     
     func checkIfUserExist(uid: String, completion: @escaping (Bool) -> Void) {
