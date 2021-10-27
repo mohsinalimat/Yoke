@@ -11,6 +11,7 @@
 		6C01FCC025F25FD5009AC5B9 /* CustomNavBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C01FCBF25F25FD5009AC5B9 /* CustomNavBarView.swift */; };
 		6C0750BD264F037900C98932 /* SuggestedEventsCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C0750BC264F037900C98932 /* SuggestedEventsCollectionViewCell.swift */; };
 		6C080CDA2613B7050049A179 /* EventLocationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C080CD92613B7050049A179 /* EventLocationViewController.swift */; };
+		6C0FA9792729E21100EFF961 /* InvoiceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C0FA9782729E21100EFF961 /* InvoiceViewController.swift */; };
 		6C1188EE262C820300614608 /* LocationSearchTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C1188ED262C820300614608 /* LocationSearchTableViewController.swift */; };
 		6C29312125D48D2500A36B64 /* SearchFilterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C29312025D48D2500A36B64 /* SearchFilterViewController.swift */; };
 		6C296DD224B3BE6A008E33ED /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C296DD124B3BE6A008E33ED /* AppDelegate.swift */; };
@@ -123,6 +124,7 @@
 		6C01FCBF25F25FD5009AC5B9 /* CustomNavBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomNavBarView.swift; sourceTree = "<group>"; };
 		6C0750BC264F037900C98932 /* SuggestedEventsCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SuggestedEventsCollectionViewCell.swift; sourceTree = "<group>"; };
 		6C080CD92613B7050049A179 /* EventLocationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventLocationViewController.swift; sourceTree = "<group>"; };
+		6C0FA9782729E21100EFF961 /* InvoiceViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InvoiceViewController.swift; sourceTree = "<group>"; };
 		6C1188ED262C820300614608 /* LocationSearchTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationSearchTableViewController.swift; sourceTree = "<group>"; };
 		6C29312025D48D2500A36B64 /* SearchFilterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchFilterViewController.swift; sourceTree = "<group>"; };
 		6C296DCE24B3BE6A008E33ED /* Yoke.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Yoke.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -311,6 +313,7 @@
 				6C871689261F6282003FE22F /* BookingRequestViewController.swift */,
 				6CF5720626274F0C00AAB1B7 /* BookingLocationViewController.swift */,
 				6CF5722E26276ADD00AAB1B7 /* BookingRequestDetailViewController.swift */,
+				6C0FA9782729E21100EFF961 /* InvoiceViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -876,6 +879,7 @@
 				6C8DB69124B3C1B9003D06FF /* LoginVC.swift in Sources */,
 				6CFDB39525B738FA007261D1 /* Cusine.swift in Sources */,
 				6C8DB59D25ED4A4700E6D1C4 /* CustomButtonView.swift in Sources */,
+				6C0FA9792729E21100EFF961 /* InvoiceViewController.swift in Sources */,
 				6C85598625E0471D00E513BB /* Message.swift in Sources */,
 				6C411C4825E81E1B003426FC /* ChatInputAccessoryView.swift in Sources */,
 				6C080CDA2613B7050049A179 /* EventLocationViewController.swift in Sources */,

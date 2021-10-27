@@ -203,21 +203,9 @@ class BookingRequestDetailViewController: UIViewController {
     }
     
     @objc func handleAccept() {
-        guard let chefUid = booking?.chefUid else { return }
-        let docRef = Firestore.firestore().collection(Constants.StripeAccounts).document(chefUid)
-        
-        docRef.getDocument { (document, error) in
-            if let document = document, document.exists {
-//                let invoiceVC = CreateInvoiceViewController()
-//                invoiceVC.booking = self.booking
-//                self.navigationController?.pushViewController(invoiceVC, animated: true)
-            } else {
-                self.handleCreateStripeAccount()
-            }
-        }
-        //        let invoiceVC = CreateInvoiceViewController()
-        //        invoiceVC.booking = booking
-        //        navigationController?.pushViewController(invoiceVC, animated: true)
+        let invoiceVC = invoiceViewController()
+        invoiceVC.booking = booking
+        navigationController?.pushViewController(invoiceVC, animated: true)
     }
     
     @objc func handleDecline() {
