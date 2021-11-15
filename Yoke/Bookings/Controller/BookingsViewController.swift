@@ -36,6 +36,7 @@ class BookingsViewController: UIViewController {
         setupCollectionViews()
         fetchTodaysBookings()
         fetchUpcomingBookings()
+        fetchArchivesBookings()
     }
     
     //MARK: - Helper Functions
@@ -119,6 +120,20 @@ class BookingsViewController: UIViewController {
             case true:
                 DispatchQueue.main.async {
                     self.upcomingCollectionView.reloadData()
+                }
+            case false:
+                print("No upcoming bookings")
+            }
+        }
+    }
+    
+    func fetchArchivesBookings() {
+        let uid = Auth.auth().currentUser?.uid ?? ""
+        BookingController.shared.fetchArchivesWith(uid: uid) { result in
+            switch result {
+            case true:
+                DispatchQueue.main.async {
+                    self.archivedCollectionView.reloadData()
                 }
             case false:
                 print("No upcoming bookings")

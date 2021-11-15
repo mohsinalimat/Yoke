@@ -148,11 +148,13 @@ class BookingController {
                 let formatter = DateFormatter()
                 formatter.dateFormat = "EEEE, MMM d, yyyy"
                 let todaysDate = formatter.string(from: currentDate)
-                if isBooked == true && bookingDate.compare(todaysDate) == .orderedAscending {
+                if isBooked == true && bookingDate >= todaysDate {
                     let booking = Booking(dictionary: dictionary)
                     self.upComingBookings.append(booking)
                     self.upComingBookings.sort(by: { (u1, u2) -> Bool in
-                        return u1.timestamp.compare(u2.timestamp) == .orderedDescending
+                        guard let date1 = u1.date,
+                              let date2 = u2.date else { return false }
+                        return date1.compare(date2) == .orderedAscending
                     })
                     completion(true)
                 }
@@ -176,11 +178,13 @@ class BookingController {
                 let formatter = DateFormatter()
                 formatter.dateFormat = "EEEE, MMM d, yyyy"
                 let todaysDate = formatter.string(from: currentDate)
-                if isBooked == true && bookingDate.compare(todaysDate) == .orderedDescending {
+                if isBooked == true && bookingDate <= todaysDate {
                     let booking = Booking(dictionary: dictionary)
                     self.archives.append(booking)
                     self.archives.sort(by: { (u1, u2) -> Bool in
-                        return u1.timestamp.compare(u2.timestamp) == .orderedDescending
+                        guard let date1 = u1.date,
+                              let date2 = u2.date else { return false }
+                        return date1.compare(date2) == .orderedAscending
                     })
                     completion(true)
                 }
