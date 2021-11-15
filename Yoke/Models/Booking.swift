@@ -26,6 +26,8 @@ class Booking {
     var isBooked: Bool?
     var invoiceSent: Bool?
     var invoicePaid: Bool?
+    var notes: String?
+    var total: String?
     
     init(dictionary: [String: Any]) {
         self.paymentId = dictionary[Constants.PaymentId] as? String ?? ""
@@ -46,6 +48,8 @@ class Booking {
         self.isBooked = dictionary[Constants.IsBooked] as? Bool ?? false
         self.invoiceSent = dictionary[Constants.InvoiceSent] as? Bool ?? false
         self.invoicePaid = dictionary[Constants.InvoicePaid] as? Bool ?? false
+        self.notes = dictionary[Constants.Note] as? String ?? ""
+        self.total = dictionary[Constants.Total] as? String ?? ""
     }
 }
 

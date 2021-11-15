@@ -38,16 +38,6 @@ class RequestTableViewCell: UITableViewCell {
                 guard let name = user.username else { return }
                 self.nameLabel.text = "\(name) has requested a booking"
             }
-            if booking.invoiceSent == true {
-                invoiceLabel.text = "Invoice has been sent"
-            } else {
-                invoiceLabel.text = "Invoice has not been sent"
-            }
-            if booking.invoicePaid == true {
-                paidLabel.text = "Paid"
-            } else {
-                paidLabel.text = "Paid: Pending"
-            }
         } else {
             guard let uid = booking.chefUid else { return }
             UserController.shared.fetchUserWithUID(uid: uid) { (user) in
@@ -71,8 +61,6 @@ class RequestTableViewCell: UITableViewCell {
         addSubview(dateIcon)
         addSubview(dateLabel)
         addSubview(bookedLabel)
-        addSubview(invoiceLabel)
-        addSubview(paidLabel)
     }
     
     func setupConstraints() {
@@ -83,8 +71,6 @@ class RequestTableViewCell: UITableViewCell {
         dateLabel.anchor(top: dateIcon.topAnchor, left: dateIcon.rightAnchor, bottom: nil, right: nil, paddingTop: 0, paddingLeft: 5, paddingBottom: 0, paddingRight: 10)
         dateLabel.centerYAnchor.constraint(equalTo: dateIcon.centerYAnchor).isActive = true
         bookedLabel.anchor(top: dateLabel.bottomAnchor, left: shadowView.leftAnchor, bottom: nil, right: shadowView.rightAnchor, paddingTop: 10, paddingLeft: 10, paddingBottom: 0, paddingRight: 10)
-        invoiceLabel.anchor(top: bookedLabel.bottomAnchor, left: shadowView.leftAnchor, bottom: nil, right: shadowView.rightAnchor, paddingTop: 10, paddingLeft: 10, paddingBottom: 0, paddingRight: 10)
-        paidLabel.anchor(top: invoiceLabel.bottomAnchor, left: shadowView.leftAnchor, bottom: nil, right: shadowView.rightAnchor, paddingTop: 10, paddingLeft: 10, paddingBottom: 0, paddingRight: 10)
     }
     
     //MARK: - Views

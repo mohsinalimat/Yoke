@@ -40,6 +40,7 @@ class HomeViewController: UIViewController {
         super.viewWillAppear(animated)
         handleUpdateObserverAndRefresh()
         configureNavigationBar()
+        fetchBookings()
     }
     
     override func viewDidLoad() {
@@ -80,7 +81,7 @@ class HomeViewController: UIViewController {
     }
     
     func constrainViews() {
-        let totalHeight = view.frame.height + 175
+        let totalHeight = view.frame.height + 150
         scrollView.contentSize = CGSize(width: view.frame.width, height: totalHeight)
         scrollView.anchor(top: safeArea.topAnchor, left: safeArea.leftAnchor, bottom: safeArea.bottomAnchor, right: safeArea.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0)
         bannerLayerView.anchor(top: scrollView.topAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, height: 230)
@@ -276,6 +277,20 @@ class HomeViewController: UIViewController {
                         self.eventsNearYouCollectionView.reloadData()
                     }
                 }
+            }
+        }
+    }
+    
+    func fetchBookings() {
+        let uid = userId ?? (Auth.auth().currentUser?.uid ?? "")
+        BookingController.shared.fetchBookingsWith(uid: uid) { result in
+            switch result {
+            case true:
+                DispatchQueue.main.async {
+                    self.upcomingBookingsCollectionView.reloadData()
+                }
+            case false:
+                print("couldnt fetch bookings")
             }
         }
     }
@@ -570,12 +585,11 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
                 return SuggestedChefController.shared.chefs.count
             }
         } else if collectionView == self.upcomingBookingsCollectionView {
-            return 1
-            //            if BookingController.shared.bookings.count == 0 {
-            //                return 1
-            //            } else {
-            //                return BookingController.shared.bookings.count
-            //            }
+            if BookingController.shared.bookings.count == 0 {
+                return 1
+            } else {
+                return BookingController.shared.bookings.count
+            }
         }
         if EventController.shared.events.count == 0 {
             return 1
@@ -609,18 +623,16 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
                 return cellB
             }
         } else if collectionView == self.upcomingBookingsCollectionView {
-            let cellC = collectionView.dequeueReusableCell(withReuseIdentifier: bookingCell, for: indexPath) as! TodayCollectionViewCell
-            //            cellC.booking = BookingController.shared.bookings[indexPath.item]
-            return cellC
-            //            if BookingController.shared.bookings.count == 0 {
-            //                let noCell = collectionView.dequeueReusableCell(withReuseIdentifier: noCellId, for: indexPath) as! EmptyCell
-            //                noCell.noPostLabel.text = "Sorry, you have no upcoming bookings"
-            //                noCell.noPostLabel.font = UIFont.boldSystemFont(ofSize: 15)
-            //                return noCell
-            //            } else {
-            //                cellC.booking = BookingController.shared.bookings[indexPath.item]
-            //                return cellC
-            //            }
+            if BookingController.shared.bookings.count == 0 {
+                let noCell = collectionView.dequeueReusableCell(withReuseIdentifier: noCellId, for: indexPath) as! EmptyCell
+                noCell.noPostLabel.text = "Sorry, you have no upcoming bookings"
+                noCell.noPostLabel.font = UIFont.boldSystemFont(ofSize: 15)
+                return noCell
+            } else {
+                let cellC = collectionView.dequeueReusableCell(withReuseIdentifier: bookingCell, for: indexPath) as! TodayCollectionViewCell
+                cellC.booking = BookingController.shared.bookings[indexPath.item]
+                return cellC
+            }
         }
         
         let cellD = collectionView.dequeueReusableCell(withReuseIdentifier: eventCell, for: indexPath) as! SuggestedEventsCollectionViewCell
@@ -687,10 +699,10 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
             if BookingController.shared.bookings.count == 0 {
                 return
             } else {
-                let booking = BookingController.shared.bookings[indexPath.row].id
-                let profileVC = ChefProfileViewController()
-                profileVC.userId = booking
-                navigationController?.pushViewController(profileVC, animated: true)
+                let booking = BookingController.shared.bookings[indexPath.row]
+                let bookingVC = BookingRequestDetailViewController()
+                bookingVC.booking = booking
+                navigationController?.pushViewController(bookingVC, animated: true)
             }
         } else {
             if EventController.shared.events.count == 0 {

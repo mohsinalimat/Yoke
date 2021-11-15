@@ -50,7 +50,6 @@ class BookingsViewController: UIViewController {
         view.addSubview(scrollView)
         scrollView.addSubview(todaysViews)
         scrollView.addSubview(todayLabel)
-        scrollView.addSubview(viewAllTodayButton)
         scrollView.addSubview(todaysCollectionView)
         scrollView.addSubview(upcomingArchivedViews)
         scrollView.addSubview(segmentShadowView)
@@ -63,9 +62,7 @@ class BookingsViewController: UIViewController {
         scrollView.contentSize = CGSize(width: view.frame.width, height: view.frame.height)
         scrollView.anchor(top: safeArea.topAnchor, left: safeArea.leftAnchor, bottom: safeArea.bottomAnchor, right: safeArea.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0)
         todaysViews.anchor(top: scrollView.topAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 20, paddingLeft: 10, paddingBottom: 50, paddingRight: 10, height: 200)
-        todayLabel.anchor(top: todaysViews.topAnchor, left: todaysViews.leftAnchor, bottom: nil, right: viewAllTodayButton.leftAnchor, paddingTop: 10, paddingLeft: 10, paddingBottom: 0, paddingRight: 0)
-        viewAllTodayButton.anchor(top: nil, left: todayLabel.rightAnchor, bottom: nil, right: todaysViews.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 10)
-        viewAllTodayButton.centerYAnchor.constraint(equalTo: todayLabel.centerYAnchor).isActive = true
+        todayLabel.anchor(top: todaysViews.topAnchor, left: todaysViews.leftAnchor, bottom: nil, right: nil, paddingTop: 10, paddingLeft: 10, paddingBottom: 0, paddingRight: 0)
         todaysCollectionView.anchor(top: todayLabel.bottomAnchor, left: todaysViews.leftAnchor, bottom: nil, right: todaysViews.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, height: 150)
         upcomingArchivedViews.anchor(top: todaysViews.bottomAnchor, left: safeArea.leftAnchor, bottom: safeArea.bottomAnchor, right: safeArea.rightAnchor, paddingTop: 20, paddingLeft: 10, paddingBottom: 10, paddingRight: 10)
         segmentShadowView.anchor(top: upcomingArchivedViews.topAnchor, left: upcomingArchivedViews.leftAnchor, bottom: nil, right: upcomingArchivedViews.rightAnchor, paddingTop: 5, paddingLeft: 5, paddingBottom: 0, paddingRight: 5, height: 45)
@@ -174,14 +171,6 @@ class BookingsViewController: UIViewController {
         return label
     }()
     
-    var viewAllTodayButton: UIButton = {
-        let button = UIButton()
-        button.setTitle("View all", for: .normal)
-        button.setTitleColor(UIColor.orangeColor(), for: .normal)
-        button.titleLabel?.font = .systemFont(ofSize: 15)
-        return button
-    }()
-    
     let todaysCollectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal
@@ -269,30 +258,24 @@ extension BookingsViewController: UICollectionViewDelegate, UICollectionViewData
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        if collectionView == self.todaysCollectionView {
+            let booking = BookingController.shared.bookings[indexPath.row]
+            let bookingVC = BookingRequestDetailViewController()
+            bookingVC.booking = booking
+            navigationController?.pushViewController(bookingVC, animated: true)
+        }
+        if collectionView == self.upcomingCollectionView {
+            let booking = BookingController.shared.upComingBookings[indexPath.row]
+            let bookingVC = BookingRequestDetailViewController()
+            bookingVC.booking = booking
+            navigationController?.pushViewController(bookingVC, animated: true)
+        }
         
-        //        if collectionView == self.menuCollectionView {
-        //            if MenuController.shared.menus.count == 0 {
-        //                return
-        //            } else {
-        //                let menu = MenuController.shared.menus[indexPath.row]
-        //                let menuVC = AddMenuViewController()
-        //                menuVC.menu = menu
-        //                menuVC.menuLabel.text = "Edit Menu"
-        //                menuVC.dishDetailTextField.placeholder = ""
-        //                menuVC.deleteButton.isHidden = false
-        //                menuVC.menuExist = true
-        //                menuVC.saveButton.setTitle("Update", for: .normal)
-        //                present(menuVC, animated: true)
-        //            }
-        //        } else {
-        //            if SuggestedChefController.shared.chefs.count == 0 {
-        //                return
-        //            } else {
-        //                let chef = SuggestedChefController.shared.chefs[indexPath.row].uid
-        //                let profileVC = ProfileViewController()
-        //                profileVC.userId = chef
-        //                navigationController?.pushViewController(profileVC, animated: true)
-        //            }
-        //        }
+        if collectionView == self.archivedCollectionView {
+            let booking = BookingController.shared.archives[indexPath.row]
+            let bookingVC = BookingRequestDetailViewController()
+            bookingVC.booking = booking
+            navigationController?.pushViewController(bookingVC, animated: true)
+        }
     }
 }

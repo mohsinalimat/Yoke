@@ -227,11 +227,9 @@ extension ConversationViewController: UITableViewDelegate {
             let request = BookingController.shared.bookings[indexPath.row]
             if request.invoiceSent == true {
                 if request.chefUid == Auth.auth().currentUser?.uid ?? "" {
-                    print("user is chef")
                     let requestVC = BookingRequestDetailViewController()
                     requestVC.booking = request
                     navigationController?.pushViewController(requestVC, animated: true)
-                    print("booking request detail")
                 } else {
 //                    let requestVC = MakePaymentViewController()
 //                    requestVC.booking = request

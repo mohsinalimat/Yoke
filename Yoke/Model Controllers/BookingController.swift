@@ -33,8 +33,8 @@ class BookingController {
     //MARK: - CRUD Functions
     func createBookingWith(chefUid: String, userUid: String, location: String, locationShort: String, date: String, startTime: String, endTime: String, numberOfPeople: Int, numberOfCourses: Int, typeOfCuisine: String, details: String, completion: @escaping (Bool) -> Void) {
         let bookingId = NSUUID().uuidString
-        self.firestoreDB.document(chefUid).collection(Constants.Bookings).document(bookingId).setData([Constants.ChefUid: chefUid, Constants.Id: bookingId, Constants.UserUid: userUid, Constants.Location: location, Constants.LocationShort: locationShort, Constants.Date: date, Constants.StartTime: startTime, Constants.EndTime: endTime, Constants.NumberOfPeople: numberOfPeople, Constants.NumberOfCourses: numberOfCourses, Constants.Detail: details, Constants.InvoiceSent: false, Constants.InvoicePaid: false, Constants.IsBooked: false, Constants.CuisineType: typeOfCuisine, Constants.Archive: false], merge: true)
-        self.firestoreDB.document(userUid).collection(Constants.Bookings).document(bookingId).setData([Constants.ChefUid: chefUid, Constants.Id: bookingId, Constants.UserUid: userUid, Constants.Location: location, Constants.LocationShort: locationShort, Constants.Date: date, Constants.StartTime: startTime, Constants.EndTime: endTime, Constants.NumberOfPeople: numberOfPeople, Constants.NumberOfCourses: numberOfCourses, Constants.Detail: details, Constants.InvoiceSent: false, Constants.InvoicePaid: false, Constants.IsBooked: false, Constants.CuisineType: typeOfCuisine, Constants.Archive: false], merge: true)
+        self.firestoreDB.document(chefUid).collection(Constants.Bookings).document(bookingId).setData([Constants.ChefUid: chefUid, Constants.Id: bookingId, Constants.UserUid: userUid, Constants.Location: location, Constants.LocationShort: locationShort, Constants.Date: date, Constants.StartTime: startTime, Constants.EndTime: endTime, Constants.NumberOfPeople: numberOfPeople, Constants.NumberOfCourses: numberOfCourses, Constants.Detail: details, Constants.IsBooked: false, Constants.CuisineType: typeOfCuisine], merge: true)
+        self.firestoreDB.document(userUid).collection(Constants.Bookings).document(bookingId).setData([Constants.ChefUid: chefUid, Constants.Id: bookingId, Constants.UserUid: userUid, Constants.Location: location, Constants.LocationShort: locationShort, Constants.Date: date, Constants.StartTime: startTime, Constants.EndTime: endTime, Constants.NumberOfPeople: numberOfPeople, Constants.NumberOfCourses: numberOfCourses, Constants.Detail: details, Constants.IsBooked: false, Constants.CuisineType: typeOfCuisine], merge: true)
         completion(true)
     }
     
@@ -43,8 +43,8 @@ class BookingController {
         completion(true)
     }
     
-    func updateBookingPaymentRequestWith(paymentId: String, bookingId: String, chefUid: String, userUid: String, isBooked: Bool, invoiceSent: Bool, invoicePaid: Bool, archive: Bool, completion: @escaping (Bool) -> Void) {
-        self.firestoreDB.document(chefUid).collection(Constants.Bookings).document(bookingId).setData([Constants.PaymentId: paymentId, Constants.InvoiceSent: invoiceSent, Constants.InvoicePaid: invoicePaid, Constants.IsBooked: isBooked, Constants.Archive: archive], merge: true) { error in
+    func updateBookingPaymentRequestWith(bookingId: String, chefUid: String, userUid: String, isBooked: Bool, invoiceSent: Bool, notes: String, total: String, completion: @escaping (Bool) -> Void) {
+        self.firestoreDB.document(chefUid).collection(Constants.Bookings).document(bookingId).setData([Constants.IsBooked: isBooked, Constants.InvoiceSent: invoiceSent, Constants.Note: notes, Constants.Total: total], merge: true) { error in
             if let error = error {
                 print("There was an error updating data: \(error.localizedDescription)")
                 completion(false)
@@ -54,7 +54,7 @@ class BookingController {
                 print("Document successfully updated")
             }
         }
-        self.firestoreDB.document(userUid).collection(Constants.Bookings).document(bookingId).setData([Constants.PaymentId: paymentId, Constants.InvoiceSent: invoiceSent, Constants.InvoicePaid: invoicePaid, Constants.IsBooked: isBooked, Constants.Archive: archive], merge: true) { error in
+        self.firestoreDB.document(userUid).collection(Constants.Bookings).document(bookingId).setData([Constants.IsBooked: isBooked, Constants.InvoiceSent: invoiceSent, Constants.Note: notes, Constants.Total: total], merge: true) { error in
             if let error = error {
                 print("There was an error updating data: \(error.localizedDescription)")
                 completion(false)
@@ -93,12 +93,19 @@ class BookingController {
             self.bookings = []
             snapshot?.documents.forEach({ (document) in
                 let dictionary = document.data()
-                let isArchive = dictionary[Constants.Archive] as? Bool
-                if isArchive == false {
+                let isBooked = dictionary[Constants.IsBooked] as? Bool
+                guard let bookingDate = dictionary[Constants.Date] as? String else { return }
+                let currentDate = Date()
+                let formatter = DateFormatter()
+                formatter.dateFormat = "EEEE, MMM d, yyyy"
+                let todaysDate = formatter.string(from: currentDate)
+                if isBooked == true && bookingDate >= todaysDate {
                     let booking = Booking(dictionary: dictionary)
                     self.bookings.append(booking)
                     self.bookings.sort(by: { (u1, u2) -> Bool in
-                        return u1.timestamp.compare(u2.timestamp) == .orderedDescending
+                        guard let date1 = u1.date,
+                              let date2 = u2.date else { return false }
+                        return date1.compare(date2) == .orderedAscending
                     })
                     completion(true)
                 }
@@ -148,7 +155,7 @@ class BookingController {
                 let formatter = DateFormatter()
                 formatter.dateFormat = "EEEE, MMM d, yyyy"
                 let todaysDate = formatter.string(from: currentDate)
-                if isBooked == true && bookingDate >= todaysDate {
+                if isBooked == true && bookingDate > todaysDate {
                     let booking = Booking(dictionary: dictionary)
                     self.upComingBookings.append(booking)
                     self.upComingBookings.sort(by: { (u1, u2) -> Bool in
@@ -178,7 +185,7 @@ class BookingController {
                 let formatter = DateFormatter()
                 formatter.dateFormat = "EEEE, MMM d, yyyy"
                 let todaysDate = formatter.string(from: currentDate)
-                if isBooked == true && bookingDate <= todaysDate {
+                if isBooked == true && bookingDate < todaysDate {
                     let booking = Booking(dictionary: dictionary)
                     self.archives.append(booking)
                     self.archives.sort(by: { (u1, u2) -> Bool in

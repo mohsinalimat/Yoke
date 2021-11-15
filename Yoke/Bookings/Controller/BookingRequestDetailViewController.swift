@@ -60,7 +60,7 @@ class BookingRequestDetailViewController: UIViewController {
         scrollView.addSubview(numberOfPeopleLabel)
         scrollView.addSubview(descriptionLabel)
         scrollView.addSubview(additionalInfoButton)
-        scrollView.addSubview(payButton)
+        scrollView.addSubview(notesLabel)
         scrollView.addSubview(buttonStackView)
         buttonStackView.addArrangedSubview(acceptButton)
         buttonStackView.addArrangedSubview(declineButton)
@@ -101,13 +101,13 @@ class BookingRequestDetailViewController: UIViewController {
             additionalInfoButton.isHidden = true
             buttonStackView.isHidden = true
             if booking.invoiceSent == true {
-                payButton.anchor(top: descriptionLabel.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 10, paddingLeft: 20, paddingBottom: 0, paddingRight: 20, height: 45)
+                notesLabel.anchor(top: descriptionLabel.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 10, paddingLeft: 20, paddingBottom: 0, paddingRight: 20)
             } else {
-                payButton.isHidden = true
+                notesLabel.isHidden = true
             }
             
         } else {
-            payButton.isHidden = true
+            notesLabel.isHidden = true
             additionalInfoButton.anchor(top: descriptionLabel.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 5, paddingLeft: 20, paddingBottom: 0, paddingRight: 20)
             buttonStackView.anchor(top: additionalInfoButton.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 10, paddingLeft: 20, paddingBottom: 0, paddingRight: 20, height: 45)
         }
@@ -116,10 +116,13 @@ class BookingRequestDetailViewController: UIViewController {
             if booking.invoiceSent == true {
                 buttonStackView.isHidden = true
                 statusLabel.isHidden = false
+                notesLabel.isHidden = false
                 statusLabel.anchor(top: additionalInfoButton.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 5, paddingLeft: 20, paddingBottom: 0, paddingRight: 20)
+                notesLabel.anchor(top: statusLabel.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 10, paddingLeft: 20, paddingBottom: 0, paddingRight: 20)
             } else {
                 buttonStackView.isHidden = false
                 statusLabel.isHidden = true
+                notesLabel.isHidden = true
             }
         }
     }
@@ -154,6 +157,7 @@ class BookingRequestDetailViewController: UIViewController {
                 let attributedText = NSMutableAttributedString(string: "Details:", attributes: [NSAttributedString.Key.font: UIFont.boldSystemFont(ofSize: 15), NSAttributedString.Key.foregroundColor: UIColor.gray])
                 attributedText.append(NSAttributedString(string: " " + details, attributes: [NSAttributedString.Key.font: UIFont(name: "Avenir", size: 15)!, NSAttributedString.Key.foregroundColor: UIColor.gray]))
                 self.descriptionLabel.attributedText = attributedText
+                self.notesLabel.text = booking.notes
                 
             }
         } else {
@@ -178,21 +182,13 @@ class BookingRequestDetailViewController: UIViewController {
                 attributedText.append(NSAttributedString(string: " " + details, attributes: [NSAttributedString.Key.font: UIFont(name: "Avenir", size: 15)!, NSAttributedString.Key.foregroundColor: UIColor.gray]))
                 self.descriptionLabel.attributedText = attributedText
                 self.additionalInfoButton.setTitle("Need more information from \(username)?", for: .normal)
+                let total = booking.total ?? ""
+                let notes = booking.notes ?? ""
+                let attributedText2 = NSMutableAttributedString(string: "Total Amount for booking $\(total)", attributes: [NSAttributedString.Key.font: UIFont.boldSystemFont(ofSize: 15), NSAttributedString.Key.foregroundColor: UIColor.gray])
+                attributedText2.append(NSAttributedString(string: "\nNotes: \(notes)", attributes: [NSAttributedString.Key.font: UIFont(name: "Avenir", size: 15)!, NSAttributedString.Key.foregroundColor: UIColor.gray]))
+                self.notesLabel.attributedText = attributedText2
             }
         }
-        
-    }
-    
-    func handleCreateStripeAccount() {
-        let alertVC = UIAlertController(title: "Stripe Account Required", message: "You must connect with Stripe before you can create an invoice", preferredStyle: .alert)
-        let okAction = UIAlertAction(title: "Create Stripe Account", style: .default) { action in
-//            let invoiceVC = StripeAccountViewController()
-//            self.navigationController?.pushViewController(invoiceVC, animated: true)
-        }
-        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel)
-        alertVC.addAction(cancelAction)
-        alertVC.addAction(okAction)
-        present(alertVC, animated: true)
     }
     
     //MARK: - Selectors
@@ -213,7 +209,7 @@ class BookingRequestDetailViewController: UIViewController {
               let id = booking.id,
               let chefUid = booking.chefUid,
               let userUid = booking.userUid else { return }
-        BookingController.shared.updateBookingPaymentRequestWith(paymentId: "", bookingId: id, chefUid: chefUid, userUid: userUid, isBooked: false, invoiceSent: false, invoicePaid: false, archive: true) { (result) in
+        BookingController.shared.updateBookingPaymentRequestWith(bookingId: id, chefUid: chefUid, userUid: userUid, isBooked: false, invoiceSent: false, notes: "Your request has been denied", total: "") { (result) in
             switch result {
             default:
                 print("complete")
@@ -376,23 +372,7 @@ class BookingRequestDetailViewController: UIViewController {
     
     var declineButton: UIButton = {
         let button = UIButton()
-        // add decline X
         button.setTitle("Decline Request", for: .normal)
-        button.setTitleColor(.white, for: .normal)
-        button.backgroundColor = UIColor.orangeColor()
-        button.layer.cornerRadius = 10
-        button.layer.shadowOffset = CGSize(width: 0, height: 4)
-        button.layer.shadowRadius = 4
-        button.layer.shadowOpacity = 0.2
-        button.layer.shadowColor = UIColor.lightGray.cgColor
-        button.addTarget(self, action: #selector(handleDecline), for: .touchUpInside)
-        return button
-    }()
-    
-    var payButton: UIButton = {
-        let button = UIButton()
-        // add decline X
-        button.setTitle("Pay", for: .normal)
         button.setTitleColor(.white, for: .normal)
         button.backgroundColor = UIColor.orangeColor()
         button.layer.cornerRadius = 10
@@ -406,7 +386,16 @@ class BookingRequestDetailViewController: UIViewController {
     
     var statusLabel: UILabel = {
         let label = UILabel()
-        label.text = "Invoice has been sent and awaiting approval."
+        label.text = "Invoice has been sent"
+        label.font = UIFont.boldSystemFont(ofSize: 15)
+        label.textColor = .gray
+        label.numberOfLines = 0
+        label.lineBreakMode = .byWordWrapping
+        return label
+    }()
+    
+    var notesLabel: UILabel = {
+        let label = UILabel()
         label.font = UIFont.boldSystemFont(ofSize: 15)
         label.textColor = .gray
         label.numberOfLines = 0

@@ -45,7 +45,6 @@ class invoiceViewController: UIViewController {
         view.backgroundColor = UIColor.LightGrayBg()
         view.addSubview(scrollView)
         view.addSubview(myActivityIndicator)
-        scrollView.addSubview(infoLabel)
         scrollView.addSubview(usernameLabel)
         scrollView.addSubview(cuisineLabel)
         scrollView.addSubview(timestampLabel)
@@ -59,6 +58,9 @@ class invoiceViewController: UIViewController {
         scrollView.addSubview(numberOfPeopleLabel)
         scrollView.addSubview(amountLabel)
         scrollView.addSubview(amountTextField)
+        scrollView.addSubview(detailsViewBG)
+        scrollView.addSubview(detailsTextField)
+        scrollView.addSubview(submitButton)
     }
     
     func constrainViews() {
@@ -66,8 +68,7 @@ class invoiceViewController: UIViewController {
         let totalHeight = 270 + view.frame.width + descriptionLabel.frame.height
         scrollView.contentSize = CGSize(width: view.frame.width, height: totalHeight)
         scrollView.anchor(top: safeArea.topAnchor, left: safeArea.leftAnchor, bottom: safeArea.bottomAnchor, right: safeArea.rightAnchor, paddingTop: 10, paddingLeft: 10, paddingBottom: 10, paddingRight: 10)
-        infoLabel.anchor(top: scrollView.topAnchor, left: nil, bottom: nil, right: nil, paddingTop: 5, paddingLeft: 10, paddingBottom: 0, paddingRight: 0)
-        usernameLabel.anchor(top: infoLabel.bottomAnchor, left: nil, bottom: nil, right: nil, paddingTop: 5, paddingLeft: 10, paddingBottom: 0, paddingRight: 0)
+        usernameLabel.anchor(top: scrollView.topAnchor, left: nil, bottom: nil, right: nil, paddingTop: 5, paddingLeft: 10, paddingBottom: 0, paddingRight: 0)
         usernameLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         cuisineLabel.anchor(top: usernameLabel.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 20, paddingLeft: 20, paddingBottom: 0, paddingRight: 20)
         timestampLabel.anchor(top: cuisineLabel.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 10, paddingLeft: 20, paddingBottom: 0, paddingRight: 0)
@@ -82,9 +83,12 @@ class invoiceViewController: UIViewController {
         timeLabel.centerYAnchor.constraint(equalTo: timeIcon.centerYAnchor).isActive = true
         numberOfCoursesLabel.anchor(top: timeLabel.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: nil, paddingTop: 10, paddingLeft: 20, paddingBottom: 0, paddingRight: 0)
         numberOfPeopleLabel.anchor(top: numberOfCoursesLabel.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: nil, paddingTop: 10, paddingLeft: 20, paddingBottom: 0, paddingRight: 0)
-        amountLabel.anchor(top: numberOfPeopleLabel.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: nil, paddingTop: 10, paddingLeft: 10, paddingBottom: 0, paddingRight: 0, height: 45)
+        amountLabel.anchor(top: numberOfPeopleLabel.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: nil, paddingTop: 10, paddingLeft: 20, paddingBottom: 0, paddingRight: 0, width: 100, height: 45)
         amountTextField.anchor(top: nil, left: nil, bottom: nil, right: safeArea.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 10, width: 100, height: 45)
         amountTextField.centerYAnchor.constraint(equalTo: amountLabel.centerYAnchor).isActive = true
+        detailsViewBG.anchor(top: amountTextField.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 10, paddingLeft: 20, paddingBottom: 0, paddingRight: 20, height: 100)
+        detailsTextField.anchor(top: amountTextField.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 10, paddingLeft: 20, paddingBottom: 0, paddingRight: 20, height: 200)
+        submitButton.anchor(top: detailsTextField.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 20, paddingLeft: 10, paddingBottom: 0, paddingRight: 10, height: 50)
         
         myActivityIndicator.center = view.center
     }
@@ -137,7 +141,18 @@ class invoiceViewController: UIViewController {
     //MARK: - Selectors
     
     @objc func handleSubmit() {
-
+        guard let booking = booking,
+              let id = booking.id,
+              let chefUid = booking.chefUid,
+              let userUid = booking.userUid,
+              let total = amountLabel.text else { return }
+        let notes = detailsTextField.text ?? ""
+        BookingController.shared.updateBookingPaymentRequestWith(bookingId: id, chefUid: chefUid, userUid: userUid, isBooked: true, invoiceSent: true, notes: notes, total: total) { (result) in
+            switch result {
+            default:
+                print("complete")
+            }
+        }
     }
     
     
@@ -279,10 +294,15 @@ class invoiceViewController: UIViewController {
         return view
     }()
     
-    let detailsTextField: UITextField = {
-        let text = UITextField()
+    let detailsTextField: UITextView = {
+        let text = UITextView()
+        text.placeholder = "Enter notes..."
+        text.backgroundColor = .white
         text.textColor = .darkGray
-        text.attributedPlaceholder = NSAttributedString(string: " Enter Caption", attributes: [NSAttributedString.Key.foregroundColor: UIColor.lightGray])
+        text.isEditable = true
+        text.isScrollEnabled = true
+        text.textContainer.lineBreakMode = .byWordWrapping
+        text.font = UIFont.systemFont(ofSize: 17)
         return text
     }()
     
@@ -301,7 +321,7 @@ class invoiceViewController: UIViewController {
     
     let submitButton: UIButton = {
         let button = UIButton()
-        button.setTitle("Submit Request", for: .normal)
+        button.setTitle("Submit", for: .normal)
         button.setTitleColor(.white, for: .normal)
         button.backgroundColor = UIColor.orangeColor()
         button.layer.cornerRadius = 10
