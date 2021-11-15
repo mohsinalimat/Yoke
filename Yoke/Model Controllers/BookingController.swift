@@ -24,6 +24,7 @@ class BookingController {
     
     //MARK: - Source of truth
     var bookings: [Booking] = []
+    var upComingBookings: [Booking] = []
     var archives: [Booking] = []
     
     //MARK: - Properties
@@ -105,7 +106,7 @@ class BookingController {
         }
     }
     
-    func fetchArchivesWith(uid: String, completion: @escaping (Bool) -> Void) {
+    func fetchTodaysBookingsWith(uid: String, completion: @escaping (Bool) -> Void) {
         firestoreDB.document(uid).collection(Constants.Bookings).addSnapshotListener { (snapshot, error) in
             if let error = error {
                 print(error.localizedDescription)
@@ -114,11 +115,71 @@ class BookingController {
             self.bookings = []
             snapshot?.documents.forEach({ (document) in
                 let dictionary = document.data()
-                let isArchive = dictionary[Constants.Archive] as? Bool
-                if isArchive == true {
+                let isBooked = dictionary[Constants.IsBooked] as? Bool
+                let bookingDate = dictionary[Constants.Date] as? String
+                let currentDate = Date()
+                let formatter = DateFormatter()
+                formatter.dateFormat = "EEEE, MMM d, yyyy"
+                let todaysDate = formatter.string(from: currentDate)
+                if isBooked == true && bookingDate == todaysDate {
                     let booking = Booking(dictionary: dictionary)
                     self.bookings.append(booking)
                     self.bookings.sort(by: { (u1, u2) -> Bool in
+                        return u1.timestamp.compare(u2.timestamp) == .orderedDescending
+                    })
+                    completion(true)
+                }
+            })
+        }
+    }
+    
+    func fetchUpcomingBookingsWith(uid: String, completion: @escaping (Bool) -> Void) {
+        firestoreDB.document(uid).collection(Constants.Bookings).addSnapshotListener { (snapshot, error) in
+            if let error = error {
+                print(error.localizedDescription)
+                completion(false)
+            }
+            self.upComingBookings = []
+            snapshot?.documents.forEach({ (document) in
+                let dictionary = document.data()
+                let isBooked = dictionary[Constants.IsBooked] as? Bool
+                guard let bookingDate = dictionary[Constants.Date] as? String else { return }
+                let currentDate = Date()
+                let formatter = DateFormatter()
+                formatter.dateFormat = "EEEE, MMM d, yyyy"
+                let todaysDate = formatter.string(from: currentDate)
+                if isBooked == true && bookingDate.compare(todaysDate) == .orderedAscending {
+                    let booking = Booking(dictionary: dictionary)
+                    self.upComingBookings.append(booking)
+                    self.upComingBookings.sort(by: { (u1, u2) -> Bool in
+                        return u1.timestamp.compare(u2.timestamp) == .orderedDescending
+                    })
+                    completion(true)
+                }
+            })
+        }
+    }
+    
+    
+    func fetchArchivesWith(uid: String, completion: @escaping (Bool) -> Void) {
+        firestoreDB.document(uid).collection(Constants.Bookings).addSnapshotListener { (snapshot, error) in
+            if let error = error {
+                print(error.localizedDescription)
+                completion(false)
+            }
+            self.archives = []
+            snapshot?.documents.forEach({ (document) in
+                let dictionary = document.data()
+                let isBooked = dictionary[Constants.IsBooked] as? Bool
+                guard let bookingDate = dictionary[Constants.Date] as? String else { return }
+                let currentDate = Date()
+                let formatter = DateFormatter()
+                formatter.dateFormat = "EEEE, MMM d, yyyy"
+                let todaysDate = formatter.string(from: currentDate)
+                if isBooked == true && bookingDate.compare(todaysDate) == .orderedDescending {
+                    let booking = Booking(dictionary: dictionary)
+                    self.archives.append(booking)
+                    self.archives.sort(by: { (u1, u2) -> Bool in
                         return u1.timestamp.compare(u2.timestamp) == .orderedDescending
                     })
                     completion(true)

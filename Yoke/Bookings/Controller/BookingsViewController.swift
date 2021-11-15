@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import FirebaseAuth
 
 class BookingsViewController: UIViewController {
     
@@ -33,6 +34,8 @@ class BookingsViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupCollectionViews()
+        fetchTodaysBookings()
+        fetchUpcomingBookings()
     }
     
     //MARK: - Helper Functions
@@ -93,6 +96,34 @@ class BookingsViewController: UIViewController {
         archivedCollectionView.register(BookingsCollectionViewCell.self, forCellWithReuseIdentifier: cellId3)
         archivedCollectionView.register(EmptyCell.self, forCellWithReuseIdentifier: noCellId)
         archivedCollectionView.isHidden = true
+    }
+    
+    func fetchTodaysBookings() {
+        let uid = Auth.auth().currentUser?.uid ?? ""
+        BookingController.shared.fetchTodaysBookingsWith(uid: uid) { result in
+            switch result {
+            case true:
+                DispatchQueue.main.async {
+                    self.todaysCollectionView.reloadData()
+                }
+            case false:
+                print("No bookings today")
+            }
+        }
+    }
+    
+    func fetchUpcomingBookings() {
+        let uid = Auth.auth().currentUser?.uid ?? ""
+        BookingController.shared.fetchUpcomingBookingsWith(uid: uid) { result in
+            switch result {
+            case true:
+                DispatchQueue.main.async {
+                    self.upcomingCollectionView.reloadData()
+                }
+            case false:
+                print("No upcoming bookings")
+            }
+        }
     }
     
     //MARK: - Selectors
@@ -188,34 +219,30 @@ class BookingsViewController: UIViewController {
 extension BookingsViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         if collectionView == self.todaysCollectionView {
-            return 2
+            return BookingController.shared.bookings.count
         }
         if collectionView == self.upcomingCollectionView {
-            return 1
+            return BookingController.shared.upComingBookings.count
         }
         if collectionView == self.archivedCollectionView {
-            return 3
+            return BookingController.shared.archives.count
         }
         return 0
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         if collectionView == self.todaysCollectionView {
-            //            if MenuController.shared.menus.count == 0 {
-            //                let noCell = collectionView.dequeueReusableCell(withReuseIdentifier: noCellId, for: indexPath) as! EmptyCell
-            //                noCell.noPostLabel.text = "Hey chef, Add a menu to your profile."
-            //                noCell.noPostLabel.font = UIFont.boldSystemFont(ofSize: 15)
-            //                return noCell
-            //            }
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath) as! TodayCollectionViewCell
-            //        cell.review = ReviewController.shared.reviews[indexPath.item]
+            cell.booking = BookingController.shared.bookings[indexPath.row]
             return cell
         }
         if collectionView == self.upcomingCollectionView {
             let cellA = collectionView.dequeueReusableCell(withReuseIdentifier: cellId2, for: indexPath) as! BookingsCollectionViewCell
+            cellA.booking = BookingController.shared.upComingBookings[indexPath.row]
             return cellA
         }
         let cellB = collectionView.dequeueReusableCell(withReuseIdentifier: cellId3, for: indexPath) as! BookingsCollectionViewCell
+        cellB.booking = BookingController.shared.archives[indexPath.row]
         return cellB
     }
     

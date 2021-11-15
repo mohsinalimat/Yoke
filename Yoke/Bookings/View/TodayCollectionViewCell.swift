@@ -9,6 +9,12 @@
 import UIKit
 
 class TodayCollectionViewCell: UICollectionViewCell {
+    
+    var booking: Booking? {
+        didSet {
+            configure()
+        }
+    }
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -21,12 +27,20 @@ class TodayCollectionViewCell: UICollectionViewCell {
     }
     
     //MARK: - Helper Funtions
-    //    func configure() {
-    //        guard let menu = menu else { return }
-    //        nameLabel.text = menu.name
-    //        guard let image = menu.imageUrl else { return }
-    //        menuImage.loadImage(urlString: image)
-    //    }
+    func configure() {
+        guard let booking = booking,
+        let uid = booking.userUid else { return }
+        UserController.shared.fetchUserWithUID(uid: uid) { user in
+            guard let image = user.profileImageUrl else { return }
+            self.profileImage.loadImage(urlString: image)
+            self.nameLabel.text = user.username
+        }
+        locationLabel.text = booking.locationShort
+        dateLabel.text = booking.date
+        guard let start = booking.startTime,
+              let end = booking.endTime else { return }
+        timeLabel.text = "\(start) - \(end)"
+    }
     
     func setupViews() {
         addSubview(shadowView)

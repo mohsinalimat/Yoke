@@ -9,6 +9,7 @@
 import UIKit
 
 class BookingsCollectionViewCell: UICollectionViewCell {
+    
     var booking: Booking? {
         didSet {
             configure()
@@ -27,8 +28,19 @@ class BookingsCollectionViewCell: UICollectionViewCell {
     
     //MARK: - Helper Funtions
     func configure() {
-        //            guard let booking = booking else { return }
-        //            UserController.shared.fetchUserWithUID(uid: , completion: <#T##(User) -> ()#>)
+        guard let booking = booking,
+        let uid = booking.userUid else { return }
+        UserController.shared.fetchUserWithUID(uid: uid) { user in
+            guard let image = user.profileImageUrl else { return }
+            self.profileImage.loadImage(urlString: image)
+            self.nameLabel.text = user.username
+        }
+        locationLabel.text = booking.locationShort
+        dateLabel.text = booking.date
+        guard let start = booking.startTime,
+              let end = booking.endTime else { return }
+        timeLabel.text = "\(start) - \(end)"
+        
     }
     
     func setupViews() {
