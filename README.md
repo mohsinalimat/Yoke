@@ -1,46 +1,10 @@
-# Headless Stripe Payments Using Firebase Functions
-*The simplest possible payment implementation - for static websites.*
-
-Implementation of Stripe's Direct Charge payment using all 3 available methods. Any one would suffice, however all are included to demonstrate. These include:
-
- - **Stripe Elements** - pre-built UI components for building checkout flow
- - **Payment Request Button** - supporting Apple Pay, Google Pay and the Payment Request API
- - **Stripe Checkout** - embeddable payment form popup
-
-Secure, back-end communication to stripe performed in a Firebase Function, implemented using a http trigger.
-
-Example front-end code uses Firebase Hosting, but can be hosted anywhere.
-
-**Further reading:**
- - Stripe Elements Method: https://stripe.com/docs/stripe-js
- - Stripe Payment Request Method: https://stripe.com/docs/stripe-js/elements/payment-request-button
- - Stripe Checkout Method: https://stripe.com/docs/checkout
- - Firebase HTTP Triggers: https://firebase.google.com/docs/functions/http-events
-
-## Front-end Code
-
-See file [public/index.html](public/index.html) for all html and js code.
-
-## Functions Code
-
-See file [functions/index.js](functions/index.js) for the code.
-
-The dependencies are listed in [functions/package.json](functions/package.json).
-
-## Deploy and test
-
-To test this integration:
- - Create a Firebase Project using the [Firebase Developer Console](https://console.firebase.google.com)
- - Enable billing on your project by switching to the Blaze or Flame plan. See [pricing](https://firebase.google.com/pricing/) for more details. This is required to allow requests to non-Google services within the Function.
- - Install [Firebase CLI Tools](https://github.com/firebase/firebase-tools) if you have not already, and log in with `firebase login`.
- - Configure this sample to use your project using `firebase use --add` and select your project.
- - Install dependencies locally by running: `cd functions; npm i; cd -`
- - [Add your Stripe API Secret Key](https://dashboard.stripe.com/account/apikeys) to firebase config:
-     ```bash
-     firebase functions:config:set stripe.token=<YOUR STRIPE SECRET KEY>
-     ```
- - Pass your [Stripe publishable key](https://dashboard.stripe.com/account/apikeys) to the `STRIPE_PUBLIC_KEY` variable in `public/index.html`
- - Deploy your function using `firebase deploy --only functions`
- - Pass your new [Firebase Function URL](https://firebase.google.com/docs/functions/http-events) to the `FIREBASE_FUNCTION` variable in `public/index.html`
- - Deploy your hosting using `firebase deploy --only hosting`
- - Test your Stripe integration by viewing your deployed site `firebase open hosting:site`
+Yoke is an online community of professional chefs, home cooks, and food lovers worldwide. Whether you are looking for an expert or a home chef, a fancy dinner, comfort food, or healthy meals for a whole week, prepared in your home or freshly delivered to your front door, Yoke is the app that makes it all happen!
+<img width="516" alt="Screen Shot 2021-11-15 at 1 09 36 PM" src="https://user-images.githubusercontent.com/57644518/141835850-d24bf935-aab5-4b13-b4eb-f72a98fe6d53.png">
+<img width="516" alt="Screen Shot 2021-11-15 at 1 10 09 PM" src="https://user-images.githubusercontent.com/57644518/141835856-bd51b4ac-1f9c-461d-8f33-6378def46fe5.png">
+<img width="516" alt="Screen Shot 2021-11-15 at 1 10 27 PM" src="https://user-images.githubusercontent.com/57644518/141835860-0f9a5b65-9f5e-41c1-bc05-4f35355a7482.png">
+<img width="516" alt="Screen Shot 2021-11-15 at 1 10 44 PM" src="https://user-images.githubusercontent.com/57644518/141835866-1f9bf63e-c025-495f-bb4e-bbe791a1901e.png">
+<img width="516" alt="Screen Shot 2021-11-15 at 1 11 12 PM" src="https://user-images.githubusercontent.com/57644518/141835871-2c7eca73-c64d-4576-86b5-d63eef464e55.png">
+<img width="516" alt="Screen Shot 2021-11-15 at 1 23 37 PM" src="https://user-images.githubusercontent.com/57644518/141835872-2127d0cc-ec2f-44df-ace1-43c672531289.png">
+<img width="516" alt="Screen Shot 2021-11-15 at 1 25 41 PM" src="https://user-images.githubusercontent.com/57644518/141835875-3735be4d-f7a9-4fcd-ab9c-976943362c75.png">
+<img width="516" alt="Screen Shot 2021-11-15 at 1 26 52 PM" src="https://user-images.githubusercontent.com/57644518/141835879-ec8f5622-6f90-41b6-9bd2-06e6937e909b.png">
+<img width="516" alt="Screen Shot 2021-11-15 at 1 31 08 PM" src="https://user-images.githubusercontent.com/57644518/141835881-d9f92b4a-6a04-4518-b97a-1b70255538ab.png">
