@@ -157,7 +157,11 @@ class BookingRequestDetailViewController: UIViewController {
                 let attributedText = NSMutableAttributedString(string: "Details:", attributes: [NSAttributedString.Key.font: UIFont.boldSystemFont(ofSize: 15), NSAttributedString.Key.foregroundColor: UIColor.gray])
                 attributedText.append(NSAttributedString(string: " " + details, attributes: [NSAttributedString.Key.font: UIFont(name: "Avenir", size: 15)!, NSAttributedString.Key.foregroundColor: UIColor.gray]))
                 self.descriptionLabel.attributedText = attributedText
-                self.notesLabel.text = booking.notes
+                let total = booking.total ?? ""
+                let notes = booking.notes ?? ""
+                let attributedText2 = NSMutableAttributedString(string: "Total Amount for booking $\(total)", attributes: [NSAttributedString.Key.font: UIFont.boldSystemFont(ofSize: 15), NSAttributedString.Key.foregroundColor: UIColor.gray])
+                attributedText2.append(NSAttributedString(string: "\nNotes: \(notes)", attributes: [NSAttributedString.Key.font: UIFont(name: "Avenir", size: 15)!, NSAttributedString.Key.foregroundColor: UIColor.gray]))
+                self.notesLabel.attributedText = attributedText2
                 
             }
         } else {

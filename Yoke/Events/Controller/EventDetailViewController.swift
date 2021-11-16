@@ -66,14 +66,20 @@ class EventDetailViewController: UIViewController {
         scrollView.addSubview(buttonStackView)
         buttonStackView.addArrangedSubview(rsvpButton)
         buttonStackView.addArrangedSubview(contactButton)
+        rsvpButton.isHidden = true
         guard let event = event else { return }
-        if event.allowsContact == false && event.allowsRSVP == false {
-            buttonStackView.isHidden = true
-        } else if event.allowsContact == false {
+        if event.allowsContact == true {
+            contactButton.isHidden = false
+        } else {
             contactButton.isHidden = true
-        } else if event.allowsRSVP == false {
-            rsvpButton.isHidden = true
         }
+//        if event.allowsContact == false && event.allowsRSVP == false {
+//            buttonStackView.isHidden = true
+//        } else if event.allowsContact == false {
+//            contactButton.isHidden = true
+//        } else if event.allowsRSVP == false {
+//            rsvpButton.isHidden = true
+//        }
     }
     
     func constrainViews() {
