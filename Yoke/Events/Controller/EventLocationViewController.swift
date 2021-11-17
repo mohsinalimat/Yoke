@@ -27,7 +27,6 @@ class EventLocationViewController: UIViewController {
     private let locationManager = LocationManager()
     let pin = MKPointAnnotation()
     var currentLocationStr = "Current location"
-    //    var location: String = ""
     var latitude: Double = 0.0
     var longitude: Double = 0.0
     var selectedLocation: String?
@@ -40,13 +39,12 @@ class EventLocationViewController: UIViewController {
         super.viewDidLayoutSubviews()
         setupViews()
         constrainViews()
-        //            setCurrentLocationOnLoad()
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        overrideUserInterfaceStyle = .light
         setupNavTitleAndBarButtonItems()
-        //        fetchUser()
     }
     
     //MARK: - Helper Functions

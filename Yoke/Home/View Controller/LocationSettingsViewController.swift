@@ -36,6 +36,7 @@ class LocationSettingsViewController: UIViewController, UISearchBarDelegate, UIS
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        overrideUserInterfaceStyle = .light
         setupNavTitleAndBarButtonItems()
         fetchUser()
     }
@@ -45,8 +46,6 @@ class LocationSettingsViewController: UIViewController, UISearchBarDelegate, UIS
         UserController.shared.fetchUserWithUID(uid: uid) { (user) in
             guard let username = user.username else { return }
             self.pin.title = "\(username)"
-            self.streetTextField.text = user.street
-            self.apartmentTextField.text = user.apartment
             self.cityTextField.text = user.city
             self.stateTextField.text = user.state
         }
@@ -57,10 +56,6 @@ class LocationSettingsViewController: UIViewController, UISearchBarDelegate, UIS
         view.addSubview(swipeIndicator)
         view.addSubview(saveButton)
         view.addSubview(setLocationLabel)
-        view.addSubview(streetView)
-        view.addSubview(streetTextField)
-        view.addSubview(apartementView)
-        view.addSubview(apartmentTextField)
         view.addSubview(cityView)
         view.addSubview(cityTextField)
         view.addSubview(stateView)
@@ -79,12 +74,7 @@ class LocationSettingsViewController: UIViewController, UISearchBarDelegate, UIS
         
         setLocationLabel.anchor(top: swipeIndicator.bottomAnchor, left: nil, bottom: nil, right: nil, paddingTop: 20, paddingLeft: 0, paddingBottom: 0, paddingRight: 0)
         setLocationLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        
-        streetView.anchor(top: setLocationLabel.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 20, paddingLeft: 10, paddingBottom: 0, paddingRight: 10, height: 45)
-        streetTextField.anchor(top: streetView.topAnchor, left: streetView.leftAnchor, bottom: streetView.bottomAnchor, right: streetView.rightAnchor, paddingTop: 0, paddingLeft: 10, paddingBottom: 0, paddingRight: 10)
-        apartementView.anchor(top: streetTextField.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 10, paddingLeft: 10, paddingBottom: 0, paddingRight: 10, height: 45)
-        apartmentTextField.anchor(top: apartementView.topAnchor, left: apartementView.leftAnchor, bottom: apartementView.bottomAnchor, right: apartementView.rightAnchor, paddingTop: 0, paddingLeft: 10, paddingBottom: 0, paddingRight: 10)
-        cityView.anchor(top: apartmentTextField.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 10, paddingLeft: 10, paddingBottom: 0, paddingRight: 10, height: 45)
+        cityView.anchor(top: setLocationLabel.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 10, paddingLeft: 10, paddingBottom: 0, paddingRight: 10, height: 45)
         cityTextField.anchor(top: cityView.topAnchor, left: cityView.leftAnchor, bottom: cityView.bottomAnchor, right: cityView.rightAnchor, paddingTop: 0, paddingLeft: 10, paddingBottom: 0, paddingRight: 10)
         stateView.anchor(top: cityTextField.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 10, paddingLeft: 10, paddingBottom: 0, paddingRight: 10, height: 45)
         stateTextField.anchor(top: stateView.topAnchor, left: stateView.leftAnchor, bottom: stateView.bottomAnchor, right: stateView.rightAnchor, paddingTop: 0, paddingLeft: 10, paddingBottom: 0, paddingRight: 10)
@@ -94,10 +84,9 @@ class LocationSettingsViewController: UIViewController, UISearchBarDelegate, UIS
     }
     
     private func fetchUserLocationFromSearch() {
-        guard let street = streetTextField.text,
-              let city = cityTextField.text,
+        guard let city = cityTextField.text,
               let state = stateTextField.text else { return }
-        let address = "\(street) \(state), \(city)"
+        let address = "\(state), \(city)"
         let geoCoder = CLGeocoder()
         geoCoder.geocodeAddressString(address) { (placemarks, error) in
             guard
@@ -134,7 +123,6 @@ class LocationSettingsViewController: UIViewController, UISearchBarDelegate, UIS
                 output = output + "\n\(locationName)"
             }
             if let postal = placemark.postalAddress {
-                self.streetTextField.text = postal.street
                 self.cityTextField.text = postal.city
                 self.stateTextField.text = postal.state
             }
@@ -184,8 +172,6 @@ class LocationSettingsViewController: UIViewController, UISearchBarDelegate, UIS
         if locationSwitch.isOn {
             setUserLocationFromSwitch()
         } else {
-            streetTextField.text = ""
-            apartmentTextField.text = ""
             cityTextField.text = ""
             stateTextField.text = ""
         }
@@ -197,11 +183,9 @@ class LocationSettingsViewController: UIViewController, UISearchBarDelegate, UIS
     
     //MARK: - API
     @objc func handleSave() {
-        guard let street = streetTextField.text,
-              let apartment = apartmentTextField.text,
-              let city = cityTextField.text,
+        guard let city = cityTextField.text,
               let state = stateTextField.text else { return }
-        UserController.shared.setUserLocation(uid, street: street, apartment: apartment, city: city, state: state, latitude: latitude, longitude: longitude) { (result) in
+        UserController.shared.setUserLocation(uid, city: city, state: state, latitude: latitude, longitude: longitude) { (result) in
             switch result {
             case true:
                 self.handleDismiss()
@@ -247,36 +231,6 @@ class LocationSettingsViewController: UIViewController, UISearchBarDelegate, UIS
         label.font = UIFont.boldSystemFont(ofSize: 17)
         label.textColor = .gray
         return label
-    }()
-    
-    let streetView: ShadowView = {
-        let view = ShadowView()
-        view.backgroundColor = .white
-        return view
-    }()
-    
-    let streetTextField: UITextField = {
-        let text = UITextField()
-        text.font = UIFont.systemFont(ofSize: 17)
-        text.placeholder = "Street address"
-        text.textColor = UIColor.orangeColor()
-        text.backgroundColor = UIColor.white
-        return text
-    }()
-    
-    let apartementView: ShadowView = {
-        let view = ShadowView()
-        view.backgroundColor = .white
-        return view
-    }()
-    
-    let apartmentTextField: UITextField = {
-        let text = UITextField()
-        text.font = UIFont.systemFont(ofSize: 17)
-        text.placeholder = "Apt #"
-        text.textColor = UIColor.orangeColor()
-        text.backgroundColor = UIColor.white
-        return text
     }()
     
     let cityView: ShadowView = {

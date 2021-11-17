@@ -223,12 +223,15 @@ class BookingsViewController: UIViewController {
 extension BookingsViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         if collectionView == self.todaysCollectionView {
+            print(BookingController.shared.bookings.count)
             return BookingController.shared.bookings.count
         }
         if collectionView == self.upcomingCollectionView {
+            print(BookingController.shared.upComingBookings.count)
             return BookingController.shared.upComingBookings.count
         }
         if collectionView == self.archivedCollectionView {
+            print(BookingController.shared.bookings.count)
             return BookingController.shared.archives.count
         }
         return 0

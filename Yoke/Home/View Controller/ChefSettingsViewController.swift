@@ -35,6 +35,7 @@ class ChefSettingsViewController: UIViewController, TTGTextTagCollectionViewDele
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        overrideUserInterfaceStyle = .light
         setupCuisineCollectionView()
         setupSelectCuisineCollectionView()
     }

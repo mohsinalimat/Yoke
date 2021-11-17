@@ -36,6 +36,7 @@ class AddMenuViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        overrideUserInterfaceStyle = .light
         setupImagePicker()
     }
     

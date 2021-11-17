@@ -26,6 +26,7 @@ class PasswordChangeViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
+        overrideUserInterfaceStyle = .light
     }
     
     //MARK: - Helper Functions

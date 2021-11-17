@@ -38,6 +38,7 @@ class NewEventViewController: UIViewController,  EventLocationDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        overrideUserInterfaceStyle = .light
         setupImagePicker()
         setupPickerViews()
     }
@@ -70,9 +71,6 @@ class NewEventViewController: UIViewController,  EventLocationDelegate {
         scrollView.addSubview(timeStackView)
         timeStackView.addArrangedSubview(startTimeTextField)
         timeStackView.addArrangedSubview(endTimeTextField)
-        scrollView.addSubview(rsvpLabel)
-        scrollView.addSubview(rsvpSwitch)
-        scrollView.addSubview(rsvpInfoLabel)
         scrollView.addSubview(contactLabel)
         scrollView.addSubview(contactSwitch)
         scrollView.addSubview(contactInfoLabel)
@@ -106,11 +104,8 @@ class NewEventViewController: UIViewController,  EventLocationDelegate {
         timePickerViewBG.anchor(top: timeLabelStackView.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: -10, paddingLeft: 10, paddingBottom: 0, paddingRight: 10, height: 55)
         timeStackView.anchor(top: timeLabelStackView.bottomAnchor, left: timeLabelStackView.leftAnchor, bottom: nil, right: timeLabelStackView.rightAnchor, paddingTop: -10, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, height: 50)
         timeStackView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        rsvpLabel.anchor(top: timeStackView.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: nil, paddingTop: 20, paddingLeft: 10, paddingBottom: 0, paddingRight: 0)
-        rsvpSwitch.anchor(top: rsvpLabel.topAnchor, left: nil, bottom: nil, right: safeArea.rightAnchor, paddingTop: 10, paddingLeft: 0, paddingBottom: 0, paddingRight: 10)
-        rsvpInfoLabel.anchor(top: rsvpLabel.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: nil, paddingTop: 5, paddingLeft: 10, paddingBottom: 0, paddingRight: 0)
         
-        contactLabel.anchor(top: rsvpInfoLabel.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: nil, paddingTop: 25, paddingLeft: 10, paddingBottom: 0, paddingRight: 0)
+        contactLabel.anchor(top: timeStackView.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: nil, paddingTop: 25, paddingLeft: 10, paddingBottom: 0, paddingRight: 0)
         contactSwitch.anchor(top: contactLabel.topAnchor, left: nil, bottom: nil, right: safeArea.rightAnchor, paddingTop: 10, paddingLeft: 0, paddingBottom: 0, paddingRight: 10)
         contactInfoLabel.anchor(top: contactLabel.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: nil, paddingTop: 5, paddingLeft: 10, paddingBottom: 0, paddingRight: 0)
         
@@ -127,9 +122,7 @@ class NewEventViewController: UIViewController,  EventLocationDelegate {
         selectedDateLabel.text = event.date
         startTimeTextField.text = event.startTime
         endTimeTextField.text = event.endTime
-        if event.allowsRSVP == true {
-            rsvpSwitch.isOn = true
-        }
+    
         if event.allowsContact == true {
             contactSwitch.isOn = true
         }

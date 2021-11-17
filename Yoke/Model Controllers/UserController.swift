@@ -238,7 +238,7 @@ class UserController {
         }
     }
     
-    func setUserLocation(_ uid: String, street: String = "", apartment: String = "", city: String, state: String, latitude: Double, longitude: Double, completion: @escaping (Bool) -> Void) {
+    func setUserLocation(_ uid: String, city: String, state: String, latitude: Double, longitude: Double, completion: @escaping (Bool) -> Void) {
         let geoFirestore = GeoFirestore(collectionRef: geoRef)
         geoFirestore.setLocation(geopoint: GeoPoint(latitude: latitude, longitude: longitude), forDocumentWithID: uid) { (error) in
             if let error = error {
@@ -247,7 +247,7 @@ class UserController {
                 print("Saved location successfully!")
             }
         }
-        firestoreDB.collection(Constants.Users).document(uid).setData([Constants.Street: street, Constants.Apartment: apartment, Constants.City: city, Constants.State: state, Constants.Latitude: latitude, Constants.Longitude: longitude], merge: true) { error in
+        firestoreDB.collection(Constants.Users).document(uid).setData([Constants.City: city, Constants.State: state, Constants.Latitude: latitude, Constants.Longitude: longitude], merge: true) { error in
             if let error = error {
                 print("There was an error updating data: \(error.localizedDescription)")
                 completion(false)
