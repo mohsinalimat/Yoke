@@ -187,10 +187,8 @@ extension BookmarkedViewController: UITableViewDataSource {
                 BookmarkController.shared.deleteBookmarkUserWith(uid: uid, bookmarkedUid: bookmarkedUid) { result in
                     switch result {
                     case true:
-                        DispatchQueue.main.async {
-                            BookmarkController.shared.users = []
-                            self.userTableView.reloadData()
-                        }
+                        BookmarkController.shared.users = []
+                        self.userTableView.reloadData()
                     case false:
                         print("error")
                     }
