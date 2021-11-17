@@ -53,6 +53,8 @@ class SignupVC: UIViewController {
         view.addSubview(passwordTextField)
         view.addSubview(confirmPasswordView)
         view.addSubview(confirmPasswordTextField)
+        view.addSubview(agreeButton)
+        view.addSubview(agreeSegButton)
         view.addSubview(signUpButton)
         view.addSubview(alreadyHaveAccountButton)
         view.addSubview(myActivityIndicator)
@@ -75,7 +77,10 @@ class SignupVC: UIViewController {
         passwordTextField.anchor(top: passwordView.topAnchor, left: passwordView.leftAnchor, bottom: passwordView.bottomAnchor, right: passwordView.rightAnchor, paddingTop: 5, paddingLeft: 5, paddingBottom: 5, paddingRight: 5)
         confirmPasswordView.anchor(top: passwordView.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 20, paddingLeft: 40, paddingBottom: 0, paddingRight: 40, height: 45)
         confirmPasswordTextField.anchor(top: confirmPasswordView.topAnchor, left: confirmPasswordView.leftAnchor, bottom: confirmPasswordView.bottomAnchor, right: confirmPasswordView.rightAnchor, paddingTop: 5, paddingLeft: 5, paddingBottom: 5, paddingRight: 5)
-        signUpButton.anchor(top: confirmPasswordView.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 20, paddingLeft: 40, paddingBottom: 0, paddingRight: 40, height: 45)
+        agreeButton.anchor(top: confirmPasswordView.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: nil, paddingTop: 20, paddingLeft: 40, paddingBottom: 0, paddingRight: 50, height: 50)
+        agreeSegButton.anchor(top: nil, left: agreeButton.rightAnchor, bottom: nil, right: nil, paddingTop: 0, paddingLeft: 10, paddingBottom: 0, paddingRight: 0, height: 25)
+        agreeSegButton.centerYAnchor.constraint(equalTo: agreeButton.centerYAnchor).isActive = true
+        signUpButton.anchor(top: agreeButton.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 20, paddingLeft: 40, paddingBottom: 0, paddingRight: 40, height: 45)
         alreadyHaveAccountButton.anchor(top: signUpButton.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 10, paddingLeft: 40, paddingBottom: 0, paddingRight: 40, height: 45)
         myActivityIndicator.center = view.center
     }
@@ -175,6 +180,23 @@ class SignupVC: UIViewController {
             isChef = false
         }
     }
+    
+    @objc func handleAgree() {
+        agreeButton.checkboxAnimation {
+            if self.agreeButton.isSelected {
+                self.agreeButton.setImage(UIImage(systemName: "checkmark.square.fill"), for: .selected)
+                self.agreeButton.tintColor = UIColor.orangeColor()
+            } else {
+                self.agreeButton.setImage(UIImage(systemName: "square"), for: .normal)
+                self.agreeButton.tintColor = UIColor.orangeColor()
+            }
+        }
+    }
+    
+    @objc func handleShowTerms() {
+        print("Show Terms")
+    }
+    
     
     //MARK: - Views
     let imageView: UIView = {
@@ -291,6 +313,30 @@ class SignupVC: UIViewController {
         textField.keyboardType = UIKeyboardType.emailAddress
         textField.layer.cornerRadius = 10
         return textField
+    }()
+    
+    let agreeSegButton: UIButton = {
+        let button = UIButton(type: .system)
+        button.setTitle("I agree to terms and conditions", for: .normal)
+        button.setTitleColor(UIColor.gray, for: .normal)
+        button.addTarget(self, action: #selector(handleShowTerms), for: .touchUpInside)
+        return button
+    }()
+    
+    let agreeButton: UIButton = {
+        let button = UIButton(type: .system)
+        button.setImage(UIImage(systemName: "square"), for: .normal)
+        button.tintColor = UIColor.orangeColor()
+        button.addTarget(self, action: #selector(handleAgree), for: .touchUpInside)
+        return button
+    }()
+    
+    let agreeLabel: UILabel = {
+        let text = UILabel()
+        text.text = "Agree to terms and conditions"
+        text.font = UIFont.systemFont(ofSize: 14)
+        text.textColor = UIColor.darkGray
+        return text
     }()
     
     let signUpButton: UIButton = {
