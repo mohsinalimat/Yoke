@@ -14,11 +14,7 @@ target 'Yoke' do
   pod 'Firebase/Functions'
   pod 'Geofirestore'
   pod 'IQKeyboardManagerSwift'
-  pod 'Stripe', '~> 21.4'
-  pod 'GoogleSignIn'
   pod 'TTGTagCollectionView'
-  pod 'RSKImageCropper'
-  pod 'Alamofire', '~> 5.2'
 
   target 'YokeTests' do
     inherit! :search_paths

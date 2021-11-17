@@ -9,7 +9,6 @@
 import UIKit
 import Firebase
 import FirebaseFirestore
-import RSKImageCropper
 
 class SettingsViewController: UIViewController  {
     

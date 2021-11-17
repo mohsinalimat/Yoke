@@ -9,6 +9,7 @@
 import UIKit
 import MapKit
 import FirebaseAuth
+import Contacts
 
 protocol EventLocationDelegate {
     func eventLocationController(_ eventLocationController: EventLocationViewController, didSelectLocation location: String, short: String)

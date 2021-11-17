@@ -35,6 +35,7 @@ class SignupVC: UIViewController {
         setupAddProfileImageView()
         setupKeyboard()
         dismissKeyboardOnTap()
+        overrideUserInterfaceStyle = .light
     }
     
     //MARK: - Helper Functions

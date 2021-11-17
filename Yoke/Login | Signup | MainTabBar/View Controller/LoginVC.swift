@@ -31,6 +31,7 @@ class LoginVC: UIViewController {
         super.viewDidLoad()
         setupKeyboard()
         dismissKeyboardOnTap()
+        overrideUserInterfaceStyle = .light
     }
     
     //MARK: - Helper Functions
@@ -126,6 +127,8 @@ class LoginVC: UIViewController {
         self.myActivityIndicator.startAnimating()
         Auth.auth().signIn(withEmail: email, password: password, completion: { (user, error) in
             if let error = error {
+                self.myActivityIndicator.stopAnimating()
+                self.handleError(error)
                 print(error.localizedDescription)
                 return
             }
@@ -138,12 +141,17 @@ class LoginVC: UIViewController {
         UserController.shared.createAnonymousUser { result in
             switch result {
             case true:
-                print("true in handle anno")
                 self.handleAnonymousLoginToHome()
             case false:
                 print("false")
             }
         }
+    }
+    
+    @objc func handleLoginError() {
+        let loginAlert = UIAlertController(title: "Something went wrong", message: "Please try again", preferredStyle: .alert)
+        loginAlert.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
+        self.present(loginAlert, animated: true, completion: nil)
     }
     
     @objc func handleForgotPassword() {
