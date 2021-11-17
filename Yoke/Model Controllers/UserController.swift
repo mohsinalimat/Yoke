@@ -34,11 +34,11 @@ class UserController {
     private let locationManager = LocationManager()
     
     //MARK: - CRUD Functions
-    func createUserWith(email: String, username: String, password: String = "", image: UIImage?, isChef: Bool, completion: @escaping (Bool) -> Void) {
+    func createUserWith(email: String, username: String, password: String = "", image: UIImage?, isChef: Bool, completion: @escaping (Bool, Error) -> Void) {
         Auth.auth().createUser(withEmail: email, password: password, completion: { (user, error) in
             if let error = error {
                 print("There was an error authorizing user: \(error.localizedDescription)")
-                completion(false)
+                completion(false, error)
             }
             
             guard let image = image else { return }
@@ -51,19 +51,14 @@ class UserController {
                 
                 if let error = error {
                     print("There was an error uploading image data: \(error.localizedDescription)")
-                    completion(false)
+                    completion(false, error)
                     return
                 }
                 storageRef.downloadURL(completion: { (downloadURL, err) in
                     guard let imageUrl = downloadURL?.absoluteString else { return }
                     guard let uid = user?.user.uid else { return }
                     self.firestoreDB.collection(Constants.Users).document(uid).setData([Constants.Email: email, Constants.Username: username, Constants.Uid: uid, Constants.IsChef: isChef, Constants.ProfileImageUrl: imageUrl])
-//                    let getUser = StripeUser.init(id: uid, customer_id: "", email: email)
-//                    self.createFirestoreUser(stripeUser: getUser)
                     self.setupGeofirestore(uid: uid)
-//                    let getStripeUser = StripeUser.init(id: uid, customer_id: "", email: email)
-//                    self.createFirestoreUser(stripeUser: getStripeUser)
-                    completion(true)
                 })
             })
         })

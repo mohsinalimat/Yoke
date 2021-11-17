@@ -123,7 +123,8 @@ class LoginVC: UIViewController {
     @objc func handleLogin() {
         guard let email = emailTextField.text, !email.isEmpty,
               let password = passwordTextField.text,
-              !password.isEmpty else { return }
+              !password.isEmpty else { return handleLoginError()}
+        
         self.myActivityIndicator.startAnimating()
         Auth.auth().signIn(withEmail: email, password: password, completion: { (user, error) in
             if let error = error {
@@ -149,9 +150,16 @@ class LoginVC: UIViewController {
     }
     
     @objc func handleLoginError() {
-        let loginAlert = UIAlertController(title: "Something went wrong", message: "Please try again", preferredStyle: .alert)
-        loginAlert.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
-        self.present(loginAlert, animated: true, completion: nil)
+        if emailTextField.text == "" {
+            let loginAlert = UIAlertController(title: "Missing Email", message: "Please enter email", preferredStyle: .alert)
+            loginAlert.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
+            self.present(loginAlert, animated: true, completion: nil)
+        }
+        if passwordTextField.text == ""{
+            let loginAlert = UIAlertController(title: "Missing Password", message: "Please enter password", preferredStyle: .alert)
+            loginAlert.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
+            self.present(loginAlert, animated: true, completion: nil)
+        }
     }
     
     @objc func handleForgotPassword() {

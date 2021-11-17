@@ -149,14 +149,15 @@ class SignupVC: UIViewController {
         guard password == confirmPassword else { return confirmPasswordsMatch()}
         guard let image = self.addImageButton.imageView?.image else { return }
         myActivityIndicator.startAnimating()
-        UserController.shared.createUserWith(email: email, username: username, password: password, image: image, isChef: self.isChef) { (result) in
+        UserController.shared.createUserWith(email: email, username: username, password: password, image: image, isChef: self.isChef) { result, error  in
             switch result {
             case true:
+                self.myActivityIndicator.stopAnimating()
                 self.handleLoginToHome()
-                
-                print("success")
             case false:
-                print("error in signup: \(Error.self)")
+                self.myActivityIndicator.stopAnimating()
+                self.handleError(error)
+                print(error.localizedDescription)
             }
         }
     }
@@ -170,10 +171,8 @@ class SignupVC: UIViewController {
     @objc func chefSwitch(chefSwitchChanged: UISwitch) {
         if chefSwitch.isOn {
             isChef = true
-            print("true")
         } else {
             isChef = false
-            print("false")
         }
     }
     
