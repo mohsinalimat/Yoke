@@ -24,6 +24,7 @@ class BookingController {
     
     //MARK: - Source of truth
     var bookings: [Booking] = []
+    var todaysBookings: [Booking] = []
     var upComingBookings: [Booking] = []
     var archives: [Booking] = []
     
@@ -85,7 +86,8 @@ class BookingController {
     }
     
     func fetchBookingsWith(uid: String, completion: @escaping (Bool) -> Void) {
-        firestoreDB.document(uid).collection(Constants.Bookings).addSnapshotListener { (snapshot, error) in
+        let currentDate = Calendar.current.startOfDay(for: Date())
+        firestoreDB.document(uid).collection(Constants.Bookings).whereField(Constants.Timestamp, isGreaterThanOrEqualTo: currentDate).addSnapshotListener { snapshot, error in
             if let error = error {
                 print(error.localizedDescription)
                 completion(false)
@@ -93,13 +95,9 @@ class BookingController {
             self.bookings = []
             snapshot?.documents.forEach({ (document) in
                 let dictionary = document.data()
+                print("dict \(dictionary)")
                 let isBooked = dictionary[Constants.IsBooked] as? Bool
-                guard let bookingDate = dictionary[Constants.Date] as? String else { return }
-                let currentDate = Date()
-                let formatter = DateFormatter()
-                formatter.dateFormat = "EEEE, MMM d, yyyy"
-                let todaysDate = formatter.string(from: currentDate)
-                if isBooked == true && bookingDate >= todaysDate {
+                if isBooked == true {
                     let booking = Booking(dictionary: dictionary)
                     self.bookings.append(booking)
                     self.bookings.sort(by: { (u1, u2) -> Bool in
@@ -114,25 +112,24 @@ class BookingController {
     }
     
     func fetchTodaysBookingsWith(uid: String, completion: @escaping (Bool) -> Void) {
-        firestoreDB.document(uid).collection(Constants.Bookings).addSnapshotListener { (snapshot, error) in
+        let currentDate = Calendar.current.startOfDay(for: Date())
+        firestoreDB.document(uid).collection(Constants.Bookings).whereField(Constants.Timestamp, isEqualTo: currentDate).addSnapshotListener { snapshot, error in
             if let error = error {
                 print(error.localizedDescription)
                 completion(false)
             }
-            self.bookings = []
+            self.todaysBookings = []
             snapshot?.documents.forEach({ (document) in
                 let dictionary = document.data()
+                print("dict \(dictionary)")
                 let isBooked = dictionary[Constants.IsBooked] as? Bool
-                let bookingDate = dictionary[Constants.Date] as? String
-                let currentDate = Date()
-                let formatter = DateFormatter()
-                formatter.dateFormat = "EEEE, MMM d, yyyy"
-                let todaysDate = formatter.string(from: currentDate)
-                if isBooked == true && bookingDate == todaysDate {
+                if isBooked == true {
                     let booking = Booking(dictionary: dictionary)
-                    self.bookings.append(booking)
-                    self.bookings.sort(by: { (u1, u2) -> Bool in
-                        return u1.timestamp.compare(u2.timestamp) == .orderedDescending
+                    self.todaysBookings.append(booking)
+                    self.todaysBookings.sort(by: { (u1, u2) -> Bool in
+                        guard let date1 = u1.date,
+                              let date2 = u2.date else { return false }
+                        return date1.compare(date2) == .orderedAscending
                     })
                     completion(true)
                 }
@@ -141,7 +138,8 @@ class BookingController {
     }
     
     func fetchUpcomingBookingsWith(uid: String, completion: @escaping (Bool) -> Void) {
-        firestoreDB.document(uid).collection(Constants.Bookings).addSnapshotListener { (snapshot, error) in
+        let currentDate = Calendar.current.startOfDay(for: Date())
+        firestoreDB.document(uid).collection(Constants.Bookings).whereField(Constants.Timestamp, isLessThanOrEqualTo: currentDate).addSnapshotListener { snapshot, error in
             if let error = error {
                 print(error.localizedDescription)
                 completion(false)
@@ -149,13 +147,9 @@ class BookingController {
             self.upComingBookings = []
             snapshot?.documents.forEach({ (document) in
                 let dictionary = document.data()
+                print("dict \(dictionary)")
                 let isBooked = dictionary[Constants.IsBooked] as? Bool
-                guard let bookingDate = dictionary[Constants.Date] as? String else { return }
-                let currentDate = Date()
-                let formatter = DateFormatter()
-                formatter.dateFormat = "EEEE, MMM d, yyyy"
-                let todaysDate = formatter.string(from: currentDate)
-                if isBooked == true && bookingDate > todaysDate {
+                if isBooked == true {
                     let booking = Booking(dictionary: dictionary)
                     self.upComingBookings.append(booking)
                     self.upComingBookings.sort(by: { (u1, u2) -> Bool in
@@ -171,7 +165,8 @@ class BookingController {
     
     
     func fetchArchivesWith(uid: String, completion: @escaping (Bool) -> Void) {
-        firestoreDB.document(uid).collection(Constants.Bookings).addSnapshotListener { (snapshot, error) in
+        let currentDate = Calendar.current.startOfDay(for: Date())
+        firestoreDB.document(uid).collection(Constants.Bookings).whereField(Constants.Timestamp, isLessThan: currentDate).addSnapshotListener { snapshot, error in
             if let error = error {
                 print(error.localizedDescription)
                 completion(false)
@@ -179,13 +174,9 @@ class BookingController {
             self.archives = []
             snapshot?.documents.forEach({ (document) in
                 let dictionary = document.data()
+                print("dict \(dictionary)")
                 let isBooked = dictionary[Constants.IsBooked] as? Bool
-                guard let bookingDate = dictionary[Constants.Date] as? String else { return }
-                let currentDate = Date()
-                let formatter = DateFormatter()
-                formatter.dateFormat = "EEEE, MMM d, yyyy"
-                let todaysDate = formatter.string(from: currentDate)
-                if isBooked == true && bookingDate < todaysDate {
+                if isBooked == true {
                     let booking = Booking(dictionary: dictionary)
                     self.archives.append(booking)
                     self.archives.sort(by: { (u1, u2) -> Bool in

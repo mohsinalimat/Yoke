@@ -77,7 +77,7 @@ class HomeViewController: UIViewController {
         scrollView.addSubview(bookingLabel)
         scrollView.addSubview(eventLabel)
         scrollView.addSubview(eventsNearYouCollectionView)
-        scrollView.addSubview(upcomingBookingsCollectionView)
+        scrollView.addSubview(bookingsCollectionView)
     }
     
     func constrainViews() {
@@ -134,7 +134,7 @@ class HomeViewController: UIViewController {
         
         bookingLabel.anchor(top:  menuCollectionView.bottomAnchor, left: collectionViewBG.leftAnchor, bottom: nil, right: nil, paddingTop: 30, paddingLeft: 10, paddingBottom: 0, paddingRight: 0)
         
-        upcomingBookingsCollectionView.anchor(top: bookingLabel.bottomAnchor, left: collectionViewBG.leftAnchor, bottom: collectionViewBG.bottomAnchor, right: collectionViewBG.rightAnchor, paddingTop: -10, paddingLeft: 5, paddingBottom: 5, paddingRight: 5, height: 180)
+        bookingsCollectionView.anchor(top: bookingLabel.bottomAnchor, left: collectionViewBG.leftAnchor, bottom: collectionViewBG.bottomAnchor, right: collectionViewBG.rightAnchor, paddingTop: -10, paddingLeft: 5, paddingBottom: 5, paddingRight: 5, height: 180)
     }
     
     func setupBottomToolbarUser() {
@@ -158,7 +158,7 @@ class HomeViewController: UIViewController {
                 self.suggestedChefCollectionView.isHidden = true
                 self.eventsNearYouCollectionView.isHidden = true
                 self.menuCollectionView.isHidden = false
-                self.upcomingBookingsCollectionView.isHidden = false
+                self.bookingsCollectionView.isHidden = false
                 self.addMenuButton.isHidden = false
                 self.menuLabel.isHidden = false
                 self.bookingLabel.isHidden = false
@@ -168,7 +168,7 @@ class HomeViewController: UIViewController {
                 self.suggestedChefCollectionView.isHidden = false
                 self.eventsNearYouCollectionView.isHidden = false
                 self.menuCollectionView.isHidden = true
-                self.upcomingBookingsCollectionView.isHidden = true
+                self.bookingsCollectionView.isHidden = true
                 self.addMenuButton.isHidden = true
                 self.menuLabel.isHidden = true
                 self.bookingLabel.isHidden = true
@@ -191,12 +191,12 @@ class HomeViewController: UIViewController {
         suggestedChefCollectionView.register(SuggestedChefsCollectionViewCell.self, forCellWithReuseIdentifier: chefCell)
         suggestedChefCollectionView.register(EmptyCell.self, forCellWithReuseIdentifier: noCellId)
         
-        upcomingBookingsCollectionView.backgroundColor = UIColor.clear
-        upcomingBookingsCollectionView.delegate = self
-        upcomingBookingsCollectionView.dataSource = self
-        upcomingBookingsCollectionView.translatesAutoresizingMaskIntoConstraints = false
-        upcomingBookingsCollectionView.register(TodayCollectionViewCell.self, forCellWithReuseIdentifier: bookingCell)
-        upcomingBookingsCollectionView.register(EmptyCell.self, forCellWithReuseIdentifier: noCellId)
+        bookingsCollectionView.backgroundColor = UIColor.clear
+        bookingsCollectionView.delegate = self
+        bookingsCollectionView.dataSource = self
+        bookingsCollectionView.translatesAutoresizingMaskIntoConstraints = false
+        bookingsCollectionView.register(TodayCollectionViewCell.self, forCellWithReuseIdentifier: bookingCell)
+        bookingsCollectionView.register(EmptyCell.self, forCellWithReuseIdentifier: noCellId)
         
         eventsNearYouCollectionView.backgroundColor = UIColor.clear
         eventsNearYouCollectionView.delegate = self
@@ -287,7 +287,7 @@ class HomeViewController: UIViewController {
             switch result {
             case true:
                 DispatchQueue.main.async {
-                    self.upcomingBookingsCollectionView.reloadData()
+                    self.bookingsCollectionView.reloadData()
                 }
             case false:
                 print("couldnt fetch bookings")
@@ -554,7 +554,7 @@ class HomeViewController: UIViewController {
         return cv
     }()
     
-    let upcomingBookingsCollectionView: UICollectionView = {
+    let bookingsCollectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal
         let cv = UICollectionView(frame: .zero, collectionViewLayout: layout)
@@ -584,7 +584,7 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
             } else {
                 return SuggestedChefController.shared.chefs.count
             }
-        } else if collectionView == self.upcomingBookingsCollectionView {
+        } else if collectionView == self.bookingsCollectionView {
             if BookingController.shared.bookings.count == 0 {
                 return 1
             } else {
@@ -622,7 +622,7 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
                 cellB.chef = SuggestedChefController.shared.chefs[indexPath.item]
                 return cellB
             }
-        } else if collectionView == self.upcomingBookingsCollectionView {
+        } else if collectionView == self.bookingsCollectionView {
             if BookingController.shared.bookings.count == 0 {
                 let noCell = collectionView.dequeueReusableCell(withReuseIdentifier: noCellId, for: indexPath) as! EmptyCell
                 noCell.noPostLabel.text = "Sorry, you have no upcoming bookings"
@@ -660,7 +660,7 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
             } else {
                 return CGSize(width: view.frame.width / 2 , height: 180)
             }
-        } else if collectionView == self.upcomingBookingsCollectionView {
+        } else if collectionView == self.bookingsCollectionView {
             return CGSize(width: view.frame.width - 20 , height: 140)
         }
         if EventController.shared.events.count == 0 {
@@ -695,11 +695,11 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
                 profileVC.userId = chef
                 navigationController?.pushViewController(profileVC, animated: true)
             }
-        } else if collectionView == self.upcomingBookingsCollectionView {
+        } else if collectionView == self.bookingsCollectionView {
             if BookingController.shared.bookings.count == 0 {
                 return
             } else {
-                let booking = BookingController.shared.bookings[indexPath.row]
+                let booking = BookingController.shared.upComingBookings[indexPath.row]
                 let bookingVC = BookingRequestDetailViewController()
                 bookingVC.booking = booking
                 navigationController?.pushViewController(bookingVC, animated: true)

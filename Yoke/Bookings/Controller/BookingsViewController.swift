@@ -223,15 +223,13 @@ class BookingsViewController: UIViewController {
 extension BookingsViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         if collectionView == self.todaysCollectionView {
-            print(BookingController.shared.bookings.count)
-            return BookingController.shared.bookings.count
+            return BookingController.shared.todaysBookings.count
         }
         if collectionView == self.upcomingCollectionView {
             print(BookingController.shared.upComingBookings.count)
             return BookingController.shared.upComingBookings.count
         }
         if collectionView == self.archivedCollectionView {
-            print(BookingController.shared.bookings.count)
             return BookingController.shared.archives.count
         }
         return 0
@@ -240,7 +238,7 @@ extension BookingsViewController: UICollectionViewDelegate, UICollectionViewData
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         if collectionView == self.todaysCollectionView {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath) as! TodayCollectionViewCell
-            cell.booking = BookingController.shared.bookings[indexPath.row]
+            cell.booking = BookingController.shared.todaysBookings[indexPath.row]
             return cell
         }
         if collectionView == self.upcomingCollectionView {
@@ -262,7 +260,7 @@ extension BookingsViewController: UICollectionViewDelegate, UICollectionViewData
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         if collectionView == self.todaysCollectionView {
-            let booking = BookingController.shared.bookings[indexPath.row]
+            let booking = BookingController.shared.todaysBookings[indexPath.row]
             let bookingVC = BookingRequestDetailViewController()
             bookingVC.booking = booking
             navigationController?.pushViewController(bookingVC, animated: true)

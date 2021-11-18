@@ -41,6 +41,7 @@ class BookingRequestViewController: UIViewController, BookingLocationDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupPickerViews()
+        print("date\(Date())")
     }
     
     //MARK: - Helper Functions
@@ -193,6 +194,7 @@ class BookingRequestViewController: UIViewController, BookingLocationDelegate {
         selectedDateLabel.text = dateFormatter.string(from: datePicker.date)
         selectedDate = dateFormatter.string(from: datePicker.date)
         selectedDateLabel.font = UIFont.systemFont(ofSize: 17)
+        print("datepicker\(datePicker.date)")
     }
     
     @objc func handleStartSelection() {
