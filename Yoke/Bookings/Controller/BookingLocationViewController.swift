@@ -44,6 +44,7 @@ class BookingLocationViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupNavTitleAndBarButtonItems()
+        overrideUserInterfaceStyle = .light
     }
     
     //MARK: - Helper Functions
@@ -62,8 +63,6 @@ class BookingLocationViewController: UIViewController {
         view.addSubview(setLocationLabel)
         view.addSubview(addressView)
         view.addSubview(addressTextField)
-        view.addSubview(apartmentView)
-        view.addSubview(apartmentTextField)
         view.addSubview(searchButton)
         view.addSubview(mapView)
     }
@@ -77,9 +76,7 @@ class BookingLocationViewController: UIViewController {
         setLocationLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         addressView.anchor(top: setLocationLabel.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 20, paddingLeft: 10, paddingBottom: 0, paddingRight: 10, height: 40)
         addressTextField.anchor(top: addressView.topAnchor, left: addressView.leftAnchor, bottom: addressView.bottomAnchor, right: addressView.rightAnchor, paddingTop: 0, paddingLeft: 10, paddingBottom: 0, paddingRight: 10)
-        apartmentView.anchor(top: addressTextField.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 20, paddingLeft: 10, paddingBottom: 0, paddingRight: 10, height: 40)
-        apartmentTextField.anchor(top: apartmentView.topAnchor, left: apartmentView.leftAnchor, bottom: apartmentView.bottomAnchor, right: apartmentView.rightAnchor, paddingTop: 0, paddingLeft: 10, paddingBottom: 0, paddingRight: 10)
-        searchButton.anchor(top: apartmentView.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 10, paddingLeft: 25, paddingBottom: 0, paddingRight: 25, height: 45)
+        searchButton.anchor(top: addressTextField.bottomAnchor, left: safeArea.leftAnchor, bottom: nil, right: safeArea.rightAnchor, paddingTop: 10, paddingLeft: 25, paddingBottom: 0, paddingRight: 25, height: 45)
         mapView.anchor(top: searchButton.bottomAnchor, left: safeArea.leftAnchor, bottom: safeArea.bottomAnchor, right: safeArea.rightAnchor, paddingTop: 20, paddingLeft: 0, paddingBottom: 0, paddingRight: 0)
     }
     
@@ -119,19 +116,11 @@ class BookingLocationViewController: UIViewController {
                     let place = placemark![0]
                     var addressString: String = ""
                     let postal = place.postalAddress
-                    guard let street = postal?.street,
-                          let neighbourhood = place.subLocality,
+                    guard let neighbourhood = place.subLocality,
                           let city = postal?.city,
                           let state = postal?.state,
-                          let zipcode = postal?.postalCode,
-                          let apt = self.apartmentTextField.text else { return }
+                          let zipcode = postal?.postalCode else { return }
                     
-                    if street != "" {
-                        addressString = addressString + street + ", "
-                    }
-                    if apt != "" {
-                        addressString = addressString + apt + ", "
-                    }
                     if neighbourhood != "" {
                         addressString = addressString + neighbourhood + ", "
                     }
@@ -224,7 +213,7 @@ class BookingLocationViewController: UIViewController {
     let addressTextField: UITextField = {
         let text = UITextField()
         text.font = UIFont.systemFont(ofSize: 17)
-        text.placeholder = "address, city, state or zip code"
+        text.placeholder = "Add location"
         text.textColor = UIColor.orangeColor()
         text.backgroundColor = UIColor.white
         return text
