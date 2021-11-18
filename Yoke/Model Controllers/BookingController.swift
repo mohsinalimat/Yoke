@@ -139,7 +139,7 @@ class BookingController {
     
     func fetchUpcomingBookingsWith(uid: String, completion: @escaping (Bool) -> Void) {
         let currentDate = Calendar.current.startOfDay(for: Date())
-        firestoreDB.document(uid).collection(Constants.Bookings).whereField(Constants.Timestamp, isLessThanOrEqualTo: currentDate).addSnapshotListener { snapshot, error in
+        firestoreDB.document(uid).collection(Constants.Bookings).whereField(Constants.Timestamp, isGreaterThanOrEqualTo: currentDate).addSnapshotListener { snapshot, error in
             if let error = error {
                 print(error.localizedDescription)
                 completion(false)
