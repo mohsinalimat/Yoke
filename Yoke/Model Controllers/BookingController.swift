@@ -24,6 +24,7 @@ class BookingController {
     
     //MARK: - Source of truth
     var bookings: [Booking] = []
+    var allBookings: [Booking] = []
     var todaysBookings: [Booking] = []
     var upComingBookings: [Booking] = []
     var archives: [Booking] = []
@@ -32,10 +33,10 @@ class BookingController {
     private let locationManager = LocationManager()
     
     //MARK: - CRUD Functions
-    func createBookingWith(chefUid: String, userUid: String, location: String, locationShort: String, date: String, startTime: String, endTime: String, numberOfPeople: Int, numberOfCourses: Int, typeOfCuisine: String, details: String, completion: @escaping (Bool) -> Void) {
+    func createBookingWith(chefUid: String, userUid: String, location: String, locationShort: String, date: String, startTime: String, endTime: String, numberOfPeople: Int, numberOfCourses: Int, typeOfCuisine: String, details: String, timestamp: Date, completion: @escaping (Bool) -> Void) {
         let bookingId = NSUUID().uuidString
-        self.firestoreDB.document(chefUid).collection(Constants.Bookings).document(bookingId).setData([Constants.ChefUid: chefUid, Constants.Id: bookingId, Constants.UserUid: userUid, Constants.Location: location, Constants.LocationShort: locationShort, Constants.Date: date, Constants.StartTime: startTime, Constants.EndTime: endTime, Constants.NumberOfPeople: numberOfPeople, Constants.NumberOfCourses: numberOfCourses, Constants.Detail: details, Constants.IsBooked: false, Constants.CuisineType: typeOfCuisine], merge: true)
-        self.firestoreDB.document(userUid).collection(Constants.Bookings).document(bookingId).setData([Constants.ChefUid: chefUid, Constants.Id: bookingId, Constants.UserUid: userUid, Constants.Location: location, Constants.LocationShort: locationShort, Constants.Date: date, Constants.StartTime: startTime, Constants.EndTime: endTime, Constants.NumberOfPeople: numberOfPeople, Constants.NumberOfCourses: numberOfCourses, Constants.Detail: details, Constants.IsBooked: false, Constants.CuisineType: typeOfCuisine], merge: true)
+        self.firestoreDB.document(chefUid).collection(Constants.Bookings).document(bookingId).setData([Constants.ChefUid: chefUid, Constants.Id: bookingId, Constants.UserUid: userUid, Constants.Location: location, Constants.LocationShort: locationShort, Constants.Date: date, Constants.StartTime: startTime, Constants.EndTime: endTime, Constants.NumberOfPeople: numberOfPeople, Constants.NumberOfCourses: numberOfCourses, Constants.Detail: details, Constants.IsBooked: false, Constants.CuisineType: typeOfCuisine, Constants.Timestamp: timestamp], merge: true)
+        self.firestoreDB.document(userUid).collection(Constants.Bookings).document(bookingId).setData([Constants.ChefUid: chefUid, Constants.Id: bookingId, Constants.UserUid: userUid, Constants.Location: location, Constants.LocationShort: locationShort, Constants.Date: date, Constants.StartTime: startTime, Constants.EndTime: endTime, Constants.NumberOfPeople: numberOfPeople, Constants.NumberOfCourses: numberOfCourses, Constants.Detail: details, Constants.IsBooked: false, Constants.CuisineType: typeOfCuisine, Constants.Timestamp: timestamp], merge: true)
         completion(true)
     }
     
@@ -85,6 +86,29 @@ class BookingController {
         
     }
     
+    func fetchAllBookingsWith(uid: String, completion: @escaping (Bool) -> Void) {
+        let currentDate = Calendar.current.startOfDay(for: Date())
+        
+        firestoreDB.document(uid).collection(Constants.Bookings).whereField(Constants.Timestamp, isGreaterThanOrEqualTo: currentDate).addSnapshotListener { snapshot, error in
+            if let error = error {
+                print(error.localizedDescription)
+                completion(false)
+            }
+            self.allBookings = []
+            snapshot?.documents.forEach({ (document) in
+                let dictionary = document.data()
+                let booking = Booking(dictionary: dictionary)
+                self.allBookings.append(booking)
+                self.allBookings.sort(by: { (u1, u2) -> Bool in
+                    guard let date1 = u1.date,
+                          let date2 = u2.date else { return false }
+                    return date1.compare(date2) == .orderedAscending
+                })
+                completion(true)
+            })
+        }
+    }
+    
     func fetchBookingsWith(uid: String, completion: @escaping (Bool) -> Void) {
         let currentDate = Calendar.current.startOfDay(for: Date())
         firestoreDB.document(uid).collection(Constants.Bookings).whereField(Constants.Timestamp, isGreaterThanOrEqualTo: currentDate).addSnapshotListener { snapshot, error in
@@ -95,7 +119,6 @@ class BookingController {
             self.bookings = []
             snapshot?.documents.forEach({ (document) in
                 let dictionary = document.data()
-                print("dict \(dictionary)")
                 let isBooked = dictionary[Constants.IsBooked] as? Bool
                 if isBooked == true {
                     let booking = Booking(dictionary: dictionary)
@@ -174,7 +197,6 @@ class BookingController {
             self.archives = []
             snapshot?.documents.forEach({ (document) in
                 let dictionary = document.data()
-                print("dict \(dictionary)")
                 let isBooked = dictionary[Constants.IsBooked] as? Bool
                 if isBooked == true {
                     let booking = Booking(dictionary: dictionary)

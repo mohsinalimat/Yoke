@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import Firebase
 
 class Booking {
     var paymentId: String?
@@ -19,7 +20,7 @@ class Booking {
     var endTime: String?
     var location: String?
     var locationShort: String?
-    var timestamp: Date
+    var timestamp = Date()
     var numberOfPeople: Int?
     var numberOfCourses: Int?
     var cusineType: String?
@@ -42,6 +43,7 @@ class Booking {
         self.locationShort = dictionary[Constants.LocationShort] as? String ?? ""
         let secondsFrom1970 = dictionary[Constants.Timestamp] as? Double ?? 0
         self.timestamp = Date(timeIntervalSince1970: secondsFrom1970)
+//        self.timestamp = dictionary[Constants.Timestamp] as? Timestamp ?? 0.0
         self.numberOfPeople = dictionary[Constants.NumberOfPeople] as? Int ?? 1
         self.numberOfCourses = dictionary[Constants.NumberOfCourses] as? Int ?? 1
         self.cusineType = dictionary[Constants.CuisineType] as? String ?? ""

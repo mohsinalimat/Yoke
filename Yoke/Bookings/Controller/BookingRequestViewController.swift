@@ -19,12 +19,14 @@ class BookingRequestViewController: UIViewController, BookingLocationDelegate {
     var userId: String?
     let myActivityIndicator = UIActivityIndicatorView(style: UIActivityIndicatorView.Style.large)
     var selectedLocation: String = ""
-    var selectedDate: String = ""
+    var selectedDate : String = ""
+    var selectedDatePicker = Date()
     var selectedStartTime: String = ""
     var selectedEndTime: String = ""
     var selectedLocationShort: String = ""
     var peopleCounter: Int = 1
     var courseCounter: Int = 1
+//    var timestamp = (Any).self
     
     //MARK: - Lifecycle Methods
     override func viewDidLayoutSubviews() {
@@ -41,7 +43,6 @@ class BookingRequestViewController: UIViewController, BookingLocationDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupPickerViews()
-        print("date\(Date())")
     }
     
     //MARK: - Helper Functions
@@ -154,7 +155,6 @@ class BookingRequestViewController: UIViewController, BookingLocationDelegate {
     func bookingLocationController(_ bookingLocationController: BookingLocationViewController, didSelectLocation location: String, locationShort: String) {
         selectedLocation = location
         selectedLocationShort = locationShort
-        print("back with \(location)")
         locationButton.setTitle(location, for: .normal)
     }
     
@@ -170,7 +170,7 @@ class BookingRequestViewController: UIViewController, BookingLocationDelegate {
         guard let chefUid = userId else { return }
         myActivityIndicator.startAnimating()
         self.sentSuccessful()
-        BookingController.shared.createBookingWith(chefUid: chefUid, userUid: currentUserUid, location: selectedLocation, locationShort: selectedLocationShort, date: selectedDate, startTime: selectedStartTime, endTime: selectedEndTime, numberOfPeople: peopleCounter, numberOfCourses: courseCounter, typeOfCuisine: cuisine, details: detail) { (result) in
+        BookingController.shared.createBookingWith(chefUid: chefUid, userUid: currentUserUid, location: selectedLocation, locationShort: selectedLocationShort, date: selectedDate, startTime: selectedStartTime, endTime: selectedEndTime, numberOfPeople: peopleCounter, numberOfCourses: courseCounter, typeOfCuisine: cuisine, details: detail, timestamp: selectedDatePicker) { (result) in
             switch result {
             case true:
                 self.myActivityIndicator.stopAnimating()
@@ -194,7 +194,8 @@ class BookingRequestViewController: UIViewController, BookingLocationDelegate {
         selectedDateLabel.text = dateFormatter.string(from: datePicker.date)
         selectedDate = dateFormatter.string(from: datePicker.date)
         selectedDateLabel.font = UIFont.systemFont(ofSize: 17)
-        print("datepicker\(datePicker.date)")
+        selectedDatePicker = datePicker.date
+//        timestamp = datePicker.date
     }
     
     @objc func handleStartSelection() {

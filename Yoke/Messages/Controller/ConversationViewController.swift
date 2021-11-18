@@ -104,7 +104,7 @@ class ConversationViewController: UIViewController {
     
     func fetchBookings() {
         guard let currentUserUid = Auth.auth().currentUser?.uid else { return }
-        BookingController.shared.fetchBookingsWith(uid: currentUserUid) { (result) in
+        BookingController.shared.fetchAllBookingsWith(uid: currentUserUid) { (result) in
             switch result {
             default:
                 DispatchQueue.main.async {
@@ -163,7 +163,7 @@ extension ConversationViewController: UITableViewDataSource {
         if tableView == messageTableView {
             return ConversationController.shared.conversations.count
         }
-        return BookingController.shared.bookings.count
+        return BookingController.shared.allBookings.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -175,7 +175,7 @@ extension ConversationViewController: UITableViewDataSource {
             return cell
         }
         let cell2 = tableView.dequeueReusableCell(withIdentifier: cellId2, for: indexPath) as! RequestTableViewCell
-        cell2.booking = BookingController.shared.bookings[indexPath.row]
+        cell2.booking = BookingController.shared.allBookings[indexPath.row]
         cell2.selectionStyle = .none
         cell2.backgroundColor = UIColor.LightGrayBg()
         return cell2
@@ -224,7 +224,7 @@ extension ConversationViewController: UITableViewDelegate {
             navigationController?.pushViewController(chatVC, animated: true)
         }
         if tableView == requestTableView {
-            let request = BookingController.shared.bookings[indexPath.row]
+            let request = BookingController.shared.allBookings[indexPath.row]
             if request.invoiceSent == true {
                 if request.chefUid == Auth.auth().currentUser?.uid ?? "" {
                     let requestVC = BookingRequestDetailViewController()

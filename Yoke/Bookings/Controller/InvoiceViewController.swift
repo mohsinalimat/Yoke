@@ -147,10 +147,12 @@ class invoiceViewController: UIViewController {
               let userUid = booking.userUid,
               let total = amountLabel.text else { return }
         let notes = detailsTextField.text ?? ""
+        self.myActivityIndicator.startAnimating()
         BookingController.shared.updateBookingPaymentRequestWith(bookingId: id, chefUid: chefUid, userUid: userUid, isBooked: true, invoiceSent: true, notes: notes, total: total) { (result) in
             switch result {
             default:
-                print("complete")
+                self.myActivityIndicator.stopAnimating()
+                self.sentSuccessful()
             }
         }
     }
