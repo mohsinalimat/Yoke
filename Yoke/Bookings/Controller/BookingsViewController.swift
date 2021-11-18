@@ -223,32 +223,65 @@ class BookingsViewController: UIViewController {
 extension BookingsViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         if collectionView == self.todaysCollectionView {
-            return BookingController.shared.todaysBookings.count
+            if BookingController.shared.todaysBookings.count == 0 {
+                return 1
+            } else {
+                return BookingController.shared.todaysBookings.count
+            }
         }
         if collectionView == self.upcomingCollectionView {
-            print(BookingController.shared.upComingBookings.count)
-            return BookingController.shared.upComingBookings.count
+            if BookingController.shared.upComingBookings.count == 0 {
+                return 1
+            } else {
+                return BookingController.shared.upComingBookings.count
+            }
         }
         if collectionView == self.archivedCollectionView {
-            return BookingController.shared.archives.count
+            if BookingController.shared.archives.count == 0 {
+                return 1
+            } else {
+                return BookingController.shared.archives.count
+            }
         }
         return 0
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         if collectionView == self.todaysCollectionView {
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath) as! TodayCollectionViewCell
-            cell.booking = BookingController.shared.todaysBookings[indexPath.row]
-            return cell
+            if BookingController.shared.archives.count == 0 {
+                let noCell = collectionView.dequeueReusableCell(withReuseIdentifier: noCellId, for: indexPath) as! EmptyCell
+                noCell.noPostLabel.text = "No bookings today"
+                noCell.noPostLabel.font = UIFont.boldSystemFont(ofSize: 15)
+                return noCell
+            } else {
+                let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath) as! TodayCollectionViewCell
+                cell.booking = BookingController.shared.todaysBookings[indexPath.row]
+                return cell
+            }
         }
         if collectionView == self.upcomingCollectionView {
-            let cellA = collectionView.dequeueReusableCell(withReuseIdentifier: cellId2, for: indexPath) as! BookingsCollectionViewCell
-            cellA.booking = BookingController.shared.upComingBookings[indexPath.row]
-            return cellA
+            if BookingController.shared.upComingBookings.count == 0 {
+                let noCell = collectionView.dequeueReusableCell(withReuseIdentifier: noCellId, for: indexPath) as! EmptyCell
+                noCell.noPostLabel.text = "No upcoming bookings"
+                noCell.noPostLabel.font = UIFont.boldSystemFont(ofSize: 15)
+                return noCell
+            } else {
+                let cellA = collectionView.dequeueReusableCell(withReuseIdentifier: cellId2, for: indexPath) as! BookingsCollectionViewCell
+                cellA.booking = BookingController.shared.upComingBookings[indexPath.row]
+                return cellA
+            }
         }
-        let cellB = collectionView.dequeueReusableCell(withReuseIdentifier: cellId3, for: indexPath) as! BookingsCollectionViewCell
-        cellB.booking = BookingController.shared.archives[indexPath.row]
-        return cellB
+        
+        if BookingController.shared.archives.count == 0 {
+            let noCell = collectionView.dequeueReusableCell(withReuseIdentifier: noCellId, for: indexPath) as! EmptyCell
+            noCell.noPostLabel.text = "No archives"
+            noCell.noPostLabel.font = UIFont.boldSystemFont(ofSize: 15)
+            return noCell
+        } else {
+            let cellB = collectionView.dequeueReusableCell(withReuseIdentifier: cellId3, for: indexPath) as! BookingsCollectionViewCell
+            cellB.booking = BookingController.shared.archives[indexPath.row]
+            return cellB
+        }
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
@@ -260,23 +293,35 @@ extension BookingsViewController: UICollectionViewDelegate, UICollectionViewData
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         if collectionView == self.todaysCollectionView {
-            let booking = BookingController.shared.todaysBookings[indexPath.row]
-            let bookingVC = BookingRequestDetailViewController()
-            bookingVC.booking = booking
-            navigationController?.pushViewController(bookingVC, animated: true)
+            if BookingController.shared.todaysBookings.count == 0 {
+                return
+            } else {
+                let booking = BookingController.shared.todaysBookings[indexPath.row]
+                let bookingVC = BookingRequestDetailViewController()
+                bookingVC.booking = booking
+                navigationController?.pushViewController(bookingVC, animated: true)
+            }
         }
         if collectionView == self.upcomingCollectionView {
-            let booking = BookingController.shared.upComingBookings[indexPath.row]
-            let bookingVC = BookingRequestDetailViewController()
-            bookingVC.booking = booking
-            navigationController?.pushViewController(bookingVC, animated: true)
+            if BookingController.shared.upComingBookings.count == 0 {
+                return
+            } else {
+                let booking = BookingController.shared.upComingBookings[indexPath.row]
+                let bookingVC = BookingRequestDetailViewController()
+                bookingVC.booking = booking
+                navigationController?.pushViewController(bookingVC, animated: true)
+            }
         }
         
         if collectionView == self.archivedCollectionView {
-            let booking = BookingController.shared.archives[indexPath.row]
-            let bookingVC = BookingRequestDetailViewController()
-            bookingVC.booking = booking
-            navigationController?.pushViewController(bookingVC, animated: true)
+            if BookingController.shared.archives.count == 0 {
+                return
+            } else {
+                let booking = BookingController.shared.archives[indexPath.row]
+                let bookingVC = BookingRequestDetailViewController()
+                bookingVC.booking = booking
+                navigationController?.pushViewController(bookingVC, animated: true)
+            }
         }
     }
 }
